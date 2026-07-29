@@ -106,11 +106,7 @@
       "type": "collections",
       "settings": {
         "heading": "Gather your favourites",
-        "collections": [
-          "frontpage",
-          "ghee",
-          "oil"
-        ],
+        "collections": [],
         "maximum": 4
       }
     },
