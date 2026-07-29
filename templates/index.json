@@ -27,11 +27,7 @@
       "type": "categories",
       "settings": {
         "heading": "Explore our pantry",
-        "collections": [
-          "frontpage",
-          "ghee",
-          "oil"
-        ],
+        "collections": [],
         "maximum": 5,
         "button_text": "View all categories",
         "button_link": ""
