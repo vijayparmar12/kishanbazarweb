@@ -31,7 +31,8 @@
         "heading": "Explore our pantry",
         "collections": [
           "frontpage",
-          "ghee"
+          "ghee",
+          "oil"
         ],
         "maximum": 5,
         "button_text": "View all categories",
