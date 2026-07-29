@@ -1,0 +1,28 @@
+<section class="collection-banner{% unless section.settings.show_image %} collection-banner--no-image{% endunless %}">
+  {% if section.settings.show_image %}
+    {% if collection.image != blank %}
+      {{ collection.image | image_url: width: 2000 | image_tag: class: 'collection-banner__image', loading: 'eager', fetchpriority: 'high', widths: '750, 1200, 1600, 2000' }}
+    {% elsif collection.products.first.featured_image != blank %}
+      {{ collection.products.first.featured_image | image_url: width: 2000 | image_tag: class: 'collection-banner__image', loading: 'eager', fetchpriority: 'high', widths: '750, 1200, 1600, 2000' }}
+    {% endif %}
+  {% endif %}
+  <div class="collection-banner__content page-width">
+    {% render 'breadcrumb', collection: collection %}
+    <h1>{{ collection.title }}</h1>
+    {% if section.settings.show_description %}
+      {% if collection.description != blank %}<div class="collection-banner__description rte">{{ collection.description }}</div>{% endif %}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection banner",
+  "tag": "section",
+  "class": "section-collection-banner",
+  "settings": [
+    { "type": "checkbox", "id": "show_image", "label": "Show collection image", "default": true },
+    { "type": "checkbox", "id": "show_description", "label": "Show collection description", "default": true }
+  ]
+}
+{% endschema %}

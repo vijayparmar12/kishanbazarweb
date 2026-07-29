@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="{{ 'section-collection.css' | asset_url }}">
+<script src="{{ 'section-collection.js' | asset_url }}" defer="defer"></script>
+
+{% paginate collection.products by section.settings.products_per_page %}
+  <section class="main-collection page-width" data-collection-grid>
+    {% if section.settings.enable_filters %}
+      {% render 'collection-filters', section_id: section.id %}
+    {% endif %}
+    <div class="main-collection__content">
+      {% if section.settings.enable_sorting %}
+        {% render 'collection-sorting', section_id: section.id %}
+      {% else %}
+        <p class="collection-sorting__count" role="status">{{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}</p>
+      {% endif %}
+      {% if collection.products_count > 0 %}
+        <div class="main-collection__grid main-collection__grid--{{ section.settings.products_per_row }}" role="list">
+          {% for product in collection.products %}
+            <div role="listitem">{% render 'product-card', product: product, show_vendor: section.settings.show_vendor, show_price: section.settings.show_price, show_compare_price: section.settings.show_compare_price, show_rating: section.settings.show_rating, show_badge: section.settings.show_badges, show_wishlist: true, show_quickview: true, show_add_to_cart: true %}</div>
+          {% endfor %}
+        </div>
+        {% if paginate.pages > 1 %}
+          <nav class="collection-pagination" aria-label="Pagination">
+            {% if paginate.previous %}<a href="{{ paginate.previous.url }}" rel="prev">Previous</a>{% else %}<span aria-disabled="true">Previous</span>{% endif %}
+            {% for part in paginate.parts %}
+              {% if part.is_link %}<a href="{{ part.url }}" aria-label="Page {{ part.title }}">{{ part.title }}</a>{% elsif part.title == paginate.current_page %}<span aria-current="page">{{ part.title }}</span>{% else %}<span>{{ part.title }}</span>{% endif %}
+            {% endfor %}
+            {% if paginate.next %}<a href="{{ paginate.next.url }}" rel="next">Next</a>{% else %}<span aria-disabled="true">Next</span>{% endif %}
+          </nav>
+        {% endif %}
+      {% else %}
+        <div class="main-collection__empty"><h2>No products found</h2><p>Try clearing filters or browse another collection.</p><a class="button button--outline" href="{{ collection.url }}">Clear filters</a></div>
+      {% endif %}
+    </div>
+  </section>
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Collection product grid",
+  "tag": "section",
+  "class": "section-main-collection-grid",
+  "settings": [
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 16 },
+    { "type": "select", "id": "products_per_row", "label": "Products per row on desktop", "options": [{ "value": "3", "label": "3" }, { "value": "4", "label": "4" }], "default": "4" },
+    { "type": "checkbox", "id": "enable_filters", "label": "Enable filters", "default": true },
+    { "type": "checkbox", "id": "enable_sorting", "label": "Enable sorting", "default": true },
+    { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": true },
+    { "type": "checkbox", "id": "show_price", "label": "Show price", "default": true },
+    { "type": "checkbox", "id": "show_compare_price", "label": "Show compare-at price", "default": true },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating placeholder", "default": false },
+    { "type": "checkbox", "id": "show_badges", "label": "Show badges", "default": true }
+  ]
+}
+{% endschema %}
