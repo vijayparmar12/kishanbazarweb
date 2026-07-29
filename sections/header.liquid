@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="{{ 'section-header.css' | asset_url }}">
+<script src="{{ 'section-header.js' | asset_url }}" defer="defer"></script>
+
+<header class="site-header{% if section.settings.sticky_header %} site-header--sticky{% endif %}{% if section.settings.transparent_header %} site-header--transparent{% endif %}" data-site-header>
+  <div class="site-header__main">
+    <div class="site-header__inner">
+      <button class="site-header__menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-navigation-{{ section.id }}" data-header-menu-toggle>
+        {% render 'icon', name: 'menu' %}
+      </button>
+
+      <a class="site-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+        {% if section.settings.logo != blank %}
+          {{ section.settings.logo | image_url: width: section.settings.logo_width | image_tag: class: 'site-header__logo-image', alt: shop.name, loading: 'eager', fetchpriority: 'high', widths: '100, 140, 180, 240' }}
+        {% else %}
+          <img class="site-header__logo-image" src="{{ 'logo.png' | asset_url }}" width="{{ section.settings.logo_width }}" alt="{{ shop.name | escape }}" loading="eager" fetchpriority="high">
+        {% endif %}
+      </a>
+
+      <nav class="site-header__nav" aria-label="Main navigation">
+        <ul class="site-header__nav-list" role="list">
+          {% for link in section.settings.desktop_menu.links %}
+            <li class="site-header__nav-item{% if link.links != blank %} site-header__nav-item--has-children{% endif %}">
+              <a class="site-header__nav-link{% if link.active %} site-header__nav-link--active{% endif %}" href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+              {% if link.links != blank %}
+                <button class="site-header__submenu-toggle" type="button" aria-label="Show {{ link.title | escape }} menu" aria-expanded="false" aria-controls="submenu-{{ section.id }}-{{ forloop.index }}" data-submenu-toggle>
+                  {% render 'icon', name: 'chevron', size: 14 %}
+                </button>
+                <ul class="site-header__submenu" id="submenu-{{ section.id }}-{{ forloop.index }}" role="list">
+                  {% for child_link in link.links %}<li><a href="{{ child_link.url }}">{{ child_link.title }}</a></li>{% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+      <div class="site-header__actions">
+        {% if section.settings.show_search %}<button class="site-header__action" type="button" aria-label="Search" aria-expanded="false" aria-controls="header-search-{{ section.id }}" data-header-search-toggle>{% render 'icon', name: 'search' %}</button>{% endif %}
+        {% if section.settings.show_account %}<a class="site-header__action" href="{{ routes.account_url }}" aria-label="Account">{% render 'icon', name: 'user' %}</a>{% endif %}
+        {% if section.settings.show_wishlist %}<a class="site-header__action" href="{{ routes.root_url }}#wishlist" aria-label="Wishlist">{% render 'icon', name: 'heart' %}</a>{% endif %}
+        {% if section.settings.show_cart %}<a class="site-header__action site-header__cart" href="{{ routes.cart_url }}" aria-label="Cart, {{ cart.item_count }} items">{% render 'icon', name: 'cart' %}<span class="site-header__cart-count" aria-hidden="true">{{ cart.item_count }}</span></a>{% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.show_search %}
+    <div class="site-header__search" id="header-search-{{ section.id }}" hidden data-header-search>
+      <div class="site-header__inner"><form action="{{ routes.search_url }}" method="get" role="search" class="site-header__search-form"><label class="visually-hidden" for="header-search-input-{{ section.id }}">Search</label><input id="header-search-input-{{ section.id }}" type="search" name="q" placeholder="{{ section.settings.search_placeholder | escape }}" autocomplete="off"><button type="submit" aria-label="Submit search">{% render 'icon', name: 'search' %}</button></form></div>
+    </div>
+  {% endif %}
+
+  <nav class="site-header__mobile-nav" id="mobile-navigation-{{ section.id }}" aria-label="Mobile navigation" hidden data-header-mobile-nav>
+    <div class="site-header__mobile-panel">
+      <button class="site-header__mobile-close" type="button" aria-label="Close menu" data-header-menu-close>{% render 'icon', name: 'close' %}</button>
+      <ul role="list">
+        {% for link in section.settings.mobile_menu.links %}<li><a class="site-header__mobile-link{% if link.active %} site-header__mobile-link--active{% endif %}" href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>{% if link.links != blank %}<ul role="list">{% for child_link in link.links %}<li><a href="{{ child_link.url }}">{{ child_link.title }}</a></li>{% endfor %}</ul>{% endif %}</li>{% endfor %}
+      </ul>
+    </div>
+  </nav>
+</header>
+
+{% schema %}
+{"name":"Header","tag":"section","class":"section-header","settings":[{"type":"image_picker","id":"logo","label":"Logo"},{"type":"range","id":"logo_width","label":"Logo width","min":80,"max":240,"step":10,"unit":"px","default":160},{"type":"checkbox","id":"sticky_header","label":"Enable sticky header","default":true},{"type":"checkbox","id":"transparent_header","label":"Enable transparent header","default":false},{"type":"checkbox","id":"show_search","label":"Show search","default":true},{"type":"text","id":"search_placeholder","label":"Search placeholder","default":"Search fresh groceries"},{"type":"checkbox","id":"show_account","label":"Show account","default":true},{"type":"checkbox","id":"show_wishlist","label":"Show wishlist","default":true},{"type":"checkbox","id":"show_cart","label":"Show cart","default":true},{"type":"link_list","id":"desktop_menu","label":"Desktop menu"},{"type":"link_list","id":"mobile_menu","label":"Mobile menu"}],"presets":[{"name":"Header"}]}
+{% endschema %}

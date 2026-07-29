@@ -1,0 +1,1 @@
+(() => { document.querySelectorAll('[data-site-footer]').forEach((footer) => { if (footer.dataset.initialized) return; footer.dataset.initialized = 'true'; footer.querySelector('[data-back-to-top]')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' })); }); })();

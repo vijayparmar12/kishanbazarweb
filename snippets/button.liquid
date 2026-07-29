@@ -1,0 +1,14 @@
+{% doc %}
+  Renders a configurable button or link.
+  @param {string} text - Visible label.
+  @param {string} [url] - Optional destination.
+  @param {string} [type] - Button type.
+  @param {string} [variant] - Visual variant.
+  @param {string} [size] - small, medium, or large.
+  @param {string} [icon] - Optional icon name.
+  @param {boolean} [disabled] - Disables interaction.
+  @param {boolean} [loading] - Shows busy state.
+  @param {boolean} [full_width] - Uses full width.
+{% enddoc %}
+{% assign button_variant = variant | default: 'primary' %}{% assign button_size = size | default: 'medium' %}{% capture classes %}button button--{{ button_variant }} button--{{ button_size }}{% if full_width %} button--full-width{% endif %}{% if loading %} button--loading{% endif %}{% endcapture %}
+{% if url != blank %}<a class="{{ classes | strip }}" href="{{ url }}"{% if disabled %} aria-disabled="true" tabindex="-1"{% endif %}>{% if icon != blank %}{% render 'icon', name: icon, class: 'button__icon' %}{% endif %}<span>{{ text }}</span></a>{% else %}<button class="{{ classes | strip }}" type="{{ type | default: 'button' }}"{% if disabled or loading %} disabled{% endif %}{% if loading %} aria-busy="true"{% endif %}>{% if loading %}<span class="button__spinner" aria-hidden="true"></span>{% elsif icon != blank %}{% render 'icon', name: icon, class: 'button__icon' %}{% endif %}<span>{{ text }}</span></button>{% endif %}

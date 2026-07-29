@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="{{ 'section-announcement-bar.css' | asset_url }}">
+<script src="{{ 'section-announcement-bar.js' | asset_url }}" defer="defer"></script>
+
+{% if section.settings.enable %}
+  <section class="announcement-bar announcement-bar--{{ section.settings.desktop_visibility }} announcement-bar--mobile-{{ section.settings.mobile_visibility }}" aria-label="Store announcements" data-announcement-bar data-auto-scroll="{{ section.settings.auto_scroll }}">
+    <div class="announcement-bar__inner">
+      <div class="announcement-bar__viewport" aria-live="polite">
+        <div class="announcement-bar__track" data-announcement-track>
+          {% for block in section.blocks %}
+            <div class="announcement-bar__item" {{ block.shopify_attributes }} data-announcement-item{% unless forloop.first %} hidden{% endunless %}>
+              {% if block.settings.show_icon %}<span class="announcement-bar__icon">{% render 'icon', name: block.settings.icon, size: 16 %}</span>{% endif %}
+              {% if block.settings.link != blank %}<a href="{{ block.settings.link }}">{{ block.settings.text }}</a>{% else %}<p>{{ block.settings.text }}</p>{% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% if section.settings.closable %}<button class="announcement-bar__close" type="button" aria-label="Dismiss announcements" data-announcement-dismiss>{% render 'icon', name: 'close', size: 16 %}</button>{% endif %}
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{"name":"Announcement bar","tag":"section","class":"section-announcement-bar","settings":[{"type":"checkbox","id":"enable","label":"Enable announcement bar","default":true},{"type":"checkbox","id":"closable","label":"Allow customers to dismiss","default":true},{"type":"checkbox","id":"auto_scroll","label":"Auto rotate announcements","default":false},{"type":"select","id":"desktop_visibility","label":"Desktop visibility","options":[{"value":"show","label":"Show"},{"value":"hide","label":"Hide"}],"default":"show"},{"type":"select","id":"mobile_visibility","label":"Mobile visibility","options":[{"value":"show","label":"Show"},{"value":"hide","label":"Hide"}],"default":"show"}],"blocks":[{"type":"announcement","name":"Announcement","settings":[{"type":"text","id":"text","label":"Text","default":"Free shipping on orders over ₹999"},{"type":"url","id":"link","label":"Link"},{"type":"checkbox","id":"show_icon","label":"Show icon","default":true},{"type":"select","id":"icon","label":"Icon","options":[{"value":"cart","label":"Cart"},{"value":"location","label":"Location"},{"value":"phone","label":"Phone"},{"value":"heart","label":"Heart"}],"default":"cart"}]}],"max_blocks":6,"presets":[{"name":"Announcement bar","blocks":[{"type":"announcement"}]}]}
+{% endschema %}

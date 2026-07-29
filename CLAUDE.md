@@ -1,0 +1,1 @@
+C:/Users/sai/shopify/kishanbazar/AGENTS.md

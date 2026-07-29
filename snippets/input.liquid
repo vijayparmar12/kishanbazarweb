@@ -1,0 +1,14 @@
+{% doc %}
+  Renders an accessible form field.
+  @param {string} id - Unique control ID.
+  @param {string} [label] - Field label.
+  @param {string} [placeholder] - Placeholder text.
+  @param {string} [type] - Input type or textarea.
+  @param {string} [value] - Initial value.
+  @param {boolean} [required] - Marks required.
+  @param {boolean} [disabled] - Disables input.
+  @param {string} [error] - Error text.
+  @param {string} [helper_text] - Helper text.
+{% enddoc %}
+{% assign input_type = type | default: 'text' %}{% assign description_id = id | append: '-message' %}
+<div class="form-field{% if error != blank %} form-field--error{% endif %}">{% if label != blank %}<label class="form-field__label" for="{{ id }}">{{ label }}{% if required %}<span aria-hidden="true"> *</span>{% endif %}</label>{% endif %}{% if input_type == 'textarea' %}<textarea class="form-field__control" id="{{ id }}" name="{{ id }}" placeholder="{{ placeholder }}"{% if required %} required{% endif %}{% if disabled %} disabled{% endif %}{% if error != blank %} aria-invalid="true" aria-describedby="{{ description_id }}"{% endif %}>{{ value }}</textarea>{% else %}<input class="form-field__control" id="{{ id }}" name="{{ id }}" type="{{ input_type }}" value="{{ value }}" placeholder="{{ placeholder }}"{% if required %} required{% endif %}{% if disabled %} disabled{% endif %}{% if error != blank %} aria-invalid="true" aria-describedby="{{ description_id }}"{% endif %}>{% endif %}{% if error != blank %}<p class="form-field__message" id="{{ description_id }}">{{ error }}</p>{% elsif helper_text != blank %}<p class="form-field__helper" id="{{ description_id }}">{{ helper_text }}</p>{% endif %}</div>

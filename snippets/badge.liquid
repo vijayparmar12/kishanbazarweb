@@ -1,0 +1,4 @@
+{% doc %}
+  Renders a status badge. @param {string} text - Badge label. @param {string} [variant] - Visual variant. @param {string} [size] - Badge size.
+{% enddoc %}
+<span class="badge badge--{{ variant | default: 'primary' }} badge--{{ size | default: 'medium' }}">{{ text }}</span>

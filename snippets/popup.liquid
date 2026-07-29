@@ -1,0 +1,4 @@
+{% doc %}
+  Renders a dismissible notification. @param {string} message - Notification text. @param {string} [type] - success, error, warning, or info. @param {number} [duration] - Auto-close duration in milliseconds.
+{% enddoc %}
+<div class="popup popup--{{ type | default: 'info' }}" role="status" data-popup data-popup-duration="{{ duration | default: 5000 }}" hidden><p class="popup__message">{{ message }}</p><button class="popup__close" type="button" data-popup-close aria-label="Dismiss notification">{% render 'icon', name: 'close', size: 18 %}</button></div>

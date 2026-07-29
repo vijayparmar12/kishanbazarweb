@@ -1,0 +1,109 @@
+/* GreenBasket design tokens. */
+:root {
+  /* Color system */
+  --color-primary: #2e5d34;
+  --color-primary-hover: #244a2a;
+  --color-secondary: #7cb342;
+  --color-secondary-hover: #689b35;
+  --color-accent: #f4b400;
+  --color-danger: #e53935;
+  --color-warning: #fb8c00;
+  --color-success: #43a047;
+  --color-white: #ffffff;
+  --color-cream: #f8f6f1;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-border: #e5e7eb;
+  --color-text: #1f2937;
+  --color-body: #4b5563;
+  --color-muted: #6b7280;
+  --color-overlay: rgb(31 41 55 / 56%);
+  --color-focus-ring: rgb(46 93 52 / 35%);
+
+  /* Typography */
+  --font-family-base: "Poppins", sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.125rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 1.875rem;
+  --font-size-3xl: 2.25rem;
+  --font-size-4xl: 3rem;
+  --font-size-5xl: 3.75rem;
+  --line-height-tight: 1.2;
+  --line-height-snug: 1.35;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.7;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --spacing-xs: var(--space-2);
+  --spacing-sm: var(--space-3);
+  --spacing-md: var(--space-4);
+  --spacing-lg: var(--space-6);
+
+  /* Shape and elevation */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-circle: 999px;
+  --shadow-light: 0 1px 2px rgb(31 41 55 / 6%);
+  --shadow-medium: 0 4px 12px rgb(31 41 55 / 10%);
+  --shadow-large: 0 12px 28px rgb(31 41 55 / 14%);
+  --shadow-hover: 0 14px 30px rgb(31 41 55 / 16%);
+  --shadow-card: 0 3px 10px rgb(31 41 55 / 8%);
+  --shadow-modal: 0 24px 48px rgb(31 41 55 / 24%);
+  --shadow-sm: var(--shadow-light);
+  --shadow-md: var(--shadow-medium);
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --easing-standard: ease;
+  --easing-emphasized: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition-base: var(--duration-base) var(--easing-standard);
+  --transition-colors: color var(--transition-base), background-color var(--transition-base), border-color var(--transition-base);
+  --transition-transform: transform var(--duration-base) var(--easing-emphasized);
+  --transition-shadow: box-shadow var(--duration-base) var(--easing-emphasized);
+
+  /* Layout */
+  --container-width: 80rem;
+  --container-padding: var(--space-4);
+  --header-height: 4.5rem;
+  --button-height: 2.75rem;
+  --card-radius: var(--radius-md);
+  --grid-gap: var(--space-6);
+
+  /* Layering */
+  --z-index-base: 0;
+  --z-index-dropdown: 100;
+  --z-index-sticky: 200;
+  --z-index-header: 300;
+  --z-index-modal: 400;
+  --z-index-toast: 500;
+}
+
+@media screen and (min-width: 48rem) {
+  :root {
+    --container-padding: var(--space-6);
+  }
+}

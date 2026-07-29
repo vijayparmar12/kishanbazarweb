@@ -1,0 +1,9 @@
+{% doc %}
+  Renders a reusable content card.
+  @param {string} [title] - Card heading.
+  @param {string} [subtitle] - Card supporting text.
+  @param {image} [image] - Card image.
+  @param {string} [content] - Body HTML.
+  @param {string} [footer] - Footer HTML.
+{% enddoc %}
+<article class="card">{% if image != blank %}<div class="card__media">{{ image | image_url: width: 960 | image_tag: class: 'card__image', loading: 'lazy', widths: '320, 480, 640, 960' }}</div>{% endif %}<div class="card__body">{% if title != blank %}<h3 class="card__title">{{ title }}</h3>{% endif %}{% if subtitle != blank %}<p class="card__subtitle">{{ subtitle }}</p>{% endif %}{% if content != blank %}<div class="card__content">{{ content }}</div>{% endif %}</div>{% if footer != blank %}<footer class="card__footer">{{ footer }}</footer>{% endif %}</article>

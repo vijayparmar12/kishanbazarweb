@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "hero": { "type": "hero", "settings": {} },
+    "categories": { "type": "categories", "settings": {} },
+    "video": { "type": "video-section", "settings": {} },
+    "features": { "type": "features", "blocks": { "organic": { "type": "feature", "settings": { "icon": "heart", "title": "Organic goodness", "description": "Wholesome food, simply sourced." } }, "fresh": { "type": "feature", "settings": { "icon": "star", "title": "Farm fresh", "description": "Made with care and integrity." } }, "delivery": { "type": "feature", "settings": { "icon": "cart", "title": "Easy delivery", "description": "Goodness delivered to your door." } } }, "block_order": ["organic", "fresh", "delivery"], "settings": {} },
+    "best_sellers": { "type": "best-sellers", "settings": {} },
+    "offer": { "type": "offer-banner", "settings": {} },
+    "collections": { "type": "collections", "settings": {} },
+    "testimonials": { "type": "testimonials", "blocks": { "review_1": { "type": "testimonial", "settings": { "name": "Priya S.", "rating": 5, "review": "The quality is beautiful and every order feels thoughtfully packed. Kishan Bazar has become a staple in our kitchen." } }, "review_2": { "type": "testimonial", "settings": { "name": "Aman R.", "rating": 5, "review": "Wholesome products with the kind of flavour you remember from home. Fast delivery too." } }, "review_3": { "type": "testimonial", "settings": { "name": "Neha K.", "rating": 5, "review": "I love knowing where our pantry essentials come from. The range is simple, honest, and delicious." } } }, "block_order": ["review_1", "review_2", "review_3"], "settings": {} },
+    "newsletter": { "type": "newsletter", "settings": {} }
+  },
+  "order": ["hero", "categories", "video", "features", "best_sellers", "offer", "collections", "testimonials", "newsletter"]
+}
