@@ -11,7 +11,13 @@
   "sections": {
     "main": {
       "type": "collections",
-      "settings": {}
+      "settings": {
+        "heading": "Gather your favourites",
+        "collections": [
+          "frontpage"
+        ],
+        "maximum": 4
+      }
     }
   },
   "order": [
