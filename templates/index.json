@@ -27,7 +27,11 @@
       "type": "categories",
       "settings": {
         "heading": "Explore our pantry",
-        "collections": [],
+        "collections": [
+          "frontpage",
+          "ghee",
+          "oil"
+        ],
         "maximum": 5,
         "button_text": "View all categories",
         "button_link": ""
@@ -106,7 +110,11 @@
       "type": "collections",
       "settings": {
         "heading": "Gather your favourites",
-        "collections": [],
+        "collections": [
+          "frontpage",
+          "ghee",
+          "oil"
+        ],
         "maximum": 4
       }
     },
