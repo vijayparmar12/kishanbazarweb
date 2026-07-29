@@ -1,0 +1,9 @@
+{% doc %}
+  Renders the collection product count and native Shopify sort control.
+
+  @param {string} section_id - Unique ID used by the sort select.
+{% enddoc %}
+<div class="collection-sorting" data-collection-sorting>
+  <p class="collection-sorting__count" role="status">{{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}</p>
+  <form action="{{ collection.url }}" method="get" class="collection-sorting__form"><label for="SortBy-{{ section_id }}">Sort by</label><select id="SortBy-{{ section_id }}" name="sort_by" data-sort-by>{% for option in collection.sort_options %}<option value="{{ option.value }}"{% if option.value == collection.sort_by %} selected{% endif %}>{{ option.name }}</option>{% endfor %}</select><button class="visually-hidden" type="submit">Sort products</button></form>
+</div>

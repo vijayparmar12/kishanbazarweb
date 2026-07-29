@@ -1,0 +1,12 @@
+{% doc %}
+  Renders the collection breadcrumb.
+
+  @param {collection} collection - The collection shown on the current page.
+{% enddoc %}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="{{ routes.root_url }}">Home</a></li>
+    <li><a href="{{ routes.collections_url }}">Collections</a></li>
+    <li aria-current="page">{{ collection.title }}</li>
+  </ol>
+</nav>
