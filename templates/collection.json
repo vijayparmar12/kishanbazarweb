@@ -9,12 +9,8 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "collection",
-      "settings": {}
-    }
+    "banner": { "type": "main-collection-banner", "settings": {} },
+    "product_grid": { "type": "main-collection-product-grid", "settings": {} }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["banner", "product_grid"]
 }
