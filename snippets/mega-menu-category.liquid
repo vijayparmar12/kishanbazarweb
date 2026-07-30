@@ -12,23 +12,15 @@
     {% assign category_count = 0 %}
     {% for block in section.blocks %}
       {% if block.type == 'category_card' %}
-        {% assign category_count = category_count | plus: 1 %}
-        {% liquid
-          assign card_collection = block.settings.collection
-          assign card_title = block.settings.title
-          assign card_subtitle = block.settings.subtitle
-          assign card_url = block.settings.url
-          assign card_image = block.settings.image
-          assign fallback_handle = card_title | handleize
-          assign fallback_url = routes.collections_url | append: '/' | append: fallback_handle
+        {% if block.settings.collection != blank %}
+          {% assign category_count = category_count | plus: 1 %}
+          {% liquid
+            assign card_collection = block.settings.collection
+            assign card_title = card_collection.title
+            assign card_subtitle = block.settings.subtitle
+            assign card_url = card_collection.url
+            assign card_image = block.settings.image
 
-          if card_collection != blank
-            if card_title == blank
-              assign card_title = card_collection.title
-            endif
-            if card_url == blank
-              assign card_url = card_collection.url
-            endif
             if card_image == blank
               assign card_image = card_collection.image
             endif
@@ -38,52 +30,84 @@
                 assign card_image = first_product.featured_image
               endif
             endif
-          endif
-        %}
-        <a class="kb-category-card" href="{{ card_url | default: fallback_url }}" {{ block.shopify_attributes }}>
-          <span class="kb-category-card__media">
-            {% if card_image != blank %}
-              {{
-                card_image
-                | image_url: width: 320
-                | image_tag:
-                  class: 'kb-category-card__image',
-                  alt: card_title,
-                  widths: '160, 240, 320',
-                  sizes: '(min-width: 990px) 120px, 35vw',
-                  loading: 'lazy'
-              }}
-            {% else %}
-              {{ 'collection-1' | placeholder_svg_tag: 'kb-category-card__image kb-category-card__image--placeholder' }}
-            {% endif %}
-          </span>
-          <span class="kb-category-card__content">
-            <span class="kb-category-card__title">{{ card_title }}</span>
-            {% if card_subtitle != blank %}
-              <span class="kb-category-card__subtitle">{{ card_subtitle }}</span>
-            {% endif %}
-          </span>
-          <span class="kb-category-card__arrow" aria-hidden="true">-&gt;</span>
-        </a>
+          %}
+          <a class="kb-category-card" href="{{ card_url }}" {{ block.shopify_attributes }}>
+            <span class="kb-category-card__media">
+              {% if card_image != blank %}
+                {{
+                  card_image
+                  | image_url: width: 320
+                  | image_tag:
+                    class: 'kb-category-card__image',
+                    alt: card_title,
+                    widths: '160, 240, 320',
+                    sizes: '(min-width: 990px) 120px, 35vw',
+                    loading: 'lazy'
+                }}
+              {% else %}
+                {{ 'collection-1' | placeholder_svg_tag: 'kb-category-card__image kb-category-card__image--placeholder' }}
+              {% endif %}
+            </span>
+            <span class="kb-category-card__content">
+              <span class="kb-category-card__title">{{ card_title }}</span>
+              {% if card_subtitle != blank %}
+                <span class="kb-category-card__subtitle">{{ card_subtitle }}</span>
+              {% elsif card_collection.products_count > 0 %}
+                <span class="kb-category-card__subtitle">{{ card_collection.products_count }} products</span>
+              {% endif %}
+            </span>
+            <span class="kb-category-card__arrow" aria-hidden="true">-&gt;</span>
+          </a>
+        {% endif %}
       {% endif %}
     {% endfor %}
 
     {% if category_count == 0 %}
-      {% assign fallback_titles = 'Oil|Cold Pressed Oils,Rice|Organic Rice,Jaggery|Natural Sweeteners,Spices|Masala Spices,Immunity|Superfoods,Breakfast & Snacks|Healthy Snacks,Grains & Pulses|Whole Grains' | split: ',' %}
-      {% for fallback in fallback_titles %}
-        {% assign fallback_parts = fallback | split: '|' %}
-        {% assign fallback_handle = fallback_parts[0] | handleize %}
-        <a class="kb-category-card" href="{{ routes.collections_url | append: '/' | append: fallback_handle }}">
-          <span class="kb-category-card__media">
-            {{ 'collection-1' | placeholder_svg_tag: 'kb-category-card__image kb-category-card__image--placeholder' }}
-          </span>
-          <span class="kb-category-card__content">
-            <span class="kb-category-card__title">{{ fallback_parts[0] }}</span>
-            <span class="kb-category-card__subtitle">{{ fallback_parts[1] }}</span>
-          </span>
-          <span class="kb-category-card__arrow" aria-hidden="true">-&gt;</span>
-        </a>
+      {% for collection in collections limit: 12 %}
+        {% unless collection.handle == 'frontpage' %}
+          {% unless collection.handle == 'all' %}
+            {% if collection.products_count > 0 %}
+              {% assign category_count = category_count | plus: 1 %}
+              {% liquid
+                assign card_image = collection.image
+                if card_image == blank
+                  assign first_product = collection.products | first
+                  if first_product != blank
+                    assign card_image = first_product.featured_image
+                  endif
+                endif
+              %}
+              <a class="kb-category-card" href="{{ collection.url }}">
+                <span class="kb-category-card__media">
+                  {% if card_image != blank %}
+                    {{
+                      card_image
+                      | image_url: width: 320
+                      | image_tag:
+                        class: 'kb-category-card__image',
+                        alt: collection.title,
+                        widths: '160, 240, 320',
+                        sizes: '(min-width: 990px) 120px, 35vw',
+                        loading: 'lazy'
+                    }}
+                  {% else %}
+                    {{ 'collection-1' | placeholder_svg_tag: 'kb-category-card__image kb-category-card__image--placeholder' }}
+                  {% endif %}
+                </span>
+                <span class="kb-category-card__content">
+                  <span class="kb-category-card__title">{{ collection.title }}</span>
+                  <span class="kb-category-card__subtitle">{{ collection.products_count }} products</span>
+                </span>
+                <span class="kb-category-card__arrow" aria-hidden="true">-&gt;</span>
+              </a>
+            {% endif %}
+          {% endunless %}
+        {% endunless %}
       {% endfor %}
+    {% endif %}
+
+    {% if category_count == 0 %}
+      <p class="kb-category-mega__empty">Product categories will appear here after collections have products.</p>
     {% endif %}
   </div>
 </div>

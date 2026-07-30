@@ -24,23 +24,16 @@
       }
     },
     "categories": {
-      "type": "explore-pantry",
+      "type": "best-sellers",
       "settings": {
-        "subheading": "SHOP BY NEED",
-        "heading": "Explore our pantry",
-        "show_all_collections": true,
-        "selected_collections": [
-          "frontpage",
-          "ghee",
-          "oil"
-        ],
-        "collection_count": 6,
-        "image_ratio": "square",
-        "spacing": 64,
-        "card_radius": 18,
-        "background_color": "#FAF8F1",
-        "button_text": "View all categories",
-        "button_link": ""
+        "eyebrow": "Customer favourites",
+        "heading": "Most Loved",
+        "collection": "",
+        "cta_label": "Shop More",
+        "columns": "4",
+        "maximum": 4,
+        "show_vendor": false,
+        "show_rating": true
       }
     },
     "video": {
@@ -94,8 +87,10 @@
     "best_sellers": {
       "type": "best-sellers",
       "settings": {
-        "heading": "Best sellers",
+        "eyebrow": "Handpicked for you",
+        "heading": "Top Picks For You",
         "collection": "",
+        "cta_label": "Shop More",
         "columns": "4",
         "maximum": 4,
         "show_vendor": false,

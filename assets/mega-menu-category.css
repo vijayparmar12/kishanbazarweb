@@ -92,6 +92,18 @@
   line-height: 1.25;
 }
 
+.kb-category-mega__empty {
+  background: #f6fbf2;
+  border: 1px dashed rgb(35 66 31 / 20%);
+  border-radius: 14px;
+  color: #31572f;
+  font-weight: 800;
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+}
+
 .kb-category-card__arrow {
   align-items: center;
   background: var(--kb-accent, #23421f);

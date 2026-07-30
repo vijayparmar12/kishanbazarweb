@@ -64,7 +64,7 @@
     </p>
 
     <div class="main-product__rating" aria-label="Customer rating">
-      <span aria-hidden="true">★★★★★</span>
+      <span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
       <strong>4.9</strong>
       <small>Trusted by happy customers</small>
     </div>
@@ -142,10 +142,21 @@
     {% endform %}
 
     {% if product.description != blank %}
-      <details class="main-product__accordion" open>
-        <summary>Product details</summary>
-        <div class="main-product__description rte">{{ product.description }}</div>
-      </details>
+      <section class="main-product__details-card" data-product-description>
+        <h2>Product details</h2>
+        <div class="main-product__description rte is-collapsed" id="ProductDescription-{{ section.id }}" data-product-description-content>
+          {{ product.description }}
+        </div>
+        <button
+          class="main-product__read-more"
+          type="button"
+          aria-expanded="false"
+          aria-controls="ProductDescription-{{ section.id }}"
+          data-product-description-toggle
+        >
+          Read more
+        </button>
+      </section>
     {% endif %}
 
     {% if product.metafields.custom.specifications != blank %}

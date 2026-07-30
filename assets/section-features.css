@@ -1,1 +1,58 @@
-.features { padding-top: var(--space-8); }.features__grid { display: grid; gap: var(--space-4); grid-template-columns: 1fr; }.features__card { border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); text-align: center; }.features__icon { align-items: center; background: #e8f2dc; border-radius: var(--radius-circle); color: var(--color-primary); display: inline-flex; height: 3rem; justify-content: center; width: 3rem; }.features__icon .icon { height: 1.4rem; width: 1.4rem; }.features__card h3 { font-size: var(--font-size-lg); margin-top: var(--space-4); }.features__card p { color: var(--color-body); line-height: var(--line-height-relaxed); margin-top: var(--space-2); }@media (min-width: 48rem) { .features__grid { grid-template-columns: repeat(3, 1fr); } }@media (min-width: 75rem) { .features__grid { grid-template-columns: repeat(6, 1fr); } }
+.features {
+  background:
+    linear-gradient(135deg, #eff7e9 0%, #fbfaf4 58%, #fff7e3 100%);
+  border-block: 1px solid rgb(35 66 31 / 8%);
+  max-width: none;
+  padding: clamp(3rem, 6vw, 5rem) max(var(--container-padding), calc((100% - var(--container-width)) / 2));
+}
+
+.features__grid {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.features__card {
+  background: rgb(255 255 255 / 92%);
+  border: 1px solid rgb(35 66 31 / 10%);
+  border-radius: 18px;
+  box-shadow: 0 16px 38px rgb(35 66 31 / 10%);
+  padding: clamp(1.4rem, 2.4vw, 2rem);
+  text-align: center;
+  transition: box-shadow var(--duration-base) var(--easing-emphasized), transform var(--duration-base) var(--easing-emphasized);
+}
+
+.features__card:hover {
+  box-shadow: 0 24px 54px rgb(35 66 31 / 15%);
+  transform: translateY(-4px);
+}
+
+.features__icon {
+  align-items: center;
+  background: #e8f2dc;
+  border: 1px solid rgb(46 93 52 / 14%);
+  border-radius: var(--radius-circle);
+  color: var(--color-primary);
+  display: inline-flex;
+  height: 3.6rem;
+  justify-content: center;
+  width: 3.6rem;
+}
+
+.features__icon .icon {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.features__card h3 {
+  color: #132d14;
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-snug);
+  margin-top: var(--space-4);
+}
+
+.features__card p {
+  color: var(--color-body);
+  line-height: var(--line-height-relaxed);
+  margin-top: var(--space-2);
+}

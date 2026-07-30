@@ -6,7 +6,7 @@
 <script src="{{ 'mega-menu-category.js' | asset_url }}" defer="defer"></script>
 
 <header
-  class="kb-header{% if section.settings.enable_sticky_header %} kb-header--sticky{% endif %}"
+  class="kb-header{% if section.settings.enable_sticky_header %} kb-header--sticky{% endif %}{% unless template.name == 'index' %} kb-header--inner-page{% endunless %}"
   data-premium-header
   style="
     --kb-announcement-bg: {{ section.settings.announcement_background }};
