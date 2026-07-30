@@ -1,0 +1,223 @@
+{{ 'explore-pantry.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign image_ratio = '1 / 1'
+  if section.settings.image_ratio == 'portrait'
+    assign image_ratio = '4 / 5'
+  elsif section.settings.image_ratio == 'landscape'
+    assign image_ratio = '4 / 3'
+  elsif section.settings.image_ratio == 'wide'
+    assign image_ratio = '16 / 9'
+  endif
+%}
+
+<section
+  class="explore-pantry"
+  style="
+    --explore-pantry-bg: {{ section.settings.background_color }};
+    --explore-pantry-spacing: {{ section.settings.spacing }}px;
+    --explore-pantry-radius: {{ section.settings.card_radius }}px;
+    --explore-pantry-ratio: {{ image_ratio }};
+  "
+>
+  <div class="explore-pantry__inner">
+    <div class="explore-pantry__header">
+      {% if section.settings.subheading != blank %}
+        <p class="explore-pantry__eyebrow">{{ section.settings.subheading }}</p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="explore-pantry__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+    </div>
+
+    <ul class="explore-pantry__grid" role="list">
+      {% assign rendered_collections = 0 %}
+
+      {% if section.settings.show_all_collections %}
+        {% for collection in collections limit: section.settings.collection_count %}
+          {% unless collection.handle == 'frontpage' %}
+            {% assign rendered_collections = rendered_collections | plus: 1 %}
+            <li>
+              <a class="explore-pantry__card" href="{{ collection.url }}" aria-label="{{ collection.title | escape }}">
+                <span class="explore-pantry__media">
+                  {% liquid
+                    assign pantry_image = collection.image
+                    if pantry_image == blank
+                      assign first_product = collection.products | first
+                      if first_product != blank
+                        assign pantry_image = first_product.featured_image
+                      endif
+                    endif
+                  %}
+
+                  {% if pantry_image != blank %}
+                    {{
+                      pantry_image
+                      | image_url: width: 720
+                      | image_tag:
+                        class: 'explore-pantry__image',
+                        alt: collection.title,
+                        widths: '240, 360, 520, 720',
+                        sizes: '(min-width: 1200px) 16vw, (min-width: 750px) 33vw, 50vw',
+                        loading: 'lazy'
+                    }}
+                  {% else %}
+                    {{ 'collection-1' | placeholder_svg_tag: 'explore-pantry__image explore-pantry__image--placeholder' }}
+                  {% endif %}
+                </span>
+                <h3 class="explore-pantry__title">{{ collection.title }}</h3>
+              </a>
+            </li>
+          {% endunless %}
+        {% endfor %}
+      {% else %}
+        {% for collection in section.settings.selected_collections limit: section.settings.collection_count %}
+          {% assign rendered_collections = rendered_collections | plus: 1 %}
+          <li>
+            <a class="explore-pantry__card" href="{{ collection.url }}" aria-label="{{ collection.title | escape }}">
+              <span class="explore-pantry__media">
+                {% liquid
+                  assign pantry_image = collection.image
+                  if pantry_image == blank
+                    assign first_product = collection.products | first
+                    if first_product != blank
+                      assign pantry_image = first_product.featured_image
+                    endif
+                  endif
+                %}
+
+                {% if pantry_image != blank %}
+                  {{
+                    pantry_image
+                    | image_url: width: 720
+                    | image_tag:
+                      class: 'explore-pantry__image',
+                      alt: collection.title,
+                      widths: '240, 360, 520, 720',
+                      sizes: '(min-width: 1200px) 16vw, (min-width: 750px) 33vw, 50vw',
+                      loading: 'lazy'
+                  }}
+                {% else %}
+                  {{ 'collection-1' | placeholder_svg_tag: 'explore-pantry__image explore-pantry__image--placeholder' }}
+                {% endif %}
+              </span>
+              <h3 class="explore-pantry__title">{{ collection.title }}</h3>
+            </a>
+          </li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+
+    {% if rendered_collections == 0 %}
+      <div class="explore-pantry__empty">
+        <p>No collections selected yet.</p>
+      </div>
+    {% endif %}
+
+    {% if section.settings.button_text != blank %}
+      <div class="explore-pantry__actions">
+        <a class="explore-pantry__button" href="{{ section.settings.button_link | default: routes.collections_url }}">
+          {{ section.settings.button_text }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Explore Our Pantry",
+  "tag": "section",
+  "class": "section-explore-pantry",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Small label",
+      "default": "SHOP BY NEED"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Explore our pantry"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_all_collections",
+      "label": "Show all collections",
+      "default": true
+    },
+    {
+      "type": "collection_list",
+      "id": "selected_collections",
+      "label": "Selected collections",
+      "limit": 24
+    },
+    {
+      "type": "range",
+      "id": "collection_count",
+      "label": "Number of collections",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "square", "label": "Square" },
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "landscape", "label": "Landscape" },
+        { "value": "wide", "label": "Wide" }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "label": "Section spacing",
+      "min": 32,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card radius",
+      "min": 8,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FAF8F1"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "View all categories"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Explore Our Pantry"
+    }
+  ]
+}
+{% endschema %}

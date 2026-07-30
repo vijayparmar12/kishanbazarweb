@@ -10,8 +10,108 @@
   @param {boolean} [show_quickview] - Show product link as quick view.
   @param {boolean} [show_add_to_cart] - Show add to cart control.
 {% enddoc %}
-{% assign variant = product.selected_or_first_available_variant %}{% assign is_sale = false %}{% assign discount = 0 %}{% if variant.compare_at_price > variant.price %}{% assign is_sale = true %}{% assign saving = variant.compare_at_price | minus: variant.price %}{% assign discount = saving | times: 100 | divided_by: variant.compare_at_price %}{% endif %}
+
+{% liquid
+  assign variant = product.selected_or_first_available_variant
+  assign is_sale = false
+  assign discount = 0
+  if variant.compare_at_price > variant.price
+    assign is_sale = true
+    assign saving = variant.compare_at_price | minus: variant.price
+    assign discount = saving | times: 100 | divided_by: variant.compare_at_price
+  endif
+%}
+
 <article class="product-card" data-product-card data-product-handle="{{ product.handle }}">
-  <div class="product-card__media"><a href="{{ product.url }}" class="product-card__image-link" aria-label="View {{ product.title | escape }}">{% if product.featured_image != blank %}{{ product.featured_image | image_url: width: 720 | image_tag: class: 'product-card__image', loading: 'lazy', widths: '240, 360, 480, 720' }}{% if product.images[1] != blank %}{{ product.images[1] | image_url: width: 720 | image_tag: class: 'product-card__image product-card__image--hover', loading: 'lazy', widths: '240, 360, 480, 720' }}{% endif %}{% endif %}</a>{% if show_badge %}{% unless product.available %}<span class="product-card__badge">Sold out</span>{% else %}{% if is_sale %}<span class="product-card__badge">Save {{ discount }}%</span>{% endif %}{% endunless %}{% endif %}{% if show_wishlist %}<button class="product-card__action" type="button" aria-label="Add {{ product.title | escape }} to wishlist" aria-pressed="false" data-wishlist-button>{% render 'icon', name: 'heart', size: 18 %}</button>{% endif %}</div>
-  <div class="product-card__content">{% if show_vendor %}<p class="product-card__vendor">{{ product.vendor }}</p>{% endif %}<h3 class="product-card__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>{% if show_rating %}<p class="product-card__rating" aria-label="Rating not yet available">{% render 'icon', name: 'star', size: 15 %}<span>New</span></p>{% endif %}{% if show_price != false %}<div class="product-card__price"><span class="product-card__price-current">{{ variant.price | money }}</span>{% if is_sale %}{% if show_compare_price != false %}<s class="product-card__price-compare">{{ variant.compare_at_price | money }}</s>{% endif %}{% endif %}</div>{% endif %}<p class="product-card__stock">{% if product.available %}In stock{% else %}Sold out{% endif %}</p><div class="product-card__actions">{% if show_quickview %}<a class="product-card__quick-view" href="{{ product.url }}">Quick view</a>{% endif %}{% if show_add_to_cart != false %}<form method="post" action="{{ routes.cart_add_url }}"><input type="hidden" name="id" value="{{ variant.id }}"><button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %}>{% if product.available %}Add to cart{% else %}Sold out{% endif %}</button></form>{% endif %}</div></div>
+  <div class="product-card__media">
+    <a href="{{ product.url }}" class="product-card__image-link" aria-label="View {{ product.title | escape }}">
+      {% if product.featured_image != blank %}
+        {{ product.featured_image | image_url: width: 760 | image_tag: class: 'product-card__image', loading: 'lazy', widths: '260, 420, 560, 760' }}
+        {% if product.images[1] != blank %}
+          {{ product.images[1] | image_url: width: 760 | image_tag: class: 'product-card__image product-card__image--hover', loading: 'lazy', widths: '260, 420, 560, 760' }}
+        {% endif %}
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'product-card__image product-card__placeholder' }}
+      {% endif %}
+    </a>
+
+    {% if show_badge %}
+      {% unless product.available %}
+        <span class="product-card__badge product-card__badge--sold">Sold out</span>
+      {% else %}
+        {% if is_sale %}
+          <span class="product-card__badge">Save {{ discount }}%</span>
+        {% elsif product.tags contains 'new' %}
+          <span class="product-card__badge">New Launch</span>
+        {% else %}
+          <span class="product-card__badge">Trending</span>
+        {% endif %}
+      {% endunless %}
+    {% endif %}
+
+    {% if show_wishlist %}
+      <button class="product-card__action" type="button" aria-label="Add {{ product.title | escape }} to wishlist" aria-pressed="false" data-wishlist-button>
+        {% render 'icon', name: 'heart', size: 19 %}
+      </button>
+    {% endif %}
+  </div>
+
+  <div class="product-card__content">
+    <div class="product-card__title-row">
+      <h3 class="product-card__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+      {% if show_price != false %}
+        <div class="product-card__price">
+          <span class="product-card__price-current">{{ variant.price | money }}</span>
+          {% if is_sale %}
+            {% if show_compare_price != false %}
+              <s class="product-card__price-compare">{{ variant.compare_at_price | money }}</s>
+            {% endif %}
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if show_vendor %}
+      <p class="product-card__vendor">{{ product.vendor }}</p>
+    {% endif %}
+
+    <p class="product-card__subtitle">
+      {% if product.type != blank %}
+        {{ product.type }}
+      {% elsif product.collections.first != blank %}
+        {{ product.collections.first.title }}
+      {% else %}
+        Premium grocery essential
+      {% endif %}
+    </p>
+
+    {% if show_rating %}
+      <p class="product-card__rating" aria-label="Customer rating">
+        <span aria-hidden="true">★★★★★</span>
+        <strong>4.9</strong>
+        <small>| Reviews</small>
+      </p>
+    {% endif %}
+
+    <p class="product-card__stock">{% if product.available %}In stock{% else %}Sold out{% endif %}</p>
+
+    <div class="product-card__variant-look">
+      {{ variant.title | default: 'Choose option' }}
+      <span aria-hidden="true">⌄</span>
+    </div>
+
+    <div class="product-card__actions">
+      {% if show_quickview %}
+        <a class="product-card__quick-view" href="{{ product.url }}">View details</a>
+      {% endif %}
+      {% if show_add_to_cart != false %}
+        <form method="post" action="{{ routes.cart_add_url }}">
+          <input type="hidden" name="id" value="{{ variant.id }}">
+          <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %}>
+            {% if product.available %}Add to cart{% else %}Sold out{% endif %}
+          </button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
 </article>

@@ -6,6 +6,7 @@
     <div class="announcement-bar__inner">
       <div class="announcement-bar__viewport" aria-live="polite">
         <div class="announcement-bar__track" data-announcement-track>
+          {% if section.blocks.size == 0 %}<div class="announcement-bar__item" data-announcement-item><p>🚚 Enjoy Free Shipping on orders above ₹1499 | Shop Now</p></div><div class="announcement-bar__item" data-announcement-item hidden><p>🎉 Big Savings Alert! Get 10% OFF on orders above ₹3000 | Use code: TBOF10</p></div>{% endif %}
           {% for block in section.blocks %}
             <div class="announcement-bar__item" {{ block.shopify_attributes }} data-announcement-item{% unless forloop.first %} hidden{% endunless %}>
               {% if block.settings.show_icon %}<span class="announcement-bar__icon">{% render 'icon', name: block.settings.icon, size: 16 %}</span>{% endif %}

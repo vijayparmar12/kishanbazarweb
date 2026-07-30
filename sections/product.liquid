@@ -1,5 +1,174 @@
-<link rel="stylesheet" href="{{ 'section-product.css' | asset_url }}"><script src="{{ 'section-product.js' | asset_url }}" defer="defer"></script>
-{% assign current_variant = product.selected_or_first_available_variant %}{% assign sale = false %}{% if current_variant.compare_at_price > current_variant.price %}{% assign sale = true %}{% endif %}
-<section class="main-product" data-main-product><div class="main-product__gallery"><div class="main-product__media">{% for media in product.media %}<div class="main-product__slide"{% unless forloop.first %} hidden{% endunless %} data-product-media>{{ media | media_tag: image_size: '1200x', loading: 'lazy' }}</div>{% endfor %}</div>{% if product.media.size > 1 %}<div class="main-product__thumbs">{% for media in product.media %}<button type="button" data-product-thumb="{{ forloop.index0 }}" aria-label="View image {{ forloop.index }}">{{ media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', widths: '80, 160' }}</button>{% endfor %}</div>{% endif %}</div><div class="main-product__info">{% if product.vendor != blank %}<p class="main-product__vendor">{{ product.vendor }}</p>{% endif %}<h1>{{ product.title }}</h1><div class="main-product__price"><span data-product-price>{{ current_variant.price | money }}</span>{% if sale %}<s data-product-compare>{{ current_variant.compare_at_price | money }}</s>{% endif %}</div>{% form 'product', product, class: 'main-product__form' %}{% unless product.has_only_default_variant %}{% for option in product.options_with_values %}<fieldset><legend>{{ option.name }}</legend><select name="options[{{ option.name | escape }}]" data-product-option>{% for value in option.values %}<option value="{{ value | escape }}"{% if option.selected_value == value %} selected{% endif %}>{{ value }}</option>{% endfor %}</select></fieldset>{% endfor %}{% endunless %}<select name="id" data-variant-select class="visually-hidden">{% for variant in product.variants %}<option value="{{ variant.id }}" data-price="{{ variant.price | money | escape }}" data-compare="{{ variant.compare_at_price | money | escape }}"{% if variant == current_variant %} selected{% endif %}{% unless variant.available %} disabled{% endunless %}>{{ variant.title }}</option>{% endfor %}</select><div class="main-product__purchase">{% render 'quantity-selector', id: 'quantity-' | append: section.id, value: 1 %}<button type="submit" name="add" class="button button--primary" data-add-to-cart{% unless current_variant.available %} disabled{% endunless %}>{% if current_variant.available %}Add to cart{% else %}Sold out{% endif %}</button></div>{{ form | payment_button }}{% endform %}{% if product.description != blank %}<div class="main-product__description rte">{{ product.description }}</div>{% endif %}{% if product.metafields.custom.specifications != blank %}<div class="main-product__specifications">{{ product.metafields.custom.specifications | metafield_tag }}</div>{% endif %}</div></section>
-{% if section.settings.show_recommendations %}<section class="product-recommendations" data-product-recommendations data-product-id="{{ product.id }}" data-limit="{{ section.settings.recommendations_limit }}"></section>{% endif %}
-{% schema %}{"name":"Product","tag":"section","class":"section-product","settings":[{"type":"checkbox","id":"show_recommendations","label":"Show product recommendations","default":true},{"type":"range","id":"recommendations_limit","label":"Recommendation limit","min":2,"max":8,"step":1,"default":4}]}{% endschema %}
+<link rel="stylesheet" href="{{ 'section-product.css' | asset_url }}">
+<script src="{{ 'section-product.js' | asset_url }}" defer="defer"></script>
+
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign sale = false
+  if current_variant.compare_at_price > current_variant.price
+    assign sale = true
+  endif
+%}
+
+<section class="main-product" data-main-product>
+  <div class="main-product__gallery">
+    <div class="main-product__media-wrap">
+      {% if sale %}
+        <span class="main-product__badge">Bestseller</span>
+      {% endif %}
+
+      <button class="main-product__media-action main-product__media-action--wishlist" type="button" aria-label="Add to wishlist">
+        {% render 'icon', name: 'heart', size: 18 %}
+      </button>
+
+      <div class="main-product__media">
+        {% for media in product.media %}
+          <div class="main-product__slide"{% unless forloop.first %} hidden{% endunless %} data-product-media>
+            {{ media | media_tag: image_size: '1400x', loading: 'lazy' }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if product.media.size > 1 %}
+      <div class="main-product__thumbs" aria-label="Product media thumbnails">
+        {% for media in product.media %}
+          <button type="button" data-product-thumb="{{ forloop.index0 }}" aria-label="View image {{ forloop.index }}">
+            {{ media.preview_image | image_url: width: 180 | image_tag: loading: 'lazy', widths: '90, 180' }}
+          </button>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="main-product__info">
+    <nav class="main-product__breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a>
+      <span aria-hidden="true">/</span>
+      {% if product.collections.first != blank %}
+        <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
+        <span aria-hidden="true">/</span>
+      {% endif %}
+      <span>{{ product.title }}</span>
+    </nav>
+
+    {% if product.vendor != blank %}
+      <p class="main-product__vendor">{{ product.vendor }}</p>
+    {% endif %}
+
+    <h1>{{ product.title }}</h1>
+
+    <p class="main-product__tagline">
+      {% if product.type != blank %}{{ product.type }}{% else %}Premium pantry essential{% endif %}
+      <span aria-hidden="true">|</span>
+      Freshly packed and quality checked
+    </p>
+
+    <div class="main-product__rating" aria-label="Customer rating">
+      <span aria-hidden="true">★★★★★</span>
+      <strong>4.9</strong>
+      <small>Trusted by happy customers</small>
+    </div>
+
+    <div class="main-product__price">
+      <span data-product-price>{{ current_variant.price | money }}</span>
+      {% if sale %}
+        <s data-product-compare>{{ current_variant.compare_at_price | money }}</s>
+      {% endif %}
+    </div>
+
+    <p class="main-product__tax-note">MRP inclusive of all taxes</p>
+
+    <div class="main-product__member-strip">
+      <strong>Collective members price</strong>
+      <span>Join now for special savings</span>
+    </div>
+
+    {% if product.description != blank %}
+      <div class="main-product__summary rte">
+        {{ product.description | strip_html | truncatewords: 28 }}
+      </div>
+    {% endif %}
+
+    <div class="main-product__benefits" aria-label="Product highlights">
+      <div class="main-product__benefit">
+        <span aria-hidden="true">50%</span>
+        <p>More fibre</p>
+      </div>
+      <div class="main-product__benefit">
+        <span aria-hidden="true">Pure</span>
+        <p>No shortcuts</p>
+      </div>
+      <div class="main-product__benefit">
+        <span aria-hidden="true">Farm</span>
+        <p>Sourced well</p>
+      </div>
+      <div class="main-product__benefit">
+        <span aria-hidden="true">Stone</span>
+        <p>Traditional process</p>
+      </div>
+    </div>
+
+    {% form 'product', product, class: 'main-product__form' %}
+      {% unless product.has_only_default_variant %}
+        {% for option in product.options_with_values %}
+          <fieldset class="main-product__option">
+            <legend>{{ option.name }}</legend>
+            <div class="main-product__option-values">
+              {% for value in option.values %}
+                <label class="main-product__option-pill">
+                  <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}"{% if option.selected_value == value %} checked{% endif %} data-product-option>
+                  <span>{{ value }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          </fieldset>
+        {% endfor %}
+      {% endunless %}
+
+      <select name="id" data-variant-select class="visually-hidden">
+        {% for variant in product.variants %}
+          <option value="{{ variant.id }}" data-price="{{ variant.price | money | escape }}" data-compare="{{ variant.compare_at_price | money | escape }}"{% if variant == current_variant %} selected{% endif %}{% unless variant.available %} disabled{% endunless %}>{{ variant.title }}</option>
+        {% endfor %}
+      </select>
+
+      <div class="main-product__purchase">
+        {% render 'quantity-selector', id: 'quantity-' | append: section.id, value: 1 %}
+        <button type="submit" name="add" class="button button--primary main-product__add" data-add-to-cart{% unless current_variant.available %} disabled{% endunless %}>
+          {% if current_variant.available %}Add to cart{% else %}Sold out{% endif %}
+        </button>
+      </div>
+
+      {{ form | payment_button }}
+    {% endform %}
+
+    {% if product.description != blank %}
+      <details class="main-product__accordion" open>
+        <summary>Product details</summary>
+        <div class="main-product__description rte">{{ product.description }}</div>
+      </details>
+    {% endif %}
+
+    {% if product.metafields.custom.specifications != blank %}
+      <details class="main-product__accordion">
+        <summary>Specifications</summary>
+        <div class="main-product__specifications">{{ product.metafields.custom.specifications | metafield_tag }}</div>
+      </details>
+    {% endif %}
+  </div>
+</section>
+
+{% if section.settings.show_recommendations %}
+  <section class="product-recommendations" data-product-recommendations data-product-id="{{ product.id }}" data-limit="{{ section.settings.recommendations_limit }}"></section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Product",
+  "tag": "section",
+  "class": "section-product",
+  "settings": [
+    { "type": "checkbox", "id": "show_recommendations", "label": "Show product recommendations", "default": true },
+    { "type": "range", "id": "recommendations_limit", "label": "Recommendation limit", "min": 2, "max": 8, "step": 1, "default": 4 }
+  ]
+}
+{% endschema %}

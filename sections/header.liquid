@@ -1,64 +1,360 @@
-<link rel="stylesheet" href="{{ 'section-header.css' | asset_url }}">
-<script src="{{ 'section-header.js' | asset_url }}" defer="defer"></script>
+{{ 'header.css' | asset_url | stylesheet_tag }}
+{{ 'mega-menu.css' | asset_url | stylesheet_tag }}
+{{ 'mega-menu-category.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'header.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'mega-menu.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'mega-menu-category.js' | asset_url }}" defer="defer"></script>
 
-<header class="site-header{% if section.settings.sticky_header %} site-header--sticky{% endif %}{% if section.settings.transparent_header %} site-header--transparent{% endif %}" data-site-header>
-  <div class="site-header__main">
-    <div class="site-header__inner">
-      <button class="site-header__menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-navigation-{{ section.id }}" data-header-menu-toggle>
-        {% render 'icon', name: 'menu' %}
-      </button>
+<header
+  class="kb-header{% if section.settings.enable_sticky_header %} kb-header--sticky{% endif %}"
+  data-premium-header
+  style="
+    --kb-announcement-bg: {{ section.settings.announcement_background }};
+    --kb-announcement-text: {{ section.settings.announcement_text_color }};
+    --kb-header-bg: {{ section.settings.header_background }};
+    --kb-nav-text: {{ section.settings.nav_text_color }};
+    --kb-accent: {{ section.settings.accent_color }};
+    --kb-feature-bg: {{ section.settings.feature_row_background }};
+    --kb-logo-width: {{ section.settings.logo_width }}px;
+    --kb-mega-bg: {{ section.settings.mega_background }};
+    --kb-mega-text: {{ section.settings.mega_text_color }};
+    --kb-mega-hover: {{ section.settings.mega_hover_color }};
+    --kb-mega-wave: {{ section.settings.mega_wave_color }};
+  "
+>
+  {% liquid
+    assign ghee_link = section.settings.ghee_url
+    if ghee_link == blank
+      if collections.ghee != blank
+        assign ghee_link = collections.ghee.url
+      else
+        assign ghee_link = routes.collections_url
+      endif
+    endif
 
-      <a class="site-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
-        {% if section.settings.logo != blank %}
-          {{ section.settings.logo | image_url: width: section.settings.logo_width | image_tag: class: 'site-header__logo-image', alt: shop.name, loading: 'eager', fetchpriority: 'high', widths: '100, 140, 180, 240' }}
-        {% else %}
-          <img class="site-header__logo-image" src="{{ 'logo.png' | asset_url }}" width="{{ section.settings.logo_width }}" alt="{{ shop.name | escape }}" loading="eager" fetchpriority="high">
-        {% endif %}
-      </a>
+    assign atta_link = section.settings.atta_url
+    if atta_link == blank
+      if collections.atta != blank
+        assign atta_link = collections.atta.url
+      elsif collections['flour-atta'] != blank
+        assign atta_link = collections['flour-atta'].url
+      else
+        assign atta_link = routes.collections_url
+      endif
+    endif
+  %}
 
-      <nav class="site-header__nav" aria-label="Main navigation">
-        <ul class="site-header__nav-list" role="list">
-          {% for link in section.settings.desktop_menu.links %}
-            <li class="site-header__nav-item{% if link.links != blank %} site-header__nav-item--has-children{% endif %}">
-              <a class="site-header__nav-link{% if link.active %} site-header__nav-link--active{% endif %}" href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
-              {% if link.links != blank %}
-                <button class="site-header__submenu-toggle" type="button" aria-label="Show {{ link.title | escape }} menu" aria-expanded="false" aria-controls="submenu-{{ section.id }}-{{ forloop.index }}" data-submenu-toggle>
-                  {% render 'icon', name: 'chevron', size: 14 %}
-                </button>
-                <ul class="site-header__submenu" id="submenu-{{ section.id }}-{{ forloop.index }}" role="list">
-                  {% for child_link in link.links %}<li><a href="{{ child_link.url }}">{{ child_link.title }}</a></li>{% endfor %}
-                </ul>
-              {% endif %}
-            </li>
-          {% endfor %}
-        </ul>
-      </nav>
-
-      <div class="site-header__actions">
-        {% if section.settings.show_search %}<button class="site-header__action" type="button" aria-label="Search" aria-expanded="false" aria-controls="header-search-{{ section.id }}" data-header-search-toggle>{% render 'icon', name: 'search' %}</button>{% endif %}
-        {% if section.settings.show_account %}<a class="site-header__action" href="{{ routes.account_url }}" aria-label="Account">{% render 'icon', name: 'user' %}</a>{% endif %}
-        {% if section.settings.show_wishlist %}<a class="site-header__action" href="{{ routes.root_url }}#wishlist" aria-label="Wishlist">{% render 'icon', name: 'heart' %}</a>{% endif %}
-        {% if section.settings.show_cart %}<a class="site-header__action site-header__cart" href="{{ routes.cart_url }}" aria-label="Cart, {{ cart.item_count }} items">{% render 'icon', name: 'cart' %}<span class="site-header__cart-count" aria-hidden="true">{{ cart.item_count }}</span></a>{% endif %}
+  {% if section.settings.show_announcement %}
+    <div class="kb-header__announcement" role="region" aria-label="Store announcement">
+      <div class="kb-header__announcement-viewport">
+        <p class="kb-header__announcement-text">
+          <span class="kb-header__announcement-set">
+            {% if section.settings.announcement_text != blank %}<span>{{ section.settings.announcement_text }}</span>{% endif %}
+            {% if section.settings.announcement_text_2 != blank %}<span>{{ section.settings.announcement_text_2 }}</span>{% endif %}
+            {% if section.settings.announcement_text_3 != blank %}<span>{{ section.settings.announcement_text_3 }}</span>{% endif %}
+          </span>
+          <span class="kb-header__announcement-set" aria-hidden="true">
+            {% if section.settings.announcement_text != blank %}<span>{{ section.settings.announcement_text }}</span>{% endif %}
+            {% if section.settings.announcement_text_2 != blank %}<span>{{ section.settings.announcement_text_2 }}</span>{% endif %}
+            {% if section.settings.announcement_text_3 != blank %}<span>{{ section.settings.announcement_text_3 }}</span>{% endif %}
+          </span>
+        </p>
       </div>
-    </div>
-  </div>
-
-  {% if section.settings.show_search %}
-    <div class="site-header__search" id="header-search-{{ section.id }}" hidden data-header-search>
-      <div class="site-header__inner"><form action="{{ routes.search_url }}" method="get" role="search" class="site-header__search-form"><label class="visually-hidden" for="header-search-input-{{ section.id }}">Search</label><input id="header-search-input-{{ section.id }}" type="search" name="q" placeholder="{{ section.settings.search_placeholder | escape }}" autocomplete="off"><button type="submit" aria-label="Submit search">{% render 'icon', name: 'search' %}</button></form></div>
     </div>
   {% endif %}
 
-  <nav class="site-header__mobile-nav" id="mobile-navigation-{{ section.id }}" aria-label="Mobile navigation" hidden data-header-mobile-nav>
-    <div class="site-header__mobile-panel">
-      <button class="site-header__mobile-close" type="button" aria-label="Close menu" data-header-menu-close>{% render 'icon', name: 'close' %}</button>
-      <ul role="list">
-        {% for link in section.settings.mobile_menu.links %}<li><a class="site-header__mobile-link{% if link.active %} site-header__mobile-link--active{% endif %}" href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>{% if link.links != blank %}<ul role="list">{% for child_link in link.links %}<li><a href="{{ child_link.url }}">{{ child_link.title }}</a></li>{% endfor %}</ul>{% endif %}</li>{% endfor %}
+  <div class="kb-header__shell">
+    <div class="kb-header__main" data-header-main>
+      <div class="kb-header__main-grid">
+        <button class="kb-header__menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="kb-mobile-menu-{{ section.id }}" data-menu-toggle>
+          {% render 'icon', name: 'menu', size: 24 %}
+        </button>
+
+        {% if section.settings.show_search %}
+          <form class="kb-header__search" action="{{ routes.search_url }}" method="get" role="search">
+            <label class="visually-hidden" for="kb-header-search-{{ section.id }}"></label>
+            <span class="kb-header__search-icon" aria-hidden="true">{% render 'icon', name: 'search', size: 22 %}</span>
+            <input
+              id="kb-header-search-{{ section.id }}"
+              class="kb-header__search-input"
+              type="search"
+              name="q"
+              value="{{ search.terms | escape }}"
+              placeholder="{{ section.settings.search_fallback_placeholder | escape }}"
+              autocomplete="off"
+              data-typing-search
+            >
+            <button class="kb-header__search-submit" type="submit" aria-label="Submit search">{% render 'icon', name: 'search', size: 20 %}</button>
+            <button class="kb-header__search-clear" type="button" aria-label="Clear search" data-search-clear>{% render 'icon', name: 'close', size: 24 %}</button>
+          </form>
+          <script type="application/json" data-placeholder-source>{{ section.settings.search_placeholders | json }}</script>
+        {% endif %}
+
+        <a class="kb-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+          {% if section.settings.logo != blank %}
+            {{ section.settings.logo | image_url: width: section.settings.logo_width | image_tag: class: 'kb-header__logo-image', alt: shop.name, widths: '120, 160, 200, 240, 320', loading: 'eager', fetchpriority: 'high' }}
+          {% else %}
+            <img class="kb-header__logo-image" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="{{ section.settings.logo_width }}" height="80" loading="eager" fetchpriority="high">
+          {% endif %}
+        </a>
+
+        <div class="kb-header__actions" aria-label="Header actions">
+          {% if section.settings.show_account %}
+            <a class="kb-header__action" href="{{ routes.account_url }}" aria-label="Account">{% render 'icon', name: 'user', size: 25 %}</a>
+          {% endif %}
+          {% if section.settings.show_wishlist %}
+            <a class="kb-header__action kb-header__action--wishlist" href="{{ section.settings.wishlist_url | default: routes.root_url }}" aria-label="Wishlist">
+              {% render 'icon', name: 'heart', size: 25 %}<span class="kb-header__badge" aria-hidden="true">0</span>
+            </a>
+          {% endif %}
+          {% if section.settings.show_cart %}
+            <a class="kb-header__action kb-header__action--cart" href="{{ routes.cart_url }}" aria-label="Cart, {{ cart.item_count }} items">
+              {% render 'icon', name: 'cart', size: 26 %}<span class="kb-header__badge kb-header__badge--cart" aria-hidden="true">{{ cart.item_count }}</span>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <nav class="kb-header__nav" aria-label="Main navigation">
+      <ul class="kb-header__nav-list" role="list">
+        <li class="kb-header__nav-item"><a class="kb-header__nav-link" href="{{ ghee_link }}">{{ section.settings.ghee_title }}</a></li>
+        <li class="kb-header__nav-item"><a class="kb-header__nav-link" href="{{ atta_link }}">{{ section.settings.atta_title }}</a></li>
+        <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item>
+          <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-category-{{ section.id }}" data-mega-trigger>{{ section.settings.category_title }} <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span></button>
+          {% render 'mega-menu', section: section, menu_type: 'category' %}
+        </li>
+        <li class="kb-header__nav-item"><a class="kb-header__nav-link" href="{{ section.settings.collective_url | default: routes.collections_url }}">{{ section.settings.collective_title }}</a></li>
+        <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item>
+          <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-concern-{{ section.id }}" data-mega-trigger>{{ section.settings.concern_title }} <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span></button>
+          {% render 'mega-menu', section: section, menu_type: 'concern' %}
+        </li>
+        <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item>
+          <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-farm-{{ section.id }}" data-mega-trigger>{{ section.settings.farm_title }} <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span></button>
+          {% render 'mega-menu', section: section, menu_type: 'farm' %}
+        </li>
+        <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item>
+          <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-customers-{{ section.id }}" data-mega-trigger>{{ section.settings.customers_title }} <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span></button>
+          {% render 'mega-menu', section: section, menu_type: 'customers' %}
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <nav class="kb-header__mobile-menu" id="kb-mobile-menu-{{ section.id }}" aria-label="Mobile navigation" hidden data-mobile-menu>
+    <div class="kb-header__mobile-backdrop" data-menu-close></div>
+    <div class="kb-header__mobile-panel">
+      <div class="kb-header__mobile-panel-top">
+        <span class="kb-header__mobile-title">Menu</span>
+        <button class="kb-header__mobile-close" type="button" aria-label="Close menu" data-menu-close>{% render 'icon', name: 'close', size: 24 %}</button>
+      </div>
+      <ul class="kb-header__mobile-list" role="list">
+        <li><a class="kb-header__mobile-link" href="{{ ghee_link }}">{{ section.settings.ghee_title }}</a></li>
+        <li><a class="kb-header__mobile-link" href="{{ atta_link }}">{{ section.settings.atta_title }}</a></li>
+        <li>{% render 'mega-menu', section: section, menu_type: 'category', mobile: true %}</li>
+        <li><a class="kb-header__mobile-link" href="{{ section.settings.collective_url | default: routes.collections_url }}">{{ section.settings.collective_title }}</a></li>
+        <li>{% render 'mega-menu', section: section, menu_type: 'concern', mobile: true %}</li>
+        <li>{% render 'mega-menu', section: section, menu_type: 'farm', mobile: true %}</li>
+        <li>{% render 'mega-menu', section: section, menu_type: 'customers', mobile: true %}</li>
       </ul>
     </div>
   </nav>
+
+  <section class="kb-header__features" aria-label="Featured shopping links">
+    <div class="kb-header__features-inner">
+      {% assign feature_count = 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'feature_icon' %}
+          {% assign feature_count = feature_count | plus: 1 %}
+          <a class="kb-header__feature" href="{{ block.settings.link | default: routes.collections_url }}" style="--kb-feature-icon-bg: {{ block.settings.icon_background }}; --kb-feature-icon-color: {{ block.settings.icon_color }};" {{ block.shopify_attributes }}>
+            <span class="kb-header__feature-icon" aria-hidden="true">
+              {% if block.settings.icon_image != blank %}
+                {{ block.settings.icon_image | image_url: width: 96 | image_tag: alt: '', widths: '48, 72, 96', loading: 'lazy', class: 'kb-header__feature-image' }}
+              {% elsif block.settings.icon == 'Gift' %}
+                <span class="kb-header__feature-icon-art kb-header__feature-icon--gift"></span>
+              {% elsif block.settings.icon == 'Rain' %}
+                <span class="kb-header__feature-icon-art kb-header__feature-icon--monsoon"></span>
+              {% elsif block.settings.icon == 'Box' %}
+                <span class="kb-header__feature-icon-art kb-header__feature-icon--box"></span>
+              {% elsif block.settings.icon == 'Jar' %}
+                <span class="kb-header__feature-icon-art kb-header__feature-icon--jar"></span>
+              {% elsif block.settings.icon == 'Save' %}
+                <span class="kb-header__feature-icon-art kb-header__feature-icon--save"></span>
+              {% else %}
+                {{ block.settings.icon }}
+              {% endif %}
+            </span>
+            <span class="kb-header__feature-title">{{ block.settings.title }}</span>
+          </a>
+        {% endif %}
+      {% endfor %}
+      {% if feature_count == 0 %}
+        <a class="kb-header__feature" href="{{ routes.collections_url }}" style="--kb-feature-icon-bg: #5A2F08; --kb-feature-icon-color: #F0D78A;">
+          <span class="kb-header__feature-icon kb-header__feature-icon--gift" aria-hidden="true"></span>
+          <span class="kb-header__feature-title">Membership Deals</span>
+        </a>
+        <a class="kb-header__feature" href="{{ routes.collections_url }}" style="--kb-feature-icon-bg: #23421F; --kb-feature-icon-color: #F0D78A;">
+          <span class="kb-header__feature-icon kb-header__feature-icon--monsoon" aria-hidden="true"></span>
+          <span class="kb-header__feature-title">Monsoon Special</span>
+        </a>
+        <a class="kb-header__feature" href="{{ routes.collections_url }}" style="--kb-feature-icon-bg: #23421F; --kb-feature-icon-color: #F0D78A;">
+          <span class="kb-header__feature-icon kb-header__feature-icon--box" aria-hidden="true"></span>
+          <span class="kb-header__feature-title">New Launches</span>
+        </a>
+        <a class="kb-header__feature" href="{{ routes.collections_url }}" style="--kb-feature-icon-bg: #23421F; --kb-feature-icon-color: #F0D78A;">
+          <span class="kb-header__feature-icon kb-header__feature-icon--jar" aria-hidden="true"></span>
+          <span class="kb-header__feature-title">All Products</span>
+        </a>
+        <a class="kb-header__feature" href="{{ routes.collections_url }}" style="--kb-feature-icon-bg: #5A2F08; --kb-feature-icon-color: #F0D78A;">
+          <span class="kb-header__feature-icon kb-header__feature-icon--save" aria-hidden="true"></span>
+          <span class="kb-header__feature-title">Under Rs.999</span>
+        </a>
+      {% endif %}
+    </div>
+  </section>
 </header>
 
 {% schema %}
-{"name":"Header","tag":"section","class":"section-header","settings":[{"type":"image_picker","id":"logo","label":"Logo"},{"type":"range","id":"logo_width","label":"Logo width","min":80,"max":240,"step":10,"unit":"px","default":160},{"type":"checkbox","id":"sticky_header","label":"Enable sticky header","default":true},{"type":"checkbox","id":"transparent_header","label":"Enable transparent header","default":false},{"type":"checkbox","id":"show_search","label":"Show search","default":true},{"type":"text","id":"search_placeholder","label":"Search placeholder","default":"Search fresh groceries"},{"type":"checkbox","id":"show_account","label":"Show account","default":true},{"type":"checkbox","id":"show_wishlist","label":"Show wishlist","default":true},{"type":"checkbox","id":"show_cart","label":"Show cart","default":true},{"type":"link_list","id":"desktop_menu","label":"Desktop menu"},{"type":"link_list","id":"mobile_menu","label":"Mobile menu"}],"presets":[{"name":"Header"}]}
+{
+  "name": "Premium custom header",
+  "tag": "section",
+  "class": "section-header",
+  "settings": [
+    { "type": "header", "content": "Announcement bar" },
+    { "type": "checkbox", "id": "show_announcement", "label": "Show announcement bar", "default": true },
+    { "type": "text", "id": "announcement_text", "label": "Announcement text 1", "default": "Big Savings Alert! Get 10% OFF on orders above Rs.3000 | Use code: TBOF10" },
+    { "type": "text", "id": "announcement_text_2", "label": "Announcement text 2", "default": "Enjoy free shipping on orders above Rs.1499 | Shop now" },
+    { "type": "text", "id": "announcement_text_3", "label": "Announcement text 3", "default": "Farm-fresh staples delivered to your doorstep" },
+    { "type": "color", "id": "announcement_background", "label": "Announcement background", "default": "#23421F" },
+    { "type": "color", "id": "announcement_text_color", "label": "Announcement text color", "default": "#FFFFFF" },
+    { "type": "header", "content": "Header" },
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 90, "max": 320, "step": 10, "unit": "px", "default": 220 },
+    { "type": "checkbox", "id": "enable_sticky_header", "label": "Enable sticky header", "default": true },
+    { "type": "color", "id": "header_background", "label": "Header background", "default": "#FFFFFF" },
+    { "type": "color", "id": "nav_text_color", "label": "Navigation text", "default": "#23421F" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#23421F" },
+    { "type": "header", "content": "Search" },
+    { "type": "checkbox", "id": "show_search", "label": "Show search", "default": true },
+    { "type": "text", "id": "search_fallback_placeholder", "label": "Fallback placeholder", "default": "Search For Jaggery" },
+    { "type": "textarea", "id": "search_placeholders", "label": "Animated placeholder list", "info": "Add one placeholder per line.", "default": "Search For Jaggery\nSearch for Ghee\nSearch for Atta\nSearch for Oil\nSearch for Rice" },
+    { "type": "header", "content": "Navigation titles and links" },
+    { "type": "text", "id": "ghee_title", "label": "Ghee title", "default": "Ghee" },
+    { "type": "url", "id": "ghee_url", "label": "Ghee link" },
+    { "type": "text", "id": "atta_title", "label": "Atta title", "default": "Atta" },
+    { "type": "url", "id": "atta_url", "label": "Atta link" },
+    { "type": "text", "id": "category_title", "label": "Shop by category title", "default": "Shop By Category" },
+    { "type": "text", "id": "collective_title", "label": "Join Collective title", "default": "Join Collective" },
+    { "type": "url", "id": "collective_url", "label": "Join Collective link" },
+    { "type": "text", "id": "concern_title", "label": "Shop by concern title", "default": "Shop By Concern" },
+    { "type": "text", "id": "farm_title", "label": "Farm Life title", "default": "Farm Life" },
+    { "type": "text", "id": "customers_title", "label": "Customers title", "default": "Customers" },
+    { "type": "header", "content": "Mega menu design" },
+    { "type": "checkbox", "id": "enable_category_mega", "label": "Enable category mega menu", "default": true },
+    { "type": "checkbox", "id": "enable_concern_mega", "label": "Enable concern mega menu", "default": true },
+    { "type": "checkbox", "id": "enable_farm_mega", "label": "Enable farm mega menu", "default": true },
+    { "type": "checkbox", "id": "enable_customers_mega", "label": "Enable customers mega menu", "default": true },
+    { "type": "text", "id": "category_button_text", "label": "Category button text", "default": "Shop All" },
+    { "type": "url", "id": "category_button_url", "label": "Category button link" },
+    { "type": "image_picker", "id": "farm_mega_image", "label": "Farm Life mega image" },
+    { "type": "image_picker", "id": "mega_wave_image", "label": "Mega menu wave image" },
+    { "type": "color", "id": "mega_background", "label": "Mega background", "default": "#FFFFFF" },
+    { "type": "color", "id": "mega_text_color", "label": "Mega text", "default": "#23421F" },
+    { "type": "color", "id": "mega_hover_color", "label": "Mega hover background", "default": "#F1F8EC" },
+    { "type": "color", "id": "mega_wave_color", "label": "Wave color", "default": "#EAF5E3" },
+    { "type": "header", "content": "Actions" },
+    { "type": "checkbox", "id": "show_account", "label": "Show account icon", "default": true },
+    { "type": "checkbox", "id": "show_wishlist", "label": "Show wishlist icon", "default": true },
+    { "type": "url", "id": "wishlist_url", "label": "Wishlist link" },
+    { "type": "checkbox", "id": "show_cart", "label": "Show cart icon", "default": true },
+    { "type": "header", "content": "Feature row" },
+    { "type": "color", "id": "feature_row_background", "label": "Feature row background", "default": "#FAF6EC" }
+  ],
+  "blocks": [
+    {
+      "type": "category_card",
+      "name": "Category mega card",
+      "limit": 8,
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Custom image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Oil" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Cold Pressed Oils" },
+        { "type": "url", "id": "url", "label": "Custom URL" }
+      ]
+    },
+    {
+      "type": "mega_link",
+      "name": "Mega menu item",
+      "settings": [
+        { "type": "select", "id": "menu_group", "label": "Mega menu", "options": [
+          { "value": "category", "label": "Shop By Category" },
+          { "value": "concern", "label": "Shop By Concern" },
+          { "value": "farm_left", "label": "Farm Life left column" },
+          { "value": "farm_middle", "label": "Farm Life middle column" },
+          { "value": "farm_right", "label": "Farm Life right column" },
+          { "value": "customers", "label": "Customers" }
+        ], "default": "category" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Oil" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "text", "id": "icon", "label": "SVG icon or emoji", "info": "Paste inline SVG or use a short emoji.", "default": "Oil" }
+      ]
+    },
+    {
+      "type": "feature_icon",
+      "name": "Feature icon",
+      "limit": 5,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Membership Deals" },
+        { "type": "text", "id": "icon", "label": "Emoji icon", "default": "Gift" },
+        { "type": "image_picker", "id": "icon_image", "label": "Custom icon image" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "color", "id": "icon_background", "label": "Icon background", "default": "#23421F" },
+        { "type": "color", "id": "icon_color", "label": "Icon color", "default": "#F0D78A" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium custom header",
+      "blocks": [
+        { "type": "category_card", "settings": { "title": "Oil", "subtitle": "Cold Pressed Oils" } },
+        { "type": "category_card", "settings": { "title": "Rice", "subtitle": "Organic Rice" } },
+        { "type": "category_card", "settings": { "title": "Jaggery", "subtitle": "Natural Sweeteners" } },
+        { "type": "category_card", "settings": { "title": "Spices", "subtitle": "Masala Spices" } },
+        { "type": "category_card", "settings": { "title": "Immunity", "subtitle": "Superfoods" } },
+        { "type": "category_card", "settings": { "title": "Breakfast & Snacks", "subtitle": "Healthy Snacks" } },
+        { "type": "category_card", "settings": { "title": "Grains & Pulses", "subtitle": "Whole Grains" } },
+        { "type": "mega_link", "settings": { "menu_group": "concern", "title": "Diabetes", "icon": "Health" } },
+        { "type": "mega_link", "settings": { "menu_group": "concern", "title": "Gut Health", "icon": "Gut" } },
+        { "type": "mega_link", "settings": { "menu_group": "concern", "title": "Immunity", "icon": "Shield" } },
+        { "type": "mega_link", "settings": { "menu_group": "concern", "title": "Weight Loss", "icon": "Leaf" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_left", "title": "Founders & Team" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_left", "title": "Media Recognition" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_left", "title": "Traceability" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_left", "title": "Health of People & Planet" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_left", "title": "Team on Ground" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_middle", "title": "Farm Visit" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_middle", "title": "Events" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_middle", "title": "Quality Assurance" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_middle", "title": "Testimonials" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_middle", "title": "Our Philosophy" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_right", "title": "Lab Reports" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_right", "title": "Our Team" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_right", "title": "CSR Initiatives" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_right", "title": "Blogs" } },
+        { "type": "mega_link", "settings": { "menu_group": "farm_right", "title": "Farmers Market" } },
+        { "type": "mega_link", "settings": { "menu_group": "customers", "title": "Track Order" } },
+        { "type": "mega_link", "settings": { "menu_group": "customers", "title": "Contact Us" } },
+        { "type": "mega_link", "settings": { "menu_group": "customers", "title": "Refund & Cancellation Policy" } },
+        { "type": "mega_link", "settings": { "menu_group": "customers", "title": "Shipping & Delivery Policy" } },
+        { "type": "feature_icon", "settings": { "title": "Membership Deals", "icon": "Gift", "icon_background": "#5A2F08" } },
+        { "type": "feature_icon", "settings": { "title": "Monsoon Special", "icon": "Rain", "icon_background": "#23421F" } },
+        { "type": "feature_icon", "settings": { "title": "New Launches", "icon": "Box", "icon_background": "#23421F" } },
+        { "type": "feature_icon", "settings": { "title": "All Products", "icon": "Jar", "icon_background": "#23421F" } },
+        { "type": "feature_icon", "settings": { "title": "Under Rs.999", "icon": "Save", "icon_background": "#5A2F08" } }
+      ]
+    }
+  ]
+}
 {% endschema %}

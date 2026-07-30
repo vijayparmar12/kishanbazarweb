@@ -1,3 +1,126 @@
-<link rel="stylesheet" href="{{ 'section-categories.css' | asset_url }}"><script src="{{ 'section-categories.js' | asset_url }}" defer="defer"></script>
-<section class="home-section categories" data-categories><div class="home-section__head"><div><p class="home-section__eyebrow">Shop by need</p><h2>{{ section.settings.heading }}</h2></div></div><div class="categories__grid">{% if section.settings.collections != blank %}{% for collection in section.settings.collections limit: section.settings.maximum %}<a class="categories__card" href="{{ collection.url }}">{% if collection.featured_image != blank %}{{ collection.featured_image | image_url: width: 500 | image_tag: class: 'categories__image', loading: 'lazy', widths: '180, 300, 500' }}{% endif %}<span>{{ collection.title }}</span></a>{% endfor %}{% else %}{% assign category_titles = 'Ghee,Atta & flours,Cold pressed oils,Pantry staples,Healthy snacks' | split: ',' %}{% for title in category_titles limit: section.settings.maximum %}{% assign image_index = forloop.index0 | modulo: 3 | plus: 1 %}<a class="categories__card" href="{{ routes.collections_url }}"><img class="categories__image" src="{{ 'category-' | append: image_index | append: '.png.png' | asset_url }}" alt="{{ title | escape }}" width="500" height="500" loading="lazy"><span>{{ title }}</span></a>{% endfor %}{% endif %}</div>{% if section.settings.button_text != blank %}<div class="home-section__action">{% render 'button', text: section.settings.button_text, url: section.settings.button_link | default: routes.collections_url, variant: 'outline' %}</div>{% endif %}</section>
-{% schema %}{"name":"Categories","tag":"section","class":"section-categories","settings":[{"type":"text","id":"heading","label":"Heading","default":"Explore our pantry"},{"type":"collection_list","id":"collections","label":"Collections","limit":12},{"type":"range","id":"maximum","label":"Maximum visible categories","min":1,"max":5,"step":1,"default":5},{"type":"text","id":"button_text","label":"Button text","default":"View all categories"},{"type":"url","id":"button_link","label":"Button link"}],"presets":[{"name":"Categories"}]}{% endschema %}
+<link rel="stylesheet" href="{{ 'section-collections.css' | asset_url }}">
+<script src="{{ 'section-collections.js' | asset_url }}" defer="defer"></script>
+
+<section class="home-section categories" data-categories>
+  <div class="home-section__head">
+    <div>
+      <p class="home-section__eyebrow">{{ section.settings.subheading }}</p>
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+  </div>
+
+  <div class="categories__grid">
+    {% assign rendered_collections = 0 %}
+
+    {% if section.settings.collections != blank %}
+      {% for collection in section.settings.collections limit: section.settings.maximum %}
+        {% assign rendered_collections = rendered_collections | plus: 1 %}
+        <a class="categories__card" href="{{ collection.url }}">
+          {% liquid
+            assign category_image = collection.image
+            if category_image == blank
+              assign first_product = collection.products | first
+              if first_product != blank
+                assign category_image = first_product.featured_image
+              endif
+            endif
+          %}
+
+          {% if category_image != blank %}
+            {{ category_image | image_url: width: 500 | image_tag: class: 'categories__image', alt: collection.title, loading: 'lazy', widths: '180, 300, 500' }}
+          {% else %}
+            {{ 'collection-1' | placeholder_svg_tag: 'categories__image' }}
+          {% endif %}
+          <span>{{ collection.title }}</span>
+        </a>
+      {% endfor %}
+    {% else %}
+      {% for collection in collections limit: section.settings.maximum %}
+        {% unless collection.handle == 'frontpage' %}
+          {% assign rendered_collections = rendered_collections | plus: 1 %}
+          <a class="categories__card" href="{{ collection.url }}">
+            {% liquid
+              assign category_image = collection.image
+              if category_image == blank
+                assign first_product = collection.products | first
+                if first_product != blank
+                  assign category_image = first_product.featured_image
+                endif
+              endif
+            %}
+
+            {% if category_image != blank %}
+              {{ category_image | image_url: width: 500 | image_tag: class: 'categories__image', alt: collection.title, loading: 'lazy', widths: '180, 300, 500' }}
+            {% else %}
+              {{ 'collection-1' | placeholder_svg_tag: 'categories__image' }}
+            {% endif %}
+            <span>{{ collection.title }}</span>
+          </a>
+        {% endunless %}
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  {% if rendered_collections == 0 %}
+    <p class="home-section__empty">Collections will appear here after you create them in Shopify.</p>
+  {% endif %}
+
+  {% if section.settings.button_text != blank %}
+    <div class="home-section__action">
+      {% render 'button', text: section.settings.button_text, url: section.settings.button_link | default: routes.collections_url, variant: 'outline' %}
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Categories",
+  "tag": "section",
+  "class": "section-categories",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Shop by need"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by category"
+    },
+    {
+      "type": "collection_list",
+      "id": "collections",
+      "label": "Selected collections",
+      "limit": 12
+    },
+    {
+      "type": "range",
+      "id": "maximum",
+      "label": "Maximum collections",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "View all categories"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Categories"
+    }
+  ]
+}
+{% endschema %}

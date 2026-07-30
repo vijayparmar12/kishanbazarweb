@@ -1,0 +1,150 @@
+{% doc %}
+  Renders a premium desktop mega menu or mobile accordion for the header.
+
+  @param {section} section - Header section with mega menu settings and blocks.
+  @param {string} menu_type - One of category, concern, farm, customers.
+  @param {boolean} [mobile] - Render accordion markup for mobile navigation.
+
+  @example
+  {% render 'mega-menu', section: section, menu_type: 'category' %}
+{% enddoc %}
+
+{% liquid
+  assign enabled = true
+  assign panel_title = section.settings.category_title
+  assign panel_class = 'kb-mega--category'
+
+  if menu_type == 'category'
+    assign enabled = section.settings.enable_category_mega
+    assign panel_title = section.settings.category_title
+    assign panel_class = 'kb-mega--category'
+  elsif menu_type == 'concern'
+    assign enabled = section.settings.enable_concern_mega
+    assign panel_title = section.settings.concern_title
+    assign panel_class = 'kb-mega--concern'
+  elsif menu_type == 'farm'
+    assign enabled = section.settings.enable_farm_mega
+    assign panel_title = section.settings.farm_title
+    assign panel_class = 'kb-mega--farm'
+  elsif menu_type == 'customers'
+    assign enabled = section.settings.enable_customers_mega
+    assign panel_title = section.settings.customers_title
+    assign panel_class = 'kb-mega--customers'
+  endif
+%}
+
+{% if enabled %}
+  {% if mobile == 'items_only' %}
+    <ul class="kb-mega-mobile__list" role="list">
+      {% assign rendered_count = 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'mega_link' %}
+          {% if block.settings.menu_group == menu_type %}
+            {% assign rendered_count = rendered_count | plus: 1 %}
+            <li {{ block.shopify_attributes }}>
+              <a href="{{ block.settings.link | default: routes.collections_url }}">
+                {% if block.settings.icon != blank %}<span aria-hidden="true">{{ block.settings.icon }}</span>{% endif %}
+                {{ block.settings.title }}
+              </a>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      {% if rendered_count == 0 %}
+        {% assign defaults = '' %}
+        {% if menu_type == 'category' %}
+          {% assign defaults = 'Oil,Rice,Jaggery,Spices,Immunity,Breakfast & Snacks,Grains & Pulses' %}
+        {% elsif menu_type == 'concern' %}
+          {% assign defaults = 'Diabetes,Gut Health,Immunity,Weight Loss' %}
+        {% elsif menu_type == 'customers' %}
+          {% assign defaults = 'Track Order,Contact Us,Refund & Cancellation Policy,Shipping & Delivery Policy' %}
+        {% elsif menu_type == 'farm_left' %}
+          {% assign defaults = 'Founders & Team,Media Recognition,Traceability,Health of People & Planet,Team on Ground' %}
+        {% elsif menu_type == 'farm_middle' %}
+          {% assign defaults = 'Farm Visit,Events,Quality Assurance,Testimonials,Our Philosophy' %}
+        {% elsif menu_type == 'farm_right' %}
+          {% assign defaults = 'Lab Reports,Our Team,CSR Initiatives,Blogs,Farmers Market' %}
+        {% endif %}
+        {% assign default_items = defaults | split: ',' %}
+        {% for item in default_items %}
+          <li><a href="{{ routes.collections_url }}">{{ item }}</a></li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+  {% elsif mobile %}
+    <details class="kb-mega-mobile" data-mega-mobile>
+      <summary class="kb-header__mobile-link kb-mega-mobile__summary">
+        <span>{{ panel_title }}</span>
+        <span aria-hidden="true">&dtrif;</span>
+      </summary>
+      <div class="kb-mega-mobile__content">
+        {% if menu_type == 'farm' %}
+          {% render 'mega-menu', section: section, menu_type: 'farm_left', mobile: 'items_only' %}
+          {% render 'mega-menu', section: section, menu_type: 'farm_middle', mobile: 'items_only' %}
+          {% render 'mega-menu', section: section, menu_type: 'farm_right', mobile: 'items_only' %}
+        {% elsif menu_type == 'category' %}
+          {% render 'mega-menu-category', section: section %}
+        {% else %}
+          {% render 'mega-menu', section: section, menu_type: menu_type, mobile: 'items_only' %}
+        {% endif %}
+      </div>
+    </details>
+  {% else %}
+    <div class="kb-mega {{ panel_class }}" id="MegaMenu-{{ menu_type }}-{{ section.id }}" data-mega-panel>
+      <span class="kb-mega__pointer" aria-hidden="true"></span>
+      <div class="kb-mega__inner">
+        {% if menu_type == 'category' %}
+          {% render 'mega-menu-category', section: section %}
+          <a class="kb-category-mega__button" href="{{ section.settings.category_button_url | default: routes.collections_url }}">{{ section.settings.category_button_text }} <span aria-hidden="true">-&gt;</span></a>
+        {% elsif menu_type == 'concern' %}
+          <div class="kb-mega__concern-list">
+            {% assign concern_count = 0 %}
+            {% for block in section.blocks %}
+              {% if block.type == 'mega_link' %}
+                {% if block.settings.menu_group == 'concern' %}
+                  {% assign concern_count = concern_count | plus: 1 %}
+                  <a class="kb-mega__row-link" href="{{ block.settings.link | default: routes.collections_url }}" {{ block.shopify_attributes }}>
+                    <span class="kb-mega__row-icon" aria-hidden="true">{{ block.settings.icon }}</span>
+                    <span>{{ block.settings.title }}</span>
+                  </a>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+            {% if concern_count == 0 %}
+              {% assign default_concerns = 'Diabetes,Gut Health,Immunity,Weight Loss' | split: ',' %}
+              {% for item in default_concerns %}
+                <a class="kb-mega__row-link" href="{{ routes.collections_url }}"><span class="kb-mega__row-icon" aria-hidden="true">{{ item | slice: 0 }}</span><span>{{ item }}</span></a>
+              {% endfor %}
+            {% endif %}
+          </div>
+        {% elsif menu_type == 'farm' %}
+          <div class="kb-mega__farm-grid">
+            {% assign farm_groups = 'farm_left,farm_middle,farm_right' | split: ',' %}
+            {% for group in farm_groups %}
+              <div class="kb-mega__farm-column">
+                {% render 'mega-menu', section: section, menu_type: group, mobile: 'items_only' %}
+              </div>
+            {% endfor %}
+            <div class="kb-mega__image-wrap">
+              {% if section.settings.farm_mega_image != blank %}
+                {{ section.settings.farm_mega_image | image_url: width: 520 | image_tag: class: 'kb-mega__image', alt: section.settings.farm_title, widths: '260, 390, 520', loading: 'lazy' }}
+              {% else %}
+                <div class="kb-mega__image-placeholder">Farm Life</div>
+              {% endif %}
+            </div>
+          </div>
+        {% elsif menu_type == 'customers' %}
+          <div class="kb-mega__customer-list">
+            {% render 'mega-menu', section: section, menu_type: 'customers', mobile: 'items_only' %}
+          </div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.mega_wave_image != blank %}
+        {{ section.settings.mega_wave_image | image_url: width: 1200 | image_tag: class: 'kb-mega__wave-image', alt: '', loading: 'lazy' }}
+      {% else %}
+        <span class="kb-mega__wave" aria-hidden="true"></span>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endif %}

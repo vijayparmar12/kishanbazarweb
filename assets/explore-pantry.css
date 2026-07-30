@@ -1,0 +1,159 @@
+.explore-pantry {
+  background: var(--explore-pantry-bg, #faf8f1);
+  padding-block: var(--explore-pantry-spacing, 64px);
+}
+
+.explore-pantry__inner {
+  margin-inline: auto;
+  max-width: 1280px;
+  padding-inline: clamp(16px, 4vw, 48px);
+}
+
+.explore-pantry__header {
+  margin: 0 auto 34px;
+  max-width: 760px;
+  text-align: center;
+}
+
+.explore-pantry__eyebrow {
+  color: #5f7f3b;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+
+.explore-pantry__heading {
+  color: #23421f;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin: 0;
+  text-transform: none;
+}
+
+.explore-pantry__grid {
+  display: grid;
+  gap: clamp(18px, 2vw, 26px);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.explore-pantry__card {
+  background: #fff;
+  border: 1px solid rgb(35 66 31 / 8%);
+  border-radius: var(--explore-pantry-radius, 18px);
+  box-shadow: 0 14px 34px rgb(35 66 31 / 10%);
+  color: #23421f;
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  text-decoration: none;
+  transition: box-shadow 300ms ease, transform 300ms ease;
+}
+
+.explore-pantry__card:hover,
+.explore-pantry__card:focus-visible {
+  box-shadow: 0 22px 46px rgb(35 66 31 / 16%);
+  transform: translateY(-6px);
+}
+
+.explore-pantry__media {
+  aspect-ratio: var(--explore-pantry-ratio, 1 / 1);
+  background: #f3eedf;
+  display: block;
+  height: 260px;
+  overflow: hidden;
+}
+
+.explore-pantry__image {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 450ms ease;
+  width: 100%;
+}
+
+.explore-pantry__card:hover .explore-pantry__image,
+.explore-pantry__card:focus-visible .explore-pantry__image {
+  transform: scale(1.08);
+}
+
+.explore-pantry__title {
+  color: #23421f;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1.25;
+  margin: 0;
+  padding: 18px 14px 20px;
+  text-align: center;
+}
+
+.explore-pantry__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 34px;
+}
+
+.explore-pantry__empty {
+  background: #fff;
+  border: 1px dashed rgb(35 66 31 / 22%);
+  border-radius: var(--explore-pantry-radius, 18px);
+  color: #6a7a5e;
+  font-weight: 800;
+  padding: 28px;
+  text-align: center;
+}
+
+.explore-pantry__empty p {
+  margin: 0;
+}
+
+.explore-pantry__button {
+  background: #23421f;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 0.95rem;
+  font-weight: 900;
+  justify-content: center;
+  min-width: 190px;
+  padding: 15px 30px;
+  text-decoration: none;
+  transition: background-color 300ms ease, transform 300ms ease;
+}
+
+.explore-pantry__button:hover,
+.explore-pantry__button:focus-visible {
+  background: #386c35;
+  transform: translateY(-2px);
+}
+
+@media screen and (max-width: 1199px) {
+  .explore-pantry__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .explore-pantry {
+    padding-block: calc(var(--explore-pantry-spacing, 64px) * 0.72);
+  }
+
+  .explore-pantry__grid {
+    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .explore-pantry__media {
+    height: 180px;
+  }
+
+  .explore-pantry__title {
+    font-size: 0.92rem;
+    padding: 14px 10px 16px;
+  }
+}
