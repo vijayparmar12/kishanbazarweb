@@ -8,25 +8,27 @@
 
   <div class="testimonials__carousel-container" data-testimonials-carousel>
     <div class="testimonials__track" data-testimonials-track>
-      {% for block in section.blocks %}
-        <figure class="testimonials__card" {{ block.shopify_attributes }}>
-          <div class="testimonials__card-avatar">
-            <span class="testimonials__avatar-text">{{ block.settings.name | slice: 0, 1 | upcase }}</span>
-          </div>
-          <blockquote class="testimonials__quote">"{{ block.settings.review }}"</blockquote>
-          {% if block.settings.image != blank %}
-            <div class="testimonials__card-image">
-              {{ block.settings.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: 'Customer review photo' }}
+      {% for loop_pass in (1..2) %}
+        {% for block in section.blocks %}
+          <figure class="testimonials__card{% if loop_pass == 2 %} testimonials__card--clone{% endif %}" {{ block.shopify_attributes }}>
+            <div class="testimonials__card-avatar">
+              <span class="testimonials__avatar-text">{{ block.settings.name | slice: 0, 1 | upcase }}</span>
             </div>
-          {% endif %}
-          <div class="testimonials__rating" aria-label="{{ block.settings.rating }} out of 5 stars">
-            {% for i in (1..block.settings.rating) %}&#9733;{% endfor %}
-          </div>
-          <figcaption class="testimonials__author">
-            <strong class="testimonials__author-name">{{ block.settings.name }}</strong>
-            <span class="testimonials__author-location">- {{ block.settings.location | default: 'Verified Customer' }}</span>
-          </figcaption>
-        </figure>
+            <blockquote class="testimonials__quote">"{{ block.settings.review }}"</blockquote>
+            {% if block.settings.image != blank %}
+              <div class="testimonials__card-image">
+                {{ block.settings.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: 'Customer review photo' }}
+              </div>
+            {% endif %}
+            <div class="testimonials__rating" aria-label="{{ block.settings.rating }} out of 5 stars">
+              {% for i in (1..block.settings.rating) %}&#9733;{% endfor %}
+            </div>
+            <figcaption class="testimonials__author">
+              <strong class="testimonials__author-name">{{ block.settings.name }}</strong>
+              <span class="testimonials__author-location">- {{ block.settings.location | default: 'Verified Customer' }}</span>
+            </figcaption>
+          </figure>
+        {% endfor %}
       {% endfor %}
     </div>
   </div>

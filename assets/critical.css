@@ -6,12 +6,21 @@
   margin: 0;
 }
 
+html {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
 body {
   display: flex;
   flex-direction: column;
   margin: 0;
   min-height: 100svh;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  position: relative;
 }
 
 html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
