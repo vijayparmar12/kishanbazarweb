@@ -212,25 +212,56 @@
         {% endif %}
       {% endfor %}
       {% if feature_count == 0 %}
-        <a class="kb-header__feature" href="{{ routes.collections_url }}" style="--kb-feature-icon-bg: #5A2F08; --kb-feature-icon-color: #F0D78A;">
-          <span class="kb-header__feature-icon kb-header__feature-icon--gift" aria-hidden="true"></span>
+        <a class="kb-header__feature kb-header__feature--gift" href="{{ routes.collections_url }}">
+          <span class="kb-header__feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="9" width="18" height="11" rx="2"/>
+              <path d="M12 9v11"/>
+              <path d="M3 13h18"/>
+              <path d="M7.5 9c-2 0-3-1.8-1.5-3.2S9.5 7 12 9c2.5-2 4.5-4.6 6-3.2S16.5 9 14.5 9"/>
+            </svg>
+          </span>
           <span class="kb-header__feature-title">Membership Deals</span>
         </a>
-        <a class="kb-header__feature" href="{{ routes.collections_url }}" style="--kb-feature-icon-bg: #23421F; --kb-feature-icon-color: #F0D78A;">
-          <span class="kb-header__feature-icon kb-header__feature-icon--monsoon" aria-hidden="true"></span>
+        <a class="kb-header__feature kb-header__feature--monsoon" href="{{ routes.collections_url }}">
+          <span class="kb-header__feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 15.6A4.5 4.5 0 0 0 16.5 7h-1.8A7 7 0 1 0 4 14.3"/>
+              <path d="M8 15v4"/>
+              <path d="M12 15v4"/>
+              <path d="M16 15v4"/>
+              <path d="M10 11l.01-.01"/>
+              <path d="M14 10l.01-.01"/>
+            </svg>
+          </span>
           <span class="kb-header__feature-title">Monsoon Special</span>
         </a>
-        <a class="kb-header__feature" href="{{ routes.collections_url }}" style="--kb-feature-icon-bg: #23421F; --kb-feature-icon-color: #F0D78A;">
-          <span class="kb-header__feature-icon kb-header__feature-icon--box" aria-hidden="true"></span>
+        <a class="kb-header__feature kb-header__feature--new" href="{{ routes.collections_url }}">
+          <span class="kb-header__feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3L2 8l10 5 10-5-10-5z"/>
+              <path d="M2 13l10 5 10-5"/>
+              <path d="M2 18l10 5 10-5"/>
+            </svg>
+          </span>
           <span class="kb-header__feature-title">New Launches</span>
         </a>
-        <a class="kb-header__feature" href="{{ routes.collections_url }}" style="--kb-feature-icon-bg: #23421F; --kb-feature-icon-color: #F0D78A;">
-          <span class="kb-header__feature-icon kb-header__feature-icon--jar" aria-hidden="true"></span>
+        <a class="kb-header__feature kb-header__feature--all" href="{{ routes.collections_url }}">
+          <span class="kb-header__feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="9" width="9" height="11" rx="2"/>
+              <path d="M6 5h5v4H6z"/>
+              <rect x="15" y="12" width="5" height="8" rx="1"/>
+              <path d="M16.5 9h2v3h-2z"/>
+            </svg>
+          </span>
           <span class="kb-header__feature-title">All Products</span>
         </a>
-        <a class="kb-header__feature" href="{{ routes.collections_url }}" style="--kb-feature-icon-bg: #5A2F08; --kb-feature-icon-color: #F0D78A;">
-          <span class="kb-header__feature-icon kb-header__feature-icon--save" aria-hidden="true"></span>
-          <span class="kb-header__feature-title">Under Rs.999</span>
+        <a class="kb-header__feature kb-header__feature--save" href="{{ routes.collections_url }}">
+          <span class="kb-header__feature-icon kb-header__feature-icon--text" aria-hidden="true">
+            <span class="kb-header__feature-text-badge">Under<br>₹999</span>
+          </span>
+          <span class="kb-header__feature-title">Under ₹999</span>
         </a>
       {% endif %}
     </div>
