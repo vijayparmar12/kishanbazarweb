@@ -81,6 +81,9 @@
       "settings": {
         "heading": "It takes a village to make good food — come take a peek!",
         "subheading": "Shop by videos",
+        "show_demo_video": true,
+        "bulk_video_csv": "# product-handle,https://video-url.mp4\n# organic-ghee,https://cdn.shopify.com/s/files/1/YOUR_SHOP/files/video1.mp4",
+        "default_button_text": "Add to cart",
         "background_color": "#eef2e4",
         "heading_color": "#2e5d34",
         "default_button_text": "Add to cart",
@@ -145,8 +148,8 @@
         "heading": "Top Picks For You",
         "collection": "",
         "cta_label": "Shop More",
-        "columns": "4",
-        "maximum": 4,
+        "show_tabs": true,
+        "maximum": 8,
         "show_vendor": false,
         "show_rating": true
       }
@@ -168,6 +171,7 @@
         "collections": [
           "frontpage",
           "ghee",
+          "atta",
           "oil"
         ],
         "maximum": 4

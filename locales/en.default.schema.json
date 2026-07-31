@@ -78,11 +78,23 @@
     "shoppable_videos": {
       "name": "Shop by videos",
       "settings": {
+        "intro": {
+          "content": "Video with add to cart buttons at the bottom. Link a product for each video so customers can buy."
+        },
         "heading": {
           "label": "Heading"
         },
         "subheading": {
           "label": "Subheading"
+        },
+        "show_demo_video": {
+          "label": "Show demo video",
+          "info": "Shows one sample card so you can preview the layout before adding your videos."
+        },
+        "bulk_video_csv": {
+          "label": "Bulk video CSV",
+          "info": "Format: product-handle, https://video.mp4 — product is required for add to cart.",
+          "placeholder": "organic-ghee,https://cdn.shopify.com/.../video.mp4"
         },
         "background_color": {
           "label": "Background color"
@@ -110,33 +122,25 @@
         "video": {
           "name": "Video",
           "settings": {
+            "product": {
+              "label": "Product"
+            },
             "video": {
               "label": "Shopify hosted video"
             },
             "video_url": {
               "label": "MP4 URL",
-              "info": "Optional. Use when not uploading a Shopify video."
+              "info": "Paste a link from Shopify Admin → Content → Files."
             },
             "poster": {
               "label": "Poster image"
             },
-            "product": {
-              "label": "Product"
-            },
-            "custom_badge": {
-              "label": "Custom badge"
-            },
             "button_text": {
               "label": "Button text"
             },
-            "show_price": {
-              "label": "Show price"
-            },
-            "show_compare_price": {
-              "label": "Show compare-at price"
-            },
-            "show_product_image": {
-              "label": "Show product image"
+            "video_label": {
+              "label": "Video label",
+              "info": "Used for accessibility only (not shown on the card)."
             }
           }
         }

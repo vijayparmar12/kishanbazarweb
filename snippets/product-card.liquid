@@ -1,16 +1,3 @@
-{% doc %}
-  Renders a dynamic Shopify product card.
-  @param {product} product - Product from a Shopify collection or search result.
-  @param {boolean} [show_vendor] - Show product vendor.
-  @param {boolean} [show_price] - Show the product price.
-  @param {boolean} [show_compare_price] - Show the compare-at price when on sale.
-  @param {boolean} [show_rating] - Show rating placeholder.
-  @param {boolean} [show_badge] - Show sale and sold-out badges.
-  @param {boolean} [show_wishlist] - Show wishlist placeholder.
-  @param {boolean} [show_quickview] - Show product link as quick view.
-  @param {boolean} [show_add_to_cart] - Show add to cart control.
-{% enddoc %}
-
 {% liquid
   assign variant = product.selected_or_first_available_variant
   assign is_sale = false
@@ -35,25 +22,27 @@
       {% endif %}
     </a>
 
-    {% if show_badge %}
-      {% unless product.available %}
-        <span class="product-card__badge product-card__badge--sold">Sold out</span>
-      {% else %}
-        {% if is_sale %}
-          <span class="product-card__badge">Save {{ discount }}%</span>
-        {% elsif product.tags contains 'new' %}
-          <span class="product-card__badge">New Launch</span>
+    <div class="product-card__top-bar">
+      {% if show_badge %}
+        {% unless product.available %}
+          <span class="product-card__badge product-card__badge--sold">Sold out</span>
         {% else %}
-          <span class="product-card__badge">Trending</span>
-        {% endif %}
-      {% endunless %}
-    {% endif %}
+          {% if is_sale %}
+            <span class="product-card__badge">Save {{ discount }}%</span>
+          {% elsif product.tags contains 'new' or product.tags contains 'New' %}
+            <span class="product-card__badge">New Launch</span>
+          {% else %}
+            <span class="product-card__badge">Most Loved</span>
+          {% endif %}
+        {% endunless %}
+      {% endif %}
 
-    {% if show_wishlist %}
-      <button class="product-card__action" type="button" aria-label="Add {{ product.title | escape }} to wishlist" aria-pressed="false" data-wishlist-button>
-        {% render 'icon', name: 'heart', size: 19 %}
-      </button>
-    {% endif %}
+      {% if show_wishlist %}
+        <button class="product-card__action" type="button" aria-label="Add {{ product.title | escape }} to wishlist" aria-pressed="false" data-wishlist-button>
+          {% render 'icon', name: 'heart', size: 18 %}
+        </button>
+      {% endif %}
+    </div>
   </div>
 
   <div class="product-card__content">
@@ -61,11 +50,9 @@
       <h3 class="product-card__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
       {% if show_price != false %}
         <div class="product-card__price">
-          <span class="product-card__price-current">{{ variant.price | money }}</span>
-          {% if is_sale %}
-            {% if show_compare_price != false %}
-              <s class="product-card__price-compare">{{ variant.compare_at_price | money }}</s>
-            {% endif %}
+          <span class="product-card__price-current">₹{{ variant.price | money_without_currency }}</span>
+          {% if is_sale and show_compare_price != false %}
+            <s class="product-card__price-compare">₹{{ variant.compare_at_price | money_without_currency }}</s>
           {% endif %}
         </div>
       {% endif %}
@@ -76,55 +63,59 @@
     {% endif %}
 
     <p class="product-card__subtitle">
-      {% if product.type != blank %}
-        {{ product.type }}
-      {% elsif product.collections.first != blank %}
-        {{ product.collections.first.title }}
+      {% if product.tags contains 'Khapli' or product.title contains 'Khapli' or product.title contains 'Atta' %}
+        22g Protein in 4 Rotis | Low Gluten
+      {% elsif product.tags contains 'Ghee' or product.type == 'Ghee' or product.title contains 'Ghee' %}
+        Cultured Gir Cow Bilona Ghee | Pure & Natural
+      {% elsif product.tags contains 'Oil' or product.type contains 'Oil' or product.title contains 'Oil' %}
+        100% Wood-Pressed Cold Extracted
+      {% elsif product.type != blank %}
+        {{ product.type }} | Certified Organic
       {% else %}
-        Premium grocery essential
+        Organic & Farm Fresh
       {% endif %}
     </p>
 
     {% if show_rating %}
       <p class="product-card__rating" aria-label="Customer rating">
         <span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-        <strong>4.9</strong>
-        <small>| Reviews</small>
+        <strong>4.91</strong>
+        <small>| 58 Reviews</small>
       </p>
     {% endif %}
-
-    <p class="product-card__stock">{% if product.available %}In stock{% else %}Sold out{% endif %}</p>
 
     <div class="product-card__actions">
       {% if show_add_to_cart != false %}
         <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form">
           {% if product.variants.size > 1 %}
-            <label class="visually-hidden" for="ProductCardVariant-{{ product.id }}">Choose size</label>
-            <select class="product-card__variant-select" id="ProductCardVariant-{{ product.id }}" name="id" data-product-card-variant-select>
-              {% for card_variant in product.variants %}
-                <option
-                  value="{{ card_variant.id }}"
-                  data-price="{{ card_variant.price | money | escape }}"
-                  data-compare="{{ card_variant.compare_at_price | money | escape }}"
-                  data-available="{% if card_variant.available %}true{% else %}false{% endif %}"
-                  {% if card_variant == variant %}selected{% endif %}
-                  {% unless card_variant.available %}disabled{% endunless %}
-                >
-                  {{ card_variant.title }}
-                </option>
-              {% endfor %}
-            </select>
+            <div class="product-card__variant-wrap">
+              <label class="visually-hidden" for="ProductCardVariant-{{ product.id }}">Choose size</label>
+              <select class="product-card__variant-select" id="ProductCardVariant-{{ product.id }}" name="id" data-product-card-variant-select>
+                {% for card_variant in product.variants %}
+                  <option
+                    value="{{ card_variant.id }}"
+                    data-price="₹{{ card_variant.price | money_without_currency }}"
+                    data-compare="₹{{ card_variant.compare_at_price | money_without_currency }}"
+                    data-available="{% if card_variant.available %}true{% else %}false{% endif %}"
+                    {% if card_variant == variant %}selected{% endif %}
+                    {% unless card_variant.available %}disabled{% endunless %}
+                  >
+                    {{ card_variant.title }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
           {% else %}
             <input type="hidden" name="id" value="{{ variant.id }}">
             <div class="product-card__variant-look">
-              {{ variant.title | default: 'Choose option' }}
+              {{ variant.title | default: '1kg' }}
             </div>
           {% endif %}
           {% if show_quickview %}
             <a class="product-card__quick-view" href="{{ product.url }}">View details</a>
           {% endif %}
           <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %}>
-            {% if product.available %}Add to cart{% else %}Sold out{% endif %}
+            {% if product.available %}ADD TO CART{% else %}SOLD OUT{% endif %}
           </button>
         </form>
       {% endif %}

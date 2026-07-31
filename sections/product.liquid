@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="{{ 'section-product.css' | asset_url }}">
+<link rel="stylesheet" href="{{ 'section-testimonials.css' | asset_url }}">
 <script src="{{ 'section-product.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'section-testimonials.js' | asset_url }}" defer="defer"></script>
 
 {% liquid
   assign current_variant = product.selected_or_first_available_variant
@@ -182,6 +184,71 @@
 {% if section.settings.show_recommendations %}
   <section class="product-recommendations" data-product-recommendations data-product-id="{{ product.id }}" data-limit="{{ section.settings.recommendations_limit | default: 5 }}"></section>
 {% endif %}
+
+<!-- SHARE YOUR FEEDBACK FORM AT BOTTOM OF PAGE ABOVE FOOTER -->
+<div class="product-feedback-wrapper">
+  <div class="feedback-form-container">
+    <div class="feedback-form-card">
+      <h2 class="feedback-form__heading">Share your feedback</h2>
+      <form class="feedback-form" data-feedback-form data-product-title="{{ product.title | escape }}">
+        <div class="feedback-form__two-columns">
+          <!-- Left Column: Name, City, Email -->
+          <div class="feedback-form__col-left">
+            <div class="feedback-form__field">
+              <label for="ProductFeedbackName" class="feedback-form__label">Name</label>
+              <input type="text" id="ProductFeedbackName" name="name" placeholder="Enter your name" required class="feedback-form__input">
+            </div>
+
+            <div class="feedback-form__field">
+              <label for="ProductFeedbackContact" class="feedback-form__label">City / Contact</label>
+              <input type="text" id="ProductFeedbackContact" name="contact" placeholder="Enter city (e.g. Surat, Mumbai)" class="feedback-form__input">
+            </div>
+
+            <div class="feedback-form__field">
+              <label for="ProductFeedbackEmail" class="feedback-form__label">Email</label>
+              <input type="email" id="ProductFeedbackEmail" name="email" placeholder="Enter your email" required class="feedback-form__input">
+            </div>
+          </div>
+
+          <!-- Right Column: Message, Photo -->
+          <div class="feedback-form__col-right">
+            <div class="feedback-form__field">
+              <label for="ProductFeedbackMessage" class="feedback-form__label">Message</label>
+              <textarea id="ProductFeedbackMessage" name="message" placeholder="Write your review about {{ product.title }}..." rows="5" required class="feedback-form__textarea"></textarea>
+            </div>
+
+            <div class="feedback-form__image-upload">
+              <label for="ProductFeedbackImage" class="feedback-form__image-label">
+                <span class="upload-icon">📷</span> Add Product Photo (Optional)
+              </label>
+              <input type="file" id="ProductFeedbackImage" name="image" accept="image/*" class="feedback-form__image-input" data-image-input>
+              <div class="feedback-form__image-preview" data-image-preview style="display: none;">
+                <img src="" alt="Review preview" data-preview-img>
+                <button type="button" class="remove-img-btn" data-remove-img>&times;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feedback-form__bottom-row">
+          <div class="feedback-form__rating-selector" data-rating-selector>
+            <input type="hidden" name="rating" value="5" data-rating-value>
+            <div class="feedback-form__stars">
+              <button type="button" class="star-btn is-active" data-star="1">&#9733;</button>
+              <button type="button" class="star-btn is-active" data-star="2">&#9733;</button>
+              <button type="button" class="star-btn is-active" data-star="3">&#9733;</button>
+              <button type="button" class="star-btn is-active" data-star="4">&#9733;</button>
+              <button type="button" class="star-btn is-active" data-star="5">&#9733;</button>
+            </div>
+          </div>
+
+          <button type="submit" class="feedback-form__submit">Submit Review</button>
+          <p class="feedback-form__success" data-feedback-success style="display: none;">Thank you for reviewing {{ product.title }}! Your feedback has been published.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 {% schema %}
 {

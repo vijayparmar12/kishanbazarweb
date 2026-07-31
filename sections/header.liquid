@@ -25,25 +25,44 @@
   {% liquid
     assign ghee_link = section.settings.ghee_url
     if ghee_link == blank
-      if collections.ghee != blank
+      if collections.ghee != blank and collections.ghee.url != blank
         assign ghee_link = collections.ghee.url
       else
-        assign ghee_link = routes.collections_url
+        for c in collections
+          assign c_title = c.title | downcase
+          if c_title contains 'ghee'
+            assign ghee_link = c.url
+            break
+          endif
+        endfor
+      endif
+      if ghee_link == blank
+        assign ghee_link = routes.collections_url | append: '/ghee'
       endif
     endif
 
     assign atta_link = section.settings.atta_url
     if atta_link == blank
-      if collections.atta != blank
+      if collections.atta != blank and collections.atta.url != blank
         assign atta_link = collections.atta.url
-      elsif collections.aata != blank
-        assign atta_link = collections.aata.url
-      elsif collections['flour-atta'] != blank
+      elsif collections.aatta != blank and collections.aatta.url != blank
+        assign atta_link = collections.aatta.url
+      elsif collections['aatta'] != blank and collections['aatta'].url != blank
+        assign atta_link = collections['aatta'].url
+      elsif collections['flour-atta'] != blank and collections['flour-atta'].url != blank
         assign atta_link = collections['flour-atta'].url
-      elsif collections['flour-and-atta'] != blank
-        assign atta_link = collections['flour-and-atta'].url
       else
-        assign atta_link = routes.search_url | append: '?q=atta'
+        for c in collections
+          assign c_title = c.title | downcase
+          if c_title contains 'atta' or c_title contains 'aatta' or c_title contains 'flour'
+            assign atta_link = c.url
+            break
+          endif
+        endfor
+      endif
+
+      if atta_link == blank
+        assign atta_link = routes.all_products_collection_url | append: '/Atta'
       endif
     endif
   %}
@@ -322,6 +341,7 @@
     {
       "name": "Premium custom header",
       "blocks": [
+        { "type": "category_card", "settings": { "title": "Atta", "subtitle": "Stone-ground flours" } },
         { "type": "category_card", "settings": { "title": "Oil", "subtitle": "Cold Pressed Oils" } },
         { "type": "category_card", "settings": { "title": "Rice", "subtitle": "Organic Rice" } },
         { "type": "category_card", "settings": { "title": "Jaggery", "subtitle": "Natural Sweeteners" } },

@@ -1,5 +1,5 @@
 /**
- * Shoppable videos carousel: scroll, video visibility, AJAX cart.
+ * Video carousel: scroll, drag, and viewport-aware playback.
  */
 
 const SELECTORS = {
@@ -18,11 +18,11 @@ const SELECTORS = {
 
 const parseConfig = (section) => {
   const node = section.querySelector(SELECTORS.config);
-  if (!node) return { cartAddUrl: '/cart/add.js', cartUrl: '/cart' };
+  if (!node) return { cartAddUrl: '/cart/add.js' };
   try {
     return JSON.parse(node.textContent);
   } catch {
-    return { cartAddUrl: '/cart/add.js', cartUrl: '/cart' };
+    return { cartAddUrl: '/cart/add.js' };
   }
 };
 
@@ -37,7 +37,6 @@ const updateHeaderCartCount = async () => {
     document.querySelectorAll('.kb-header__action--cart').forEach((link) => {
       link.setAttribute('aria-label', `Cart, ${cart.item_count} items`);
     });
-    document.dispatchEvent(new CustomEvent('greenbasket:cart-updated', { detail: { cart } }));
   } catch {
     /* ignore */
   }

@@ -1,6 +1,52 @@
 {{ 'section-shoppable-videos.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'section-shoppable-videos.js' | asset_url }}" type="module"></script>
 
+{% liquid
+  assign demo_video_url = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
+  assign csv_lines = section.settings.bulk_video_csv | newline_to_br | split: '<br />'
+  assign slides_rendered = 0
+
+  if section.settings.show_demo_video
+    assign slides_rendered = slides_rendered | plus: 1
+  endif
+
+  for block in section.blocks
+    if block.type != 'video'
+      continue
+    endif
+
+    if block.settings.video != blank or block.settings.video_url != blank
+      assign slides_rendered = slides_rendered | plus: 1
+    elsif request.design_mode
+      assign slides_rendered = slides_rendered | plus: 1
+    endif
+  endfor
+
+  for line in csv_lines
+    assign line_stripped = line | strip
+    if line_stripped == blank
+      continue
+    endif
+
+    assign first_char = line_stripped | slice: 0, 1
+    if first_char == '#'
+      continue
+    endif
+
+    assign parts = line_stripped | split: ','
+    assign csv_video_url = ''
+    if parts[0] contains 'http'
+      assign csv_video_url = parts[0] | strip
+    elsif parts.size > 1
+      assign csv_video_url = parts[1] | strip
+    endif
+
+    if csv_video_url contains 'http'
+      assign slides_rendered = slides_rendered | plus: 1
+    endif
+  endfor
+%}
+
 <section
   id="ShoppableVideos-{{ section.id }}"
   class="shoppable-videos"
@@ -15,7 +61,26 @@
   "
   aria-labelledby="ShoppableVideosHeading-{{ section.id }}"
 >
+  <div class="shoppable-videos__bg-illustration" aria-hidden="true">
+    <svg class="shoppable-videos__trees-top" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0 60C120 40 240 70 360 45C480 20 600 65 720 35C840 5 960 55 1080 30C1200 5 1320 45 1440 25V0H0V60Z" fill="#356b36" opacity="0.12"/>
+      <circle cx="120" cy="25" r="18" fill="#356b36" opacity="0.1"/>
+      <circle cx="1320" cy="20" r="24" fill="#356b36" opacity="0.1"/>
+    </svg>
+  </div>
+
   <div class="shoppable-videos__inner">
+    {% if request.design_mode %}
+      <aside class="shoppable-videos__guide" aria-label="{{ 'sections.shoppable_videos.guide_title' | t }}">
+        <p class="shoppable-videos__guide-title">{{ 'sections.shoppable_videos.guide_title' | t }}</p>
+        <ol class="shoppable-videos__guide-list">
+          <li>{{ 'sections.shoppable_videos.guide_step_1' | t }}</li>
+          <li>{{ 'sections.shoppable_videos.guide_step_2' | t }}</li>
+          <li>{{ 'sections.shoppable_videos.guide_step_3' | t }}</li>
+        </ol>
+      </aside>
+    {% endif %}
+
     <header class="shoppable-videos__header">
       {% if section.settings.subheading != blank %}
         <p class="shoppable-videos__subheading">{{ section.settings.subheading }}</p>
@@ -26,22 +91,6 @@
         </h2>
       {% endif %}
     </header>
-
-    {% assign slides_rendered = 0 %}
-    {% for block in section.blocks %}
-      {% if block.type != 'video' %}
-        {% continue %}
-      {% endif %}
-      {% assign count_product = block.settings.product %}
-      {% if count_product == blank %}
-        {% if request.design_mode and collections.all.products.size > 0 %}
-          {% assign count_product = collections.all.products[forloop.index0] %}
-        {% endif %}
-      {% endif %}
-      {% if count_product != blank %}
-        {% assign slides_rendered = slides_rendered | plus: 1 %}
-      {% endif %}
-    {% endfor %}
 
     {% if slides_rendered > 0 %}
       <div class="shoppable-videos__carousel" data-carousel>
@@ -66,10 +115,39 @@
           aria-label="{{ 'sections.shoppable_videos.carousel_label' | t }}"
         >
           <ul class="shoppable-videos__track" data-carousel-track role="list">
+            {% if section.settings.show_demo_video and collections.all.products.size > 0 %}
+              {% assign demo_product = collections.all.products | first %}
+              {% render 'shoppable-video-card',
+                card_product: demo_product,
+                mp4_url: demo_video_url,
+                section: section,
+                is_demo: true,
+                video_label: 'Demo'
+              %}
+            {% elsif section.settings.show_demo_video %}
+              {% render 'shoppable-video-card',
+                mp4_url: demo_video_url,
+                section: section,
+                is_demo: true,
+                video_label: 'Demo'
+              %}
+            {% endif %}
+
             {% for block in section.blocks %}
               {% if block.type != 'video' %}
                 {% continue %}
               {% endif %}
+
+              {% assign has_video = false %}
+              {% if block.settings.video != blank or block.settings.video_url != blank %}
+                {% assign has_video = true %}
+              {% endif %}
+
+              {% unless has_video %}
+                {% unless request.design_mode %}
+                  {% continue %}
+                {% endunless %}
+              {% endunless %}
 
               {% assign block_product = block.settings.product %}
               {% assign card_product = block_product %}
@@ -80,187 +158,71 @@
                   {% assign is_block_preview = true %}
                 {% endif %}
               {% endif %}
-              {% if card_product == blank %}
+
+              {% assign block_label = block.settings.video_label %}
+              {% if block_label == blank and card_product != blank %}
+                {% assign block_label = card_product.title %}
+              {% endif %}
+              {% if block_label == blank %}
+                {% assign block_label = 'Video' %}
+              {% endif %}
+
+              {% render 'shoppable-video-card',
+                card_product: card_product,
+                hosted_video: block.settings.video,
+                mp4_url: block.settings.video_url,
+                poster: block.settings.poster,
+                video_label: block_label,
+                button_text: block.settings.button_text,
+                section: section,
+                is_preview: is_block_preview,
+                shopify_attributes: block.shopify_attributes
+              %}
+            {% endfor %}
+
+            {% for line in csv_lines %}
+              {% assign line_stripped = line | strip %}
+              {% if line_stripped == blank %}
                 {% continue %}
               {% endif %}
 
-              {% assign variant = card_product.selected_or_first_available_variant %}
-              {% assign on_sale = false %}
-              {% assign discount_percent = 0 %}
-              {% if variant.compare_at_price > variant.price %}
-                {% assign on_sale = true %}
-                {% assign saving = variant.compare_at_price | minus: variant.price %}
-                {% assign discount_percent = saving | times: 100 | divided_by: variant.compare_at_price %}
+              {% assign first_char = line_stripped | slice: 0, 1 %}
+              {% if first_char == '#' %}
+                {% continue %}
               {% endif %}
 
-              {% assign button_label = block.settings.button_text | default: section.settings.default_button_text %}
-              {% if button_label == blank %}
-                {% assign button_label = 'sections.shoppable_videos.add_to_cart' | t %}
+              {% assign parts = line_stripped | split: ',' %}
+              {% assign csv_video_url = '' %}
+              {% assign csv_label = 'Video' %}
+              {% assign csv_product = blank %}
+              {% if parts[0] contains 'http' %}
+                {% assign csv_video_url = parts[0] | strip %}
+                {% if parts[1] != blank %}
+                  {% unless parts[1] contains 'http' %}
+                    {% assign csv_label = parts[1] | strip %}
+                  {% endunless %}
+                {% endif %}
+              {% elsif parts.size > 1 and parts[1] contains 'http' %}
+                {% assign csv_handle = parts[0] | strip %}
+                {% assign csv_video_url = parts[1] | strip %}
+                {% assign csv_product = all_products[csv_handle] %}
+                {% if parts[2] != blank %}
+                  {% assign csv_label = parts[2] | strip %}
+                {% elsif csv_product != blank %}
+                  {% assign csv_label = csv_product.title %}
+                {% endif %}
               {% endif %}
 
-              <li
-                class="shoppable-videos__slide"
-                data-carousel-slide
-                {{ block.shopify_attributes }}
-              >
-                <article
-                  class="shoppable-videos__card{% if is_block_preview %} shoppable-videos__card--preview{% endif %}"
-                  data-shoppable-card
-                  data-variant-id="{{ variant.id }}"
-                >
-                  <div class="shoppable-videos__media-wrap">
-                    {% if block.settings.video != blank %}
-                      {{
-                        block.settings.video
-                        | video_tag:
-                          class: 'shoppable-videos__video',
-                          autoplay: false,
-                          loop: section.settings.loop,
-                          muted: true,
-                          playsinline: true,
-                          preload: 'none',
-                          controls: false,
-                          image_size: '720x'
-                      }}
-                    {% elsif block.settings.video_url != blank %}
-                      <video
-                        class="shoppable-videos__video"
-                        muted
-                        playsinline
-                        preload="none"
-                        {% if section.settings.loop %}loop{% endif %}
-                        poster="{% if block.settings.poster != blank %}{{ block.settings.poster | image_url: width: 720 }}{% elsif card_product.featured_image %}{{ card_product.featured_image | image_url: width: 720 }}{% endif %}"
-                      >
-                        <source src="{{ block.settings.video_url }}" type="video/mp4">
-                      </video>
-                    {% else %}
-                      <div class="shoppable-videos__video shoppable-videos__video--placeholder">
-                        {% if card_product.featured_image != blank %}
-                          {{
-                            card_product.featured_image
-                            | image_url: width: 720
-                            | image_tag:
-                              class: 'shoppable-videos__poster',
-                              loading: 'lazy',
-                              widths: '360, 480, 720',
-                              alt: card_product.title
-                          }}
-                        {% else %}
-                          {{ 'product-1' | placeholder_svg_tag: 'shoppable-videos__poster' }}
-                        {% endif %}
-                      </div>
-                    {% endif %}
+              {% unless csv_video_url contains 'http' %}
+                {% continue %}
+              {% endunless %}
 
-                    <button
-                      type="button"
-                      class="shoppable-videos__play"
-                      data-video-play
-                      aria-label="{{ 'sections.shoppable_videos.play_video' | t: title: card_product.title }}"
-                    >
-                      <span class="shoppable-videos__play-icon" aria-hidden="true">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" focusable="false">
-                          <path d="M8 5v14l11-7z"/>
-                        </svg>
-                      </span>
-                    </button>
-
-                    <div class="shoppable-videos__product-panel">
-                      <div class="shoppable-videos__product-card">
-                        {% if block.settings.custom_badge != blank %}
-                          <span class="shoppable-videos__badge">{{ block.settings.custom_badge }}</span>
-                        {% elsif on_sale and block.settings.show_compare_price %}
-                          <span class="shoppable-videos__badge">
-                            {{ 'sections.shoppable_videos.save_percent' | t: percent: discount_percent }}
-                          </span>
-                        {% endif %}
-
-                        <a
-                          class="shoppable-videos__product-link"
-                          href="{{ card_product.url }}"
-                          aria-label="{{ 'sections.shoppable_videos.view_product' | t: title: card_product.title }}"
-                        >
-                          {% if block.settings.show_product_image and card_product.featured_image != blank %}
-                            {{
-                              card_product.featured_image
-                              | image_url: width: 120
-                              | image_tag:
-                                class: 'shoppable-videos__product-thumb',
-                                loading: 'lazy',
-                                widths: '60, 80, 120',
-                                alt: ''
-                            }}
-                          {% endif %}
-
-                          <span class="shoppable-videos__product-copy">
-                            <span class="shoppable-videos__product-title">{{ card_product.title }}</span>
-                            {% if block.settings.show_price %}
-                              <span class="shoppable-videos__product-price-row">
-                                <span class="shoppable-videos__product-price">{{ variant.price | money }}</span>
-                                {% if on_sale and block.settings.show_compare_price %}
-                                  <s class="shoppable-videos__product-compare">{{ variant.compare_at_price | money }}</s>
-                                {% endif %}
-                              </span>
-                            {% endif %}
-                            <span class="shoppable-videos__stock">
-                              {% if card_product.available %}
-                                {{ 'sections.shoppable_videos.in_stock' | t }}
-                              {% else %}
-                                {{ 'sections.shoppable_videos.sold_out' | t }}
-                              {% endif %}
-                            </span>
-                          </span>
-                        </a>
-
-                        <a
-                          class="shoppable-videos__external"
-                          href="{{ card_product.url }}"
-                          aria-label="{{ 'sections.shoppable_videos.open_product' | t: title: card_product.title }}"
-                        >
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                            <path d="M15 3h6v6"/>
-                            <path d="M10 14 21 3"/>
-                          </svg>
-                        </a>
-                      </div>
-
-                      <div class="shoppable-videos__actions">
-                        {% if is_block_preview %}
-                          <p class="shoppable-videos__preview-hint">{{ 'sections.shoppable_videos.select_product_hint' | t }}</p>
-                        {% endif %}
-                        <button
-                          type="button"
-                          class="shoppable-videos__add"
-                          data-add-to-cart
-                          data-variant-id="{{ variant.id }}"
-                          {% if is_block_preview %}disabled{% elsif card_product.available == false %}disabled{% endif %}
-                        >
-                          <span class="shoppable-videos__add-label" data-add-label>
-                            {% if is_block_preview %}
-                              {{ button_label }}
-                            {% elsif card_product.available %}
-                              {{ button_label }}
-                            {% else %}
-                              {{ 'sections.shoppable_videos.sold_out' | t }}
-                            {% endif %}
-                          </span>
-                          <span class="shoppable-videos__add-spinner" data-add-spinner hidden aria-hidden="true"></span>
-                          <span class="shoppable-videos__add-success" data-add-success hidden aria-hidden="true">
-                            {% render 'icon', name: 'star', size: 18 %}
-                          </span>
-                        </button>
-                        <a
-                          class="shoppable-videos__cart-icon"
-                          href="{{ routes.cart_url }}"
-                          aria-label="{{ 'sections.shoppable_videos.view_cart' | t }}"
-                        >
-                          {% render 'icon', name: 'cart', size: 22 %}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </li>
+              {% render 'shoppable-video-card',
+                card_product: csv_product,
+                mp4_url: csv_video_url,
+                video_label: csv_label,
+                section: section
+              %}
             {% endfor %}
           </ul>
         </div>
@@ -276,7 +238,7 @@
           </button>
         {% endif %}
       </div>
-    {% elsif section.blocks.size > 0 %}
+    {% elsif section.blocks.size > 0 or section.settings.bulk_video_csv != blank %}
       <p class="shoppable-videos__empty">{{ 'sections.shoppable_videos.configure_blocks' | t }}</p>
     {% else %}
       <p class="shoppable-videos__empty">{{ 'sections.shoppable_videos.empty' | t }}</p>
@@ -285,8 +247,7 @@
 
   <script type="application/json" data-shoppable-config>
     {
-      "cartAddUrl": {{ routes.cart_add_url | append: '.js' | json }},
-      "cartUrl": {{ routes.cart_url | json }}
+      "cartAddUrl": {{ routes.cart_add_url | append: '.js' | json }}
     }
   </script>
 </section>
@@ -299,6 +260,10 @@
   "max_blocks": 20,
   "settings": [
     {
+      "type": "paragraph",
+      "content": "t:sections.shoppable_videos.settings.intro.content"
+    },
+    {
       "type": "text",
       "id": "heading",
       "label": "t:sections.shoppable_videos.settings.heading.label",
@@ -309,6 +274,20 @@
       "id": "subheading",
       "label": "t:sections.shoppable_videos.settings.subheading.label",
       "default": "Shop by videos"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_demo_video",
+      "label": "t:sections.shoppable_videos.settings.show_demo_video.label",
+      "info": "t:sections.shoppable_videos.settings.show_demo_video.info",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "bulk_video_csv",
+      "label": "t:sections.shoppable_videos.settings.bulk_video_csv.label",
+      "info": "t:sections.shoppable_videos.settings.bulk_video_csv.info",
+      "placeholder": "t:sections.shoppable_videos.settings.bulk_video_csv.placeholder"
     },
     {
       "type": "color",
@@ -359,6 +338,11 @@
       "name": "t:sections.shoppable_videos.blocks.video.name",
       "settings": [
         {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.shoppable_videos.blocks.video.settings.product.label"
+        },
+        {
           "type": "video",
           "id": "video",
           "label": "t:sections.shoppable_videos.blocks.video.settings.video.label"
@@ -375,37 +359,15 @@
           "label": "t:sections.shoppable_videos.blocks.video.settings.poster.label"
         },
         {
-          "type": "product",
-          "id": "product",
-          "label": "t:sections.shoppable_videos.blocks.video.settings.product.label"
-        },
-        {
-          "type": "text",
-          "id": "custom_badge",
-          "label": "t:sections.shoppable_videos.blocks.video.settings.custom_badge.label"
-        },
-        {
           "type": "text",
           "id": "button_text",
           "label": "t:sections.shoppable_videos.blocks.video.settings.button_text.label"
         },
         {
-          "type": "checkbox",
-          "id": "show_price",
-          "label": "t:sections.shoppable_videos.blocks.video.settings.show_price.label",
-          "default": true
-        },
-        {
-          "type": "checkbox",
-          "id": "show_compare_price",
-          "label": "t:sections.shoppable_videos.blocks.video.settings.show_compare_price.label",
-          "default": true
-        },
-        {
-          "type": "checkbox",
-          "id": "show_product_image",
-          "label": "t:sections.shoppable_videos.blocks.video.settings.show_product_image.label",
-          "default": true
+          "type": "text",
+          "id": "video_label",
+          "label": "t:sections.shoppable_videos.blocks.video.settings.video_label.label",
+          "info": "t:sections.shoppable_videos.blocks.video.settings.video_label.info"
         }
       ]
     }
@@ -413,10 +375,10 @@
   "presets": [
     {
       "name": "t:sections.shoppable_videos.name",
+      "settings": {
+        "show_demo_video": true
+      },
       "blocks": [
-        { "type": "video" },
-        { "type": "video" },
-        { "type": "video" },
         { "type": "video" }
       ]
     }

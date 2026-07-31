@@ -36,7 +36,7 @@
       {% endfor %}
     {% else %}
       {% for collection in collections limit: section.settings.maximum %}
-        {% unless collection.handle == 'frontpage' %}
+        {% unless collection.handle == 'all' %}
           {% assign rendered_collections = rendered_collections | plus: 1 %}
           <a class="categories__card" href="{{ collection.url }}">
             {% liquid

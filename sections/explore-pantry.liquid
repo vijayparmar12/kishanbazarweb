@@ -36,7 +36,7 @@
 
       {% if section.settings.show_all_collections %}
         {% for collection in collections limit: section.settings.collection_count %}
-          {% unless collection.handle == 'frontpage' %}
+          {% unless collection.handle == 'all' %}
             {% assign rendered_collections = rendered_collections | plus: 1 %}
             <li>
               <a class="explore-pantry__card" href="{{ collection.url }}" aria-label="{{ collection.title | escape }}">

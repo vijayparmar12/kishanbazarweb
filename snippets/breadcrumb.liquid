@@ -7,6 +7,6 @@
   <ol>
     <li><a href="{{ routes.root_url }}">Home</a></li>
     <li><a href="{{ routes.collections_url }}">Collections</a></li>
-    <li aria-current="page">{{ collection.title }}</li>
+    <li aria-current="page">{% if current_tags %}{{ current_tags | join: ', ' }}{% else %}{{ collection.title }}{% endif %}</li>
   </ol>
 </nav>

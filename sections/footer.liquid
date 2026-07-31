@@ -3,20 +3,96 @@
 
 <footer class="site-footer" data-site-footer>
   <div class="site-footer__inner">
-    <div class="site-footer__brand">
-      <a href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">{% if section.settings.logo != blank %}{{ section.settings.logo | image_url: width: 300 | image_tag: class: 'site-footer__logo', alt: shop.name, loading: 'lazy', widths: '120, 180, 240, 300' }}{% else %}
-        <img class="site-footer__logo" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" loading="lazy">{% endif %}</a>
-      {% if section.settings.about != blank %}<div class="site-footer__about rte">{{ section.settings.about }}</div>{% endif %}
-      {% if section.settings.show_social %}<div class="site-footer__social" aria-label="Social media links">{% if section.settings.facebook_url != blank %}<a href="{{ section.settings.facebook_url }}" aria-label="Facebook">f</a>{% endif %}{% if section.settings.instagram_url != blank %}<a href="{{ section.settings.instagram_url }}" aria-label="Instagram">◎</a>{% endif %}</div>{% endif %}
+    <!-- Column 1: Brand Info -->
+    <div class="site-footer__brand-col">
+      <a href="{{ routes.root_url }}" class="site-footer__logo-link" aria-label="{{ shop.name | escape }} home">
+        {% if section.settings.logo != blank %}
+          {{ section.settings.logo | image_url: width: 300 | image_tag: class: 'site-footer__logo', alt: shop.name, loading: 'lazy' }}
+        {% else %}
+          <img class="site-footer__logo" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" loading="lazy">
+        {% endif %}
+      </a>
+      <p class="site-footer__brand-text">
+        {{ section.settings.about_text | default: 'Kishan Bazar, Welcome to our farm-fresh organic kitchen. We build wholesome pantry staples and marketing experiences that help brands stand out and scale confidently.' }}
+      </p>
+      <div class="site-footer__social-row">
+        <a href="{{ section.settings.x_url | default: '#' }}" class="social-btn" aria-label="X (Twitter)">X</a>
+        <a href="{{ section.settings.facebook_url | default: '#' }}" class="social-btn" aria-label="Facebook">f</a>
+        <a href="{{ section.settings.linkedin_url | default: '#' }}" class="social-btn" aria-label="LinkedIn">in</a>
+        <a href="{{ section.settings.instagram_url | default: '#' }}" class="social-btn" aria-label="Instagram">📷</a>
+      </div>
     </div>
-    {% if section.settings.quick_menu != blank %}<div class="site-footer__column"><h2>{{ section.settings.quick_menu_title }}</h2><ul role="list">{% for link in section.settings.quick_menu.links %}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}</ul></div>{% endif %}
-    {% if section.settings.policy_menu != blank %}<div class="site-footer__column"><h2>{{ section.settings.policy_menu_title }}</h2><ul role="list">{% for link in section.settings.policy_menu.links %}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}</ul></div>{% endif %}
-    <address class="site-footer__column site-footer__contact"><h2>{{ section.settings.contact_title }}</h2>{% if section.settings.address != blank %}<p>{{ section.settings.address | newline_to_br }}</p>{% endif %}{% if section.settings.phone != blank %}<p><a href="tel:{{ section.settings.phone | remove: ' ' }}">{{ section.settings.phone }}</a></p>{% endif %}{% if section.settings.email != blank %}<p><a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a></p>{% endif %}{% if section.settings.hours != blank %}<p>{{ section.settings.hours }}</p>{% endif %}</address>
-    {% if section.settings.show_newsletter %}<div class="site-footer__newsletter"><h2>{{ section.settings.newsletter_title }}</h2><p>{{ section.settings.newsletter_text }}</p>{% form 'customer', class: 'site-footer__newsletter-form' %}<input type="hidden" name="contact[tags]" value="newsletter"><label class="visually-hidden" for="footer-email-{{ section.id }}">Email address</label><input id="footer-email-{{ section.id }}" type="email" name="contact[email]" placeholder="Email address" autocorrect="off" autocapitalize="off" required><button type="submit">Subscribe</button>{% if form.posted_successfully? %}<p class="site-footer__success" role="status">Thank you for subscribing.</p>{% endif %}{% endform %}</div>{% endif %}
+
+    <!-- Column 2: Explore -->
+    <div class="site-footer__col" data-footer-col>
+      <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
+        <span>Explore</span>
+        <span class="accordion-icon" aria-hidden="true">+</span>
+      </button>
+      <ul class="site-footer__list" role="list">
+        <li><a href="{{ routes.root_url }}">About</a></li>
+        <li><a href="{{ routes.collections_url }}">Services</a></li>
+        <li><a href="{{ routes.collections_url }}">Portfolios</a></li>
+        <li><a href="{{ routes.root_url }}#contact">Contact</a></li>
+        <li><a href="{{ routes.collections_url }}">Pricing</a></li>
+        <li><a href="{{ routes.root_url }}">FAQ</a></li>
+        <li><a href="{{ routes.root_url }}">Team Members</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 3: Policy -->
+    <div class="site-footer__col" data-footer-col>
+      <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
+        <span>Policy</span>
+        <span class="accordion-icon" aria-hidden="true">+</span>
+      </button>
+      <ul class="site-footer__list" role="list">
+        <li><a href="/policies/terms-of-service">Terms of Use</a></li>
+        <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
+        <li><a href="/policies/refund-policy">Refund Policy</a></li>
+        <li><a href="/policies/shipping-policy">Shipping Policy</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 4: Contact Us -->
+    <div class="site-footer__col site-footer__contact-col" data-footer-col>
+      <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
+        <span>Contact Us</span>
+        <span class="accordion-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="site-footer__contact-boxes">
+        <a href="tel:+917777928773" class="contact-box">
+          <span class="contact-box__icon">📞</span>
+          <span class="contact-box__text">+91 77779 28773</span>
+        </a>
+        <a href="mailto:support@kishanbazar.com" class="contact-box">
+          <span class="contact-box__icon">✉️</span>
+          <span class="contact-box__text">support@kishanbazar.com</span>
+        </a>
+      </div>
+    </div>
   </div>
-  <div class="site-footer__bottom"><p>{{ section.settings.copyright | default: shop.name }} &copy; {{ 'now' | date: '%Y' }}</p>{% if section.settings.show_payments %}<div class="site-footer__payments" aria-label="Accepted payment methods">{% for type in shop.enabled_payment_types %}{{ type | payment_type_svg_tag }}{% endfor %}</div>{% endif %}<button class="site-footer__top" type="button" aria-label="Back to top" data-back-to-top>{% render 'icon', name: 'arrow' %}<span>Back to top</span></button></div>
+
+  <div class="site-footer__bottom">
+    <p class="site-footer__copyright">Copyright &copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</p>
+  </div>
 </footer>
 
 {% schema %}
-{"name":"Footer","tag":"section","class":"section-footer","settings":[{"type":"image_picker","id":"logo","label":"Footer logo"},{"type":"richtext","id":"about","label":"About store","default":"<p>Wholesome, thoughtfully sourced food for your everyday table.</p>"},{"type":"link_list","id":"quick_menu","label":"Quick links menu"},{"type":"text","id":"quick_menu_title","label":"Quick menu heading","default":"Quick links"},{"type":"link_list","id":"policy_menu","label":"Policy menu"},{"type":"text","id":"policy_menu_title","label":"Policy menu heading","default":"Customer care"},{"type":"text","id":"contact_title","label":"Contact heading","default":"Get in touch"},{"type":"checkbox","id":"show_newsletter","label":"Show newsletter","default":true},{"type":"text","id":"newsletter_title","label":"Newsletter heading","default":"Stay in the loop"},{"type":"text","id":"newsletter_text","label":"Newsletter text","default":"Recipes, seasonal picks, and offers—sent occasionally."},{"type":"checkbox","id":"show_social","label":"Show social links","default":true},{"type":"url","id":"facebook_url","label":"Facebook URL"},{"type":"url","id":"instagram_url","label":"Instagram URL"},{"type":"checkbox","id":"show_payments","label":"Show payment icons","default":true},{"type":"textarea","id":"address","label":"Address"},{"type":"text","id":"phone","label":"Phone"},{"type":"text","id":"email","label":"Email"},{"type":"text","id":"hours","label":"Working hours"},{"type":"text","id":"copyright","label":"Copyright text"}],"presets":[{"name":"Footer"}]}
+{
+  "name": "Footer",
+  "tag": "section",
+  "class": "section-footer",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Footer logo" },
+    { "type": "textarea", "id": "about_text", "label": "About description", "default": "Kishan Bazar, Welcome to our farm-fresh organic kitchen. We build wholesome pantry staples and marketing experiences that help brands stand out and scale confidently." },
+    { "type": "url", "id": "x_url", "label": "X (Twitter) URL" },
+    { "type": "url", "id": "facebook_url", "label": "Facebook URL" },
+    { "type": "url", "id": "linkedin_url", "label": "LinkedIn URL" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "text", "id": "phone", "label": "Phone Number", "default": "+91 77779 28773" },
+    { "type": "text", "id": "email", "label": "Email Address", "default": "support@kishanbazar.com" }
+  ],
+  "presets": [{ "name": "Footer" }]
+}
 {% endschema %}

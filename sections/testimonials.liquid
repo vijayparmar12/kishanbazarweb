@@ -1,3 +1,73 @@
-<link rel="stylesheet" href="{{ 'section-testimonials.css' | asset_url }}"><script src="{{ 'section-testimonials.js' | asset_url }}" defer="defer"></script>
-<section class="home-section testimonials" data-testimonials><div class="home-section__head home-section__head--center"><p class="home-section__eyebrow">Community notes</p><h2>{{ section.settings.heading }}</h2></div><div class="testimonials__grid">{% for block in section.blocks %}<figure class="testimonials__card" {{ block.shopify_attributes }}><div class="testimonials__stars" aria-label="{{ block.settings.rating }} out of 5 stars">{% for i in (1..5) %}{% render 'icon', name: 'star', size: 16 %}{% endfor %}</div><blockquote>{{ block.settings.review }}</blockquote><figcaption>{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 96 | image_tag: loading: 'lazy', widths: '48, 96' }}{% else %}<img src="{{ 'testimonial-1.jpg.png' | asset_url }}" alt="{{ block.settings.name | escape }}" width="96" height="96" loading="lazy">{% endif %}<span><strong>{{ block.settings.name }}</strong><small>Verified customer</small></span></figcaption></figure>{% endfor %}</div></section>
-{% schema %}{"name":"Testimonials","tag":"section","class":"section-testimonials","settings":[{"type":"text","id":"heading","label":"Heading","default":"Kind words from your table"}],"blocks":[{"type":"testimonial","name":"Testimonial","settings":[{"type":"text","id":"name","label":"Customer name","default":"A happy customer"},{"type":"image_picker","id":"image","label":"Customer image"},{"type":"range","id":"rating","label":"Rating","min":1,"max":5,"step":1,"default":5},{"type":"textarea","id":"review","label":"Review","default":"Beautiful products, carefully packed, and so good to cook with."}]}],"max_blocks":8,"presets":[{"name":"Testimonials","blocks":[{"type":"testimonial"},{"type":"testimonial"},{"type":"testimonial"}]}]}{% endschema %}
+<link rel="stylesheet" href="{{ 'section-testimonials.css' | asset_url }}">
+<script src="{{ 'section-testimonials.js' | asset_url }}" defer="defer"></script>
+
+<section class="home-section testimonials-section" data-testimonials>
+  <div class="testimonials__header">
+    <h2 class="testimonials__heading">{{ section.settings.heading }}</h2>
+  </div>
+
+  <div class="testimonials__carousel-container" data-testimonials-carousel>
+    <div class="testimonials__track" data-testimonials-track>
+      {% for block in section.blocks %}
+        <figure class="testimonials__card" {{ block.shopify_attributes }}>
+          <div class="testimonials__card-avatar">
+            <span class="testimonials__avatar-text">{{ block.settings.name | slice: 0, 1 | upcase }}</span>
+          </div>
+          <blockquote class="testimonials__quote">"{{ block.settings.review }}"</blockquote>
+          {% if block.settings.image != blank %}
+            <div class="testimonials__card-image">
+              {{ block.settings.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: 'Customer review photo' }}
+            </div>
+          {% endif %}
+          <div class="testimonials__rating" aria-label="{{ block.settings.rating }} out of 5 stars">
+            {% for i in (1..block.settings.rating) %}&#9733;{% endfor %}
+          </div>
+          <figcaption class="testimonials__author">
+            <strong class="testimonials__author-name">{{ block.settings.name }}</strong>
+            <span class="testimonials__author-location">- {{ block.settings.location | default: 'Verified Customer' }}</span>
+          </figcaption>
+        </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials Carousel",
+  "tag": "section",
+  "class": "section-testimonials",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Carousel Heading", "default": "FEEDBACK" }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Customer name", "default": "Pramukh" },
+        { "type": "text", "id": "location", "label": "Location", "default": "Surat" },
+        { "type": "image_picker", "id": "image", "label": "Review Photo" },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "review", "label": "Review", "default": "The team understands requirements quickly and delivers with consistent quality. We engaged again for another project." }
+      ]
+    }
+  ],
+  "max_blocks": 16,
+  "presets": [
+    {
+      "name": "Testimonials Carousel",
+      "blocks": [
+        { "type": "testimonial", "settings": { "name": "Pramukh", "location": "Surat", "rating": 5, "review": "The team understands requirements quickly and delivers with consistent quality. Very satisfied." } },
+        { "type": "testimonial", "settings": { "name": "Sophie", "location": "Canada", "rating": 4, "review": "Strong delivery across multiple products and timelines. Very professional and reliable to order from." } },
+        { "type": "testimonial", "settings": { "name": "Pavitra", "location": "Surat", "rating": 5, "review": "Everything was delivered on time and fresh. Great quality and smooth ordering experience throughout." } },
+        { "type": "testimonial", "settings": { "name": "Aarav Sharma", "location": "Delhi", "rating": 5, "review": "The Khapli Atta is so soft and easy to digest! Will definitely be reordering every month." } },
+        { "type": "testimonial", "settings": { "name": "Rohan Mehta", "location": "Mumbai", "rating": 5, "review": "Best Gir Cow Bilona Ghee I have tried in India. Natural aroma and golden granular texture!" } },
+        { "type": "testimonial", "settings": { "name": "Ananya Patel", "location": "Ahmedabad", "rating": 5, "review": "100% authentic wood-pressed cold extracted oils. Excellent packing and fast delivery." } },
+        { "type": "testimonial", "settings": { "name": "Vikram Rao", "location": "Bengaluru", "rating": 5, "review": "Clean organic ingredients with zero additives. Exceptional customer service too!" } },
+        { "type": "testimonial", "settings": { "name": "Meera Iyer", "location": "Chennai", "rating": 5, "review": "Pure farm-fresh quality. Loved the natural taste and packaging details." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

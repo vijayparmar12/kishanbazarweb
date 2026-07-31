@@ -1,0 +1,137 @@
+{% doc %}
+  Renders a vertical video card with optional add-to-cart actions.
+
+  @param {object} section - Parent section for shared settings
+  @param {product} [card_product] - Product used for add to cart
+  @param {object} [hosted_video] - Shopify hosted video object
+  @param {string} [mp4_url] - External MP4 URL
+  @param {image} [poster] - Optional video poster image
+  @param {string} [video_label] - Accessible name for the video
+  @param {string} [button_text] - Optional add-to-cart label override
+  @param {boolean} [is_preview] - Theme editor preview without saved product
+  @param {boolean} [is_demo] - Built-in demo card
+  @param {string} [shopify_attributes] - Block attributes from theme editor
+
+  @example
+  {% render 'shoppable-video-card', card_product: product, mp4_url: url, section: section %}
+{% enddoc %}
+
+{% liquid
+  assign is_preview = is_preview | default: false
+  assign is_demo = is_demo | default: false
+
+  if video_label == blank
+    if card_product != blank
+      assign video_label = card_product.title
+    else
+      assign video_label = 'sections.shoppable_videos.video_item' | t
+    endif
+  endif
+
+  assign button_label = button_text | default: section.settings.default_button_text
+  if button_label == blank
+    assign button_label = 'sections.shoppable_videos.add_to_cart' | t
+  endif
+
+  assign variant = blank
+  if card_product != blank
+    assign variant = card_product.selected_or_first_available_variant
+  endif
+%}
+
+<li
+  class="shoppable-videos__slide"
+  data-carousel-slide
+  {{ shopify_attributes }}
+>
+  <article
+    class="shoppable-videos__card{% if is_preview %} shoppable-videos__card--preview{% endif %}{% if is_demo %} shoppable-videos__card--demo{% endif %}"
+    data-shoppable-card
+    {% if variant != blank %}data-variant-id="{{ variant.id }}"{% endif %}
+  >
+    <div class="shoppable-videos__media-wrap">
+      {% if hosted_video != blank %}
+        {{
+          hosted_video
+          | video_tag:
+            class: 'shoppable-videos__video',
+            autoplay: false,
+            loop: section.settings.loop,
+            muted: true,
+            playsinline: true,
+            preload: 'none',
+            controls: false,
+            image_size: '720x'
+        }}
+      {% elsif mp4_url != blank %}
+        <video
+          class="shoppable-videos__video"
+          muted
+          playsinline
+          preload="none"
+          {% if section.settings.loop %}loop{% endif %}
+          {% if poster != blank %}poster="{{ poster | image_url: width: 720 }}"{% elsif card_product.featured_image %}poster="{{ card_product.featured_image | image_url: width: 720 }}"{% endif %}
+        >
+          <source src="{{ mp4_url }}" type="video/mp4">
+        </video>
+      {% else %}
+        <div class="shoppable-videos__video shoppable-videos__video--placeholder">
+          {{ 'product-1' | placeholder_svg_tag: 'shoppable-videos__poster' }}
+        </div>
+      {% endif %}
+
+      {% if is_demo %}
+        <span class="shoppable-videos__demo-label">{{ 'sections.shoppable_videos.demo_badge' | t }}</span>
+      {% endif %}
+
+      <button
+        type="button"
+        class="shoppable-videos__play"
+        data-video-play
+        aria-label="{{ 'sections.shoppable_videos.play_video' | t: title: video_label }}"
+      >
+        <span class="shoppable-videos__play-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" focusable="false">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </span>
+      </button>
+
+      {% if card_product != blank and variant != blank %}
+        <div class="shoppable-videos__actions-wrap">
+          {% if is_preview %}
+            <p class="shoppable-videos__preview-hint">{{ 'sections.shoppable_videos.select_product_hint' | t }}</p>
+          {% endif %}
+          <div class="shoppable-videos__actions">
+            <button
+              type="button"
+              class="shoppable-videos__add"
+              data-add-to-cart
+              data-variant-id="{{ variant.id }}"
+              {% if is_preview or is_demo %}disabled{% elsif card_product.available == false %}disabled{% endif %}
+            >
+              <span class="shoppable-videos__add-label" data-add-label>
+                {% if card_product.available or is_preview or is_demo %}
+                  {{ button_label }}
+                {% else %}
+                  {{ 'sections.shoppable_videos.sold_out' | t }}
+                {% endif %}
+              </span>
+              <span class="shoppable-videos__add-spinner" data-add-spinner hidden aria-hidden="true"></span>
+              <span class="shoppable-videos__add-success" data-add-success hidden aria-hidden="true">
+                {% render 'icon', name: 'star', size: 18 %}
+              </span>
+            </button>
+            <a
+              class="shoppable-videos__cart-icon"
+              href="{{ routes.cart_url }}"
+              aria-label="{{ 'sections.shoppable_videos.view_cart' | t }}"
+            >
+              {% render 'icon', name: 'cart', size: 22 %}
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </article>
+</li>

@@ -6,12 +6,40 @@
   {% assign displayed_collection = collections['all'] %}
 {% endif %}
 
-<section class="home-section best-sellers" data-best-sellers>
-  <div class="home-section__head">
-    <div>
-      <p class="home-section__eyebrow">{{ section.settings.eyebrow }}</p>
+<section class="home-section best-sellers{% if section.settings.show_tabs %} best-sellers--with-tabs{% endif %}" data-best-sellers>
+  <div class="best-sellers__illustration-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 180" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0 120C240 70 480 150 720 100C960 50 1200 130 1440 90V180H0V120Z" fill="rgba(35, 66, 31, 0.03)"/>
+      <path d="M0 140C360 90 720 160 1080 120C1260 100 1380 130 1440 140V180H0V140Z" fill="rgba(35, 66, 31, 0.02)"/>
+    </svg>
+  </div>
+
+  <div class="home-section__head best-sellers__head">
+    <div class="best-sellers__title-wrap">
+      {% if section.settings.heading contains 'Top Picks' %}
+        <div class="best-sellers__decor" aria-hidden="true">
+          <svg class="best-sellers__sun" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="9" fill="#EAB308"/>
+            <path d="M20 3V7M20 33V37M3 20H7M33 20H37M8 8L11 11M29 29L32 32M8 32L11 29M29 11L32 8" stroke="#EAB308" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <svg class="best-sellers__birds" viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 12C6 6 12 6 16 12C20 6 26 6 30 12M34 8C37 4 41 4 44 8C47 4 51 4 54 8" stroke="#356b36" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      {% else %}
+        <div class="best-sellers__decor" aria-hidden="true">
+          <svg class="best-sellers__birds" viewBox="0 0 50 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 10C6 4 11 4 15 10C19 4 24 4 28 10M32 6C35 2 39 2 42 6C45 2 49 2 52 6" stroke="#5a2f08" stroke-width="1.8" stroke-linecap="round" opacity="0.7"/>
+          </svg>
+        </div>
+      {% endif %}
+
+      {% if section.settings.eyebrow != blank %}
+        <p class="home-section__eyebrow">{{ section.settings.eyebrow }}</p>
+      {% endif %}
       <h2>{{ section.settings.heading }}</h2>
     </div>
+
     {% if displayed_collection != blank %}
       <a class="best-sellers__link" href="{{ displayed_collection.url }}">
         {{ section.settings.cta_label }}
@@ -20,11 +48,32 @@
     {% endif %}
   </div>
 
+  {% if section.settings.show_tabs %}
+    <div class="best-sellers__tabs" role="tablist" aria-label="Filter products by category">
+      <button class="best-sellers__tab is-active" type="button" role="tab" data-best-sellers-tab data-category-filter="Ghee">Ghee</button>
+      <button class="best-sellers__tab" type="button" role="tab" data-best-sellers-tab data-category-filter="Oil">Oil</button>
+      <button class="best-sellers__tab" type="button" role="tab" data-best-sellers-tab data-category-filter="Atta">Atta</button>
+      <button class="best-sellers__tab" type="button" role="tab" data-best-sellers-tab data-category-filter="Newly Launched">Newly Launched</button>
+    </div>
+  {% endif %}
+
   {% if displayed_collection != blank %}
-    <div class="best-sellers__grid best-sellers__grid--{{ section.settings.columns }}">
-      {% for product in displayed_collection.products limit: section.settings.maximum %}
-        {% render 'product-card', product: product, show_vendor: section.settings.show_vendor, show_rating: section.settings.show_rating, show_badge: true, show_wishlist: true, show_quickview: false %}
-      {% endfor %}
+    <div class="best-sellers__carousel-wrapper">
+      <button type="button" class="best-sellers__arrow best-sellers__arrow--prev" data-best-sellers-prev aria-label="Previous products">
+        {% render 'icon', name: 'arrow', size: 18 %}
+      </button>
+
+      <div class="best-sellers__track" data-best-sellers-track>
+        {% for product in displayed_collection.products limit: section.settings.maximum %}
+          <div class="best-sellers__slide">
+            {% render 'product-card', product: product, show_vendor: section.settings.show_vendor, show_rating: section.settings.show_rating, show_badge: true, show_wishlist: true, show_quickview: false %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <button type="button" class="best-sellers__arrow best-sellers__arrow--next" data-best-sellers-next aria-label="Next products">
+        {% render 'icon', name: 'arrow', size: 18 %}
+      </button>
     </div>
   {% else %}
     <p class="home-section__empty">Products will appear here after they are published to the Online Store.</p>
@@ -41,17 +90,8 @@
     { "type": "text", "id": "heading", "label": "Heading", "default": "Most Loved" },
     { "type": "collection", "id": "collection", "label": "Collection" },
     { "type": "text", "id": "cta_label", "label": "Button label", "default": "Shop More" },
-    {
-      "type": "select",
-      "id": "columns",
-      "label": "Products per row",
-      "options": [
-        { "value": "3", "label": "3" },
-        { "value": "4", "label": "4" }
-      ],
-      "default": "4"
-    },
-    { "type": "range", "id": "maximum", "label": "Maximum products", "min": 2, "max": 12, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "show_tabs", "label": "Show category filter tabs (Ghee, Oil, Atta, etc.)", "default": false },
+    { "type": "range", "id": "maximum", "label": "Maximum products", "min": 2, "max": 16, "step": 1, "default": 8 },
     { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": false },
     { "type": "checkbox", "id": "show_rating", "label": "Show rating placeholder", "default": true }
   ],

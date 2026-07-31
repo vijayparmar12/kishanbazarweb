@@ -58,7 +58,14 @@
       "save_percent": "Save {{ percent }}%",
       "empty": "Add video blocks and link a product to each one.",
       "select_product_hint": "Select a product and video in this block's settings.",
-      "configure_blocks": "Open each video block below and choose a product plus a Shopify video (or MP4 URL)."
+      "video_item": "Video",
+      "configure_blocks": "Add a video and link a product for add to cart.",
+      "select_product_hint": "Select a product in this block to enable add to cart.",
+      "demo_badge": "Demo",
+      "guide_title": "How to add your videos",
+      "guide_step_1": "Turn off “Show demo video” when you add your own videos.",
+      "guide_step_2": "Pick a product + video in each block (needed for add to cart).",
+      "guide_step_3": "Upload MP4s in Shopify Admin → Content → Files, then paste the link."
     }
   },
   "search": {
