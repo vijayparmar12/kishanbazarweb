@@ -72,6 +72,75 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
-    },
+    }
+  },
+  "sections": {
+    "shoppable_videos": {
+      "name": "Shop by videos",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        },
+        "subheading": {
+          "label": "Subheading"
+        },
+        "background_color": {
+          "label": "Background color"
+        },
+        "heading_color": {
+          "label": "Heading color"
+        },
+        "default_button_text": {
+          "label": "Default button text"
+        },
+        "autoplay": {
+          "label": "Autoplay visible videos"
+        },
+        "loop": {
+          "label": "Loop videos"
+        },
+        "show_arrows": {
+          "label": "Show navigation arrows"
+        },
+        "infinite_loop": {
+          "label": "Infinite carousel loop"
+        }
+      },
+      "blocks": {
+        "video": {
+          "name": "Video",
+          "settings": {
+            "video": {
+              "label": "Shopify hosted video"
+            },
+            "video_url": {
+              "label": "MP4 URL",
+              "info": "Optional. Use when not uploading a Shopify video."
+            },
+            "poster": {
+              "label": "Poster image"
+            },
+            "product": {
+              "label": "Product"
+            },
+            "custom_badge": {
+              "label": "Custom badge"
+            },
+            "button_text": {
+              "label": "Button text"
+            },
+            "show_price": {
+              "label": "Show price"
+            },
+            "show_compare_price": {
+              "label": "Show compare-at price"
+            },
+            "show_product_image": {
+              "label": "Show product image"
+            }
+          }
+        }
+      }
+    }
   }
 }

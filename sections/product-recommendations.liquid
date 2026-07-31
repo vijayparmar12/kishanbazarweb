@@ -1,2 +1,22 @@
-<section class="product-recommendations">{% if recommendations.performed %}{% if recommendations.products_count > 0 %}<div class="home-section"><div class="home-section__head"><h2>You may also like</h2></div><div class="best-sellers__grid best-sellers__grid--4">{% for product in recommendations.products %}{% render 'product-card', product: product, show_vendor: true, show_badge: true, show_wishlist: true, show_quickview: true %}{% endfor %}</div></div>{% endif %}{% endif %}</section>
+<link rel="stylesheet" href="{{ 'section-best-sellers.css' | asset_url }}">
+
+<section class="product-recommendations">
+  {% if recommendations.performed %}
+    {% if recommendations.products_count > 0 %}
+      <div class="home-section product-recommendations__inner">
+        <div class="home-section__head">
+          <div>
+            <p class="home-section__eyebrow">More pantry picks</p>
+            <h2>You may also like</h2>
+          </div>
+        </div>
+        <div class="best-sellers__grid best-sellers__grid--4">
+          {% for product in recommendations.products %}
+            {% render 'product-card', product: product, show_vendor: true, show_badge: true, show_wishlist: true, show_quickview: false %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+</section>
 {% schema %}{"name":"Product recommendations","tag":"section","class":"section-product-recommendations","settings":[]}{% endschema %}

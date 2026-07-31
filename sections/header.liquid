@@ -36,10 +36,14 @@
     if atta_link == blank
       if collections.atta != blank
         assign atta_link = collections.atta.url
+      elsif collections.aata != blank
+        assign atta_link = collections.aata.url
       elsif collections['flour-atta'] != blank
         assign atta_link = collections['flour-atta'].url
+      elsif collections['flour-and-atta'] != blank
+        assign atta_link = collections['flour-and-atta'].url
       else
-        assign atta_link = routes.collections_url
+        assign atta_link = routes.search_url | append: '?q=atta'
       endif
     endif
   %}

@@ -42,6 +42,25 @@
     "password": "Password",
     "enter": "Enter"
   },
+  "sections": {
+    "shoppable_videos": {
+      "name": "Shop by videos",
+      "previous": "Previous videos",
+      "next": "Next videos",
+      "carousel_label": "Shoppable video carousel",
+      "play_video": "Play video for {{ title }}",
+      "view_product": "View {{ title }}",
+      "open_product": "Open product page for {{ title }}",
+      "view_cart": "View cart",
+      "add_to_cart": "Add to cart",
+      "in_stock": "In stock",
+      "sold_out": "Sold out",
+      "save_percent": "Save {{ percent }}%",
+      "empty": "Add video blocks and link a product to each one.",
+      "select_product_hint": "Select a product and video in this block's settings.",
+      "configure_blocks": "Open each video block below and choose a product plus a Shopify video (or MP4 URL)."
+    }
+  },
   "search": {
     "title": "Search",
     "placeholder": "Search articles, pages, or products",

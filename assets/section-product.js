@@ -13,6 +13,24 @@
       });
     });
 
+    const price = section.querySelector('[data-product-price]');
+    const compare = section.querySelector('[data-product-compare]');
+    const addButton = section.querySelector('[data-add-to-cart]');
+
+    section.querySelectorAll('[data-product-variant]').forEach((variant) => {
+      variant.addEventListener('change', () => {
+        if (!variant.checked) return;
+
+        if (price && variant.dataset.price) price.textContent = variant.dataset.price;
+        if (compare && variant.dataset.compare) compare.textContent = variant.dataset.compare;
+        if (addButton) {
+          const available = variant.dataset.available === 'true';
+          addButton.disabled = !available;
+          addButton.textContent = available ? 'Add to cart' : 'Sold out';
+        }
+      });
+    });
+
     section.querySelectorAll('[data-product-description]').forEach((description) => {
       const content = description.querySelector('[data-product-description-content]');
       const toggle = description.querySelector('[data-product-description-toggle]');

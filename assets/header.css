@@ -692,7 +692,7 @@ body.kb-header-menu-open {
     grid-area: toggle;
   }
 
-  .kb-header__logo {
+  /* .kb-header__logo {
     grid-area: logo;
     justify-self: center;
     min-width: 0;
@@ -701,8 +701,26 @@ body.kb-header-menu-open {
   .kb-header__logo-image {
     max-height: 42px;
     max-width: min(var(--kb-logo-width, 200px), 150px);
-  }
+  } */
+.kb-header__logo {
+  grid-area: logo;
+  position: absolute;
+  left: 65%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  pointer-events: auto;
+}
 
+.kb-header__logo-image {
+  display: block;
+  max-height: 42px;
+  max-width: min(var(--kb-logo-width, 200px), 150px);
+}
+
+.kb-header__main-grid {
+  position: relative;
+}
   .kb-header--scrolled .kb-header__logo-image {
     max-height: 38px;
   }

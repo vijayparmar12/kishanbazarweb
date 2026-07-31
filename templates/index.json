@@ -36,6 +36,60 @@
         "show_rating": true
       }
     },
+    "shoppable_videos": {
+      "type": "shoppable-videos",
+      "blocks": {
+        "video_1": {
+          "type": "video",
+          "settings": {
+            "show_price": true,
+            "show_compare_price": true,
+            "show_product_image": true
+          }
+        },
+        "video_2": {
+          "type": "video",
+          "settings": {
+            "show_price": true,
+            "show_compare_price": true,
+            "show_product_image": true
+          }
+        },
+        "video_3": {
+          "type": "video",
+          "settings": {
+            "show_price": true,
+            "show_compare_price": true,
+            "show_product_image": true
+          }
+        },
+        "video_4": {
+          "type": "video",
+          "settings": {
+            "show_price": true,
+            "show_compare_price": true,
+            "show_product_image": true
+          }
+        }
+      },
+      "block_order": [
+        "video_1",
+        "video_2",
+        "video_3",
+        "video_4"
+      ],
+      "settings": {
+        "heading": "It takes a village to make good food — come take a peek!",
+        "subheading": "Shop by videos",
+        "background_color": "#eef2e4",
+        "heading_color": "#2e5d34",
+        "default_button_text": "Add to cart",
+        "autoplay": true,
+        "loop": true,
+        "show_arrows": true,
+        "infinite_loop": false
+      }
+    },
     "video": {
       "type": "video-section",
       "settings": {
@@ -168,6 +222,7 @@
   "order": [
     "hero",
     "categories",
+    "shoppable_videos",
     "video",
     "features",
     "best_sellers",

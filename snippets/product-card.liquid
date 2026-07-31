@@ -95,18 +95,34 @@
 
     <p class="product-card__stock">{% if product.available %}In stock{% else %}Sold out{% endif %}</p>
 
-    <div class="product-card__variant-look">
-      {{ variant.title | default: 'Choose option' }}
-      <span aria-hidden="true">&#8964;</span>
-    </div>
-
     <div class="product-card__actions">
-      {% if show_quickview %}
-        <a class="product-card__quick-view" href="{{ product.url }}">View details</a>
-      {% endif %}
       {% if show_add_to_cart != false %}
-        <form method="post" action="{{ routes.cart_add_url }}">
-          <input type="hidden" name="id" value="{{ variant.id }}">
+        <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form">
+          {% if product.variants.size > 1 %}
+            <label class="visually-hidden" for="ProductCardVariant-{{ product.id }}">Choose size</label>
+            <select class="product-card__variant-select" id="ProductCardVariant-{{ product.id }}" name="id" data-product-card-variant-select>
+              {% for card_variant in product.variants %}
+                <option
+                  value="{{ card_variant.id }}"
+                  data-price="{{ card_variant.price | money | escape }}"
+                  data-compare="{{ card_variant.compare_at_price | money | escape }}"
+                  data-available="{% if card_variant.available %}true{% else %}false{% endif %}"
+                  {% if card_variant == variant %}selected{% endif %}
+                  {% unless card_variant.available %}disabled{% endunless %}
+                >
+                  {{ card_variant.title }}
+                </option>
+              {% endfor %}
+            </select>
+          {% else %}
+            <input type="hidden" name="id" value="{{ variant.id }}">
+            <div class="product-card__variant-look">
+              {{ variant.title | default: 'Choose option' }}
+            </div>
+          {% endif %}
+          {% if show_quickview %}
+            <a class="product-card__quick-view" href="{{ product.url }}">View details</a>
+          {% endif %}
           <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %}>
             {% if product.available %}Add to cart{% else %}Sold out{% endif %}
           </button>

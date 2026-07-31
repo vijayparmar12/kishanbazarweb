@@ -1,2 +1,50 @@
 /* Quantity selector component. */
-.quantity-selector { border: 1px solid var(--color-border); border-radius: var(--radius-sm); display: inline-grid; grid-template-columns: 2.5rem minmax(2.5rem, 3.5rem) 2.5rem; overflow: hidden; }.quantity-selector__button { background: var(--color-gray-50); border: 0; color: var(--color-text); cursor: pointer; display: grid; place-items: center; }.quantity-selector__button:hover { background: var(--color-gray-100); }.quantity-selector__button:focus-visible, .quantity-selector__input:focus-visible { outline: 3px solid var(--color-focus-ring); outline-offset: -3px; }.quantity-selector__input { border: 0; border-left: 1px solid var(--color-border); border-right: 1px solid var(--color-border); color: var(--color-text); font: inherit; min-width: 0; padding: var(--spacing-xs); text-align: center; }.quantity-selector__input::-webkit-inner-spin-button, .quantity-selector__input::-webkit-outer-spin-button { appearance: none; margin: 0; }
+.quantity-selector {
+  background: #fff;
+  border: 1px solid rgb(46 93 52 / 16%);
+  border-radius: 12px;
+  display: inline-grid;
+  grid-template-columns: 2.5rem minmax(2.5rem, 3.5rem) 2.5rem;
+  min-height: 44px;
+  overflow: hidden;
+}
+
+.quantity-selector__button {
+  background: #f3faed;
+  border: 0;
+  color: #2e5d34;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.quantity-selector__button:hover {
+  background: #e2f4d7;
+  color: #17451f;
+}
+
+.quantity-selector__button:focus-visible,
+.quantity-selector__input:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: -3px;
+}
+
+.quantity-selector__input {
+  background: #fff;
+  border: 0;
+  border-left: 1px solid rgb(46 93 52 / 14%);
+  border-right: 1px solid rgb(46 93 52 / 14%);
+  color: #132d14;
+  font: inherit;
+  font-weight: 800;
+  min-width: 0;
+  padding: var(--spacing-xs);
+  text-align: center;
+}
+
+.quantity-selector__input::-webkit-inner-spin-button,
+.quantity-selector__input::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}

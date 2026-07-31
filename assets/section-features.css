@@ -1,15 +1,16 @@
-.features {
+.home-section.features {
   background:
     linear-gradient(135deg, #eff7e9 0%, #fbfaf4 58%, #fff7e3 100%);
   border-block: 1px solid rgb(35 66 31 / 8%);
   max-width: none;
   padding: clamp(3rem, 6vw, 5rem) max(var(--container-padding), calc((100% - var(--container-width)) / 2));
+  width: 100%;
 }
 
 .features__grid {
   display: grid;
   gap: clamp(1rem, 2vw, 1.5rem);
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .features__card {
@@ -55,4 +56,10 @@
   color: var(--color-body);
   line-height: var(--line-height-relaxed);
   margin-top: var(--space-2);
+}
+
+@media (max-width: 47.99rem) {
+  .features__grid {
+    grid-template-columns: 1fr;
+  }
 }
