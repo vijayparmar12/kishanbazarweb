@@ -1,0 +1,31 @@
+{% doc %}
+  Renders the customer account dashboard sidebar card and menu navigation.
+{% enddoc %}
+
+<aside class="kb-account-sidebar-section">
+  {% render 'profile-card', customer: customer %}
+  {% render 'account-menu', active_tab: section.settings.active_tab %}
+</aside>
+
+{% schema %}
+{
+  "name": "Customer Account Sidebar",
+  "tag": "section",
+  "class": "section-customer-account-sidebar",
+  "settings": [
+    {
+      "type": "select",
+      "id": "active_tab",
+      "label": "Active Tab Highlight",
+      "options": [
+        { "value": "profile", "label": "Profile" },
+        { "value": "orders", "label": "Orders" },
+        { "value": "addresses", "label": "Addresses" },
+        { "value": "wishlist", "label": "Wishlist" },
+        { "value": "notifications", "label": "Notifications" }
+      ],
+      "default": "profile"
+    }
+  ]
+}
+{% endschema %}

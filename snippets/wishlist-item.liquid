@@ -1,0 +1,102 @@
+{% doc %}
+  Renders a single premium Wishlist Product Card in the Wishlist drawer.
+  @param {product} [product] - Shopify product object (if rendered server-side)
+{% enddoc %}
+
+<article class="kb-wishlist-card" data-wishlist-card data-product-handle="{{ product.handle }}" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
+  <div class="kb-wishlist-card__image-wrap">
+    <a href="{{ product.url }}" class="kb-wishlist-card__image-link">
+      {% if product.featured_image != blank %}
+        <img
+          src="{{ product.featured_image | image_url: width: 300 }}"
+          alt="{{ product.title | escape }}"
+          class="kb-wishlist-card__img kb-wishlist-card__img--primary"
+          loading="lazy"
+          width="150"
+          height="150"
+        >
+        {% if product.images[1] != blank %}
+          <img
+            src="{{ product.images[1] | image_url: width: 300 }}"
+            alt="{{ product.title | escape }}"
+            class="kb-wishlist-card__img kb-wishlist-card__img--hover"
+            loading="lazy"
+            width="150"
+            height="150"
+          >
+        {% endif %}
+      {% else %}
+        <img src="{{ 'logo.png' | asset_url }}" alt="Product Image" class="kb-wishlist-card__img" width="150" height="150">
+      {% endif %}
+    </a>
+
+    <button type="button" class="kb-wishlist-card__remove-btn" aria-label="Remove item from wishlist" data-remove-wishlist>
+      &times;
+    </button>
+
+    {% if product.compare_at_price > product.price %}
+      {% assign save_pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+      <span class="kb-wishlist-card__badge-discount">-{{ save_pct }}% OFF</span>
+    {% endif %}
+  </div>
+
+  <div class="kb-wishlist-card__content">
+    <div class="kb-wishlist-card__vendor">{{ product.vendor | default: 'Kishan Bazar' }}</div>
+    <h3 class="kb-wishlist-card__title">
+      <a href="{{ product.url }}">{{ product.title | default: 'Gir A2 Bilona Ghee' }}</a>
+    </h3>
+
+    <div class="kb-wishlist-card__rating">
+      <span class="stars">★★★★★</span>
+      <span class="rating-num">4.9</span>
+      <span class="reviews-count">(128)</span>
+    </div>
+
+    <div class="kb-wishlist-card__variant">
+      <span>Unit: <strong>{{ product.selected_or_first_available_variant.title | default: '1 kg / Glass Jar' }}</strong></span>
+    </div>
+
+    <div class="kb-wishlist-card__price-row">
+      <div class="kb-wishlist-card__prices">
+        <strong class="price" data-wishlist-price>{{ product.price | money | default: '₹1,875.00' }}</strong>
+        {% if product.compare_at_price > product.price %}
+          <s class="compare-price">{{ product.compare_at_price | money }}</s>
+        {% endif %}
+      </div>
+
+      <div class="kb-wishlist-card__stock">
+        {% if product.available != false %}
+          <span class="stock-badge in-stock">● In Stock</span>
+        {% else %}
+          <span class="stock-badge out-stock">● Sold Out</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="kb-wishlist-card__delivery">
+      <span>🚀 Express Delivery available</span>
+    </div>
+
+    <div class="kb-wishlist-card__actions">
+      <button
+        type="button"
+        class="kb-wishlist-btn kb-wishlist-btn--move-cart"
+        data-move-to-cart
+        data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+        {% unless product.available != false %}disabled{% endunless %}
+      >
+        <span class="btn-text">🛒 Move to Cart</span>
+        <span class="btn-loader" style="display: none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+            <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"></path>
+          </svg>
+        </span>
+      </button>
+
+      <a href="{{ product.url }}" class="kb-wishlist-btn kb-wishlist-btn--view">
+        <span>View Details</span>
+      </a>
+    </div>
+  </div>
+</article>

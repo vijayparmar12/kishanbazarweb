@@ -1,8 +1,18 @@
+.shopify-section-group-header-group,
+.shopify-section:has(.kb-header) {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
 .kb-header {
   background: var(--kb-header-bg, #fff);
   color: var(--kb-nav-text, #23421f);
-  position: relative;
-  z-index: var(--z-index-header, 300);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  width: 100%;
+  transition: box-shadow 0.3s ease;
 }
 
 .kb-header--sticky {
@@ -11,7 +21,7 @@
 }
 
 .kb-header--scrolled {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
 .kb-header--scrolled .kb-header__announcement,

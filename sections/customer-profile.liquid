@@ -1,0 +1,186 @@
+{% doc %}
+  Renders the main customer profile editable information form and tab panels.
+{% enddoc %}
+
+<section class="kb-profile-dashboard" data-profile-dashboard>
+  <div class="kb-profile-container">
+    {% render 'profile-card', customer: customer %}
+
+    <div class="kb-profile-layout">
+      <aside class="kb-profile-sidebar">
+        {% render 'account-menu', active_tab: 'profile' %}
+      </aside>
+
+      <main class="kb-profile-content">
+        
+        <!-- TAB 1: EDITABLE PROFILE FORM -->
+        <div class="kb-profile-panel is-active" data-panel="profile">
+          <div class="kb-panel-card">
+            <h2 class="kb-panel-heading">Personal Information</h2>
+            <p class="kb-panel-subheading">Update your personal details and contact preferences</p>
+
+            <form class="kb-profile-form" data-profile-edit-form>
+              <div class="kb-profile-form-grid">
+                <div class="kb-profile-field">
+                  <label for="ProfileFirstName" class="kb-profile-label">First Name *</label>
+                  <input type="text" id="ProfileFirstName" name="first_name" value="{{ customer.first_name | default: 'Vaibhavi' }}" required class="kb-profile-input">
+                </div>
+
+                <div class="kb-profile-field">
+                  <label for="ProfileLastName" class="kb-profile-label">Last Name *</label>
+                  <input type="text" id="ProfileLastName" name="last_name" value="{{ customer.last_name | default: 'Raut' }}" required class="kb-profile-input">
+                </div>
+
+                <div class="kb-profile-field">
+                  <label for="ProfileEmail" class="kb-profile-label">Email Address *</label>
+                  <input type="email" id="ProfileEmail" name="email" value="{{ customer.email | default: 'vaibhaviraut031@gmail.com' }}" required class="kb-profile-input">
+                </div>
+
+                <div class="kb-profile-field">
+                  <label for="ProfilePhone" class="kb-profile-label">Mobile Number *</label>
+                  <input type="tel" id="ProfilePhone" name="phone" value="{{ customer.phone | default: '+91 88496 89402' }}" required class="kb-profile-input">
+                </div>
+
+                <div class="kb-profile-field">
+                  <label for="ProfileBirthday" class="kb-profile-label">Date of Birth</label>
+                  <input type="date" id="ProfileBirthday" name="birthday" value="1998-06-15" class="kb-profile-input">
+                </div>
+
+                <div class="kb-profile-field">
+                  <label for="ProfileGender" class="kb-profile-label">Gender</label>
+                  <select id="ProfileGender" name="gender" class="kb-profile-select">
+                    <option value="Female" selected>Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="kb-profile-form-actions">
+                <button type="submit" class="kb-profile-save-btn">Save Changes</button>
+                <p class="kb-profile-success-msg" data-profile-success style="display: none;">✓ Profile updated successfully!</p>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- TAB 2: MY ORDERS -->
+        <div class="kb-profile-panel" data-panel="orders" style="display: none;">
+          <div class="kb-panel-card">
+            <h2 class="kb-panel-heading">My Orders</h2>
+            <p class="kb-panel-subheading">Track, manage, and re-order your farm fresh staples</p>
+
+            <div class="kb-orders-list">
+              {% render 'order-card' %}
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: MY ADDRESSES -->
+        <div class="kb-profile-panel" data-panel="addresses" style="display: none;">
+          <div class="kb-panel-card">
+            <div class="kb-panel-header-row">
+              <div>
+                <h2 class="kb-panel-heading">Saved Addresses</h2>
+                <p class="kb-panel-subheading">Manage your delivery locations</p>
+              </div>
+              <button type="button" class="kb-add-new-address-btn" data-open-address-modal>+ Add New Address</button>
+            </div>
+
+            <div class="kb-addresses-grid">
+              {% render 'address-card', is_default: true %}
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: WISHLIST -->
+        <div class="kb-profile-panel" data-panel="wishlist" style="display: none;">
+          <div class="kb-panel-card">
+            <h2 class="kb-panel-heading">My Wishlist</h2>
+            <p class="kb-panel-subheading">Products you have saved for later</p>
+
+            <div class="kb-wishlist-grid" data-wishlist-grid>
+              <div class="kb-empty-state">
+                <span class="icon">❤️</span>
+                <h3>Your Wishlist is Empty</h3>
+                <p>Save items while browsing to find them here anytime.</p>
+                <a href="/collections/all" class="kb-button">Explore Products</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: NOTIFICATIONS -->
+        <div class="kb-profile-panel" data-panel="notifications" style="display: none;">
+          <div class="kb-panel-card">
+            <h2 class="kb-panel-heading">Notifications & Updates</h2>
+            <p class="kb-panel-subheading">Stay informed about order updates and member discounts</p>
+
+            <div class="kb-notifications-list">
+              <div class="kb-notification-item">
+                <span class="icon">🎉</span>
+                <div class="content">
+                  <strong>Special Offer Unlocked!</strong>
+                  <p>Get 10% OFF on your next order above ₹3000 with code <strong>TBOF10</strong>.</p>
+                  <small>Today, 10:30 AM</small>
+                </div>
+              </div>
+              <div class="kb-notification-item">
+                <span class="icon">🚚</span>
+                <div class="content">
+                  <strong>Order Delivered #KB-8492</strong>
+                  <p>Your order containing Gir A2 Bilona Ghee has been delivered successfully.</p>
+                  <small>Yesterday, 4:15 PM</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 6: HELP & SUPPORT -->
+        <div class="kb-profile-panel" data-panel="help" style="display: none;">
+          <div class="kb-panel-card">
+            <h2 class="kb-panel-heading">Help & Support</h2>
+            <p class="kb-panel-subheading">Need assistance with your order or account?</p>
+
+            <div class="kb-help-cards">
+              <a href="tel:+918849689402" class="kb-help-card">
+                <span class="icon">📞</span>
+                <strong>Call Us</strong>
+                <p>+91 88496 89402 (Mon-Sat, 9AM-7PM)</p>
+              </a>
+              <a href="mailto:support@kishanbazar.com" class="kb-help-card">
+                <span class="icon">✉️</span>
+                <strong>Email Support</strong>
+                <p>support@kishanbazar.com</p>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOUT CONFIRMATION MODAL -->
+<aside class="kb-logout-modal" id="LogoutModal" hidden data-logout-modal>
+  <div class="kb-logout-overlay" data-close-logout></div>
+  <div class="kb-logout-card" role="dialog" aria-modal="true">
+    <h3>Log Out of Kishan Bazar?</h3>
+    <p>Are you sure you want to log out of your account?</p>
+    <div class="kb-logout-actions">
+      <button type="button" class="kb-logout-cancel-btn" data-close-logout>Cancel</button>
+      <button type="button" class="kb-logout-confirm-btn" data-confirm-logout>Yes, Logout</button>
+    </div>
+  </div>
+</aside>
+
+{% schema %}
+{
+  "name": "Customer Profile",
+  "tag": "section",
+  "class": "section-customer-profile",
+  "settings": []
+}
+{% endschema %}

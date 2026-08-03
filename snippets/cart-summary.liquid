@@ -6,25 +6,24 @@
   @param {string} [checkout_url] - Checkout destination.
 {% enddoc %}
 
-{% liquid
-  assign checkout_url = checkout_url | default: routes.checkout_url
-  assign free_shipping_threshold = free_shipping_threshold | default: 0
-  assign subtotal = cart.original_total_price | default: cart.total_price
-  assign total = cart.total_price
-  assign discount_total = cart.total_discount | default: 0
-  assign progress_value = 0
-  assign has_free_shipping = false
+{% assign checkout_url = checkout_url | default: routes.checkout_url %}
+{% assign free_shipping_threshold = free_shipping_threshold | default: 0 %}
+{% assign threshold_cents = free_shipping_threshold | times: 100 %}
+{% assign subtotal = cart.original_total_price | default: cart.total_price %}
+{% assign total = cart.total_price %}
+{% assign discount_total = cart.total_discount | default: 0 %}
+{% assign progress_value = 0 %}
+{% assign has_free_shipping = false %}
 
-  if free_shipping_threshold > 0
-    assign progress_value = total | times: 100 | divided_by: free_shipping_threshold
-    if progress_value > 100
-      assign progress_value = 100
-    endif
-    if total >= free_shipping_threshold
-      assign has_free_shipping = true
-    endif
-  endif
-%}
+{% if threshold_cents > 0 %}
+  {% assign progress_value = total | times: 100 | divided_by: threshold_cents %}
+  {% if progress_value > 100 %}
+    {% assign progress_value = 100 %}
+  {% endif %}
+  {% if total >= threshold_cents %}
+    {% assign has_free_shipping = true %}
+  {% endif %}
+{% endif %}
 
 <aside class="kb-cart-summary" data-cart-summary>
   <div class="kb-cart-summary__card">
@@ -33,14 +32,14 @@
       <p class="kb-cart-summary__subtitle">{{ cart.item_count }} {{ 'cart.title' | t | downcase }}</p>
     </div>
 
-    {% if free_shipping_threshold > 0 %}
+    {% if threshold_cents > 0 %}
       <div class="kb-cart-summary__shipping-progress">
         <div class="kb-cart-summary__shipping-copy">
           {% if has_free_shipping %}
             {{ 'cart.free_shipping_achieved' | t }}
           {% else %}
-            {% assign remaining = free_shipping_threshold | minus: total %}
-            {{ 'cart.add_more_for_free_shipping' | t: amount: remaining | money }}
+            {% assign remaining_amount = threshold_cents | minus: total | money %}
+            {{ 'cart.add_more_for_free_shipping' | t: amount: remaining_amount }}
           {% endif %}
         </div>
         <progress class="kb-cart-summary__progress" value="{{ progress_value }}" max="100">{{ progress_value }}%</progress>

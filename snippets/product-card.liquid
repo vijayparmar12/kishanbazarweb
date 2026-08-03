@@ -38,7 +38,22 @@
       {% endif %}
 
       {% if show_wishlist %}
-        <button class="product-card__action" type="button" aria-label="Add {{ product.title | escape }} to wishlist" aria-pressed="false" data-wishlist-button>
+        <button
+          class="product-card__action"
+          type="button"
+          aria-label="Add {{ product.title | escape }} to wishlist"
+          aria-pressed="false"
+          data-wishlist-button
+          data-product-handle="{{ product.handle }}"
+          data-product-title="{{ product.title | escape }}"
+          data-product-price="{{ variant.price | money | escape }}"
+          {% if variant.compare_at_price > variant.price %}data-product-compare="{{ variant.compare_at_price | money | escape }}"{% endif %}
+          data-product-discount="{{ discount }}"
+          data-product-variant="{{ variant.title | escape }}"
+          data-variant-id="{{ variant.id }}"
+          {% if product.featured_image != blank %}data-product-image="{{ product.featured_image | image_url: width: 300 }}"{% endif %}
+          data-product-vendor="{{ product.vendor | default: 'Kishan Bazar' | escape }}"
+        >
           {% render 'icon', name: 'heart', size: 18 %}
         </button>
       {% endif %}

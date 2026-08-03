@@ -1,0 +1,29 @@
+{% doc %}
+  Renders a single customer address card.
+  @param {address} [address] - Shopify address object or custom address data.
+  @param {boolean} [is_default] - Whether this address is the default address.
+{% enddoc %}
+
+<div class="kb-address-card {% if is_default %}is-default{% endif %}" data-address-card>
+  <div class="kb-address-card__header">
+    <span class="kb-address-card__tag">
+      {% if address.summary != blank %}{{ address.company | default: 'Home' }}{% else %}Home{% endif %}
+    </span>
+    {% if is_default %}
+      <span class="kb-address-card__default-badge">DEFAULT</span>
+    {% endif %}
+  </div>
+
+  <div class="kb-address-card__body">
+    <strong class="kb-address-card__name">{{ address.name | default: 'Vaibhavi Anilbhai Raut' }}</strong>
+    <p class="kb-address-card__text">
+      {{ address.address1 | default: 'Zariyal Dharmpur' }}, {{ address.city | default: 'Valsad' }}, {{ address.province | default: 'Gujarat' }}, India, {{ address.zip | default: '396050' }}
+    </p>
+    <p class="kb-address-card__phone">📞 {{ address.phone | default: '+91 88496 89402' }}</p>
+  </div>
+
+  <div class="kb-address-card__actions">
+    <button type="button" class="kb-address-action-btn kb-address-action-btn--edit" data-edit-address-modal>Edit</button>
+    <button type="button" class="kb-address-action-btn kb-address-action-btn--delete" data-delete-address>Delete</button>
+  </div>
+</div>

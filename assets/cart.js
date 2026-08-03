@@ -1,5 +1,6 @@
 (() => {
   const rootUrl = window.Shopify?.routes?.root || '/';
+  const STORAGE_KEY_ADDRESS = 'kb_checkout_address';
 
   const formatMoney = (value) => {
     const amount = Math.round(Number(value || 0) / 100);
@@ -10,6 +11,23 @@
     document.querySelectorAll('[data-cart-count]').forEach((badge) => {
       badge.textContent = String(count);
     });
+  };
+
+  const getSavedAddress = () => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY_ADDRESS);
+      return stored ? JSON.parse(stored) : null;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const saveAddress = (data) => {
+    try {
+      localStorage.setItem(STORAGE_KEY_ADDRESS, JSON.stringify(data));
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const updateDrawer = (cart) => {
@@ -61,7 +79,7 @@
         ? cart.items.map((item, index) => {
             const hasCompare = item.original_line_price > item.final_line_price;
             return `
-          <article class="kb-cart-item kb-cart-item--compact" data-cart-line-item data-cart-line-key="${item.key}" data-cart-line-index="${index + 1}" data-cart-product-handle="${(item.url || '').split('/products/')[1]?.split('?')[0] || ''}">
+          <article class="kb-cart-item kb-cart-item--compact" data-cart-line-item data-cart-line-key="${item.key}" data-cart-line-index="${index + 1}">
             <a class="kb-cart-item__media" href="${item.url}" aria-label="${item.product_title || ''}">
               ${item.image ? `<img class="kb-cart-item__image" src="${item.image.src || item.image}" alt="${item.product_title || ''}" loading="lazy">` : ''}
             </a>
@@ -98,26 +116,6 @@
     if (subtotal) subtotal.textContent = formatMoney(cart.total_price);
   };
 
-  const refreshMainCart = async (sectionId) => {
-    const mainCart = document.querySelector('[data-main-cart]');
-    if (!mainCart) return;
-
-    const currentSectionId = sectionId || mainCart.dataset.cartSectionId;
-    if (!currentSectionId) return;
-
-    try {
-      const response = await fetch(`${window.location.pathname}?section_id=${currentSectionId}`);
-      const html = await response.text();
-      const parsed = new DOMParser().parseFromString(html, 'text/html');
-      const nextSection = parsed.querySelector(`[data-cart-section-id="${currentSectionId}"]`);
-      if (nextSection) {
-        mainCart.outerHTML = nextSection.outerHTML;
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   const getLineDetails = (element) => {
     const lineItem = element.closest('[data-cart-line-item]');
     if (!lineItem) return null;
@@ -141,7 +139,6 @@
     }
 
     try {
-      // 1. JSON Request
       let response = await fetch(`${rootUrl}cart/change.js`, {
         method: 'POST',
         headers: {
@@ -151,7 +148,6 @@
         body: JSON.stringify(payload)
       });
 
-      // 2. Fallback to FormData if JSON endpoint returns error
       if (!response.ok) {
         const formData = new FormData();
         formData.append('line', String(lineIndex));
@@ -175,7 +171,6 @@
       const cart = await response.json();
       updateDrawer(cart);
       setCartCount(cart.item_count);
-      if (sectionId) await refreshMainCart(sectionId);
       document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart } }));
     } catch (error) {
       console.error('Error changing cart line:', error);
@@ -209,6 +204,60 @@
     document.documentElement.classList.remove('kb-cart-drawer-open');
   };
 
+  const openExpressCheckout = (step = 'auto') => {
+    const modal = document.querySelector('[data-express-checkout]');
+    if (!modal) {
+      window.location.href = `${rootUrl}checkout`;
+      return;
+    }
+    closeDrawer();
+
+    modal.hidden = false;
+    modal.classList.add('is-open');
+    document.documentElement.classList.add('kb-cart-drawer-open');
+
+    const address = getSavedAddress();
+    if (step === 'address' || (!address && step === 'auto')) {
+      showCheckoutStep('address');
+    } else {
+      populateAddressSummary(address);
+      showCheckoutStep('summary');
+    }
+  };
+
+  const closeExpressCheckout = () => {
+    const modal = document.querySelector('[data-express-checkout]');
+    if (!modal) return;
+    modal.hidden = true;
+    modal.classList.remove('is-open');
+    document.documentElement.classList.remove('kb-cart-drawer-open');
+  };
+
+  const showCheckoutStep = (stepName) => {
+    const modal = document.querySelector('[data-express-checkout]');
+    if (!modal) return;
+
+    modal.querySelectorAll('[data-checkout-step]').forEach((el) => {
+      el.style.display = el.dataset.checkoutStep === stepName ? 'block' : 'none';
+    });
+  };
+
+  const populateAddressSummary = (addr) => {
+    if (!addr) return;
+    document.querySelectorAll('[data-summary-name], [data-display-name]').forEach((el) => {
+      el.textContent = addr.name;
+    });
+    document.querySelectorAll('[data-summary-address], [data-display-address]').forEach((el) => {
+      el.textContent = `${addr.flat}, ${addr.city}, ${addr.state}, India, ${addr.pincode}`;
+    });
+    document.querySelectorAll('[data-summary-contact], [data-display-contact]').forEach((el) => {
+      el.textContent = `${addr.phone} • ${addr.email}`;
+    });
+    document.querySelectorAll('[data-summary-tag], [data-display-tag]').forEach((el) => {
+      el.textContent = addr.tag || 'Home';
+    });
+  };
+
   // Global Event Delegation for all Cart Actions
   document.addEventListener('click', (event) => {
     // 1. Minus quantity button
@@ -223,8 +272,7 @@
       const nextQty = Math.max(1, currentQty - 1);
       if (details.input) details.input.value = nextQty;
 
-      const sectionId = document.querySelector('[data-main-cart]')?.dataset.cartSectionId;
-      changeCartLine(details.lineIndex, details.lineKey, nextQty, sectionId);
+      changeCartLine(details.lineIndex, details.lineKey, nextQty);
       return;
     }
 
@@ -240,8 +288,7 @@
       const nextQty = currentQty + 1;
       if (details.input) details.input.value = nextQty;
 
-      const sectionId = document.querySelector('[data-main-cart]')?.dataset.cartSectionId;
-      changeCartLine(details.lineIndex, details.lineKey, nextQty, sectionId);
+      changeCartLine(details.lineIndex, details.lineKey, nextQty);
       return;
     }
 
@@ -253,8 +300,7 @@
       const details = getLineDetails(removeBtn);
       if (!details) return;
 
-      const sectionId = document.querySelector('[data-main-cart]')?.dataset.cartSectionId;
-      changeCartLine(details.lineIndex, details.lineKey, 0, sectionId);
+      changeCartLine(details.lineIndex, details.lineKey, 0);
       return;
     }
 
@@ -296,7 +342,6 @@
     if (event.target.closest('[data-goto-summary-step]')) {
       const address = getSavedAddress();
       if (!address) {
-        // Toggle address form if no address saved
         const form = document.querySelector('[data-address-form]');
         if (form) form.style.display = 'block';
       } else {
@@ -315,7 +360,7 @@
       return;
     }
 
-    // 11. Add-ons Tabs switching (Cart Drawer & Express Checkout)
+    // 11. Add-ons Tabs switching
     const tabBtn = event.target.closest('[data-cart-tab], [data-express-tab]');
     if (tabBtn) {
       const tabName = tabBtn.dataset.cartTab || tabBtn.dataset.expressTab;
@@ -375,7 +420,6 @@
       saveAddress(addressData);
       populateAddressSummary(addressData);
 
-      // Render saved address card in list
       const list = document.querySelector('[data-address-list]');
       if (list) {
         list.innerHTML = `
@@ -400,76 +444,6 @@
     }
   });
 
-  const STORAGE_KEY_ADDRESS = 'kb_checkout_address';
-
-  const getSavedAddress = () => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY_ADDRESS);
-      return stored ? JSON.parse(stored) : null;
-    } catch (e) {
-      return null;
-    }
-  };
-
-  const saveAddress = (data) => {
-    try {
-      localStorage.setItem(STORAGE_KEY_ADDRESS, JSON.stringify(data));
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const openExpressCheckout = (step = 'auto') => {
-    const modal = document.querySelector('[data-express-checkout]');
-    if (!modal) return;
-    closeDrawer();
-
-    modal.hidden = false;
-    modal.classList.add('is-open');
-    document.documentElement.classList.add('kb-cart-drawer-open');
-
-    const address = getSavedAddress();
-    if (step === 'address' || (!address && step === 'auto')) {
-      showCheckoutStep('address');
-    } else {
-      populateAddressSummary(address);
-      showCheckoutStep('summary');
-    }
-  };
-
-  const closeExpressCheckout = () => {
-    const modal = document.querySelector('[data-express-checkout]');
-    if (!modal) return;
-    modal.hidden = true;
-    modal.classList.remove('is-open');
-    document.documentElement.classList.remove('kb-cart-drawer-open');
-  };
-
-  const showCheckoutStep = (stepName) => {
-    const modal = document.querySelector('[data-express-checkout]');
-    if (!modal) return;
-
-    modal.querySelectorAll('[data-checkout-step]').forEach((el) => {
-      el.style.display = el.dataset.checkoutStep === stepName ? 'block' : 'none';
-    });
-  };
-
-  const populateAddressSummary = (addr) => {
-    if (!addr) return;
-    document.querySelectorAll('[data-summary-name], [data-display-name]').forEach((el) => {
-      el.textContent = addr.name;
-    });
-    document.querySelectorAll('[data-summary-address], [data-display-address]').forEach((el) => {
-      el.textContent = `${addr.flat}, ${addr.city}, ${addr.state}, India, ${addr.pincode}`;
-    });
-    document.querySelectorAll('[data-summary-contact], [data-display-contact]').forEach((el) => {
-      el.textContent = `${addr.phone} • ${addr.email}`;
-    });
-    document.querySelectorAll('[data-summary-tag], [data-display-tag]').forEach((el) => {
-      el.textContent = addr.tag || 'Home';
-    });
-  };
-
   // Handle direct text input changes
   document.addEventListener('change', (event) => {
     if (event.target.matches('[data-cart-quantity-input]')) {
@@ -480,28 +454,22 @@
       const nextQty = Math.max(1, Number(input.value || 1));
       input.value = nextQty;
 
-      const sectionId = document.querySelector('[data-main-cart]')?.dataset.cartSectionId;
-      changeCartLine(details.lineIndex, details.lineKey, nextQty, sectionId);
+      changeCartLine(details.lineIndex, details.lineKey, nextQty);
     }
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeDrawer();
+    if (event.key === 'Escape') {
+      closeDrawer();
+      closeExpressCheckout();
+    }
   });
 
   document.addEventListener('kb:cart:updated', (event) => {
     if (event.detail?.cart) updateDrawer(event.detail.cart);
   });
 
-  document.addEventListener('DOMContentLoaded', () => {
-    initAddToCartForms();
-  });
-
-  if (document.readyState !== 'loading') {
-    initAddToCartForms();
-  }
-
-  function initAddToCartForms() {
+  const initAddToCartForms = () => {
     document.querySelectorAll('form[action*="/cart/add"]').forEach((form) => {
       if (form.dataset.ajaxAddInitialized === 'true') return;
       form.dataset.ajaxAddInitialized = 'true';
@@ -539,5 +507,11 @@
         }
       });
     });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAddToCartForms);
+  } else {
+    initAddToCartForms();
   }
 })();

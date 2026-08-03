@@ -1,0 +1,46 @@
+{% doc %}
+  Renders the 6-digit OTP Verification form for Antigravity OTP Login.
+{% enddoc %}
+
+<div class="kb-auth-step kb-auth-step--otp" data-auth-step="otp" style="display: none;">
+  <div class="kb-auth-card__header">
+    <div class="kb-auth-card__logo">
+      <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" width="140" height="50" loading="eager">
+    </div>
+    <h2 class="kb-auth-card__title">Verify OTP</h2>
+    <p class="kb-auth-card__subtitle">
+      OTP sent to <strong data-display-phone>+91 98765 43210</strong>
+      <button type="button" class="kb-auth-edit-phone-btn" data-edit-phone>Edit</button>
+    </p>
+  </div>
+
+  <form class="kb-auth-form" data-otp-form>
+    <div class="kb-auth-field">
+      <label class="kb-auth-label">Enter 6-Digit OTP</label>
+      <div class="kb-auth-otp-grid" data-otp-grid>
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="kb-otp-box" data-otp-box="1" autofocus autocomplete="one-time-code">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="kb-otp-box" data-otp-box="2">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="kb-otp-box" data-otp-box="3">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="kb-otp-box" data-otp-box="4">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="kb-otp-box" data-otp-box="5">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="kb-otp-box" data-otp-box="6">
+      </div>
+      <p class="kb-auth-error-msg" data-otp-error style="display: none;">Invalid OTP. Please try again.</p>
+    </div>
+
+    <div class="kb-auth-resend-row">
+      <span class="kb-auth-timer" data-otp-timer>Resend OTP in <strong>00:30</strong></span>
+      <button type="button" class="kb-auth-resend-btn" data-resend-otp disabled style="display: none;">Resend OTP</button>
+    </div>
+
+    <button type="submit" class="kb-auth-submit-btn" data-verify-otp-btn disabled>
+      <span class="btn-text">Verify & Proceed</span>
+      <span class="btn-loader" style="display: none;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+          <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"></path>
+        </svg>
+      </span>
+    </button>
+  </form>
+</div>

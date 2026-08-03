@@ -1,0 +1,51 @@
+{% doc %}
+  Renders the global Right-Side Sliding Wishlist Drawer shell.
+{% enddoc %}
+
+<aside class="kb-wishlist-drawer" id="WishlistDrawer" hidden data-wishlist-drawer aria-label="My Wishlist">
+  <div class="kb-wishlist-drawer__overlay" data-wishlist-close></div>
+  
+  <div class="kb-wishlist-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="WishlistDrawerTitle">
+    {% render 'wishlist-header' %}
+
+    <div class="kb-wishlist-drawer__body" data-wishlist-body>
+      {% render 'wishlist-empty' %}
+      
+      <div class="kb-wishlist-items-grid" data-wishlist-items-grid style="display: none;">
+        <!-- Dynamic Wishlist Item Cards loaded via JS -->
+      </div>
+    </div>
+
+    <div class="kb-wishlist-drawer__footer" data-wishlist-footer style="display: none;">
+      <div class="kb-wishlist-footer__info">
+        <span class="label">Total Saved Items:</span>
+        <strong class="count" data-wishlist-footer-count>0 Items</strong>
+      </div>
+      
+      <div class="kb-wishlist-footer__actions">
+        <button type="button" class="kb-wishlist-footer-btn kb-wishlist-footer-btn--move-all" data-move-all-to-cart>
+          <span class="btn-text">🛒 Move All to Cart</span>
+          <span class="btn-loader" style="display: none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+              <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"></path>
+            </svg>
+          </span>
+        </button>
+
+        <button type="button" class="kb-wishlist-footer-btn kb-wishlist-footer-btn--continue" data-wishlist-close>
+          Continue Shopping
+        </button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+{% schema %}
+{
+  "name": "Wishlist Drawer",
+  "tag": "section",
+  "class": "section-wishlist-drawer",
+  "settings": []
+}
+{% endschema %}

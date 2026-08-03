@@ -1,0 +1,53 @@
+{% doc %}
+  Renders the customer profile left sidebar menu navigation links.
+  @param {string} [active_tab] - Currently active profile tab identifier.
+{% enddoc %}
+
+{% assign current_tab = active_tab | default: 'profile' %}
+
+<nav class="kb-account-menu" aria-label="Customer Account Navigation">
+  <ul class="kb-account-menu__list">
+    <li class="kb-account-menu__item">
+      <a href="/account" class="kb-account-menu__link {% if current_tab == 'dashboard' or current_tab == 'profile' %}is-active{% endif %}" data-profile-tab="profile">
+        <span class="icon">👤</span>
+        <span class="label">My Profile</span>
+      </a>
+    </li>
+    <li class="kb-account-menu__item">
+      <a href="/account#orders" class="kb-account-menu__link {% if current_tab == 'orders' %}is-active{% endif %}" data-profile-tab="orders">
+        <span class="icon">📦</span>
+        <span class="label">My Orders</span>
+      </a>
+    </li>
+    <li class="kb-account-menu__item">
+      <a href="/account/addresses" class="kb-account-menu__link {% if current_tab == 'addresses' %}is-active{% endif %}" data-profile-tab="addresses">
+        <span class="icon">📍</span>
+        <span class="label">My Addresses</span>
+      </a>
+    </li>
+    <li class="kb-account-menu__item">
+      <a href="/account#wishlist" class="kb-account-menu__link {% if current_tab == 'wishlist' %}is-active{% endif %}" data-profile-tab="wishlist">
+        <span class="icon">❤️</span>
+        <span class="label">Wishlist</span>
+      </a>
+    </li>
+    <li class="kb-account-menu__item">
+      <a href="/account#notifications" class="kb-account-menu__link {% if current_tab == 'notifications' %}is-active{% endif %}" data-profile-tab="notifications">
+        <span class="icon">🔔</span>
+        <span class="label">Notifications</span>
+      </a>
+    </li>
+    <li class="kb-account-menu__item">
+      <a href="/account#help" class="kb-account-menu__link {% if current_tab == 'help' %}is-active{% endif %}" data-profile-tab="help">
+        <span class="icon">💬</span>
+        <span class="label">Help & Support</span>
+      </a>
+    </li>
+    <li class="kb-account-menu__item kb-account-menu__item--logout">
+      <button type="button" class="kb-account-menu__link kb-account-menu__link--logout" data-trigger-logout>
+        <span class="icon">🚪</span>
+        <span class="label">Logout</span>
+      </button>
+    </li>
+  </ul>
+</nav>

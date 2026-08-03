@@ -1,0 +1,451 @@
+/* ==========================================================================
+   Customer Profile & Account Dashboard Styling
+   ========================================================================== */
+
+.kb-profile-dashboard {
+  background: #f8faf5;
+  min-height: 80vh;
+  padding: clamp(2rem, 4vw, 4rem) max(1rem, calc((100% - 1240px) / 2));
+}
+
+.kb-profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Header Profile Card */
+.kb-profile-card {
+  background: #ffffff;
+  border: 1px solid rgba(22, 101, 52, 0.12);
+  border-radius: 20px;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: 0 4px 20px rgba(22, 101, 52, 0.05);
+}
+
+@media (max-width: 48rem) {
+  .kb-profile-card {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.kb-profile-card__avatar-wrap {
+  position: relative;
+}
+
+.kb-profile-card__avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #132d14 0%, #166534 100%);
+  color: #fef08a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 900;
+  border: 3px solid #eaf5e7;
+  box-shadow: 0 6px 16px rgba(22, 101, 52, 0.15);
+}
+
+.kb-profile-card__verified-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #166534;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kb-profile-card__name {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #132d14;
+  margin: 0 0 0.2rem;
+}
+
+.kb-profile-card__contact,
+.kb-profile-card__email {
+  font-size: 0.86rem;
+  color: #64748b;
+  margin: 0 0 0.2rem;
+}
+
+.kb-profile-card__badges {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.kb-badge {
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 0.3rem 0.75rem;
+  border-radius: 50px;
+}
+
+.kb-badge--member {
+  background: #eaf5e7;
+  color: #166534;
+  border: 1px solid rgba(22, 101, 52, 0.2);
+}
+
+.kb-badge--loyalty {
+  background: #fef9c3;
+  color: #854d0e;
+  border: 1px solid rgba(133, 77, 14, 0.2);
+}
+
+/* Grid Layout */
+.kb-profile-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 48rem) {
+  .kb-profile-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Sidebar Menu */
+.kb-account-menu {
+  background: #ffffff;
+  border: 1px solid rgba(22, 101, 52, 0.12);
+  border-radius: 20px;
+  padding: 0.75rem;
+  box-shadow: 0 4px 20px rgba(22, 101, 52, 0.05);
+}
+
+.kb-account-menu__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.kb-account-menu__link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #475569;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.kb-account-menu__link:hover,
+.kb-account-menu__link.is-active {
+  background: #eaf5e7;
+  color: #166534;
+}
+
+.kb-account-menu__link--logout:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* Right Content Panel */
+.kb-panel-card {
+  background: #ffffff;
+  border: 1px solid rgba(22, 101, 52, 0.12);
+  border-radius: 20px;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  box-shadow: 0 4px 20px rgba(22, 101, 52, 0.05);
+}
+
+.kb-panel-heading {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #132d14;
+  margin: 0 0 0.25rem;
+}
+
+.kb-panel-subheading {
+  font-size: 0.86rem;
+  color: #64748b;
+  margin: 0 0 1.5rem;
+}
+
+.kb-panel-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.kb-add-new-address-btn {
+  background: #166534;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* Forms & Fields */
+.kb-profile-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 480px) {
+  .kb-profile-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kb-profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.kb-profile-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #166534;
+}
+
+.kb-profile-input,
+.kb-profile-select {
+  background: #f8faf7;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.92rem;
+  color: #0f172a;
+  outline: none;
+}
+
+.kb-profile-input:focus,
+.kb-profile-select:focus {
+  border-color: #166534;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(22, 101, 52, 0.12);
+}
+
+.kb-profile-save-btn {
+  background: #166534;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.85rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.kb-profile-success-msg {
+  color: #166534;
+  font-weight: 800;
+  margin-top: 0.75rem;
+}
+
+/* Order & Address Cards */
+.kb-order-card,
+.kb-address-card {
+  border: 1.5px solid #e2eee0;
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  background: #ffffff;
+}
+
+.kb-order-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 0.85rem;
+}
+
+.kb-order-card__number {
+  font-weight: 900;
+  color: #132d14;
+  font-size: 0.95rem;
+  display: block;
+}
+
+.kb-order-card__date {
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+.kb-status-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+}
+
+.kb-status-badge--paid {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.kb-status-badge--fulfilled {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.kb-order-item-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.65rem;
+}
+
+.kb-order-item-img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.kb-order-item-title {
+  font-size: 0.86rem;
+  color: #0f172a;
+}
+
+.kb-order-item-qty {
+  font-size: 0.78rem;
+  color: #64748b;
+  display: block;
+}
+
+.kb-order-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid #f1f5f9;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.kb-order-card__total strong {
+  font-size: 1.1rem;
+  color: #166534;
+  margin-left: 0.35rem;
+}
+
+.kb-order-card__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.kb-order-btn {
+  border: 1px solid #166534;
+  border-radius: 8px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.kb-order-btn--primary {
+  background: #166534;
+  color: #ffffff;
+}
+
+.kb-order-btn--secondary {
+  background: #ffffff;
+  color: #166534;
+}
+
+/* Logout Modal */
+.kb-logout-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kb-logout-modal[hidden] {
+  display: none !important;
+}
+
+.kb-logout-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.kb-logout-card {
+  position: relative;
+  z-index: 2;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 1.75rem;
+  max-width: 380px;
+  width: 90%;
+  text-align: center;
+}
+
+.kb-logout-card h3 {
+  margin: 0 0 0.5rem;
+  color: #132d14;
+}
+
+.kb-logout-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.kb-logout-cancel-btn {
+  flex: 1;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 10px;
+  padding: 0.65rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.kb-logout-confirm-btn {
+  flex: 1;
+  background: #dc2626;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.65rem;
+  font-weight: 800;
+  cursor: pointer;
+}

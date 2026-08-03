@@ -18,7 +18,19 @@
         <span class="main-product__badge">Bestseller</span>
       {% endif %}
 
-      <button class="main-product__media-action main-product__media-action--wishlist" type="button" aria-label="Add to wishlist">
+      <button
+        class="main-product__media-action main-product__media-action--wishlist"
+        type="button"
+        aria-label="Add to wishlist"
+        data-wishlist-button
+        data-product-handle="{{ product.handle }}"
+        data-product-title="{{ product.title | escape }}"
+        data-product-price="{{ current_variant.price | money | escape }}"
+        {% if sale %}data-product-compare="{{ current_variant.compare_at_price | money | escape }}"{% endif %}
+        data-variant-id="{{ current_variant.id }}"
+        {% if product.featured_image != blank %}data-product-image="{{ product.featured_image | image_url: width: 300 }}"{% endif %}
+        data-product-vendor="{{ product.vendor | default: 'Kishan Bazar' | escape }}"
+      >
         {% render 'icon', name: 'heart', size: 18 %}
       </button>
 

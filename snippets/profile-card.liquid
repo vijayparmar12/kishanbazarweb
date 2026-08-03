@@ -1,0 +1,31 @@
+{% doc %}
+  Renders customer profile header card with avatar, details, member badge and loyalty points summary.
+  @param {customer} customer - The current Shopify customer object.
+{% enddoc %}
+
+{% liquid
+  assign name = customer.name | default: 'Vaibhavi Anilbhai Raut'
+  assign first_initial = name | slice: 0, 1 | upcase
+  assign email = customer.email | default: 'vaibhaviraut031@gmail.com'
+  assign phone = customer.phone | default: '+91 88496 89402'
+%}
+
+<div class="kb-profile-card">
+  <div class="kb-profile-card__avatar-wrap">
+    <div class="kb-profile-card__avatar">
+      <span>{{ first_initial }}</span>
+    </div>
+    <span class="kb-profile-card__verified-badge" title="Verified Customer">✓</span>
+  </div>
+
+  <div class="kb-profile-card__info">
+    <h2 class="kb-profile-card__name" data-user-display-name>{{ name }}</h2>
+    <p class="kb-profile-card__contact" data-user-display-phone>{{ phone }}</p>
+    <p class="kb-profile-card__email" data-user-display-email>{{ email }}</p>
+
+    <div class="kb-profile-card__badges">
+      <span class="kb-badge kb-badge--member">Collective Member</span>
+      <span class="kb-badge kb-badge--loyalty">✨ 450 Loyalty Points</span>
+    </div>
+  </div>
+</div>

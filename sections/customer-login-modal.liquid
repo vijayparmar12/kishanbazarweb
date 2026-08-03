@@ -1,0 +1,23 @@
+{% doc %}
+  Renders the global Customer OTP Login Modal popup.
+{% enddoc %}
+
+<aside class="kb-auth-modal" id="CustomerAuthModal" hidden data-auth-modal>
+  <div class="kb-auth-modal__overlay" data-auth-close></div>
+  <div class="kb-auth-modal__panel" role="dialog" aria-modal="true" aria-labelledby="AuthModalTitle">
+    <button class="kb-auth-modal__close" type="button" aria-label="Close login" data-auth-close>&times;</button>
+    <div class="kb-auth-modal__content">
+      {% render 'otp-login-form' %}
+      {% render 'otp-verification-form' %}
+    </div>
+  </div>
+</aside>
+
+{% schema %}
+{
+  "name": "Customer Login Modal",
+  "tag": "section",
+  "class": "section-customer-login-modal",
+  "settings": []
+}
+{% endschema %}

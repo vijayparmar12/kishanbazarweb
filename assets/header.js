@@ -113,10 +113,8 @@
       header.classList.toggle('kb-header--scrolled', window.scrollY > 8);
     };
 
-    if (header.classList.contains('kb-header--sticky')) {
-      syncStickyState();
-      window.addEventListener('scroll', syncStickyState, { passive: true });
-    }
+    syncStickyState();
+    window.addEventListener('scroll', syncStickyState, { passive: true });
   };
 
   const initAllHeaders = () => {

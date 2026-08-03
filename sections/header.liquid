@@ -126,9 +126,9 @@
             <a class="kb-header__action" href="{{ routes.account_url }}" aria-label="Account">{% render 'icon', name: 'user', size: 25 %}</a>
           {% endif %}
           {% if section.settings.show_wishlist %}
-            <a class="kb-header__action kb-header__action--wishlist" href="{{ section.settings.wishlist_url | default: routes.root_url }}" aria-label="Wishlist">
-              {% render 'icon', name: 'heart', size: 25 %}<span class="kb-header__badge" aria-hidden="true">0</span>
-            </a>
+            <button class="kb-header__action kb-header__action--wishlist" type="button" aria-label="Wishlist" data-wishlist-drawer-trigger>
+              {% render 'icon', name: 'heart', size: 25 %}<span class="kb-header__badge" aria-hidden="true" data-wishlist-count-badge>0</span>
+            </button>
           {% endif %}
           {% if section.settings.show_cart %}
             <button class="kb-header__action kb-header__action--cart" type="button" aria-label="Cart, {{ cart.item_count }} items" aria-controls="CartDrawer" data-cart-drawer-trigger>

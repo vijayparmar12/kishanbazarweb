@@ -1,0 +1,52 @@
+{% doc %}
+  Renders the Phone Number Entry form for Antigravity OTP Login.
+{% enddoc %}
+
+<div class="kb-auth-step kb-auth-step--phone" data-auth-step="phone">
+  <div class="kb-auth-card__header">
+    <div class="kb-auth-card__logo">
+      <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" width="140" height="50" loading="eager">
+    </div>
+    <h2 class="kb-auth-card__title">Welcome to Kishan Bazar</h2>
+    <p class="kb-auth-card__subtitle">Enter your mobile number to receive an OTP for instant login</p>
+  </div>
+
+  <form class="kb-auth-form" data-phone-form>
+    <div class="kb-auth-field">
+      <label for="AuthPhoneInput" class="kb-auth-label">Mobile Number</label>
+      <div class="kb-auth-phone-input-wrap">
+        <div class="kb-auth-country-select">
+          <span class="flag">🇮🇳</span>
+          <span class="code">+91</span>
+        </div>
+        <input
+          type="tel"
+          id="AuthPhoneInput"
+          name="phone"
+          class="kb-auth-input"
+          placeholder="98765 43210"
+          maxlength="10"
+          pattern="[0-9]{10}"
+          inputmode="numeric"
+          required
+          data-phone-input
+        >
+      </div>
+      <p class="kb-auth-error-msg" data-phone-error style="display: none;">Please enter a valid 10-digit mobile number</p>
+    </div>
+
+    <button type="submit" class="kb-auth-submit-btn" data-send-otp-btn>
+      <span class="btn-text">Continue</span>
+      <span class="btn-loader" style="display: none;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+          <path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"></path>
+        </svg>
+      </span>
+    </button>
+
+    <p class="kb-auth-terms">
+      By continuing, you agree to Kishan Bazar's <a href="/pages/terms-and-conditions">Terms of Service</a> & <a href="/pages/privacy-policy">Privacy Policy</a>.
+    </p>
+  </form>
+</div>

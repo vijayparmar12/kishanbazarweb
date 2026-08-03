@@ -1,0 +1,60 @@
+{% doc %}
+  Renders a single customer order history card.
+  @param {order} [order] - Shopify order object.
+{% enddoc %}
+
+<article class="kb-order-card" data-order-card>
+  <div class="kb-order-card__header">
+    <div class="kb-order-card__info">
+      <span class="kb-order-card__number">Order #{{ order.name | default: 'KB-8492' }}</span>
+      <span class="kb-order-card__date">Placed on {{ order.created_at | date: "%b %d, %Y" | default: 'Aug 02, 2026' }}</span>
+    </div>
+    <div class="kb-order-card__status">
+      <span class="kb-status-badge kb-status-badge--paid">Paid</span>
+      <span class="kb-status-badge kb-status-badge--fulfilled">Delivered</span>
+    </div>
+  </div>
+
+  <div class="kb-order-card__items">
+    {% if order.line_items.size > 0 %}
+      {% for item in order.line_items %}
+        <div class="kb-order-item-row">
+          <img src="{{ item.image | image_url: width: 100 }}" alt="{{ item.title }}" class="kb-order-item-img">
+          <div class="kb-order-item-details">
+            <strong class="kb-order-item-title">{{ item.title }}</strong>
+            <span class="kb-order-item-qty">Qty: {{ item.quantity }} &bull; ₹{{ item.final_line_price | money_without_currency }}</span>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <!-- Sample Order Items for demonstration -->
+      <div class="kb-order-item-row">
+        <img src="{{ 'logo.png' | asset_url }}" alt="Gir A2 Bilona Ghee" class="kb-order-item-img">
+        <div class="kb-order-item-details">
+          <strong class="kb-order-item-title">Gir A2 Bilona Ghee (1kg Glass Jar)</strong>
+          <span class="kb-order-item-qty">Qty: 2 &bull; ₹3,750</span>
+        </div>
+      </div>
+      <div class="kb-order-item-row">
+        <img src="{{ 'logo.png' | asset_url }}" alt="Khapli Wheat Atta" class="kb-order-item-img">
+        <div class="kb-order-item-details">
+          <strong class="kb-order-item-title">Organic Khapli Wheat Atta (5kg Pack)</strong>
+          <span class="kb-order-item-qty">Qty: 1 &bull; ₹1,383</span>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="kb-order-card__footer">
+    <div class="kb-order-card__total">
+      <span>Total Paid:</span>
+      <strong>₹{{ order.total_price | money_without_currency | default: '5,133.00' }}</strong>
+    </div>
+
+    <div class="kb-order-card__actions">
+      <button type="button" class="kb-order-btn kb-order-btn--secondary" data-track-order>Track Order</button>
+      <button type="button" class="kb-order-btn kb-order-btn--secondary" data-download-invoice>Invoice 📄</button>
+      <button type="button" class="kb-order-btn kb-order-btn--primary" data-buy-again>Buy Again 🛒</button>
+    </div>
+  </div>
+</article>
