@@ -1,0 +1,42 @@
+{% doc %}
+  Renders Final CTA banner and sticky mobile conversion bar.
+{% enddoc %}
+
+<section class="kb-membership-cta" data-membership-cta>
+  <div class="kb-membership-cta__container">
+    <div class="kb-membership-cta__card">
+      <h2 class="kb-membership-cta__heading">Ready to Experience Pure Organic Savings?</h2>
+      <p class="kb-membership-cta__desc">Join 15,000+ members enjoying farm-fresh staples, extra discounts, and exclusive privileges today.</p>
+
+      <div class="kb-membership-cta__actions">
+        <a href="#plans" class="kb-membership-cta__btn">
+          <span>Join Collective Today</span>
+          <span class="arrow">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STICKY MOBILE CTA BAR -->
+<div class="kb-membership-sticky-mobile-cta" data-membership-sticky-cta>
+  <div class="kb-membership-sticky-mobile-cta__info">
+    <strong class="title">Kishan Bazar Collective</strong>
+    <span class="sub">Plans start at ₹499 / 3 Mo</span>
+  </div>
+  <a href="#plans" class="kb-membership-sticky-mobile-cta__btn">Join Now</a>
+</div>
+
+{% schema %}
+{
+  "name": "Membership CTA",
+  "tag": "section",
+  "class": "section-membership-cta",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Membership CTA"
+    }
+  ]
+}
+{% endschema %}

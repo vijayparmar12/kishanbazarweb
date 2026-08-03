@@ -1,0 +1,68 @@
+{% doc %}
+  Renders a single membership pricing card (Starter, Premium, or Elite).
+
+  @param {string} plan_name - Name of the membership plan (e.g. Starter, Premium, Elite)
+  @param {string} duration - Duration label (e.g. 3 Months, 6 Months, 12 Months)
+  @param {string} price - Price label (e.g. ₹499)
+  @param {string} [original_price] - Original price (e.g. ₹799)
+  @param {string} [save_badge] - Discount badge text (e.g. SAVE 38%)
+  @param {boolean} [is_popular] - Set true to highlight with Most Popular ribbon & glow
+{% enddoc %}
+
+<article class="kb-member-card{% if is_popular %} kb-member-card--popular{% endif %}" data-membership-plan-card>
+  {% if is_popular %}
+    <div class="kb-member-card__ribbon">
+      <span>👑 MOST POPULAR</span>
+    </div>
+  {% endif %}
+
+  <div class="kb-member-card__header">
+    <h3 class="kb-member-card__title">{{ plan_name }}</h3>
+    <p class="kb-member-card__duration">{{ duration }}</p>
+
+    {% if save_badge != blank %}
+      <span class="kb-member-card__save-badge">{{ save_badge }}</span>
+    {% endif %}
+
+    <div class="kb-member-card__price-row">
+      <span class="kb-member-card__price">{{ price }}</span>
+      {% if original_price != blank %}
+        <s class="kb-member-card__original-price">{{ original_price }}</s>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="kb-member-card__body">
+    <ul class="kb-member-card__features" role="list">
+      <li class="kb-member-card__feature">
+        <span class="check">✓</span>
+        <span><strong>Extra 10% OFF</strong> on every order</span>
+      </li>
+      <li class="kb-member-card__feature">
+        <span class="check">✓</span>
+        <span><strong>FREE Shipping</strong> on orders above ₹499</span>
+      </li>
+      <li class="kb-member-card__feature">
+        <span class="check">✓</span>
+        <span><strong>Early Access</strong> to new organic harvests</span>
+      </li>
+      <li class="kb-member-card__feature">
+        <span class="check">✓</span>
+        <span><strong>2X Loyalty Points</strong> on every ₹100 spent</span>
+      </li>
+      {% if is_popular or plan_name contains 'Elite' %}
+        <li class="kb-member-card__feature">
+          <span class="check">✓</span>
+          <span><strong>Surprise Birthday Gift</strong> delivered home</span>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class="kb-member-card__footer">
+    <button type="button" class="kb-member-card__btn" data-buy-membership="{{ plan_name | handleize }}">
+      <span class="btn-text">Join {{ plan_name }}</span>
+      <span class="btn-arrow">&rarr;</span>
+    </button>
+  </div>
+</article>

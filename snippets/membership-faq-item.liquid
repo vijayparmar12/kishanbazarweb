@@ -1,0 +1,17 @@
+{% doc %}
+  Renders an accordion FAQ item for the Membership page.
+
+  @param {string} question - The FAQ question string
+  @param {string} answer - The FAQ answer paragraph string
+  @param {string} [id] - Unique item ID for aria control
+{% enddoc %}
+
+<details class="kb-membership-faq-item" data-faq-item>
+  <summary class="kb-membership-faq-item__summary">
+    <span class="kb-membership-faq-item__question">{{ question }}</span>
+    <span class="kb-membership-faq-item__icon" aria-hidden="true">+</span>
+  </summary>
+  <div class="kb-membership-faq-item__content">
+    <p class="kb-membership-faq-item__answer">{{ answer }}</p>
+  </div>
+</details>

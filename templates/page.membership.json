@@ -1,0 +1,26 @@
+{
+  "sections": {
+    "hero": {
+      "type": "membership-hero",
+      "settings": {}
+    },
+    "plans": {
+      "type": "membership-plans",
+      "settings": {}
+    },
+    "faq": {
+      "type": "membership-faq",
+      "settings": {}
+    },
+    "cta": {
+      "type": "membership-cta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "plans",
+    "faq",
+    "cta"
+  ]
+}

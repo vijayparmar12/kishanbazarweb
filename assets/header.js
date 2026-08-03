@@ -109,20 +109,31 @@
       }
     });
 
-    let isScrolled = false;
-    const syncStickyState = () => {
-      const currentScroll = window.scrollY;
-      if (!isScrolled && currentScroll > 140) {
-        isScrolled = true;
-        header.classList.add('kb-header--scrolled');
-      } else if (isScrolled && currentScroll < 30) {
-        isScrolled = false;
-        header.classList.remove('kb-header--scrolled');
+    const syncHeader1Sticky = () => {
+      const header1 = document.querySelector('[data-header1]');
+      const placeholder = document.querySelector('[data-header1-placeholder]');
+      const announcement = document.querySelector('.kb-header__announcement');
+      if (!header1) return;
+
+      const threshold = announcement ? announcement.offsetHeight : 0;
+      if (window.scrollY > threshold) {
+        if (!header1.classList.contains('kb-header1--fixed')) {
+          header1.classList.add('kb-header1--fixed');
+          if (placeholder) {
+            placeholder.style.height = header1.offsetHeight + 'px';
+            placeholder.style.display = 'block';
+          }
+        }
+      } else {
+        if (header1.classList.contains('kb-header1--fixed')) {
+          header1.classList.remove('kb-header1--fixed');
+          if (placeholder) placeholder.style.display = 'none';
+        }
       }
     };
 
-    syncStickyState();
-    window.addEventListener('scroll', syncStickyState, { passive: true });
+    syncHeader1Sticky();
+    window.addEventListener('scroll', syncHeader1Sticky, { passive: true });
   };
 
   const initAllHeaders = () => {

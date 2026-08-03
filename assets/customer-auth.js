@@ -127,16 +127,10 @@
 
     closeAuthModal();
 
-    // Check if customer accounts route works or fallback to /pages/account
-    try {
-      const resp = await fetch('/account', { method: 'HEAD' });
-      if (resp.ok) {
-        window.location.href = '/account';
-      } else {
-        window.location.href = '/pages/account';
-      }
-    } catch (e) {
-      window.location.href = '/account';
+    if (typeof window.openProfileModal === 'function') {
+      window.openProfileModal();
+    } else {
+      window.location.href = '/pages/account';
     }
   };
 

@@ -1,0 +1,76 @@
+{% doc %}
+  Renders the Member vs Non-Member comparison table.
+{% enddoc %}
+
+<section class="kb-membership-comparison" data-membership-comparison>
+  <div class="kb-membership-comparison__container">
+    <div class="kb-membership-section-header">
+      <span class="eyebrow">WHY JOIN?</span>
+      <h2 class="title">Member vs Non-Member Comparison</h2>
+      <p class="subtitle">See how much more value and savings you unlock as a Collective Member.</p>
+    </div>
+
+    <div class="kb-comparison-table-wrapper">
+      <table class="kb-comparison-table" role="table">
+        <thead>
+          <tr>
+            <th scope="col" class="feature-col">Feature & Benefit</th>
+            <th scope="col" class="non-member-col">Non-Member</th>
+            <th scope="col" class="member-col">Collective Member 👑</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feature-title">Order Discount</td>
+            <td class="non-member-val">Standard Price</td>
+            <td class="member-val highlight"><strong>Extra 10% OFF Every Order</strong></td>
+          </tr>
+          <tr>
+            <td class="feature-title">Free Delivery Threshold</td>
+            <td class="non-member-val">Above ₹1,499</td>
+            <td class="member-val highlight"><strong>Above ₹499 Only</strong></td>
+          </tr>
+          <tr>
+            <td class="feature-title">New Harvest Access</td>
+            <td class="non-member-val">Standard Release</td>
+            <td class="member-val highlight"><strong>48-Hour Priority Early Access</strong></td>
+          </tr>
+          <tr>
+            <td class="feature-title">Exclusive Member Sales</td>
+            <td class="non-member-val">❌ No Access</td>
+            <td class="member-val highlight"><strong>✓ Weekly BOGO & Secret Deals</strong></td>
+          </tr>
+          <tr>
+            <td class="feature-title">Birthday Rewards</td>
+            <td class="non-member-val">❌ None</td>
+            <td class="member-val highlight"><strong>✓ Complimentary Gift Box</strong></td>
+          </tr>
+          <tr>
+            <td class="feature-title">Loyalty Points Multiplier</td>
+            <td class="non-member-val">1X Points</td>
+            <td class="member-val highlight"><strong>2X Points on Every Purchase</strong></td>
+          </tr>
+          <tr>
+            <td class="feature-title">Customer Care</td>
+            <td class="non-member-val">Standard Support</td>
+            <td class="member-val highlight"><strong>VIP Priority Care Line</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Membership Comparison",
+  "tag": "section",
+  "class": "section-membership-comparison",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Membership Comparison"
+    }
+  ]
+}
+{% endschema %}

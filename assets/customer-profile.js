@@ -1,6 +1,24 @@
 (() => {
   const STORAGE_KEY_AUTH = 'kb_customer_session';
 
+  window.openProfileModal = () => {
+    const modal = document.querySelector('[data-profile-modal]');
+    if (!modal) return;
+    modal.removeAttribute('hidden');
+    modal.hidden = false;
+    modal.classList.add('is-open');
+    document.documentElement.classList.add('kb-cart-drawer-open');
+  };
+
+  window.closeProfileModal = () => {
+    const modal = document.querySelector('[data-profile-modal]');
+    if (!modal) return;
+    modal.setAttribute('hidden', '');
+    modal.hidden = true;
+    modal.classList.remove('is-open');
+    document.documentElement.classList.remove('kb-cart-drawer-open');
+  };
+
   const switchTab = (tabName) => {
     const dashboard = document.querySelector('[data-profile-dashboard]');
     if (!dashboard) return;
@@ -101,6 +119,11 @@
     // 4. Confirm Logout
     if (event.target.closest('[data-confirm-logout]')) {
       performLogout();
+    }
+
+    // 5. Close Profile Modal
+    if (event.target.closest('[data-close-profile]')) {
+      window.closeProfileModal();
     }
   });
 

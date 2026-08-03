@@ -1,9 +1,14 @@
 <link rel="stylesheet" href="{{ 'section-testimonials.css' | asset_url }}">
 <script src="{{ 'section-testimonials.js' | asset_url }}" defer="defer"></script>
 
-<section class="home-section testimonials-section" data-testimonials>
   <div class="testimonials__header">
-    <h2 class="testimonials__heading">{{ section.settings.heading }}</h2>
+    {% if section.settings.eyebrow != blank %}
+      <span class="testimonials__eyebrow">{{ section.settings.eyebrow }}</span>
+    {% endif %}
+    <h2 class="testimonials__heading">{{ section.settings.heading | default: 'KIND WORDS FROM YOUR TABLE' }}</h2>
+    {% if section.settings.subheading != blank %}
+      <p class="testimonials__subheading">{{ section.settings.subheading }}</p>
+    {% endif %}
   </div>
 
   <div class="testimonials__carousel-container" data-testimonials-carousel>
@@ -38,9 +43,10 @@
 {
   "name": "Testimonials Carousel",
   "tag": "section",
-  "class": "section-testimonials",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Carousel Heading", "default": "FEEDBACK" }
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow Badge", "default": "⭐ 10,000+ VERIFIED REVIEWS ⭐" },
+    { "type": "text", "id": "heading", "label": "Carousel Heading", "default": "KIND WORDS FROM YOUR TABLE" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Real stories from families who love our pure, farm-fresh organic staples." }
   ],
   "blocks": [
     {

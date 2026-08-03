@@ -1,0 +1,75 @@
+{% doc %}
+  Renders the Hero Section for the Join Collective Membership page.
+{% enddoc %}
+
+<section class="kb-membership-hero" data-membership-hero>
+  <div class="kb-membership-hero__bg-glow"></div>
+
+  <div class="kb-membership-hero__container">
+    <div class="kb-membership-hero__badge">
+      <span class="icon">🌿</span>
+      <span>KISHAN BAZAR COLLECTIVE</span>
+    </div>
+
+    <h1 class="kb-membership-hero__title">
+      {{ section.settings.title | default: 'Become a Kishan Bazar Collective Member' }}
+    </h1>
+
+    <p class="kb-membership-hero__subtitle">
+      {{ section.settings.subtitle | default: 'Exclusive savings, early access to seasonal harvests, premium organic staples, and member-only rewards.' }}
+    </p>
+
+    <div class="kb-membership-hero__actions">
+      <a href="#plans" class="kb-membership-hero__btn kb-membership-hero__btn--primary">
+        <span>Join Collective Now</span>
+        <span class="arrow">&rarr;</span>
+      </a>
+      <a href="#benefits" class="kb-membership-hero__btn kb-membership-hero__btn--secondary">
+        <span>Explore Benefits</span>
+      </a>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="kb-membership-hero__trust-grid">
+      <div class="kb-membership-trust-card">
+        <span class="value" data-counter="15000">15,000+</span>
+        <span class="label">Active Members</span>
+      </div>
+      <div class="kb-membership-trust-card">
+        <span class="value">★ 4.9 / 5</span>
+        <span class="label">Member Rating</span>
+      </div>
+      <div class="kb-membership-trust-card">
+        <span class="value">₹3,400+</span>
+        <span class="label">Avg. Annual Savings</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Membership Hero",
+  "tag": "section",
+  "class": "section-membership-hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Hero Title",
+      "default": "Become a Kishan Bazar Collective Member"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Hero Subtitle",
+      "default": "Exclusive savings, early access to seasonal harvests, premium organic staples, and member-only rewards."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Membership Hero"
+    }
+  ]
+}
+{% endschema %}

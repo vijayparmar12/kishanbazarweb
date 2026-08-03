@@ -138,6 +138,7 @@
       </div>
     </div>
   </header>
+  <div class="kb-header1-placeholder" data-header1-placeholder style="display: none; height: 70px;"></div>
 
   <!-- HEADER 2: NAVIGATION LINKS & FEATURES (SCROLLS NATURALLY BELOW HEADER 1) -->
   <div class="kb-header2" data-header2>
@@ -149,7 +150,7 @@
           <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-category-{{ section.id }}" data-mega-trigger>{{ section.settings.category_title }} <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span></button>
           {% render 'mega-menu', section: section, menu_type: 'category' %}
         </li>
-        <li class="kb-header__nav-item"><a class="kb-header__nav-link" href="{{ section.settings.collective_url | default: routes.collections_url }}">{{ section.settings.collective_title }}</a></li>
+        <li class="kb-header__nav-item"><a class="kb-header__nav-link" href="/pages/membership" data-membership-trigger>{{ section.settings.collective_title }}</a></li>
         <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item>
           <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-concern-{{ section.id }}" data-mega-trigger>{{ section.settings.concern_title }} <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span></button>
           {% render 'mega-menu', section: section, menu_type: 'concern' %}
@@ -177,7 +178,7 @@
         <li><a class="kb-header__mobile-link" href="{{ ghee_link }}">{{ section.settings.ghee_title }}</a></li>
         <li><a class="kb-header__mobile-link" href="{{ atta_link }}">{{ section.settings.atta_title }}</a></li>
         <li>{% render 'mega-menu', section: section, menu_type: 'category', mobile: true %}</li>
-        <li><a class="kb-header__mobile-link" href="{{ section.settings.collective_url | default: routes.collections_url }}">{{ section.settings.collective_title }}</a></li>
+        <li><a class="kb-header__mobile-link" href="/pages/membership" data-membership-trigger>{{ section.settings.collective_title }}</a></li>
         <li>{% render 'mega-menu', section: section, menu_type: 'concern', mobile: true %}</li>
         <li>{% render 'mega-menu', section: section, menu_type: 'farm', mobile: true %}</li>
         <li>{% render 'mega-menu', section: section, menu_type: 'customers', mobile: true %}</li>
@@ -197,7 +198,11 @@
       {% for block in section.blocks %}
         {% if block.type == 'feature_icon' %}
           {% assign feature_count = feature_count | plus: 1 %}
-          <a class="kb-header__feature" href="{{ block.settings.link | default: routes.collections_url }}" style="--kb-feature-icon-bg: {{ block.settings.icon_background }}; --kb-feature-icon-color: {{ block.settings.icon_color }};" {{ block.shopify_attributes }}>
+          {% assign default_feature_url = routes.all_products_collection_url %}
+          {% if block.settings.title contains 'Membership' or block.settings.title contains 'Collective' %}
+            {% assign default_feature_url = '/pages/membership' %}
+          {% endif %}
+          <a class="kb-header__feature" href="{{ block.settings.link | default: default_feature_url }}" {% if block.settings.title contains 'Membership' or block.settings.title contains 'Collective' %}data-membership-trigger{% endif %} style="--kb-feature-icon-bg: {{ block.settings.icon_background }}; --kb-feature-icon-color: {{ block.settings.icon_color }};" {{ block.shopify_attributes }}>
             <span class="kb-header__feature-icon" aria-hidden="true">
               {% if block.settings.icon_image != blank %}
                 {{ block.settings.icon_image | image_url: width: 96 | image_tag: alt: '', widths: '48, 72, 96', loading: 'lazy', class: 'kb-header__feature-image' }}
@@ -220,7 +225,7 @@
         {% endif %}
       {% endfor %}
       {% if feature_count == 0 %}
-        <a class="kb-header__feature kb-header__feature--gift" href="{{ routes.collections_url }}">
+        <a class="kb-header__feature kb-header__feature--gift" href="/pages/membership" data-membership-trigger>
           <span class="kb-header__feature-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="9" width="18" height="11" rx="2"/>
@@ -231,7 +236,7 @@
           </span>
           <span class="kb-header__feature-title">Membership Deals</span>
         </a>
-        <a class="kb-header__feature kb-header__feature--monsoon" href="{{ routes.collections_url }}">
+        <a class="kb-header__feature kb-header__feature--monsoon" href="{{ routes.all_products_collection_url }}">
           <span class="kb-header__feature-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M19 15.6A4.5 4.5 0 0 0 16.5 7h-1.8A7 7 0 1 0 4 14.3"/>
@@ -244,7 +249,7 @@
           </span>
           <span class="kb-header__feature-title">Monsoon Special</span>
         </a>
-        <a class="kb-header__feature kb-header__feature--new" href="{{ routes.collections_url }}">
+        <a class="kb-header__feature kb-header__feature--new" href="{{ routes.all_products_collection_url }}">
           <span class="kb-header__feature-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 3L2 8l10 5 10-5-10-5z"/>
@@ -254,7 +259,7 @@
           </span>
           <span class="kb-header__feature-title">New Launches</span>
         </a>
-        <a class="kb-header__feature kb-header__feature--all" href="{{ routes.collections_url }}">
+        <a class="kb-header__feature kb-header__feature--all" href="{{ routes.all_products_collection_url }}">
           <span class="kb-header__feature-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <rect x="4" y="9" width="9" height="11" rx="2"/>
@@ -265,7 +270,7 @@
           </span>
           <span class="kb-header__feature-title">All Products</span>
         </a>
-        <a class="kb-header__feature kb-header__feature--save" href="{{ routes.collections_url }}">
+        <a class="kb-header__feature kb-header__feature--save" href="{{ routes.all_products_collection_url }}">
           <span class="kb-header__feature-icon kb-header__feature-icon--text" aria-hidden="true">
             <span class="kb-header__feature-text-badge">Under<br>₹999</span>
           </span>

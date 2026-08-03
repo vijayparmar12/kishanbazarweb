@@ -458,7 +458,7 @@ body.kb-cart-drawer-open {
 .kb-cart-drawer {
   position: fixed;
   inset: 0;
-  z-index: 1200;
+  z-index: 999999 !important;
 }
 
 .kb-cart-drawer[hidden] {

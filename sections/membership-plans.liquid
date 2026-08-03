@@ -1,0 +1,56 @@
+{% doc %}
+  Renders the Membership Pricing Plans section.
+{% enddoc %}
+
+<section class="kb-membership-plans" id="plans" data-membership-plans>
+  <div class="kb-membership-plans__container">
+    <div class="kb-membership-section-header">
+      <span class="eyebrow">SELECT YOUR PLAN</span>
+      <h2 class="title">Simple, Transparent Membership Plans</h2>
+      <p class="subtitle">Invest in your family's health and start saving from day one. Cancel or upgrade anytime.</p>
+    </div>
+
+    <div class="kb-membership-plans__grid">
+      {% render 'membership-price-card',
+        plan_name: 'Starter',
+        duration: '3 Months Plan',
+        price: '₹499',
+        original_price: '₹799',
+        save_badge: 'SAVE 38%',
+        is_popular: false
+      %}
+
+      {% render 'membership-price-card',
+        plan_name: 'Premium',
+        duration: '6 Months Plan',
+        price: '₹899',
+        original_price: '₹1,499',
+        save_badge: 'SAVE 40%',
+        is_popular: true
+      %}
+
+      {% render 'membership-price-card',
+        plan_name: 'Elite',
+        duration: '12 Months Plan',
+        price: '₹1,499',
+        original_price: '₹2,999',
+        save_badge: 'BEST VALUE 50%',
+        is_popular: false
+      %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Membership Plans",
+  "tag": "section",
+  "class": "section-membership-plans",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Membership Plans"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,54 @@
+{% doc %}
+  Renders the Membership FAQ accordion section.
+{% enddoc %}
+
+<section class="kb-membership-faq" data-membership-faq>
+  <div class="kb-membership-faq__container">
+    <div class="kb-membership-section-header">
+      <span class="eyebrow">FREQUENTLY ASKED QUESTIONS</span>
+      <h2 class="title">Got Questions? We Have Answers</h2>
+      <p class="subtitle">Everything you need to know about the Kishan Bazar Collective Membership.</p>
+    </div>
+
+    <div class="kb-membership-faq__accordion">
+      {% render 'membership-faq-item',
+        question: 'How do I activate my membership after purchase?',
+        answer: 'Your membership is activated instantly upon payment completion! Your 10% extra discount, free shipping threshold, and 2X loyalty points will apply automatically to your account during checkout.'
+      %}
+
+      {% render 'membership-faq-item',
+        question: 'Can I combine my 10% member discount with coupon codes?',
+        answer: 'Yes! Member discounts stack on top of site-wide promotional sales and seasonal offers unless explicitly specified otherwise.'
+      %}
+
+      {% render 'membership-faq-item',
+        question: 'How does the free shipping benefit work?',
+        answer: 'As an active member, your order threshold for FREE shipping drops to ₹499 (compared to ₹1,499 for non-members) on all deliveries across India.'
+      %}
+
+      {% render 'membership-faq-item',
+        question: 'Can I upgrade or renew my membership plan early?',
+        answer: 'Absolutely. You can upgrade from Starter to Premium or Elite at any time. Any remaining days on your current plan will be credited towards your upgraded duration.'
+      %}
+
+      {% render 'membership-faq-item',
+        question: 'What is the refund policy on memberships?',
+        answer: 'We offer a 7-day risk-free money-back guarantee. If you have not placed an order using your member privileges within 7 days of purchase, contact us for a 100% full refund.'
+      %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Membership FAQ",
+  "tag": "section",
+  "class": "section-membership-faq",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Membership FAQ"
+    }
+  ]
+}
+{% endschema %}
