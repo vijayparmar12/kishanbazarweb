@@ -186,13 +186,15 @@
 
   // Event Listeners
   document.addEventListener('click', (event) => {
-    // 1. Click Profile Icon -> If logged in, go to /account; if guest, open Login Modal
-    const profileTrigger = event.target.closest('a[href*="/account"]');
+    // 1. Click Profile Icon or Mobile Account Button
+    const profileTrigger = event.target.closest('a[href*="/account"], [data-customer-login-trigger]');
     if (profileTrigger) {
+      event.preventDefault();
       const session = getSession();
       if (!session || !session.isLoggedIn) {
-        event.preventDefault();
         openAuthModal();
+      } else {
+        window.location.href = '/pages/account';
       }
     }
 

@@ -878,6 +878,36 @@ body.kb-header-menu-open {
   }
 }
 
+/* Mobile Menu Account Wrapper */
+.kb-header__mobile-account-wrap {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid #eef2ed;
+  margin-top: auto;
+  background: #fcfdfc;
+}
+
+.kb-header__mobile-account-btn {
+  width: 100%;
+  min-height: 48px;
+  background: #23421f;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  box-shadow: 0 4px 15px rgba(35, 66, 31, 0.15);
+  transition: all 200ms ease;
+}
+
+.kb-header__mobile-account-btn:hover {
+  background: #162f15;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .kb-header *,
   .kb-header *::before,
