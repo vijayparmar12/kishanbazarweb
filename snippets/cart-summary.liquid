@@ -1,0 +1,97 @@
+{% doc %}
+  Renders the cart summary, note editor, and checkout actions.
+
+  @param {cart} cart - The current cart object.
+  @param {number} [free_shipping_threshold] - Threshold for the free shipping progress message.
+  @param {string} [checkout_url] - Checkout destination.
+{% enddoc %}
+
+{% liquid
+  assign checkout_url = checkout_url | default: routes.checkout_url
+  assign free_shipping_threshold = free_shipping_threshold | default: 0
+  assign subtotal = cart.original_total_price | default: cart.total_price
+  assign total = cart.total_price
+  assign discount_total = cart.total_discount | default: 0
+  assign progress_value = 0
+  assign has_free_shipping = false
+
+  if free_shipping_threshold > 0
+    assign progress_value = total | times: 100 | divided_by: free_shipping_threshold
+    if progress_value > 100
+      assign progress_value = 100
+    endif
+    if total >= free_shipping_threshold
+      assign has_free_shipping = true
+    endif
+  endif
+%}
+
+<aside class="kb-cart-summary" data-cart-summary>
+  <div class="kb-cart-summary__card">
+    <div class="kb-cart-summary__header">
+      <h2 class="kb-cart-summary__title">{{ 'cart.title' | t }}</h2>
+      <p class="kb-cart-summary__subtitle">{{ cart.item_count }} {{ 'cart.title' | t | downcase }}</p>
+    </div>
+
+    {% if free_shipping_threshold > 0 %}
+      <div class="kb-cart-summary__shipping-progress">
+        <div class="kb-cart-summary__shipping-copy">
+          {% if has_free_shipping %}
+            {{ 'cart.free_shipping_achieved' | t }}
+          {% else %}
+            {% assign remaining = free_shipping_threshold | minus: total %}
+            {{ 'cart.add_more_for_free_shipping' | t: amount: remaining | money }}
+          {% endif %}
+        </div>
+        <progress class="kb-cart-summary__progress" value="{{ progress_value }}" max="100">{{ progress_value }}%</progress>
+      </div>
+    {% endif %}
+
+    <dl class="kb-cart-summary__totals">
+      <div>
+        <dt>{{ 'cart.subtotal' | t }}</dt>
+        <dd>{{ subtotal | money }}</dd>
+      </div>
+      <div>
+        <dt>{{ 'cart.discount' | t }}</dt>
+        <dd>{% if discount_total > 0 %}-{{ discount_total | money }}{% else %}{{ 0 | money }}{% endif %}</dd>
+      </div>
+      <div>
+        <dt>{{ 'cart.shipping' | t }}</dt>
+        <dd>{{ 'cart.calculated_at_checkout' | t }}</dd>
+      </div>
+      <div>
+        <dt>{{ 'cart.taxes' | t }}</dt>
+        <dd>{{ 'cart.calculated_at_checkout' | t }}</dd>
+      </div>
+      <div class="kb-cart-summary__totals--grand">
+        <dt>{{ 'cart.estimated_total' | t }}</dt>
+        <dd>{{ total | money }}</dd>
+      </div>
+    </dl>
+
+    <div class="kb-cart-summary__coupon">
+      <label class="kb-cart-summary__label" for="CartDiscountCode-{{ section.id }}">{{ 'cart.coupon_code' | t }}</label>
+      <div class="kb-cart-summary__coupon-row">
+        <input class="kb-cart-summary__input" id="CartDiscountCode-{{ section.id }}" type="text" autocomplete="off" placeholder="{{ 'cart.coupon_code' | t }}" data-discount-code>
+        <button class="kb-cart-summary__coupon-button" type="button" data-apply-discount>{{ 'cart.apply_coupon' | t }}</button>
+      </div>
+      <p class="kb-cart-summary__hint">{{ 'cart.calculated_at_checkout' | t }}</p>
+    </div>
+
+    <div class="kb-cart-summary__notes">
+      <label class="kb-cart-summary__label" for="CartNote-{{ section.id }}">{{ 'cart.notes' | t }}</label>
+      <textarea class="kb-cart-summary__textarea" id="CartNote-{{ section.id }}" rows="4" placeholder="{{ 'cart.notes' | t }}" data-cart-note>{{ cart.note }}</textarea>
+      <label class="kb-cart-summary__checkbox">
+        <input type="checkbox" data-gift-wrap-toggle>
+        <span>{{ 'cart.gift_wrap' | t }}</span>
+      </label>
+      <p class="kb-cart-summary__hint">{{ 'cart.gift_wrap_hint' | t }}</p>
+    </div>
+
+    <div class="kb-cart-summary__actions">
+      <a class="kb-cart-summary__checkout button" href="{{ checkout_url }}" data-checkout-link>{{ 'cart.proceed_to_checkout' | t }}</a>
+      <a class="kb-cart-summary__continue" href="{{ routes.collections_url }}">{{ 'cart.continue_shopping' | t }}</a>
+    </div>
+  </div>
+</aside>

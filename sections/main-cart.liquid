@@ -1,0 +1,56 @@
+{{ 'cart.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+
+<section class="kb-cart-page" data-main-cart data-cart-section-id="{{ section.id }}">
+  <nav class="kb-cart-page__breadcrumbs" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">{{ 'sections.main_cart.breadcrumb_home' | t }}</a>
+    <span aria-hidden="true">/</span>
+    <span>{{ 'sections.main_cart.breadcrumb_cart' | t }}</span>
+  </nav>
+
+  <header class="kb-cart-page__header">
+    <p class="kb-cart-page__eyebrow">{{ 'cart.title' | t }}</p>
+    <h1 class="kb-cart-page__title">{{ 'sections.main_cart.title' | t }}</h1>
+    <p class="kb-cart-page__text">{{ cart.item_count }} {{ 'cart.title' | t | downcase }}</p>
+  </header>
+
+  {% if cart.item_count > 0 %}
+    <div class="kb-cart-page__layout">
+      <div class="kb-cart-page__items">
+        {% for item in cart.items %}
+          {% render 'cart-item', item: item, line_index: forloop.index %}
+        {% endfor %}
+      </div>
+
+      <div class="kb-cart-page__summary">
+        {% render 'cart-summary', cart: cart, free_shipping_threshold: section.settings.free_shipping_threshold, checkout_url: routes.checkout_url %}
+      </div>
+    </div>
+  {% else %}
+    <div class="kb-cart-page__empty">
+      <div class="kb-cart-page__empty-card">
+        <h2>{{ 'sections.main_cart.empty_title' | t }}</h2>
+        <p>{{ 'sections.main_cart.empty_text' | t }}</p>
+        <a class="button" href="{{ routes.collections_url }}">{{ 'sections.main_cart.empty_cta' | t }}</a>
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.main_cart.title",
+  "settings": [
+    {
+      "type": "range",
+      "id": "free_shipping_threshold",
+      "label": "Free shipping threshold",
+      "min": 0,
+      "max": 9900,
+      "step": 100,
+      "unit": "₹",
+      "default": 5000
+    }
+  ]
+}
+{% endschema %}

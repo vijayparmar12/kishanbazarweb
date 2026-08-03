@@ -29,7 +29,7 @@
     {{ 'component-popup.css' | asset_url | stylesheet_tag }}
     {{ 'component-product-card.css' | asset_url | stylesheet_tag }}
     {{ 'component-quantity-selector.css' | asset_url | stylesheet_tag }}
-    {{ 'home-polish.css' | asset_url | stylesheet_tag }}
+    {{ 'cart.css' | asset_url | stylesheet_tag }}
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
@@ -42,6 +42,9 @@
 
   <body>
     {% sections 'header-group' %}
+
+    {% render 'cart-drawer' %}
+    {% render 'express-checkout-modal' %}
 
     {{ content_for_layout }}
 

@@ -131,9 +131,9 @@
             </a>
           {% endif %}
           {% if section.settings.show_cart %}
-            <a class="kb-header__action kb-header__action--cart" href="{{ routes.cart_url }}" aria-label="Cart, {{ cart.item_count }} items">
-              {% render 'icon', name: 'cart', size: 26 %}<span class="kb-header__badge kb-header__badge--cart" aria-hidden="true">{{ cart.item_count }}</span>
-            </a>
+            <button class="kb-header__action kb-header__action--cart" type="button" aria-label="Cart, {{ cart.item_count }} items" aria-controls="CartDrawer" data-cart-drawer-trigger>
+              {% render 'icon', name: 'cart', size: 26 %}<span class="kb-header__badge kb-header__badge--cart" aria-hidden="true" data-cart-count>{{ cart.item_count }}</span>
+            </button>
           {% endif %}
         </div>
       </div>

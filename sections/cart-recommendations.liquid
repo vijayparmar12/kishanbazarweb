@@ -1,0 +1,56 @@
+{{ 'cart.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign seed_product = nil
+  if cart.item_count > 0
+    assign seed_product = cart.items.first.product
+  endif
+%}
+
+<section
+  class="kb-cart-recommendations"
+  data-cart-recommendations
+  data-section-id="{{ section.id }}"
+  data-product-id="{% if seed_product != blank %}{{ seed_product.id }}{% endif %}"
+  data-limit="{{ section.settings.limit }}"
+>
+  <div class="kb-section-heading">
+    <p class="kb-section-heading__eyebrow">{{ 'sections.cart_recommendations.label' | t }}</p>
+    <h2 class="kb-section-heading__title">{{ section.settings.title }}</h2>
+  </div>
+
+  <div class="kb-cart-recommendations__track" data-cart-recommendations-track>
+    {% if recommendations.performed and recommendations.products_count > 0 %}
+      {% for product in recommendations.products %}
+        {% render 'product-card', product: product, show_vendor: true, show_price: true, show_compare_price: true, show_rating: false, show_badge: true, show_wishlist: false, show_quickview: false, show_add_to_cart: true %}
+      {% endfor %}
+    {% else %}
+      <div class="kb-cart-recommendations__skeleton" aria-hidden="true"></div>
+      <div class="kb-cart-recommendations__skeleton" aria-hidden="true"></div>
+      <div class="kb-cart-recommendations__skeleton" aria-hidden="true"></div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.cart_recommendations.title",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "You may also like"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Products",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,159 @@
+{% doc %}
+  Renders the global cart drawer shell.
+{% enddoc %}
+
+<aside class="kb-cart-drawer" id="CartDrawer" hidden data-cart-drawer data-cart-drawer-mode="full" aria-label="{{ 'cart.title' | t }}">
+  <div class="kb-cart-drawer__overlay" data-cart-drawer-close></div>
+  <div class="kb-cart-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle">
+    <div class="kb-cart-drawer__header">
+      <h2 class="kb-cart-drawer__title" id="CartDrawerTitle">YOUR CART ({{ cart.item_count }})</h2>
+      <button class="kb-cart-drawer__close" type="button" aria-label="{{ 'cart.close' | t }}" data-cart-drawer-close>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="kb-cart-drawer__promo">
+      <div class="kb-cart-drawer__promo-bar">🎉 Get 10% OFF on orders above ₹3000 | <strong>TBOF10</strong></div>
+      <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status>
+        {% if cart.total_price >= 300000 %}
+          🎉 Hurray! You've unlocked 10% OFF + FREE Shipping
+        {% elsif cart.total_price >= 149900 %}
+          🎉 Hurray! You've unlocked FREE Shipping! Add {{ 300000 | minus: cart.total_price | money_without_trailing_zeros }} more for 10% OFF
+        {% else %}
+          Add {{ 149900 | minus: cart.total_price | money_without_trailing_zeros }} more for FREE Shipping
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="kb-cart-drawer__progress" data-cart-drawer-progress>
+      <div class="kb-cart-drawer__progress-track">
+        {% liquid
+          assign fill_pct = 0
+          if cart.total_price >= 300000
+            assign fill_pct = 100
+          elsif cart.total_price >= 149900
+            assign extra = cart.total_price | minus: 149900 | times: 50 | divided_by: 150100
+            assign fill_pct = 50 | plus: extra
+          else
+            assign fill_pct = cart.total_price | times: 50 | divided_by: 149900
+          endif
+        %}
+        <span class="kb-cart-drawer__progress-fill" style="width: {{ fill_pct }}%"></span>
+        
+        <div class="kb-cart-drawer__progress-marker kb-cart-drawer__progress-marker--1 {% if cart.total_price >= 149900 %}is-active{% endif %}" style="left: 50%">
+          <span class="kb-cart-drawer__marker-top">₹1499</span>
+          <span class="kb-cart-drawer__marker-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <span class="kb-cart-drawer__marker-bottom">FREE SHIPPING</span>
+        </div>
+
+        <div class="kb-cart-drawer__progress-marker kb-cart-drawer__progress-marker--2 {% if cart.total_price >= 300000 %}is-active{% endif %}" style="left: 92%">
+          <span class="kb-cart-drawer__marker-top">₹3000</span>
+          <span class="kb-cart-drawer__marker-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </span>
+          <span class="kb-cart-drawer__marker-bottom">10% OFF</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kb-cart-drawer__body">
+      <div class="kb-cart-drawer__items" data-cart-drawer-items>
+        {% for item in cart.items %}
+          {% render 'cart-item', item: item, line_index: forloop.index, compact: true %}
+        {% else %}
+          <div class="kb-cart-drawer__empty" data-cart-drawer-empty data-empty-title="{{ 'sections.main_cart.empty_title' | t }}" data-empty-text="{{ 'sections.main_cart.empty_text' | t }}">
+            <h3>{{ 'sections.main_cart.empty_title' | t }}</h3>
+            <p>{{ 'sections.main_cart.empty_text' | t }}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Offers & Discounts Block (Image 1) -->
+      <div class="kb-cart-drawer__offers-block" data-cart-offers-block>
+        <div class="kb-cart-coupon-box">
+          <div class="kb-cart-coupon-info">
+            <span class="kb-cart-coupon-icon">%</span>
+            <div class="kb-cart-coupon-text">
+              <strong data-cart-savings-label>Save ₹709</strong>
+              <span>with '<strong data-applied-coupon>TBOF10</strong>'</span>
+            </div>
+          </div>
+          <button type="button" class="kb-cart-coupon-apply-btn" data-cart-apply-coupon>Apply</button>
+        </div>
+        
+        <div class="kb-cart-offers-links">
+          <button type="button" class="kb-cart-offers-link" data-open-coupons-modal>
+            <span class="icon">%</span> More offers <span class="arrow">View all coupons &gt;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Membership & Frequently Bought Together Carousel (Image 1) -->
+      <div class="kb-cart-drawer__addons-block">
+        <div class="kb-cart-addons-tabs">
+          <button type="button" class="kb-cart-tab-btn is-active" data-cart-tab="membership">Membership</button>
+          <button type="button" class="kb-cart-tab-btn" data-cart-tab="frequently">Frequently Bought Together</button>
+        </div>
+
+        <div class="kb-cart-tab-panel is-active" data-tab-panel="membership">
+          <div class="kb-cart-addons-track">
+            <div class="kb-cart-addon-card">
+              <div class="kb-cart-addon-badge">Member Benefits<br><strong>12% OFF</strong><br>on all orders</div>
+              <div class="kb-cart-addon-details">
+                <div class="kb-cart-addon-title">GET MEMBERSHIP FOR 3 months</div>
+                <div class="kb-cart-addon-price">₹450.00</div>
+              </div>
+              <button type="button" class="kb-cart-addon-add-btn" data-add-membership="45000">+ ADD</button>
+            </div>
+
+            <div class="kb-cart-addon-card">
+              <div class="kb-cart-addon-badge">Member Benefits<br><strong>12% OFF</strong><br>on all orders</div>
+              <div class="kb-cart-addon-details">
+                <div class="kb-cart-addon-title">GET MEMBERSHIP FOR 12 months</div>
+                <div class="kb-cart-addon-price">₹1,500.00</div>
+              </div>
+              <button type="button" class="kb-cart-addon-add-btn" data-add-membership="150000">+ ADD</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="kb-cart-tab-panel" data-tab-panel="frequently" style="display: none;">
+          <div class="kb-cart-addons-track">
+            {% for product in collections.all.products limit: 4 %}
+              <div class="kb-cart-addon-card">
+                <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title }}" class="kb-cart-addon-img">
+                <div class="kb-cart-addon-details">
+                  <div class="kb-cart-addon-title">{{ product.title }}</div>
+                  <div class="kb-cart-addon-price">₹{{ product.price | money_without_currency }}</div>
+                </div>
+                <button type="button" class="kb-cart-addon-add-btn" data-add-variant-id="{{ product.selected_or_first_available_variant.id }}">+ ADD</button>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kb-cart-drawer__footer">
+      <button class="kb-cart-drawer__checkout-btn" type="button" data-trigger-express-checkout>
+        <span class="kb-cart-drawer__checkout-label">Checkout</span>
+        <span class="kb-cart-drawer__payment-badges">
+          <span class="kb-pay-badge kb-pay-badge--paytm">Paytm</span>
+          <span class="kb-pay-badge kb-pay-badge--gpay">GPay</span>
+          <span class="kb-pay-badge kb-pay-badge--phonepe">Pe</span>
+          <span class="kb-pay-badge kb-pay-badge--cards">💳</span>
+        </span>
+      </button>
+      <div class="kb-cart-drawer__credit">Powered by <strong>Shopflo</strong></div>
+    </div>
+  </div>
+</aside>

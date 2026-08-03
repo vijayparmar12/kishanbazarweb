@@ -14,10 +14,75 @@
     "comment_form_title": "Add a comment"
   },
   "cart": {
+    "add_more_for_free_shipping": "Add {{ amount }} more for free shipping",
+    "apply_coupon": "Apply",
+    "calculated_at_checkout": "Calculated at checkout",
     "checkout": "Checkout",
+    "close": "Close cart drawer",
+    "coupon_code": "Coupon code",
+    "decrease_quantity": "Decrease quantity for {{ product }}",
+    "delivery_range": "3-5 business days",
+    "discount": "Discount",
+    "estimated_delivery": "Estimated delivery",
+    "estimated_total": "Estimated total",
+    "free_shipping_achieved": "You have unlocked free shipping",
+    "gift_wrap": "Gift wrap",
+    "gift_wrap_hint": "Add gift wrap to this order",
+    "increase_quantity": "Increase quantity for {{ product }}",
+    "in_stock": "In stock",
+    "continue_shopping": "Continue shopping",
+    "notes": "Order note",
+    "out_of_stock": "Out of stock",
+    "proceed_to_checkout": "Proceed to checkout",
+    "remove": "Remove",
+    "save_for_later": "Save for later",
+    "shipping": "Shipping",
+    "sku": "SKU",
+    "stock_status": "Stock status",
+    "subtotal": "Subtotal",
+    "taxes": "Taxes",
+    "variant": "Variant",
     "title": "Cart",
     "update": "Update",
-    "remove": "Remove"
+    "vendor": "Vendor"
+  },
+  "checkout": {
+    "address": "Address",
+    "address_step": "Address",
+    "billing_address": "Billing address",
+    "card_number": "Card number",
+    "cards": "Cards",
+    "city": "City",
+    "continue_shopping": "Continue shopping",
+    "cash_on_delivery": "Cash on delivery",
+    "country": "Country",
+    "cart": "Cart",
+    "delivery_options": "Delivery options",
+    "delivery_step": "Delivery",
+    "express_delivery": "Express delivery",
+    "email": "Email",
+    "full_name": "Full name",
+    "gift_card": "Gift card",
+    "grand_total": "Grand total",
+    "headline": "Checkout",
+    "mobile": "Mobile",
+    "name_on_card": "Name on card",
+    "order_summary": "Order summary",
+    "payment_methods": "Payment methods",
+    "payment_note": "Your payment details are handled securely at checkout.",
+    "payment_status": "Payment status",
+    "pin_code": "PIN code",
+    "place_order": "Place order",
+    "payment_step": "Payment",
+    "same_day_delivery": "Same day delivery",
+    "standard_delivery": "Standard delivery",
+    "review_order": "Review your order",
+    "shipping_address": "Shipping address",
+    "state": "State",
+    "upi": "UPI",
+    "wallet": "Wallet",
+    "tax_note": "Taxes and shipping are calculated at checkout.",
+    "title": "Checkout"
   },
   "customers": {
     "login": {
@@ -37,12 +102,48 @@
     "expires_on": "Expires on {{ expires_on }}",
     "use_at_checkout": "Use this gift card at checkout"
   },
+  "order_confirmation": {
+    "continue_shopping": "Continue shopping",
+    "delivery_address": "Delivery address",
+    "download_invoice": "Download invoice",
+    "expected_delivery": "Expected delivery",
+    "invoice_note": "Your invoice will be available from your account or email if enabled.",
+    "order_date": "Order date",
+    "order_number": "Order number",
+    "payment_status": "Payment status",
+    "thank_you": "Thank you for your order",
+    "title": "Order confirmation",
+    "track_order": "Track order"
+  },
   "password": {
     "title": "This shop is private",
     "password": "Password",
     "enter": "Enter"
   },
   "sections": {
+    "cart_recommendations": {
+      "empty": "Recommended products will appear here.",
+      "label": "Related products",
+      "title": "You may also like"
+    },
+    "checkout_banner": {
+      "description": "Review shipping, payment, and order details before you continue.",
+      "step": "Step {{ step }} of {{ total }}",
+      "title": "Checkout"
+    },
+    "main_cart": {
+      "breadcrumb_cart": "Cart",
+      "breadcrumb_home": "Home",
+      "empty_cta": "Continue shopping",
+      "empty_text": "Add a few essentials and come back to complete your order.",
+      "empty_title": "Your cart is empty",
+      "title": "Shopping cart"
+    },
+    "order_confirmation": {
+      "summary": "Your order has been received and is now being prepared.",
+      "thank_you": "Thank you for your order",
+      "title": "Order confirmation"
+    },
     "shoppable_videos": {
       "name": "Shop by videos",
       "previous": "Previous videos",
@@ -57,7 +158,6 @@
       "sold_out": "Sold out",
       "save_percent": "Save {{ percent }}%",
       "empty": "Add video blocks and link a product to each one.",
-      "select_product_hint": "Select a product and video in this block's settings.",
       "video_item": "Video",
       "configure_blocks": "Add a video and link a product for add to cart.",
       "select_product_hint": "Select a product in this block to enable add to cart.",

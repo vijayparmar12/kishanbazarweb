@@ -1,0 +1,59 @@
+{% doc %}
+  Renders a checkout progress indicator.
+
+  @param {string} current_step - Current step key: cart, address, delivery, payment, review
+  @param {number} [total_steps] - Total number of visible steps
+{% enddoc %}
+
+{% liquid
+  assign total_steps = total_steps | default: 4
+  assign steps = 'cart,address,delivery,payment' | split: ','
+%}
+
+<nav class="kb-checkout-progress" aria-label="{{ 'checkout.review_order' | t }}">
+  <ol class="kb-checkout-progress__list" role="list">
+    {% for step in steps %}
+      {% liquid
+        assign is_current = false
+        assign is_complete = false
+        case current_step
+          when 'address'
+            if step == 'cart'
+              assign is_complete = true
+            elsif step == 'address'
+              assign is_current = true
+            endif
+          when 'delivery'
+            if step == 'cart' or step == 'address'
+              assign is_complete = true
+            elsif step == 'delivery'
+              assign is_current = true
+            endif
+          when 'payment'
+            if step == 'cart' or step == 'address' or step == 'delivery'
+              assign is_complete = true
+            elsif step == 'payment'
+              assign is_current = true
+            endif
+          when 'review'
+            assign is_complete = true
+          else
+            if step == current_step
+              assign is_current = true
+            endif
+        endcase
+      %}
+      <li class="kb-checkout-progress__item{% if is_current %} is-current{% endif %}{% if is_complete %} is-complete{% endif %}">
+        <span class="kb-checkout-progress__dot" aria-hidden="true">{% if is_complete %}{% render 'icon', name: 'check-circle', size: 18 %}{% else %}{{ forloop.index }}{% endif %}</span>
+        <span class="kb-checkout-progress__label">
+          {% case step %}
+            {% when 'cart' %}{{ 'checkout.cart' | t }}
+            {% when 'address' %}{{ 'checkout.address_step' | t }}
+            {% when 'delivery' %}{{ 'checkout.delivery_step' | t }}
+            {% when 'payment' %}{{ 'checkout.payment_step' | t }}
+          {% endcase %}
+        </span>
+      </li>
+    {% endfor %}
+  </ol>
+</nav>

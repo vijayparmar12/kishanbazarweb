@@ -1,0 +1,22 @@
+.kb-order-confirmation__card {
+  display: grid;
+  gap: 16px;
+}
+
+.kb-order-confirmation__address {
+  font-style: normal;
+  color: #17311f;
+  line-height: 1.7;
+}
+
+.kb-order-confirmation__totals div {
+  padding-block: 12px;
+}
+
+.kb-order-confirmation__actions {
+  margin-top: 8px;
+}
+
+.kb-order-confirmation__link {
+  min-width: 100%;
+}

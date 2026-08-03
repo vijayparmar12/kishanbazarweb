@@ -1,0 +1,18 @@
+{% doc %}
+  Redirects the /cart page to the homepage so the storefront uses the cart drawer only.
+{% enddoc %}
+
+<noscript>
+  <meta http-equiv="refresh" content="0; url={{ routes.root_url }}">
+</noscript>
+
+<script>
+  window.location.replace({{ routes.root_url | json }});
+</script>
+
+{% schema %}
+{
+  "name": "Cart redirect",
+  "settings": []
+}
+{% endschema %}

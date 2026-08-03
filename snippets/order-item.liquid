@@ -1,0 +1,35 @@
+{% doc %}
+  Renders a compact order item row.
+
+  @param {line_item} item - The order line item.
+{% enddoc %}
+
+<article class="kb-order-item" data-order-item>
+  <div class="kb-order-item__media">
+    {% if item.image != blank %}
+      {{ item.image | image_url: width: 180 | image_tag: class: 'kb-order-item__image', loading: 'lazy', widths: '90, 120, 180' }}
+    {% else %}
+      {{ 'product-1' | placeholder_svg_tag: 'kb-order-item__placeholder' }}
+    {% endif %}
+  </div>
+
+  <div class="kb-order-item__content">
+    <h3 class="kb-order-item__title">{{ item.product.title | default: item.title }}</h3>
+    <p class="kb-order-item__meta">{{ item.variant.title | default: item.properties.size }}</p>
+    <dl class="kb-order-item__details">
+      <div>
+        <dt>{{ 'cart.sku' | t }}</dt>
+        <dd>{{ item.sku | default: item.variant.sku | default: '—' }}</dd>
+      </div>
+      <div>
+        <dt>{{ 'cart.vendor' | t }}</dt>
+        <dd>{{ item.vendor | default: item.product.vendor }}</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="kb-order-item__aside">
+    <span class="kb-order-item__qty">×{{ item.quantity }}</span>
+    <span class="kb-order-item__price">{{ item.final_line_price | money }}</span>
+  </div>
+</article>

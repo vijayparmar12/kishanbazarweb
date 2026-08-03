@@ -161,4 +161,3 @@ if (document.readyState === 'loading') {
       }
     });
   });
-});

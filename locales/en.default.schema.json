@@ -75,6 +75,56 @@
     }
   },
   "sections": {
+    "cart_recommendations": {
+      "title": "Cart recommendations",
+      "settings": {
+        "title": {
+          "label": "Title"
+        },
+        "limit": {
+          "label": "Products"
+        }
+      }
+    },
+    "checkout_banner": {
+      "title": "Checkout banner",
+      "settings": {
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
+        "title": {
+          "label": "Title"
+        },
+        "description": {
+          "label": "Description"
+        },
+        "free_shipping_threshold": {
+          "label": "Free shipping threshold"
+        }
+      }
+    },
+    "main_cart": {
+      "title": "Cart",
+      "settings": {
+        "free_shipping_threshold": {
+          "label": "Free shipping threshold"
+        }
+      }
+    },
+    "order_confirmation": {
+      "title": "Order confirmation",
+      "settings": {
+        "eyebrow": {
+          "label": "Eyebrow"
+        },
+        "title": {
+          "label": "Title"
+        },
+        "description": {
+          "label": "Description"
+        }
+      }
+    },
     "shoppable_videos": {
       "name": "Shop by videos",
       "settings": {

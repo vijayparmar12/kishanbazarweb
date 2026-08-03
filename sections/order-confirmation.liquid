@@ -1,0 +1,98 @@
+{{ 'section-order-confirmation.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-order-confirmation.js' | asset_url }}" defer="defer"></script>
+
+<section class="kb-order-confirmation" data-order-confirmation data-section-id="{{ section.id }}">
+  <div class="kb-order-confirmation__shell">
+    <header class="kb-order-confirmation__hero">
+      <div class="kb-order-confirmation__icon" aria-hidden="true">
+        {% render 'icon', name: 'check-circle', size: 48 %}
+      </div>
+      <p class="kb-order-confirmation__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1 class="kb-order-confirmation__title">{% if order != blank %}{{ 'order_confirmation.thank_you' | t }}{% else %}{{ section.settings.title }}{% endif %}</h1>
+      <p class="kb-order-confirmation__text">{{ section.settings.description }}</p>
+      {% if order != blank %}
+        <div class="kb-order-confirmation__meta">
+          <span>{{ 'order_confirmation.order_number' | t }}: {{ order.name }}</span>
+          <span>{{ 'order_confirmation.order_date' | t }}: {{ order.created_at | date: '%b %d, %Y' }}</span>
+          <span>{{ 'order_confirmation.payment_status' | t }}: {{ order.financial_status_label | default: 'Pending' }}</span>
+        </div>
+      {% endif %}
+    </header>
+
+    {% render 'checkout-progress', current_step: 'review' %}
+
+    <div class="kb-order-confirmation__grid">
+      <div class="kb-order-confirmation__main">
+        <section class="kb-order-confirmation__card">
+          <h2>{{ 'order_confirmation.delivery_address' | t }}</h2>
+          {% if order != blank and order.shipping_address != blank %}
+            <address class="kb-order-confirmation__address">
+              {{ order.shipping_address | format_address }}
+            </address>
+          {% else %}
+            <p>{{ section.settings.description }}</p>
+          {% endif %}
+        </section>
+
+        <section class="kb-order-confirmation__card">
+          <h2>{{ 'checkout.order_summary' | t }}</h2>
+          <div class="kb-order-confirmation__items">
+            {% if order != blank %}
+              {% for item in order.line_items %}
+                {% render 'order-item', item: item %}
+              {% endfor %}
+            {% else %}
+              <p>{{ 'sections.order_confirmation.summary' | t }}</p>
+            {% endif %}
+          </div>
+        </section>
+      </div>
+
+      <aside class="kb-order-confirmation__summary">
+        <section class="kb-order-confirmation__card">
+          <h2>{{ 'checkout.grand_total' | t }}</h2>
+          {% if order != blank %}
+            <dl class="kb-order-confirmation__totals">
+              <div><dt>{{ 'cart.subtotal' | t }}</dt><dd>{{ order.subtotal_price | money }}</dd></div>
+              <div><dt>{{ 'cart.shipping' | t }}</dt><dd>{{ order.shipping_price | money }}</dd></div>
+              <div><dt>{{ 'cart.discount' | t }}</dt><dd>-{{ order.total_discounts | money }}</dd></div>
+              <div><dt>{{ 'checkout.grand_total' | t }}</dt><dd>{{ order.total_price | money }}</dd></div>
+            </dl>
+          {% endif %}
+          <div class="kb-order-confirmation__actions">
+            <a class="button" href="{{ order.order_status_url | default: routes.account_url }}">{{ 'order_confirmation.track_order' | t }}</a>
+            <a class="kb-order-confirmation__link" href="{{ routes.account_url }}">{{ 'order_confirmation.download_invoice' | t }}</a>
+            <a class="kb-order-confirmation__link" href="{{ routes.collections_url }}">{{ 'order_confirmation.continue_shopping' | t }}</a>
+          </div>
+          <p class="kb-order-confirmation__note">{{ 'order_confirmation.invoice_note' | t }}</p>
+        </section>
+      </aside>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.order_confirmation.title",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Success"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Thank you for your order"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Your order has been received and is now being prepared."
+    }
+  ]
+}
+{% endschema %}

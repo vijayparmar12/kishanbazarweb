@@ -11,13 +11,14 @@
 }
 
 .kb-header--scrolled {
-  box-shadow: 0 12px 32px rgb(35 66 31 / 14%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .kb-header--scrolled .kb-header__announcement,
+.kb-header--scrolled .kb-header__nav,
 .kb-header--scrolled .kb-header__features,
 .kb-header--inner-page .kb-header__features {
-  display: none;
+  display: none !important;
 }
 
 .kb-header,
