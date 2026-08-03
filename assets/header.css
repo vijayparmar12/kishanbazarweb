@@ -1,34 +1,23 @@
-.shopify-section-group-header-group,
-.shopify-section:has(.kb-header) {
+/* HEADER 1: Search, Logo, Profile, Wishlist, Cart (ALWAYS STICKY AT TOP) */
+.kb-header1 {
   position: sticky;
   top: 0;
-  z-index: 999;
-}
-
-.kb-header {
-  background: var(--kb-header-bg, #fff);
+  z-index: 9999;
+  background: var(--kb-header-bg, #ffffff);
   color: var(--kb-nav-text, #23421f);
-  position: sticky;
-  top: 0;
-  z-index: 999;
   width: 100%;
-  transition: box-shadow 0.3s ease;
+  border-bottom: 1px solid rgba(35, 66, 31, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
-.kb-header--sticky {
-  position: sticky;
-  top: 0;
-}
-
-.kb-header--scrolled {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-}
-
-.kb-header--scrolled .kb-header__announcement,
-.kb-header--scrolled .kb-header__nav,
-.kb-header--scrolled .kb-header__features,
-.kb-header--inner-page .kb-header__features {
-  display: none !important;
+/* HEADER 2: Sub-navigation links & Features (SCROLLS NATURALLY BELOW HEADER 1) */
+.kb-header2 {
+  position: relative;
+  z-index: 1;
+  background: var(--kb-header-bg, #ffffff);
+  color: var(--kb-nav-text, #23421f);
+  width: 100%;
+  border-bottom: 1px solid rgba(35, 66, 31, 0.08);
 }
 
 .kb-header,

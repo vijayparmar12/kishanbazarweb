@@ -109,8 +109,16 @@
       }
     });
 
+    let isScrolled = false;
     const syncStickyState = () => {
-      header.classList.toggle('kb-header--scrolled', window.scrollY > 8);
+      const currentScroll = window.scrollY;
+      if (!isScrolled && currentScroll > 140) {
+        isScrolled = true;
+        header.classList.add('kb-header--scrolled');
+      } else if (isScrolled && currentScroll < 30) {
+        isScrolled = false;
+        header.classList.remove('kb-header--scrolled');
+      }
     };
 
     syncStickyState();

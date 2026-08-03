@@ -6,45 +6,42 @@
     return logoImg ? logoImg.src : '';
   };
 
-  const DEFAULT_SAMPLE_ITEMS = [
-    {
-      handle: 'gir-a2-bilona-ghee',
-      title: 'Gir A2 Bilona Ghee (1kg Glass Jar)',
-      vendor: 'Kishan Bazar',
-      variant: '1 kg / Glass Jar',
-      price: '₹1,875.00',
-      comparePrice: '₹2,100.00',
-      discount: '11',
-      rating: '4.9',
-      reviews: '128',
-      image: '',
-      variantId: '45812930129'
-    },
-    {
-      handle: 'organic-khapli-wheat-atta',
-      title: 'Organic Khapli Wheat Atta (5kg Pack)',
-      vendor: 'Kishan Bazar',
-      variant: '5 kg / Stone Ground',
-      price: '₹1,383.00',
-      comparePrice: '₹1,500.00',
-      discount: '8',
-      rating: '4.8',
-      reviews: '94',
-      image: '',
-      variantId: '45812930130'
+  const getProductCardImage = (btnElement) => {
+    if (!btnElement) return '';
+    const card = btnElement.closest('.product-card, .main-product, [data-product-card], article');
+    if (card) {
+      const img = card.querySelector('.product-card__image, .main-product__media img, img[src*="/cdn/shop/"], img');
+      if (img && img.src && !img.src.includes('logo') && !img.src.includes('KISANVEDA')) {
+        return img.src;
+      }
     }
-  ];
+    return '';
+  };
+
+  // Asynchronously fetch real product images from Shopify Storefront API
+  const fetchStoreProducts = async () => {
+    try {
+      const response = await fetch('/collections/all/products.json?limit=30');
+      if (response.ok) {
+        const data = await response.json();
+        return data.products || [];
+      }
+    } catch (e) {
+      console.warn('Could not fetch store products json');
+    }
+    return [];
+  };
 
   const getWishlist = () => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY_WISHLIST);
-      if (!stored) {
-        localStorage.setItem(STORAGE_KEY_WISHLIST, JSON.stringify(DEFAULT_SAMPLE_ITEMS));
-        return DEFAULT_SAMPLE_ITEMS;
+      if (stored === null) {
+        localStorage.setItem(STORAGE_KEY_WISHLIST, JSON.stringify([]));
+        return [];
       }
       return JSON.parse(stored);
     } catch (e) {
-      return DEFAULT_SAMPLE_ITEMS;
+      return [];
     }
   };
 
@@ -83,7 +80,32 @@
     });
   };
 
-  const renderWishlist = (searchQuery = '') => {
+  const syncProductImages = async () => {
+    let items = getWishlist();
+    if (!items || items.length === 0) return;
+
+    let needsSave = false;
+    const storeProducts = await fetchStoreProducts();
+
+    if (storeProducts && storeProducts.length > 0) {
+      items.forEach((item) => {
+        const found = storeProducts.find((p) => p.handle === item.handle || String(p.id) === String(item.variantId));
+        if (found) {
+          const imgUrl = (found.images && found.images[0] && found.images[0].src) || found.featured_image;
+          if (imgUrl && item.image !== imgUrl) {
+            item.image = imgUrl;
+            needsSave = true;
+          }
+        }
+      });
+    }
+
+    if (needsSave) {
+      saveWishlist(items);
+    }
+  };
+
+  const renderWishlist = async (searchQuery = '') => {
     const items = getWishlist();
     const emptyState = document.querySelector('[data-wishlist-empty]');
     const grid = document.querySelector('[data-wishlist-items-grid]');
@@ -102,7 +124,7 @@
     if (emptyState) emptyState.style.display = 'none';
     if (grid) grid.style.display = 'flex';
     if (footer) footer.style.display = 'flex';
-    if (footerCount) footerCount.textContent = `${items.length} ${items.length === 1 ? 'Item' : 'Items'}`;
+    if (footerCount) footerCount.textContent = items.length + (items.length === 1 ? ' Item' : ' Items');
 
     const filtered = items.filter((item) => {
       if (!searchQuery) return true;
@@ -112,46 +134,44 @@
     if (grid) {
       grid.innerHTML = filtered.map((item) => {
         const imgSrc = item.image || getLogoUrl();
-        return `
-        <article class="kb-wishlist-card" data-wishlist-card data-variant-id="${item.variantId}">
-          <div class="kb-wishlist-card__image-wrap">
-            <a href="/products/${item.handle}" class="kb-wishlist-card__image-link">
-              <img src="${imgSrc}" alt="${item.title}" class="kb-wishlist-card__img kb-wishlist-card__img--primary" width="150" height="150">
-            </a>
-            <button type="button" class="kb-wishlist-card__remove-btn" aria-label="Remove item" data-remove-wishlist data-variant-id="${item.variantId}">&times;</button>
-            ${item.discount ? `<span class="kb-wishlist-card__badge-discount">-${item.discount}% OFF</span>` : ''}
-          </div>
-          <div class="kb-wishlist-card__content">
-            <div class="kb-wishlist-card__vendor">${item.vendor || 'Kishan Bazar'}</div>
-            <h3 class="kb-wishlist-card__title">
-              <a href="/products/${item.handle}">${item.title}</a>
-            </h3>
-            <div class="kb-wishlist-card__rating">
-              <span class="stars">★★★★★</span>
-              <span class="rating-num">${item.rating || '4.9'}</span>
-              <span class="reviews-count">(${item.reviews || '128'})</span>
-            </div>
-            <div class="kb-wishlist-card__variant">Unit: <strong>${item.variant || '1 kg'}</strong></div>
-            <div class="kb-wishlist-card__price-row">
-              <div class="kb-wishlist-card__prices">
-                <strong class="price">${item.price}</strong>
-                ${item.comparePrice ? `<s class="compare-price">${item.comparePrice}</s>` : ''}
-              </div>
-              <div class="kb-wishlist-card__stock">
-                <span class="stock-badge in-stock">● In Stock</span>
-              </div>
-            </div>
-            <div class="kb-wishlist-card__delivery"><span>🚀 Express Delivery available</span></div>
-            <div class="kb-wishlist-card__actions">
-              <button type="button" class="kb-wishlist-btn kb-wishlist-btn--move-cart" data-move-to-cart data-variant-id="${item.variantId}">
-                <span class="btn-text">🛒 Move to Cart</span>
-                <span class="btn-loader" style="display: none;">⏳</span>
-              </button>
-              <a href="/products/${item.handle}" class="kb-wishlist-btn kb-wishlist-btn--view">View Details</a>
-            </div>
-          </div>
-        </article>
-      `).join('');
+        const discountHtml = item.discount ? '<span class="kb-wishlist-card__badge-discount">-' + item.discount + '% OFF</span>' : '';
+        const compareHtml = item.comparePrice ? '<s class="compare-price">' + item.comparePrice + '</s>' : '';
+
+        return (
+          '<article class="kb-wishlist-card" data-wishlist-card data-variant-id="' + item.variantId + '">' +
+            '<div class="kb-wishlist-card__image-wrap">' +
+              '<a href="/products/' + item.handle + '" class="kb-wishlist-card__image-link">' +
+                '<img src="' + imgSrc + '" alt="' + (item.title || 'Product') + '" class="kb-wishlist-card__img kb-wishlist-card__img--primary" width="150" height="150">' +
+              '</a>' +
+              discountHtml +
+            '</div>' +
+            '<div class="kb-wishlist-card__content">' +
+              '<button type="button" class="kb-wishlist-card__remove-btn" aria-label="Remove item" data-remove-wishlist data-variant-id="' + item.variantId + '">' +
+                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                  '<polyline points="3 6 5 6 21 6"></polyline>' +
+                  '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>' +
+                '</svg>' +
+              '</button>' +
+              '<h3 class="kb-wishlist-card__title">' +
+                '<a href="/products/' + item.handle + '">' + item.title + '</a>' +
+              '</h3>' +
+              '<div class="kb-wishlist-card__price-row">' +
+                '<div class="kb-wishlist-card__prices">' +
+                  '<strong class="price">' + item.price + '</strong>' +
+                  compareHtml +
+                '</div>' +
+                '<div class="kb-wishlist-card__unit"><span>' + (item.variant || '1 kg') + '</span></div>' +
+              '</div>' +
+              '<div class="kb-wishlist-card__actions">' +
+                '<button type="button" class="kb-wishlist-btn kb-wishlist-btn--move-cart" data-move-to-cart data-variant-id="' + item.variantId + '">' +
+                  '<span class="btn-text">MOVE TO CART</span>' +
+                  '<span class="btn-loader" style="display: none;">⏳</span>' +
+                '</button>' +
+              '</div>' +
+            '</div>' +
+          '</article>'
+        );
+      }).join('');
     }
   };
 
@@ -172,7 +192,6 @@
     }
 
     try {
-      // Add to Shopify AJAX Cart
       await fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -184,7 +203,6 @@
 
     removeFromWishlist(variantId);
 
-    // Open Cart Drawer
     const cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
     if (cartTrigger) cartTrigger.click();
   };
@@ -222,23 +240,26 @@
   };
 
   // Event Delegation
-  document.addEventListener('click', (event) => {
+  document.addEventListener('click', async (event) => {
     // 0. Wishlist Heart Button on Product Card or Product Page
     const wishlistBtn = event.target.closest('[data-wishlist-button]');
     if (wishlistBtn) {
       event.preventDefault();
-      const variantId = wishlistBtn.dataset.variantId || 'sample-' + Date.now();
-      const handle = wishlistBtn.dataset.productHandle || 'gir-a2-bilona-ghee';
-      const title = wishlistBtn.dataset.productTitle || 'Gir A2 Bilona Ghee';
+      const variantId = wishlistBtn.dataset.variantId || (wishlistBtn.dataset.productHandle ? 'var-' + wishlistBtn.dataset.productHandle : 'var-' + Date.now());
+      const handle = wishlistBtn.dataset.productHandle || '';
+      const title = wishlistBtn.dataset.productTitle || 'Kishan Bazar Item';
       const price = wishlistBtn.dataset.productPrice || '₹1,875.00';
       const comparePrice = wishlistBtn.dataset.productCompare || '';
       const discount = wishlistBtn.dataset.productDiscount || '';
       const variant = wishlistBtn.dataset.productVariant || '1 kg';
-      const image = wishlistBtn.dataset.productImage || '';
-      const vendor = wishlistBtn.dataset.productVendor || 'Kishan Bazar';
+      let image = wishlistBtn.dataset.productImage || getProductCardImage(wishlistBtn);
 
       let items = getWishlist();
-      const existingIndex = items.findIndex((i) => String(i.variantId) === String(variantId) || i.handle === handle);
+      const existingIndex = items.findIndex((i) => {
+        if (variantId && i.variantId && String(i.variantId) === String(variantId)) return true;
+        if (handle && i.handle && i.handle === handle) return true;
+        return false;
+      });
 
       if (existingIndex > -1) {
         items.splice(existingIndex, 1);
@@ -247,22 +268,20 @@
       } else {
         items.unshift({
           variantId,
-          handle,
+          handle: handle || 'product-' + Date.now(),
           title,
           price,
           comparePrice,
           discount,
           variant,
-          image,
-          vendor,
-          rating: '4.9',
-          reviews: '128'
+          image: image || ''
         });
         wishlistBtn.classList.add('is-active');
         wishlistBtn.setAttribute('aria-pressed', 'true');
         openWishlistDrawer();
       }
       saveWishlist(items);
+      await syncProductImages();
       renderWishlist();
       return;
     }
@@ -312,10 +331,12 @@
     if (event.key === 'Escape') closeWishlistDrawer();
   });
 
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
+    await syncProductImages();
     renderWishlist();
   });
+
   if (document.readyState !== 'loading') {
-    renderWishlist();
+    syncProductImages().then(renderWishlist);
   }
 })();

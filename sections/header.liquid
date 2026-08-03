@@ -86,59 +86,61 @@
     </div>
   {% endif %}
 
-  <div class="kb-header__shell">
-    <div class="kb-header__main" data-header-main>
-      <div class="kb-header__main-grid">
-        <button class="kb-header__menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="kb-mobile-menu-{{ section.id }}" data-menu-toggle>
-          {% render 'icon', name: 'menu', size: 24 %}
-        </button>
+  <!-- HEADER 1: SEARCH, LOGO, PROFILE, WISHLIST, CART (ALWAYS STICKY AT TOP) -->
+  <header class="kb-header1" data-header1>
+    <div class="kb-header__main-grid">
+      <button class="kb-header__menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="kb-mobile-menu-{{ section.id }}" data-menu-toggle>
+        {% render 'icon', name: 'menu', size: 24 %}
+      </button>
 
-        {% if section.settings.show_search %}
-          <form class="kb-header__search" action="{{ routes.search_url }}" method="get" role="search">
-            <label class="visually-hidden" for="kb-header-search-{{ section.id }}"></label>
-            <span class="kb-header__search-icon" aria-hidden="true">{% render 'icon', name: 'search', size: 22 %}</span>
-            <input
-              id="kb-header-search-{{ section.id }}"
-              class="kb-header__search-input"
-              type="search"
-              name="q"
-              value="{{ search.terms | escape }}"
-              placeholder="{{ section.settings.search_fallback_placeholder | escape }}"
-              autocomplete="off"
-              data-typing-search
-            >
-            <button class="kb-header__search-submit" type="submit" aria-label="Submit search">{% render 'icon', name: 'search', size: 20 %}</button>
-            <button class="kb-header__search-clear" type="button" aria-label="Clear search" data-search-clear>{% render 'icon', name: 'close', size: 24 %}</button>
-          </form>
-          <script type="application/json" data-placeholder-source>{{ section.settings.search_placeholders | json }}</script>
+      {% if section.settings.show_search %}
+        <form class="kb-header__search" action="{{ routes.search_url }}" method="get" role="search">
+          <label class="visually-hidden" for="kb-header-search-{{ section.id }}"></label>
+          <span class="kb-header__search-icon" aria-hidden="true">{% render 'icon', name: 'search', size: 22 %}</span>
+          <input
+            id="kb-header-search-{{ section.id }}"
+            class="kb-header__search-input"
+            type="search"
+            name="q"
+            value="{{ search.terms | escape }}"
+            placeholder="{{ section.settings.search_fallback_placeholder | escape }}"
+            autocomplete="off"
+            data-typing-search
+          >
+          <button class="kb-header__search-submit" type="submit" aria-label="Submit search">{% render 'icon', name: 'search', size: 20 %}</button>
+          <button class="kb-header__search-clear" type="button" aria-label="Clear search" data-search-clear>{% render 'icon', name: 'close', size: 24 %}</button>
+        </form>
+        <script type="application/json" data-placeholder-source>{{ section.settings.search_placeholders | json }}</script>
+      {% endif %}
+
+      <a class="kb-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
+        {% if section.settings.logo != blank %}
+          {{ section.settings.logo | image_url: width: section.settings.logo_width | image_tag: class: 'kb-header__logo-image', alt: shop.name, widths: '120, 160, 200, 240, 320', loading: 'eager', fetchpriority: 'high' }}
+        {% else %}
+          <img class="kb-header__logo-image" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="{{ section.settings.logo_width }}" height="80" loading="eager" fetchpriority="high">
         {% endif %}
+      </a>
 
-        <a class="kb-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }} home">
-          {% if section.settings.logo != blank %}
-            {{ section.settings.logo | image_url: width: section.settings.logo_width | image_tag: class: 'kb-header__logo-image', alt: shop.name, widths: '120, 160, 200, 240, 320', loading: 'eager', fetchpriority: 'high' }}
-          {% else %}
-            <img class="kb-header__logo-image" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" width="{{ section.settings.logo_width }}" height="80" loading="eager" fetchpriority="high">
-          {% endif %}
-        </a>
-
-        <div class="kb-header__actions" aria-label="Header actions">
-          {% if section.settings.show_account %}
-            <a class="kb-header__action" href="{{ routes.account_url }}" aria-label="Account">{% render 'icon', name: 'user', size: 25 %}</a>
-          {% endif %}
-          {% if section.settings.show_wishlist %}
-            <button class="kb-header__action kb-header__action--wishlist" type="button" aria-label="Wishlist" data-wishlist-drawer-trigger>
-              {% render 'icon', name: 'heart', size: 25 %}<span class="kb-header__badge" aria-hidden="true" data-wishlist-count-badge>0</span>
-            </button>
-          {% endif %}
-          {% if section.settings.show_cart %}
-            <button class="kb-header__action kb-header__action--cart" type="button" aria-label="Cart, {{ cart.item_count }} items" aria-controls="CartDrawer" data-cart-drawer-trigger>
-              {% render 'icon', name: 'cart', size: 26 %}<span class="kb-header__badge kb-header__badge--cart" aria-hidden="true" data-cart-count>{{ cart.item_count }}</span>
-            </button>
-          {% endif %}
-        </div>
+      <div class="kb-header__actions" aria-label="Header actions">
+        {% if section.settings.show_account %}
+          <a class="kb-header__action" href="{{ routes.account_url }}" aria-label="Account">{% render 'icon', name: 'user', size: 25 %}</a>
+        {% endif %}
+        {% if section.settings.show_wishlist %}
+          <button class="kb-header__action kb-header__action--wishlist" type="button" aria-label="Wishlist" data-wishlist-drawer-trigger>
+            {% render 'icon', name: 'heart', size: 25 %}<span class="kb-header__badge" aria-hidden="true" data-wishlist-count-badge>0</span>
+          </button>
+        {% endif %}
+        {% if section.settings.show_cart %}
+          <button class="kb-header__action kb-header__action--cart" type="button" aria-label="Cart, {{ cart.item_count }} items" aria-controls="CartDrawer" data-cart-drawer-trigger>
+            {% render 'icon', name: 'cart', size: 26 %}<span class="kb-header__badge kb-header__badge--cart" aria-hidden="true" data-cart-count>{{ cart.item_count }}</span>
+          </button>
+        {% endif %}
       </div>
     </div>
+  </header>
 
+  <!-- HEADER 2: NAVIGATION LINKS & FEATURES (SCROLLS NATURALLY BELOW HEADER 1) -->
+  <div class="kb-header2" data-header2>
     <nav class="kb-header__nav" aria-label="Main navigation">
       <ul class="kb-header__nav-list" role="list">
         <li class="kb-header__nav-item"><a class="kb-header__nav-link" href="{{ ghee_link }}">{{ section.settings.ghee_title }}</a></li>
