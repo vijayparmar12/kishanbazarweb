@@ -164,19 +164,6 @@
         "button_link": ""
       }
     },
-    "collections": {
-      "type": "collections",
-      "settings": {
-        "heading": "Gather your favourites",
-        "collections": [
-          "frontpage",
-          "ghee",
-          "atta",
-          "oil"
-        ],
-        "maximum": 4
-      }
-    },
     "testimonials": {
       "type": "testimonials",
       "blocks": {
@@ -231,7 +218,6 @@
     "features",
     "best_sellers",
     "offer",
-    "collections",
     "testimonials",
     "newsletter"
   ]
