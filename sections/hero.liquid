@@ -32,29 +32,90 @@
 
     <!-- Right Stacked Column (34% Width, 2 Stacked Cards) -->
     <div class="home-hero-split__right-stack">
-      <!-- Right Top Sub-Banner -->
-      <div class="home-hero-split__item home-hero-split__item--sub">
-        <a href="{{ section.settings.right_top_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Top Banner">
-          {% if section.settings.right_top_image != blank %}
-            {{
-              section.settings.right_top_image
-              | image_url: width: 900
-              | image_tag:
-                class: 'home-hero-split__image',
-                loading: 'eager',
-                widths: '480, 750, 900'
-            }}
+      <!-- Right Top Sub-Banner: AUTO-PLAY SLIDER (Changes Every 4.5 Seconds) -->
+      <div class="home-hero-split__item home-hero-split__item--sub home-hero-split__item--top-slider" data-hero-top-slider>
+        <div class="home-hero-split__slider">
+          {% assign slide_blocks = section.blocks | where: 'type', 'right_top_slide' %}
+
+          {% if slide_blocks.size > 0 %}
+            {% for block in slide_blocks %}
+              <div class="home-hero-split__slide{% if forloop.first %} is-active{% endif %}" data-hero-slide {{ block.shopify_attributes }}>
+                <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Top Slide {{ forloop.index }}">
+                  {% if block.settings.image != blank %}
+                    {{
+                      block.settings.image
+                      | image_url: width: 900
+                      | image_tag:
+                        class: 'home-hero-split__image',
+                        loading: 'eager',
+                        widths: '480, 750, 900'
+                    }}
+                  {% else %}
+                    <img
+                      class="home-hero-split__image"
+                      src="{{ 'hero-mobile.jpg.png' | asset_url }}"
+                      alt="Monsoon Special Flavours Slide {{ forloop.index }}"
+                      width="600"
+                      height="350"
+                      loading="eager"
+                    >
+                  {% endif %}
+                </a>
+              </div>
+            {% endfor %}
           {% else %}
-            <img
-              class="home-hero-split__image"
-              src="{{ 'hero-mobile.jpg.png' | asset_url }}"
-              alt="Monsoon Special Flavours"
-              width="600"
-              height="350"
-              loading="eager"
-            >
+            <!-- Default Auto Slides (using section settings & asset images) -->
+            {% assign default_slides_count = 0 %}
+
+            <!-- Slide 1 -->
+            <div class="home-hero-split__slide is-active" data-hero-slide>
+              <a href="{{ section.settings.right_top_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Top Slide 1">
+                {% if section.settings.right_top_image != blank %}
+                  {{ section.settings.right_top_image | image_url: width: 900 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '480, 750, 900' }}
+                {% else %}
+                  <img class="home-hero-split__image" src="{{ 'hero-mobile.jpg.png' | asset_url }}" alt="Monsoon Special Flavours" width="600" height="350" loading="eager">
+                {% endif %}
+              </a>
+            </div>
+
+            <!-- Slide 2 -->
+            {% if section.settings.right_top_image_2 != blank or section.settings.right_top_image == blank %}
+              <div class="home-hero-split__slide" data-hero-slide>
+                <a href="{{ section.settings.right_top_link_2 | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Top Slide 2">
+                  {% if section.settings.right_top_image_2 != blank %}
+                    {{ section.settings.right_top_image_2 | image_url: width: 900 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '480, 750, 900' }}
+                  {% else %}
+                    <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Farm Fresh Organic Offer" width="600" height="350" loading="eager">
+                  {% endif %}
+                </a>
+              </div>
+            {% endif %}
+
+            <!-- Slide 3 -->
+            {% if section.settings.right_top_image_3 != blank %}
+              <div class="home-hero-split__slide" data-hero-slide>
+                <a href="{{ section.settings.right_top_link_3 | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Top Slide 3">
+                  {{ section.settings.right_top_image_3 | image_url: width: 900 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '480, 750, 900' }}
+                </a>
+              </div>
+            {% endif %}
           {% endif %}
-        </a>
+        </div>
+
+        <!-- Dot Navigation Indicators -->
+        <div class="home-hero-split__dots" role="tablist" aria-label="Hero Top Right Slides">
+          {% if slide_blocks.size > 0 %}
+            {% for block in slide_blocks %}
+              <button type="button" class="home-hero-split__dot{% if forloop.first %} is-active{% endif %}" data-hero-dot data-hero-dot-index="{{ forloop.index0 }}" aria-label="Go to Slide {{ forloop.index }}" role="tab"></button>
+            {% endfor %}
+          {% else %}
+            <button type="button" class="home-hero-split__dot is-active" data-hero-dot data-hero-dot-index="0" aria-label="Go to Slide 1" role="tab"></button>
+            <button type="button" class="home-hero-split__dot" data-hero-dot data-hero-dot-index="1" aria-label="Go to Slide 2" role="tab"></button>
+            {% if section.settings.right_top_image_3 != blank %}
+              <button type="button" class="home-hero-split__dot" data-hero-dot data-hero-dot-index="2" aria-label="Go to Slide 3" role="tab"></button>
+            {% endif %}
+          {% endif %}
+        </div>
       </div>
 
       <!-- Right Bottom Sub-Banner -->
@@ -107,17 +168,37 @@
     },
     {
       "type": "header",
-      "content": "Right Top Banner"
+      "content": "Right Top Auto Slider (Above Image Part)"
     },
     {
       "type": "image_picker",
       "id": "right_top_image",
-      "label": "Right Top Image"
+      "label": "Right Top Slide 1 Image"
     },
     {
       "type": "url",
       "id": "right_top_link",
-      "label": "Right Top Link"
+      "label": "Right Top Slide 1 Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_top_image_2",
+      "label": "Right Top Slide 2 Image"
+    },
+    {
+      "type": "url",
+      "id": "right_top_link_2",
+      "label": "Right Top Slide 2 Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_top_image_3",
+      "label": "Right Top Slide 3 Image"
+    },
+    {
+      "type": "url",
+      "id": "right_top_link_3",
+      "label": "Right Top Slide 3 Link"
     },
     {
       "type": "header",
@@ -134,9 +215,35 @@
       "label": "Right Bottom Link"
     }
   ],
+  "blocks": [
+    {
+      "type": "right_top_slide",
+      "name": "Right Top Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Slide Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Slide Link"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Hero"
+      "name": "Hero",
+      "blocks": [
+        {
+          "type": "right_top_slide"
+        },
+        {
+          "type": "right_top_slide"
+        }
+      ]
     }
   ]
 }
