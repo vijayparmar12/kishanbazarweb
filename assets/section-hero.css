@@ -1,5 +1,6 @@
 /* ==========================================================================
-   Split Hero Section (70% Left / 30% Right) - Kishan Bazar
+   Hero Section Split (Left Main Banner + Right 2 Stacked Cards)
+   Matching Two Brothers India Shop Reference Layout
    ========================================================================== */
 
 .home-hero-split {
@@ -16,36 +17,46 @@
   max-width: var(--container-width, 1280px);
   margin: 0 auto;
   align-items: stretch;
+  height: 480px; /* Fixed Total Section Height */
 }
 
-/* Left Banner: 60% Width */
-.home-hero-split__item--left {
-  flex: 0 0 calc(60% - 0.625rem);
-  width: calc(60% - 0.625rem);
+/* Left Main Banner (66% Width, 100% Height) */
+.home-hero-split__item--main {
+  flex: 0 0 calc(66% - 0.625rem);
+  width: calc(66% - 0.625rem);
+  height: 100%;
 }
 
-/* Right Banner: 40% Width */
-.home-hero-split__item--right {
-  flex: 0 0 calc(40% - 0.625rem);
-  width: calc(40% - 0.625rem);
+/* Right Stacked Column (34% Width, 2 Stacked Sub-Cards) */
+.home-hero-split__right-stack {
+  flex: 0 0 calc(34% - 0.625rem);
+  width: calc(34% - 0.625rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  height: 100%;
+}
+
+/* Right Stacked Sub Cards (Each 50% Height) */
+.home-hero-split__item--sub {
+  flex: 1;
+  width: 100%;
+  height: calc(50% - 0.625rem);
 }
 
 .home-hero-split__item {
-  border: 2px solid rgba(35, 66, 31, 0.18);
+  border: 1.5px solid rgba(35, 66, 31, 0.16);
   border-radius: 20px;
   overflow: hidden;
   position: relative;
   background: #faf6ec;
-  box-shadow: 0 8px 24px rgba(35, 66, 31, 0.08);
+  box-shadow: 0 4px 18px rgba(35, 66, 31, 0.06);
   transition: transform 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
-  min-height: 280px;
-  max-height: 480px;
-  display: flex;
 }
 
 .home-hero-split__item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 36px rgba(35, 66, 31, 0.16);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(35, 66, 31, 0.14);
   border-color: #23421f;
 }
 
@@ -63,27 +74,37 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 500ms ease;
+  transition: transform 400ms ease;
 }
 
 .home-hero-split__item:hover .home-hero-split__image {
-  transform: scale(1.03);
+  transform: scale(1.025);
+}
+
+@media (max-width: 64rem) {
+  .home-hero-split__container {
+    height: 420px;
+  }
 }
 
 @media (max-width: 48rem) {
   .home-hero-split__container {
     flex-direction: column;
-    gap: 1rem;
+    height: auto;
+    gap: 0;
   }
 
-  .home-hero-split__item--left,
-  .home-hero-split__item--right {
+  /* Main Left Image: Full width & increased height on mobile */
+  .home-hero-split__item--main {
     flex: 0 0 100%;
     width: 100%;
+    height: clamp(300px, 65vw, 380px);
+    min-height: 300px;
+    border-radius: 18px;
   }
 
-  .home-hero-split__item {
-    min-height: 200px;
-    max-height: 320px;
+  /* Hide right side stacked banners on mobile view */
+  .home-hero-split__right-stack {
+    display: none !important;
   }
 }

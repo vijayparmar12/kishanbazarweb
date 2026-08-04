@@ -147,8 +147,37 @@
   <div class="kb-header2" data-header2>
     <nav class="kb-header__nav" aria-label="Main navigation">
       <ul class="kb-header__nav-list" role="list">
-        <li class="kb-header__nav-item"><a class="kb-header__nav-link" href="{{ ghee_link }}">{{ section.settings.ghee_title }}</a></li>
-        <li class="kb-header__nav-item"><a class="kb-header__nav-link" href="{{ atta_link }}">{{ section.settings.atta_title }}</a></li>
+        <li class="kb-header__nav-item">
+          <a class="kb-header__nav-link kb-header__nav-link--icon" href="{{ ghee_link }}">
+            <span class="kb-header__nav-icon" aria-hidden="true">
+              <img src="{{ 'ghee.png' | asset_url }}" alt="" class="kb-header__nav-icon-img" width="36" height="36" loading="eager" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+              <span class="kb-header__nav-icon-svg" style="display:none;">
+                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 9h10v10a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9z"/>
+                  <path d="M6 6h12v3H6z"/>
+                  <path d="M9 3h6v3H9z"/>
+                </svg>
+              </span>
+            </span>
+            <span>{{ section.settings.ghee_title }}</span>
+          </a>
+        </li>
+        <li class="kb-header__nav-item">
+          <a class="kb-header__nav-link kb-header__nav-link--icon" href="{{ atta_link }}">
+            <span class="kb-header__nav-icon" aria-hidden="true">
+              <img src="{{ 'atta.png' | asset_url }}" alt="" class="kb-header__nav-icon-img" width="36" height="36" loading="eager" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+              <span class="kb-header__nav-icon-svg" style="display:none;">
+                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 21h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"/>
+                  <path d="M6 7c0-2 2.5-4 6-4s6 2 6 4"/>
+                  <path d="M12 11v6"/>
+                  <path d="M9 14h6"/>
+                </svg>
+              </span>
+            </span>
+            <span>{{ section.settings.atta_title }}</span>
+          </a>
+        </li>
         <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item>
           <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-category-{{ section.id }}" data-mega-trigger>{{ section.settings.category_title }} <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span></button>
           {% render 'mega-menu', section: section, menu_type: 'category' %}
@@ -178,8 +207,37 @@
         <button class="kb-header__mobile-close" type="button" aria-label="Close menu" data-menu-close>{% render 'icon', name: 'close', size: 24 %}</button>
       </div>
       <ul class="kb-header__mobile-list" role="list">
-        <li><a class="kb-header__mobile-link" href="{{ ghee_link }}">{{ section.settings.ghee_title }}</a></li>
-        <li><a class="kb-header__mobile-link" href="{{ atta_link }}">{{ section.settings.atta_title }}</a></li>
+        <li>
+          <a class="kb-header__mobile-link kb-header__nav-link--icon" href="{{ ghee_link }}">
+            <span class="kb-header__nav-icon" aria-hidden="true">
+              <img src="{{ 'ghee.png' | asset_url }}" alt="" class="kb-header__nav-icon-img" width="36" height="36" loading="eager" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+              <span class="kb-header__nav-icon-svg" style="display:none;">
+                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 9h10v10a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9z"/>
+                  <path d="M6 6h12v3H6z"/>
+                  <path d="M9 3h6v3H9z"/>
+                </svg>
+              </span>
+            </span>
+            <span>{{ section.settings.ghee_title }}</span>
+          </a>
+        </li>
+        <li>
+          <a class="kb-header__mobile-link kb-header__nav-link--icon" href="{{ atta_link }}">
+            <span class="kb-header__nav-icon" aria-hidden="true">
+              <img src="{{ 'atta.png' | asset_url }}" alt="" class="kb-header__nav-icon-img" width="36" height="36" loading="eager" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+              <span class="kb-header__nav-icon-svg" style="display:none;">
+                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 21h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"/>
+                  <path d="M6 7c0-2 2.5-4 6-4s6 2 6 4"/>
+                  <path d="M12 11v6"/>
+                  <path d="M9 14h6"/>
+                </svg>
+              </span>
+            </span>
+            <span>{{ section.settings.atta_title }}</span>
+          </a>
+        </li>
         <li>{% render 'mega-menu', section: section, menu_type: 'category', mobile: true %}</li>
         <li><a class="kb-header__mobile-link" href="/pages/membership" data-membership-trigger>{{ section.settings.collective_title }}</a></li>
         <li>{% render 'mega-menu', section: section, menu_type: 'concern', mobile: true %}</li>

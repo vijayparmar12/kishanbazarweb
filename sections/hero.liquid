@@ -3,9 +3,9 @@
 
 <section class="home-hero-split" data-home-hero>
   <div class="home-hero-split__container">
-    <!-- Left Side Banner (70% Width) -->
-    <div class="home-hero-split__item home-hero-split__item--left">
-      <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Left Banner">
+    <!-- Left Main Banner (66% Width, Full Height) -->
+    <div class="home-hero-split__item home-hero-split__item--main">
+      <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Main Hero Banner">
         {% if section.settings.left_image != blank %}
           {{
             section.settings.left_image
@@ -30,29 +30,57 @@
       </a>
     </div>
 
-    <!-- Right Side Banner (30% Width) -->
-    <div class="home-hero-split__item home-hero-split__item--right">
-      <a href="{{ section.settings.right_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Banner">
-        {% if section.settings.right_image != blank %}
-          {{
-            section.settings.right_image
-            | image_url: width: 900
-            | image_tag:
-              class: 'home-hero-split__image',
-              loading: 'eager',
-              widths: '480, 750, 900'
-          }}
-        {% else %}
-          <img
-            class="home-hero-split__image"
-            src="{{ 'hero-mobile.jpg.png' | asset_url }}"
-            alt="Kishan Bazar Organic Products"
-            width="600"
-            height="700"
-            loading="eager"
-          >
-        {% endif %}
-      </a>
+    <!-- Right Stacked Column (34% Width, 2 Stacked Cards) -->
+    <div class="home-hero-split__right-stack">
+      <!-- Right Top Sub-Banner -->
+      <div class="home-hero-split__item home-hero-split__item--sub">
+        <a href="{{ section.settings.right_top_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Top Banner">
+          {% if section.settings.right_top_image != blank %}
+            {{
+              section.settings.right_top_image
+              | image_url: width: 900
+              | image_tag:
+                class: 'home-hero-split__image',
+                loading: 'eager',
+                widths: '480, 750, 900'
+            }}
+          {% else %}
+            <img
+              class="home-hero-split__image"
+              src="{{ 'hero-mobile.jpg.png' | asset_url }}"
+              alt="Monsoon Special Flavours"
+              width="600"
+              height="350"
+              loading="eager"
+            >
+          {% endif %}
+        </a>
+      </div>
+
+      <!-- Right Bottom Sub-Banner -->
+      <div class="home-hero-split__item home-hero-split__item--sub">
+        <a href="{{ section.settings.right_bottom_link | default: '/pages/membership' }}" class="home-hero-split__link" data-membership-trigger aria-label="Right Bottom Banner">
+          {% if section.settings.right_bottom_image != blank %}
+            {{
+              section.settings.right_bottom_image
+              | image_url: width: 900
+              | image_tag:
+                class: 'home-hero-split__image',
+                loading: 'eager',
+                widths: '480, 750, 900'
+            }}
+          {% else %}
+            <img
+              class="home-hero-split__image"
+              src="{{ 'hero-mobile.jpg.png' | asset_url }}"
+              alt="Collective Membership Discounts"
+              width="600"
+              height="350"
+              loading="eager"
+            >
+          {% endif %}
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -65,31 +93,45 @@
   "settings": [
     {
       "type": "header",
-      "content": "Left Banner (70% Width)"
+      "content": "Left Main Banner (66% Width)"
     },
     {
       "type": "image_picker",
       "id": "left_image",
-      "label": "Left Image (70%)"
+      "label": "Left Main Image"
     },
     {
       "type": "url",
       "id": "left_link",
-      "label": "Left Banner Link"
+      "label": "Left Main Link"
     },
     {
       "type": "header",
-      "content": "Right Banner (30% Width)"
+      "content": "Right Top Banner"
     },
     {
       "type": "image_picker",
-      "id": "right_image",
-      "label": "Right Image (30%)"
+      "id": "right_top_image",
+      "label": "Right Top Image"
     },
     {
       "type": "url",
-      "id": "right_link",
-      "label": "Right Banner Link"
+      "id": "right_top_link",
+      "label": "Right Top Link"
+    },
+    {
+      "type": "header",
+      "content": "Right Bottom Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_bottom_image",
+      "label": "Right Bottom Image"
+    },
+    {
+      "type": "url",
+      "id": "right_bottom_link",
+      "label": "Right Bottom Link"
     }
   ],
   "presets": [
