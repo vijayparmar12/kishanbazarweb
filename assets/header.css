@@ -34,12 +34,13 @@
   color: var(--kb-nav-text, #23421f);
   width: 100%;
   border-bottom: 1px solid rgba(35, 66, 31, 0.06);
+  padding: 0.25rem 0;
 }
 
 .kb-header__nav-link--icon {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 0.65rem !important;
+  gap: 0.45rem !important;
 }
 
 .kb-header__nav-icon {
@@ -53,17 +54,17 @@
 }
 
 .kb-header__nav-icon-img {
-  width: 100px;
-  height: 100px;
-  max-width: 100px;
-  max-height: 100px;
+  width: 90px;
+  height: 90px;
+  max-width: 90px;
+  max-height: 90px;
   object-fit: contain;
   display: block;
 }
 
 .kb-header__nav-icon svg {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   color: var(--kb-accent, #23421f);
 }
 
@@ -320,8 +321,8 @@
   list-style: none;
   margin: 0 auto;
   max-width: 1320px;
-  min-height: 38px;
-  padding: 0.15rem 1.25rem;
+  min-height: 85px;
+  padding: 0.4rem 1.25rem;
 }
 
 .kb-header__nav-item {
@@ -338,7 +339,7 @@
   font-weight: 800;
   gap: 0.35rem;
   letter-spacing: 0.02em;
-  min-height: 38px;
+  min-height: 85px;
   position: relative;
   text-decoration: none;
   text-transform: uppercase;
