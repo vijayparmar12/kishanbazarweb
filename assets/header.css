@@ -29,7 +29,7 @@
 /* HEADER 2: Sub-navigation links & Features (SCROLLS NATURALLY BELOW HEADER 1) */
 .kb-header2 {
   position: relative;
-  z-index: 1;
+  z-index: 9000;
   background: var(--kb-header-bg, #ffffff);
   color: var(--kb-nav-text, #23421f);
   width: 100%;
@@ -449,6 +449,79 @@
   position: relative;
   transform: translateX(0);
   width: 100%;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   3-Column Mobile Category Grid (Matching Two Brothers Reference - Icon ABOVE Title)
+   ========================================================================== */
+
+.kb-mobile-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px 14px;
+  padding: 1rem 0.25rem 0.75rem;
+}
+
+.kb-mobile-cat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: #23421f;
+  transition: transform 200ms ease;
+}
+
+.kb-mobile-cat-card:active {
+  transform: scale(0.96);
+}
+
+.kb-mobile-cat-card__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: #faf6ec;
+  box-shadow: 0 4px 12px rgba(35, 66, 31, 0.07);
+  margin-bottom: 8px;
+}
+
+.kb-mobile-cat-card__media img,
+.kb-mobile-cat-card__media svg {
+  max-width: 44px;
+  max-height: 44px;
+  object-fit: contain;
+}
+
+.kb-mobile-cat-card__title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #23421f;
+  line-height: 1.25;
+}
+
+.kb-mobile-shop-all-wrap {
+  text-align: center;
+  padding: 12px 0 16px;
+  border-bottom: 1px solid rgba(35, 66, 31, 0.12);
+  margin-bottom: 14px;
+}
+
+.kb-mobile-shop-all-link {
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: #23421f;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.kb-mobile-shop-all-link:hover {
+  color: #166534;
+  text-decoration: underline;
 }
 
 .kb-header__mobile-panel-top {

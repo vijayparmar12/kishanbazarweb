@@ -1,0 +1,66 @@
+{% doc %}
+  Renders the 3-column mobile category grid at the top of the mobile drawer.
+  Matching Two Brothers reference with icon ABOVE title.
+
+  @param {section} section - Header section containing blocks.
+
+  @example
+  {% render 'mobile-category-grid', section: section %}
+{% enddoc %}
+
+<div class="kb-mobile-cat-grid">
+  {% assign count = 0 %}
+  {% assign rendered_handles = '|' %}
+
+  <!-- 1. Custom Category Blocks from Theme Editor -->
+  {% for block in section.blocks %}
+    {% if block.type == 'category_card' %}
+      {% if block.settings.collection != blank %}
+        {% assign collection = block.settings.collection %}
+        {% assign count = count | plus: 1 %}
+        {% assign rendered_handles = rendered_handles | append: collection.handle | append: '|' %}
+        <a href="{{ collection.url }}" class="kb-mobile-cat-card" {{ block.shopify_attributes }}>
+          <span class="kb-mobile-cat-card__media">
+            {% render 'category-icon', category: collection, size: 48 %}
+          </span>
+          <span class="kb-mobile-cat-card__title">{{ block.settings.title | default: collection.title }}</span>
+        </a>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  <!-- 2. Store Collections fallback -->
+  {% for collection in collections limit: 12 %}
+    {% unless collection.handle == 'all' %}
+      {% unless rendered_handles contains collection.handle %}
+        {% assign count = count | plus: 1 %}
+        {% assign rendered_handles = rendered_handles | append: collection.handle | append: '|' %}
+        <a href="{{ collection.url }}" class="kb-mobile-cat-card">
+          <span class="kb-mobile-cat-card__media">
+            {% render 'category-icon', category: collection, size: 48 %}
+          </span>
+          <span class="kb-mobile-cat-card__title">{{ collection.title }}</span>
+        </a>
+      {% endunless %}
+    {% endunless %}
+  {% endfor %}
+
+  <!-- 3. Default Fallbacks if store has no collections yet -->
+  {% if count == 0 %}
+    {% assign defaults = 'Ghee,Oil,Atta,Jaggery,Immunity,Rice,Breakfast & Snacks,Grain & Pulses,Spices' | split: ',' %}
+    {% for item in defaults %}
+      <a href="{{ routes.collections_url }}" class="kb-mobile-cat-card">
+        <span class="kb-mobile-cat-card__media">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#23421f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </span>
+        <span class="kb-mobile-cat-card__title">{{ item }}</span>
+      </a>
+    {% endfor %}
+  {% endif %}
+</div>
+
+<div class="kb-mobile-shop-all-wrap">
+  <a href="{{ routes.all_products_collection_url }}" class="kb-mobile-shop-all-link">SHOP ALL &rarr;</a>
+</div>

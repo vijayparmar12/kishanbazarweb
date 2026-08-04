@@ -1,9 +1,5 @@
 /* ==========================================================================
-   Footer Overlapping Architecture (Transparent Content Background + Column 4 Email & Socials)
-   - 100% Transparent footer content background
-   - Deep forest green text (#23421F)
-   - Email subscription & Social Media icons under Mobile No in Column 4
-   - Bottom landscape illustration banner overlapping smoothly behind content
+   Footer Overlapping Architecture (Transparent Content Background + Mobile Accordion Control)
    ========================================================================== */
 
 .site-footer {
@@ -45,8 +41,9 @@
 }
 
 .site-footer__logo-link {
-  display: inline-block;
-  margin-bottom: 1rem;
+  display: block;
+  margin: 0 auto 1rem;
+  text-align: center;
 }
 
 .site-footer__logo {
@@ -54,6 +51,7 @@
   width: auto;
   object-fit: contain;
   display: block;
+  margin: 0 auto;
 }
 
 .site-footer__brand-text {
@@ -79,6 +77,7 @@
   background: #ffffff;
   padding: 4px 6px 4px 16px;
   max-width: 320px;
+  margin: 0 auto;
   box-shadow: 0 2px 8px rgba(35, 66, 31, 0.08);
 }
 
@@ -121,6 +120,8 @@
 .site-footer__social-row {
   display: flex;
   gap: 0.75rem;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .social-btn {
@@ -165,6 +166,36 @@
   margin: 0 0 1.25rem;
   padding: 0;
   text-align: left;
+  width: 100%;
+}
+
+/* Accordion Control on Mobile View (<768px) */
+@media (max-width: 47.99rem) {
+  .site-footer__col .site-footer__list {
+    display: none;
+    margin-top: 0.5rem;
+  }
+
+  .site-footer__col.is-open .site-footer__list {
+    display: block;
+  }
+
+  .site-footer__col-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(35, 66, 31, 0.15);
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .site-footer__col-toggle .accordion-icon {
+    font-size: 1.3rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #23421f;
+  }
 }
 
 @media (min-width: 48rem) {
@@ -175,6 +206,10 @@
 
   .site-footer__col-toggle .accordion-icon {
     display: none;
+  }
+
+  .site-footer__col .site-footer__list {
+    display: block !important;
   }
 }
 
@@ -237,13 +272,14 @@
   position: relative;
   z-index: 2;
   width: 100%;
-  margin-top: -120px; /* Overlap content on top of farm illustration */
+  margin-top: -120px;
   pointer-events: none;
 }
 
 @media (max-width: 48rem) {
+  /* On mobile view: position illustration banner below content so social buttons don't overlap */
   .site-footer__illustration-layer {
-    margin-top: -60px;
+    margin-top: 0px !important;
   }
 }
 

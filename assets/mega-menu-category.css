@@ -1,196 +1,183 @@
+/* ==========================================================================
+   Shop By Category Mega Menu (Matching Two Brothers India Reference Layout)
+   - Positioned directly below "Shop By Category" nav button with pointer arrow
+   - Spacious, attractive cards with 80px media icons
+   - Organic green wave background illustration at bottom
+   - Centered dark green "SHOP ALL ->" pill button
+   ========================================================================== */
+
 .kb-mega--category {
-  border-radius: 22px;
-  box-shadow: 0 18px 55px rgb(0 0 0 / 14%);
-  width: min(1220px, calc(100vw - 48px));
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+  width: max-content;
+  max-width: min(960px, calc(100vw - 32px));
+  min-width: 380px;
+  z-index: 999999 !important;
+  background: #ffffff;
+  overflow: hidden;
+  left: 0 !important;
+  transform: translateY(12px);
+}
+
+.kb-header__nav-item--mega:hover .kb-mega--category,
+.kb-header__nav-item--mega:focus-within .kb-mega--category,
+.kb-header__nav-item--mega.is-open .kb-mega--category {
+  transform: translateY(0) !important;
 }
 
 .kb-mega--category .kb-mega__inner {
-  padding: 45px 45px 64px;
+  padding: 34px 34px 24px;
+  position: relative;
+  z-index: 5;
 }
 
 .kb-category-mega {
   position: relative;
+  width: 100%;
 }
 
 .kb-category-mega__slider {
-  display: grid;
-  gap: 18px;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px 20px;
+  position: relative;
+  z-index: 10;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .kb-category-card {
   align-items: center;
-  background: #fff;
-  border: 1px solid rgb(35 66 31 / 8%);
-  border-radius: 18px;
+  background: transparent;
+  border: none;
+  border-radius: 16px;
   color: #23421f;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  min-height: 214px;
-  padding: 14px 12px 16px;
+  padding: 8px 6px;
   position: relative;
   text-align: center;
   text-decoration: none;
-  transition: background-color 300ms ease, border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
+  transition: transform 250ms ease;
+  width: 92px;
+  flex: 0 0 92px;
 }
 
 .kb-category-card:hover,
 .kb-category-card:focus-visible {
-  background: var(--kb-mega-hover, #f1f8ec);
-  border-color: rgb(35 66 31 / 14%);
-  box-shadow: 0 18px 36px rgb(35 66 31 / 16%);
-  transform: translateY(-10px);
+  transform: translateY(-6px);
 }
 
 .kb-category-card__media {
-  border-radius: 16px;
-  box-shadow: 0 10px 26px rgb(35 66 31 / 13%);
-  display: block;
-  height: 120px;
-  overflow: hidden;
-  width: 120px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  width: 80px;
+  margin-bottom: 8px;
+  background: #f7f3e9;
+  box-shadow: 0 6px 18px rgba(35, 66, 31, 0.08);
+  transition: box-shadow 250ms ease, transform 250ms ease;
+}
+
+.kb-category-card:hover .kb-category-card__media,
+.kb-category-card:focus-visible .kb-category-card__media {
+  box-shadow: 0 10px 24px rgba(35, 66, 31, 0.18);
+  transform: scale(1.06);
 }
 
 .kb-category-card__image {
-  background: #f7f2df;
   display: block;
   height: 100%;
-  object-fit: cover;
-  transition: transform 300ms ease;
+  object-fit: contain;
   width: 100%;
-}
-
-.kb-category-card:hover .kb-category-card__image,
-.kb-category-card:focus-visible .kb-category-card__image {
-  transform: scale(1.08);
+  padding: 5px;
 }
 
 .kb-category-card__content {
-  display: grid;
-  gap: 5px;
-  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
 
 .kb-category-card__title {
   color: #23421f;
-  font-size: 16px;
-  font-weight: 900;
-  line-height: 1.18;
-  transition: color 300ms ease;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  transition: color 250ms ease;
+  word-break: break-word;
 }
 
 .kb-category-card:hover .kb-category-card__title,
 .kb-category-card:focus-visible .kb-category-card__title {
-  color: var(--kb-accent, #23421f);
+  color: #166534;
 }
 
 .kb-category-card__subtitle {
-  color: #6a7a5e;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1.25;
+  color: #557051;
+  font-size: 11px;
+  font-weight: 600;
 }
 
-.kb-category-mega__empty {
-  background: #f6fbf2;
-  border: 1px dashed rgb(35 66 31 / 20%);
-  border-radius: 14px;
-  color: #31572f;
-  font-weight: 800;
-  grid-column: 1 / -1;
-  margin: 0;
-  padding: 1rem;
-  text-align: center;
-}
-
-.kb-category-card__arrow {
-  align-items: center;
-  background: var(--kb-accent, #23421f);
-  border-radius: 50%;
-  bottom: 12px;
-  color: #fff;
-  display: flex;
-  font-size: 12px;
-  font-weight: 900;
-  height: 24px;
-  justify-content: center;
-  opacity: 0;
+/* Organic Green Wave Background Illustration */
+.kb-category-mega__wave-container {
   position: absolute;
-  right: 12px;
-  transform: translateX(-8px);
-  transition: opacity 300ms ease, transform 300ms ease;
-  width: 24px;
+  bottom: 0;
+  left: -40px;
+  right: -40px;
+  height: 140px;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
 }
 
-.kb-category-card:hover .kb-category-card__arrow,
-.kb-category-card:focus-visible .kb-category-card__arrow {
-  opacity: 1;
-  transform: translateX(0);
+.kb-category-mega__wave-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.kb-category-mega__button {
-  align-items: center;
-  background: var(--kb-accent, #23421f);
-  border-radius: 999px;
-  color: #fff;
-  display: inline-flex;
-  font-size: 0.9rem;
-  font-weight: 900;
-  gap: 8px;
+.kb-category-mega__wave-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Centered SHOP ALL Button on Wave */
+.kb-category-mega__footer-action {
+  position: relative;
+  z-index: 15;
+  display: flex;
   justify-content: center;
-  letter-spacing: 0.08em;
-  margin: 30px auto 0;
-  min-width: 178px;
-  padding: 15px 34px;
+  margin-top: 22px;
+  padding-top: 6px;
+}
+
+.kb-category-mega__button-pill {
+  background: #23421f;
+  color: #ffffff !important;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 2.2rem;
   text-decoration: none;
-  text-transform: uppercase;
-  transition: background-color 300ms ease, transform 300ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 20px rgba(35, 66, 31, 0.25);
+  transition: background 250ms ease, transform 250ms ease, box-shadow 250ms ease;
 }
 
-.kb-category-mega__button:hover,
-.kb-category-mega__button:focus-visible {
-  background: #386c35;
-  transform: scale(1.04);
-}
-
-@media screen and (max-width: 74.99rem) {
-  .kb-category-mega__slider {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .kb-category-card {
-    min-height: 206px;
-  }
-}
-
-@media screen and (max-width: 63.99rem) {
-  .kb-mega--category .kb-mega__inner {
-    padding: 0;
-  }
-
-  .kb-category-mega__slider {
-    display: flex;
-    gap: 14px;
-    overflow-x: auto;
-    padding: 4px 2px 14px;
-    scroll-padding-inline: 2px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-  }
-
-  .kb-category-mega__slider::-webkit-scrollbar {
-    display: none;
-  }
-
-  .kb-category-card {
-    flex: 0 0 148px;
-    min-height: 198px;
-    scroll-snap-align: start;
-  }
-
-  .kb-category-card__media {
-    height: 108px;
-    width: 108px;
-  }
+.kb-category-mega__button-pill:hover,
+.kb-category-mega__button-pill:focus-visible {
+  background: #166534;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(35, 66, 31, 0.35);
 }

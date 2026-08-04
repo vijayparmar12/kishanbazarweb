@@ -202,21 +202,9 @@
         <span class="kb-header__mobile-title">Menu</span>
         <button class="kb-header__mobile-close" type="button" aria-label="Close menu" data-menu-close>{% render 'icon', name: 'close', size: 24 %}</button>
       </div>
+      {% render 'mobile-category-grid', section: section %}
       <ul class="kb-header__mobile-list" role="list">
-        <li>
-          <a class="kb-header__mobile-link kb-header__nav-link--icon" href="{{ ghee_link }}">
-            {% render 'category-icon', category: ghee_collection, size: 40 %}
-            <span>{{ section.settings.ghee_title }}</span>
-          </a>
-        </li>
-        <li>
-          <a class="kb-header__mobile-link kb-header__nav-link--icon" href="{{ atta_link }}">
-            {% render 'category-icon', category: atta_collection, size: 40 %}
-            <span>{{ section.settings.atta_title }}</span>
-          </a>
-        </li>
-        <li>{% render 'mega-menu', section: section, menu_type: 'category', mobile: true %}</li>
-        <li><a class="kb-header__mobile-link" href="/pages/membership" data-membership-trigger>{{ section.settings.collective_title }}</a></li>
+        <li><a class="kb-header__mobile-link kb-header__mobile-link--pill" href="/pages/membership" data-membership-trigger>{{ section.settings.collective_title }}</a></li>
         <li>{% render 'mega-menu', section: section, menu_type: 'concern', mobile: true %}</li>
         <li>{% render 'mega-menu', section: section, menu_type: 'farm', mobile: true %}</li>
         <li>{% render 'mega-menu', section: section, menu_type: 'customers', mobile: true %}</li>

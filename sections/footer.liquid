@@ -35,7 +35,7 @@
         </p>
       </div>
 
-      <!-- Column 2: Categories & Links -->
+      <!-- Column 2: Categories (Accordion on mobile with + sign) -->
       <div class="site-footer__col" data-footer-col>
         <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
           <span>CATEGORIES</span>
@@ -50,7 +50,7 @@
         </ul>
       </div>
 
-      <!-- Column 3: Policy & Support -->
+      <!-- Column 3: Policy & Support (Accordion on mobile with + sign) -->
       <div class="site-footer__col" data-footer-col>
         <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
           <span>GENERAL</span>
@@ -65,12 +65,9 @@
         </ul>
       </div>
 
-      <!-- Column 4: Company Info, Contact, Email Signup & Social Media Icons Below Mobile No -->
-      <div class="site-footer__col site-footer__contact-col" data-footer-col>
-        <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
-          <span>COMPANY & CONTACT</span>
-          <span class="accordion-icon" aria-hidden="true">+</span>
-        </button>
+      <!-- Column 4: Company Info, Contact, Email Signup & Social Media Icons (Static Title, NO + Sign) -->
+      <div class="site-footer__col site-footer__contact-col">
+        <h3 class="site-footer__col-title site-footer__col-title--static">COMPANY &amp; CONTACT</h3>
         <div class="site-footer__company-details">
           <p class="site-footer__address">{{ section.settings.address_text | default: '11th Floor, Jasminium Building, Magarpatta City, Hadapsar, Pune, Maharashtra, 411028' }}</p>
           <p class="site-footer__contact-line"><strong>Email:</strong> <a href="mailto:{{ section.settings.email | default: 'info@kishanbazar.com' }}">{{ section.settings.email | default: 'info@kishanbazar.com' }}</a></p>
@@ -78,7 +75,7 @@
           
           <!-- Newsletter Subscription Box below Mobile No -->
           {% if section.settings.show_newsletter %}
-            <div class="site-footer__newsletter" style="margin-top: 1rem;">
+            <div class="site-footer__newsletter" style="margin-top: 1.25rem;">
               {% form 'customer', class: 'site-footer__newsletter-form' %}
                 <input type="hidden" name="contact[tags]" value="newsletter">
                 <div class="site-footer__newsletter-input-wrap">
@@ -109,7 +106,7 @@
     </div>
   </div>
 
-  <!-- BOTTOM ILLUSTRATION IMAGE BANNER (Overlapped behind content) -->
+  <!-- BOTTOM ILLUSTRATION IMAGE BANNER -->
   <div class="site-footer__illustration-layer">
     {% if section.settings.footer_bottom_image != blank %}
       <div class="site-footer__bottom-banner-wrap">

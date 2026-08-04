@@ -95,7 +95,6 @@
       <div class="kb-mega__inner">
         {% if menu_type == 'category' %}
           {% render 'mega-menu-category', section: section %}
-          <a class="kb-category-mega__button" href="{{ section.settings.category_button_url | default: routes.collections_url }}">{{ section.settings.category_button_text }} <span aria-hidden="true">-&gt;</span></a>
         {% elsif menu_type == 'concern' %}
           <div class="kb-mega__concern-list">
             {% assign concern_count = 0 %}
