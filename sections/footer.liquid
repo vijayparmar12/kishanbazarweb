@@ -1,6 +1,38 @@
 <link rel="stylesheet" href="{{ 'section-footer.css' | asset_url }}">
 <script src="{{ 'section-footer.js' | asset_url }}" defer="defer"></script>
 
+{% style %}
+  .site-footer {
+    position: relative;
+    background-color: {{ section.settings.footer_bg_color | default: '#0b100c' }};
+    {% if section.settings.background_image != blank %}
+      background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    {% endif %}
+  }
+
+  {% if section.settings.background_image != blank and section.settings.overlay_opacity > 0 %}
+    .site-footer::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
+      pointer-events: none;
+      z-index: 1;
+    }
+    .site-footer__inner,
+    .site-footer__bottom {
+      position: relative;
+      z-index: 2;
+    }
+  {% endif %}
+{% endstyle %}
+
 <footer class="site-footer" data-site-footer>
   <div class="site-footer__inner">
     <!-- Column 1: Brand Info -->
@@ -61,13 +93,13 @@
         <span class="accordion-icon" aria-hidden="true">+</span>
       </button>
       <div class="site-footer__contact-boxes">
-        <a href="tel:+917777928773" class="contact-box">
+        <a href="tel:{{ section.settings.phone | default: '+91 88888 88888' }}" class="contact-box">
           <span class="contact-box__icon">📞</span>
-          <span class="contact-box__text">+91 88888 88888</span>
+          <span class="contact-box__text">{{ section.settings.phone | default: '+91 88888 88888' }}</span>
         </a>
-        <a href="mailto:support@kishanbazar.com" class="contact-box">
+        <a href="mailto:{{ section.settings.email | default: 'support@kishanbazar.com' }}" class="contact-box">
           <span class="contact-box__icon">✉️</span>
-          <span class="contact-box__text">support@kishanbazar.com</span>
+          <span class="contact-box__text">{{ section.settings.email | default: 'support@kishanbazar.com' }}</span>
         </a>
       </div>
     </div>
@@ -84,13 +116,25 @@
   "tag": "section",
   "class": "section-footer",
   "settings": [
+    { "type": "image_picker", "id": "background_image", "label": "Footer Background Image" },
+    { "type": "color", "id": "footer_bg_color", "label": "Footer Background Color", "default": "#0b100c" },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Background Dark Overlay Opacity",
+      "default": 35
+    },
     { "type": "image_picker", "id": "logo", "label": "Footer logo" },
     { "type": "textarea", "id": "about_text", "label": "About description", "default": "Kishan Bazar, Welcome to our farm-fresh organic kitchen. We build wholesome pantry staples and marketing experiences that help brands stand out and scale confidently." },
     { "type": "url", "id": "x_url", "label": "X (Twitter) URL" },
     { "type": "url", "id": "facebook_url", "label": "Facebook URL" },
     { "type": "url", "id": "linkedin_url", "label": "LinkedIn URL" },
     { "type": "url", "id": "instagram_url", "label": "Instagram URL" },
-    { "type": "text", "id": "phone", "label": "Phone Number", "default": "+91 77779 28773" },
+    { "type": "text", "id": "phone", "label": "Phone Number", "default": "+91 88888 88888" },
     { "type": "text", "id": "email", "label": "Email Address", "default": "support@kishanbazar.com" }
   ],
   "presets": [{ "name": "Footer" }]

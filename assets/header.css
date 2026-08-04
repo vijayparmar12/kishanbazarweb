@@ -54,17 +54,17 @@
 }
 
 .kb-header__nav-icon-img {
-  width: 90px;
-  height: 90px;
-  max-width: 90px;
-  max-height: 90px;
+  width: 40px;
+  height: 40px;
+  max-width: 40px;
+  max-height: 40px;
   object-fit: contain;
   display: block;
 }
 
 .kb-header__nav-icon svg {
-  width: 80px;
-  height: 80px;
+  width: 34px;
+  height: 34px;
   color: var(--kb-accent, #23421f);
 }
 
@@ -321,8 +321,8 @@
   list-style: none;
   margin: 0 auto;
   max-width: 1320px;
-  min-height: 85px;
-  padding: 0.4rem 1.25rem;
+  min-height: 48px;
+  padding: 0.2rem 1.25rem;
 }
 
 .kb-header__nav-item {
@@ -339,7 +339,7 @@
   font-weight: 800;
   gap: 0.35rem;
   letter-spacing: 0.02em;
-  min-height: 85px;
+  min-height: 48px;
   position: relative;
   text-decoration: none;
   text-transform: uppercase;

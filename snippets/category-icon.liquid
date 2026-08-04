@@ -1,85 +1,67 @@
 {% doc %}
   Renders a consistent category icon dynamically from Shopify collections site-wide.
+  Pulls directly from Shopify Admin collection.image or featured product image.
 
   @param {collection|string} category - Collection object or handle/title string.
-  @param {image} [custom_image] - Optional custom image override.
-  @param {number} [size] - Icon size in px (default: 90).
+  @param {image} [custom_image] - Optional custom image override from Shopify settings.
+  @param {number} [size] - Icon size in px (default: 40).
   @param {string} [class] - Extra CSS classes.
 
   @example
-  {% render 'category-icon', category: 'ghee' %}
+  {% render 'category-icon', category: ghee_collection, size: 40 %}
 {% enddoc %}
 
 {% liquid
-  assign icon_size = size | default: 90
+  assign icon_size = size | default: 40
   assign img_width = icon_size | times: 2
 
-  assign cat_str = ''
-  if category != blank
-    assign cat_str = category | append: '' | downcase
-    if category.title != blank
-      assign cat_title = category.title | downcase
-      assign cat_str = cat_str | append: ' ' | append: cat_title
-    endif
-    if category.handle != blank
-      assign cat_handle = category.handle | downcase
-      assign cat_str = cat_str | append: ' ' | append: cat_handle
+  assign target_collection = nil
+  if category.image != blank or category.products != blank
+    assign target_collection = category
+  elsif category != blank
+    assign cat_handle = category | handleize
+    if collections[cat_handle] != blank
+      assign target_collection = collections[cat_handle]
     endif
   endif
 
   assign category_img = nil
   if custom_image != blank
     assign category_img = custom_image
-  elsif category != blank and category.image != blank
-    assign category_img = category.image
-  elsif category != blank and category.products != blank and category.products.first != blank and category.products.first.featured_image != blank
-    assign category_img = category.products.first.featured_image
+  elsif target_collection != nil and target_collection.image != blank
+    assign category_img = target_collection.image
+  elsif target_collection != nil and target_collection.products != blank and target_collection.products.first != blank and target_collection.products.first.featured_image != blank
+    assign category_img = target_collection.products.first.featured_image
+  endif
+
+  assign cat_str = ''
+  if target_collection != nil and target_collection.title != blank
+    assign cat_str = target_collection.title | downcase
+  elsif category != blank
+    assign cat_str = category | append: '' | downcase
   endif
 %}
 
-<span class="kb-category-icon-wrapper {{ class }}" style="display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; vertical-align: middle; margin-right: 8px;" aria-hidden="true">
+<span class="kb-category-icon-wrapper {{ class }}" style="display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; vertical-align: middle; margin-right: 5px;" aria-hidden="true">
   {% if category_img != blank %}
     {{
       category_img
       | image_url: width: img_width
       | image_tag:
         class: 'kb-category-icon-img',
-        style: 'height: 90px; width: 90px; max-width: 90px; max-height: 90px; object-fit: contain; display: block;',
+        style: 'height: 40px; width: 40px; max-width: 40px; max-height: 40px; object-fit: contain; display: block;',
         width: icon_size,
         height: icon_size,
         loading: 'eager',
-        alt: 'Category Icon'
+        alt: 'Shopify Collection Icon'
     }}
   {% elsif cat_str contains 'ghee' %}
-    <span class="kb-category-icon-img-wrap" style="display: inline-flex; align-items: center; justify-content: center;">
-      <img src="{{ 'ghee.png' | asset_url }}" alt="Ghee" class="kb-category-icon-img" width="90" height="90" style="height: 90px; width: 90px; max-width: 90px; max-height: 90px; object-fit: contain; display: block;" loading="eager" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-      <span class="kb-category-icon-svg" style="display: none; align-items: center; justify-content: center; color: #23421f;">
-        <svg viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="#23421f" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M8 3h8v3H8z" fill="#23421f" fill-opacity="0.2"/>
-          <path d="M6 6h12v3H6z"/>
-          <path d="M5 9c0 0-1 4 0 7s3.5 4 7 4 7-1 7-4 0-7 0-7H5z" fill="#23421f" fill-opacity="0.12"/>
-          <path d="M10 13h4"/>
-          <path d="M12 11v4"/>
-        </svg>
-      </span>
-    </span>
+    <img src="{{ 'ghee.png' | asset_url }}" alt="Ghee" class="kb-category-icon-img" width="40" height="40" style="height: 40px; width: 40px; max-width: 40px; max-height: 40px; object-fit: contain; display: block;" loading="eager">
   {% elsif cat_str contains 'atta' or cat_str contains 'flour' %}
-    <span class="kb-category-icon-img-wrap" style="display: inline-flex; align-items: center; justify-content: center;">
-      <img src="{{ 'atta.png' | asset_url }}" alt="Atta" class="kb-category-icon-img" width="90" height="90" style="height: 90px; width: 90px; max-width: 90px; max-height: 90px; object-fit: contain; display: block;" loading="eager" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-      <span class="kb-category-icon-svg" style="display: none; align-items: center; justify-content: center; color: #23421f;">
-        <svg viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="#23421f" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M8 5c0-1.5 1.8-3 4-3s4 1.5 4 3"/>
-          <path d="M7 5h10v2H7z" fill="#23421f"/>
-          <path d="M5 7h14l1 12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2L5 7z" fill="#23421f" fill-opacity="0.12"/>
-          <path d="M12 10v6"/>
-          <path d="M10 12l2-2 2 2"/>
-          <path d="M10 15l2-2 2 2"/>
-        </svg>
-      </span>
-    </span>
+    <img src="{{ 'atta.png' | asset_url }}" alt="Atta" class="kb-category-icon-img" width="40" height="40" style="height: 40px; width: 40px; max-width: 40px; max-height: 40px; object-fit: contain; display: block;" loading="eager">
   {% else %}
     <span class="kb-category-icon-svg" style="display: inline-flex; align-items: center; justify-content: center; color: var(--kb-accent, #23421f);">
-      <svg viewBox="0 0 24 24" width="70" height="70" fill="none" stroke="#23421f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#23421f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="9"/>
         <path d="M12 7v10M7 12h10"/>
       </svg>
