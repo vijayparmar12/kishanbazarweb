@@ -4,14 +4,19 @@
 {% style %}
   .site-footer {
     position: relative;
-    background-color: {{ section.settings.footer_bg_color | default: '#0b100c' }};
-    {% if section.settings.background_image != blank %}
+    background-color: {{ section.settings.footer_bg_color | default: '#faf6ec' }};
+    color: {{ section.settings.footer_text_color | default: '#23421f' }};
+    overflow: hidden;
+  }
+
+  {% if section.settings.background_image != blank %}
+    .site-footer {
       background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}');
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
-    {% endif %}
-  }
+    }
+  {% endif %}
 
   {% if section.settings.background_image != blank and section.settings.overlay_opacity > 0 %}
     .site-footer::before {
@@ -25,88 +30,125 @@
       pointer-events: none;
       z-index: 1;
     }
-    .site-footer__inner,
-    .site-footer__bottom {
-      position: relative;
-      z-index: 2;
-    }
   {% endif %}
+
+  .site-footer__part-1,
+  .site-footer__part-2 {
+    position: relative;
+    z-index: 2;
+  }
 {% endstyle %}
 
 <footer class="site-footer" data-site-footer>
-  <div class="site-footer__inner">
-    <!-- Column 1: Brand Info -->
-    <div class="site-footer__brand-col">
-      <a href="{{ routes.root_url }}" class="site-footer__logo-link" aria-label="{{ shop.name | escape }} home">
-        {% if section.settings.logo != blank %}
-          {{ section.settings.logo | image_url: width: 300 | image_tag: class: 'site-footer__logo', alt: shop.name, loading: 'lazy' }}
-        {% else %}
-          <img class="site-footer__logo" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" loading="lazy">
+  <!-- PART 1: TOP CONTENT GRID (Brand Logo, Newsletter, Navigation, Contact Details, Socials, App Store Buttons) -->
+  <div class="site-footer__part-1">
+    <div class="site-footer__inner">
+      <!-- Column 1: Brand Info & Newsletter -->
+      <div class="site-footer__brand-col">
+        <a href="{{ routes.root_url }}" class="site-footer__logo-link" aria-label="{{ shop.name | escape }} home">
+          {% if section.settings.logo != blank %}
+            {{ section.settings.logo | image_url: width: 320 | image_tag: class: 'site-footer__logo', alt: shop.name, loading: 'lazy' }}
+          {% else %}
+            <img class="site-footer__logo" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" loading="lazy">
+          {% endif %}
+        </a>
+        <p class="site-footer__brand-text">
+          {{ section.settings.about_text | default: 'Kishan Bazar, Welcome to our farm-fresh organic kitchen. Wholesome pantry staples built directly from nature.' }}
+        </p>
+
+        <!-- Newsletter Subscription Box -->
+        {% if section.settings.show_newsletter %}
+          <div class="site-footer__newsletter">
+            {% form 'customer', class: 'site-footer__newsletter-form' %}
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <div class="site-footer__newsletter-input-wrap">
+                <input
+                  type="email"
+                  name="contact[email]"
+                  class="site-footer__newsletter-input"
+                  value="{{ form.email }}"
+                  placeholder="Your e-mail"
+                  aria-label="Your e-mail"
+                  required
+                >
+                <button type="submit" class="site-footer__newsletter-btn" aria-label="Subscribe">&rarr;</button>
+              </div>
+            {% endform %}
+          </div>
         {% endif %}
-      </a>
-      <p class="site-footer__brand-text">
-        {{ section.settings.about_text | default: 'Kishan Bazar, Welcome to our farm-fresh organic kitchen. We build wholesome pantry staples and marketing experiences that help brands stand out and scale confidently.' }}
-      </p>
-      <div class="site-footer__social-row">
-        <a href="{{ section.settings.x_url | default: '#' }}" class="social-btn" aria-label="X (Twitter)">X</a>
-        <a href="{{ section.settings.facebook_url | default: '#' }}" class="social-btn" aria-label="Facebook">f</a>
-        <a href="{{ section.settings.linkedin_url | default: '#' }}" class="social-btn" aria-label="LinkedIn">in</a>
-        <a href="{{ section.settings.instagram_url | default: '#' }}" class="social-btn" aria-label="Instagram">📷</a>
+
+        <div class="site-footer__social-row">
+          <a href="{{ section.settings.x_url | default: '#' }}" class="social-btn" aria-label="X (Twitter)">X</a>
+          <a href="{{ section.settings.facebook_url | default: '#' }}" class="social-btn" aria-label="Facebook">f</a>
+          <a href="{{ section.settings.linkedin_url | default: '#' }}" class="social-btn" aria-label="LinkedIn">in</a>
+          <a href="{{ section.settings.instagram_url | default: '#' }}" class="social-btn" aria-label="Instagram">📷</a>
+        </div>
       </div>
-    </div>
 
-    <!-- Column 2: Explore -->
-    <div class="site-footer__col" data-footer-col>
-      <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
-        <span>Explore</span>
-        <span class="accordion-icon" aria-hidden="true">+</span>
-      </button>
-      <ul class="site-footer__list" role="list">
-        <li><a href="{{ routes.root_url }}">About</a></li>
-        <li><a href="{{ routes.collections_url }}">Services</a></li>
-        <li><a href="{{ routes.collections_url }}">Portfolios</a></li>
-        <li><a href="{{ routes.root_url }}#contact">Contact</a></li>
-        <li><a href="{{ routes.collections_url }}">Pricing</a></li>
-        <li><a href="{{ routes.root_url }}">FAQ</a></li>
-        <li><a href="{{ routes.root_url }}">Team Members</a></li>
-      </ul>
-    </div>
+      <!-- Column 2: Categories & Links -->
+      <div class="site-footer__col" data-footer-col>
+        <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
+          <span>Categories</span>
+          <span class="accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <ul class="site-footer__list" role="list">
+          <li><a href="{{ routes.collections_url }}/ghee">Ghee</a></li>
+          <li><a href="{{ routes.collections_url }}/atta">Atta / Flour</a></li>
+          <li><a href="{{ routes.collections_url }}">Shop All Categories</a></li>
+          <li><a href="/pages/membership">Join Collective</a></li>
+          <li><a href="{{ routes.collections_url }}">Farm Life</a></li>
+        </ul>
+      </div>
 
-    <!-- Column 3: Policy -->
-    <div class="site-footer__col" data-footer-col>
-      <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
-        <span>Policy</span>
-        <span class="accordion-icon" aria-hidden="true">+</span>
-      </button>
-      <ul class="site-footer__list" role="list">
-        <li><a href="/policies/terms-of-service">Terms of Use</a></li>
-        <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
-        <li><a href="/policies/refund-policy">Refund Policy</a></li>
-        <li><a href="/policies/shipping-policy">Shipping Policy</a></li>
-      </ul>
-    </div>
+      <!-- Column 3: Policy & Support -->
+      <div class="site-footer__col" data-footer-col>
+        <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
+          <span>General</span>
+          <span class="accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <ul class="site-footer__list" role="list">
+          <li><a href="/pages/about">About Us</a></li>
+          <li><a href="/policies/terms-of-service">Terms of Use</a></li>
+          <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/policies/refund-policy">Refund Policy</a></li>
+          <li><a href="/policies/shipping-policy">Shipping Policy</a></li>
+        </ul>
+      </div>
 
-    <!-- Column 4: Contact Us -->
-    <div class="site-footer__col site-footer__contact-col" data-footer-col>
-      <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
-        <span>Contact Us</span>
-        <span class="accordion-icon" aria-hidden="true">+</span>
-      </button>
-      <div class="site-footer__contact-boxes">
-        <a href="tel:{{ section.settings.phone | default: '+91 88888 88888' }}" class="contact-box">
-          <span class="contact-box__icon">📞</span>
-          <span class="contact-box__text">{{ section.settings.phone | default: '+91 88888 88888' }}</span>
-        </a>
-        <a href="mailto:{{ section.settings.email | default: 'support@kishanbazar.com' }}" class="contact-box">
-          <span class="contact-box__icon">✉️</span>
-          <span class="contact-box__text">{{ section.settings.email | default: 'support@kishanbazar.com' }}</span>
-        </a>
+      <!-- Column 4: Company Info & Contact -->
+      <div class="site-footer__col site-footer__contact-col" data-footer-col>
+        <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
+          <span>Company & Contact</span>
+          <span class="accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="site-footer__company-details">
+          <p class="site-footer__address">{{ section.settings.address_text | default: '11th Floor, Jasminium Building, Magarpatta City, Hadapsar, Pune, Maharashtra, 411028' }}</p>
+          <p class="site-footer__contact-line"><strong>Email:</strong> <a href="mailto:{{ section.settings.email | default: 'info@kishanbazar.com' }}">{{ section.settings.email | default: 'info@kishanbazar.com' }}</a></p>
+          <p class="site-footer__contact-line"><strong>Tel:</strong> <a href="tel:{{ section.settings.phone | default: '+91 88888 88888' }}">{{ section.settings.phone | default: '+91 88888 88888' }}</a></p>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="site-footer__bottom">
-    <p class="site-footer__copyright">Copyright &copy; {{ 'now' | date: '%Y' }}, {{ shop.name }}</p>
+  <!-- PART 2: BOTTOM ILLUSTRATION IMAGE BANNER (Uploaded from Shopify) -->
+  <div class="site-footer__part-2">
+    {% if section.settings.footer_bottom_image != blank %}
+      <div class="site-footer__bottom-banner-wrap">
+        {{
+          section.settings.footer_bottom_image
+          | image_url: width: 2400
+          | image_tag:
+            class: 'site-footer__bottom-banner-img',
+            loading: 'lazy',
+            widths: '750, 1100, 1400, 1800, 2400',
+            alt: 'Footer Bottom Landscape Illustration'
+        }}
+      </div>
+    {% endif %}
+
+    <div class="site-footer__bottom">
+      <p class="site-footer__copyright">Copyright &copy; {{ 'now' | date: '%Y' }}, {{ shop.name }} &bull; All Rights Reserved.</p>
+    </div>
   </div>
 </footer>
 
@@ -116,8 +158,23 @@
   "tag": "section",
   "class": "section-footer",
   "settings": [
-    { "type": "image_picker", "id": "background_image", "label": "Footer Background Image" },
-    { "type": "color", "id": "footer_bg_color", "label": "Footer Background Color", "default": "#0b100c" },
+    {
+      "type": "header",
+      "content": "Bottom Illustration Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_bottom_image",
+      "label": "Footer Bottom Illustration Image",
+      "info": "Upload landscape farm illustration image matching Two Brothers footer design."
+    },
+    {
+      "type": "header",
+      "content": "Footer Content & Colors"
+    },
+    { "type": "color", "id": "footer_bg_color", "label": "Footer Background Color", "default": "#faf6ec" },
+    { "type": "color", "id": "footer_text_color", "label": "Footer Text Color", "default": "#23421f" },
+    { "type": "image_picker", "id": "background_image", "label": "Footer Full Background Image (Optional)" },
     {
       "type": "range",
       "id": "overlay_opacity",
@@ -126,16 +183,18 @@
       "step": 5,
       "unit": "%",
       "label": "Background Dark Overlay Opacity",
-      "default": 35
+      "default": 0
     },
-    { "type": "image_picker", "id": "logo", "label": "Footer logo" },
-    { "type": "textarea", "id": "about_text", "label": "About description", "default": "Kishan Bazar, Welcome to our farm-fresh organic kitchen. We build wholesome pantry staples and marketing experiences that help brands stand out and scale confidently." },
+    { "type": "image_picker", "id": "logo", "label": "Footer Logo" },
+    { "type": "textarea", "id": "about_text", "label": "About Description", "default": "Kishan Bazar, Welcome to our farm-fresh organic kitchen. Wholesome pantry staples built directly from nature." },
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show Newsletter Subscription Box", "default": true },
     { "type": "url", "id": "x_url", "label": "X (Twitter) URL" },
     { "type": "url", "id": "facebook_url", "label": "Facebook URL" },
     { "type": "url", "id": "linkedin_url", "label": "LinkedIn URL" },
     { "type": "url", "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "textarea", "id": "address_text", "label": "Company Address", "default": "11th Floor, Jasminium Building, Magarpatta City, Hadapsar, Pune, Maharashtra, 411028" },
     { "type": "text", "id": "phone", "label": "Phone Number", "default": "+91 88888 88888" },
-    { "type": "text", "id": "email", "label": "Email Address", "default": "support@kishanbazar.com" }
+    { "type": "text", "id": "email", "label": "Email Address", "default": "info@kishanbazar.com" }
   ],
   "presets": [{ "name": "Footer" }]
 }
