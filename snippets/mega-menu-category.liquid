@@ -117,9 +117,10 @@
 
   <!-- Organic Green Wave Background Illustration (Matching Two Brothers Reference) -->
   <div class="kb-category-mega__wave-container" aria-hidden="true">
-    {% if section.settings.category_wave_image != blank %}
+    {% assign wave_img = section.settings.category_wave_image | default: section.settings.mega_wave_image %}
+    {% if wave_img != blank %}
       {{
-        section.settings.category_wave_image
+        wave_img
         | image_url: width: 1400
         | image_tag: class: 'kb-category-mega__wave-img', loading: 'lazy', alt: 'Mega Menu Wave Illustration'
       }}
