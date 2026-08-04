@@ -53,17 +53,17 @@
 }
 
 .kb-header__nav-icon-img {
-  width: 80px;
-  height: 80px;
-  max-width: 80px;
-  max-height: 80px;
+  width: 100px;
+  height: 100px;
+  max-width: 100px;
+  max-height: 100px;
   object-fit: contain;
   display: block;
 }
 
 .kb-header__nav-icon svg {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   color: var(--kb-accent, #23421f);
 }
 
