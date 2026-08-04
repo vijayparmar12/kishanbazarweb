@@ -5,15 +5,16 @@
    ========================================================================== */
 
 .site-footer {
-  background: #faf6ec;
+  background: transparent;
   color: #23421f;
   position: relative;
   width: 100%;
 }
 
 .site-footer__part-1 {
-  padding-top: clamp(3rem, 5vw, 4.5rem);
-  padding-bottom: 2rem;
+  background: transparent !important;
+  padding-top: clamp(2.5rem, 4.5vw, 4rem);
+  padding-bottom: 0.5rem;
 }
 
 .site-footer__inner {
@@ -215,22 +216,26 @@
 .site-footer__part-2 {
   position: relative;
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 0;
 }
 
 .site-footer__bottom-banner-wrap {
   width: 100%;
   overflow: hidden;
   line-height: 0;
+  margin: 0;
+  padding: 0;
+  display: block;
 }
 
 .site-footer__bottom-banner-img {
   width: 100%;
-  height: clamp(80px, 10vw, 130px);
+  height: clamp(90px, 12vw, 180px);
   display: block;
   object-fit: cover;
   object-position: bottom center;
-  max-height: 130px;
+  max-height: 200px;
+  margin: 0;
 }
 
 .site-footer__bottom {

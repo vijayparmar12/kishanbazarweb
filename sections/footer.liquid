@@ -4,9 +4,22 @@
 {% style %}
   .site-footer {
     position: relative;
-    background-color: {{ section.settings.footer_bg_color | default: '#faf6ec' }};
+    background-color: {{ section.settings.footer_bg_color | default: 'transparent' }};
     color: {{ section.settings.footer_text_color | default: '#23421f' }};
     overflow: hidden;
+  }
+
+  .site-footer__part-1 {
+    background-color: transparent !important;
+    position: relative;
+    z-index: 2;
+    padding-bottom: 0;
+  }
+
+  .site-footer__part-2 {
+    position: relative;
+    z-index: 2;
+    margin-top: 0;
   }
 
   {% if section.settings.background_image != blank %}
@@ -31,12 +44,6 @@
       z-index: 1;
     }
   {% endif %}
-
-  .site-footer__part-1,
-  .site-footer__part-2 {
-    position: relative;
-    z-index: 2;
-  }
 {% endstyle %}
 
 <footer class="site-footer" data-site-footer>
