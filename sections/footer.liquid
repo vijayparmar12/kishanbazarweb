@@ -4,17 +4,24 @@
 {% style %}
   .site-footer {
     position: relative;
-    background-color: {{ section.settings.footer_bg_color | default: '#faf6ec' }};
+    background-color: transparent !important;
+    background: transparent !important;
     color: {{ section.settings.footer_text_color | default: '#23421f' }};
     overflow: hidden;
+  }
+
+  .site-footer__content-layer {
+    background: transparent !important;
+    position: relative;
+    z-index: 5;
   }
 {% endstyle %}
 
 <footer class="site-footer" data-site-footer>
-  <!-- TOP CONTENT GRID (Overlapping on top of bottom landscape image) -->
+  <!-- TOP CONTENT GRID (Transparent, Overlapping on top of bottom landscape image) -->
   <div class="site-footer__content-layer">
     <div class="site-footer__inner">
-      <!-- Column 1: Brand Info & Newsletter -->
+      <!-- Column 1: Brand Info -->
       <div class="site-footer__brand-col">
         <a href="{{ routes.root_url }}" class="site-footer__logo-link" aria-label="{{ shop.name | escape }} home">
           {% if section.settings.logo != blank %}
@@ -26,34 +33,6 @@
         <p class="site-footer__brand-text">
           {{ section.settings.about_text | default: 'Kishan Bazar, Welcome to our farm-fresh organic kitchen. Wholesome pantry staples built directly from nature.' }}
         </p>
-
-        <!-- Newsletter Subscription Box -->
-        {% if section.settings.show_newsletter %}
-          <div class="site-footer__newsletter">
-            {% form 'customer', class: 'site-footer__newsletter-form' %}
-              <input type="hidden" name="contact[tags]" value="newsletter">
-              <div class="site-footer__newsletter-input-wrap">
-                <input
-                  type="email"
-                  name="contact[email]"
-                  class="site-footer__newsletter-input"
-                  value="{{ form.email }}"
-                  placeholder="Your e-mail"
-                  aria-label="Your e-mail"
-                  required
-                >
-                <button type="submit" class="site-footer__newsletter-btn" aria-label="Subscribe">&rarr;</button>
-              </div>
-            {% endform %}
-          </div>
-        {% endif %}
-
-        <div class="site-footer__social-row">
-          <a href="{{ section.settings.x_url | default: '#' }}" class="social-btn" aria-label="X (Twitter)">X</a>
-          <a href="{{ section.settings.facebook_url | default: '#' }}" class="social-btn" aria-label="Facebook">f</a>
-          <a href="{{ section.settings.linkedin_url | default: '#' }}" class="social-btn" aria-label="LinkedIn">in</a>
-          <a href="{{ section.settings.instagram_url | default: '#' }}" class="social-btn" aria-label="Instagram">📷</a>
-        </div>
       </div>
 
       <!-- Column 2: Categories & Links -->
@@ -86,7 +65,7 @@
         </ul>
       </div>
 
-      <!-- Column 4: Company Info & Contact -->
+      <!-- Column 4: Company Info, Contact, Email Signup & Social Media Icons Below Mobile No -->
       <div class="site-footer__col site-footer__contact-col" data-footer-col>
         <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
           <span>COMPANY & CONTACT</span>
@@ -96,6 +75,35 @@
           <p class="site-footer__address">{{ section.settings.address_text | default: '11th Floor, Jasminium Building, Magarpatta City, Hadapsar, Pune, Maharashtra, 411028' }}</p>
           <p class="site-footer__contact-line"><strong>Email:</strong> <a href="mailto:{{ section.settings.email | default: 'info@kishanbazar.com' }}">{{ section.settings.email | default: 'info@kishanbazar.com' }}</a></p>
           <p class="site-footer__contact-line"><strong>Tel:</strong> <a href="tel:{{ section.settings.phone | default: '+91 88888 88888' }}">{{ section.settings.phone | default: '+91 88888 88888' }}</a></p>
+          
+          <!-- Newsletter Subscription Box below Mobile No -->
+          {% if section.settings.show_newsletter %}
+            <div class="site-footer__newsletter" style="margin-top: 1rem;">
+              {% form 'customer', class: 'site-footer__newsletter-form' %}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="site-footer__newsletter-input-wrap">
+                  <input
+                    type="email"
+                    name="contact[email]"
+                    class="site-footer__newsletter-input"
+                    value="{{ form.email }}"
+                    placeholder="Your e-mail"
+                    aria-label="Your e-mail"
+                    required
+                  >
+                  <button type="submit" class="site-footer__newsletter-btn" aria-label="Subscribe">&rarr;</button>
+                </div>
+              {% endform %}
+            </div>
+          {% endif %}
+
+          <!-- Social Media Icons below Mobile No & Email -->
+          <div class="site-footer__social-row" style="margin-top: 1rem;">
+            <a href="{{ section.settings.x_url | default: '#' }}" class="social-btn" aria-label="X (Twitter)">X</a>
+            <a href="{{ section.settings.facebook_url | default: '#' }}" class="social-btn" aria-label="Facebook">f</a>
+            <a href="{{ section.settings.linkedin_url | default: '#' }}" class="social-btn" aria-label="LinkedIn">in</a>
+            <a href="{{ section.settings.instagram_url | default: '#' }}" class="social-btn" aria-label="Instagram">📷</a>
+          </div>
         </div>
       </div>
     </div>
@@ -144,7 +152,6 @@
       "type": "header",
       "content": "Footer Content & Colors"
     },
-    { "type": "color", "id": "footer_bg_color", "label": "Footer Background Color", "default": "#faf6ec" },
     { "type": "color", "id": "footer_text_color", "label": "Footer Text Color", "default": "#23421f" },
     { "type": "image_picker", "id": "logo", "label": "Footer Logo" },
     { "type": "textarea", "id": "about_text", "label": "About Description", "default": "Kishan Bazar, Welcome to our farm-fresh organic kitchen. Wholesome pantry staples built directly from nature." },

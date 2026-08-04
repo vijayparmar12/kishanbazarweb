@@ -1,12 +1,14 @@
 /* ==========================================================================
-   Footer Two-Part Overlapping Architecture (Matching Two Brothers India Reference)
-   - Warm organic cream background (#FAF6EC)
-   - Deep forest green text (#23421F) & high-contrast crisp labels
-   - Bottom landscape illustration banner smoothly overlapping behind content
+   Footer Overlapping Architecture (Transparent Content Background + Column 4 Email & Socials)
+   - 100% Transparent footer content background
+   - Deep forest green text (#23421F)
+   - Email subscription & Social Media icons under Mobile No in Column 4
+   - Bottom landscape illustration banner overlapping smoothly behind content
    ========================================================================== */
 
 .site-footer {
-  background-color: #faf6ec;
+  background: transparent !important;
+  background-color: transparent !important;
   color: #23421f;
   position: relative;
   width: 100%;
@@ -14,9 +16,10 @@
 }
 
 .site-footer__content-layer {
+  background: transparent !important;
   position: relative;
   z-index: 5;
-  padding-top: clamp(3rem, 5vw, 4.5rem);
+  padding-top: clamp(2.5rem, 4.5vw, 4rem);
   padding-bottom: 1rem;
 }
 
@@ -60,12 +63,12 @@
   line-height: 1.6;
   margin: 0 0 1.25rem;
   max-width: 26rem;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
-/* Newsletter Input Form */
+/* Newsletter Input Form inside Column 4 */
 .site-footer__newsletter {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .site-footer__newsletter-input-wrap {
@@ -190,7 +193,7 @@
   font-size: 0.92rem;
   font-weight: 600;
   text-decoration: none;
-  opacity: 0.88;
+  opacity: 0.9;
   transition: opacity 200ms ease, color 200ms ease;
 }
 
@@ -205,7 +208,7 @@
   line-height: 1.6;
   color: #23421f;
   font-weight: 500;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 .site-footer__address {
