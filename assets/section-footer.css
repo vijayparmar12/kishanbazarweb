@@ -226,10 +226,11 @@
 
 .site-footer__bottom-banner-img {
   width: 100%;
-  height: auto;
+  height: clamp(80px, 10vw, 130px);
   display: block;
   object-fit: cover;
-  max-height: 380px;
+  object-position: bottom center;
+  max-height: 130px;
 }
 
 .site-footer__bottom {
