@@ -2,7 +2,7 @@
   background: linear-gradient(180deg, #fff 0%, #f7f1e4 100%);
   border-block: 1px solid rgb(35 66 31 / 9%);
   max-width: none;
-  padding: clamp(3rem, 6vw, 5rem) 0;
+  padding: clamp(2rem, 4vw, 3rem) 0;
 }
 
 .home-video .home-section__head {
@@ -18,12 +18,13 @@
 
 .home-video__frame {
   aspect-ratio: 16 / 9;
-  border: 8px solid #fff;
-  border-radius: 22px;
-  box-shadow: 0 28px 64px rgb(67 51 23 / 18%);
-  margin: var(--space-8) auto 0;
-  max-width: min(72rem, calc(100% - 2 * var(--container-padding)));
+  border: 6px solid #fff;
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(35, 66, 31, 0.12);
+  margin: 1.5rem auto 0;
+  max-width: min(760px, calc(100% - 2 * var(--container-padding)));
   overflow: hidden;
+  position: relative;
 }
 
 .home-video__frame iframe,

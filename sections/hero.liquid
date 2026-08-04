@@ -120,7 +120,7 @@
 
       <!-- Right Bottom Sub-Banner -->
       <div class="home-hero-split__item home-hero-split__item--sub">
-        <a href="{{ section.settings.right_bottom_link | default: '/pages/membership' }}" class="home-hero-split__link" data-membership-trigger aria-label="Right Bottom Banner">
+        <a href="{{ section.settings.right_bottom_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Bottom Banner">
           {% if section.settings.right_bottom_image != blank %}
             {{
               section.settings.right_bottom_image
@@ -134,7 +134,7 @@
             <img
               class="home-hero-split__image"
               src="{{ 'hero-mobile.jpg.png' | asset_url }}"
-              alt="Collective Membership Discounts"
+              alt="Organic Farm Fresh Kitchen"
               width="600"
               height="350"
               loading="eager"

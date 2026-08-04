@@ -1,7 +1,18 @@
 <link rel="stylesheet" href="{{ 'section-collections.css' | asset_url }}">
 <script src="{{ 'section-collections.js' | asset_url }}" defer="defer"></script>
 
-<section class="home-section categories" data-categories>
+{% style %}
+  #Categories-{{ section.id }} {
+    {% if section.settings.background_image != blank %}
+      background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
+      background-size: cover !important;
+      background-position: center center !important;
+      background-repeat: no-repeat !important;
+    {% endif %}
+  }
+{% endstyle %}
+
+<section id="Categories-{{ section.id }}" class="home-section categories" data-categories>
   <div class="home-section__head">
     <div>
       <p class="home-section__eyebrow">{{ section.settings.subheading }}</p>
@@ -78,6 +89,12 @@
   "tag": "section",
   "class": "section-categories",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image",
+      "info": "Upload custom background image from Shopify for Categories Section."
+    },
     {
       "type": "text",
       "id": "subheading",

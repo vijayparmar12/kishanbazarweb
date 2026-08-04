@@ -1,6 +1,18 @@
 <link rel="stylesheet" href="{{ 'section-testimonials.css' | asset_url }}">
 <script src="{{ 'section-testimonials.js' | asset_url }}" defer="defer"></script>
 
+{% style %}
+  #Testimonials-{{ section.id }} {
+    {% if section.settings.background_image != blank %}
+      background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
+      background-size: cover !important;
+      background-position: center center !important;
+      background-repeat: no-repeat !important;
+    {% endif %}
+  }
+{% endstyle %}
+
+<section id="Testimonials-{{ section.id }}" class="testimonials-carousel-section" data-testimonials-section>
   <div class="testimonials__header">
     {% if section.settings.eyebrow != blank %}
       <span class="testimonials__eyebrow">{{ section.settings.eyebrow }}</span>
@@ -44,6 +56,12 @@
   "name": "Testimonials Carousel",
   "tag": "section",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image",
+      "info": "Upload custom background image from Shopify for Testimonials Section."
+    },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow Badge", "default": "⭐ 10,000+ VERIFIED REVIEWS ⭐" },
     { "type": "text", "id": "heading", "label": "Carousel Heading", "default": "KIND WORDS FROM YOUR TABLE" },
     { "type": "text", "id": "subheading", "label": "Subheading", "default": "Real stories from families who love our pure, farm-fresh organic staples." }

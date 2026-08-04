@@ -1,6 +1,17 @@
 {{ 'section-shoppable-videos.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'section-shoppable-videos.js' | asset_url }}" type="module"></script>
 
+{% style %}
+  {% if section.settings.background_image != blank %}
+    #ShoppableVideos-{{ section.id }} {
+      background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
+      background-size: cover !important;
+      background-position: center center !important;
+      background-repeat: no-repeat !important;
+    }
+  {% endif %}
+{% endstyle %}
+
 {% liquid
   assign demo_video_url = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
   assign csv_lines = section.settings.bulk_video_csv | newline_to_br | split: '<br />'
@@ -288,6 +299,12 @@
       "label": "t:sections.shoppable_videos.settings.bulk_video_csv.label",
       "info": "t:sections.shoppable_videos.settings.bulk_video_csv.info",
       "placeholder": "t:sections.shoppable_videos.settings.bulk_video_csv.placeholder"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image",
+      "info": "Upload custom background image from Shopify for Shoppable Videos Section."
     },
     {
       "type": "color",

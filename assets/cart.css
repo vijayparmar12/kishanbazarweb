@@ -148,7 +148,8 @@
 }
 
 .kb-cart-drawer[data-cart-drawer-mode="compact"] .kb-cart-drawer__panel {
-  width: min(390px, 100%);
+  width: min(560px, 95vw) !important;
+  max-width: 100% !important;
 }
 
 .kb-cart-drawer[data-cart-drawer-mode="compact"] .kb-cart-drawer__body {
@@ -170,6 +171,38 @@
 
 .kb-cart-drawer[data-cart-drawer-mode="compact"] .kb-cart-item__body {
   gap: 8px;
+}
+
+.kb-cart-item__top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+}
+
+.kb-cart-item__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #17311f;
+  line-height: 1.3;
+}
+
+.kb-cart-item__pricing {
+  flex: 0 0 auto;
+  text-align: right;
+  white-space: nowrap !important;
+}
+
+.kb-cart-item__price {
+  display: block;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #23421f;
+  white-space: nowrap !important;
 }
 
 .kb-cart-item__image--secondary {
@@ -476,15 +509,45 @@ body.kb-cart-drawer-open {
 .kb-cart-drawer__panel {
   position: absolute;
   inset: 0 0 0 auto;
-  width: min(420px, 100%);
+  width: min(560px, 95vw);
+  max-width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   padding: 0;
-  overflow: hidden;
+  overflow-x: hidden !important;
+  overflow-y: hidden;
   background: #fff;
   border-radius: 24px 0 0 24px;
   box-shadow: -18px 0 44px rgba(28, 49, 32, .12);
+}
+
+.kb-cart-item__price,
+.kb-cart-item__final-price,
+.kb-cart-drawer__item-price,
+.kb-cart-drawer__price {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.kb-cart-drawer__panel,
+.kb-cart-drawer__header,
+.kb-cart-drawer__body,
+.kb-cart-drawer__footer,
+.kb-cart-drawer__summary,
+.kb-cart-drawer__promo,
+.kb-cart-drawer__progress {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+}
+
+@media (max-width: 640px) {
+  .kb-cart-drawer__panel {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    border-radius: 0 !important;
+  }
 }
 
 .kb-cart-drawer__header {

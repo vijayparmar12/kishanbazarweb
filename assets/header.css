@@ -572,18 +572,20 @@
 }
 
 .kb-header__features {
-  background: var(--kb-feature-bg, #faf6ec);
-  border-bottom: 1px solid rgba(35, 66, 31, 0.08);
+  background: #ffffff !important;
+  border-bottom: none;
+  padding: 0.25rem 0 0.15rem;
 }
 
 .kb-header__features-inner {
   display: flex;
-  gap: clamp(1.25rem, 5vw, 4.5rem);
+  gap: clamp(1.2rem, 3.5vw, 2.5rem);
   justify-content: center;
   margin: 0 auto;
-  max-width: 1180px;
+  max-width: var(--container-width, 1280px);
+  width: 100%;
   overflow-x: auto;
-  padding: 0.35rem 1.25rem 0.4rem;
+  padding: 0.2rem var(--container-padding, 1.25rem);
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;

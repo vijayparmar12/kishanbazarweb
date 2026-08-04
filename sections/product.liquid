@@ -92,11 +92,6 @@
 
     <p class="main-product__tax-note">MRP inclusive of all taxes</p>
 
-    <div class="main-product__member-strip">
-      <strong>Collective members price</strong>
-      <span>Join now for special savings</span>
-    </div>
-
     {% if product.description != blank %}
       <div class="main-product__summary rte">
         {{ product.description | strip_html | truncatewords: 28 }}

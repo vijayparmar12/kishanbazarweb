@@ -18,10 +18,6 @@
     assign enabled = section.settings.enable_category_mega
     assign panel_title = section.settings.category_title
     assign panel_class = 'kb-mega--category'
-  elsif menu_type == 'concern'
-    assign enabled = section.settings.enable_concern_mega
-    assign panel_title = section.settings.concern_title
-    assign panel_class = 'kb-mega--concern'
   elsif menu_type == 'farm'
     assign enabled = section.settings.enable_farm_mega
     assign panel_title = section.settings.farm_title
@@ -95,27 +91,6 @@
       <div class="kb-mega__inner">
         {% if menu_type == 'category' %}
           {% render 'mega-menu-category', section: section %}
-        {% elsif menu_type == 'concern' %}
-          <div class="kb-mega__concern-list">
-            {% assign concern_count = 0 %}
-            {% for block in section.blocks %}
-              {% if block.type == 'mega_link' %}
-                {% if block.settings.menu_group == 'concern' %}
-                  {% assign concern_count = concern_count | plus: 1 %}
-                  <a class="kb-mega__row-link" href="{{ block.settings.link | default: routes.collections_url }}" {{ block.shopify_attributes }}>
-                    <span class="kb-mega__row-icon" aria-hidden="true">{{ block.settings.icon }}</span>
-                    <span>{{ block.settings.title }}</span>
-                  </a>
-                {% endif %}
-              {% endif %}
-            {% endfor %}
-            {% if concern_count == 0 %}
-              {% assign default_concerns = 'Diabetes,Gut Health,Immunity,Weight Loss' | split: ',' %}
-              {% for item in default_concerns %}
-                <a class="kb-mega__row-link" href="{{ routes.collections_url }}"><span class="kb-mega__row-icon" aria-hidden="true">{{ item | slice: 0 }}</span><span>{{ item }}</span></a>
-              {% endfor %}
-            {% endif %}
-          </div>
         {% elsif menu_type == 'farm' %}
           <div class="kb-mega__farm-grid">
             {% assign farm_groups = 'farm_left,farm_middle,farm_right' | split: ',' %}

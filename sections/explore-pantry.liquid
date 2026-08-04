@@ -11,7 +11,19 @@
   endif
 %}
 
+{% style %}
+  #ExplorePantry-{{ section.id }} {
+    {% if section.settings.background_image != blank %}
+      background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
+      background-size: cover !important;
+      background-position: center center !important;
+      background-repeat: no-repeat !important;
+    {% endif %}
+  }
+{% endstyle %}
+
 <section
+  id="ExplorePantry-{{ section.id }}"
   class="explore-pantry"
   style="
     --explore-pantry-bg: {{ section.settings.background_color }};
@@ -138,10 +150,16 @@
       "default": "SHOP BY NEED"
     },
     {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Section Background Image",
+      "info": "Upload custom background image from Shopify for Explore Pantry Section."
+    },
+    {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Explore our pantry"
+      "default": "Explore Pantry Categories"
     },
     {
       "type": "checkbox",
