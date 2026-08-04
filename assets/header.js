@@ -109,31 +109,29 @@
       }
     });
 
-    const syncHeader1Sticky = () => {
-      const header1 = document.querySelector('[data-header1]');
-      const placeholder = document.querySelector('[data-header1-placeholder]');
-      const announcement = document.querySelector('.kb-header__announcement');
-      if (!header1) return;
+    const syncTopHeaderSticky = () => {
+      const topSticky = document.querySelector('[data-header-top-sticky]');
+      const placeholder = document.querySelector('[data-header-top-placeholder]');
+      if (!topSticky) return;
 
-      const threshold = announcement ? announcement.offsetHeight : 0;
-      if (window.scrollY > threshold) {
-        if (!header1.classList.contains('kb-header1--fixed')) {
-          header1.classList.add('kb-header1--fixed');
+      if (window.scrollY > 5) {
+        if (!topSticky.classList.contains('kb-header-top--fixed')) {
+          topSticky.classList.add('kb-header-top--fixed');
           if (placeholder) {
-            placeholder.style.height = header1.offsetHeight + 'px';
+            placeholder.style.height = topSticky.offsetHeight + 'px';
             placeholder.style.display = 'block';
           }
         }
       } else {
-        if (header1.classList.contains('kb-header1--fixed')) {
-          header1.classList.remove('kb-header1--fixed');
+        if (topSticky.classList.contains('kb-header-top--fixed')) {
+          topSticky.classList.remove('kb-header-top--fixed');
           if (placeholder) placeholder.style.display = 'none';
         }
       }
     };
 
-    syncHeader1Sticky();
-    window.addEventListener('scroll', syncHeader1Sticky, { passive: true });
+    syncTopHeaderSticky();
+    window.addEventListener('scroll', syncTopHeaderSticky, { passive: true });
   };
 
   const initAllHeaders = () => {

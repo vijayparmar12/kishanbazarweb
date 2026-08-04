@@ -1,76 +1,58 @@
 <link rel="stylesheet" href="{{ 'section-hero.css' | asset_url }}">
 <script src="{{ 'section-hero.js' | asset_url }}" defer="defer"></script>
 
-<section class="home-hero home-hero--{{ section.settings.text_alignment }}" data-home-hero>
-  <div class="home-hero__media">
-    {% if section.settings.image != blank %}
-      {{
-        section.settings.image
-        | image_url: width: 2400
-        | image_tag:
-          class: 'home-hero__image home-hero__image--desktop',
-          loading: 'eager',
-          fetchpriority: 'high',
-          widths: '750, 1100, 1600, 2400'
-      }}
-    {% else %}
-      <img
-        class="home-hero__image home-hero__image--desktop"
-        src="{{ 'hero-banner.jpg.png' | asset_url }}"
-        alt="Fresh organic groceries from Kishan Bazar"
-        width="1000"
-        height="900"
-        loading="eager"
-        fetchpriority="high"
-      >
-    {% endif %}
-
-    {% if section.settings.mobile_image != blank %}
-      {{
-        section.settings.mobile_image
-        | image_url: width: 900
-        | image_tag:
-          class: 'home-hero__image home-hero__image--mobile',
-          loading: 'eager',
-          widths: '480, 750, 900'
-      }}
-    {% else %}
-      <img
-        class="home-hero__image home-hero__image--mobile"
-        src="{{ 'hero-mobile.jpg.png' | asset_url }}"
-        alt="Fresh organic groceries from Kishan Bazar"
-        width="900"
-        height="1200"
-        loading="eager"
-      >
-    {% endif %}
-  </div>
-
-  <div class="home-hero__shade home-hero__shade--{{ section.settings.overlay_opacity }}"></div>
-
-  <div class="home-hero__content">
-    <div>
-      {% if section.settings.badge != blank %}
-        <p class="home-hero__badge">{{ section.settings.badge }}</p>
-      {% endif %}
-
-      {% if section.settings.heading != blank %}
-        <h1>{{ section.settings.heading }}</h1>
-      {% endif %}
-
-      {% if section.settings.subheading != blank %}
-        <div class="home-hero__text">{{ section.settings.subheading }}</div>
-      {% endif %}
-
-      <div class="home-hero__buttons">
-        {% if section.settings.primary_label != blank %}
-          {% render 'button', text: section.settings.primary_label, url: section.settings.primary_link, size: 'large' %}
+<section class="home-hero-split" data-home-hero>
+  <div class="home-hero-split__container">
+    <!-- Left Side Banner (70% Width) -->
+    <div class="home-hero-split__item home-hero-split__item--left">
+      <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Left Banner">
+        {% if section.settings.left_image != blank %}
+          {{
+            section.settings.left_image
+            | image_url: width: 1800
+            | image_tag:
+              class: 'home-hero-split__image',
+              loading: 'eager',
+              fetchpriority: 'high',
+              widths: '750, 1100, 1400, 1800'
+          }}
+        {% else %}
+          <img
+            class="home-hero-split__image"
+            src="{{ 'hero-banner.jpg.png' | asset_url }}"
+            alt="Kishan Bazar Organic Kitchen"
+            width="1400"
+            height="700"
+            loading="eager"
+            fetchpriority="high"
+          >
         {% endif %}
+      </a>
+    </div>
 
-        {% if section.settings.secondary_label != blank %}
-          {% render 'button', text: section.settings.secondary_label, url: section.settings.secondary_link, variant: 'outline', size: 'large' %}
+    <!-- Right Side Banner (30% Width) -->
+    <div class="home-hero-split__item home-hero-split__item--right">
+      <a href="{{ section.settings.right_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Banner">
+        {% if section.settings.right_image != blank %}
+          {{
+            section.settings.right_image
+            | image_url: width: 900
+            | image_tag:
+              class: 'home-hero-split__image',
+              loading: 'eager',
+              widths: '480, 750, 900'
+          }}
+        {% else %}
+          <img
+            class="home-hero-split__image"
+            src="{{ 'hero-mobile.jpg.png' | asset_url }}"
+            alt="Kishan Bazar Organic Products"
+            width="600"
+            height="700"
+            loading="eager"
+          >
         {% endif %}
-      </div>
+      </a>
     </div>
   </div>
 </section>
@@ -82,75 +64,32 @@
   "class": "section-hero",
   "settings": [
     {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Desktop image"
+      "type": "header",
+      "content": "Left Banner (70% Width)"
     },
     {
       "type": "image_picker",
-      "id": "mobile_image",
-      "label": "Mobile image"
-    },
-    {
-      "type": "text",
-      "id": "badge",
-      "label": "Badge",
-      "default": "Grown with care"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Good food, from good soil."
-    },
-    {
-      "type": "richtext",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "<p>Thoughtfully sourced pantry staples for your everyday table.</p>"
-    },
-    {
-      "type": "text",
-      "id": "primary_label",
-      "label": "Primary button",
-      "default": "Shop essentials"
+      "id": "left_image",
+      "label": "Left Image (70%)"
     },
     {
       "type": "url",
-      "id": "primary_link",
-      "label": "Primary link"
+      "id": "left_link",
+      "label": "Left Banner Link"
     },
     {
-      "type": "text",
-      "id": "secondary_label",
-      "label": "Secondary button",
-      "default": "Our story"
+      "type": "header",
+      "content": "Right Banner (30% Width)"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_image",
+      "label": "Right Image (30%)"
     },
     {
       "type": "url",
-      "id": "secondary_link",
-      "label": "Secondary link"
-    },
-    {
-      "type": "select",
-      "id": "overlay_opacity",
-      "label": "Overlay opacity",
-      "options": [
-        { "value": "light", "label": "Light" },
-        { "value": "medium", "label": "Medium" },
-        { "value": "strong", "label": "Strong" }
-      ],
-      "default": "medium"
-    },
-    {
-      "type": "select",
-      "id": "text_alignment",
-      "label": "Text alignment",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" }
-      ],
-      "default": "left"
+      "id": "right_link",
+      "label": "Right Banner Link"
     }
   ],
   "presets": [
