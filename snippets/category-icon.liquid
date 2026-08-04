@@ -3,56 +3,52 @@
 
   @param {collection|string} category - Collection object or handle/title string.
   @param {image} [custom_image] - Optional custom image override.
-  @param {number} [size] - Icon size in px (default: 68).
+  @param {number} [size] - Icon size in px (default: 42).
   @param {string} [class] - Extra CSS classes.
 
   @example
-  {% render 'category-icon', category: 'ghee', size: 68 %}
+  {% render 'category-icon', category: 'ghee' %}
 {% enddoc %}
 
 {% liquid
-  assign icon_size = size | default: 68
-  assign img_width = icon_size | times: 2
-
-  assign cat_str = ''
+  assign cat_name = ''
   if category.title != blank
-    assign cat_str = category.title | downcase
+    assign cat_name = category.title | downcase
   elsif category.handle != blank
-    assign cat_str = category.handle | downcase
-  else
-    assign cat_str = category | append: '' | downcase
-  endif
-
-  assign category_img = nil
-  if custom_image != blank
-    assign category_img = custom_image
-  elsif category != blank and category.image != blank
-    assign category_img = category.image
-  elsif category != blank and category.products != blank and category.products.first != blank and category.products.first.featured_image != blank
-    assign category_img = category.products.first.featured_image
+    assign cat_name = category.handle | downcase
+  elsif category != blank
+    assign cat_name = category | downcase
   endif
 %}
 
-<span class="kb-category-icon-wrapper {{ class }}" style="width: {{ icon_size }}px; height: {{ icon_size }}px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; vertical-align: middle;" aria-hidden="true">
-  {% if category_img != blank %}
+<span class="kb-category-icon-wrapper {{ class }}" style="display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; vertical-align: middle; margin-right: 0;" aria-hidden="true">
+  {% if custom_image != blank %}
     {{
-      category_img
-      | image_url: width: img_width
+      custom_image
+      | image_url: width: 120
       | image_tag:
         class: 'kb-category-icon-img',
-        style: 'width: 100%; height: 100%; object-fit: contain; display: block;',
-        width: icon_size,
-        height: icon_size,
+        style: 'height: 42px; width: auto; max-width: 54px; object-fit: contain; display: block;',
         loading: 'eager',
         alt: 'Category Icon'
     }}
-  {% elsif cat_str contains 'ghee' %}
-    <img src="{{ 'ghee.png' | asset_url }}" alt="Ghee" class="kb-category-icon-img" width="{{ icon_size }}" height="{{ icon_size }}" style="width: 100%; height: 100%; object-fit: contain; display: block;" loading="eager">
-  {% elsif cat_str contains 'atta' or cat_str contains 'flour' %}
-    <img src="{{ 'atta.png' | asset_url }}" alt="Atta" class="kb-category-icon-img" width="{{ icon_size }}" height="{{ icon_size }}" style="width: 100%; height: 100%; object-fit: contain; display: block;" loading="eager">
+  {% elsif category != blank and category.image != blank %}
+    {{
+      category.image
+      | image_url: width: 120
+      | image_tag:
+        class: 'kb-category-icon-img',
+        style: 'height: 42px; width: auto; max-width: 54px; object-fit: contain; display: block;',
+        loading: 'eager',
+        alt: 'Category Icon'
+    }}
+  {% elsif cat_name contains 'ghee' %}
+    <img src="{{ 'ghee.png' | asset_url }}" alt="Ghee" class="kb-category-icon-img" style="height: 42px; width: auto; max-width: 54px; object-fit: contain; display: block;" loading="eager">
+  {% elsif cat_name contains 'atta' or cat_name contains 'flour' %}
+    <img src="{{ 'atta.png' | asset_url }}" alt="Atta" class="kb-category-icon-img" style="height: 42px; width: auto; max-width: 54px; object-fit: contain; display: block;" loading="eager">
   {% else %}
-    <span class="kb-category-icon-svg" style="display: inline-flex; align-items: center; justify-content: center; width: 100%; height: 100%; color: var(--kb-accent, #23421f);">
-      <svg viewBox="0 0 24 24" width="{{ icon_size }}" height="{{ icon_size }}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <span class="kb-category-icon-svg" style="display: inline-flex; align-items: center; justify-content: center; color: var(--kb-accent, #23421f);">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="9"/>
         <path d="M12 7v10M7 12h10"/>
       </svg>

@@ -53,17 +53,17 @@
 }
 
 .kb-header__nav-icon-img {
-  width: 100px;
-  height: 100px;
-  max-width: 100px;
-  max-height: 100px;
+  width: 80px;
+  height: 80px;
+  max-width: 80px;
+  max-height: 80px;
   object-fit: contain;
   display: block;
 }
 
 .kb-header__nav-icon svg {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   color: var(--kb-accent, #23421f);
 }
 
@@ -509,7 +509,7 @@
   margin: 0 auto;
   max-width: 1180px;
   overflow-x: auto;
-  padding: 0.78rem 1.25rem 0.85rem;
+  padding: 0.35rem 1.25rem 0.4rem;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
