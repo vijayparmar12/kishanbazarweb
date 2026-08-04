@@ -1,25 +1,28 @@
 /* ==========================================================================
-   Footer Two-Part Architecture (Matching Two Brothers India Shop Reference)
-   Part 1: Top Content Grid (Logo, Links, Newsletter, Company Info)
-   Part 2: Bottom Landscape Illustration Image (Uploaded from Shopify) + Copyright
+   Footer Two-Part Overlapping Architecture (Matching Two Brothers India Reference)
+   - Warm organic cream background (#FAF6EC)
+   - Deep forest green text (#23421F) & high-contrast crisp labels
+   - Bottom landscape illustration banner smoothly overlapping behind content
    ========================================================================== */
 
 .site-footer {
-  background: transparent;
+  background-color: #faf6ec;
   color: #23421f;
   position: relative;
   width: 100%;
+  overflow: hidden;
 }
 
-.site-footer__part-1 {
-  background: transparent !important;
-  padding-top: clamp(2.5rem, 4.5vw, 4rem);
-  padding-bottom: 0.5rem;
+.site-footer__content-layer {
+  position: relative;
+  z-index: 5;
+  padding-top: clamp(3rem, 5vw, 4.5rem);
+  padding-bottom: 1rem;
 }
 
 .site-footer__inner {
   display: grid;
-  gap: clamp(1.5rem, 3vw, 3rem);
+  gap: clamp(1.5rem, 3.5vw, 3.5rem);
   grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
   margin: 0 auto;
   max-width: var(--container-width, 1280px);
@@ -40,46 +43,55 @@
 
 .site-footer__logo-link {
   display: inline-block;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .site-footer__logo {
-  height: 54px;
+  height: 56px;
   width: auto;
   object-fit: contain;
+  display: block;
 }
 
 .site-footer__brand-text {
-  color: #3b5e37;
+  color: #23421f;
   font-size: 0.92rem;
+  font-weight: 500;
   line-height: 1.6;
   margin: 0 0 1.25rem;
   max-width: 26rem;
+  opacity: 0.9;
 }
 
 /* Newsletter Input Form */
 .site-footer__newsletter {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .site-footer__newsletter-input-wrap {
   display: flex;
   align-items: center;
-  border: 1.5px solid rgba(35, 66, 31, 0.25);
+  border: 1.8px solid #23421f;
   border-radius: 999px;
   background: #ffffff;
-  padding: 3px 6px 3px 14px;
+  padding: 4px 6px 4px 16px;
   max-width: 320px;
+  box-shadow: 0 2px 8px rgba(35, 66, 31, 0.08);
 }
 
 .site-footer__newsletter-input {
   border: none;
   background: transparent;
   outline: none;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
+  font-weight: 600;
   color: #23421f;
   flex: 1;
   min-width: 0;
+}
+
+.site-footer__newsletter-input::placeholder {
+  color: #64748b;
 }
 
 .site-footer__newsletter-btn {
@@ -87,8 +99,8 @@
   background: #23421f;
   color: #ffffff;
   border-radius: 50%;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -100,7 +112,7 @@
 
 .site-footer__newsletter-btn:hover {
   background: #166534;
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .site-footer__social-row {
@@ -133,11 +145,11 @@
 
 .site-footer__col-title {
   color: #23421f;
-  font-size: 1.1rem;
-  font-weight: 800;
+  font-size: 1.05rem;
+  font-weight: 900;
   margin: 0 0 1.25rem;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 
 .site-footer__col-toggle {
@@ -145,8 +157,8 @@
   border: none;
   color: #23421f;
   font: inherit;
-  font-size: 1.1rem;
-  font-weight: 800;
+  font-size: 1.05rem;
+  font-weight: 900;
   margin: 0 0 1.25rem;
   padding: 0;
   text-align: left;
@@ -174,21 +186,26 @@
 }
 
 .site-footer__list a {
-  color: #3b5e37;
+  color: #23421f;
   font-size: 0.92rem;
+  font-weight: 600;
   text-decoration: none;
-  transition: color 200ms ease;
+  opacity: 0.88;
+  transition: opacity 200ms ease, color 200ms ease;
 }
 
 .site-footer__list a:hover {
-  color: #23421f;
+  opacity: 1;
+  color: #166534;
   text-decoration: underline;
 }
 
 .site-footer__company-details {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   line-height: 1.6;
-  color: #3b5e37;
+  color: #23421f;
+  font-weight: 500;
+  opacity: 0.9;
 }
 
 .site-footer__address {
@@ -196,13 +213,13 @@
 }
 
 .site-footer__contact-line {
-  margin: 0 0 0.4rem;
+  margin: 0 0 0.45rem;
 }
 
 .site-footer__contact-line a {
   color: #23421f;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .site-footer__contact-line a:hover {
@@ -210,44 +227,51 @@
 }
 
 /* ==========================================================================
-   PART 2: Bottom Landscape Illustration Image Banner + Copyright
+   Bottom Farm Landscape Illustration Banner Layer (Overlapping behind content)
    ========================================================================== */
 
-.site-footer__part-2 {
+.site-footer__illustration-layer {
   position: relative;
+  z-index: 2;
   width: 100%;
-  margin-top: 0;
+  margin-top: -120px; /* Overlap content on top of farm illustration */
+  pointer-events: none;
+}
+
+@media (max-width: 48rem) {
+  .site-footer__illustration-layer {
+    margin-top: -60px;
+  }
 }
 
 .site-footer__bottom-banner-wrap {
   width: 100%;
   overflow: hidden;
   line-height: 0;
-  margin: 0;
-  padding: 0;
-  display: block;
 }
 
 .site-footer__bottom-banner-img {
   width: 100%;
-  height: clamp(90px, 12vw, 180px);
+  height: auto;
+  max-height: 380px;
   display: block;
   object-fit: cover;
   object-position: bottom center;
-  max-height: 200px;
-  margin: 0;
 }
 
 .site-footer__bottom {
   background: #23421f;
   color: #ffffff;
-  padding: 1rem 1.25rem;
+  padding: 1.1rem 1.25rem;
   text-align: center;
+  position: relative;
+  z-index: 5;
 }
 
 .site-footer__copyright {
   font-size: 0.85rem;
   font-weight: 600;
   margin: 0;
+  letter-spacing: 0.02em;
   opacity: 0.95;
 }

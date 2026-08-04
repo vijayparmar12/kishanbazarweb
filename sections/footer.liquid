@@ -4,51 +4,15 @@
 {% style %}
   .site-footer {
     position: relative;
-    background-color: {{ section.settings.footer_bg_color | default: 'transparent' }};
+    background-color: {{ section.settings.footer_bg_color | default: '#faf6ec' }};
     color: {{ section.settings.footer_text_color | default: '#23421f' }};
     overflow: hidden;
   }
-
-  .site-footer__part-1 {
-    background-color: transparent !important;
-    position: relative;
-    z-index: 2;
-    padding-bottom: 0;
-  }
-
-  .site-footer__part-2 {
-    position: relative;
-    z-index: 2;
-    margin-top: 0;
-  }
-
-  {% if section.settings.background_image != blank %}
-    .site-footer {
-      background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}');
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-    }
-  {% endif %}
-
-  {% if section.settings.background_image != blank and section.settings.overlay_opacity > 0 %}
-    .site-footer::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
-      pointer-events: none;
-      z-index: 1;
-    }
-  {% endif %}
 {% endstyle %}
 
 <footer class="site-footer" data-site-footer>
-  <!-- PART 1: TOP CONTENT GRID (Brand Logo, Newsletter, Navigation, Contact Details, Socials, App Store Buttons) -->
-  <div class="site-footer__part-1">
+  <!-- TOP CONTENT GRID (Overlapping on top of bottom landscape image) -->
+  <div class="site-footer__content-layer">
     <div class="site-footer__inner">
       <!-- Column 1: Brand Info & Newsletter -->
       <div class="site-footer__brand-col">
@@ -95,7 +59,7 @@
       <!-- Column 2: Categories & Links -->
       <div class="site-footer__col" data-footer-col>
         <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
-          <span>Categories</span>
+          <span>CATEGORIES</span>
           <span class="accordion-icon" aria-hidden="true">+</span>
         </button>
         <ul class="site-footer__list" role="list">
@@ -110,7 +74,7 @@
       <!-- Column 3: Policy & Support -->
       <div class="site-footer__col" data-footer-col>
         <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
-          <span>General</span>
+          <span>GENERAL</span>
           <span class="accordion-icon" aria-hidden="true">+</span>
         </button>
         <ul class="site-footer__list" role="list">
@@ -125,7 +89,7 @@
       <!-- Column 4: Company Info & Contact -->
       <div class="site-footer__col site-footer__contact-col" data-footer-col>
         <button type="button" class="site-footer__col-title site-footer__col-toggle" aria-expanded="false" data-footer-toggle>
-          <span>Company & Contact</span>
+          <span>COMPANY & CONTACT</span>
           <span class="accordion-icon" aria-hidden="true">+</span>
         </button>
         <div class="site-footer__company-details">
@@ -137,8 +101,8 @@
     </div>
   </div>
 
-  <!-- PART 2: BOTTOM ILLUSTRATION IMAGE BANNER (Uploaded from Shopify) -->
-  <div class="site-footer__part-2">
+  <!-- BOTTOM ILLUSTRATION IMAGE BANNER (Overlapped behind content) -->
+  <div class="site-footer__illustration-layer">
     {% if section.settings.footer_bottom_image != blank %}
       <div class="site-footer__bottom-banner-wrap">
         {{
@@ -148,14 +112,15 @@
             class: 'site-footer__bottom-banner-img',
             loading: 'lazy',
             widths: '750, 1100, 1400, 1800, 2400',
-            alt: 'Footer Bottom Landscape Illustration'
+            alt: 'Footer Farm Illustration'
         }}
       </div>
     {% endif %}
+  </div>
 
-    <div class="site-footer__bottom">
-      <p class="site-footer__copyright">Copyright &copy; {{ 'now' | date: '%Y' }}, {{ shop.name }} &bull; All Rights Reserved.</p>
-    </div>
+  <!-- COPYRIGHT BAR -->
+  <div class="site-footer__bottom">
+    <p class="site-footer__copyright">Copyright &copy; {{ 'now' | date: '%Y' }}, {{ shop.name }} &bull; All Rights Reserved.</p>
   </div>
 </footer>
 
@@ -181,17 +146,6 @@
     },
     { "type": "color", "id": "footer_bg_color", "label": "Footer Background Color", "default": "#faf6ec" },
     { "type": "color", "id": "footer_text_color", "label": "Footer Text Color", "default": "#23421f" },
-    { "type": "image_picker", "id": "background_image", "label": "Footer Full Background Image (Optional)" },
-    {
-      "type": "range",
-      "id": "overlay_opacity",
-      "min": 0,
-      "max": 90,
-      "step": 5,
-      "unit": "%",
-      "label": "Background Dark Overlay Opacity",
-      "default": 0
-    },
     { "type": "image_picker", "id": "logo", "label": "Footer Logo" },
     { "type": "textarea", "id": "about_text", "label": "About Description", "default": "Kishan Bazar, Welcome to our farm-fresh organic kitchen. Wholesome pantry staples built directly from nature." },
     { "type": "checkbox", "id": "show_newsletter", "label": "Show Newsletter Subscription Box", "default": true },
