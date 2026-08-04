@@ -1,6 +1,6 @@
 {% doc %}
   Renders the premium grocery-style Shop By Category mega menu.
-  Matching Two Brothers India Shop reference layout with green wave illustration background & centered Shop All button.
+  Supports full background image coverage uploaded from Shopify Admin Theme Editor.
 
   @param {section} section - Header section containing category_card blocks and wave settings.
 
@@ -8,7 +8,11 @@
   {% render 'mega-menu-category', section: section %}
 {% enddoc %}
 
-<div class="kb-category-mega" data-category-mega>
+{% liquid
+  assign wave_img = section.settings.category_wave_image | default: section.settings.mega_wave_image
+%}
+
+<div class="kb-category-mega{% if wave_img != blank %} has-bg-image{% endif %}" data-category-mega {% if wave_img != blank %}style="background-image: url('{{ wave_img | image_url: width: 1800 }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"{% endif %}>
   <div class="kb-category-mega__slider" data-category-slider>
     {% liquid
       assign category_count = 0
@@ -115,24 +119,17 @@
     {% endif %}
   </div>
 
-  <!-- Organic Green Wave Background Illustration (Matching Two Brothers Reference) -->
-  <div class="kb-category-mega__wave-container" aria-hidden="true">
-    {% assign wave_img = section.settings.category_wave_image | default: section.settings.mega_wave_image %}
-    {% if wave_img != blank %}
-      {{
-        wave_img
-        | image_url: width: 1400
-        | image_tag: class: 'kb-category-mega__wave-img', loading: 'lazy', alt: 'Mega Menu Wave Illustration'
-      }}
-    {% else %}
+  {% if wave_img == blank %}
+    <!-- Organic Wave SVG fallback when no background image is uploaded -->
+    <div class="kb-category-mega__wave-container" aria-hidden="true">
       <svg class="kb-category-mega__wave-svg" viewBox="0 0 1200 180" preserveAspectRatio="none" fill="none">
         <path d="M0,80 C300,160 600,20 900,120 C1050,170 1150,130 1200,100 L1200,180 L0,180 Z" fill="#dff2dd" fill-opacity="0.85"/>
         <path d="M0,110 C250,175 550,60 850,150 C1020,185 1130,150 1200,130 L1200,180 L0,180 Z" fill="#cbe7c8" fill-opacity="0.95"/>
       </svg>
-    {% endif %}
-  </div>
+    </div>
+  {% endif %}
 
-  <!-- Centered SHOP ALL Button on top of Wave -->
+  <!-- Centered SHOP ALL Button -->
   <div class="kb-category-mega__footer-action">
     <a class="kb-category-mega__button-pill" href="{{ section.settings.category_button_url | default: routes.all_products_collection_url }}">
       <span>SHOP ALL</span>
