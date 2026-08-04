@@ -24,44 +24,49 @@
 >
   {% liquid
     assign ghee_link = section.settings.ghee_url
+    assign ghee_collection = nil
+    if collections.ghee != blank
+      assign ghee_collection = collections.ghee
+    else
+      for c in collections
+        assign c_title = c.title | downcase
+        if c_title contains 'ghee'
+          assign ghee_collection = c
+          break
+        endif
+      endfor
+    endif
+
     if ghee_link == blank
-      if collections.ghee != blank and collections.ghee.url != blank
-        assign ghee_link = collections.ghee.url
+      if ghee_collection != blank and ghee_collection.url != blank
+        assign ghee_link = ghee_collection.url
       else
-        for c in collections
-          assign c_title = c.title | downcase
-          if c_title contains 'ghee'
-            assign ghee_link = c.url
-            break
-          endif
-        endfor
-      endif
-      if ghee_link == blank
         assign ghee_link = routes.collections_url | append: '/ghee'
       endif
     endif
 
     assign atta_link = section.settings.atta_url
-    if atta_link == blank
-      if collections.atta != blank and collections.atta.url != blank
-        assign atta_link = collections.atta.url
-      elsif collections.aatta != blank and collections.aatta.url != blank
-        assign atta_link = collections.aatta.url
-      elsif collections['aatta'] != blank and collections['aatta'].url != blank
-        assign atta_link = collections['aatta'].url
-      elsif collections['flour-atta'] != blank and collections['flour-atta'].url != blank
-        assign atta_link = collections['flour-atta'].url
-      else
-        for c in collections
-          assign c_title = c.title | downcase
-          if c_title contains 'atta' or c_title contains 'aatta' or c_title contains 'flour'
-            assign atta_link = c.url
-            break
-          endif
-        endfor
-      endif
+    assign atta_collection = nil
+    if collections.atta != blank
+      assign atta_collection = collections.atta
+    elsif collections.aatta != blank
+      assign atta_collection = collections.aatta
+    elsif collections['flour-atta'] != blank
+      assign atta_collection = collections['flour-atta']
+    else
+      for c in collections
+        assign c_title = c.title | downcase
+        if c_title contains 'atta' or c_title contains 'aatta' or c_title contains 'flour'
+          assign atta_collection = c
+          break
+        endif
+      endfor
+    endif
 
-      if atta_link == blank
+    if atta_link == blank
+      if atta_collection != blank and atta_collection.url != blank
+        assign atta_link = atta_collection.url
+      else
         assign atta_link = routes.all_products_collection_url | append: '/Atta'
       endif
     endif
@@ -149,32 +154,13 @@
       <ul class="kb-header__nav-list" role="list">
         <li class="kb-header__nav-item">
           <a class="kb-header__nav-link kb-header__nav-link--icon" href="{{ ghee_link }}">
-            <span class="kb-header__nav-icon" aria-hidden="true">
-              <img src="{{ 'ghee.png' | asset_url }}" alt="" class="kb-header__nav-icon-img" width="36" height="36" loading="eager" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-              <span class="kb-header__nav-icon-svg" style="display:none;">
-                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M7 9h10v10a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9z"/>
-                  <path d="M6 6h12v3H6z"/>
-                  <path d="M9 3h6v3H9z"/>
-                </svg>
-              </span>
-            </span>
+            {% render 'category-icon', category: 'ghee', custom_image: ghee_collection.image, size: 68 %}
             <span>{{ section.settings.ghee_title }}</span>
           </a>
         </li>
         <li class="kb-header__nav-item">
           <a class="kb-header__nav-link kb-header__nav-link--icon" href="{{ atta_link }}">
-            <span class="kb-header__nav-icon" aria-hidden="true">
-              <img src="{{ 'atta.png' | asset_url }}" alt="" class="kb-header__nav-icon-img" width="36" height="36" loading="eager" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-              <span class="kb-header__nav-icon-svg" style="display:none;">
-                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M6 21h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"/>
-                  <path d="M6 7c0-2 2.5-4 6-4s6 2 6 4"/>
-                  <path d="M12 11v6"/>
-                  <path d="M9 14h6"/>
-                </svg>
-              </span>
-            </span>
+            {% render 'category-icon', category: 'atta', custom_image: atta_collection.image, size: 68 %}
             <span>{{ section.settings.atta_title }}</span>
           </a>
         </li>
@@ -209,32 +195,13 @@
       <ul class="kb-header__mobile-list" role="list">
         <li>
           <a class="kb-header__mobile-link kb-header__nav-link--icon" href="{{ ghee_link }}">
-            <span class="kb-header__nav-icon" aria-hidden="true">
-              <img src="{{ 'ghee.png' | asset_url }}" alt="" class="kb-header__nav-icon-img" width="36" height="36" loading="eager" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-              <span class="kb-header__nav-icon-svg" style="display:none;">
-                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M7 9h10v10a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V9z"/>
-                  <path d="M6 6h12v3H6z"/>
-                  <path d="M9 3h6v3H9z"/>
-                </svg>
-              </span>
-            </span>
+            {% render 'category-icon', category: 'ghee', custom_image: ghee_collection.image, size: 68 %}
             <span>{{ section.settings.ghee_title }}</span>
           </a>
         </li>
         <li>
           <a class="kb-header__mobile-link kb-header__nav-link--icon" href="{{ atta_link }}">
-            <span class="kb-header__nav-icon" aria-hidden="true">
-              <img src="{{ 'atta.png' | asset_url }}" alt="" class="kb-header__nav-icon-img" width="36" height="36" loading="eager" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-              <span class="kb-header__nav-icon-svg" style="display:none;">
-                <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M6 21h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"/>
-                  <path d="M6 7c0-2 2.5-4 6-4s6 2 6 4"/>
-                  <path d="M12 11v6"/>
-                  <path d="M9 14h6"/>
-                </svg>
-              </span>
-            </span>
+            {% render 'category-icon', category: 'atta', custom_image: atta_collection.image, size: 68 %}
             <span>{{ section.settings.atta_title }}</span>
           </a>
         </li>
