@@ -1,5 +1,5 @@
 {% doc %}
-  Renders the 9 product detail tabs and collapsible accordions dynamically for Kishan Bazar.
+  Renders the 9 product detail tabs dynamically using Shopify CSV Product fields & Metafields.
 
   @param {object} product - The Shopify product object
 
@@ -41,116 +41,152 @@
 
   <!-- Tab Content Panes -->
   <div class="product-tabs__body">
-    <!-- Tab 1: Description (from Product CSV Body HTML) -->
+    <!-- Tab 1: Description (from Shopify Product CSV Body HTML) -->
     <div class="product-tabs__pane is-active" id="tab-pane-desc" role="tabpanel" aria-labelledby="tab-btn-desc" data-tab-pane="desc">
       <h3 class="product-tabs__pane-title">Product Description</h3>
       <div class="product-tabs__pane-content rte">
-        {{ product.description }}
+        {% if product.description != blank %}
+          {{ product.description }}
+        {% else %}
+          <p>100% natural, unrefined organic {{ product.title }} sourced straight from native Indian farms.</p>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Tab 2: Ingredients -->
+    <!-- Tab 2: Ingredients (from CSV product.metafields.custom.ingredients) -->
     <div class="product-tabs__pane" id="tab-pane-ingredients" role="tabpanel" aria-labelledby="tab-btn-ingredients" data-tab-pane="ingredients" hidden>
       <h3 class="product-tabs__pane-title">Ingredients</h3>
       <div class="product-tabs__pane-content">
-        <div class="product-tabs__highlight-box">
-          <span class="product-tabs__badge-icon">🌿</span>
-          <p><strong>100% Organic {{ product.title }}</strong></p>
-        </div>
-        <p>Pure ingredients sourced directly from organic farms. Free from chemical bleaches, synthetic anti-caking agents, and artificial preservatives.</p>
+        {% if product.metafields.custom.ingredients != blank %}
+          {{ product.metafields.custom.ingredients | metafield_tag }}
+        {% else %}
+          <div class="product-tabs__highlight-box">
+            <span class="product-tabs__badge-icon">🌿</span>
+            <p><strong>100% Raw & Organic {{ product.title }}</strong></p>
+          </div>
+          <p>Pure ingredients sourced directly from organic farms. Free from chemical bleaches, synthetic anti-caking agents, and artificial preservatives.</p>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Tab 3: Usage -->
+    <!-- Tab 3: Usage (from CSV product.metafields.custom.usage) -->
     <div class="product-tabs__pane" id="tab-pane-usage" role="tabpanel" aria-labelledby="tab-btn-usage" data-tab-pane="usage" hidden>
       <h3 class="product-tabs__pane-title">Usage Instructions</h3>
       <div class="product-tabs__pane-content">
-        <p>Ideal for daily home cooking, preparing traditional Indian recipes, and healthy meals with authentic flavor and aroma.</p>
+        {% if product.metafields.custom.usage != blank %}
+          {{ product.metafields.custom.usage | metafield_tag }}
+        {% else %}
+          <p>Ideal for daily home cooking, preparing traditional Indian recipes, and healthy meals with authentic flavor and aroma.</p>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Tab 4: Benefits -->
+    <!-- Tab 4: Benefits (from CSV product.metafields.custom.benefits) -->
     <div class="product-tabs__pane" id="tab-pane-benefits" role="tabpanel" aria-labelledby="tab-btn-benefits" data-tab-pane="benefits" hidden>
       <h3 class="product-tabs__pane-title">Nutritional & Health Benefits</h3>
       <div class="product-tabs__pane-content">
-        <div class="product-tabs__grid-2col">
-          <div class="product-tabs__benefit-item">
-            <h4>🌾 100% Pure & Natural</h4>
-            <p>Sourced from unpolluted organic soils to deliver essential natural nutrients.</p>
+        {% if product.metafields.custom.benefits != blank %}
+          {{ product.metafields.custom.benefits | metafield_tag }}
+        {% else %}
+          <div class="product-tabs__grid-2col">
+            <div class="product-tabs__benefit-item">
+              <h4>🌾 100% Pure & Natural</h4>
+              <p>Sourced from unpolluted organic soils to deliver essential natural nutrients.</p>
+            </div>
+            <div class="product-tabs__benefit-item">
+              <h4>🛡️ Chemical Free</h4>
+              <p>Zero pesticides, insecticides, synthetic additives, or heavy metals.</p>
+            </div>
+            <div class="product-tabs__benefit-item">
+              <h4>💪 Rich in Micronutrients</h4>
+              <p>Packed with natural vitamins, minerals, and antioxidants for overall well-being.</p>
+            </div>
+            <div class="product-tabs__benefit-item">
+              <h4>❤️ Heart & Gut Healthy</h4>
+              <p>Supports digestion, immunity, and healthy lifestyle choices for your family.</p>
+            </div>
           </div>
-          <div class="product-tabs__benefit-item">
-            <h4>🛡️ Chemical Free</h4>
-            <p>Zero pesticides, insecticides, synthetic additives, or heavy metals.</p>
-          </div>
-          <div class="product-tabs__benefit-item">
-            <h4>💪 Rich in Micronutrients</h4>
-            <p>Packed with natural vitamins, minerals, and antioxidants for overall well-being.</p>
-          </div>
-          <div class="product-tabs__benefit-item">
-            <h4>❤️ Heart & Gut Healthy</h4>
-            <p>Supports digestion, immunity, and healthy lifestyle choices for your family.</p>
-          </div>
-        </div>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Tab 5: Storage Information -->
+    <!-- Tab 5: Storage Information (from CSV product.metafields.custom.storage) -->
     <div class="product-tabs__pane" id="tab-pane-storage" role="tabpanel" aria-labelledby="tab-btn-storage" data-tab-pane="storage" hidden>
       <h3 class="product-tabs__pane-title">Storage Information</h3>
       <div class="product-tabs__pane-content">
-        <ul>
-          <li>Store in a cool, dry place away from direct sunlight and moisture.</li>
-          <li>Once opened, transfer into an airtight container.</li>
-          <li>Always use a clean, dry spoon to handle the product.</li>
-        </ul>
+        {% if product.metafields.custom.storage != blank %}
+          {{ product.metafields.custom.storage | metafield_tag }}
+        {% else %}
+          <ul>
+            <li>Store in a cool, dry place away from direct sunlight and moisture.</li>
+            <li>Once opened, transfer into an airtight container.</li>
+            <li>Always use a clean, dry spoon to handle the product.</li>
+          </ul>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Tab 6: Manufacturer Details -->
+    <!-- Tab 6: Manufacturer Details (from CSV Vendor & Metafields) -->
     <div class="product-tabs__pane" id="tab-pane-mfr" role="tabpanel" aria-labelledby="tab-btn-mfr" data-tab-pane="mfr" hidden>
       <h3 class="product-tabs__pane-title">Manufacturer & Packer Details</h3>
       <div class="product-tabs__pane-content">
-        <p><strong>Brand / Vendor:</strong> {{ product.vendor | default: 'Kishan Bazar' }}</p>
-        <p><strong>Manufacturer:</strong> Kishan Bazar Organic Foods Pvt. Ltd.</p>
-        <p><strong>Address:</strong> Plot No. 42-45, Green Agro Industrial Park, Surat - 395006, Gujarat, India.</p>
-        <p><strong>FSSAI License No:</strong> 10721999000341</p>
+        {% if product.metafields.custom.manufacturer != blank %}
+          {{ product.metafields.custom.manufacturer | metafield_tag }}
+        {% else %}
+          <p><strong>Brand / Vendor:</strong> {{ product.vendor | default: 'Kishan Bazar' }}</p>
+          <p><strong>Manufacturer:</strong> Kishan Bazar Organic Foods Pvt. Ltd.</p>
+          <p><strong>Address:</strong> Plot No. 42-45, Green Agro Industrial Park, Surat - 395006, Gujarat, India.</p>
+          <p><strong>FSSAI License No:</strong> 10721999000341</p>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Tab 7: Country of Origin -->
+    <!-- Tab 7: Country of Origin (from CSV product.metafields.custom.origin) -->
     <div class="product-tabs__pane" id="tab-pane-origin" role="tabpanel" aria-labelledby="tab-btn-origin" data-tab-pane="origin" hidden>
       <h3 class="product-tabs__pane-title">Country of Origin</h3>
       <div class="product-tabs__pane-content">
-        <div class="product-tabs__origin-flag">
-          <span class="flag-icon">🇮🇳</span>
-          <div>
-            <strong>Made in India</strong>
-            <p>Sourced directly from certified organic farmer co-operatives across India.</p>
+        {% if product.metafields.custom.origin != blank %}
+          {{ product.metafields.custom.origin | metafield_tag }}
+        {% else %}
+          <div class="product-tabs__origin-flag">
+            <span class="flag-icon">🇮🇳</span>
+            <div>
+              <strong>Made in India</strong>
+              <p>Sourced directly from certified organic farmer co-operatives across India.</p>
+            </div>
           </div>
-        </div>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Tab 8: Shelf Life -->
+    <!-- Tab 8: Shelf Life (from CSV product.metafields.custom.shelf_life) -->
     <div class="product-tabs__pane" id="tab-pane-shelflife" role="tabpanel" aria-labelledby="tab-btn-shelflife" data-tab-pane="shelflife" hidden>
       <h3 class="product-tabs__pane-title">Shelf Life</h3>
       <div class="product-tabs__pane-content">
-        <p><strong>4 Months (120 Days)</strong> from date of packaging.</p>
+        {% if product.metafields.custom.shelf_life != blank %}
+          {{ product.metafields.custom.shelf_life | metafield_tag }}
+        {% else %}
+          <p><strong>4 Months (120 Days)</strong> from date of packaging.</p>
+        {% endif %}
       </div>
     </div>
 
-    <!-- Tab 9: FAQ Accordions -->
+    <!-- Tab 9: FAQ Accordions (from CSV product.metafields.custom.faq) -->
     <div class="product-tabs__pane" id="tab-pane-faq" role="tabpanel" aria-labelledby="tab-btn-faq" data-tab-pane="faq" hidden>
       <h3 class="product-tabs__pane-title">Frequently Asked Questions (FAQ)</h3>
       <div class="product-tabs__pane-content">
-        <details class="product-tabs__accordion" open>
-          <summary><strong>Is {{ product.title }} 100% natural and unrefined?</strong></summary>
-          <p>Yes, all {{ product.vendor }} products are 100% natural, unrefined, and processed without chemicals or artificial bleaches.</p>
-        </details>
-        <details class="product-tabs__accordion">
-          <summary><strong>What is the estimated delivery time for my order?</strong></summary>
-          <p>Orders are dispatched within 24 hours and delivered in 1-3 business days across India.</p>
-        </details>
+        {% if product.metafields.custom.faq != blank %}
+          {{ product.metafields.custom.faq | metafield_tag }}
+        {% else %}
+          <details class="product-tabs__accordion" open>
+            <summary><strong>Is {{ product.title }} 100% natural and unrefined?</strong></summary>
+            <p>Yes, all {{ product.vendor | default: 'Kishan Bazar' }} products are 100% natural, unrefined, and processed without chemicals or artificial bleaches.</p>
+          </details>
+          <details class="product-tabs__accordion">
+            <summary><strong>What is the estimated delivery time for my order?</strong></summary>
+            <p>Orders are dispatched within 24 hours and delivered in 1-3 business days across India.</p>
+          </details>
+        {% endif %}
       </div>
     </div>
   </div>

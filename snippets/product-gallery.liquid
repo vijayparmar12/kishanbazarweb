@@ -71,18 +71,18 @@
     </div>
   </div>
 
-  <!-- 4 Thumbnail Images Below -->
+  <!-- Scrollable Product Thumbnails Track -->
   <div class="product-gallery__thumbnails" role="region" aria-label="Product thumbnails slider">
     {% assign media_list = product.media %}
     {% if media_list.size > 0 %}
-      {% for media in media_list limit: 4 %}
+      {% for media in media_list %}
         <button
           type="button"
           class="product-gallery__thumb {% if forloop.first %}is-active{% endif %}"
           data-gallery-thumb="{{ forloop.index0 }}"
           data-image-src="{{ media | image_url: width: 1200 }}"
           data-zoom-src="{{ media | image_url: width: 2000 }}"
-          aria-label="View product image {{ forloop.index }} of {{ media_list.size | at_most: 4 }}"
+          aria-label="View product image {{ forloop.index }} of {{ media_list.size }}"
           {% if forloop.first %}aria-current="true"{% endif %}
         >
           {{ media.preview_image | image_url: width: 240 | image_tag: class: 'product-gallery__thumb-img', loading: 'lazy', alt: media.alt | default: product.title | escape }}

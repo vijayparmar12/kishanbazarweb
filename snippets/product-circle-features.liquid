@@ -1,6 +1,6 @@
 {% doc %}
-  Renders product-specific 4 feature badge icons dynamically based on product type, tags, title, or metafields.
-  Removes text below icons as requested (for uploaded rectangular badge images with embedded text).
+  Renders product-specific 4 feature badge icons dynamically from Shopify CSV / Metafields / Shopify Admin.
+  If custom images/icons are uploaded in Shopify (via product.metafields.custom.badge_image_1..4), it renders them directly from Shopify.
 
   @param {object} [product] - The Shopify product object
 
@@ -9,6 +9,11 @@
 {% enddoc %}
 
 {% liquid
+  assign badge_img_1 = product.metafields.custom.badge_image_1 | default: product.metafields.custom.badge_1
+  assign badge_img_2 = product.metafields.custom.badge_image_2 | default: product.metafields.custom.badge_2
+  assign badge_img_3 = product.metafields.custom.badge_image_3 | default: product.metafields.custom.badge_3
+  assign badge_img_4 = product.metafields.custom.badge_image_4 | default: product.metafields.custom.badge_4
+
   assign prod_type = product.type | downcase
   assign prod_title = product.title | downcase
   assign prod_tags = product.tags | join: ',' | downcase
@@ -25,158 +30,191 @@
 
 <div class="product-circle-features" aria-label="Product Key Benefits">
   <div class="product-circle-features__grid">
-    {% case cat_type %}
-      {% when 'atta' %}
-        <!-- ATTA CATEGORY ICONS -->
+    {% comment %} If merchant uploaded custom badge images via Shopify Admin / CSV metafields {% endcomment %}
+    {% if badge_img_1 != blank or badge_img_2 != blank or badge_img_3 != blank or badge_img_4 != blank %}
+      {% if badge_img_1 != blank %}
         <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-              <line x1="2" y1="2" x2="22" y2="22"></line>
-            </svg>
+          <div class="product-circle-features__circle product-circle-features__circle--img">
+            {{ badge_img_1 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
           </div>
         </div>
+      {% endif %}
 
+      {% if badge_img_2 != blank %}
         <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <ellipse cx="12" cy="12" rx="4" ry="8" transform="rotate(-30 12 12)"></ellipse>
-              <ellipse cx="12" cy="12" rx="4" ry="8" transform="rotate(30 12 12)"></ellipse>
-              <line x1="12" y1="2" x2="12" y2="22"></line>
-            </svg>
+          <div class="product-circle-features__circle product-circle-features__circle--img">
+            {{ badge_img_2 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
           </div>
         </div>
+      {% endif %}
 
+      {% if badge_img_3 != blank %}
         <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"></circle>
-              <circle cx="12" cy="12" r="3"></circle>
-              <line x1="12" y1="3" x2="12" y2="9"></line>
-              <line x1="12" y1="15" x2="12" y2="21"></line>
-              <line x1="3" y1="12" x2="9" y2="12"></line>
-              <line x1="15" y1="12" x2="21" y2="12"></line>
-            </svg>
+          <div class="product-circle-features__circle product-circle-features__circle--img">
+            {{ badge_img_3 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
           </div>
         </div>
+      {% endif %}
 
+      {% if badge_img_4 != blank %}
         <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 4c-3 0-5 2-5 5 0 4 3 7 5 11 2-4 5-7 5-11 0-3-2-5-5-5z"></path>
-              <path d="M9 10c0 2 1.5 3.5 3 3.5s3-1.5 3-3.5"></path>
-            </svg>
+          <div class="product-circle-features__circle product-circle-features__circle--img">
+            {{ badge_img_4 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
           </div>
         </div>
+      {% endif %}
 
-      {% when 'ghee' %}
-        <!-- GHEE CATEGORY ICONS -->
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2a5 5 0 0 1 5 5v3a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5z"></path>
-              <path d="M19 11v2a7 7 0 0 1-14 0v-2"></path>
-            </svg>
+    {% else %}
+      {% comment %} Category Default Icons {% endcomment %}
+      {% case cat_type %}
+        {% when 'atta' %}
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                <line x1="2" y1="2" x2="22" y2="22"></line>
+              </svg>
+            </div>
           </div>
-        </div>
 
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3v18"></path>
-              <path d="M7 8l10 8"></path>
-              <path d="M17 8L7 16"></path>
-            </svg>
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="12" rx="4" ry="8" transform="rotate(-30 12 12)"></ellipse>
+                <ellipse cx="12" cy="12" rx="4" ry="8" transform="rotate(30 12 12)"></ellipse>
+                <line x1="12" y1="2" x2="12" y2="22"></line>
+              </svg>
+            </div>
           </div>
-        </div>
 
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            </svg>
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"></circle>
+                <circle cx="12" cy="12" r="3"></circle>
+                <line x1="12" y1="3" x2="12" y2="9"></line>
+                <line x1="12" y1="15" x2="12" y2="21"></line>
+                <line x1="3" y1="12" x2="9" y2="12"></line>
+                <line x1="15" y1="12" x2="21" y2="12"></line>
+              </svg>
+            </div>
           </div>
-        </div>
 
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 4c-3 0-5 2-5 5 0 4 3 7 5 11 2-4 5-7 5-11 0-3-2-5-5-5z"></path>
+                <path d="M9 10c0 2 1.5 3.5 3 3.5s3-1.5 3-3.5"></path>
+              </svg>
+            </div>
           </div>
-        </div>
 
-      {% when 'oil' %}
-        <!-- OIL CATEGORY ICONS -->
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="4" y="4" width="16" height="16" rx="2"></rect>
-              <line x1="12" y1="4" x2="12" y2="20"></line>
-            </svg>
+        {% when 'ghee' %}
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a5 5 0 0 1 5 5v3a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5z"></path>
+                <path d="M19 11v2a7 7 0 0 1-14 0v-2"></path>
+              </svg>
+            </div>
           </div>
-        </div>
 
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
-            </svg>
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v18"></path>
+                <path d="M7 8l10 8"></path>
+                <path d="M17 8L7 16"></path>
+              </svg>
+            </div>
           </div>
-        </div>
 
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-            </svg>
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
           </div>
-        </div>
 
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              <polyline points="9 12 11 14 15 10"></polyline>
-            </svg>
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
           </div>
-        </div>
 
-      {% else %}
-        <!-- GENERAL ORGANIC CATEGORY ICONS -->
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-            </svg>
+        {% when 'oil' %}
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                <line x1="12" y1="4" x2="12" y2="20"></line>
+              </svg>
+            </div>
           </div>
-        </div>
 
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 16 14"></polyline>
-            </svg>
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+              </svg>
+            </div>
           </div>
-        </div>
 
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            </svg>
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </div>
           </div>
-        </div>
 
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-            </svg>
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <polyline points="9 12 11 14 15 10"></polyline>
+              </svg>
+            </div>
           </div>
-        </div>
-    {% endcase %}
+
+        {% else %}
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+              </svg>
+            </div>
+          </div>
+
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+          </div>
+
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+          </div>
+
+          <div class="product-circle-features__item">
+            <div class="product-circle-features__circle">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </div>
+          </div>
+      {% endcase %}
+    {% endif %}
   </div>
 </div>
