@@ -1,0 +1,275 @@
+{% doc %}
+  Renders the right side product information column powered purely by product CSV data.
+
+  @param {object} product - The Shopify product object
+  @param {object} current_variant - The currently selected product variant
+  @param {boolean} [sale] - Whether the current variant is on sale
+
+  @example
+  {% render 'product-info', product: product, current_variant: current_variant, sale: sale %}
+{% enddoc %}
+
+<div class="product-info" data-product-info>
+  <!-- SECTION 1: Breadcrumb Navigation -->
+  <nav class="product-info__breadcrumb" aria-label="Breadcrumb navigation">
+    <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="product-info__breadcrumb-list">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="product-info__breadcrumb-item">
+        <a itemprop="item" href="{{ routes.root_url }}"><span itemprop="name">Home</span></a>
+        <meta itemprop="position" content="1" />
+      </li>
+      <span aria-hidden="true" class="product-info__breadcrumb-sep">/</span>
+      {% if product.collections.first != blank %}
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="product-info__breadcrumb-item">
+          <a itemprop="item" href="{{ product.collections.first.url }}"><span itemprop="name">{{ product.collections.first.title }}</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span aria-hidden="true" class="product-info__breadcrumb-sep">/</span>
+      {% endif %}
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="product-info__breadcrumb-item is-active">
+        <span itemprop="name" aria-current="page">{{ product.title }}</span>
+        <meta itemprop="position" content="3" />
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Vendor & Verified Tag from CSV -->
+  <p class="product-info__vendor">
+    {{ product.vendor }}
+    <span class="product-info__verified-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      Verified Organic
+    </span>
+  </p>
+
+  <!-- Product Title from CSV -->
+  <h1 class="product-info__title">{{ product.title }}</h1>
+
+  <!-- Product Type & Tags Subtitle from CSV -->
+  <p class="product-info__subtitle">
+    {% if product.type != blank %}{{ product.type }}{% else %}Organic Grocery{% endif %}
+    {% if product.tags.size > 0 %}
+      &bull; {{ product.tags | join: ' &bull; ' }}
+    {% endif %}
+  </p>
+
+  <!-- Star Rating & Review Header -->
+  <div class="product-info__rating" aria-label="5 star customer rating">
+    <div class="product-info__stars" aria-hidden="true">
+      &#9733;&#9733;&#9733;&#9733;&#9733;
+    </div>
+    <span class="product-info__rating-score">4.9</span>
+    <a href="#ProductReviews-{{ section.id }}" class="product-info__review-count">(128 Verified Ratings)</a>
+  </div>
+
+  <!-- Dynamic Product Category 4 Circle Feature Icons -->
+  {% render 'product-circle-features', product: product %}
+
+  <!-- Price Box from CSV (Selling Price, MRP, Discount %) -->
+  <div class="product-info__price-box">
+    <div class="product-info__prices">
+      <span class="product-info__price-selling" data-product-price-selling>
+        {{ current_variant.price | money }}
+      </span>
+      {% if sale %}
+        <s class="product-info__price-mrp" data-product-price-mrp>
+          {{ current_variant.compare_at_price | money }}
+        </s>
+        <span class="product-info__discount-badge" data-product-discount-badge>
+          Save {{ current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price }}% OFF
+        </span>
+      {% else %}
+        <s class="product-info__price-mrp" data-product-price-mrp style="display: none;"></s>
+        <span class="product-info__discount-badge" data-product-discount-badge style="display: none;"></span>
+      {% endif %}
+    </div>
+    <p class="product-info__tax-note">Inclusive of all taxes &bull; Free Shipping on orders over ₹499</p>
+  </div>
+
+  <!-- Availability Status from CSV -->
+  <div class="product-info__availability" data-product-availability-status>
+    {% if current_variant.available %}
+      <span class="product-info__stock-dot is-in-stock"></span>
+      <span class="product-info__stock-text">In Stock &bull; Ready to Dispatch in 24 Hours</span>
+    {% else %}
+      <span class="product-info__stock-dot is-out-of-stock"></span>
+      <span class="product-info__stock-text">Temporarily Sold Out</span>
+    {% endif %}
+  </div>
+
+  <!-- Product Variants Form (strictly dynamically populated from CSV options & variants) -->
+  {% form 'product', product, class: 'product-info__form', data-product-main-form: '' %}
+    <!-- SKU & Hidden Variant Field from CSV -->
+    <input type="hidden" name="id" value="{{ current_variant.id }}" data-product-selected-variant-id>
+
+    <!-- Variant Options Selector from CSV -->
+    {% if product.variants.size > 0 %}
+      <fieldset class="product-info__variants-container">
+        <legend class="product-info__variants-label">
+          Select {{ product.options_with_values[0].name | default: 'Variant / Size' }}:
+          <strong data-selected-variant-title>{{ current_variant.title }}</strong>
+        </legend>
+        <div class="product-info__variant-cards">
+          {% for variant in product.variants %}
+            {% assign variant_sale = false %}
+            {% if variant.compare_at_price > variant.price %}
+              {% assign variant_sale = true %}
+              {% assign variant_disc = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price %}
+            {% endif %}
+            <label class="product-info__variant-pill {% if variant == current_variant %}is-selected{% endif %}">
+              <input
+                type="radio"
+                name="variant_id_option"
+                value="{{ variant.id }}"
+                data-variant-radio
+                data-variant-id="{{ variant.id }}"
+                data-variant-title="{{ variant.title | escape }}"
+                data-price="{{ variant.price | money | escape }}"
+                data-compare="{% if variant_sale %}{{ variant.compare_at_price | money | escape }}{% endif %}"
+                data-discount="{% if variant_sale %}{{ variant_disc }}{% endif %}"
+                data-sku="{{ variant.sku | escape }}"
+                data-available="{% if variant.available %}true{% else %}false{% endif %}"
+                {% if variant.featured_media != blank %}data-image="{{ variant.featured_media | image_url: width: 1200 }}"{% endif %}
+                {% if variant == current_variant %}checked{% endif %}
+              >
+              <span class="product-info__variant-card-inner">
+                <span class="product-info__variant-title">{{ variant.title }}</span>
+                <span class="product-info__variant-price">{{ variant.price | money }}</span>
+                {% if variant_sale %}
+                  <span class="product-info__variant-save">{{ variant_disc }}% OFF</span>
+                {% endif %}
+              </span>
+            </label>
+          {% endfor %}
+        </div>
+      </fieldset>
+    {% endif %}
+
+    <!-- SKU & Category Metadata from CSV -->
+    <div class="product-info__meta-row">
+      <span class="product-info__meta-item">SKU: <strong data-product-sku-display>{{ current_variant.sku }}</strong></span>
+      <span class="product-info__meta-item">Category: <strong>{{ product.type | default: 'Organic Pantry' }}</strong></span>
+    </div>
+
+    <!-- Quantity Selector & Action Buttons -->
+    <div class="product-info__purchase-row">
+      <div class="product-info__quantity-wrap">
+        <label for="Quantity-{{ section.id }}" class="visually-hidden">Quantity</label>
+        <div class="product-info__quantity-stepper" data-quantity-stepper>
+          <button type="button" class="product-info__quantity-btn" data-quantity-minus aria-label="Decrease quantity">-</button>
+          <input
+            type="number"
+            id="Quantity-{{ section.id }}"
+            name="quantity"
+            value="1"
+            min="1"
+            max="20"
+            class="product-info__quantity-input"
+            data-quantity-input
+            aria-label="Item Quantity"
+          >
+          <button type="button" class="product-info__quantity-btn" data-quantity-plus aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+
+      <!-- Add to Cart Button -->
+      <button
+        type="submit"
+        name="add"
+        class="product-info__btn product-info__btn--add-to-cart"
+        data-add-to-cart-button
+        {% unless current_variant.available %}disabled{% endunless %}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span data-add-to-cart-text>
+          {% if current_variant.available %}ADD TO CART{% else %}SOLD OUT{% endif %}
+        </span>
+      </button>
+    </div>
+
+    <!-- Express Buy Now & Secondary Quick Actions -->
+    <div class="product-info__secondary-actions">
+      <button
+        type="button"
+        class="product-info__btn product-info__btn--buy-now"
+        data-buy-now-button
+        {% unless current_variant.available %}disabled{% endunless %}
+      >
+        ⚡ BUY IT NOW (EXPRESS CHECKOUT)
+      </button>
+
+      <div class="product-info__utility-btns">
+        <button
+          type="button"
+          class="product-info__utility-btn"
+          data-wishlist-button
+          data-product-handle="{{ product.handle }}"
+          data-product-title="{{ product.title | escape }}"
+          data-product-price="{{ current_variant.price | money | escape }}"
+          data-variant-id="{{ current_variant.id }}"
+          {% if product.featured_image != blank %}data-product-image="{{ product.featured_image | image_url: width: 300 }}"{% endif %}
+          aria-label="Add to Wishlist"
+        >
+          {% render 'icon', name: 'heart', size: 18 %}
+          <span>Wishlist</span>
+        </button>
+
+        <button
+          type="button"
+          class="product-info__utility-btn"
+          data-share-button
+          data-share-title="{{ product.title | escape }}"
+          data-share-url="{{ canonical_url | default: request.origin | append: product.url }}"
+          aria-label="Share product"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+          <span>Share</span>
+        </button>
+      </div>
+    </div>
+  {% endform %}
+
+  <!-- Delivery Pincode Checker Card -->
+  <div class="product-info__pincode-card" data-pincode-checker-wrap>
+    <div class="product-info__pincode-header">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="3" width="15" height="13"></rect>
+        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+      </svg>
+      <span>Delivery Pincode Checker</span>
+    </div>
+    <form class="product-info__pincode-form" data-pincode-form>
+      <input
+        type="text"
+        name="pincode"
+        placeholder="Enter 6-digit Surat Pincode (e.g. 395006)"
+        maxlength="6"
+        pattern="[0-9]{6}"
+        required
+        class="product-info__pincode-input"
+        data-pincode-input
+        aria-label="Pincode"
+      >
+      <button type="submit" class="product-info__pincode-submit" data-pincode-submit>Check</button>
+    </form>
+    <div class="product-info__pincode-result" data-pincode-result style="display: none;"></div>
+  </div>
+
+  <!-- 4 Highlight Badges after Delivery Pincode Checker (Mobile View) -->
+  <div class="product-info__highlights-mobile">
+    {% render 'product-highlights' %}
+  </div>
+</div>

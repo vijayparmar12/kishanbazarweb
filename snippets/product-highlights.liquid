@@ -1,0 +1,70 @@
+{% doc %}
+  Renders 4 trust & highlight feature badges in a clean icon row (inspired by Two Brothers Screenshot 2).
+
+  @param {object} [section] - The Shopify section object with settings
+
+  @example
+  {% render 'product-highlights', section: section %}
+{% enddoc %}
+
+<section class="product-highlights-row" aria-label="Store Trust Highlights">
+  <div class="product-highlights-row__grid">
+    <!-- Item 1: Free Shipping -->
+    <div class="product-highlights-row__item">
+      <div class="product-highlights-row__icon-wrap">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="3" width="15" height="13" rx="1"></rect>
+          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+          <circle cx="5.5" cy="18.5" r="2.5"></circle>
+          <circle cx="18.5" cy="18.5" r="2.5"></circle>
+        </svg>
+      </div>
+      <span class="product-highlights-row__label">
+        Free shipping<br>above ₹499
+      </span>
+    </div>
+
+    <!-- Item 2: Secure Payments -->
+    <div class="product-highlights-row__item">
+      <div class="product-highlights-row__icon-wrap">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+          <line x1="2" y1="10" x2="22" y2="10"></line>
+          <path d="M12 14v2"></path>
+          <circle cx="16" cy="15" r="1"></circle>
+        </svg>
+      </div>
+      <span class="product-highlights-row__label">
+        Secure<br>Payments
+      </span>
+    </div>
+
+    <!-- Item 3: Farmers Empowerment -->
+    <div class="product-highlights-row__item">
+      <div class="product-highlights-row__icon-wrap">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a5 5 0 0 0-5 5v3a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"></path>
+          <path d="M19 11v2a7 7 0 0 1-14 0v-2"></path>
+          <path d="M12 18v4"></path>
+          <path d="M8 22h8"></path>
+        </svg>
+      </div>
+      <span class="product-highlights-row__label">
+        Farmers<br>Empowerment
+      </span>
+    </div>
+
+    <!-- Item 4: COD Available -->
+    <div class="product-highlights-row__item">
+      <div class="product-highlights-row__icon-wrap">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+      </div>
+      <span class="product-highlights-row__label">
+        COD<br>available
+      </span>
+    </div>
+  </div>
+</section>

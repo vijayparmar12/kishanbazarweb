@@ -1,0 +1,113 @@
+{% doc %}
+  Renders the interactive product gallery for Kishan Bazar product pages.
+
+  @param {object} product - The Shopify product object
+  @param {object} current_variant - The currently selected product variant
+  @param {boolean} [sale] - Whether the current variant is on sale
+
+  @example
+  {% render 'product-gallery', product: product, current_variant: current_variant, sale: sale %}
+{% enddoc %}
+
+<div class="product-gallery" data-product-gallery>
+  <div class="product-gallery__main-wrap">
+    {% if sale %}
+      <span class="product-gallery__badge product-gallery__badge--sale" data-gallery-sale-badge>
+        Bestseller &bull; Save {{ current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price }}%
+      </span>
+    {% else %}
+      <span class="product-gallery__badge product-gallery__badge--organic">100% Organic</span>
+    {% endif %}
+
+    <button
+      class="product-gallery__action product-gallery__action--wishlist"
+      type="button"
+      aria-label="Add {{ product.title | escape }} to wishlist"
+      data-wishlist-button
+      data-product-handle="{{ product.handle }}"
+      data-product-title="{{ product.title | escape }}"
+      data-product-price="{{ current_variant.price | money | escape }}"
+      {% if sale %}data-product-compare="{{ current_variant.compare_at_price | money | escape }}"{% endif %}
+      data-variant-id="{{ current_variant.id }}"
+      {% if product.featured_image != blank %}data-product-image="{{ product.featured_image | image_url: width: 300 }}"{% endif %}
+      data-product-vendor="{{ product.vendor | default: 'Kishan Bazar' | escape }}"
+    >
+      {% render 'icon', name: 'heart', size: 20 %}
+    </button>
+
+    <button
+      class="product-gallery__action product-gallery__action--zoom"
+      type="button"
+      aria-label="Open fullscreen gallery"
+      data-gallery-lightbox-trigger
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-maximize-2">
+        <polyline points="15 3 21 3 21 9"></polyline>
+        <polyline points="9 21 3 21 3 15"></polyline>
+        <line x1="21" y1="3" x2="14" y2="10"></line>
+        <line x1="3" y1="21" x2="10" y2="14"></line>
+      </svg>
+    </button>
+
+    <!-- Main Active Image Container with Desktop Zoom Lens -->
+    <div class="product-gallery__main-image-container" data-gallery-zoom-container>
+      {% assign featured_media = current_variant.featured_media | default: product.featured_media | default: product.media.first %}
+      {% if featured_media != blank %}
+        <img
+          src="{{ featured_media | image_url: width: 1200 }}"
+          alt="{{ featured_media.alt | default: product.title | escape }}"
+          class="product-gallery__main-image"
+          data-gallery-main-image
+          data-zoom-src="{{ featured_media | image_url: width: 2000 }}"
+          loading="eager"
+          width="800"
+          height="800"
+        >
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'product-gallery__main-image product-gallery__placeholder' }}
+      {% endif %}
+      <div class="product-gallery__zoom-lens" data-gallery-zoom-lens aria-hidden="true"></div>
+      <div class="product-gallery__zoom-result" data-gallery-zoom-result aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- 4 Thumbnail Images Below -->
+  <div class="product-gallery__thumbnails" role="region" aria-label="Product thumbnails slider">
+    {% assign media_list = product.media %}
+    {% if media_list.size > 0 %}
+      {% for media in media_list limit: 4 %}
+        <button
+          type="button"
+          class="product-gallery__thumb {% if forloop.first %}is-active{% endif %}"
+          data-gallery-thumb="{{ forloop.index0 }}"
+          data-image-src="{{ media | image_url: width: 1200 }}"
+          data-zoom-src="{{ media | image_url: width: 2000 }}"
+          aria-label="View product image {{ forloop.index }} of {{ media_list.size | at_most: 4 }}"
+          {% if forloop.first %}aria-current="true"{% endif %}
+        >
+          {{ media.preview_image | image_url: width: 240 | image_tag: class: 'product-gallery__thumb-img', loading: 'lazy', alt: media.alt | default: product.title | escape }}
+        </button>
+      {% endfor %}
+    {% else %}
+      {% for i in (1..4) %}
+        <button type="button" class="product-gallery__thumb {% if forloop.first %}is-active{% endif %}" data-gallery-thumb="{{ forloop.index0 }}">
+          {{ 'product-1' | placeholder_svg_tag: 'product-gallery__thumb-img' }}
+        </button>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <!-- 4 Highlight Badges below product images (Desktop View) -->
+  <div class="product-gallery__highlights-desktop">
+    {% render 'product-highlights' %}
+  </div>
+
+  <!-- Lightbox Gallery Modal -->
+  <div class="product-gallery__lightbox" data-gallery-lightbox aria-hidden="true">
+    <div class="product-gallery__lightbox-backdrop" data-gallery-lightbox-close></div>
+    <div class="product-gallery__lightbox-content">
+      <button class="product-gallery__lightbox-close" type="button" data-gallery-lightbox-close aria-label="Close modal">&times;</button>
+      <img src="" alt="Fullscreen product image" class="product-gallery__lightbox-img" data-gallery-lightbox-img>
+    </div>
+  </div>
+</div>

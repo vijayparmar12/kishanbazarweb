@@ -4,7 +4,7 @@
 {% style %}
   #VideoSection-{{ section.id }} {
     position: relative;
-    background-color: {{ section.settings.bg_color | default: 'transparent' }};
+    background-color: {{ section.settings.bg_color | default: '#FAF7F2' }};
     {% if section.settings.background_image != blank %}
       background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}');
       background-size: cover;
@@ -25,73 +25,114 @@
       pointer-events: none;
       z-index: 1;
     }
-    #VideoSection-{{ section.id }} .home-section__head,
-    #VideoSection-{{ section.id }} .home-video__frame {
-      position: relative;
-      z-index: 2;
-    }
   {% endif %}
 {% endstyle %}
 
 <section id="VideoSection-{{ section.id }}" class="home-section home-video" data-home-video>
-  <div class="home-section__head home-section__head--center">
-    <p class="home-section__eyebrow">From the farm</p>
-    <h2>{{ section.settings.heading }}</h2>
-    {% if section.settings.description != blank %}
-      <div>{{ section.settings.description }}</div>
-    {% endif %}
+  <div class="home-video__container">
+    <!-- Header Section -->
+    <div class="home-section__head home-section__head--center">
+      <span class="home-video__eyebrow-pill">🌿 OUR FARM TO TABLE STORY</span>
+      <h2 class="home-video__title">{{ section.settings.heading | default: "Meet the Farmers & Millers" }}</h2>
+      {% if section.settings.description != blank %}
+        <div class="home-video__subtitle">{{ section.settings.description }}</div>
+      {% else %}
+        <p class="home-video__subtitle">Take a closer look at the traditional stone-grinding practices and farm-fresh care behind every Kishan Bazar staple.</p>
+      {% endif %}
+    </div>
+
+    <!-- Main Video Frame Container with Glowing Ripple Play Button & Badges -->
+    <div class="home-video__frame-wrapper" data-video-frame-wrapper>
+      <div class="home-video__frame">
+        <!-- Floating Badges on Video -->
+        <div class="home-video__badge home-video__badge--left">
+          <span class="home-video__badge-dot"></span>
+          📍 Direct from Surat & MP Farms
+        </div>
+        <div class="home-video__badge home-video__badge--right">
+          ✨ 100% Traditional Stone Ground
+        </div>
+
+        <!-- Video Overlay Gradient & Animated Play Button Trigger -->
+        <div class="home-video__overlay-trigger" data-video-trigger aria-label="Play Farm Story Video">
+          <div class="home-video__play-ripple"></div>
+          <button type="button" class="home-video__play-btn" aria-label="Play Video">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="#ffffff" stroke="none">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </button>
+          <div class="home-video__overlay-caption">
+            <span class="home-video__play-text">▶ Watch Farm Story Video (2 Min)</span>
+          </div>
+        </div>
+
+        <!-- Video Media Element (Shopify Video, YouTube/Vimeo Iframe, or Poster Image) -->
+        <div class="home-video__media-container" data-video-media-container>
+          {% if section.settings.video != blank %}
+            {{
+              section.settings.video
+              | video_tag:
+                class: 'home-video__media',
+                controls: true,
+                autoplay: false,
+                loop: section.settings.loop,
+                muted: false,
+                image_size: '1400x'
+            }}
+          {% elsif section.settings.video_url != blank %}
+            {% if section.settings.video_url.type == 'youtube' %}
+              <iframe
+                src="https://www.youtube.com/embed/{{ section.settings.video_url.id }}?rel=0&autoplay=1"
+                title="{{ section.settings.heading | escape }}"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen
+                class="home-video__iframe"
+                data-video-iframe
+              ></iframe>
+            {% else %}
+              <iframe
+                src="https://player.vimeo.com/video/{{ section.settings.video_url.id }}?autoplay=1"
+                title="{{ section.settings.heading | escape }}"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowfullscreen
+                class="home-video__iframe"
+                data-video-iframe
+              ></iframe>
+            {% endif %}
+          {% elsif section.settings.poster != blank %}
+            {{
+              section.settings.poster
+              | image_url: width: 1400
+              | image_tag: class: 'home-video__poster', loading: 'lazy', widths: '600, 900, 1400', alt: section.settings.heading | escape
+            }}
+          {% else %}
+            <img
+              class="home-video__poster"
+              src="{{ 'video-thumbnail.jpg.png' | asset_url }}"
+              alt="{{ section.settings.heading | escape }}"
+              width="1400"
+              height="788"
+              loading="lazy"
+            >
+          {% endif %}
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="home-video__frame">
-    {% if section.settings.video != blank %}
-      {{
-        section.settings.video
-        | video_tag:
-          class: 'home-video__media',
-          controls: true,
-          autoplay: section.settings.autoplay,
-          loop: section.settings.loop,
-          muted: section.settings.muted,
-          image_size: '1200x'
-      }}
-    {% elsif section.settings.video_url != blank %}
-      {% if section.settings.video_url.type == 'youtube' %}
-        <iframe
-          src="https://www.youtube.com/embed/{{ section.settings.video_url.id }}?rel=0"
-          title="{{ section.settings.heading | escape }}"
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowfullscreen
-        ></iframe>
-      {% else %}
-        <iframe
-          src="https://player.vimeo.com/video/{{ section.settings.video_url.id }}"
-          title="{{ section.settings.heading | escape }}"
-          allow="autoplay; fullscreen; picture-in-picture"
-          allowfullscreen
-        ></iframe>
-      {% endif %}
-    {% elsif section.settings.poster != blank %}
-      {{
-        section.settings.poster
-        | image_url: width: 1400
-        | image_tag: class: 'home-video__poster', loading: 'lazy', widths: '600, 900, 1400'
-      }}
-    {% else %}
-      <img
-        class="home-video__poster"
-        src="{{ 'video-thumbnail.jpg.png' | asset_url }}"
-        alt="{{ section.settings.heading | escape }}"
-        width="1400"
-        height="788"
-        loading="lazy"
-      >
-    {% endif %}
+  <!-- Video Lightbox Modal for Fullscreen Playback -->
+  <div class="home-video__modal" data-video-modal aria-hidden="true">
+    <div class="home-video__modal-backdrop" data-video-modal-close></div>
+    <div class="home-video__modal-content">
+      <button type="button" class="home-video__modal-close" data-video-modal-close aria-label="Close Video Modal">&times;</button>
+      <div class="home-video__modal-body" data-video-modal-body></div>
+    </div>
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Video",
+  "name": "Video Section",
   "tag": "section",
   "class": "section-video",
   "settings": [
@@ -99,7 +140,7 @@
       "type": "image_picker",
       "id": "background_image",
       "label": "Section Background Image",
-      "info": "Upload custom background image from Shopify for Video Section."
+      "info": "Upload custom background image from Shopify."
     },
     {
       "type": "range",
@@ -115,19 +156,19 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
-      "default": "transparent"
+      "default": "#FAF7F2"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Meet the makers"
+      "default": "Meet the Farmers & Millers"
     },
     {
       "type": "richtext",
       "id": "description",
       "label": "Description",
-      "default": "<p>A closer look at the people and practices behind every pantry staple.</p>"
+      "default": "<p>A closer look at the traditional stone-grinding practices and farm-fresh care behind every pantry staple.</p>"
     },
     {
       "type": "video",
@@ -161,12 +202,12 @@
       "type": "checkbox",
       "id": "muted",
       "label": "Mute",
-      "default": true
+      "default": false
     }
   ],
   "presets": [
     {
-      "name": "Video"
+      "name": "Video Section"
     }
   ]
 }

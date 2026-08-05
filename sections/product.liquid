@@ -1,7 +1,5 @@
 <link rel="stylesheet" href="{{ 'section-product.css' | asset_url }}">
-<link rel="stylesheet" href="{{ 'section-testimonials.css' | asset_url }}">
 <script src="{{ 'section-product.js' | asset_url }}" defer="defer"></script>
-<script src="{{ 'section-testimonials.js' | asset_url }}" defer="defer"></script>
 
 {% liquid
   assign current_variant = product.selected_or_first_available_variant
@@ -11,260 +9,123 @@
   endif
 %}
 
-<section class="main-product" data-main-product>
-  <div class="main-product__gallery">
-    <div class="main-product__media-wrap">
-      {% if sale %}
-        <span class="main-product__badge">Bestseller</span>
-      {% endif %}
+<!-- SEO JSON-LD Structured Data Schema.org -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "image": [
+    {% for media in product.media %}
+      {{ media | image_url: width: 1200 | json }}{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ],
+  "description": {{ product.description | strip_html | json }},
+  "sku": {{ current_variant.sku | default: "KB-ORG-101" | json }},
+  "brand": {
+    "@type": "Brand",
+    "name": {{ product.vendor | default: "Kishan Bazar" | json }}
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": {{ canonical_url | default: request.origin | append: product.url | json }},
+    "priceCurrency": {{ cart.currency.iso_code | default: "INR" | json }},
+    "price": {{ current_variant.price | divided_by: 100.0 | json }},
+    "priceValidUntil": "2030-12-31",
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": "{% if current_variant.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "128"
+  }
+}
+</script>
 
-      <button
-        class="main-product__media-action main-product__media-action--wishlist"
-        type="button"
-        aria-label="Add to wishlist"
-        data-wishlist-button
-        data-product-handle="{{ product.handle }}"
-        data-product-title="{{ product.title | escape }}"
-        data-product-price="{{ current_variant.price | money | escape }}"
-        {% if sale %}data-product-compare="{{ current_variant.compare_at_price | money | escape }}"{% endif %}
-        data-variant-id="{{ current_variant.id }}"
-        {% if product.featured_image != blank %}data-product-image="{{ product.featured_image | image_url: width: 300 }}"{% endif %}
-        data-product-vendor="{{ product.vendor | default: 'Kishan Bazar' | escape }}"
-      >
-        {% render 'icon', name: 'heart', size: 18 %}
-      </button>
-
-      <div class="main-product__media">
-        {% for media in product.media %}
-          <div class="main-product__slide"{% unless forloop.first %} hidden{% endunless %} data-product-media>
-            {{ media | media_tag: image_size: '1400x', loading: 'lazy' }}
-          </div>
-        {% endfor %}
-      </div>
+<div class="kishanbazar-product-page" data-kishanbazar-product-page>
+  <!-- Main Grid Section (Section 2 Left Gallery & Section 3 Right Info) -->
+  <section class="main-product" data-main-product>
+    <!-- Left Column: Product Gallery -->
+    <div class="main-product__left">
+      {% render 'product-gallery', product: product, current_variant: current_variant, sale: sale %}
     </div>
 
-    {% if product.media.size > 1 %}
-      <div class="main-product__thumbs" aria-label="Product media thumbnails">
-        {% for media in product.media %}
-          <button type="button" data-product-thumb="{{ forloop.index0 }}" aria-label="View image {{ forloop.index }}">
-            {{ media.preview_image | image_url: width: 180 | image_tag: loading: 'lazy', widths: '90, 180' }}
-          </button>
-        {% endfor %}
-      </div>
-    {% endif %}
+    <!-- Right Column: Product Information (Sticky on Desktop) -->
+    <div class="main-product__right">
+      {% render 'product-info', product: product, current_variant: current_variant, sale: sale %}
+    </div>
+  </section>
+
+  <!-- Section 5: Product Details Tabs (Description, Ingredients, Usage, Benefits, Storage, Mfr, Origin, Shelf Life, FAQ) -->
+  <div class="product-page-section product-page-section--tabs">
+    <div class="product-page-container">
+      {% render 'product-tabs', product: product %}
+    </div>
   </div>
 
-  <div class="main-product__info">
-    <nav class="main-product__breadcrumb" aria-label="Breadcrumb">
-      <a href="{{ routes.root_url }}">Home</a>
-      <span aria-hidden="true">/</span>
-      {% if product.collections.first != blank %}
-        <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
-        <span aria-hidden="true">/</span>
-      {% endif %}
-      <span>{{ product.title }}</span>
-    </nav>
-
-    {% if product.vendor != blank %}
-      <p class="main-product__vendor">{{ product.vendor }}</p>
-    {% endif %}
-
-    <h1>{{ product.title }}</h1>
-
-    <p class="main-product__tagline">
-      {% if product.type != blank %}{{ product.type }}{% else %}Premium pantry essential{% endif %}
-      <span aria-hidden="true">|</span>
-      Freshly packed and quality checked
-    </p>
-
-    <div class="main-product__rating" aria-label="Customer rating">
-      <span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-      <strong>4.9</strong>
-      <small>Trusted by happy customers</small>
+  <!-- Section 6: Customer Reviews & Ratings Dashboard -->
+  <div class="product-page-section product-page-section--reviews">
+    <div class="product-page-container">
+      {% render 'product-reviews-section', product: product %}
     </div>
+  </div>
 
-    <div class="main-product__price">
-      <span data-product-price>{{ current_variant.price | money }}</span>
-      {% if sale %}
-        <s data-product-compare>{{ current_variant.compare_at_price | money }}</s>
-      {% endif %}
-    </div>
-
-    <p class="main-product__tax-note">MRP inclusive of all taxes</p>
-
-    {% if product.description != blank %}
-      <div class="main-product__summary rte">
-        {{ product.description | strip_html | truncatewords: 28 }}
-      </div>
-    {% endif %}
-
-    <div class="main-product__benefits" aria-label="Product highlights">
-      <div class="main-product__benefit">
-        <span aria-hidden="true">50%</span>
-        <p>More fibre</p>
-      </div>
-      <div class="main-product__benefit">
-        <span aria-hidden="true">Pure</span>
-        <p>No shortcuts</p>
-      </div>
-      <div class="main-product__benefit">
-        <span aria-hidden="true">Farm</span>
-        <p>Sourced well</p>
-      </div>
-      <div class="main-product__benefit">
-        <span aria-hidden="true">Stone</span>
-        <p>Traditional process</p>
+  <!-- Section 7: Recommended Organic Products Slider -->
+  {% if section.settings.show_recommendations %}
+    <div class="product-page-section product-page-section--recommendations">
+      <div class="product-page-container">
+        {% render 'product-recommendations-slider', product: product %}
       </div>
     </div>
+  {% endif %}
 
-    {% form 'product', product, class: 'main-product__form' %}
-      {% if product.has_only_default_variant %}
-        <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-select>
-      {% else %}
-        <fieldset class="main-product__option" aria-label="Choose product size">
-          <div class="main-product__option-values">
-            {% for variant in product.variants %}
-              <label class="main-product__option-pill">
-                <input
-                  type="radio"
-                  name="id"
-                  value="{{ variant.id }}"
-                  data-product-variant
-                  data-price="{{ variant.price | money | escape }}"
-                  data-compare="{{ variant.compare_at_price | money | escape }}"
-                  data-available="{% if variant.available %}true{% else %}false{% endif %}"
-                  {% if variant == current_variant %}checked{% endif %}
-                  {% unless variant.available %}disabled{% endunless %}
-                >
-                <span class="main-product__variant-card">
-                  <strong>{{ variant.title }}</strong>
-                  <span>{{ variant.price | money }}</span>
-                  {% if variant.unit_price_measurement != blank %}
-                    <small>
-                      ({{ variant.unit_price | money }}/{{ variant.unit_price_measurement.reference_value }}{{ variant.unit_price_measurement.reference_unit }})
-                    </small>
-                  {% endif %}
-                </span>
-              </label>
-            {% endfor %}
-          </div>
-        </fieldset>
-      {% endif %}
-
-      <div class="main-product__purchase">
-        {% render 'quantity-selector', id: 'quantity-' | append: section.id, value: 1 %}
-        <button type="submit" name="add" class="button button--primary main-product__add" data-add-to-cart{% unless current_variant.available %} disabled{% endunless %}>
-          {% if current_variant.available %}Add to cart{% else %}Sold out{% endif %}
-        </button>
-      </div>
-
-      {{ form | payment_button }}
-    {% endform %}
-
-    {% if product.description != blank %}
-      <section class="main-product__details-card" data-product-description>
-        <h2>Product details</h2>
-        <div class="main-product__description rte is-collapsed" id="ProductDescription-{{ section.id }}" data-product-description-content>
-          {{ product.description }}
-        </div>
-        <button
-          class="main-product__read-more"
-          type="button"
-          aria-expanded="false"
-          aria-controls="ProductDescription-{{ section.id }}"
-          data-product-description-toggle
+  <!-- Sticky Add to Cart Bar on Mobile -->
+  <div class="sticky-mobile-bar" data-sticky-mobile-bar aria-hidden="true">
+    <div class="sticky-mobile-bar__content">
+      <div class="sticky-mobile-bar__info">
+        <img
+          src="{{ current_variant.featured_media | default: product.featured_media | image_url: width: 120 }}"
+          alt="{{ product.title | escape }}"
+          class="sticky-mobile-bar__img"
+          data-sticky-bar-img
         >
-          Read more
-        </button>
-      </section>
-    {% endif %}
-
-    {% if product.metafields.custom.specifications != blank %}
-      <details class="main-product__accordion">
-        <summary>Specifications</summary>
-        <div class="main-product__specifications">{{ product.metafields.custom.specifications | metafield_tag }}</div>
-      </details>
-    {% endif %}
-  </div>
-</section>
-
-{% if section.settings.show_recommendations %}
-  <section class="product-recommendations" data-product-recommendations data-product-id="{{ product.id }}" data-limit="{{ section.settings.recommendations_limit | default: 5 }}"></section>
-{% endif %}
-
-<!-- SHARE YOUR FEEDBACK FORM AT BOTTOM OF PAGE ABOVE FOOTER -->
-<div class="product-feedback-wrapper">
-  <div class="feedback-form-container">
-    <div class="feedback-form-card">
-      <h2 class="feedback-form__heading">Share your feedback</h2>
-      <form class="feedback-form" data-feedback-form data-product-title="{{ product.title | escape }}">
-        <div class="feedback-form__two-columns">
-          <!-- Left Column: Name, City, Email -->
-          <div class="feedback-form__col-left">
-            <div class="feedback-form__field">
-              <label for="ProductFeedbackName" class="feedback-form__label">Name</label>
-              <input type="text" id="ProductFeedbackName" name="name" placeholder="Enter your name" required class="feedback-form__input">
-            </div>
-
-            <div class="feedback-form__field">
-              <label for="ProductFeedbackContact" class="feedback-form__label">City / Contact</label>
-              <input type="text" id="ProductFeedbackContact" name="contact" placeholder="Enter city (e.g. Surat, Mumbai)" class="feedback-form__input">
-            </div>
-
-            <div class="feedback-form__field">
-              <label for="ProductFeedbackEmail" class="feedback-form__label">Email</label>
-              <input type="email" id="ProductFeedbackEmail" name="email" placeholder="Enter your email" required class="feedback-form__input">
-            </div>
-          </div>
-
-          <!-- Right Column: Message, Photo -->
-          <div class="feedback-form__col-right">
-            <div class="feedback-form__field">
-              <label for="ProductFeedbackMessage" class="feedback-form__label">Message</label>
-              <textarea id="ProductFeedbackMessage" name="message" placeholder="Write your review about {{ product.title }}..." rows="5" required class="feedback-form__textarea"></textarea>
-            </div>
-
-            <div class="feedback-form__image-upload">
-              <label for="ProductFeedbackImage" class="feedback-form__image-label">
-                <span class="upload-icon">📷</span> Add Product Photo (Optional)
-              </label>
-              <input type="file" id="ProductFeedbackImage" name="image" accept="image/*" class="feedback-form__image-input" data-image-input>
-              <div class="feedback-form__image-preview" data-image-preview style="display: none;">
-                <img src="" alt="Review preview" data-preview-img>
-                <button type="button" class="remove-img-btn" data-remove-img>&times;</button>
-              </div>
-            </div>
+        <div class="sticky-mobile-bar__text">
+          <span class="sticky-mobile-bar__title">{{ product.title }}</span>
+          <div class="sticky-mobile-bar__prices">
+            <strong data-sticky-bar-price>{{ current_variant.price | money }}</strong>
+            <span class="sticky-mobile-bar__variant" data-sticky-bar-variant>{{ current_variant.title }}</span>
           </div>
         </div>
-
-        <div class="feedback-form__bottom-row">
-          <div class="feedback-form__rating-selector" data-rating-selector>
-            <input type="hidden" name="rating" value="5" data-rating-value>
-            <div class="feedback-form__stars">
-              <button type="button" class="star-btn is-active" data-star="1">&#9733;</button>
-              <button type="button" class="star-btn is-active" data-star="2">&#9733;</button>
-              <button type="button" class="star-btn is-active" data-star="3">&#9733;</button>
-              <button type="button" class="star-btn is-active" data-star="4">&#9733;</button>
-              <button type="button" class="star-btn is-active" data-star="5">&#9733;</button>
-            </div>
-          </div>
-
-          <button type="submit" class="feedback-form__submit">Submit Review</button>
-          <p class="feedback-form__success" data-feedback-success style="display: none;">Thank you for reviewing {{ product.title }}! Your feedback has been published.</p>
-        </div>
-      </form>
+      </div>
+      <button type="button" class="sticky-mobile-bar__btn" data-sticky-add-to-cart-btn>
+        ADD TO CART
+      </button>
     </div>
   </div>
 </div>
 
 {% schema %}
 {
-  "name": "Product",
+  "name": "Product Page",
   "tag": "section",
-  "class": "section-product",
+  "class": "section-product-page",
   "settings": [
-    { "type": "checkbox", "id": "show_recommendations", "label": "Show product recommendations", "default": true },
-    { "type": "range", "id": "recommendations_limit", "label": "Recommendation limit", "min": 2, "max": 10, "step": 1, "default": 5 }
+    {
+      "type": "checkbox",
+      "id": "show_recommendations",
+      "label": "Show recommended products slider",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "recommendations_limit",
+      "label": "Recommendation limit",
+      "min": 4,
+      "max": 10,
+      "step": 1,
+      "default": 6
+    }
   ]
 }
 {% endschema %}

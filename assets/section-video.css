@@ -1,33 +1,202 @@
+/* ==========================================================================
+   KISHAN BAZAR - ATTRACTIVE ORGANIC FARM VIDEO SECTION STYLES
+   ========================================================================== */
+
 .home-video {
-  background: linear-gradient(180deg, #fff 0%, #f7f1e4 100%);
-  border-block: 1px solid rgb(35 66 31 / 9%);
-  max-width: none;
-  padding: clamp(2rem, 4vw, 3rem) 0;
+  background-color: #faf7f2;
+  border-top: 1px solid #efe8da;
+  border-bottom: 1px solid #efe8da;
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+  position: relative;
 }
 
+.home-video__container {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 0 1.25rem;
+}
+
+/* Header Styling */
 .home-video .home-section__head {
-  padding-inline: var(--container-padding);
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
-.home-video .home-section__head > div,
-.home-video .home-section__head p:not(.home-section__eyebrow) {
-  color: #596750;
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-relaxed);
+.home-video__eyebrow-pill {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 999px;
+  color: #1b4317;
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.6rem;
+  padding: 0.35rem 1rem;
+  text-transform: uppercase;
+}
+
+.home-video__title {
+  color: #111827;
+  font-size: clamp(1.85rem, 3vw, 2.65rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+}
+
+.home-video__subtitle {
+  color: #4b5563;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 auto;
+  max-width: 640px;
+}
+
+/* Video Frame & Wrapper */
+.home-video__frame-wrapper {
+  margin: 0 auto;
+  max-width: 960px;
+  position: relative;
 }
 
 .home-video__frame {
   aspect-ratio: 16 / 9;
-  border: 6px solid #fff;
-  border-radius: 18px;
-  box-shadow: 0 16px 40px rgba(35, 66, 31, 0.12);
-  margin: 1.5rem auto 0;
-  max-width: min(760px, calc(100% - 2 * var(--container-padding)));
+  background-color: #111827;
+  border: 4px solid #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(46, 125, 50, 0.15);
   overflow: hidden;
   position: relative;
 }
 
-.home-video__frame iframe,
+/* Floating Badges on Video Frame */
+.home-video__badge {
+  align-items: center;
+  background-color: rgba(17, 24, 39, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  color: #ffffff;
+  display: flex;
+  font-size: 0.78rem;
+  font-weight: 700;
+  gap: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  position: absolute;
+  top: 1rem;
+  z-index: 10;
+}
+
+.home-video__badge--left {
+  left: 1rem;
+}
+
+.home-video__badge--right {
+  right: 1rem;
+}
+
+.home-video__badge-dot {
+  background-color: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+  height: 8px;
+  width: 8px;
+}
+
+/* Video Play Button Overlay & Pulsing Ripple Animation */
+.home-video__overlay-trigger {
+  align-items: center;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.55) 100%);
+  bottom: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: background-color 0.3s ease;
+  z-index: 8;
+}
+
+.home-video__overlay-trigger:hover {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+.home-video__play-ripple {
+  animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  background-color: rgba(27, 67, 23, 0.4);
+  border-radius: 50%;
+  height: 76px;
+  position: absolute;
+  width: 76px;
+}
+
+@keyframes pulse-ring {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.1);
+  }
+}
+
+.home-video__play-btn {
+  align-items: center;
+  background-color: #1b4317;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 8px 24px rgba(27, 67, 23, 0.4);
+  cursor: pointer;
+  display: flex;
+  height: 76px;
+  justify-content: center;
+  padding-left: 5px;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.3s ease;
+  width: 76px;
+  z-index: 2;
+}
+
+.home-video__overlay-trigger:hover .home-video__play-btn {
+  background-color: #143511;
+  transform: scale(1.15);
+}
+
+.home-video__overlay-caption {
+  bottom: 1.5rem;
+  position: absolute;
+  text-align: center;
+  z-index: 2;
+}
+
+.home-video__play-text {
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 0.5rem 1.2rem;
+}
+
+/* Media Elements */
+.home-video__media-container {
+  height: 100%;
+  width: 100%;
+}
+
+.home-video__iframe,
 .home-video__media,
 .home-video__poster {
   border: 0;
@@ -35,4 +204,128 @@
   height: 100%;
   object-fit: cover;
   width: 100%;
+}
+
+/* 3 Feature Highlights Cards Under Video */
+.home-video__features-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 1.5rem;
+}
+
+.home-video__feature-card {
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #efe8da;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.03);
+  display: flex;
+  gap: 0.85rem;
+  padding: 1.15rem;
+  transition: all 0.25s ease;
+}
+
+.home-video__feature-card:hover {
+  border-color: #2e7d32;
+  box-shadow: 0 10px 24px rgba(46, 125, 50, 0.12);
+  transform: translateY(-3px);
+}
+
+.home-video__feature-icon {
+  align-items: center;
+  background-color: #f0fdf4;
+  border-radius: 12px;
+  display: flex;
+  flex-shrink: 0;
+  font-size: 1.8rem;
+  height: 48px;
+  justify-content: center;
+  width: 48px;
+}
+
+.home-video__feature-title {
+  color: #111827;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 0.2rem;
+}
+
+.home-video__feature-desc {
+  color: #6b7280;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* Lightbox Modal Player */
+.home-video__modal {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  transition: opacity 0.3s ease;
+  width: 100vw;
+  z-index: 999999;
+}
+
+.home-video__modal.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.home-video__modal-backdrop {
+  background-color: rgba(17, 24, 39, 0.9);
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.home-video__modal-content {
+  aspect-ratio: 16 / 9;
+  max-height: 85vh;
+  max-width: 90vw;
+  position: relative;
+  width: 1000px;
+  z-index: 2;
+}
+
+.home-video__modal-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 2rem;
+  height: 44px;
+  line-height: 1;
+  position: absolute;
+  right: -50px;
+  top: -40px;
+  width: 44px;
+}
+
+.home-video__modal-body {
+  border-radius: 16px;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Responsive Adaptations */
+@media screen and (max-width: 54rem) {
+  .home-video__features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-video__badge--right {
+    display: none;
+  }
 }

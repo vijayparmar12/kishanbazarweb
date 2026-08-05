@@ -1,0 +1,84 @@
+{% doc %}
+  Renders the horizontal slider for recommended organic products in Kishan Bazar.
+
+  @param {object} product - Main product object
+  @param {object} [collection] - Parent collection if available
+
+  @example
+  {% render 'product-recommendations-slider', product: product %}
+{% enddoc %}
+
+<section class="product-recommendations-slider" aria-label="Recommended Products">
+  <div class="product-recommendations-slider__inner">
+    <div class="product-recommendations-slider__head">
+      <div>
+        <span class="product-recommendations-slider__eyebrow">Handpicked Organic Staples</span>
+        <h2 class="product-recommendations-slider__title">You May Also Like</h2>
+      </div>
+      <div class="product-recommendations-slider__nav-btns">
+        <button type="button" class="product-recommendations-slider__nav-btn" data-slider-prev aria-label="Previous recommended products">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button type="button" class="product-recommendations-slider__nav-btn" data-slider-next aria-label="Next recommended products">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="product-recommendations-slider__track" data-slider-track>
+      {% assign rec_products = collection.products | default: collections['all'].products %}
+      {% if rec_products.size > 0 %}
+        {% for rec_product in rec_products limit: 8 %}
+          {% unless rec_product.id == product.id %}
+            <div class="product-recommendations-slider__slide">
+              {% render 'product-card', product: rec_product, show_badge: true, show_rating: true, show_wishlist: true %}
+            </div>
+          {% endunless %}
+        {% endfor %}
+      {% else %}
+        <!-- Fallback static organic items if collection products array is empty in local dev preview -->
+        {% for i in (1..5) %}
+          <div class="product-recommendations-slider__slide">
+            <article class="product-card">
+              <div class="product-card__media">
+                <a href="#" class="product-card__image-link">
+                  {% if i == 1 %}
+                    <img src="{{ 'ghee.png' | asset_url }}" alt="Gir A2 Bilona Ghee" class="product-card__image" loading="lazy">
+                  {% elsif i == 2 %}
+                    <img src="{{ 'atta.png' | asset_url }}" alt="Multigrain Organic Atta" class="product-card__image" loading="lazy">
+                  {% else %}
+                    <img src="{{ 'category-1.png.png' | asset_url }}" alt="Wood Pressed Groundnut Oil" class="product-card__image" loading="lazy">
+                  {% endif %}
+                </a>
+                <div class="product-card__top-bar">
+                  <span class="product-card__badge">Save 20%</span>
+                  <button type="button" class="product-card__action" aria-label="Wishlist">
+                    {% render 'icon', name: 'heart', size: 18 %}
+                  </button>
+                </div>
+              </div>
+              <div class="product-card__content">
+                <h3 class="product-card__title">
+                  <a href="#">
+                    {% if i == 1 %}Cultured Gir A2 Bilona Ghee{% elsif i == 2 %}Multigrain Organic Atta{% else %}Wood Pressed Cold Oil{% endif %}
+                  </a>
+                </h3>
+                <p class="product-card__subtitle">100% Pure & Organic</p>
+                <div class="product-card__rating">&#9733;&#9733;&#9733;&#9733;&#9733; <strong>4.9</strong></div>
+                <div class="product-card__price">
+                  <span class="product-card__price-current">₹{% if i == 1 %}649{% elsif i == 2 %}349{% else %}499{% endif %}</span>
+                  <s class="product-card__price-compare">₹{% if i == 1 %}799{% elsif i == 2 %}429{% else %}599{% endif %}</s>
+                </div>
+                <button type="button" class="product-card__add">ADD TO CART</button>
+              </div>
+            </article>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>

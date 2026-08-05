@@ -28,6 +28,26 @@
           >
         {% endif %}
       </a>
+
+      <!-- Overlay Action Buttons (Desktop 1 Button, Mobile 2 Buttons) -->
+      <div class="home-hero-split__actions-wrapper">
+        <!-- Desktop Action Button -->
+        <div class="home-hero-split__actions-desktop">
+          <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-btn home-hero-btn--primary">
+            {{ section.settings.shop_btn_text | default: 'SHOP ESSENTIALS' }}
+          </a>
+        </div>
+
+        <!-- Mobile Action Buttons (2 Buttons: Shop Essentials + Our Story) -->
+        <div class="home-hero-split__actions-mobile">
+          <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-btn home-hero-btn--primary">
+            {{ section.settings.shop_btn_text | default: 'SHOP ESSENTIALS' }}
+          </a>
+          <a href="{{ section.settings.story_link | default: '#our-story' }}" class="home-hero-btn home-hero-btn--secondary" data-our-story-trigger>
+            {{ section.settings.story_btn_text | default: 'OUR STORY' }}
+          </a>
+        </div>
+      </div>
     </div>
 
     <!-- Right Stacked Column (34% Width, 2 Stacked Cards) -->
@@ -165,6 +185,24 @@
       "type": "url",
       "id": "left_link",
       "label": "Left Main Link"
+    },
+    {
+      "type": "text",
+      "id": "shop_btn_text",
+      "label": "Shop Button Text",
+      "default": "SHOP ESSENTIALS"
+    },
+    {
+      "type": "text",
+      "id": "story_btn_text",
+      "label": "Mobile Story Button Text",
+      "default": "OUR STORY"
+    },
+    {
+      "type": "url",
+      "id": "story_link",
+      "label": "Our Story Link",
+      "info": "Link to video section or about page"
     },
     {
       "type": "header",

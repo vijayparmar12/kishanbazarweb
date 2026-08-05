@@ -202,32 +202,24 @@
           </button>
         </div>
 
-        <!-- Membership & Add-ons Tabs -->
+        <!-- Frequently Bought Together Add-ons -->
         <div class="kb-express-addons-block">
           <div class="kb-cart-addons-tabs">
-            <button type="button" class="kb-cart-tab-btn is-active" data-express-tab="membership">Membership</button>
-            <button type="button" class="kb-cart-tab-btn" data-express-tab="frequently">Frequently Bought Together</button>
+            <button type="button" class="kb-cart-tab-btn is-active" data-express-tab="frequently">Frequently Bought Together</button>
           </div>
 
-          <div class="kb-cart-tab-panel is-active" data-express-panel="membership">
+          <div class="kb-cart-tab-panel is-active" data-express-panel="frequently">
             <div class="kb-cart-addons-track">
-              <div class="kb-cart-addon-card">
-                <div class="kb-cart-addon-badge">Member Benefits<br><strong>12% OFF</strong><br>on all orders</div>
-                <div class="kb-cart-addon-details">
-                  <div class="kb-cart-addon-title">GET MEMBERSHIP FOR 3 months</div>
-                  <div class="kb-cart-addon-price">₹450.00</div>
+              {% for product in collections['all'].products limit: 3 %}
+                <div class="kb-cart-addon-card">
+                  <img class="kb-cart-addon-img" src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" width="60" height="60" loading="lazy">
+                  <div class="kb-cart-addon-details">
+                    <div class="kb-cart-addon-title">{{ product.title }}</div>
+                    <div class="kb-cart-addon-price">{{ product.price | money }}</div>
+                  </div>
+                  <button type="button" class="kb-cart-addon-add-btn" data-add-to-cart-id="{{ product.selected_or_first_available_variant.id }}">+ ADD</button>
                 </div>
-                <button type="button" class="kb-cart-addon-add-btn" data-add-membership="45000">+ ADD</button>
-              </div>
-
-              <div class="kb-cart-addon-card">
-                <div class="kb-cart-addon-badge">Member Benefits<br><strong>12% OFF</strong><br>on all orders</div>
-                <div class="kb-cart-addon-details">
-                  <div class="kb-cart-addon-title">GET MEMBERSHIP FOR 12 months</div>
-                  <div class="kb-cart-addon-price">₹1,500.00</div>
-                </div>
-                <button type="button" class="kb-cart-addon-add-btn" data-add-membership="150000">+ ADD</button>
-              </div>
+              {% endfor %}
             </div>
           </div>
         </div>

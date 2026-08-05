@@ -1,0 +1,196 @@
+{% doc %}
+  Renders the customer reviews breakdown section and review submission form for Kishan Bazar.
+
+  @param {object} product - The Shopify product object
+
+  @example
+  {% render 'product-reviews-section', product: product %}
+{% enddoc %}
+
+<section class="product-reviews" id="ProductReviews-{{ section.id }}" aria-label="Customer Reviews">
+  <div class="product-reviews__container">
+    <div class="product-reviews__header-row">
+      <div>
+        <span class="product-reviews__eyebrow">Real Customer Feedback</span>
+        <h2 class="product-reviews__title">Customer Reviews & Ratings</h2>
+      </div>
+      <button type="button" class="product-reviews__write-btn" data-review-modal-trigger>
+        ✍️ Write a Review
+      </button>
+    </div>
+
+    <!-- Rating Summary Dashboard Card -->
+    <div class="product-reviews__summary-card">
+      <div class="product-reviews__overall">
+        <span class="product-reviews__big-score">4.9</span>
+        <div class="product-reviews__stars-wrap">
+          <div class="product-reviews__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <span class="product-reviews__total-count">Based on 128 Verified Ratings</span>
+        </div>
+      </div>
+
+      <!-- Rating Distribution Bars -->
+      <div class="product-reviews__bars">
+        <div class="product-reviews__bar-row">
+          <span class="product-reviews__bar-label">5 Stars</span>
+          <div class="product-reviews__bar-track">
+            <div class="product-reviews__bar-fill" style="width: 92%;"></div>
+          </div>
+          <span class="product-reviews__bar-percent">92%</span>
+        </div>
+        <div class="product-reviews__bar-row">
+          <span class="product-reviews__bar-label">4 Stars</span>
+          <div class="product-reviews__bar-track">
+            <div class="product-reviews__bar-fill" style="width: 6%;"></div>
+          </div>
+          <span class="product-reviews__bar-percent">6%</span>
+        </div>
+        <div class="product-reviews__bar-row">
+          <span class="product-reviews__bar-label">3 Stars</span>
+          <div class="product-reviews__bar-track">
+            <div class="product-reviews__bar-fill" style="width: 2%;"></div>
+          </div>
+          <span class="product-reviews__bar-percent">2%</span>
+        </div>
+        <div class="product-reviews__bar-row">
+          <span class="product-reviews__bar-label">2 Stars</span>
+          <div class="product-reviews__bar-track">
+            <div class="product-reviews__bar-fill" style="width: 0%;"></div>
+          </div>
+          <span class="product-reviews__bar-percent">0%</span>
+        </div>
+        <div class="product-reviews__bar-row">
+          <span class="product-reviews__bar-label">1 Star</span>
+          <div class="product-reviews__bar-track">
+            <div class="product-reviews__bar-fill" style="width: 0%;"></div>
+          </div>
+          <span class="product-reviews__bar-percent">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review Cards List -->
+    <div class="product-reviews__list" data-reviews-list>
+      <!-- Review 1 -->
+      <article class="product-reviews__item-card">
+        <div class="product-reviews__item-head">
+          <div class="product-reviews__author">
+            <span class="product-reviews__avatar">RK</span>
+            <div>
+              <strong class="product-reviews__author-name">Rajesh Kumar</strong>
+              <span class="product-reviews__verified-tag">✓ Verified Buyer</span>
+            </div>
+          </div>
+          <span class="product-reviews__date">2 days ago</span>
+        </div>
+        <div class="product-reviews__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <h4 class="product-reviews__review-title">Best organic flour I've used in years!</h4>
+        <p class="product-reviews__review-text">
+          The rotis turned out amazingly soft and puffed up like restaurant phulkas. You can immediately smell the fresh stone-ground aroma as soon as you open the packet. Truly authentic quality from Kishan Bazar.
+        </p>
+        <div class="product-reviews__item-footer">
+          <button type="button" class="product-reviews__helpful-btn" data-helpful-btn>
+            👍 Helpful (14)
+          </button>
+        </div>
+      </article>
+
+      <!-- Review 2 -->
+      <article class="product-reviews__item-card">
+        <div class="product-reviews__item-head">
+          <div class="product-reviews__author">
+            <span class="product-reviews__avatar">PS</span>
+            <div>
+              <strong class="product-reviews__author-name">Pooja Sharma</strong>
+              <span class="product-reviews__verified-tag">✓ Verified Buyer</span>
+            </div>
+          </div>
+          <span class="product-reviews__date">1 week ago</span>
+        </div>
+        <div class="product-reviews__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <h4 class="product-reviews__review-title">Super fresh and easy to digest!</h4>
+        <p class="product-reviews__review-text">
+          Delivered to Mumbai in 24 hours. The flour texture is coarse enough for excellent fiber but fine enough for dough kneading. My family loves it. Will definitely subscribe monthly.
+        </p>
+        <div class="product-reviews__item-footer">
+          <button type="button" class="product-reviews__helpful-btn" data-helpful-btn>
+            👍 Helpful (9)
+          </button>
+        </div>
+      </article>
+
+      <!-- Review 3 -->
+      <article class="product-reviews__item-card">
+        <div class="product-reviews__item-head">
+          <div class="product-reviews__author">
+            <span class="product-reviews__avatar">AP</span>
+            <div>
+              <strong class="product-reviews__author-name">Amit Patel</strong>
+              <span class="product-reviews__verified-tag">✓ Verified Buyer</span>
+            </div>
+          </div>
+          <span class="product-reviews__date">2 weeks ago</span>
+        </div>
+        <div class="product-reviews__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <h4 class="product-reviews__review-title">Pure Sharbati wheat goodness</h4>
+        <p class="product-reviews__review-text">
+          Great packing and fast dispatch. 100% natural feeling and no maida mixed in like cheap commercial brands. Highly recommend the 5kg pack!
+        </p>
+        <div class="product-reviews__item-footer">
+          <button type="button" class="product-reviews__helpful-btn" data-helpful-btn>
+            👍 Helpful (6)
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <!-- Write Review Modal Form -->
+    <div class="product-reviews__modal" data-review-modal aria-hidden="true">
+      <div class="product-reviews__modal-overlay" data-review-modal-close></div>
+      <div class="product-reviews__modal-dialog">
+        <button type="button" class="product-reviews__modal-close-btn" data-review-modal-close aria-label="Close modal">&times;</button>
+        <h3 class="product-reviews__modal-title">Write a Review for {{ product.title }}</h3>
+        
+        <form class="product-reviews__form" data-review-form>
+          <div class="product-reviews__form-group">
+            <label class="product-reviews__label">Your Rating:</label>
+            <div class="product-reviews__star-input-group" data-star-picker>
+              <input type="hidden" name="rating" value="5" data-star-rating-val>
+              <span class="star-picker-icon is-selected" data-star-num="1">&#9733;</span>
+              <span class="star-picker-icon is-selected" data-star-num="2">&#9733;</span>
+              <span class="star-picker-icon is-selected" data-star-num="3">&#9733;</span>
+              <span class="star-picker-icon is-selected" data-star-num="4">&#9733;</span>
+              <span class="star-picker-icon is-selected" data-star-num="5">&#9733;</span>
+            </div>
+          </div>
+
+          <div class="product-reviews__form-grid">
+            <div class="product-reviews__form-group">
+              <label for="ReviewAuthorName" class="product-reviews__label">Your Name *</label>
+              <input type="text" id="ReviewAuthorName" name="name" required placeholder="e.g. Ramesh Shah" class="product-reviews__input">
+            </div>
+            <div class="product-reviews__form-group">
+              <label for="ReviewAuthorEmail" class="product-reviews__label">Email Address *</label>
+              <input type="email" id="ReviewAuthorEmail" name="email" required placeholder="e.g. ramesh@example.com" class="product-reviews__input">
+            </div>
+          </div>
+
+          <div class="product-reviews__form-group">
+            <label for="ReviewTitle" class="product-reviews__label">Review Headline *</label>
+            <input type="text" id="ReviewTitle" name="title" required placeholder="Summarize your experience..." class="product-reviews__input">
+          </div>
+
+          <div class="product-reviews__form-group">
+            <label for="ReviewBody" class="product-reviews__label">Detailed Review *</label>
+            <textarea id="ReviewBody" name="body" rows="4" required placeholder="Share details about flavor, texture, packing, delivery..." class="product-reviews__textarea"></textarea>
+          </div>
+
+          <button type="submit" class="product-reviews__submit-btn">Submit Review</button>
+          <p class="product-reviews__success-msg" data-review-success style="display: none;">
+            Thank you! Your review has been submitted successfully and published.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

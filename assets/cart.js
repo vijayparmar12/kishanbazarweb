@@ -84,14 +84,12 @@
               ${item.image ? `<img class="kb-cart-item__image" src="${item.image.src || item.image}" alt="${item.product_title || ''}" loading="lazy">` : ''}
             </a>
             <div class="kb-cart-item__body">
-              <div class="kb-cart-item__top-row">
-                <h3 class="kb-cart-item__title"><a href="${item.url}">${item.product_title}</a></h3>
-                <div class="kb-cart-item__pricing">
-                  <span class="kb-cart-item__price" data-cart-line-price>${formatMoney(item.final_line_price || item.line_price)}</span>
-                  ${hasCompare ? `<s class="kb-cart-item__compare">${formatMoney(item.original_line_price)}</s>` : ''}
-                </div>
-              </div>
+              <h3 class="kb-cart-item__title"><a href="${item.url}">${item.product_title}</a></h3>
               ${item.variant_title && item.variant_title !== 'Default Title' ? `<p class="kb-cart-item__variant">${item.variant_title}</p>` : ''}
+              <div class="kb-cart-item__pricing">
+                <span class="kb-cart-item__price" data-cart-line-price>${formatMoney(item.final_line_price || item.line_price)}</span>
+                ${hasCompare ? `<s class="kb-cart-item__compare">${formatMoney(item.original_line_price)}</s>` : ''}
+              </div>
               <div class="kb-cart-item__actions">
                 <div class="kb-cart-item__control-pill">
                   <button class="kb-cart-item__remove-btn" type="button" aria-label="Remove item" data-cart-remove>

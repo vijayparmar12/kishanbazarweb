@@ -82,6 +82,66 @@
 }
 
 /* ==========================================================================
+   Hero Overlay Action Buttons (Desktop 1 Button, Mobile 2 Buttons)
+   ========================================================================== */
+.home-hero-split__actions-wrapper {
+  bottom: 1.5rem;
+  left: 1.75rem;
+  pointer-events: none;
+  position: absolute;
+  z-index: 15;
+}
+
+.home-hero-split__actions-desktop {
+  display: block;
+  pointer-events: auto;
+}
+
+.home-hero-split__actions-mobile {
+  display: none;
+}
+
+.home-hero-btn {
+  align-items: center;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.92rem;
+  font-weight: 700;
+  justify-content: center;
+  letter-spacing: 0.04em;
+  padding: 0.85rem 1.85rem;
+  pointer-events: auto;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.home-hero-btn--primary {
+  background-color: #1b4317;
+  box-shadow: 0 8px 24px rgba(27, 67, 23, 0.35);
+  color: #ffffff;
+}
+
+.home-hero-btn--primary:hover {
+  background-color: #143511;
+  box-shadow: 0 12px 30px rgba(27, 67, 23, 0.45);
+  transform: translateY(-2px);
+}
+
+.home-hero-btn--secondary {
+  background-color: #faf7f2;
+  border: 1.5px solid #1b4317;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  color: #1b4317;
+}
+
+.home-hero-btn--secondary:hover {
+  background-color: #f0fdf4;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
    Right Top Auto-Play Slider (Every 4-5 Seconds)
    ========================================================================== */
 
@@ -176,5 +236,30 @@
   /* Hide right side stacked banners on mobile view */
   .home-hero-split__right-stack {
     display: none !important;
+  }
+
+  /* Mobile Overlay Action Buttons (2 Buttons: Shop Essentials + Our Story) */
+  .home-hero-split__actions-wrapper {
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+  }
+
+  .home-hero-split__actions-desktop {
+    display: none;
+  }
+
+  .home-hero-split__actions-mobile {
+    display: grid;
+    gap: 0.65rem;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .home-hero-split__actions-mobile .home-hero-btn {
+    font-size: 0.78rem;
+    padding: 0.75rem 0.4rem;
+    width: 100%;
   }
 }

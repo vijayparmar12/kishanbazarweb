@@ -28,21 +28,20 @@
   </a>
 
   <div class="kb-cart-item__body">
-    <div class="kb-cart-item__top-row">
-      <h3 class="kb-cart-item__title">
-        <a href="{{ item.url }}">{{ item.product.title | default: item.title }}</a>
-      </h3>
-      <div class="kb-cart-item__pricing">
-        <span class="kb-cart-item__price" data-cart-line-price>{{ item.final_line_price | money_without_trailing_zeros }}</span>
-        {% if compare_price > item.final_line_price %}
-          <s class="kb-cart-item__compare">{{ compare_price | money_without_trailing_zeros }}</s>
-        {% endif %}
-      </div>
-    </div>
+    <h3 class="kb-cart-item__title">
+      <a href="{{ item.url }}">{{ item.product.title | default: item.title }}</a>
+    </h3>
 
     {% if variant.title != blank and variant.title != 'Default Title' %}
       <p class="kb-cart-item__variant">{{ variant.title }}</p>
     {% endif %}
+
+    <div class="kb-cart-item__pricing">
+      <span class="kb-cart-item__price" data-cart-line-price>{{ item.final_line_price | money }}</span>
+      {% if compare_price > item.final_line_price %}
+        <s class="kb-cart-item__compare">{{ compare_price | money }}</s>
+      {% endif %}
+    </div>
 
     <div class="kb-cart-item__actions">
       <div class="kb-cart-item__control-pill">

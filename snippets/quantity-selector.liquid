@@ -1,4 +1,38 @@
 {% doc %}
-  Renders an accessible quantity selector. @param {string} id - Unique ID. @param {number} [value] - Initial quantity. @param {number} [min] - Minimum. @param {number} [max] - Maximum. @param {number} [step] - Increment.
+  Renders an accessible quantity selector component.
+
+  @param {string} id - Unique input ID
+  @param {number} [value] - Initial quantity value
+  @param {number} [min] - Minimum allowed quantity
+  @param {number} [max] - Maximum allowed quantity
+  @param {number} [step] - Quantity step increment
+
+  @example
+  {% render 'quantity-selector', id: 'quantity-1', value: 1 %}
 {% enddoc %}
-<div class="quantity-selector" data-quantity-selector><button class="quantity-selector__button" type="button" data-quantity-minus aria-label="Decrease quantity">{% render 'icon', name: 'minus', size: 16 %}</button><label class="visually-hidden" for="{{ id }}">Quantity</label><input class="quantity-selector__input" id="{{ id }}" name="quantity" type="number" value="{{ value | default: 1 }}" min="{{ min | default: 1 }}"{% if max != blank %} max="{{ max }}"{% endif %} step="{{ step | default: 1 }}" inputmode="numeric" data-quantity-input><button class="quantity-selector__button" type="button" data-quantity-plus aria-label="Increase quantity">{% render 'icon', name: 'plus', size: 16 %}</button></div>
+
+{% assign qty_value = value | default: 1 %}
+{% assign qty_min = min | default: 1 %}
+{% assign qty_step = step | default: 1 %}
+
+<div class="quantity-selector" data-quantity-selector>
+  <button class="quantity-selector__button" type="button" data-quantity-minus aria-label="Decrease quantity">
+    {% render 'icon', name: 'minus', size: 16 %}
+  </button>
+  <label class="visually-hidden" for="{{ id }}">Quantity</label>
+  <input
+    class="quantity-selector__input"
+    id="{{ id }}"
+    name="quantity"
+    type="number"
+    value="{{ qty_value }}"
+    min="{{ qty_min }}"
+    {% if max != blank %}max="{{ max }}"{% endif %}
+    step="{{ qty_step }}"
+    inputmode="numeric"
+    data-quantity-input
+  >
+  <button class="quantity-selector__button" type="button" data-quantity-plus aria-label="Increase quantity">
+    {% render 'icon', name: 'plus', size: 16 %}
+  </button>
+</div>

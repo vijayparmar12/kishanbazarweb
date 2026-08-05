@@ -18,27 +18,47 @@
 
     setCartCount(cart.item_count);
     const title = drawer.querySelector('#CartDrawerTitle');
-    if (title) title.textContent = `${cart.item_count} items`;
+    if (title) title.textContent = `YOUR CART (${cart.item_count})`;
 
     const items = drawer.querySelector('[data-cart-drawer-items]');
     if (items) {
       items.innerHTML = cart.items.length
-        ? cart.items.map((item, index) => `
+        ? cart.items.map((item, index) => {
+            const hasCompare = item.original_line_price > item.final_line_price;
+            const variantTitle = item.variant_title && item.variant_title !== 'Default Title' ? item.variant_title : '';
+            return `
           <article class="kb-cart-item kb-cart-item--compact" data-cart-line-item data-cart-line-key="${item.key}" data-cart-line-index="${index + 1}">
-            <a class="kb-cart-item__media" href="${item.url}" aria-label="${item.product_title}">
-              ${item.image ? `<img class="kb-cart-item__image" src="${item.image.src || item.image}" alt="${item.product_title}" loading="lazy">` : ''}
+            <a class="kb-cart-item__media" href="${item.url}" aria-label="${item.product_title || ''}">
+              ${item.image ? `<img class="kb-cart-item__image" src="${item.image.src || item.image}" alt="${item.product_title || ''}" loading="lazy">` : ''}
             </a>
             <div class="kb-cart-item__body">
-              <div class="kb-cart-item__head">
-                <div>
-                  <p class="kb-cart-item__vendor">${item.vendor || ''}</p>
-                  <h3 class="kb-cart-item__title"><a href="${item.url}">${item.product_title}</a></h3>
+              <h3 class="kb-cart-item__title"><a href="${item.url}">${item.product_title}</a></h3>
+              ${variantTitle ? `<p class="kb-cart-item__variant">${variantTitle}</p>` : ''}
+              <div class="kb-cart-item__pricing">
+                <span class="kb-cart-item__price" data-cart-line-price>${formatMoney(item.final_line_price || item.line_price)}</span>
+                ${hasCompare ? `<s class="kb-cart-item__compare">${formatMoney(item.original_line_price)}</s>` : ''}
+              </div>
+              <div class="kb-cart-item__actions">
+                <div class="kb-cart-item__control-pill">
+                  <button class="kb-cart-item__remove-btn" type="button" aria-label="Remove item" data-cart-remove>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                  </button>
+                  <span class="kb-cart-item__pill-divider"></span>
+                  <button class="kb-cart-item__qty-btn" type="button" aria-label="Decrease quantity" data-cart-qty-minus>-</button>
+                  <input class="kb-cart-item__qty-input" type="number" min="1" step="1" value="${item.quantity}" inputmode="numeric" data-cart-quantity-input>
+                  <button class="kb-cart-item__qty-btn" type="button" aria-label="Increase quantity" data-cart-qty-plus>+</button>
                 </div>
               </div>
-              <div class="kb-cart-item__pricing"><span class="kb-cart-item__price">${formatMoney(item.final_line_price || item.line_price)}</span></div>
             </div>
-          </article>`).join('')
-        : `<div class="kb-cart-drawer__empty"><h3>${drawer.querySelector('[data-cart-drawer-empty]')?.dataset.emptyTitle || 'Your cart is empty'}</h3><p>${drawer.querySelector('[data-cart-drawer-empty]')?.dataset.emptyText || 'Add a few essentials and come back to complete your order.'}</p></div>`;
+          </article>`;
+          }).join('')
+        : `<div class="kb-cart-drawer__empty"><h3>Your cart is empty</h3><p>Add a few essentials and come back to complete your order.</p></div>`;
+
+      // Re-bind listeners for newly rendered cart items
+      items.querySelectorAll('[data-cart-line-item]').forEach(bindCartItem);
     }
 
     const subtotal = drawer.querySelector('[data-cart-drawer-subtotal]');
