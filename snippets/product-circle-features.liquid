@@ -1,8 +1,6 @@
 {% doc %}
-  Renders product 4 feature badge images dynamically from Shopify CSV:
-  - Supports uploaded Metafield Images (product.metafields.custom.badge_image_1..4)
-  - Supports uploaded CSV Images 3, 4, 5, 6 (product.media[2], product.media[3], product.media[4], product.media[5])
-  - Fallback to clean SVG category icons
+  Renders product 4 feature badge icons dynamically from dedicated Metafield Images (product.metafields.custom.badge_image_1..4 / feature_icon_1..4).
+  Does NOT use product gallery images.
 
   @param {object} [product] - The Shopify product object
 
@@ -12,12 +10,11 @@
 
 {% liquid
   assign custom_meta = product.metafields.custom
-  assign badge_img_1 = custom_meta.badge_image_1 | default: custom_meta.badge_1
-  assign badge_img_2 = custom_meta.badge_image_2 | default: custom_meta.badge_2
-  assign badge_img_3 = custom_meta.badge_image_3 | default: custom_meta.badge_3
-  assign badge_img_4 = custom_meta.badge_image_4 | default: custom_meta.badge_4
+  assign badge_img_1 = custom_meta.badge_image_1 | default: custom_meta.badge_1 | default: custom_meta.feature_icon_1
+  assign badge_img_2 = custom_meta.badge_image_2 | default: custom_meta.badge_2 | default: custom_meta.feature_icon_2
+  assign badge_img_3 = custom_meta.badge_image_3 | default: custom_meta.badge_3 | default: custom_meta.feature_icon_3
+  assign badge_img_4 = custom_meta.badge_image_4 | default: custom_meta.badge_4 | default: custom_meta.feature_icon_4
 
-  assign media_list = product.media
   assign prod_type = product.type | downcase
   assign prod_title = product.title | downcase
   assign prod_tags = product.tags | join: ',' | downcase
@@ -34,7 +31,7 @@
 
 <div class="product-circle-features" aria-label="Product Key Benefits">
   <div class="product-circle-features__grid">
-    {% comment %} 1. If merchant uploaded custom badge images via Metafields CSV {% endcomment %}
+    {% comment %} Dedicated Custom Feature Badge Images from Shopify Metafields CSV {% endcomment %}
     {% if badge_img_1 != blank or badge_img_2 != blank or badge_img_3 != blank or badge_img_4 != blank %}
       {% if badge_img_1 != blank %}
         <div class="product-circle-features__item">
@@ -68,21 +65,8 @@
         </div>
       {% endif %}
 
-    {% comment %} 2. Else if product has 6+ images uploaded in CSV, use Images 3, 4, 5, 6 as feature badge images {% endcomment %}
-    {% elsif media_list.size >= 6 %}
-      {% for i in (2..5) %}
-        {% assign feat_media = media_list[i] %}
-        {% if feat_media != blank %}
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle product-circle-features__circle--img">
-              {{ feat_media.preview_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: feat_media.alt | default: product.title | escape }}
-            </div>
-          </div>
-        {% endif %}
-      {% endfor %}
-
-    {% comment %} 3. Category Default SVG Icons {% endcomment %}
     {% else %}
+      {% comment %} Category Default Icons {% endcomment %}
       {% case cat_type %}
         {% when 'atta' %}
           <div class="product-circle-features__item">
