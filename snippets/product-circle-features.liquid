@@ -1,6 +1,5 @@
 {% doc %}
-  Renders product 4 feature badge icons dynamically from dedicated Metafield Images (product.metafields.custom.badge_image_1..4 / feature_icon_1..4).
-  Does NOT use product gallery images.
+  Renders 4 feature badge icons dynamically from Shopify CSV / Metafields or Default CDN files.
 
   @param {object} [product] - The Shopify product object
 
@@ -10,33 +9,24 @@
 
 {% liquid
   assign custom_meta = product.metafields.custom
-  assign badge_img_1 = custom_meta.badge_image_1 | default: custom_meta.badge_1 | default: custom_meta.feature_icon_1
-  assign badge_img_2 = custom_meta.badge_image_2 | default: custom_meta.badge_2 | default: custom_meta.feature_icon_2
-  assign badge_img_3 = custom_meta.badge_image_3 | default: custom_meta.badge_3 | default: custom_meta.feature_icon_3
-  assign badge_img_4 = custom_meta.badge_image_4 | default: custom_meta.badge_4 | default: custom_meta.feature_icon_4
-
-  assign prod_type = product.type | downcase
-  assign prod_title = product.title | downcase
-  assign prod_tags = product.tags | join: ',' | downcase
-
-  assign cat_type = 'general'
-  if prod_type contains 'atta' or prod_title contains 'atta' or prod_tags contains 'atta' or prod_title contains 'flour' or prod_title contains 'khapli' or prod_title contains 'multigrain'
-    assign cat_type = 'atta'
-  elsif prod_type contains 'ghee' or prod_title contains 'ghee' or prod_tags contains 'ghee' or prod_title contains 'bilona'
-    assign cat_type = 'ghee'
-  elsif prod_type contains 'oil' or prod_title contains 'oil' or prod_tags contains 'oil' or prod_title contains 'mustard' or prod_title contains 'groundnut' or prod_title contains 'sunflower'
-    assign cat_type = 'oil'
-  endif
+  assign badge_img_1 = custom_meta.badge_image_1.value | default: custom_meta.badge_image_1 | default: custom_meta.feature_icon_1
+  assign badge_img_2 = custom_meta.badge_image_2.value | default: custom_meta.badge_image_2 | default: custom_meta.feature_icon_2
+  assign badge_img_3 = custom_meta.badge_image_3.value | default: custom_meta.badge_image_3 | default: custom_meta.feature_icon_3
+  assign badge_img_4 = custom_meta.badge_image_4.value | default: custom_meta.badge_image_4 | default: custom_meta.feature_icon_4
 %}
 
 <div class="product-circle-features" aria-label="Product Key Benefits">
   <div class="product-circle-features__grid">
-    {% comment %} Dedicated Custom Feature Badge Images from Shopify Metafields CSV {% endcomment %}
+    {% comment %} 1. Metafield Uploaded Images (URL string or file_reference) {% endcomment %}
     {% if badge_img_1 != blank or badge_img_2 != blank or badge_img_3 != blank or badge_img_4 != blank %}
       {% if badge_img_1 != blank %}
         <div class="product-circle-features__item">
           <div class="product-circle-features__circle product-circle-features__circle--img">
-            {{ badge_img_1 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
+            {% if badge_img_1.src or badge_img_1.cloudinary_src or badge_img_1.aspect_ratio %}
+              {{ badge_img_1 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
+            {% else %}
+              <img src="{{ badge_img_1 }}" alt="Feature Badge 1" loading="lazy" width="120" height="120">
+            {% endif %}
           </div>
         </div>
       {% endif %}
@@ -44,7 +34,11 @@
       {% if badge_img_2 != blank %}
         <div class="product-circle-features__item">
           <div class="product-circle-features__circle product-circle-features__circle--img">
-            {{ badge_img_2 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
+            {% if badge_img_2.src or badge_img_2.cloudinary_src or badge_img_2.aspect_ratio %}
+              {{ badge_img_2 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
+            {% else %}
+              <img src="{{ badge_img_2 }}" alt="Feature Badge 2" loading="lazy" width="120" height="120">
+            {% endif %}
           </div>
         </div>
       {% endif %}
@@ -52,7 +46,11 @@
       {% if badge_img_3 != blank %}
         <div class="product-circle-features__item">
           <div class="product-circle-features__circle product-circle-features__circle--img">
-            {{ badge_img_3 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
+            {% if badge_img_3.src or badge_img_3.cloudinary_src or badge_img_3.aspect_ratio %}
+              {{ badge_img_3 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
+            {% else %}
+              <img src="{{ badge_img_3 }}" alt="Feature Badge 3" loading="lazy" width="120" height="120">
+            {% endif %}
           </div>
         </div>
       {% endif %}
@@ -60,162 +58,40 @@
       {% if badge_img_4 != blank %}
         <div class="product-circle-features__item">
           <div class="product-circle-features__circle product-circle-features__circle--img">
-            {{ badge_img_4 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
+            {% if badge_img_4.src or badge_img_4.cloudinary_src or badge_img_4.aspect_ratio %}
+              {{ badge_img_4 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
+            {% else %}
+              <img src="{{ badge_img_4 }}" alt="Feature Badge 4" loading="lazy" width="120" height="120">
+            {% endif %}
           </div>
         </div>
       {% endif %}
 
+    {% comment %} 2. Default Uploaded Shopify CDN Icon Images {% endcomment %}
     {% else %}
-      {% comment %} Category Default Icons {% endcomment %}
-      {% case cat_type %}
-        {% when 'atta' %}
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-                <line x1="2" y1="2" x2="22" y2="22"></line>
-              </svg>
-            </div>
-          </div>
+      <div class="product-circle-features__item">
+        <div class="product-circle-features__circle product-circle-features__circle--img">
+          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/secure_payments.png?v=1785927371" alt="Organic - 100% Organic" loading="lazy" width="120" height="120">
+        </div>
+      </div>
 
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <ellipse cx="12" cy="12" rx="4" ry="8" transform="rotate(-30 12 12)"></ellipse>
-                <ellipse cx="12" cy="12" rx="4" ry="8" transform="rotate(30 12 12)"></ellipse>
-                <line x1="12" y1="2" x2="12" y2="22"></line>
-              </svg>
-            </div>
-          </div>
+      <div class="product-circle-features__item">
+        <div class="product-circle-features__circle product-circle-features__circle--img">
+          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/free_shipping.png?v=1785927371" alt="Farm Fresh - Direct from Farm" loading="lazy" width="120" height="120">
+        </div>
+      </div>
 
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9"></circle>
-                <circle cx="12" cy="12" r="3"></circle>
-                <line x1="12" y1="3" x2="12" y2="9"></line>
-                <line x1="12" y1="15" x2="12" y2="21"></line>
-                <line x1="3" y1="12" x2="9" y2="12"></line>
-                <line x1="15" y1="12" x2="21" y2="12"></line>
-              </svg>
-            </div>
-          </div>
+      <div class="product-circle-features__item">
+        <div class="product-circle-features__circle product-circle-features__circle--img">
+          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon2.png?v=1785927371" alt="Lab Tested - Quality Tested" loading="lazy" width="120" height="120">
+        </div>
+      </div>
 
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 4c-3 0-5 2-5 5 0 4 3 7 5 11 2-4 5-7 5-11 0-3-2-5-5-5z"></path>
-                <path d="M9 10c0 2 1.5 3.5 3 3.5s3-1.5 3-3.5"></path>
-              </svg>
-            </div>
-          </div>
-
-        {% when 'ghee' %}
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2a5 5 0 0 1 5 5v3a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5z"></path>
-                <path d="M19 11v2a7 7 0 0 1-14 0v-2"></path>
-              </svg>
-            </div>
-          </div>
-
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3v18"></path>
-                <path d="M7 8l10 8"></path>
-                <path d="M17 8L7 16"></path>
-              </svg>
-            </div>
-          </div>
-
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
-            </div>
-          </div>
-
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-            </div>
-          </div>
-
-        {% when 'oil' %}
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="4" y="4" width="16" height="16" rx="2"></rect>
-                <line x1="12" y1="4" x2="12" y2="20"></line>
-              </svg>
-            </div>
-          </div>
-
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
-              </svg>
-            </div>
-          </div>
-
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-              </svg>
-            </div>
-          </div>
-
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                <polyline points="9 12 11 14 15 10"></polyline>
-              </svg>
-            </div>
-          </div>
-
-        {% else %}
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-              </svg>
-            </div>
-          </div>
-
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-            </div>
-          </div>
-
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
-            </div>
-          </div>
-
-          <div class="product-circle-features__item">
-            <div class="product-circle-features__circle">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#1B4317" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-              </svg>
-            </div>
-          </div>
-      {% endcase %}
+      <div class="product-circle-features__item">
+        <div class="product-circle-features__circle product-circle-features__circle--img">
+          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon3.png?v=1785927371" alt="Chemical Free - No Chemicals" loading="lazy" width="120" height="120">
+        </div>
+      </div>
     {% endif %}
   </div>
 </div>
