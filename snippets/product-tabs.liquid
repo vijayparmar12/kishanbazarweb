@@ -1,11 +1,43 @@
 {% doc %}
-  Renders the 9 product detail tabs dynamically using Shopify CSV Product fields & Metafields.
+  Renders product details tabs matching user's exact Shopify CSV Metafield Keys:
+  - description: product.metafields.custom.description | default: product.description
+  - ingredients: product.metafields.custom.ingredients
+  - usage: product.metafields.custom.usage
+  - benefits: product.metafields.custom.benefits
+  - storage_info: product.metafields.custom.storage_info
+  - manufacturer: product.metafields.custom.manufacturer
+  - origin: product.metafields.custom.origin
+  - shelf_life: product.metafields.custom.shelf_life
+  - faq_1..5: product.metafields.custom.faq_1_question / faq_1_answer .. faq_5_question / faq_5_answer
 
   @param {object} product - The Shopify product object
 
   @example
   {% render 'product-tabs', product: product %}
 {% enddoc %}
+
+{% liquid
+  assign custom_meta = product.metafields.custom
+  assign tab_desc = custom_meta.description.value | default: custom_meta.description | default: product.description
+  assign tab_ingredients = custom_meta.ingredients.value | default: custom_meta.ingredients
+  assign tab_usage = custom_meta.usage.value | default: custom_meta.usage
+  assign tab_benefits = custom_meta.benefits.value | default: custom_meta.benefits
+  assign tab_storage = custom_meta.storage_info.value | default: custom_meta.storage_info | default: custom_meta.storage
+  assign tab_mfr = custom_meta.manufacturer.value | default: custom_meta.manufacturer
+  assign tab_origin = custom_meta.origin.value | default: custom_meta.origin
+  assign tab_shelflife = custom_meta.shelf_life.value | default: custom_meta.shelf_life
+
+  assign faq1_q = custom_meta.faq_1_question.value | default: custom_meta.faq_1_question
+  assign faq1_a = custom_meta.faq_1_answer.value | default: custom_meta.faq_1_answer
+  assign faq2_q = custom_meta.faq_2_question.value | default: custom_meta.faq_2_question
+  assign faq2_a = custom_meta.faq_2_answer.value | default: custom_meta.faq_2_answer
+  assign faq3_q = custom_meta.faq_3_question.value | default: custom_meta.faq_3_question
+  assign faq3_a = custom_meta.faq_3_answer.value | default: custom_meta.faq_3_answer
+  assign faq4_q = custom_meta.faq_4_question.value | default: custom_meta.faq_4_question
+  assign faq4_a = custom_meta.faq_4_answer.value | default: custom_meta.faq_4_answer
+  assign faq5_q = custom_meta.faq_5_question.value | default: custom_meta.faq_5_question
+  assign faq5_a = custom_meta.faq_5_answer.value | default: custom_meta.faq_5_answer
+%}
 
 <section class="product-tabs" data-product-tabs-component>
   <!-- Desktop / Tablet Tab Header Buttons -->
@@ -41,24 +73,26 @@
 
   <!-- Tab Content Panes -->
   <div class="product-tabs__body">
-    <!-- Tab 1: Description (from Shopify Product CSV Body HTML) -->
+    <!-- Tab 1: Description -->
     <div class="product-tabs__pane is-active" id="tab-pane-desc" role="tabpanel" aria-labelledby="tab-btn-desc" data-tab-pane="desc">
       <h3 class="product-tabs__pane-title">Product Description</h3>
       <div class="product-tabs__pane-content rte">
-        {% if product.description != blank %}
-          {{ product.description }}
+        {% if tab_desc != blank %}
+          {{ tab_desc | newline_to_br }}
         {% else %}
           <p>100% natural, unrefined organic {{ product.title }} sourced straight from native Indian farms.</p>
         {% endif %}
       </div>
     </div>
 
-    <!-- Tab 2: Ingredients (from CSV product.metafields.custom.ingredients) -->
+    <!-- Tab 2: Ingredients -->
     <div class="product-tabs__pane" id="tab-pane-ingredients" role="tabpanel" aria-labelledby="tab-btn-ingredients" data-tab-pane="ingredients" hidden>
       <h3 class="product-tabs__pane-title">Ingredients</h3>
       <div class="product-tabs__pane-content">
-        {% if product.metafields.custom.ingredients != blank %}
-          {{ product.metafields.custom.ingredients | metafield_tag }}
+        {% if tab_ingredients != blank %}
+          <div class="product-tabs__ingredients-box">
+            {{ tab_ingredients | newline_to_br }}
+          </div>
         {% else %}
           <div class="product-tabs__highlight-box">
             <span class="product-tabs__badge-icon">🌿</span>
@@ -69,24 +103,26 @@
       </div>
     </div>
 
-    <!-- Tab 3: Usage (from CSV product.metafields.custom.usage) -->
+    <!-- Tab 3: Usage -->
     <div class="product-tabs__pane" id="tab-pane-usage" role="tabpanel" aria-labelledby="tab-btn-usage" data-tab-pane="usage" hidden>
       <h3 class="product-tabs__pane-title">Usage Instructions</h3>
       <div class="product-tabs__pane-content">
-        {% if product.metafields.custom.usage != blank %}
-          {{ product.metafields.custom.usage | metafield_tag }}
+        {% if tab_usage != blank %}
+          <p>{{ tab_usage | newline_to_br }}</p>
         {% else %}
           <p>Ideal for daily home cooking, preparing traditional Indian recipes, and healthy meals with authentic flavor and aroma.</p>
         {% endif %}
       </div>
     </div>
 
-    <!-- Tab 4: Benefits (from CSV product.metafields.custom.benefits) -->
+    <!-- Tab 4: Benefits -->
     <div class="product-tabs__pane" id="tab-pane-benefits" role="tabpanel" aria-labelledby="tab-btn-benefits" data-tab-pane="benefits" hidden>
       <h3 class="product-tabs__pane-title">Nutritional & Health Benefits</h3>
       <div class="product-tabs__pane-content">
-        {% if product.metafields.custom.benefits != blank %}
-          {{ product.metafields.custom.benefits | metafield_tag }}
+        {% if tab_benefits != blank %}
+          <div class="product-tabs__benefits-list">
+            {{ tab_benefits | newline_to_br }}
+          </div>
         {% else %}
           <div class="product-tabs__grid-2col">
             <div class="product-tabs__benefit-item">
@@ -110,12 +146,12 @@
       </div>
     </div>
 
-    <!-- Tab 5: Storage Information (from CSV product.metafields.custom.storage) -->
+    <!-- Tab 5: Storage Information -->
     <div class="product-tabs__pane" id="tab-pane-storage" role="tabpanel" aria-labelledby="tab-btn-storage" data-tab-pane="storage" hidden>
       <h3 class="product-tabs__pane-title">Storage Information</h3>
       <div class="product-tabs__pane-content">
-        {% if product.metafields.custom.storage != blank %}
-          {{ product.metafields.custom.storage | metafield_tag }}
+        {% if tab_storage != blank %}
+          <p>{{ tab_storage | newline_to_br }}</p>
         {% else %}
           <ul>
             <li>Store in a cool, dry place away from direct sunlight and moisture.</li>
@@ -126,12 +162,15 @@
       </div>
     </div>
 
-    <!-- Tab 6: Manufacturer Details (from CSV Vendor & Metafields) -->
+    <!-- Tab 6: Manufacturer Details -->
     <div class="product-tabs__pane" id="tab-pane-mfr" role="tabpanel" aria-labelledby="tab-btn-mfr" data-tab-pane="mfr" hidden>
       <h3 class="product-tabs__pane-title">Manufacturer & Packer Details</h3>
       <div class="product-tabs__pane-content">
-        {% if product.metafields.custom.manufacturer != blank %}
-          {{ product.metafields.custom.manufacturer | metafield_tag }}
+        {% if tab_mfr != blank %}
+          <p><strong>Manufacturer:</strong> {{ tab_mfr }}</p>
+          <p><strong>Brand / Vendor:</strong> {{ product.vendor | default: 'Kishan Bazar' }}</p>
+          <p><strong>Address:</strong> Surat - 395006, Gujarat, India.</p>
+          <p><strong>FSSAI License No:</strong> 10721999000341</p>
         {% else %}
           <p><strong>Brand / Vendor:</strong> {{ product.vendor | default: 'Kishan Bazar' }}</p>
           <p><strong>Manufacturer:</strong> Kishan Bazar Organic Foods Pvt. Ltd.</p>
@@ -141,12 +180,18 @@
       </div>
     </div>
 
-    <!-- Tab 7: Country of Origin (from CSV product.metafields.custom.origin) -->
+    <!-- Tab 7: Country of Origin -->
     <div class="product-tabs__pane" id="tab-pane-origin" role="tabpanel" aria-labelledby="tab-btn-origin" data-tab-pane="origin" hidden>
       <h3 class="product-tabs__pane-title">Country of Origin</h3>
       <div class="product-tabs__pane-content">
-        {% if product.metafields.custom.origin != blank %}
-          {{ product.metafields.custom.origin | metafield_tag }}
+        {% if tab_origin != blank %}
+          <div class="product-tabs__origin-flag">
+            <span class="flag-icon">🇮🇳</span>
+            <div>
+              <strong>{{ tab_origin }}</strong>
+              <p>Sourced directly from certified organic farmer co-operatives across India.</p>
+            </div>
+          </div>
         {% else %}
           <div class="product-tabs__origin-flag">
             <span class="flag-icon">🇮🇳</span>
@@ -159,25 +204,58 @@
       </div>
     </div>
 
-    <!-- Tab 8: Shelf Life (from CSV product.metafields.custom.shelf_life) -->
+    <!-- Tab 8: Shelf Life -->
     <div class="product-tabs__pane" id="tab-pane-shelflife" role="tabpanel" aria-labelledby="tab-btn-shelflife" data-tab-pane="shelflife" hidden>
       <h3 class="product-tabs__pane-title">Shelf Life</h3>
       <div class="product-tabs__pane-content">
-        {% if product.metafields.custom.shelf_life != blank %}
-          {{ product.metafields.custom.shelf_life | metafield_tag }}
+        {% if tab_shelflife != blank %}
+          <p><strong>{{ tab_shelflife }}</strong></p>
         {% else %}
           <p><strong>4 Months (120 Days)</strong> from date of packaging.</p>
         {% endif %}
       </div>
     </div>
 
-    <!-- Tab 9: FAQ Accordions (from CSV product.metafields.custom.faq) -->
+    <!-- Tab 9: FAQ Accordions (Dynamic from CSV faq_1_question..faq_5_question) -->
     <div class="product-tabs__pane" id="tab-pane-faq" role="tabpanel" aria-labelledby="tab-btn-faq" data-tab-pane="faq" hidden>
       <h3 class="product-tabs__pane-title">Frequently Asked Questions (FAQ)</h3>
       <div class="product-tabs__pane-content">
-        {% if product.metafields.custom.faq != blank %}
-          {{ product.metafields.custom.faq | metafield_tag }}
-        {% else %}
+        {% if faq1_q != blank %}
+          <details class="product-tabs__accordion" open>
+            <summary><strong>{{ faq1_q }}</strong></summary>
+            <p>{{ faq1_a }}</p>
+          </details>
+        {% endif %}
+
+        {% if faq2_q != blank %}
+          <details class="product-tabs__accordion">
+            <summary><strong>{{ faq2_q }}</strong></summary>
+            <p>{{ faq2_a }}</p>
+          </details>
+        {% endif %}
+
+        {% if faq3_q != blank %}
+          <details class="product-tabs__accordion">
+            <summary><strong>{{ faq3_q }}</strong></summary>
+            <p>{{ faq3_a }}</p>
+          </details>
+        {% endif %}
+
+        {% if faq4_q != blank %}
+          <details class="product-tabs__accordion">
+            <summary><strong>{{ faq4_q }}</strong></summary>
+            <p>{{ faq4_a }}</p>
+          </details>
+        {% endif %}
+
+        {% if faq5_q != blank %}
+          <details class="product-tabs__accordion">
+            <summary><strong>{{ faq5_q }}</strong></summary>
+            <p>{{ faq5_a }}</p>
+          </details>
+        {% endif %}
+
+        {% if faq1_q == blank and faq2_q == blank %}
           <details class="product-tabs__accordion" open>
             <summary><strong>Is {{ product.title }} 100% natural and unrefined?</strong></summary>
             <p>Yes, all {{ product.vendor | default: 'Kishan Bazar' }} products are 100% natural, unrefined, and processed without chemicals or artificial bleaches.</p>
