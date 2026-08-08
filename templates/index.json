@@ -12,17 +12,19 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "badge": "Grown with care",
-        "heading": "Good food, from good soil.",
-        "subheading": "<p>Thoughtfully sourced pantry staples for your everyday table.</p>",
-        "primary_label": "Shop essentials",
-        "primary_link": "",
-        "secondary_label": "Our story",
-        "secondary_link": "/pages/our-story",
+        "left_image": "shopify://shop_images/hero_banner.png",
+        "left_link": "",
+        "shop_btn_text": "SHOP ESSENTIALS",
+        "story_btn_text": "OUR STORY",
         "story_link": "/pages/our-story",
-        "right_bottom_link": "/pages/our-story",
-        "overlay_opacity": "medium",
-        "text_alignment": "left"
+        "right_top_image": "shopify://shop_images/slider1.png",
+        "right_top_link": "",
+        "right_top_image_2": "shopify://shop_images/slider2.png",
+        "right_top_link_2": "",
+        "right_top_image_3": "shopify://shop_images/slider3.png",
+        "right_top_link_3": "",
+        "right_bottom_image": "shopify://shop_images/our_story.png",
+        "right_bottom_link": "/pages/our-story"
       }
     },
     "categories": {
@@ -32,7 +34,7 @@
         "heading": "Most Loved",
         "collection": "",
         "cta_label": "Shop More",
-        "columns": "4",
+        "show_tabs": false,
         "maximum": 4,
         "show_vendor": false,
         "show_rating": true
@@ -44,33 +46,37 @@
         "video_1": {
           "type": "video",
           "settings": {
-            "show_price": true,
-            "show_compare_price": true,
-            "show_product_image": true
+            "product": "",
+            "video_url": "",
+            "button_text": "",
+            "video_label": ""
           }
         },
         "video_2": {
           "type": "video",
           "settings": {
-            "show_price": true,
-            "show_compare_price": true,
-            "show_product_image": true
+            "product": "",
+            "video_url": "",
+            "button_text": "",
+            "video_label": ""
           }
         },
         "video_3": {
           "type": "video",
           "settings": {
-            "show_price": true,
-            "show_compare_price": true,
-            "show_product_image": true
+            "product": "",
+            "video_url": "",
+            "button_text": "",
+            "video_label": ""
           }
         },
         "video_4": {
           "type": "video",
           "settings": {
-            "show_price": true,
-            "show_compare_price": true,
-            "show_product_image": true
+            "product": "",
+            "video_url": "",
+            "button_text": "",
+            "video_label": ""
           }
         }
       },
@@ -85,9 +91,9 @@
         "subheading": "Shop by videos",
         "show_demo_video": true,
         "bulk_video_csv": "# product-handle,https://video-url.mp4\n# organic-ghee,https://cdn.shopify.com/s/files/1/YOUR_SHOP/files/video1.mp4",
-        "default_button_text": "Add to cart",
         "background_color": "#eef2e4",
         "heading_color": "#2e5d34",
+        "default_button_text": "Add to cart",
         "autoplay": true,
         "loop": true,
         "show_arrows": true,
@@ -97,6 +103,8 @@
     "video": {
       "type": "video-section",
       "settings": {
+        "overlay_opacity": 0,
+        "bg_color": "#faf7f2",
         "heading": "Meet the makers",
         "description": "<p>A closer look at the people and practices behind every pantry staple.</p>",
         "video_url": "",
@@ -125,6 +133,7 @@
           "type": "testimonial",
           "settings": {
             "name": "Priya S.",
+            "location": "Surat",
             "rating": 5,
             "review": "The quality is beautiful and every order feels thoughtfully packed. Kishan Bazar has become a staple in our kitchen."
           }
@@ -133,6 +142,7 @@
           "type": "testimonial",
           "settings": {
             "name": "Aman R.",
+            "location": "Surat",
             "rating": 5,
             "review": "Wholesome products with the kind of flavour you remember from home. Fast delivery too."
           }
@@ -141,6 +151,7 @@
           "type": "testimonial",
           "settings": {
             "name": "Neha K.",
+            "location": "Surat",
             "rating": 5,
             "review": "I love knowing where our pantry essentials come from. The range is simple, honest, and delicious."
           }
@@ -152,7 +163,9 @@
         "review_3"
       ],
       "settings": {
-        "heading": "Kind words from your table"
+        "eyebrow": "⭐ 10,000+ VERIFIED REVIEWS ⭐",
+        "heading": "Kind words from your table",
+        "subheading": "Real stories from families who love our pure, farm-fresh organic staples."
       }
     }
   },
