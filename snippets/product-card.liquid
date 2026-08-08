@@ -100,36 +100,26 @@
     {% endif %}
 
     <div class="product-card__actions">
-      {% if show_add_to_cart != false %}
+          {% if show_add_to_cart != false %}
         <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form">
-          {% if product.variants.size > 1 %}
-            <div class="product-card__variant-wrap">
-              <label class="visually-hidden" for="ProductCardVariant-{{ product.id }}">Choose size</label>
-              <select class="product-card__variant-select" id="ProductCardVariant-{{ product.id }}" name="id" data-product-card-variant-select>
-                {% for card_variant in product.variants %}
-                  <option
-                    value="{{ card_variant.id }}"
-                    data-price="₹{{ card_variant.price | money_without_currency }}"
-                    data-compare="₹{{ card_variant.compare_at_price | money_without_currency }}"
-                    data-available="{% if card_variant.available %}true{% else %}false{% endif %}"
-                    {% if card_variant == variant %}selected{% endif %}
-                    {% unless card_variant.available %}disabled{% endunless %}
-                  >
-                    {{ card_variant.title }}
-                  </option>
-                {% endfor %}
-              </select>
-            </div>
-          {% else %}
-            <input type="hidden" name="id" value="{{ variant.id }}">
-            <div class="product-card__variant-wrap">
-              <select class="product-card__variant-select" id="ProductCardVariant-{{ product.id }}" aria-label="Select variant">
-                <option value="{{ variant.id }}" selected>
-                  {% if variant.title != 'Default Title' and variant.title != blank %}{{ variant.title }}{% else %}10kg{% endif %}
+          <div class="product-card__variant-wrap">
+            <label class="visually-hidden" for="ProductCardVariant-{{ product.id }}">Choose size</label>
+            <select class="product-card__variant-select" id="ProductCardVariant-{{ product.id }}" name="id" data-product-card-variant-select>
+              {% for card_variant in product.variants %}
+                <option
+                  value="{{ card_variant.id }}"
+                  data-price="₹{{ card_variant.price | money_without_currency }}"
+                  data-compare="{% if card_variant.compare_at_price > card_variant.price %}₹{{ card_variant.compare_at_price | money_without_currency }}{% endif %}"
+                  data-available="{% if card_variant.available %}true{% else %}false{% endif %}"
+                  {% if card_variant == variant %}selected{% endif %}
+                  {% unless card_variant.available %}disabled{% endunless %}
+                >
+                  {% if card_variant.title != 'Default Title' and card_variant.title != blank %}{{ card_variant.title }}{% else %}10kg{% endif %}
                 </option>
-              </select>
-            </div>
-          {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+
           <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %}>
             {% if product.available %}ADD TO CART{% else %}SOLD OUT{% endif %}
           </button>

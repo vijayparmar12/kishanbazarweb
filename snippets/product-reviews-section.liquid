@@ -185,6 +185,20 @@
             <textarea id="ReviewBody" name="body" rows="4" required placeholder="Share details about flavor, texture, packing, delivery..." class="product-reviews__textarea"></textarea>
           </div>
 
+          <!-- Image Upload Box for Customer Review Photos -->
+          <div class="product-reviews__form-group">
+            <label class="product-reviews__label">Attach Photos (Optional):</label>
+            <div class="product-reviews__image-upload-box" data-image-upload-dropzone>
+              <input type="file" id="ReviewImages" name="review_images" accept="image/*" multiple class="product-reviews__file-input" data-review-file-input>
+              <label for="ReviewImages" class="product-reviews__image-upload-label">
+                <span class="product-reviews__upload-icon" aria-hidden="true">📷</span>
+                <span class="product-reviews__upload-text"><strong>Click to upload photos</strong> or drag and drop</span>
+                <span class="product-reviews__upload-subtext">PNG, JPG or WEBP (Max 5 photos)</span>
+              </label>
+              <div class="product-reviews__image-preview-grid" data-image-preview-grid></div>
+            </div>
+          </div>
+
           <button type="submit" class="product-reviews__submit-btn">Submit Review</button>
           <p class="product-reviews__success-msg" data-review-success style="display: none;">
             Thank you! Your review has been submitted successfully and published.

@@ -2,6 +2,7 @@
 (() => {
   if (document.documentElement.dataset.productCardInitialized) return;
   document.documentElement.dataset.productCardInitialized = 'true';
+
   document.addEventListener('click', (event) => {
     const quickView = event.target.closest('[data-quick-view]');
     if (quickView) document.dispatchEvent(new CustomEvent('greenbasket:quick-view', { detail: { url: quickView.dataset.productUrl } }));
@@ -17,12 +18,16 @@
     const compare = card?.querySelector('.product-card__price-compare');
     const add = card?.querySelector('.product-card__add');
 
-    if (price && option.dataset.price) price.textContent = option.dataset.price;
-    if (compare && option.dataset.compare) compare.textContent = option.dataset.compare;
+    if (price && option?.dataset.price) price.textContent = option.dataset.price;
+    if (compare) compare.textContent = option?.dataset.compare || '';
     if (add) {
-      const available = option.dataset.available === 'true';
+      const available = option?.dataset.available === 'true';
       add.disabled = !available;
-      add.textContent = available ? 'Add to cart' : 'Sold out';
+      add.textContent = available ? 'ADD TO CART' : 'SOLD OUT';
     }
   });
 })();
+
+
+
+

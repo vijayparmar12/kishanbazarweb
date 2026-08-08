@@ -10,61 +10,33 @@
 {% enddoc %}
 
 <div class="product-info" data-product-info>
-  <!-- SECTION 1: Breadcrumb Navigation -->
-  <nav class="product-info__breadcrumb" aria-label="Breadcrumb navigation">
-    <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="product-info__breadcrumb-list">
-      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="product-info__breadcrumb-item">
-        <a itemprop="item" href="{{ routes.root_url }}"><span itemprop="name">Home</span></a>
-        <meta itemprop="position" content="1" />
-      </li>
-      <span aria-hidden="true" class="product-info__breadcrumb-sep">/</span>
-      {% if product.collections.first != blank %}
-        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="product-info__breadcrumb-item">
-          <a itemprop="item" href="{{ product.collections.first.url }}"><span itemprop="name">{{ product.collections.first.title }}</span></a>
-          <meta itemprop="position" content="2" />
-        </li>
-        <span aria-hidden="true" class="product-info__breadcrumb-sep">/</span>
+  <!-- Header Block (Mobile Order 1: Title, Subtitle, Ratings) -->
+  <div class="product-info__header-block">
+    <!-- Product Title FIRST -->
+    <h1 class="product-info__title">{{ product.title }}</h1>
+
+    <!-- Product Type & Tags Subtitle from CSV -->
+    <p class="product-info__subtitle">
+      {% if product.type != blank %}{{ product.type }}{% else %}Organic Grocery{% endif %}
+      {% if product.tags.size > 0 %}
+        &bull; {{ product.tags | join: ' &bull; ' }}
       {% endif %}
-      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="product-info__breadcrumb-item is-active">
-        <span itemprop="name" aria-current="page">{{ product.title }}</span>
-        <meta itemprop="position" content="3" />
-      </li>
-    </ol>
-  </nav>
+    </p>
 
-  <!-- Vendor & Verified Tag from CSV -->
-  <p class="product-info__vendor">
-    {{ product.vendor }}
-    <span class="product-info__verified-badge">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
-      Verified Organic
-    </span>
-  </p>
-
-  <!-- Product Title from CSV -->
-  <h1 class="product-info__title">{{ product.title }}</h1>
-
-  <!-- Product Type & Tags Subtitle from CSV -->
-  <p class="product-info__subtitle">
-    {% if product.type != blank %}{{ product.type }}{% else %}Organic Grocery{% endif %}
-    {% if product.tags.size > 0 %}
-      &bull; {{ product.tags | join: ' &bull; ' }}
-    {% endif %}
-  </p>
-
-  <!-- Star Rating & Review Header -->
-  <div class="product-info__rating" aria-label="5 star customer rating">
-    <div class="product-info__stars" aria-hidden="true">
-      &#9733;&#9733;&#9733;&#9733;&#9733;
+    <!-- Star Rating & Review Header -->
+    <div class="product-info__rating" aria-label="5 star customer rating">
+      <div class="product-info__stars" aria-hidden="true">
+        &#9733;&#9733;&#9733;&#9733;&#9733;
+      </div>
+      <span class="product-info__rating-score">4.9</span>
+      <a href="#ProductReviews-{{ section.id }}" class="product-info__review-count">(128 Verified Ratings)</a>
     </div>
-    <span class="product-info__rating-score">4.9</span>
-    <a href="#ProductReviews-{{ section.id }}" class="product-info__review-count">(128 Verified Ratings)</a>
   </div>
 
-  <!-- Dynamic Product Category 4 Circle Feature Icons -->
-  {% render 'product-circle-features', product: product %}
+  <!-- Body Block (Mobile Order 3: Badges, Price, Variants, Add to Cart) -->
+  <div class="product-info__body-block">
+    <!-- Dynamic Product Category 4 Circle Feature Icons -->
+    {% render 'product-circle-features', product: product %}
 
   <!-- Price Box from CSV (Selling Price, MRP, Discount %) -->
   <div class="product-info__price-box">
@@ -155,7 +127,7 @@
     <!-- Quantity Selector & Action Buttons -->
     <div class="product-info__purchase-row">
       <div class="product-info__quantity-wrap">
-        <label for="Quantity-{{ section.id }}" class="visually-hidden">Quantity</label>
+        <label for="Quantity-{{ section.id }}" class="visually-hidden"></label>
         <div class="product-info__quantity-stepper" data-quantity-stepper>
           <button type="button" class="product-info__quantity-btn" data-quantity-minus aria-label="Decrease quantity">-</button>
           <input
@@ -240,36 +212,9 @@
     </div>
   {% endform %}
 
-  <!-- Delivery Pincode Checker Card -->
-  <div class="product-info__pincode-card" data-pincode-checker-wrap>
-    <div class="product-info__pincode-header">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="1" y="3" width="15" height="13"></rect>
-        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-        <circle cx="5.5" cy="18.5" r="2.5"></circle>
-        <circle cx="18.5" cy="18.5" r="2.5"></circle>
-      </svg>
-      <span>Delivery Pincode Checker</span>
-    </div>
-    <form class="product-info__pincode-form" data-pincode-form>
-      <input
-        type="text"
-        name="pincode"
-        placeholder="Enter 6-digit Surat Pincode (e.g. 395006)"
-        maxlength="6"
-        pattern="[0-9]{6}"
-        required
-        class="product-info__pincode-input"
-        data-pincode-input
-        aria-label="Pincode"
-      >
-      <button type="submit" class="product-info__pincode-submit" data-pincode-submit>Check</button>
-    </form>
-    <div class="product-info__pincode-result" data-pincode-result style="display: none;"></div>
-  </div>
-
   <!-- 4 Highlight Badges after Delivery Pincode Checker (Mobile View) -->
   <div class="product-info__highlights-mobile">
     {% render 'product-highlights' %}
   </div>
+  </div><!-- End .product-info__body-block -->
 </div>

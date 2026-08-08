@@ -118,16 +118,6 @@
         "show_rating": true
       }
     },
-    "offer": {
-      "type": "offer-banner",
-      "settings": {
-        "badge": "Seasonal offer",
-        "heading": "A little more goodness in every order.",
-        "subheading": "Discover pantry staples made for slow, nourishing meals.",
-        "button_text": "Shop the offer",
-        "button_link": ""
-      }
-    },
     "testimonials": {
       "type": "testimonials",
       "blocks": {
@@ -164,14 +154,6 @@
       "settings": {
         "heading": "Kind words from your table"
       }
-    },
-    "newsletter": {
-      "type": "newsletter",
-      "settings": {
-        "heading": "A little goodness, delivered.",
-        "description": "<p>Get recipes, seasonal picks, and thoughtful offers in your inbox.</p>",
-        "button_text": "Subscribe"
-      }
     }
   },
   "order": [
@@ -180,8 +162,6 @@
     "shoppable_videos",
     "video",
     "best_sellers",
-    "offer",
-    "testimonials",
-    "newsletter"
+    "testimonials"
   ]
 }

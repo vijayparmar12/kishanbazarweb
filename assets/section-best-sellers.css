@@ -3,9 +3,12 @@
   border-block: 1px solid rgba(35, 66, 31, 0.08);
   max-width: 100%;
   width: 100%;
-  padding: clamp(2.5rem, 5vw, 4.5rem) max(var(--container-padding), calc((100% - var(--container-width)) / 2));
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  padding-bottom: 6rem;
+  padding-left: max(var(--container-padding), calc((100% - var(--container-width)) / 2));
+  padding-right: max(var(--container-padding), calc((100% - var(--container-width)) / 2));
   position: relative;
-  overflow-x: hidden;
+  overflow: visible;
   box-sizing: border-box;
 }
 

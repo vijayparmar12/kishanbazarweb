@@ -211,79 +211,81 @@
     </div>
   </nav>
 
-  <section class="kb-header__features" aria-label="Featured shopping links">
-    <div class="kb-header__features-inner">
-      {% assign feature_count = 0 %}
-      {% for block in section.blocks %}
-        {% if block.type == 'feature_icon' %}
-          {% assign feature_count = feature_count | plus: 1 %}
-          {% assign default_feature_url = routes.all_products_collection_url %}
-          <a class="kb-header__feature" href="{{ block.settings.link | default: default_feature_url }}" style="--kb-feature-icon-bg: {{ block.settings.icon_background }}; --kb-feature-icon-color: {{ block.settings.icon_color }};" {{ block.shopify_attributes }}>
+  {% unless template.name == 'product' %}
+    <section class="kb-header__features" aria-label="Featured shopping links">
+      <div class="kb-header__features-inner">
+        {% assign feature_count = 0 %}
+        {% for block in section.blocks %}
+          {% if block.type == 'feature_icon' %}
+            {% assign feature_count = feature_count | plus: 1 %}
+            {% assign default_feature_url = routes.all_products_collection_url %}
+            <a class="kb-header__feature" href="{{ block.settings.link | default: default_feature_url }}" style="--kb-feature-icon-bg: {{ block.settings.icon_background }}; --kb-feature-icon-color: {{ block.settings.icon_color }};" {{ block.shopify_attributes }}>
+              <span class="kb-header__feature-icon" aria-hidden="true">
+                {% if block.settings.icon_image != blank %}
+                  {{ block.settings.icon_image | image_url: width: 96 | image_tag: alt: '', widths: '48, 72, 96', loading: 'lazy', class: 'kb-header__feature-image' }}
+                {% elsif block.settings.icon == 'Gift' %}
+                  <span class="kb-header__feature-icon-art kb-header__feature-icon--gift"></span>
+                {% elsif block.settings.icon == 'Rain' %}
+                  <span class="kb-header__feature-icon-art kb-header__feature-icon--monsoon"></span>
+                {% elsif block.settings.icon == 'Box' %}
+                  <span class="kb-header__feature-icon-art kb-header__feature-icon--box"></span>
+                {% elsif block.settings.icon == 'Jar' %}
+                  <span class="kb-header__feature-icon-art kb-header__feature-icon--jar"></span>
+                {% elsif block.settings.icon == 'Save' %}
+                  <span class="kb-header__feature-icon-art kb-header__feature-icon--save"></span>
+                {% else %}
+                  {{ block.settings.icon }}
+                {% endif %}
+              </span>
+              <span class="kb-header__feature-title">{{ block.settings.title }}</span>
+            </a>
+          {% endif %}
+        {% endfor %}
+        {% if feature_count == 0 %}
+          <a class="kb-header__feature kb-header__feature--monsoon" href="{{ routes.all_products_collection_url }}">
             <span class="kb-header__feature-icon" aria-hidden="true">
-              {% if block.settings.icon_image != blank %}
-                {{ block.settings.icon_image | image_url: width: 96 | image_tag: alt: '', widths: '48, 72, 96', loading: 'lazy', class: 'kb-header__feature-image' }}
-              {% elsif block.settings.icon == 'Gift' %}
-                <span class="kb-header__feature-icon-art kb-header__feature-icon--gift"></span>
-              {% elsif block.settings.icon == 'Rain' %}
-                <span class="kb-header__feature-icon-art kb-header__feature-icon--monsoon"></span>
-              {% elsif block.settings.icon == 'Box' %}
-                <span class="kb-header__feature-icon-art kb-header__feature-icon--box"></span>
-              {% elsif block.settings.icon == 'Jar' %}
-                <span class="kb-header__feature-icon-art kb-header__feature-icon--jar"></span>
-              {% elsif block.settings.icon == 'Save' %}
-                <span class="kb-header__feature-icon-art kb-header__feature-icon--save"></span>
-              {% else %}
-                {{ block.settings.icon }}
-              {% endif %}
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 15.6A4.5 4.5 0 0 0 16.5 7h-1.8A7 7 0 1 0 4 14.3"/>
+                <path d="M8 15v4"/>
+                <path d="M12 15v4"/>
+                <path d="M16 15v4"/>
+                <path d="M10 11l.01-.01"/>
+                <path d="M14 10l.01-.01"/>
+              </svg>
             </span>
-            <span class="kb-header__feature-title">{{ block.settings.title }}</span>
+            <span class="kb-header__feature-title">Monsoon Special</span>
+          </a>
+          <a class="kb-header__feature kb-header__feature--new" href="{{ routes.all_products_collection_url }}">
+            <span class="kb-header__feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3L2 8l10 5 10-5-10-5z"/>
+                <path d="M2 13l10 5 10-5"/>
+                <path d="M2 18l10 5 10-5"/>
+              </svg>
+            </span>
+            <span class="kb-header__feature-title">New Launches</span>
+          </a>
+          <a class="kb-header__feature kb-header__feature--all" href="{{ routes.all_products_collection_url }}">
+            <span class="kb-header__feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="9" width="9" height="11" rx="2"/>
+                <path d="M6 5h5v4H6z"/>
+                <rect x="15" y="12" width="5" height="8" rx="1"/>
+                <path d="M16.5 9h2v3h-2z"/>
+              </svg>
+            </span>
+            <span class="kb-header__feature-title">All Products</span>
+          </a>
+          <a class="kb-header__feature kb-header__feature--save" href="{{ routes.all_products_collection_url }}">
+            <span class="kb-header__feature-icon kb-header__feature-icon--text" aria-hidden="true">
+              <span class="kb-header__feature-text-badge">Under<br>₹999</span>
+            </span>
+            <span class="kb-header__feature-title">Under ₹999</span>
           </a>
         {% endif %}
-      {% endfor %}
-      {% if feature_count == 0 %}
-        <a class="kb-header__feature kb-header__feature--monsoon" href="{{ routes.all_products_collection_url }}">
-          <span class="kb-header__feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M19 15.6A4.5 4.5 0 0 0 16.5 7h-1.8A7 7 0 1 0 4 14.3"/>
-              <path d="M8 15v4"/>
-              <path d="M12 15v4"/>
-              <path d="M16 15v4"/>
-              <path d="M10 11l.01-.01"/>
-              <path d="M14 10l.01-.01"/>
-            </svg>
-          </span>
-          <span class="kb-header__feature-title">Monsoon Special</span>
-        </a>
-        <a class="kb-header__feature kb-header__feature--new" href="{{ routes.all_products_collection_url }}">
-          <span class="kb-header__feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3L2 8l10 5 10-5-10-5z"/>
-              <path d="M2 13l10 5 10-5"/>
-              <path d="M2 18l10 5 10-5"/>
-            </svg>
-          </span>
-          <span class="kb-header__feature-title">New Launches</span>
-        </a>
-        <a class="kb-header__feature kb-header__feature--all" href="{{ routes.all_products_collection_url }}">
-          <span class="kb-header__feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="4" y="9" width="9" height="11" rx="2"/>
-              <path d="M6 5h5v4H6z"/>
-              <rect x="15" y="12" width="5" height="8" rx="1"/>
-              <path d="M16.5 9h2v3h-2z"/>
-            </svg>
-          </span>
-          <span class="kb-header__feature-title">All Products</span>
-        </a>
-        <a class="kb-header__feature kb-header__feature--save" href="{{ routes.all_products_collection_url }}">
-          <span class="kb-header__feature-icon kb-header__feature-icon--text" aria-hidden="true">
-            <span class="kb-header__feature-text-badge">Under<br>₹999</span>
-          </span>
-          <span class="kb-header__feature-title">Under ₹999</span>
-        </a>
-      {% endif %}
-    </div>
-  </section>
+      </div>
+    </section>
+  {% endunless %}
 </header>
 
 {% schema %}

@@ -86,6 +86,43 @@
   }
 }
 
+/* Mobile View Reordering: Title -> Subtitle -> Reviews -> Images -> Badges & Price */
+@media screen and (max-width: 48rem) {
+  .main-product {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.5rem;
+  }
+
+  .main-product__right {
+    display: contents !important;
+  }
+
+  .product-info {
+    display: contents !important;
+  }
+
+  .product-info__header-block {
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .main-product__left {
+    order: 2;
+    margin-bottom: 0.75rem;
+  }
+
+  .product-info__body-block {
+    order: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+}
+
 /* ==========================================================================
    SECTION 2: PRODUCT GALLERY (LEFT SIDE)
    ========================================================================== */
@@ -313,7 +350,7 @@
 .product-info {
   display: flex;
   flex-direction: column;
-  gap: 1.15rem;
+  gap: 0.65rem;
 }
 
 /* Breadcrumb Navigation */
@@ -390,7 +427,7 @@
   font-size: 0.92rem;
   font-weight: 500;
   line-height: 1.4;
-  margin: -0.5rem 0 0;
+  margin: 0.35rem 0 0.25rem;
 }
 
 /* Rating Header matching Logo Harvest Gold Accent */
@@ -431,6 +468,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  margin-top: 0.85rem;
   padding: 1.15rem;
 }
 
@@ -667,14 +705,25 @@
   gap: 0.75rem;
 }
 
-.product-info__btn--buy-now {
-  background: #157347;
-  box-shadow: 0 6px 20px rgba(21, 115, 71, 0.25);
-  color: #ffffff;
+.product-info__btn--buy-now,
+.shopify-payment-button__button,
+.shopify-payment-button__button--unbranded {
+  background: #157347 !important;
+  background-color: #157347 !important;
+  background-image: none !important;
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
 }
 
-.product-info__btn--buy-now:hover {
-  background: #105936;
+.product-info__btn--buy-now:hover,
+.shopify-payment-button__button:hover,
+.shopify-payment-button__button--unbranded:hover {
+  background: #105936 !important;
+  background-color: #105936 !important;
+  background-image: none !important;
+  box-shadow: none !important;
   transform: translateY(-2px);
 }
 
@@ -706,76 +755,22 @@
   color: #1b4317;
 }
 
-/* Delivery Pincode Checker Card */
-.product-info__pincode-card {
-  background-color: #faf7f2;
-  border: 1px solid #efe8da;
-  border-radius: 16px;
-  padding: 1.15rem;
-}
 
-.product-info__pincode-header {
-  align-items: center;
-  color: #1f2937;
-  display: flex;
-  font-size: 0.9rem;
-  font-weight: 700;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-}
 
-.product-info__pincode-form {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.product-info__pincode-input {
-  background-color: #ffffff;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  color: #111827;
-  flex: 1;
-  font-size: 0.88rem;
-  padding: 0.65rem 0.9rem;
-}
-
-.product-info__pincode-input:focus {
-  border-color: #1b4317;
-  outline: none;
-}
-
-.product-info__pincode-submit {
-  background-color: #1b4317;
-  border: none;
-  border-radius: 10px;
-  color: #ffffff;
-  cursor: pointer;
-  font-weight: 700;
-  padding: 0.65rem 1.25rem;
-  transition: background-color 0.2s ease;
-}
-
-.product-info__pincode-submit:hover {
-  background-color: #143511;
-}
-
-.product-info__pincode-result {
-  border-radius: 10px;
-  font-size: 0.85rem;
-  line-height: 1.45;
-  margin-top: 0.75rem;
-  padding: 0.75rem 0.9rem;
-}
-
-/* 4 Feature Badges (Only Clean Large Images - No Borders/Boxes) */
+/* 4 Feature Badges (Large 85px Size - Clean Spacing) */
 .product-circle-features {
-  margin: 1rem 0 0.5rem;
+  margin: 0.65rem 0 0.5rem;
+  padding: 0;
+  width: 100%;
 }
 
 .product-circle-features__grid {
   display: grid;
-  gap: 0.75rem;
+  gap: 0.5rem;
   grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  justify-items: center;
+  width: 100%;
 }
 
 .product-circle-features__item {
@@ -784,6 +779,7 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  width: 100%;
 }
 
 .product-circle-features__circle {
@@ -793,41 +789,26 @@
   border-radius: 0;
   box-shadow: none;
   display: flex;
-  height: auto;
+  height: 85px;
   justify-content: center;
   padding: 0;
-  transition: transform 0.25s ease;
-  width: 100%;
-}
-
-/* Fluid support for uploaded rectangular badge images with embedded text */
-.product-circle-features__circle:has(img),
-.product-circle-features__circle--img {
-  aspect-ratio: auto;
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-  height: auto;
-  max-height: none;
-  min-height: 0;
-  padding: 0;
-  width: 100%;
+  width: 85px;
+  margin: 0 auto;
 }
 
 .product-circle-features__circle img {
   border: none;
   border-radius: 0;
   display: block;
-  height: auto;
-  max-height: 110px;
+  height: 85px;
+  width: 85px;
   max-width: 100%;
   object-fit: contain;
-  width: 100%;
+  margin: 0 auto;
+  transition: transform 200ms ease;
 }
 
-.product-circle-features__item:hover .product-circle-features__circle {
-  background-color: transparent;
-  box-shadow: none;
+.product-circle-features__item:hover .product-circle-features__circle img {
   transform: scale(1.06);
 }
 
@@ -1338,6 +1319,88 @@
 .product-reviews__textarea:focus {
   border-color: #1b4317;
   outline: none;
+}
+
+/* Image Upload Box inside Write a Review Modal */
+.product-reviews__image-upload-box {
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  background-color: #f8fafc;
+  padding: 1rem 0.85rem;
+  text-align: center;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.product-reviews__image-upload-box:hover,
+.product-reviews__image-upload-box.is-dragover {
+  border-color: #1b4317;
+  background-color: #f0fdf4;
+}
+
+.product-reviews__file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.product-reviews__image-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  pointer-events: none;
+}
+
+.product-reviews__upload-icon {
+  font-size: 1.6rem;
+  margin-bottom: 0.15rem;
+}
+
+.product-reviews__upload-text {
+  font-size: 0.85rem;
+  color: #334155;
+}
+
+.product-reviews__upload-text strong {
+  color: #1b4317;
+  font-weight: 700;
+}
+
+.product-reviews__upload-subtext {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.product-reviews__image-preview-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  justify-content: center;
+}
+
+.product-reviews__preview-item {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.5px solid #1b4317;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.product-reviews__preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .product-reviews__submit-btn {

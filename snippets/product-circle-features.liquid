@@ -13,89 +13,76 @@
 
 {% liquid
   assign custom_meta = product.metafields.custom
-  assign badge_img_1 = custom_meta.badge_image_1.value | default: custom_meta.badge_image_1 | default: custom_meta.feature_icon_1
-  assign badge_img_2 = custom_meta.badge_image_2.value | default: custom_meta.badge_image_2 | default: custom_meta.feature_icon_2
-  assign badge_img_3 = custom_meta.badge_image_3.value | default: custom_meta.badge_image_3 | default: custom_meta.feature_icon_3
-  assign badge_img_4 = custom_meta.badge_image_4.value | default: custom_meta.badge_image_4 | default: custom_meta.feature_icon_4
+
+  assign raw_1 = custom_meta.badge_image_1.value | default: custom_meta.badge_image_1 | default: custom_meta.feature_icon_1
+  if raw_1 != blank
+    if raw_1.src != blank
+      assign img_url_1 = raw_1 | image_url: width: 300
+    else
+      assign img_url_1 = raw_1
+    endif
+  else
+    assign img_url_1 = "https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon1.png?v=1786174654"
+  endif
+
+  assign raw_2 = custom_meta.badge_image_2.value | default: custom_meta.badge_image_2 | default: custom_meta.feature_icon_2
+  if raw_2 != blank
+    if raw_2.src != blank
+      assign img_url_2 = raw_2 | image_url: width: 300
+    else
+      assign img_url_2 = raw_2
+    endif
+  else
+    assign img_url_2 = "https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon2.png?v=1786174654"
+  endif
+
+  assign raw_3 = custom_meta.badge_image_3.value | default: custom_meta.badge_image_3 | default: custom_meta.feature_icon_3
+  if raw_3 != blank
+    if raw_3.src != blank
+      assign img_url_3 = raw_3 | image_url: width: 300
+    else
+      assign img_url_3 = raw_3
+    endif
+  else
+    assign img_url_3 = "https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon3..png?v=1786174655"
+  endif
+
+  assign raw_4 = custom_meta.badge_image_4.value | default: custom_meta.badge_image_4 | default: custom_meta.feature_icon_4
+  if raw_4 != blank
+    if raw_4.src != blank
+      assign img_url_4 = raw_4 | image_url: width: 300
+    else
+      assign img_url_4 = raw_4
+    endif
+  else
+    assign img_url_4 = "https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon4.png?v=1786174654"
+  endif
 %}
 
 <div class="product-circle-features" aria-label="Product Key Benefits">
   <div class="product-circle-features__grid">
-    {% comment %} 1. Metafield Uploaded Images (URL string or file_reference) {% endcomment %}
-    {% if badge_img_1 != blank or badge_img_2 != blank or badge_img_3 != blank or badge_img_4 != blank %}
-      {% if badge_img_1 != blank %}
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img">
-            {% if badge_img_1.src or badge_img_1.cloudinary_src or badge_img_1.aspect_ratio %}
-              {{ badge_img_1 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
-            {% else %}
-              <img src="{{ badge_img_1 }}" alt="Feature Badge 1" loading="lazy" width="120" height="120">
-            {% endif %}
-          </div>
-        </div>
-      {% endif %}
-
-      {% if badge_img_2 != blank %}
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img">
-            {% if badge_img_2.src or badge_img_2.cloudinary_src or badge_img_2.aspect_ratio %}
-              {{ badge_img_2 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
-            {% else %}
-              <img src="{{ badge_img_2 }}" alt="Feature Badge 2" loading="lazy" width="120" height="120">
-            {% endif %}
-          </div>
-        </div>
-      {% endif %}
-
-      {% if badge_img_3 != blank %}
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img">
-            {% if badge_img_3.src or badge_img_3.cloudinary_src or badge_img_3.aspect_ratio %}
-              {{ badge_img_3 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
-            {% else %}
-              <img src="{{ badge_img_3 }}" alt="Feature Badge 3" loading="lazy" width="120" height="120">
-            {% endif %}
-          </div>
-        </div>
-      {% endif %}
-
-      {% if badge_img_4 != blank %}
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img">
-            {% if badge_img_4.src or badge_img_4.cloudinary_src or badge_img_4.aspect_ratio %}
-              {{ badge_img_4 | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title | escape }}
-            {% else %}
-              <img src="{{ badge_img_4 }}" alt="Feature Badge 4" loading="lazy" width="120" height="120">
-            {% endif %}
-          </div>
-        </div>
-      {% endif %}
-
-    {% comment %} 2. Your New Uploaded Icon Files from CSV {% endcomment %}
-    {% else %}
-      <div class="product-circle-features__item">
-        <div class="product-circle-features__circle product-circle-features__circle--img">
-          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon2.png?v=1785927371" alt="Icon 1 - Low Glycemic" loading="lazy" width="120" height="120">
-        </div>
+    <div class="product-circle-features__item">
+      <div class="product-circle-features__circle product-circle-features__circle--img">
+        <img src="{{ img_url_1 }}" alt="Feature Badge 1" loading="lazy" width="85" height="85">
       </div>
+    </div>
 
-      <div class="product-circle-features__item">
-        <div class="product-circle-features__circle product-circle-features__circle--img">
-          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon4.png?v=1785927372" alt="Icon 2 - High Fiber" loading="lazy" width="120" height="120">
-        </div>
+    <div class="product-circle-features__item">
+      <div class="product-circle-features__circle product-circle-features__circle--img">
+        <img src="{{ img_url_2 }}" alt="Feature Badge 2" loading="lazy" width="85" height="85">
       </div>
+    </div>
 
-      <div class="product-circle-features__item">
-        <div class="product-circle-features__circle product-circle-features__circle--img">
-          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/free_shipping.png?v=1785927371" alt="Icon 3 - Stone Ground" loading="lazy" width="120" height="120">
-        </div>
+    <div class="product-circle-features__item">
+      <div class="product-circle-features__circle product-circle-features__circle--img">
+        <img src="{{ img_url_3 }}" alt="Feature Badge 3" loading="lazy" width="85" height="85">
       </div>
+    </div>
 
-      <div class="product-circle-features__item">
-        <div class="product-circle-features__circle product-circle-features__circle--img">
-          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon3.png?v=1785927371" alt="Icon 4 - Easily Digestible" loading="lazy" width="120" height="120">
-        </div>
+    <div class="product-circle-features__item">
+      <div class="product-circle-features__circle product-circle-features__circle--img">
+        <img src="{{ img_url_4 }}" alt="Feature Badge 4" loading="lazy" width="85" height="85">
       </div>
-    {% endif %}
+    </div>
   </div>
 </div>

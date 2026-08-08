@@ -33,6 +33,12 @@
         <p class="site-footer__brand-text">
           {{ section.settings.about_text | default: 'Kishan Bazar, Welcome to our farm-fresh organic kitchen. Wholesome pantry staples built directly from nature.' }}
         </p>
+
+        <!-- Contact Email & Tel right under Brand Text -->
+        <div class="site-footer__brand-contact">
+          <p class="site-footer__contact-line"><strong>Email:</strong> <a href="mailto:{{ section.settings.email | default: 'support@kishanbazar.com' }}">{{ section.settings.email | default: 'support@kishanbazar.com' }}</a></p>
+          <p class="site-footer__contact-line"><strong>Tel:</strong> <a href="tel:{{ section.settings.phone | default: '+91 88888 88888' }}">{{ section.settings.phone | default: '+91 88888 88888' }}</a></p>
+        </div>
       </div>
 
       <!-- Column 2: Categories (Accordion on mobile with + sign) -->
@@ -69,8 +75,6 @@
         <h3 class="site-footer__col-title site-footer__col-title--static">COMPANY &amp; CONTACT</h3>
         <div class="site-footer__company-details">
           <p class="site-footer__address">{{ section.settings.address_text | default: '11th Floor, Jasminium Building, Magarpatta City, Hadapsar, Pune, Maharashtra, 411028' }}</p>
-          <p class="site-footer__contact-line"><strong>Email:</strong> <a href="mailto:{{ section.settings.email | default: 'info@kishanbazar.com' }}">{{ section.settings.email | default: 'info@kishanbazar.com' }}</a></p>
-          <p class="site-footer__contact-line"><strong>Tel:</strong> <a href="tel:{{ section.settings.phone | default: '+91 88888 88888' }}">{{ section.settings.phone | default: '+91 88888 88888' }}</a></p>
           
           <!-- Newsletter Subscription Box below Mobile No -->
           {% if section.settings.show_newsletter %}
@@ -94,11 +98,20 @@
           {% endif %}
 
           <!-- Social Media Icons below Mobile No & Email -->
+          {% assign facebook_link = section.settings.facebook_url | default: settings.social_facebook_link | default: 'https://www.facebook.com/kisanbazaarstore' %}
+          {% assign instagram_link = section.settings.instagram_url | default: settings.social_instagram_link | default: 'https://www.instagram.com/kisanbazaar_organic_store/' %}
+          {% assign youtube_link = section.settings.youtube_url | default: settings.social_youtube_link | default: 'https://www.youtube.com/@kisanbazaar5352' %}
+
           <div class="site-footer__social-row" style="margin-top: 1rem;">
-            <a href="{{ section.settings.x_url | default: '#' }}" class="social-btn" aria-label="X (Twitter)">X</a>
-            <a href="{{ section.settings.facebook_url | default: '#' }}" class="social-btn" aria-label="Facebook">f</a>
-            <a href="{{ section.settings.linkedin_url | default: '#' }}" class="social-btn" aria-label="LinkedIn">in</a>
-            <a href="{{ section.settings.instagram_url | default: '#' }}" class="social-btn" aria-label="Instagram">📷</a>
+            <a href="{{ facebook_link }}" class="social-btn social-btn--img" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+              <img src="{{ 'facebook.png' | asset_url }}" alt="Facebook" width="36" height="36" loading="lazy">
+            </a>
+            <a href="{{ instagram_link }}" class="social-btn social-btn--img" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+              <img src="{{ 'instagram.png' | asset_url }}" alt="Instagram" width="36" height="36" loading="lazy">
+            </a>
+            <a href="{{ youtube_link }}" class="social-btn social-btn--img" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+              <img src="{{ 'youtube.png' | asset_url }}" alt="YouTube" width="36" height="36" loading="lazy">
+            </a>
           </div>
         </div>
       </div>
@@ -153,9 +166,9 @@
     { "type": "textarea", "id": "about_text", "label": "About Description", "default": "Kishan Bazar, Welcome to our farm-fresh organic kitchen. Wholesome pantry staples built directly from nature." },
     { "type": "checkbox", "id": "show_newsletter", "label": "Show Newsletter Subscription Box", "default": true },
     { "type": "url", "id": "x_url", "label": "X (Twitter) URL" },
-    { "type": "url", "id": "facebook_url", "label": "Facebook URL" },
-    { "type": "url", "id": "linkedin_url", "label": "LinkedIn URL" },
-    { "type": "url", "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "url", "id": "facebook_url", "label": "https://www.facebook.com/kisanbazaarstore" },
+    { "type": "url", "id": "youtube_url", "label": "https://www.youtube.com/@kisanbazaar5352" },
+    { "type": "url", "id": "instagram_url", "label": "https://www.instagram.com/kisanbazaar_organic_store/" },
     { "type": "textarea", "id": "address_text", "label": "Company Address", "default": "11th Floor, Jasminium Building, Magarpatta City, Hadapsar, Pune, Maharashtra, 411028" },
     { "type": "text", "id": "phone", "label": "Phone Number", "default": "+91 88888 88888" },
     { "type": "text", "id": "email", "label": "Email Address", "default": "info@kishanbazar.com" }

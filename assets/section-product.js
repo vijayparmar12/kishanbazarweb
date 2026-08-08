@@ -13,7 +13,6 @@ function initProductPage() {
   initGalleryZoomAndThumbnails(container);
   initVariantSelection(container);
   initQuantityStepper(container);
-  initPincodeChecker(container);
   initProductTabs(container);
   initReviewsAndModal(container);
   initRecommendationSlider(container);
@@ -245,54 +244,7 @@ function initQuantityStepper(container) {
   }
 }
 
-/* ==========================================================================
-   4. DELIVERY PINCODE CHECKER
-   ========================================================================== */
-function initPincodeChecker(container) {
-  const form = container.querySelector('[data-pincode-form]');
-  const input = container.querySelector('[data-pincode-input]');
-  const result = container.querySelector('[data-pincode-result]');
 
-  if (!form || !input || !result) return;
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const pincode = input.value.trim();
-
-    if (!/^[1-9][0-9]{5}$/.test(pincode)) {
-      result.style.display = 'block';
-      result.style.backgroundColor = '#fef2f2';
-      result.style.borderColor = '#fecaca';
-      result.style.color = '#991b1b';
-      result.innerHTML = '⚠️ Please enter a valid 6-digit Indian Pincode.';
-      return;
-    }
-
-    // Check if pincode belongs to Surat region (starts with 395 or 394)
-    const isSurat = /^395[0-9]{3}$|^394[0-9]{3}$/.test(pincode);
-
-    if (isSurat) {
-      result.style.display = 'block';
-      result.style.backgroundColor = '#ecfdf5';
-      result.style.borderColor = '#a7f3d0';
-      result.style.color = '#065f46';
-      result.innerHTML = `
-        🚚 <strong>Surat Express Delivery Available!</strong><br>
-        Farm-fresh local dispatch to <strong>Surat (${pincode})</strong> within <strong>24 Hours</strong>.<br>
-        ✓ Cash on Delivery (COD) & Same-Day Express Delivery Available.
-      `;
-    } else {
-      result.style.display = 'block';
-      result.style.backgroundColor = '#fffbebeb';
-      result.style.borderColor = '#fde68a';
-      result.style.color = '#92400e';
-      result.innerHTML = `
-        📍 <strong>Currently Delivering Exclusively in Surat!</strong><br>
-        We are currently serving farm-fresh organic staples only within <strong>Surat City</strong>. Delivery to Pincode <strong>${pincode}</strong> is temporarily unavailable. We are expanding to your location soon! 🌿
-      `;
-    }
-  });
-}
 
 /* ==========================================================================
    5. PRODUCT DETAILS TABS (9 TABS)
@@ -370,6 +322,44 @@ function initReviewsAndModal(container) {
     });
   });
 
+  // Image Upload File Preview Handling
+  const fileInput = container.querySelector('[data-review-file-input]');
+  const previewGrid = container.querySelector('[data-image-preview-grid]');
+  const dropzone = container.querySelector('[data-image-upload-dropzone]');
+
+  if (fileInput && previewGrid) {
+    fileInput.addEventListener('change', (e) => {
+      previewGrid.innerHTML = '';
+      const files = Array.from(e.target.files).slice(0, 5);
+      files.forEach((file) => {
+        if (!file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const item = document.createElement('div');
+          item.className = 'product-reviews__preview-item';
+          item.innerHTML = `<img src="${event.target.result}" alt="Uploaded review photo">`;
+          previewGrid.appendChild(item);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    if (dropzone) {
+      ['dragenter', 'dragover'].forEach((eventName) => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropzone.classList.add('is-dragover');
+        });
+      });
+      ['dragleave', 'drop'].forEach((eventName) => {
+        dropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropzone.classList.remove('is-dragover');
+        });
+      });
+    }
+  }
+
   // Form submission
   if (form) {
     form.addEventListener('submit', (e) => {
@@ -382,6 +372,7 @@ function initReviewsAndModal(container) {
           modal.setAttribute('aria-hidden', 'true');
         }
         form.reset();
+        if (previewGrid) previewGrid.innerHTML = '';
         if (successMsg) successMsg.style.display = 'none';
       }, 2000);
     });

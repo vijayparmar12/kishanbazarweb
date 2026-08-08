@@ -15,8 +15,6 @@
       <span class="product-gallery__badge product-gallery__badge--sale" data-gallery-sale-badge>
         Bestseller &bull; Save {{ current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price }}%
       </span>
-    {% else %}
-      <span class="product-gallery__badge product-gallery__badge--organic">100% Organic</span>
     {% endif %}
 
     <button
