@@ -70,7 +70,7 @@
 
 .best-sellers__link {
   align-items: center;
-  background: #a33838;
+  background: #1b4317;
   border-radius: 8px;
   color: #ffffff;
   display: inline-flex;
@@ -84,7 +84,7 @@
 }
 
 .best-sellers__link:hover {
-  background: #8b2b2b;
+  background: #143511;
   transform: translateY(-2px);
 }
 

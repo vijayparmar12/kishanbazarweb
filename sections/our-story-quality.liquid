@@ -1,0 +1,120 @@
+{% doc %}
+  Renders the From Farm to Family visual journey section.
+{% enddoc %}
+
+<section class="story-farm-to-family" {{ section.shopify_attributes }}>
+  <div class="story-container">
+    <div class="story-header story-header--center" data-story-reveal>
+      <span class="story-eyebrow">{{ section.settings.eyebrow | default: 'THE UNBROKEN CHAIN OF PURITY' }}</span>
+      <h2 class="story-heading">{{ section.settings.heading | default: 'From Farm to Your Family' }}</h2>
+      <p class="story-subheading">
+        {{ section.settings.subheading | default: 'Follow the journey of your food from certified organic soils to your kitchen.' }}
+      </p>
+    </div>
+
+    <div class="story-journey-flow">
+      <!-- Step 1: FARM -->
+      <div class="story-journey-step" data-story-reveal>
+        <div class="story-journey-step__icon-box">
+          <span class="story-journey-step__number">01</span>
+          <span class="story-journey-step__emoji">🌱</span>
+        </div>
+        <h3 class="story-journey-step__title">FARM</h3>
+        <p class="story-journey-step__desc">Soil tested, non-GMO native seeds sown with natural compost.</p>
+      </div>
+
+      <div class="story-journey-arrow" aria-hidden="true">→</div>
+
+      <!-- Step 2: HARVEST -->
+      <div class="story-journey-step" data-story-reveal>
+        <div class="story-journey-step__icon-box">
+          <span class="story-journey-step__number">02</span>
+          <span class="story-journey-step__emoji">🌾</span>
+        </div>
+        <h3 class="story-journey-step__title">HARVEST</h3>
+        <p class="story-journey-step__desc">Hand-harvested at peak nutritional maturity by native farmers.</p>
+      </div>
+
+      <div class="story-journey-arrow" aria-hidden="true">→</div>
+
+      <!-- Step 3: PROCESS -->
+      <div class="story-journey-step" data-story-reveal>
+        <div class="story-journey-step__icon-box">
+          <span class="story-journey-step__number">03</span>
+          <span class="story-journey-step__emoji">⚙️</span>
+        </div>
+        <h3 class="story-journey-step__title">PROCESS</h3>
+        <p class="story-journey-step__desc">Slow stone-ground at low temperatures to preserve vitamins.</p>
+      </div>
+
+      <div class="story-journey-arrow" aria-hidden="true">→</div>
+
+      <!-- Step 4: QUALITY CHECK -->
+      <div class="story-journey-step" data-story-reveal>
+        <div class="story-journey-step__icon-box">
+          <span class="story-journey-step__number">04</span>
+          <span class="story-journey-step__emoji">🔬</span>
+        </div>
+        <h3 class="story-journey-step__title">QUALITY CHECK</h3>
+        <p class="story-journey-step__desc">Strict lab screening for zero pesticide or heavy metal residues.</p>
+      </div>
+
+      <div class="story-journey-arrow" aria-hidden="true">→</div>
+
+      <!-- Step 5: PACK -->
+      <div class="story-journey-step" data-story-reveal>
+        <div class="story-journey-step__icon-box">
+          <span class="story-journey-step__number">05</span>
+          <span class="story-journey-step__emoji">📦</span>
+        </div>
+        <h3 class="story-journey-step__title">PACK</h3>
+        <p class="story-journey-step__desc">Sealed in food-grade, moisture-proof barrier pouches.</p>
+      </div>
+
+      <div class="story-journey-arrow" aria-hidden="true">→</div>
+
+      <!-- Step 6: YOUR HOME -->
+      <div class="story-journey-step story-journey-step--final" data-story-reveal>
+        <div class="story-journey-step__icon-box">
+          <span class="story-journey-step__number">06</span>
+          <span class="story-journey-step__emoji">🏡</span>
+        </div>
+        <h3 class="story-journey-step__title">YOUR HOME</h3>
+        <p class="story-journey-step__desc">Delivered fresh within 24–48 hours directly to your doorstep.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "From Farm to Family",
+  "tag": "section",
+  "class": "section-our-story-quality",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "THE UNBROKEN CHAIN OF PURITY"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "From Farm to Your Family"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Follow the journey of your food from certified organic soils to your kitchen."
+    }
+  ],
+  "presets": [
+    {
+      "name": "From Farm to Family"
+    }
+  ]
+}
+{% endschema %}

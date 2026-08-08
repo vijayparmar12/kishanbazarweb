@@ -1,0 +1,154 @@
+{% doc %}
+  Renders the cinematic hero section for the Our Story page.
+{% enddoc %}
+
+<link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
+
+<section class="story-hero" id="StoryHero-{{ section.id }}" {{ section.shopify_attributes }}>
+  <div class="story-hero__media-wrap">
+    {% if section.settings.desktop_image != blank %}
+      {{
+        section.settings.desktop_image
+        | image_url: width: 2200
+        | image_tag:
+          class: 'story-hero__image story-hero__image--desktop',
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '750, 1100, 1400, 1800, 2200',
+          alt: section.settings.heading | escape
+      }}
+    {% else %}
+      <img
+        class="story-hero__image story-hero__image--desktop"
+        src="{{ 'hero-banner.jpg.png' | asset_url }}"
+        alt="{{ section.settings.heading | escape }}"
+        width="1800"
+        height="900"
+        loading="eager"
+        fetchpriority="high"
+      >
+    {% endif %}
+
+    {% if section.settings.mobile_image != blank %}
+      {{
+        section.settings.mobile_image
+        | image_url: width: 900
+        | image_tag:
+          class: 'story-hero__image story-hero__image--mobile',
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '480, 750, 900',
+          alt: section.settings.heading | escape
+      }}
+    {% else %}
+      <img
+        class="story-hero__image story-hero__image--mobile"
+        src="{{ 'hero-mobile.jpg.png' | asset_url }}"
+        alt="{{ section.settings.heading | escape }}"
+        width="600"
+        height="700"
+        loading="eager"
+      >
+    {% endif %}
+    <div class="story-hero__overlay" style="--overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+  </div>
+
+  <div class="story-hero__content-wrap">
+    <div class="story-hero__container">
+      <span class="story-hero__label">{{ section.settings.label | default: 'OUR STORY' }}</span>
+      <h1 class="story-hero__heading">{{ section.settings.heading | default: 'Good Food Begins With Good Farming' }}</h1>
+      <p class="story-hero__subheading">
+        {{ section.settings.subheading | default: 'From Indian farms to your family, we are building a better way to discover honest, wholesome food.' }}
+      </p>
+
+      <div class="story-hero__actions">
+        {% if section.settings.primary_cta_text != blank %}
+          <a href="{{ section.settings.primary_cta_link | default: routes.all_products_collection_url }}" class="story-btn story-btn--primary">
+            {{ section.settings.primary_cta_text }}
+          </a>
+        {% endif %}
+
+        {% if section.settings.secondary_cta_text != blank %}
+          <a href="{{ section.settings.secondary_cta_link | default: '#story-farmers' }}" class="story-btn story-btn--secondary">
+            {{ section.settings.secondary_cta_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Our Story Hero",
+  "tag": "section",
+  "class": "section-our-story-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop Hero Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Hero Image"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 45
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Small Label",
+      "default": "OUR STORY"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "Good Food Begins With Good Farming"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "From Indian farms to your family, we are building a better way to discover honest, wholesome food."
+    },
+    {
+      "type": "text",
+      "id": "primary_cta_text",
+      "label": "Primary CTA Text",
+      "default": "Explore Our Products"
+    },
+    {
+      "type": "url",
+      "id": "primary_cta_link",
+      "label": "Primary CTA Link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_cta_text",
+      "label": "Secondary CTA Text",
+      "default": "Meet Our Farmers"
+    },
+    {
+      "type": "url",
+      "id": "secondary_cta_link",
+      "label": "Secondary CTA Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Story Hero"
+    }
+  ]
+}
+{% endschema %}

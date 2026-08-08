@@ -1,0 +1,138 @@
+{% doc %}
+  Renders the Quality Promise statistics section for Our Story page.
+{% enddoc %}
+
+<section class="story-quality-promise" {{ section.shopify_attributes }}>
+  <div class="story-container">
+    <div class="story-header story-header--center story-header--light" data-story-reveal>
+      <span class="story-eyebrow story-eyebrow--light">{{ section.settings.eyebrow | default: 'UNCOMPROMISING STANDARDS' }}</span>
+      <h2 class="story-heading story-heading--light">{{ section.settings.heading | default: 'Our Promise of Quality' }}</h2>
+      <p class="story-subheading story-subheading--light">
+        {{ section.settings.subheading | default: 'Empirical proof of our dedication to transparent sourcing and traditional food purity.' }}
+      </p>
+    </div>
+
+    <div class="story-stats-grid">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          <div {{ block.shopify_attributes }}>
+            {% render 'story-stat',
+              number: block.settings.number,
+              suffix: block.settings.suffix,
+              label: block.settings.label,
+              subtext: block.settings.subtext
+            %}
+          </div>
+        {% endfor %}
+      {% else %}
+        {% render 'story-stat', number: '100', suffix: '%', label: 'Transparent Sourcing', subtext: 'Direct trace back to verified organic farms.' %}
+        {% render 'story-stat', number: '300', suffix: '+', label: 'Farmer Partnerships', subtext: 'Empowering smallholder Indian farming families.' %}
+        {% render 'story-stat', number: '48', suffix: 'H', label: 'Fresh Batch Dispatch', subtext: 'Milled fresh and delivered to your doorstep.' %}
+        {% render 'story-stat', number: '0', suffix: '%', label: 'Chemicals & Bleach', subtext: 'Zero artificial preservatives or pesticides ever.' %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Quality Promise Stats",
+  "tag": "section",
+  "class": "section-our-story-quality-promise",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "UNCOMPROMISING STANDARDS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Promise of Quality"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Empirical proof of our dedication to transparent sourcing and traditional food purity."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Statistic Counter",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Target Number",
+          "default": "100"
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Suffix Symbol (% / + / H)",
+          "default": "%"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Stat Label",
+          "default": "Transparent Sourcing"
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Secondary Subtext",
+          "default": "Direct trace back to verified organic farms."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quality Promise Stats",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "number": "100",
+            "suffix": "%",
+            "label": "Transparent Sourcing",
+            "subtext": "Direct trace back to verified organic farms."
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "300",
+            "suffix": "+",
+            "label": "Farmer Partnerships",
+            "subtext": "Empowering smallholder Indian farming families."
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "48",
+            "suffix": "H",
+            "label": "Fresh Batch Dispatch",
+            "subtext": "Milled fresh and delivered to your doorstep."
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "0",
+            "suffix": "%",
+            "label": "Chemicals & Bleach",
+            "subtext": "Zero artificial preservatives or pesticides ever."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

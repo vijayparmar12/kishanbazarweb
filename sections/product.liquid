@@ -45,7 +45,7 @@
 
 <div class="kishanbazar-product-page" data-kishanbazar-product-page>
   <!-- Main Grid Section (Section 2 Left Gallery & Section 3 Right Info) -->
-  <section class="main-product" data-main-product>
+  <section class="main-product main-product--media-{{ section.settings.desktop_media_width | default: 'large' }}" data-main-product>
     <!-- Left Column: Product Gallery -->
     <div class="main-product__left">
       {% render 'product-gallery', product: product, current_variant: current_variant, sale: sale %}
@@ -111,6 +111,26 @@
   "tag": "section",
   "class": "section-product-page",
   "settings": [
+    {
+      "type": "select",
+      "id": "desktop_media_width",
+      "label": "Desktop media width",
+      "options": [
+        {
+          "value": "medium",
+          "label": "Medium (50%)"
+        },
+        {
+          "value": "large",
+          "label": "Large (60%)"
+        },
+        {
+          "value": "xlarge",
+          "label": "Extra Large (65%)"
+        }
+      ],
+      "default": "large"
+    },
     {
       "type": "checkbox",
       "id": "show_recommendations",

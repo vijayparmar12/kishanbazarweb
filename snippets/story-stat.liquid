@@ -1,0 +1,22 @@
+{% doc %}
+  Renders a single statistic counter item for the Quality Promise section.
+
+  @param {string} [number] - Numeric target value or stat text
+  @param {string} [suffix] - Suffix unit (%, +, etc.)
+  @param {string} [label] - Stat heading label
+  @param {string} [subtext] - Secondary description text
+
+  @example
+  {% render 'story-stat', number: block.settings.number, suffix: block.settings.suffix, label: block.settings.label, subtext: block.settings.subtext %}
+{% enddoc %}
+
+<div class="story-stat-card" data-story-reveal>
+  <div class="story-stat-card__number-wrap">
+    <span class="story-stat-card__number" data-story-counter="{{ number | default: '100' }}">{{ number | default: "100" }}</span>
+    <span class="story-stat-card__suffix">{{ suffix | default: "%" }}</span>
+  </div>
+  <h3 class="story-stat-card__label">{{ label | default: "Transparent Sourcing" }}</h3>
+  {% if subtext != blank %}
+    <p class="story-stat-card__subtext">{{ subtext }}</p>
+  {% endif %}
+</div>

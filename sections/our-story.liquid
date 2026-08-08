@@ -1,0 +1,118 @@
+{% doc %}
+  Renders the main Our Story page layout for Kishan Bazar.
+{% enddoc %}
+
+<link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
+
+<div class="our-story-page">
+  <!-- Hero Banner -->
+  <header class="our-story-hero">
+    <div class="our-story-hero__inner">
+      <span class="our-story-hero__pill">🌿 Organic Heritage &bull; Est. 2018</span>
+      <h1 class="our-story-hero__title">{{ section.settings.hero_title | default: "Our Story — Rooted in Pure Organic Farming" }}</h1>
+      <p class="our-story-hero__subtitle">
+        {{ section.settings.hero_subtitle | default: "Discover how Kishan Bazar connects native farmers of Surat and Madhya Pradesh directly to your family's kitchen with stone-ground purity." }}
+      </p>
+    </div>
+  </header>
+
+  <!-- Section 1: The Farm & Philosophy -->
+  <section class="our-story-section">
+    <div class="our-story-container">
+      <div class="our-story-grid">
+        <div class="our-story-grid__media">
+          <img
+            src="{{ 'hero-banner.jpg.png' | asset_url }}"
+            alt="Kishan Bazar Organic Kitchen"
+            class="our-story-grid__image"
+            loading="eager"
+            width="600"
+            height="450"
+          >
+        </div>
+        <div class="our-story-grid__content">
+          <span class="our-story-tag">TRADITIONAL STONE GROUND</span>
+          <h2 class="our-story-heading">Preserving Ancient Grain Milling Wisdom</h2>
+          <p class="our-story-text">
+            Modern high-speed roller mills generate high heat, destroying essential wheat germ oils and vitamins. At Kishan Bazar, we remain committed to slow, traditional cold-stone grinding.
+          </p>
+          <p class="our-story-text">
+            Our Khapli Emmer Wheat, Ghee, and unrefined cold-pressed oils retain 100% of their natural dietary fiber, rich aroma, and authentic taste without any chemical preservatives or artificial bleaching.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: 4 Pillars of Purity -->
+  <section class="our-story-section our-story-section--alt">
+    <div class="our-story-container">
+      <div style="text-align: center; max-width: 700px; margin: 0 auto 1rem;">
+        <span class="our-story-tag">OUR PROMISE</span>
+        <h2 class="our-story-heading">Why Families Trust Kishan Bazar</h2>
+      </div>
+
+      <div class="our-story-pillars">
+        <div class="our-story-pillar">
+          <div class="our-story-pillar__icon">🌱</div>
+          <h3 class="our-story-pillar__title">100% Organic</h3>
+          <p class="our-story-pillar__desc">Directly sourced from certified non-GMO farms in Surat & MP.</p>
+        </div>
+
+        <div class="our-story-pillar">
+          <div class="our-story-pillar__icon">⚙️</div>
+          <h3 class="our-story-pillar__title">Cold Stone Milled</h3>
+          <p class="our-story-pillar__desc">Slow ground at low temperatures to preserve natural germ and fiber.</p>
+        </div>
+
+        <div class="our-story-pillar">
+          <div class="our-story-pillar__icon">🥛</div>
+          <h3 class="our-story-pillar__title">A2 Bilona Ghee</h3>
+          <p class="our-story-pillar__desc">Hand-churned using traditional Vedic curd-churning techniques.</p>
+        </div>
+
+        <div class="our-story-pillar">
+          <div class="our-story-pillar__icon">🚚</div>
+          <h3 class="our-story-pillar__title">Fresh Batch Dispatch</h3>
+          <p class="our-story-pillar__desc">Milled in fresh weekly batches and dispatched within 24 hours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="our-story-container">
+    <div class="our-story-cta">
+      <h2 class="our-story-cta__title">Taste the Difference of Pure Organic Staples</h2>
+      <p style="color: #e5e7eb; max-width: 600px; margin: 0 auto 1.5rem;">Experience true farm-fresh quality with our Khapli Atta, A2 Gir Ghee, and native spices.</p>
+      <a href="{{ routes.all_products_collection_url }}" class="our-story-cta__btn">SHOP ORGANIC ESSENTIALS</a>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Our Story Page",
+  "tag": "section",
+  "class": "section-our-story",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "Our Story — Rooted in Pure Organic Farming"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtitle",
+      "label": "Hero Subtitle",
+      "default": "Discover how Kishan Bazar connects native farmers of Surat and Madhya Pradesh directly to your family's kitchen with stone-ground purity."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Story Page"
+    }
+  ]
+}
+{% endschema %}

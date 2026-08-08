@@ -1,5 +1,9 @@
 {% doc %}
-  Renders 4 feature badge icons dynamically from Shopify CSV / Metafields or Default CDN files.
+  Renders 4 feature badge icons dynamically from Shopify CSV / Metafields or your newly uploaded icon files.
+  1. icon2.png
+  2. icon4.png
+  3. free_shipping.png
+  4. icon3.png
 
   @param {object} [product] - The Shopify product object
 
@@ -67,29 +71,29 @@
         </div>
       {% endif %}
 
-    {% comment %} 2. Default Uploaded Shopify CDN Icon Images {% endcomment %}
+    {% comment %} 2. Your New Uploaded Icon Files from CSV {% endcomment %}
     {% else %}
       <div class="product-circle-features__item">
         <div class="product-circle-features__circle product-circle-features__circle--img">
-          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/secure_payments.png?v=1785927371" alt="Organic - 100% Organic" loading="lazy" width="120" height="120">
+          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon2.png?v=1785927371" alt="Icon 1 - Low Glycemic" loading="lazy" width="120" height="120">
         </div>
       </div>
 
       <div class="product-circle-features__item">
         <div class="product-circle-features__circle product-circle-features__circle--img">
-          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/free_shipping.png?v=1785927371" alt="Farm Fresh - Direct from Farm" loading="lazy" width="120" height="120">
+          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon4.png?v=1785927372" alt="Icon 2 - High Fiber" loading="lazy" width="120" height="120">
         </div>
       </div>
 
       <div class="product-circle-features__item">
         <div class="product-circle-features__circle product-circle-features__circle--img">
-          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon2.png?v=1785927371" alt="Lab Tested - Quality Tested" loading="lazy" width="120" height="120">
+          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/free_shipping.png?v=1785927371" alt="Icon 3 - Stone Ground" loading="lazy" width="120" height="120">
         </div>
       </div>
 
       <div class="product-circle-features__item">
         <div class="product-circle-features__circle product-circle-features__circle--img">
-          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon3.png?v=1785927371" alt="Chemical Free - No Chemicals" loading="lazy" width="120" height="120">
+          <img src="https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon3.png?v=1785927371" alt="Icon 4 - Easily Digestible" loading="lazy" width="120" height="120">
         </div>
       </div>
     {% endif %}

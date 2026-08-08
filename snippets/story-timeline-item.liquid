@@ -1,0 +1,28 @@
+{% doc %}
+  Renders a single timeline item on the Our Story page.
+
+  @param {string} [year] - Timeline year/milestone marker
+  @param {string} [title] - Milestone title
+  @param {string} [description] - Milestone description
+  @param {object} [image] - Optional milestone image
+  @param {boolean} [is_even] - Position flag for alternating desktop layout
+
+  @example
+  {% render 'story-timeline-item', year: block.settings.year, title: block.settings.title, description: block.settings.description, image: block.settings.image %}
+{% enddoc %}
+
+<div class="story-timeline-item {% if is_even %}story-timeline-item--even{% endif %}" data-story-reveal>
+  <div class="story-timeline-item__badge">
+    <span>{{ year | default: "2018" }}</span>
+  </div>
+  <div class="story-timeline-item__content">
+    <span class="story-timeline-item__year">{{ year | default: "2018" }}</span>
+    <h3 class="story-timeline-item__title">{{ title | default: "The Beginning" }}</h3>
+    <p class="story-timeline-item__desc">{{ description | default: "Started with a vision to connect organic farmers directly with urban households." }}</p>
+    {% if image != blank %}
+      <div class="story-timeline-item__media">
+        {{ image | image_url: width: 600 | image_tag: class: 'story-timeline-item__img', loading: 'lazy', alt: title | escape }}
+      </div>
+    {% endif %}
+  </div>
+</div>

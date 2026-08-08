@@ -1,0 +1,111 @@
+{% doc %}
+  Renders the final Call to Action section for Our Story page.
+{% enddoc %}
+
+<section class="story-final-cta" {{ section.shopify_attributes }}>
+  <div class="story-final-cta__bg-wrap">
+    {% if section.settings.bg_image != blank %}
+      {{
+        section.settings.bg_image
+        | image_url: width: 2200
+        | image_tag:
+          class: 'story-final-cta__bg-img',
+          loading: 'lazy',
+          widths: '750, 1100, 1400, 1800, 2200',
+          alt: section.settings.heading | escape
+      }}
+    {% else %}
+      <img
+        class="story-final-cta__bg-img"
+        src="{{ 'newsletter-bg.jpg.png' | asset_url }}"
+        alt="{{ section.settings.heading | escape }}"
+        width="1800"
+        height="700"
+        loading="lazy"
+      >
+    {% endif %}
+    <div class="story-final-cta__overlay"></div>
+  </div>
+
+  <div class="story-container story-final-cta__content-wrap" data-story-reveal>
+    <span class="story-eyebrow story-eyebrow--light">{{ section.settings.eyebrow | default: 'JOIN THE MOVEMENT' }}</span>
+    <h2 class="story-final-cta__heading">{{ section.settings.heading | default: 'Be Part of Our Journey' }}</h2>
+    <p class="story-final-cta__desc">
+      {{ section.settings.description | default: 'Every purchase helps us bring better food to more families while supporting the people who grow it.' }}
+    </p>
+
+    <div class="story-final-cta__actions">
+      {% if section.settings.primary_btn_text != blank %}
+        <a href="{{ section.settings.primary_btn_link | default: routes.all_products_collection_url }}" class="story-btn story-btn--gold">
+          {{ section.settings.primary_btn_text }}
+        </a>
+      {% endif %}
+
+      {% if section.settings.secondary_btn_text != blank %}
+        <a href="{{ section.settings.secondary_btn_link | default: routes.root_url }}" class="story-btn story-btn--light-outline">
+          {{ section.settings.secondary_btn_text }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Our Story Final CTA",
+  "tag": "section",
+  "class": "section-our-story-cta",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "JOIN THE MOVEMENT"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Be Part of Our Journey"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Every purchase helps us bring better food to more families while supporting the people who grow it."
+    },
+    {
+      "type": "text",
+      "id": "primary_btn_text",
+      "label": "Primary Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "primary_btn_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_btn_text",
+      "label": "Secondary Button Text",
+      "default": "Join Our Community"
+    },
+    {
+      "type": "url",
+      "id": "secondary_btn_link",
+      "label": "Secondary Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Story Final CTA"
+    }
+  ]
+}
+{% endschema %}

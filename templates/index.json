@@ -18,7 +18,9 @@
         "primary_label": "Shop essentials",
         "primary_link": "",
         "secondary_label": "Our story",
-        "secondary_link": "",
+        "secondary_link": "/pages/our-story",
+        "story_link": "/pages/our-story",
+        "right_bottom_link": "/pages/our-story",
         "overlay_opacity": "medium",
         "text_alignment": "left"
       }
@@ -103,43 +105,6 @@
         "muted": true
       }
     },
-    "features": {
-      "type": "features",
-      "blocks": {
-        "organic": {
-          "type": "feature",
-          "settings": {
-            "icon": "heart",
-            "title": "Organic goodness",
-            "description": "Wholesome food, simply sourced."
-          }
-        },
-        "fresh": {
-          "type": "feature",
-          "settings": {
-            "icon": "star",
-            "title": "Farm fresh",
-            "description": "Made with care and integrity."
-          }
-        },
-        "delivery": {
-          "type": "feature",
-          "settings": {
-            "icon": "cart",
-            "title": "Easy delivery",
-            "description": "Goodness delivered to your door."
-          }
-        }
-      },
-      "block_order": [
-        "organic",
-        "fresh",
-        "delivery"
-      ],
-      "settings": {
-        "heading": "The Kishan Bazar promise"
-      }
-    },
     "best_sellers": {
       "type": "best-sellers",
       "settings": {
@@ -214,7 +179,6 @@
     "categories",
     "shoppable_videos",
     "video",
-    "features",
     "best_sellers",
     "offer",
     "testimonials",

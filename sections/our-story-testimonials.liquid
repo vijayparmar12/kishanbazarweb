@@ -1,0 +1,190 @@
+{% doc %}
+  Renders customer testimonials carousel for Our Story page.
+{% enddoc %}
+
+<section class="story-testimonials" {{ section.shopify_attributes }}>
+  <div class="story-container">
+    <div class="story-header story-header--center" data-story-reveal>
+      <span class="story-eyebrow">{{ section.settings.eyebrow | default: 'VOICES OF TRUST' }}</span>
+      <h2 class="story-heading">{{ section.settings.heading | default: 'Loved by Health-Conscious Families' }}</h2>
+      <p class="story-subheading">
+        {{ section.settings.subheading | default: 'Hear what Indian mothers, chefs, and wellness enthusiasts say about Kishan Bazar.' }}
+      </p>
+    </div>
+
+    <div class="story-testimonials__slider-wrap" data-story-slider>
+      <div class="story-testimonials__grid">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            <div class="story-testimonial-card" data-story-reveal {{ block.shopify_attributes }}>
+              <div class="story-testimonial-card__stars">★★★★★</div>
+              <p class="story-testimonial-card__review">"{{ block.settings.review | default: 'The aroma and texture of Khapli Atta reminded me of my grandmother farm rotis. Exceptional quality!' }}"</p>
+
+              <div class="story-testimonial-card__author">
+                <div class="story-testimonial-card__avatar">
+                  {% if block.settings.image != blank %}
+                    {{ block.settings.image | image_url: width: 160 | image_tag: class: 'story-testimonial-card__avatar-img', loading: 'lazy', alt: block.settings.name | escape }}
+                  {% else %}
+                    <img src="{{ 'testimonial-1.jpg.png' | asset_url }}" alt="{{ block.settings.name | escape }}" class="story-testimonial-card__avatar-img" loading="lazy" width="80" height="80">
+                  {% endif %}
+                </div>
+                <div class="story-testimonial-card__meta">
+                  <h4 class="story-testimonial-card__name">{{ block.settings.name | default: 'Priya Sharma' }}</h4>
+                  <span class="story-testimonial-card__location">📍 {{ block.settings.location | default: 'Mumbai, Maharashtra' }}</span>
+                  {% if block.settings.product != blank %}
+                    <span class="story-testimonial-card__verified">Verified Buyer &bull; {{ block.settings.product }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <!-- Default Testimonials -->
+          <div class="story-testimonial-card" data-story-reveal>
+            <div class="story-testimonial-card__stars">★★★★★</div>
+            <p class="story-testimonial-card__review">"The aroma and texture of Khapli Atta reminded me of my grandmother's farm rotis. Unbelievably soft and easy to digest!"</p>
+            <div class="story-testimonial-card__author">
+              <div class="story-testimonial-card__avatar">
+                <img src="{{ 'testimonial-1.jpg.png' | asset_url }}" alt="Priya Sharma" class="story-testimonial-card__avatar-img" loading="lazy" width="80" height="80">
+              </div>
+              <div class="story-testimonial-card__meta">
+                <h4 class="story-testimonial-card__name">Priya Sharma</h4>
+                <span class="story-testimonial-card__location">📍 Mumbai, Maharashtra</span>
+                <span class="story-testimonial-card__verified">Verified Buyer &bull; Khapli Atta</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="story-testimonial-card" data-story-reveal>
+            <div class="story-testimonial-card__stars">★★★★★</div>
+            <p class="story-testimonial-card__review">"A2 Gir Cow Bilona Ghee from Kishan Bazar has become a staple in our home. You can smell the authentic curd churning!"</p>
+            <div class="story-testimonial-card__author">
+              <div class="story-testimonial-card__avatar">
+                <img src="{{ 'testimonial-1.jpg.png' | asset_url }}" alt="Anish Mehta" class="story-testimonial-card__avatar-img" loading="lazy" width="80" height="80">
+              </div>
+              <div class="story-testimonial-card__meta">
+                <h4 class="story-testimonial-card__name">Dr. Anish Mehta</h4>
+                <span class="story-testimonial-card__location">📍 Pune, Maharashtra</span>
+                <span class="story-testimonial-card__verified">Verified Buyer &bull; A2 Gir Ghee</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="story-testimonial-card" data-story-reveal>
+            <div class="story-testimonial-card__stars">★★★★★</div>
+            <p class="story-testimonial-card__review">"Knowing that my purchases directly support small native farmers in Surat makes every meal taste even better."</p>
+            <div class="story-testimonial-card__author">
+              <div class="story-testimonial-card__avatar">
+                <img src="{{ 'testimonial-1.jpg.png' | asset_url }}" alt="Sunita Rao" class="story-testimonial-card__avatar-img" loading="lazy" width="80" height="80">
+              </div>
+              <div class="story-testimonial-card__meta">
+                <h4 class="story-testimonial-card__name">Sunita Rao</h4>
+                <span class="story-testimonial-card__location">📍 Bengaluru, Karnataka</span>
+                <span class="story-testimonial-card__verified">Verified Buyer &bull; Organic Oils</span>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Story Testimonials",
+  "tag": "section",
+  "class": "section-our-story-testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "VOICES OF TRUST"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Loved by Health-Conscious Families"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Hear what Indian mothers, chefs, and wellness enthusiasts say about Kishan Bazar."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Customer Review",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer Photo"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Customer Name",
+          "default": "Customer Name"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "Mumbai, Maharashtra"
+        },
+        {
+          "type": "text",
+          "id": "product",
+          "label": "Purchased Product",
+          "default": "Khapli Atta"
+        },
+        {
+          "type": "textarea",
+          "id": "review",
+          "label": "Review Text",
+          "default": "The quality of food from Kishan Bazar is remarkable!"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "Priya Sharma",
+            "location": "Mumbai, Maharashtra",
+            "product": "Khapli Atta",
+            "review": "The aroma and texture of Khapli Atta reminded me of my grandmother's farm rotis. Unbelievably soft and easy to digest!"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "Dr. Anish Mehta",
+            "location": "Pune, Maharashtra",
+            "product": "A2 Gir Ghee",
+            "review": "A2 Gir Cow Bilona Ghee from Kishan Bazar has become a staple in our home. You can smell the authentic curd churning!"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "Sunita Rao",
+            "location": "Bengaluru, Karnataka",
+            "product": "Cold Pressed Oils",
+            "review": "Knowing that my purchases directly support small native farmers in Surat makes every meal taste even better."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

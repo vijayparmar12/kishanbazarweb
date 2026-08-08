@@ -44,7 +44,7 @@
 
 .product-page-container {
   margin: 0 auto;
-  max-width: 1280px;
+  max-width: 2000px;
   padding: 0 1.25rem;
 }
 
@@ -54,10 +54,22 @@
 .main-product {
   display: grid;
   gap: clamp(1.5rem, 3.5vw, 3rem);
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
   margin: 0 auto;
-  max-width: 1280px;
+  max-width: 2000px;
   padding: clamp(1rem, 2.5vw, 1.75rem) 1.25rem 0.75rem;
+}
+
+.main-product--media-medium {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.main-product--media-large {
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
+}
+
+.main-product--media-xlarge {
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.85fr);
 }
 
 .main-product__left,
@@ -212,14 +224,14 @@
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
   cursor: pointer;
-  flex: 0 0 68px;
-  height: 68px;
+  flex: 0 0 76px;
+  height: 76px;
   overflow: hidden;
   padding: 0;
   position: relative;
   scroll-snap-align: start;
   transition: all 0.2s ease;
-  width: 68px;
+  width: 76px;
 }
 
 .product-gallery__thumb:hover,
@@ -656,13 +668,13 @@
 }
 
 .product-info__btn--buy-now {
-  background: linear-gradient(135deg, #1b4317 0%, #122d10 100%);
-  box-shadow: 0 6px 20px rgba(27, 67, 23, 0.25);
+  background: #157347;
+  box-shadow: 0 6px 20px rgba(21, 115, 71, 0.25);
   color: #ffffff;
 }
 
 .product-info__btn--buy-now:hover {
-  background: linear-gradient(135deg, #143511 0%, #0d210b 100%);
+  background: #105936;
   transform: translateY(-2px);
 }
 
@@ -755,7 +767,7 @@
   padding: 0.75rem 0.9rem;
 }
 
-/* 4 Feature Badges (Supports SVG Icons & Custom Uploaded Rectangular Badge Images) */
+/* 4 Feature Badges (Only Clean Large Images - No Borders/Boxes) */
 .product-circle-features {
   margin: 1rem 0 0.5rem;
 }
@@ -776,43 +788,47 @@
 
 .product-circle-features__circle {
   align-items: center;
-  background-color: #ffffff;
-  border: 2px solid #1b4317;
-  border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(27, 67, 23, 0.08);
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
   display: flex;
-  height: 72px;
+  height: auto;
   justify-content: center;
-  transition: all 0.25s ease;
-  width: 72px;
+  padding: 0;
+  transition: transform 0.25s ease;
+  width: 100%;
 }
 
 /* Fluid support for uploaded rectangular badge images with embedded text */
 .product-circle-features__circle:has(img),
 .product-circle-features__circle--img {
   aspect-ratio: auto;
-  border-radius: 12px;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
   height: auto;
-  max-height: 85px;
-  min-height: 56px;
-  padding: 4px;
+  max-height: none;
+  min-height: 0;
+  padding: 0;
   width: 100%;
 }
 
 .product-circle-features__circle img {
-  border-radius: 8px;
+  border: none;
+  border-radius: 0;
   display: block;
   height: auto;
-  max-height: 80px;
+  max-height: 110px;
   max-width: 100%;
   object-fit: contain;
-  width: auto;
+  width: 100%;
 }
 
 .product-circle-features__item:hover .product-circle-features__circle {
-  background-color: #f0fdf4;
-  box-shadow: 0 8px 20px rgba(27, 67, 23, 0.18);
-  transform: scale(1.05);
+  background-color: transparent;
+  box-shadow: none;
+  transform: scale(1.06);
 }
 
 .product-circle-features__label {

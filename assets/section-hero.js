@@ -104,17 +104,6 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-home-hero]').forEach(initHeroSlider);
-
-    // Our Story Smooth Scroll Handler
-    document.querySelectorAll('[data-our-story-trigger]').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const videoSection = document.querySelector('[data-home-video], .section-video, #our-story');
-        if (videoSection) {
-          e.preventDefault();
-          videoSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
   });
 
   // Shopify Theme Editor Section Load Event Support

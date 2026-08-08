@@ -1,0 +1,25 @@
+{% doc %}
+  Renders a single value card for the Our Story page.
+
+  @param {string} [title] - Title of the value card
+  @param {string} [description] - Body description
+  @param {string} [icon] - SVG icon markup or emoji symbol
+  @param {object} [image] - Optional custom image object
+
+  @example
+  {% render 'story-value-card', title: block.settings.title, description: block.settings.description, icon: block.settings.icon, image: block.settings.image %}
+{% enddoc %}
+
+<div class="story-value-card" data-story-reveal>
+  <div class="story-value-card__icon-wrap">
+    {% if image != blank %}
+      {{ image | image_url: width: 120 | image_tag: class: 'story-value-card__image', loading: 'lazy', alt: title | escape }}
+    {% elsif icon != blank %}
+      <span class="story-value-card__icon">{{ icon }}</span>
+    {% else %}
+      <span class="story-value-card__icon">🌿</span>
+    {% endif %}
+  </div>
+  <h3 class="story-value-card__title">{{ title | default: "Honest Ingredients" }}</h3>
+  <p class="story-value-card__desc">{{ description | default: "Straight from certified Indian farms without artificial additives or preservatives." }}</p>
+</div>

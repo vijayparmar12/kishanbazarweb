@@ -122,12 +122,13 @@
             </div>
           {% else %}
             <input type="hidden" name="id" value="{{ variant.id }}">
-            <div class="product-card__variant-look">
-              {{ variant.title | default: '1kg' }}
+            <div class="product-card__variant-wrap">
+              <select class="product-card__variant-select" id="ProductCardVariant-{{ product.id }}" aria-label="Select variant">
+                <option value="{{ variant.id }}" selected>
+                  {% if variant.title != 'Default Title' and variant.title != blank %}{{ variant.title }}{% else %}10kg{% endif %}
+                </option>
+              </select>
             </div>
-          {% endif %}
-          {% if show_quickview %}
-            <a class="product-card__quick-view" href="{{ product.url }}">View details</a>
           {% endif %}
           <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %}>
             {% if product.available %}ADD TO CART{% else %}SOLD OUT{% endif %}

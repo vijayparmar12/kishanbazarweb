@@ -34,6 +34,7 @@
     {{ 'customer-auth.css' | asset_url | stylesheet_tag }}
     {{ 'customer-profile.css' | asset_url | stylesheet_tag }}
     {{ 'component-wishlist.css' | asset_url | stylesheet_tag }}
+    {{ 'section-our-story.css' | asset_url | stylesheet_tag }}
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
@@ -83,5 +84,6 @@
     <script src="{{ 'component-product-card.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-quantity-selector.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'section-membership.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'section-our-story.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>

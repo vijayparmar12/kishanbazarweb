@@ -1,0 +1,169 @@
+{% doc %}
+  Renders featured collections showcase for Our Story page.
+{% enddoc %}
+
+<section class="story-products" {{ section.shopify_attributes }}>
+  <div class="story-container">
+    <div class="story-header story-header--center" data-story-reveal>
+      <span class="story-eyebrow">{{ section.settings.eyebrow | default: 'ORGANIC PANTRY' }}</span>
+      <h2 class="story-heading">{{ section.settings.heading | default: 'Crafted with Native Organic Care' }}</h2>
+      <p class="story-subheading">
+        {{ section.settings.subheading | default: 'Explore our unrefined, cold-stone ground organic staples for your family.' }}
+      </p>
+    </div>
+
+    <div class="story-products__grid">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% assign collection = block.settings.collection %}
+          <div class="story-product-card" data-story-reveal {{ block.shopify_attributes }}>
+            <div class="story-product-card__media">
+              {% if collection.image != blank %}
+                {{ collection.image | image_url: width: 800 | image_tag: class: 'story-product-card__img', loading: 'lazy', alt: collection.title | escape }}
+              {% elsif block.settings.custom_image != blank %}
+                {{ block.settings.custom_image | image_url: width: 800 | image_tag: class: 'story-product-card__img', loading: 'lazy', alt: collection.title | default: block.settings.title | escape }}
+              {% else %}
+                <img src="{{ 'category-1.png.png' | asset_url }}" alt="{{ collection.title | default: block.settings.title }}" class="story-product-card__img" loading="lazy" width="600" height="450">
+              {% endif %}
+            </div>
+            <div class="story-product-card__content">
+              <h3 class="story-product-card__title">{{ block.settings.title | default: collection.title | default: "Organic Ghee & Atta" }}</h3>
+              <p class="story-product-card__desc">{{ block.settings.description | default: collection.description | strip_html | truncate: 120 | default: "Stone-ground flour and traditional Bilona churned ghee." }}</p>
+              <a href="{{ collection.url | default: routes.all_products_collection_url }}" class="story-product-card__btn">
+                <span>Explore {{ block.settings.title | default: collection.title | default: 'Collection' }}</span>
+                <span class="story-arrow">&rarr;</span>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <!-- Default Fallback Collection Cards -->
+        <div class="story-product-card" data-story-reveal>
+          <div class="story-product-card__media">
+            <img src="{{ 'ghee.png' | asset_url }}" alt="A2 Cow Ghee" class="story-product-card__img" loading="lazy" width="600" height="450">
+          </div>
+          <div class="story-product-card__content">
+            <h3 class="story-product-card__title">A2 Gir Cow Bilona Ghee</h3>
+            <p class="story-product-card__desc">Hand-churned from A2 curd using ancient Vedic Bilona method.</p>
+            <a href="{{ routes.all_products_collection_url }}" class="story-product-card__btn">
+              <span>Explore Ghee</span>
+              <span class="story-arrow">&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="story-product-card" data-story-reveal>
+          <div class="story-product-card__media">
+            <img src="{{ 'atta.png' | asset_url }}" alt="Khapli Atta" class="story-product-card__img" loading="lazy" width="600" height="450">
+          </div>
+          <div class="story-product-card__content">
+            <h3 class="story-product-card__title">Stone-Ground Khapli Atta</h3>
+            <p class="story-product-card__desc">Low GI, ancient Emmer wheat ground slowly on traditional granite stones.</p>
+            <a href="{{ routes.all_products_collection_url }}" class="story-product-card__btn">
+              <span>Explore Atta</span>
+              <span class="story-arrow">&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="story-product-card" data-story-reveal>
+          <div class="story-product-card__media">
+            <img src="{{ 'category-3.png.png' | asset_url }}" alt="Cold Pressed Oils" class="story-product-card__img" loading="lazy" width="600" height="450">
+          </div>
+          <div class="story-product-card__content">
+            <h3 class="story-product-card__title">Cold-Pressed Oils</h3>
+            <p class="story-product-card__desc">Wood-pressed mustard, groundnut, and sesame oils unrefined for health.</p>
+            <a href="{{ routes.all_products_collection_url }}" class="story-product-card__btn">
+              <span>Explore Oils</span>
+              <span class="story-arrow">&rarr;</span>
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Our Products Showcase",
+  "tag": "section",
+  "class": "section-our-story-products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "ORGANIC PANTRY"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Crafted with Native Organic Care"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Explore our unrefined, cold-stone ground organic staples for your family."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection Card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom Title (Optional)"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Short Description"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom Image (Optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Products Showcase",
+      "blocks": [
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "A2 Gir Cow Bilona Ghee",
+            "description": "Hand-churned from A2 curd using ancient Vedic Bilona method."
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Stone-Ground Khapli Atta",
+            "description": "Low GI, ancient Emmer wheat ground slowly on traditional granite stones."
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Cold-Pressed Oils",
+            "description": "Wood-pressed mustard, groundnut, and sesame oils unrefined for health."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

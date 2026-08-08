@@ -43,7 +43,7 @@
           <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-btn home-hero-btn--primary">
             {{ section.settings.shop_btn_text | default: 'SHOP ESSENTIALS' }}
           </a>
-          <a href="{{ section.settings.story_link | default: '#our-story' }}" class="home-hero-btn home-hero-btn--secondary" data-our-story-trigger>
+          <a href="{% if section.settings.story_link != blank %}{{ section.settings.story_link }}{% else %}/pages/our-story{% endif %}" class="home-hero-btn home-hero-btn--secondary">
             {{ section.settings.story_btn_text | default: 'OUR STORY' }}
           </a>
         </div>
@@ -138,9 +138,9 @@
         </div>
       </div>
 
-      <!-- Right Bottom Sub-Banner -->
+      <!-- Right Bottom Sub-Banner (Our Story Banner on Webview) -->
       <div class="home-hero-split__item home-hero-split__item--sub">
-        <a href="{{ section.settings.right_bottom_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Bottom Banner">
+        <a href="{% if section.settings.right_bottom_link != blank %}{{ section.settings.right_bottom_link }}{% else %}/pages/our-story{% endif %}" class="home-hero-split__link" aria-label="Our Story Banner">
           {% if section.settings.right_bottom_image != blank %}
             {{
               section.settings.right_bottom_image
@@ -154,7 +154,7 @@
             <img
               class="home-hero-split__image"
               src="{{ 'hero-mobile.jpg.png' | asset_url }}"
-              alt="Organic Farm Fresh Kitchen"
+              alt="Our Story - Organic Farm Fresh Kitchen"
               width="600"
               height="350"
               loading="eager"

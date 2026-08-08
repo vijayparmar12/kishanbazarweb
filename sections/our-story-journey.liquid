@@ -1,0 +1,150 @@
+{% doc %}
+  Renders the Our Journey timeline section for Our Story page.
+{% enddoc %}
+
+<section class="story-journey" id="StoryJourney-{{ section.id }}" {{ section.shopify_attributes }}>
+  <div class="story-container">
+    <div class="story-header story-header--center" data-story-reveal>
+      <span class="story-eyebrow">{{ section.settings.eyebrow | default: 'MILESTONES' }}</span>
+      <h2 class="story-heading">{{ section.settings.heading | default: 'Our Journey' }}</h2>
+      <p class="story-subheading">{{ section.settings.subheading | default: 'From humble beginnings on native farms to thousands of happy, healthy kitchens.' }}</p>
+    </div>
+
+    <div class="story-timeline">
+      <div class="story-timeline__line"></div>
+      <div class="story-timeline__items">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            {% assign even_flag = forloop.index | modulo: 2 %}
+            {% assign is_even = false %}
+            {% if even_flag == 0 %}
+              {% assign is_even = true %}
+            {% endif %}
+            <div {{ block.shopify_attributes }}>
+              {% render 'story-timeline-item',
+                year: block.settings.year,
+                title: block.settings.title,
+                description: block.settings.description,
+                image: block.settings.image,
+                is_even: is_even
+              %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <!-- Default Timeline Milestones -->
+          {% render 'story-timeline-item', year: '2018', title: 'The Beginning', description: 'Founded with a promise to bring pure, unadulterated farm staples back into urban Indian homes.', is_even: false %}
+          {% render 'story-timeline-item', year: '2019', title: 'First Farmer Partnerships', description: 'Partnered directly with 25 organic farming families across Surat and Narmada region.', is_even: true %}
+          {% render 'story-timeline-item', year: '2021', title: 'First Traditional Products', description: 'Launched our signature Stone-Ground Khapli Atta and Vedic A2 Gir Cow Bilona Ghee.', is_even: false %}
+          {% render 'story-timeline-item', year: '2023', title: 'Growing Community', description: 'Crossed 50,000+ satisfied households delivered with zero chemical preservatives.', is_even: true %}
+          {% render 'story-timeline-item', year: '2026', title: 'Kishan Bazar Today', description: 'Empowering over 300+ native farmers and expanding our farm-to-table organic pantry nationwide.', is_even: false %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Our Journey Timeline",
+  "tag": "section",
+  "class": "section-our-story-journey",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "MILESTONES"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Journey"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "From humble beginnings on native farms to thousands of happy, healthy kitchens."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "timeline_item",
+      "name": "Timeline Milestone",
+      "settings": [
+        {
+          "type": "text",
+          "id": "year",
+          "label": "Year / Milestone",
+          "default": "2020"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Milestone Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Description of this milestone in our journey."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Optional Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Journey Timeline",
+      "blocks": [
+        {
+          "type": "timeline_item",
+          "settings": {
+            "year": "2018",
+            "title": "The Beginning",
+            "description": "Founded with a promise to bring pure, unadulterated farm staples back into urban Indian homes."
+          }
+        },
+        {
+          "type": "timeline_item",
+          "settings": {
+            "year": "2020",
+            "title": "First Farmer Partnerships",
+            "description": "Partnered directly with 25 organic farming families across Surat and Narmada region."
+          }
+        },
+        {
+          "type": "timeline_item",
+          "settings": {
+            "year": "2022",
+            "title": "First Traditional Products",
+            "description": "Launched our signature Stone-Ground Khapli Atta and Vedic A2 Gir Cow Bilona Ghee."
+          }
+        },
+        {
+          "type": "timeline_item",
+          "settings": {
+            "year": "2024",
+            "title": "Growing Community",
+            "description": "Crossed 50,000+ satisfied households delivered with zero chemical preservatives."
+          }
+        },
+        {
+          "type": "timeline_item",
+          "settings": {
+            "year": "Today",
+            "title": "Kishan Bazar Today",
+            "description": "Empowering over 300+ native farmers and expanding our farm-to-table organic pantry nationwide."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

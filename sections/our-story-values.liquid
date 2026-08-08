@@ -1,0 +1,149 @@
+{% doc %}
+  Renders the Our Values section for Our Story page.
+{% enddoc %}
+
+<section class="story-values" {{ section.shopify_attributes }}>
+  <div class="story-container">
+    <div class="story-header story-header--center" data-story-reveal>
+      <span class="story-eyebrow">{{ section.settings.eyebrow | default: 'CORE GUIDING PRINCIPLES' }}</span>
+      <h2 class="story-heading">{{ section.settings.heading | default: 'Our Core Values' }}</h2>
+      <p class="story-subheading">{{ section.settings.subheading | default: 'The principles that guide every seed we sow, every batch we grind, and every parcel we deliver.' }}</p>
+    </div>
+
+    <div class="story-values__grid">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          <div {{ block.shopify_attributes }}>
+            {% render 'story-value-card',
+              title: block.settings.title,
+              description: block.settings.description,
+              icon: block.settings.icon,
+              image: block.settings.image
+            %}
+          </div>
+        {% endfor %}
+      {% else %}
+        {% render 'story-value-card', title: 'Honest Ingredients', description: 'Straight from certified Indian farms without artificial additives, preservatives, or synthetic bleaching.', icon: '🌱' %}
+        {% render 'story-value-card', title: 'Traditional Practices', description: 'Slow cold-stone grinding and Bilona curd-churning that preserves delicate natural vitamins.', icon: '⚙️' %}
+        {% render 'story-value-card', title: 'Farmer First', description: 'Fair pricing and direct farmer partnerships that empower indigenous farming families.', icon: '🤝' %}
+        {% render 'story-value-card', title: 'Quality Over Quantity', description: 'Fresh weekly small-batch production ensuring maximum freshness and nutrient retention.', icon: '✨' %}
+        {% render 'story-value-card', title: 'Sustainability', description: 'Eco-friendly farming practices that protect soil health and conserve local groundwater.', icon: '🌾' %}
+        {% render 'story-value-card', title: 'Full Transparency', description: 'Complete traceability from farm origin to packaging—no hidden ingredients ever.', icon: '🔍' %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Our Values",
+  "tag": "section",
+  "class": "section-our-story-values",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "CORE GUIDING PRINCIPLES"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Core Values"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "The principles that guide every seed we sow, every batch we grind, and every parcel we deliver."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value_card",
+      "name": "Value Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Honest Ingredients"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Straight from certified Indian farms without artificial additives or preservatives."
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Emoji / Icon Symbol",
+          "default": "🌱"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Optional Custom Icon Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Values",
+      "blocks": [
+        {
+          "type": "value_card",
+          "settings": {
+            "title": "Honest Ingredients",
+            "description": "Straight from certified Indian farms without artificial additives, preservatives, or synthetic bleaching.",
+            "icon": "🌱"
+          }
+        },
+        {
+          "type": "value_card",
+          "settings": {
+            "title": "Traditional Practices",
+            "description": "Slow cold-stone grinding and Bilona curd-churning that preserves delicate natural vitamins.",
+            "icon": "⚙️"
+          }
+        },
+        {
+          "type": "value_card",
+          "settings": {
+            "title": "Farmer First",
+            "description": "Fair pricing and direct farmer partnerships that empower indigenous farming families.",
+            "icon": "🤝"
+          }
+        },
+        {
+          "type": "value_card",
+          "settings": {
+            "title": "Quality Over Quantity",
+            "description": "Fresh weekly small-batch production ensuring maximum freshness and nutrient retention.",
+            "icon": "✨"
+          }
+        },
+        {
+          "type": "value_card",
+          "settings": {
+            "title": "Sustainability",
+            "description": "Eco-friendly farming practices that protect soil health and conserve local groundwater.",
+            "icon": "🌾"
+          }
+        },
+        {
+          "type": "value_card",
+          "settings": {
+            "title": "Full Transparency",
+            "description": "Complete traceability from farm origin to packaging—no hidden ingredients ever.",
+            "icon": "🔍"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
