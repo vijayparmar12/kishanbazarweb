@@ -805,6 +805,10 @@
   max-width: 100%;
   object-fit: contain;
   margin: 0 auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transform: translateZ(0);
+  backface-visibility: hidden;
   transition: transform 200ms ease;
 }
 

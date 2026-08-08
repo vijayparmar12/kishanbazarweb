@@ -17,7 +17,7 @@
   assign raw_1 = custom_meta.badge_image_1.value | default: custom_meta.badge_image_1 | default: custom_meta.feature_icon_1
   if raw_1 != blank
     if raw_1.src != blank
-      assign img_url_1 = raw_1 | image_url: width: 300
+      assign img_url_1 = raw_1 | image_url: width: 600
     else
       assign img_url_1 = raw_1
     endif
@@ -28,7 +28,7 @@
   assign raw_2 = custom_meta.badge_image_2.value | default: custom_meta.badge_image_2 | default: custom_meta.feature_icon_2
   if raw_2 != blank
     if raw_2.src != blank
-      assign img_url_2 = raw_2 | image_url: width: 300
+      assign img_url_2 = raw_2 | image_url: width: 600
     else
       assign img_url_2 = raw_2
     endif
@@ -39,7 +39,7 @@
   assign raw_3 = custom_meta.badge_image_3.value | default: custom_meta.badge_image_3 | default: custom_meta.feature_icon_3
   if raw_3 != blank
     if raw_3.src != blank
-      assign img_url_3 = raw_3 | image_url: width: 300
+      assign img_url_3 = raw_3 | image_url: width: 600
     else
       assign img_url_3 = raw_3
     endif
@@ -50,7 +50,7 @@
   assign raw_4 = custom_meta.badge_image_4.value | default: custom_meta.badge_image_4 | default: custom_meta.feature_icon_4
   if raw_4 != blank
     if raw_4.src != blank
-      assign img_url_4 = raw_4 | image_url: width: 300
+      assign img_url_4 = raw_4 | image_url: width: 600
     else
       assign img_url_4 = raw_4
     endif
