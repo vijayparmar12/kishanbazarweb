@@ -15,8 +15,8 @@
   background: transparent !important;
   position: relative;
   z-index: 5;
-  padding-top: 3.5rem;
-  padding-bottom: 2rem;
+  padding-top: 2.5rem;
+  padding-bottom: 0.5rem;
   margin-top: 0;
 }
 
@@ -310,13 +310,13 @@
   position: relative;
   z-index: 2;
   width: 100%;
-  margin-top: 0;
+  margin-top: -110px;
   pointer-events: none;
 }
 
 @media (max-width: 48rem) {
   .site-footer__illustration-layer {
-    margin-top: 0px !important;
+    margin-top: -50px !important;
   }
 }
 

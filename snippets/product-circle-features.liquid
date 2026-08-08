@@ -1,9 +1,10 @@
 {% doc %}
-  Renders 4 feature badge icons dynamically from Shopify CSV / Metafields or your newly uploaded icon files.
-  1. icon2.png
-  2. icon4.png
-  3. free_shipping.png
-  4. icon3.png
+  Renders feature badge icons dynamically purely from Shopify CSV / Product Metafields.
+  Metafield keys supported:
+  - product.metafields.custom.badge_image_1
+  - product.metafields.custom.badge_image_2
+  - product.metafields.custom.badge_image_3
+  - product.metafields.custom.badge_image_4
 
   @param {object} [product] - The Shopify product object
 
@@ -12,77 +13,97 @@
 {% enddoc %}
 
 {% liquid
-  assign custom_meta = product.metafields.custom
+  assign c_meta = product.metafields.custom
 
-  assign raw_1 = custom_meta.badge_image_1.value | default: custom_meta.badge_image_1 | default: custom_meta.feature_icon_1
+  assign raw_1 = c_meta.badge_image_1.value | default: c_meta.badge_image_1 | default: c_meta.Badge_image_1.value | default: c_meta.Badge_image_1 | default: c_meta.feature_icon_1.value | default: c_meta.feature_icon_1
+  assign img_url_1 = blank
   if raw_1 != blank
     if raw_1.src != blank
       assign img_url_1 = raw_1 | image_url: width: 600
     else
       assign img_url_1 = raw_1
     endif
-  else
-    assign img_url_1 = "https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon1.png?v=1786174654"
   endif
 
-  assign raw_2 = custom_meta.badge_image_2.value | default: custom_meta.badge_image_2 | default: custom_meta.feature_icon_2
+  assign raw_2 = c_meta.badge_image_2.value | default: c_meta.badge_image_2 | default: c_meta.Badge_image_2.value | default: c_meta.Badge_image_2 | default: c_meta.feature_icon_2.value | default: c_meta.feature_icon_2
+  assign img_url_2 = blank
   if raw_2 != blank
     if raw_2.src != blank
       assign img_url_2 = raw_2 | image_url: width: 600
     else
       assign img_url_2 = raw_2
     endif
-  else
-    assign img_url_2 = "https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon2.png?v=1786174654"
   endif
 
-  assign raw_3 = custom_meta.badge_image_3.value | default: custom_meta.badge_image_3 | default: custom_meta.feature_icon_3
+  assign raw_3 = c_meta.badge_image_3.value | default: c_meta.badge_image_3 | default: c_meta.Badge_image_3.value | default: c_meta.Badge_image_3 | default: c_meta.feature_icon_3.value | default: c_meta.feature_icon_3
+  assign img_url_3 = blank
   if raw_3 != blank
     if raw_3.src != blank
       assign img_url_3 = raw_3 | image_url: width: 600
     else
       assign img_url_3 = raw_3
     endif
-  else
-    assign img_url_3 = "https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon3..png?v=1786174655"
   endif
 
-  assign raw_4 = custom_meta.badge_image_4.value | default: custom_meta.badge_image_4 | default: custom_meta.feature_icon_4
+  assign raw_4 = c_meta.badge_image_4.value | default: c_meta.badge_image_4 | default: c_meta.Badge_image_4.value | default: c_meta.Badge_image_4 | default: c_meta.feature_icon_4.value | default: c_meta.feature_icon_4
+  assign img_url_4 = blank
   if raw_4 != blank
     if raw_4.src != blank
       assign img_url_4 = raw_4 | image_url: width: 600
     else
       assign img_url_4 = raw_4
     endif
-  else
-    assign img_url_4 = "https://cdn.shopify.com/s/files/1/1011/5832/2485/files/icon4.png?v=1786174654"
+  endif
+
+  assign total_badges = 0
+  if img_url_1 != blank
+    assign total_badges = total_badges | plus: 1
+  endif
+  if img_url_2 != blank
+    assign total_badges = total_badges | plus: 1
+  endif
+  if img_url_3 != blank
+    assign total_badges = total_badges | plus: 1
+  endif
+  if img_url_4 != blank
+    assign total_badges = total_badges | plus: 1
   endif
 %}
 
-<div class="product-circle-features" aria-label="Product Key Benefits">
-  <div class="product-circle-features__grid">
-    <div class="product-circle-features__item">
-      <div class="product-circle-features__circle product-circle-features__circle--img">
-        <img src="{{ img_url_1 }}" alt="Feature Badge 1" loading="lazy" width="85" height="85">
-      </div>
-    </div>
+{% if total_badges > 0 %}
+  <div class="product-circle-features" aria-label="Product Key Benefits">
+    <div class="product-circle-features__grid" style="grid-template-columns: repeat({{ total_badges }}, 1fr);">
+      {% if img_url_1 != blank %}
+        <div class="product-circle-features__item">
+          <div class="product-circle-features__circle product-circle-features__circle--img">
+            <img src="{{ img_url_1 }}" alt="{{ product.title | escape }} Benefit 1" loading="lazy" width="85" height="85">
+          </div>
+        </div>
+      {% endif %}
 
-    <div class="product-circle-features__item">
-      <div class="product-circle-features__circle product-circle-features__circle--img">
-        <img src="{{ img_url_2 }}" alt="Feature Badge 2" loading="lazy" width="85" height="85">
-      </div>
-    </div>
+      {% if img_url_2 != blank %}
+        <div class="product-circle-features__item">
+          <div class="product-circle-features__circle product-circle-features__circle--img">
+            <img src="{{ img_url_2 }}" alt="{{ product.title | escape }} Benefit 2" loading="lazy" width="85" height="85">
+          </div>
+        </div>
+      {% endif %}
 
-    <div class="product-circle-features__item">
-      <div class="product-circle-features__circle product-circle-features__circle--img">
-        <img src="{{ img_url_3 }}" alt="Feature Badge 3" loading="lazy" width="85" height="85">
-      </div>
-    </div>
+      {% if img_url_3 != blank %}
+        <div class="product-circle-features__item">
+          <div class="product-circle-features__circle product-circle-features__circle--img">
+            <img src="{{ img_url_3 }}" alt="{{ product.title | escape }} Benefit 3" loading="lazy" width="85" height="85">
+          </div>
+        </div>
+      {% endif %}
 
-    <div class="product-circle-features__item">
-      <div class="product-circle-features__circle product-circle-features__circle--img">
-        <img src="{{ img_url_4 }}" alt="Feature Badge 4" loading="lazy" width="85" height="85">
-      </div>
+      {% if img_url_4 != blank %}
+        <div class="product-circle-features__item">
+          <div class="product-circle-features__circle product-circle-features__circle--img">
+            <img src="{{ img_url_4 }}" alt="{{ product.title | escape }} Benefit 4" loading="lazy" width="85" height="85">
+          </div>
+        </div>
+      {% endif %}
     </div>
   </div>
-</div>
+{% endif %}
