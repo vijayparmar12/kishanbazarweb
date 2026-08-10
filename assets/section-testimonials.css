@@ -19,6 +19,59 @@
   padding: 0 1rem;
 }
 
+.testimonials-carousel-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonials__decor-kisan {
+  position: absolute;
+  top: 1.5rem;
+  left: max(var(--container-padding, 1rem), calc((100% - var(--container-width, 1280px)) / 2));
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.testimonials__decor-cow {
+  position: absolute;
+  top: 1.5rem;
+  right: max(var(--container-padding, 1rem), calc((100% - var(--container-width, 1280px)) / 2));
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.testimonials__decor-kisan img,
+.testimonials__decor-cow img {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.08));
+}
+
+@media (max-width: 48rem) {
+  .testimonials__decor-kisan {
+    display: block !important;
+    top: 0.5rem !important;
+    left: 0.5rem !important;
+    opacity: 0.75 !important;
+  }
+
+  .testimonials__decor-cow {
+    display: block !important;
+    top: 0.5rem !important;
+    right: 0.5rem !important;
+    opacity: 0.75 !important;
+  }
+
+  .testimonials__decor-kisan img,
+  .testimonials__decor-cow img {
+    height: 38px !important;
+    width: auto !important;
+  }
+}
+
 .testimonials__eyebrow {
   display: inline-flex;
   align-items: center;

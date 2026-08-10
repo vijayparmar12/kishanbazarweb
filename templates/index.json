@@ -94,17 +94,6 @@
         "infinite_loop": false
       }
     },
-    "video": {
-      "type": "video-section",
-      "settings": {
-        "heading": "Meet the makers",
-        "description": "<p>A closer look at the people and practices behind every pantry staple.</p>",
-        "video_url": "",
-        "autoplay": false,
-        "loop": false,
-        "muted": true
-      }
-    },
     "best_sellers": {
       "type": "best-sellers",
       "settings": {
@@ -160,7 +149,6 @@
     "hero",
     "categories",
     "shoppable_videos",
-    "video",
     "best_sellers",
     "testimonials"
   ]

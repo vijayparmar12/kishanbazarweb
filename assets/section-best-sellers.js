@@ -38,5 +38,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
     }
+  // Variant Select Dropdown Change Handler
+  document.addEventListener('change', (e) => {
+    const select = e.target.closest('[data-product-card-variant-select]');
+    if (!select) return;
+    const card = select.closest('.product-card');
+    if (!card) return;
+
+    const selectedOption = select.options[select.selectedIndex];
+    if (!selectedOption) return;
+
+    const price = selectedOption.dataset.price;
+    const comparePrice = selectedOption.dataset.compare;
+
+    const priceCurrent = card.querySelector('.product-card__price-current');
+    if (priceCurrent && price) priceCurrent.textContent = price;
+
+    const priceCompare = card.querySelector('.product-card__price-compare');
+    if (priceCompare) {
+      if (comparePrice) {
+        priceCompare.textContent = comparePrice;
+        priceCompare.style.display = 'inline';
+      } else {
+        priceCompare.style.display = 'none';
+      }
+    }
   });
 });

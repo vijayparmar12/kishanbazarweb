@@ -20,10 +20,14 @@
   if item_1 != blank
     if item_1.preview_image != blank
       assign img_url_1 = item_1.preview_image | image_url: width: 600
-    elsif item_1.aspect_ratio != blank or item_1.width != blank
+    elsif item_1.cloudinary_src != blank
+      assign img_url_1 = item_1.cloudinary_src
+    elsif item_1.src != blank
+      assign img_url_1 = item_1.src | image_url: width: 600
+    elsif item_1.width != blank or item_1.aspect_ratio != blank
       assign img_url_1 = item_1 | image_url: width: 600
     else
-      assign img_url_1 = item_1
+      assign img_url_1 = item_1 | file_url
     endif
   endif
 
@@ -32,10 +36,14 @@
   if item_2 != blank
     if item_2.preview_image != blank
       assign img_url_2 = item_2.preview_image | image_url: width: 600
-    elsif item_2.aspect_ratio != blank or item_2.width != blank
+    elsif item_2.cloudinary_src != blank
+      assign img_url_2 = item_2.cloudinary_src
+    elsif item_2.src != blank
+      assign img_url_2 = item_2.src | image_url: width: 600
+    elsif item_2.width != blank or item_2.aspect_ratio != blank
       assign img_url_2 = item_2 | image_url: width: 600
     else
-      assign img_url_2 = item_2
+      assign img_url_2 = item_2 | file_url
     endif
   endif
 
@@ -44,10 +52,14 @@
   if item_3 != blank
     if item_3.preview_image != blank
       assign img_url_3 = item_3.preview_image | image_url: width: 600
-    elsif item_3.aspect_ratio != blank or item_3.width != blank
+    elsif item_3.cloudinary_src != blank
+      assign img_url_3 = item_3.cloudinary_src
+    elsif item_3.src != blank
+      assign img_url_3 = item_3.src | image_url: width: 600
+    elsif item_3.width != blank or item_3.aspect_ratio != blank
       assign img_url_3 = item_3 | image_url: width: 600
     else
-      assign img_url_3 = item_3
+      assign img_url_3 = item_3 | file_url
     endif
   endif
 
@@ -56,10 +68,14 @@
   if item_4 != blank
     if item_4.preview_image != blank
       assign img_url_4 = item_4.preview_image | image_url: width: 600
-    elsif item_4.aspect_ratio != blank or item_4.width != blank
+    elsif item_4.cloudinary_src != blank
+      assign img_url_4 = item_4.cloudinary_src
+    elsif item_4.src != blank
+      assign img_url_4 = item_4.src | image_url: width: 600
+    elsif item_4.width != blank or item_4.aspect_ratio != blank
       assign img_url_4 = item_4 | image_url: width: 600
     else
-      assign img_url_4 = item_4
+      assign img_url_4 = item_4 | file_url
     endif
   endif
 

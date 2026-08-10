@@ -132,6 +132,17 @@
             alt: 'Footer Farm Illustration'
         }}
       </div>
+    {% else %}
+      <div class="site-footer__bottom-banner-wrap">
+        <img
+          class="site-footer__bottom-banner-img"
+          src="{{ 'home.png' | asset_url }}"
+          alt="Footer Farm Illustration"
+          width="1400"
+          height="320"
+          loading="lazy"
+        >
+      </div>
     {% endif %}
   </div>
 

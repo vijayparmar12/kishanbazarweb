@@ -77,48 +77,51 @@
       <p class="product-card__vendor">{{ product.vendor }}</p>
     {% endif %}
 
-    <p class="product-card__subtitle">
-      {% if product.tags contains 'Khapli' or product.title contains 'Khapli' or product.title contains 'Atta' %}
-        22g Protein in 4 Rotis | Low Gluten
-      {% elsif product.tags contains 'Ghee' or product.type == 'Ghee' or product.title contains 'Ghee' %}
-        Cultured Gir Cow Bilona Ghee | Pure & Natural
-      {% elsif product.tags contains 'Oil' or product.type contains 'Oil' or product.title contains 'Oil' %}
-        100% Wood-Pressed Cold Extracted
-      {% elsif product.type != blank %}
-        {{ product.type }} | Certified Organic
-      {% else %}
-        Organic & Farm Fresh
-      {% endif %}
-    </p>
+    {% assign card_subtitle = product.metafields.descriptors.subtitle %}
+    {% if card_subtitle == blank %}
+      {% assign card_subtitle = product.metafields.custom.subtitle %}
+    {% endif %}
+    {% if card_subtitle == blank and product.description != blank %}
+      {% assign card_subtitle = product.description | strip_html | truncate: 60 %}
+    {% endif %}
+    {% if card_subtitle != blank %}
+      <p class="product-card__subtitle">{{ card_subtitle }}</p>
+    {% endif %}
 
     {% if show_rating %}
       <p class="product-card__rating" aria-label="Customer rating">
-        <span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-        <strong>4.91</strong>
-        <small>| 58 Reviews</small>
+        <span class="product-card__stars" aria-hidden="true">★★★★★</span>
+        <strong class="product-card__rating-value">{% if product.metafields.reviews.rating.value != blank %}{{ product.metafields.reviews.rating.value.rating | round: 2 }}{% else %}4.91{% endif %}</strong>
       </p>
     {% endif %}
 
     <div class="product-card__actions">
-          {% if show_add_to_cart != false %}
-        <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form">
-          <div class="product-card__variant-wrap">
-            <label class="visually-hidden" for="ProductCardVariant-{{ product.id }}">Choose size</label>
-            <select class="product-card__variant-select" id="ProductCardVariant-{{ product.id }}" name="id" data-product-card-variant-select>
-              {% for card_variant in product.variants %}
-                <option
-                  value="{{ card_variant.id }}"
-                  data-price="₹{{ card_variant.price | money_without_currency }}"
-                  data-compare="{% if card_variant.compare_at_price > card_variant.price %}₹{{ card_variant.compare_at_price | money_without_currency }}{% endif %}"
-                  data-available="{% if card_variant.available %}true{% else %}false{% endif %}"
-                  {% if card_variant == variant %}selected{% endif %}
-                  {% unless card_variant.available %}disabled{% endunless %}
-                >
-                  {% if card_variant.title != 'Default Title' and card_variant.title != blank %}{{ card_variant.title }}{% else %}10kg{% endif %}
-                </option>
-              {% endfor %}
-            </select>
-          </div>
+      {% if show_add_to_cart != false %}
+        <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form>
+          {% if product.has_only_default_variant %}
+            <input type="hidden" name="id" value="{{ variant.id }}">
+          {% else %}
+            <div class="product-card__variant-wrap">
+              <select
+                class="product-card__variant-select"
+                name="id"
+                aria-label="Select variant for {{ product.title | escape }}"
+                data-product-card-variant-select
+              >
+                {% for card_variant in product.variants %}
+                  <option
+                    value="{{ card_variant.id }}"
+                    data-price="₹{{ card_variant.price | money_without_currency }}"
+                    data-compare="{% if card_variant.compare_at_price > card_variant.price %}₹{{ card_variant.compare_at_price | money_without_currency }}{% endif %}"
+                    {% if card_variant == variant %}selected{% endif %}
+                    {% unless card_variant.available %}disabled{% endunless %}
+                  >
+                    {{ card_variant.title }}{% unless card_variant.available %} (Sold out){% endunless %}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          {% endif %}
 
           <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %}>
             {% if product.available %}ADD TO CART{% else %}SOLD OUT{% endif %}

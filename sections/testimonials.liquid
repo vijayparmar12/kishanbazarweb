@@ -5,14 +5,31 @@
   #Testimonials-{{ section.id }} {
     {% if section.settings.background_image != blank %}
       background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
-      background-size: cover !important;
-      background-position: center center !important;
-      background-repeat: no-repeat !important;
+    {% else %}
+      background-image: url('{{ "5.png" | asset_url }}') !important;
     {% endif %}
+    background-size: cover !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+  }
+  @media (max-width: 48rem) {
+    #Testimonials-{{ section.id }} {
+      background-size: 100% auto !important;
+      background-position: bottom center !important;
+      background-repeat: no-repeat !important;
+    }
   }
 {% endstyle %}
 
 <section id="Testimonials-{{ section.id }}" class="testimonials-carousel-section" data-testimonials-section>
+  <!-- Left & Right Farm Artworks -->
+  <div class="testimonials__decor-kisan" aria-hidden="true">
+    <img src="{{ 'kisan.png' | asset_url }}" alt="Kisan Farmer" width="75" height="75" loading="lazy">
+  </div>
+  <div class="testimonials__decor-cow" aria-hidden="true">
+    <img src="{{ 'cow.png' | asset_url }}" alt="Gir Cow" width="75" height="75" loading="lazy">
+  </div>
+
   <div class="testimonials__header">
     {% if section.settings.eyebrow != blank %}
       <span class="testimonials__eyebrow">{{ section.settings.eyebrow }}</span>

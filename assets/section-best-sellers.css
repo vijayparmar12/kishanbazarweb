@@ -55,20 +55,64 @@
   margin-bottom: 0.35rem;
 }
 
-.best-sellers__sun {
-  animation: spinSun 20s linear infinite;
-  height: 28px;
-  width: 28px;
+.best-sellers__bird-img {
+  height: 48px;
+  width: auto;
+  max-width: 64px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
 }
 
-.best-sellers__birds {
-  height: 16px;
-  width: 48px;
+.best-sellers__decor-home {
+  position: absolute;
+  top: 1rem;
+  right: max(var(--container-padding, 1rem), calc((100% - var(--container-width, 1280px)) / 2));
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
 }
 
-@keyframes spinSun {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.best-sellers__decor-cow {
+  position: absolute;
+  bottom: 1.5rem;
+  left: max(var(--container-padding, 1rem), calc((100% - var(--container-width, 1280px)) / 2));
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (max-width: 48rem) {
+  .best-sellers__decor-home {
+    display: block !important;
+    top: 0.5rem !important;
+    right: 0.5rem !important;
+    opacity: 0.75 !important;
+    z-index: 1 !important;
+  }
+
+  .best-sellers__decor-home img {
+    width: 42px !important;
+    height: auto !important;
+  }
+
+  .best-sellers__decor-cow {
+    display: block !important;
+    bottom: 0.5rem !important;
+    left: 0.5rem !important;
+    opacity: 0.75 !important;
+    z-index: 1 !important;
+  }
+
+  .best-sellers__decor-cow img {
+    width: 42px !important;
+    height: auto !important;
+  }
+
+  .best-sellers__bird-img {
+    height: 36px !important;
+    width: auto !important;
+  }
 }
 
 .best-sellers__link {
@@ -233,9 +277,9 @@
   }
 
   .best-sellers__slide {
-    flex: 0 0 240px;
-    width: 240px;
-    max-width: 75vw;
+    flex: 0 0 min(82vw, 290px);
+    width: min(82vw, 290px);
+    max-width: 290px;
     scroll-snap-align: start;
   }
 

@@ -2,14 +2,23 @@
 <script src="{{ 'section-shoppable-videos.js' | asset_url }}" type="module"></script>
 
 {% style %}
-  {% if section.settings.background_image != blank %}
-    #ShoppableVideos-{{ section.id }} {
+  #ShoppableVideos-{{ section.id }} {
+    {% if section.settings.background_image != blank %}
       background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
-      background-size: cover !important;
-      background-position: center center !important;
+    {% else %}
+      background-image: url('{{ "2.png" | asset_url }}') !important;
+    {% endif %}
+    background-size: cover !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+  }
+  @media (max-width: 48rem) {
+    #ShoppableVideos-{{ section.id }} {
+      background-size: 100% auto !important;
+      background-position: bottom center !important;
       background-repeat: no-repeat !important;
     }
-  {% endif %}
+  }
 {% endstyle %}
 
 {% liquid
@@ -73,6 +82,8 @@
   aria-labelledby="ShoppableVideosHeading-{{ section.id }}"
 >
   <div class="shoppable-videos__bg-illustration" aria-hidden="true">
+    <img src="{{ 'kisan.png' | asset_url }}" alt="Kisan Farmer" class="shoppable-videos__decor-kisan" width="70" height="70" loading="lazy">
+    <img src="{{ 'badal.png' | asset_url }}" alt="Clouds" class="shoppable-videos__decor-badal" width="85" height="42" loading="lazy">
     <svg class="shoppable-videos__trees-top" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
       <path d="M0 60C120 40 240 70 360 45C480 20 600 65 720 35C840 5 960 55 1080 30C1200 5 1320 45 1440 25V0H0V60Z" fill="#356b36" opacity="0.12"/>
       <circle cx="120" cy="25" r="18" fill="#356b36" opacity="0.1"/>

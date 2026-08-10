@@ -13,14 +13,43 @@
   #BestSellers-{{ section.id }} {
     {% if section.settings.background_image != blank %}
       background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
-      background-size: cover !important;
-      background-position: center center !important;
-      background-repeat: no-repeat !important;
+    {% elsif section.settings.heading contains 'Loved' or section.settings.eyebrow contains 'Loved' %}
+      background-image: url('{{ "3.png" | asset_url }}') !important;
+      background-color: #F7F5EC !important;
+    {% else %}
+      background-image: url('{{ "4-web.png" | asset_url }}') !important;
+      background-color: #F8F4EB !important;
     {% endif %}
+    background-size: cover !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+  }
+  @media (max-width: 48rem) {
+    #BestSellers-{{ section.id }} {
+      {% if section.settings.background_image == blank %}
+        {% unless section.settings.heading contains 'Loved' or section.settings.eyebrow contains 'Loved' %}
+          background-image: url('{{ "4-mob.jpeg" | asset_url }}') !important;
+          background-color: #F8F4EB !important;
+        {% endunless %}
+      {% endif %}
+      background-size: 100% auto !important;
+      background-position: bottom center !important;
+      background-repeat: no-repeat !important;
+    }
   }
 {% endstyle %}
 
 <section id="BestSellers-{{ section.id }}" class="home-section best-sellers{% if section.settings.show_tabs %} best-sellers--with-tabs{% endif %}" data-best-sellers>
+  {% if section.settings.heading contains 'Loved' or section.settings.eyebrow contains 'Loved' %}
+    <!-- Decorative Farm Artworks -->
+    <div class="best-sellers__decor-home" aria-hidden="true">
+      <img src="{{ 'home.png' | asset_url }}" alt="Organic Cottage" width="70" height="70" loading="lazy">
+    </div>
+    <div class="best-sellers__decor-cow" aria-hidden="true">
+      <img src="{{ 'cow.png' | asset_url }}" alt="Gir Cow" width="65" height="65" loading="lazy">
+    </div>
+  {% endif %}
+
   <div class="best-sellers__illustration-bg" aria-hidden="true">
     <svg viewBox="0 0 1440 180" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
       <path d="M0 120C240 70 480 150 720 100C960 50 1200 130 1440 90V180H0V120Z" fill="rgba(35, 66, 31, 0.03)"/>
@@ -31,13 +60,7 @@
   <div class="home-section__head best-sellers__head">
     <div class="best-sellers__title-wrap">
       <div class="best-sellers__decor" aria-hidden="true">
-        <svg class="best-sellers__sun" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="20" cy="20" r="9" fill="#EAB308"/>
-          <path d="M20 3V7M20 33V37M3 20H7M33 20H37M8 8L11 11M29 29L32 32M8 32L11 29M29 11L32 8" stroke="#EAB308" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
-        <svg class="best-sellers__birds" viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 12C6 6 12 6 16 12C20 6 26 6 30 12M34 8C37 4 41 4 44 8C47 4 51 4 54 8" stroke="#356b36" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+        <img src="{{ 'grains.png' | asset_url }}" alt="Organic Grains" class="best-sellers__bird-img" width="56" height="42" loading="lazy">
       </div>
 
       <p class="home-section__eyebrow">{{ section.settings.eyebrow | default: "Loved by Thousands ❤️" }}</p>

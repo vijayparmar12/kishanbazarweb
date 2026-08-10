@@ -26,6 +26,44 @@
   width: 100%;
 }
 
+.shoppable-videos__decor-kisan {
+  position: absolute;
+  top: 1rem;
+  left: 2rem;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.shoppable-videos__decor-badal {
+  position: absolute;
+  top: 0.75rem;
+  right: 2rem;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media screen and (max-width: 749px) {
+  .shoppable-videos__decor-kisan {
+    display: block !important;
+    top: 0.5rem !important;
+    left: 0.5rem !important;
+    opacity: 0.75 !important;
+    width: 42px !important;
+    height: auto !important;
+  }
+
+  .shoppable-videos__decor-badal {
+    display: block !important;
+    top: 0.5rem !important;
+    right: 0.5rem !important;
+    opacity: 0.75 !important;
+    width: 50px !important;
+    height: auto !important;
+  }
+}
+
 @media screen and (max-width: 749px) {
   .shoppable-videos {
     padding: clamp(1.75rem, 4vw, 2.5rem) 0;

@@ -43,16 +43,17 @@
 
 .site-footer__logo-link {
   display: block;
-  margin: 0 auto 1rem;
-  text-align: center;
+  margin: 0 0 1rem;
+  text-align: left;
 }
 
 .site-footer__logo {
-  height: 56px;
+  height: 64px;
+  max-width: 220px;
   width: auto;
   object-fit: contain;
   display: block;
-  margin: 0 auto;
+  margin: 0 0 0.85rem;
 }
 
 .site-footer__brand-text {
@@ -328,11 +329,12 @@
 
 .site-footer__bottom-banner-img {
   width: 100%;
-  height: auto;
-  max-height: 380px;
+  height: 180px;
+  max-height: 220px;
   display: block;
   object-fit: cover;
-  object-position: bottom center;
+  object-position: center;
+  opacity: 0.9;
 }
 
 .site-footer__bottom {
