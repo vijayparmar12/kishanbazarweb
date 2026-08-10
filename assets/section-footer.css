@@ -329,11 +329,18 @@
 
 .site-footer__bottom-banner-img {
   width: 100%;
-  height: auto;
-  max-height: 280px;
+  height: 380px;
+  max-height: 480px;
   display: block;
   object-fit: cover;
   object-position: bottom center;
+}
+
+@media (max-width: 48rem) {
+  .site-footer__bottom-banner-img {
+    height: 220px !important;
+    max-height: 280px !important;
+  }
 }
 
 .site-footer__bottom {
