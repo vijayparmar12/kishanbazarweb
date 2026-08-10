@@ -1,14 +1,14 @@
 {% doc %}
-  Renders product details tabs matching user's exact Shopify CSV Metafield Keys:
-  - description: product.metafields.custom.description | default: product.description
-  - ingredients: product.metafields.custom.ingredients
-  - usage: product.metafields.custom.usage
-  - benefits: product.metafields.custom.benefits
-  - storage_info: product.metafields.custom.storage_info
-  - manufacturer: product.metafields.custom.manufacturer
-  - origin: product.metafields.custom.origin
-  - shelf_life: product.metafields.custom.shelf_life
-  - faq_1..5: product.metafields.custom.faq_1_question / faq_1_answer .. faq_5_question / faq_5_answer
+  Renders product details accordions in Two Brothers India Shop style matching user's CSV Metafield Keys:
+  - DESCRIPTION: raw_desc
+  - INGREDIENTS: raw_ingredients
+  - USAGE INFO: raw_usage
+  - BENEFITS: raw_benefits
+  - STORAGE INFO: raw_storage
+  - MANUFACTURER & PACKER DETAILS: raw_mfr
+  - COUNTRY OF ORIGIN: raw_origin
+  - SHELF LIFE: raw_shelflife
+  - FREQUENTLY ASKED QUESTIONS (FAQ): raw_faq1..5
 
   @param {object} product - The Shopify product object
 
@@ -40,56 +40,31 @@
   assign raw_faq5_a = c_meta.faq_5_answer.value | default: c_meta.faq_5_answer
 %}
 
-<section class="product-tabs" data-product-tabs-component>
-  <!-- Desktop / Tablet Tab Header Buttons -->
-  <div class="product-tabs__header" role="tablist" aria-label="Product Information Tabs">
-    <button type="button" class="product-tabs__tab-btn is-active" id="tab-btn-desc" role="tab" aria-selected="true" aria-controls="tab-pane-desc" data-tab-trigger="desc">
-      Description
-    </button>
-    <button type="button" class="product-tabs__tab-btn" id="tab-btn-ingredients" role="tab" aria-selected="false" aria-controls="tab-pane-ingredients" data-tab-trigger="ingredients">
-      Ingredients
-    </button>
-    <button type="button" class="product-tabs__tab-btn" id="tab-btn-usage" role="tab" aria-selected="false" aria-controls="tab-pane-usage" data-tab-trigger="usage">
-      Usage
-    </button>
-    <button type="button" class="product-tabs__tab-btn" id="tab-btn-benefits" role="tab" aria-selected="false" aria-controls="tab-pane-benefits" data-tab-trigger="benefits">
-      Benefits
-    </button>
-    <button type="button" class="product-tabs__tab-btn" id="tab-btn-storage" role="tab" aria-selected="false" aria-controls="tab-pane-storage" data-tab-trigger="storage">
-      Storage Info
-    </button>
-    <button type="button" class="product-tabs__tab-btn" id="tab-btn-mfr" role="tab" aria-selected="false" aria-controls="tab-pane-mfr" data-tab-trigger="mfr">
-      Manufacturer
-    </button>
-    <button type="button" class="product-tabs__tab-btn" id="tab-btn-origin" role="tab" aria-selected="false" aria-controls="tab-pane-origin" data-tab-trigger="origin">
-      Origin
-    </button>
-    <button type="button" class="product-tabs__tab-btn" id="tab-btn-shelflife" role="tab" aria-selected="false" aria-controls="tab-pane-shelflife" data-tab-trigger="shelflife">
-      Shelf Life
-    </button>
-    <button type="button" class="product-tabs__tab-btn" id="tab-btn-faq" role="tab" aria-selected="false" aria-controls="tab-pane-faq" data-tab-trigger="faq">
-      FAQ
-    </button>
-  </div>
+<section class="product-accordions" data-product-accordions-component>
+  <div class="product-accordions__list">
 
-  <!-- Tab Content Panes -->
-  <div class="product-tabs__body">
-    <!-- Tab 1: Description -->
-    <div class="product-tabs__pane is-active" id="tab-pane-desc" role="tabpanel" aria-labelledby="tab-btn-desc" data-tab-pane="desc">
-      <h3 class="product-tabs__pane-title">Product Description</h3>
-      <div class="product-tabs__pane-content rte">
+    <!-- 1. DESCRIPTION -->
+    <details class="product-accordion-item" open>
+      <summary class="product-accordion-item__header">
+        <span class="product-accordion-item__title">DESCRIPTION</span>
+        <span class="product-accordion-item__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="product-accordion-item__content rte">
         {% if raw_desc != blank %}
           {{ raw_desc }}
         {% else %}
           <p>100% natural, unrefined organic {{ product.title }} sourced straight from native Indian farms.</p>
         {% endif %}
       </div>
-    </div>
+    </details>
 
-    <!-- Tab 2: Ingredients -->
-    <div class="product-tabs__pane" id="tab-pane-ingredients" role="tabpanel" aria-labelledby="tab-btn-ingredients" data-tab-pane="ingredients" hidden>
-      <h3 class="product-tabs__pane-title">Ingredients</h3>
-      <div class="product-tabs__pane-content">
+    <!-- 2. INGREDIENTS -->
+    <details class="product-accordion-item">
+      <summary class="product-accordion-item__header">
+        <span class="product-accordion-item__title">INGREDIENTS</span>
+        <span class="product-accordion-item__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="product-accordion-item__content">
         {% if raw_ingredients != blank %}
           <div class="product-tabs__ingredients-box">
             {{ raw_ingredients | newline_to_br }}
@@ -102,24 +77,30 @@
           <p>Pure ingredients sourced directly from organic farms. Free from chemical bleaches, synthetic anti-caking agents, and artificial preservatives.</p>
         {% endif %}
       </div>
-    </div>
+    </details>
 
-    <!-- Tab 3: Usage -->
-    <div class="product-tabs__pane" id="tab-pane-usage" role="tabpanel" aria-labelledby="tab-btn-usage" data-tab-pane="usage" hidden>
-      <h3 class="product-tabs__pane-title">Usage Instructions</h3>
-      <div class="product-tabs__pane-content">
+    <!-- 3. USAGE INFO -->
+    <details class="product-accordion-item">
+      <summary class="product-accordion-item__header">
+        <span class="product-accordion-item__title">USAGE INFO</span>
+        <span class="product-accordion-item__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="product-accordion-item__content">
         {% if raw_usage != blank %}
           <p>{{ raw_usage | newline_to_br }}</p>
         {% else %}
           <p>Ideal for daily home cooking, preparing traditional Indian recipes, and healthy meals with authentic flavor and aroma.</p>
         {% endif %}
       </div>
-    </div>
+    </details>
 
-    <!-- Tab 4: Benefits -->
-    <div class="product-tabs__pane" id="tab-pane-benefits" role="tabpanel" aria-labelledby="tab-btn-benefits" data-tab-pane="benefits" hidden>
-      <h3 class="product-tabs__pane-title">Nutritional & Health Benefits</h3>
-      <div class="product-tabs__pane-content">
+    <!-- 4. BENEFITS -->
+    <details class="product-accordion-item">
+      <summary class="product-accordion-item__header">
+        <span class="product-accordion-item__title">BENEFITS</span>
+        <span class="product-accordion-item__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="product-accordion-item__content">
         {% if raw_benefits != blank %}
           <div class="product-tabs__benefits-list">
             {{ raw_benefits | newline_to_br }}
@@ -145,12 +126,15 @@
           </div>
         {% endif %}
       </div>
-    </div>
+    </details>
 
-    <!-- Tab 5: Storage Information -->
-    <div class="product-tabs__pane" id="tab-pane-storage" role="tabpanel" aria-labelledby="tab-btn-storage" data-tab-pane="storage" hidden>
-      <h3 class="product-tabs__pane-title">Storage Information</h3>
-      <div class="product-tabs__pane-content">
+    <!-- 5. STORAGE INFO -->
+    <details class="product-accordion-item">
+      <summary class="product-accordion-item__header">
+        <span class="product-accordion-item__title">STORAGE INFO</span>
+        <span class="product-accordion-item__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="product-accordion-item__content">
         {% if raw_storage != blank %}
           <p>{{ raw_storage | newline_to_br }}</p>
         {% else %}
@@ -161,12 +145,15 @@
           </ul>
         {% endif %}
       </div>
-    </div>
+    </details>
 
-    <!-- Tab 6: Manufacturer Details -->
-    <div class="product-tabs__pane" id="tab-pane-mfr" role="tabpanel" aria-labelledby="tab-btn-mfr" data-tab-pane="mfr" hidden>
-      <h3 class="product-tabs__pane-title">Manufacturer & Packer Details</h3>
-      <div class="product-tabs__pane-content">
+    <!-- 6. MANUFACTURER & PACKER DETAILS -->
+    <details class="product-accordion-item">
+      <summary class="product-accordion-item__header">
+        <span class="product-accordion-item__title">MANUFACTURER & PACKER DETAILS</span>
+        <span class="product-accordion-item__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="product-accordion-item__content">
         {% if raw_mfr != blank %}
           <p><strong>Manufacturer:</strong> {{ raw_mfr }}</p>
           <p><strong>Brand / Vendor:</strong> {{ product.vendor | default: 'Kishan Bazar' }}</p>
@@ -177,12 +164,15 @@
           <p><strong>FSSAI License No:</strong> 10721999000341</p>
         {% endif %}
       </div>
-    </div>
+    </details>
 
-    <!-- Tab 7: Country of Origin -->
-    <div class="product-tabs__pane" id="tab-pane-origin" role="tabpanel" aria-labelledby="tab-btn-origin" data-tab-pane="origin" hidden>
-      <h3 class="product-tabs__pane-title">Country of Origin</h3>
-      <div class="product-tabs__pane-content">
+    <!-- 7. COUNTRY OF ORIGIN -->
+    <details class="product-accordion-item">
+      <summary class="product-accordion-item__header">
+        <span class="product-accordion-item__title">COUNTRY OF ORIGIN</span>
+        <span class="product-accordion-item__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="product-accordion-item__content">
         {% if raw_origin != blank %}
           <div class="product-tabs__origin-flag">
             <span class="flag-icon">🇮🇳</span>
@@ -201,24 +191,30 @@
           </div>
         {% endif %}
       </div>
-    </div>
+    </details>
 
-    <!-- Tab 8: Shelf Life -->
-    <div class="product-tabs__pane" id="tab-pane-shelflife" role="tabpanel" aria-labelledby="tab-btn-shelflife" data-tab-pane="shelflife" hidden>
-      <h3 class="product-tabs__pane-title">Shelf Life</h3>
-      <div class="product-tabs__pane-content">
+    <!-- 8. SHELF LIFE -->
+    <details class="product-accordion-item">
+      <summary class="product-accordion-item__header">
+        <span class="product-accordion-item__title">SHELF LIFE</span>
+        <span class="product-accordion-item__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="product-accordion-item__content">
         {% if raw_shelflife != blank %}
           <p><strong>{{ raw_shelflife }}</strong></p>
         {% else %}
           <p><strong>4 Months (120 Days)</strong> from date of packaging.</p>
         {% endif %}
       </div>
-    </div>
+    </details>
 
-    <!-- Tab 9: FAQ Accordions (Dynamic from CSV faq_1_question..faq_5_question) -->
-    <div class="product-tabs__pane" id="tab-pane-faq" role="tabpanel" aria-labelledby="tab-btn-faq" data-tab-pane="faq" hidden>
-      <h3 class="product-tabs__pane-title">Frequently Asked Questions (FAQ)</h3>
-      <div class="product-tabs__pane-content">
+    <!-- 9. FREQUENTLY ASKED QUESTIONS (FAQ) -->
+    <details class="product-accordion-item">
+      <summary class="product-accordion-item__header">
+        <span class="product-accordion-item__title">FREQUENTLY ASKED QUESTIONS (FAQ)</span>
+        <span class="product-accordion-item__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="product-accordion-item__content">
         {% if c_meta.faq_1_question != blank or raw_faq1_q != blank %}
           <details class="product-tabs__accordion" open>
             <summary><strong>{{ raw_faq1_q }}</strong></summary>
@@ -265,6 +261,7 @@
           </details>
         {% endif %}
       </div>
-    </div>
+    </details>
+
   </div>
 </section>

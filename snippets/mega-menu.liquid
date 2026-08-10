@@ -71,7 +71,7 @@
     <details class="kb-mega-mobile" data-mega-mobile>
       <summary class="kb-header__mobile-link kb-mega-mobile__summary">
         <span>{{ panel_title }}</span>
-        <span aria-hidden="true">&dtrif;</span>
+        <span class="kb-mega-mobile__icon" aria-hidden="true"></span>
       </summary>
       <div class="kb-mega-mobile__content">
         {% if menu_type == 'farm' %}
@@ -79,7 +79,7 @@
           {% render 'mega-menu', section: section, menu_type: 'farm_middle', mobile: 'items_only' %}
           {% render 'mega-menu', section: section, menu_type: 'farm_right', mobile: 'items_only' %}
         {% elsif menu_type == 'category' %}
-          {% render 'mega-menu-category', section: section %}
+          {% render 'mobile-category-grid', section: section %}
         {% else %}
           {% render 'mega-menu', section: section, menu_type: menu_type, mobile: 'items_only' %}
         {% endif %}
@@ -103,7 +103,7 @@
               {% if section.settings.farm_mega_image != blank %}
                 {{ section.settings.farm_mega_image | image_url: width: 520 | image_tag: class: 'kb-mega__image', alt: section.settings.farm_title, widths: '260, 390, 520', loading: 'lazy' }}
               {% else %}
-                <div class="kb-mega__image-placeholder">Farm Life</div>
+                <img src="{{ 'farm-life-mega.jpg' | asset_url }}" class="kb-mega__image" alt="Farm Life" loading="lazy">
               {% endif %}
             </div>
           </div>
@@ -117,7 +117,24 @@
       {% if section.settings.mega_wave_image != blank %}
         {{ section.settings.mega_wave_image | image_url: width: 1200 | image_tag: class: 'kb-mega__wave-image', alt: '', loading: 'lazy' }}
       {% else %}
-        <span class="kb-mega__wave" aria-hidden="true"></span>
+        <div class="kb-category-mega__wave-container" aria-hidden="true">
+          <svg class="kb-category-mega__wave-svg" viewBox="0 0 1200 120" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="kbFarmWaveGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#E8F2E6" stop-opacity="0.85"/>
+                <stop offset="50%" stop-color="#D6E8D2" stop-opacity="0.75"/>
+                <stop offset="100%" stop-color="#C2DCBD" stop-opacity="0.8"/>
+              </linearGradient>
+              <linearGradient id="kbFarmGoldStroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#D4A359" stop-opacity="0.3"/>
+                <stop offset="50%" stop-color="#F5E8B8" stop-opacity="0.8"/>
+                <stop offset="100%" stop-color="#C59B27" stop-opacity="0.4"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,75 C300,105 600,60 900,90 C1050,105 1150,95 1200,85 L1200,120 L0,120 Z" fill="url(#kbFarmWaveGrad1)"/>
+            <path d="M0,73 C300,103 600,58 900,88 C1050,103 1150,93 1200,83" stroke="url(#kbFarmGoldStroke)" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
       {% endif %}
     </div>
   {% endif %}

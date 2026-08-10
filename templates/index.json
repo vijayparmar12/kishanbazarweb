@@ -28,12 +28,12 @@
     "categories": {
       "type": "best-sellers",
       "settings": {
-        "eyebrow": "Customer favourites",
-        "heading": "Most Loved",
+        "eyebrow": "Loved by Thousands ❤️",
+        "heading": "Our most-loved picks",
         "collection": "",
-        "cta_label": "Shop More",
+        "cta_label": "Shop Now →",
         "columns": "4",
-        "maximum": 4,
+        "maximum": 8,
         "show_vendor": false,
         "show_rating": true
       }

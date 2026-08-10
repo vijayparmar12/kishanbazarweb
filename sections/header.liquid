@@ -197,8 +197,8 @@
         <span class="kb-header__mobile-title">Menu</span>
         <button class="kb-header__mobile-close" type="button" aria-label="Close menu" data-menu-close>{% render 'icon', name: 'close', size: 24 %}</button>
       </div>
-      {% render 'mobile-category-grid', section: section %}
       <ul class="kb-header__mobile-list" role="list">
+        <li>{% render 'mega-menu', section: section, menu_type: 'category', mobile: true %}</li>
         <li>{% render 'mega-menu', section: section, menu_type: 'farm', mobile: true %}</li>
         <li>{% render 'mega-menu', section: section, menu_type: 'customers', mobile: true %}</li>
       </ul>
@@ -237,50 +237,72 @@
                   {{ block.settings.icon }}
                 {% endif %}
               </span>
-              <span class="kb-header__feature-title">{{ block.settings.title }}</span>
+              <span class="kb-header__feature-text-group">
+                <span class="kb-header__feature-title">{{ block.settings.title }}</span>
+              </span>
             </a>
           {% endif %}
         {% endfor %}
         {% if feature_count == 0 %}
           <a class="kb-header__feature kb-header__feature--monsoon" href="{{ routes.all_products_collection_url }}">
             <span class="kb-header__feature-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 15.6A4.5 4.5 0 0 0 16.5 7h-1.8A7 7 0 1 0 4 14.3"/>
-                <path d="M8 15v4"/>
-                <path d="M12 15v4"/>
-                <path d="M16 15v4"/>
-                <path d="M10 11l.01-.01"/>
-                <path d="M14 10l.01-.01"/>
+              <svg viewBox="0 0 40 40" width="30" height="30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21C8.686 21 6 18.314 6 15C6 11.95 8.275 9.43 11.26 9.06C12.02 5.6 15.08 3 18.75 3C22.95 3 26.4 6.2 27.05 10.3C29.47 10.83 31.25 13.01 31.25 15.62C31.25 18.59 28.84 21 25.87 21H12Z" stroke="#1B3B2B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 24L10.5 26.5" stroke="#1B3B2B" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M18.5 24L17 26.5" stroke="#1B3B2B" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M25 24L23.5 26.5" stroke="#1B3B2B" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M15 28.5L13.5 31" stroke="#1B3B2B" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M21.5 28.5L20 31" stroke="#1B3B2B" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M28 28.5L26.5 31" stroke="#1B3B2B" stroke-width="1.8" stroke-linecap="round"/>
               </svg>
             </span>
-            <span class="kb-header__feature-title">Monsoon Special</span>
+            <span class="kb-header__feature-text-group">
+              <span class="kb-header__feature-badge">OFFERS</span>
+              <span class="kb-header__feature-title">Monsoon Special</span>
+            </span>
           </a>
           <a class="kb-header__feature kb-header__feature--new" href="{{ routes.all_products_collection_url }}">
             <span class="kb-header__feature-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3L2 8l10 5 10-5-10-5z"/>
-                <path d="M2 13l10 5 10-5"/>
-                <path d="M2 18l10 5 10-5"/>
+              <svg viewBox="0 0 32 32" width="26" height="26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 4C12 8.418 8.418 12 4 12C8.418 12 12 15.582 12 20C12 15.582 15.582 12 20 12C15.582 12 12 8.418 12 4Z" fill="#1B3B2B"/>
+                <path d="M22 15C22 17.761 19.761 20 17 20C19.761 20 22 22.239 22 25C22 22.239 24.239 20 27 20C24.239 20 22 17.761 22 15Z" fill="#1B3B2B"/>
+                <path d="M24 3C24 4.657 22.657 6 21 6C22.657 6 24 7.343 24 9C24 7.343 25.343 6 27 6C25.343 6 24 4.657 24 3Z" fill="#1B3B2B"/>
+                <path d="M7 22C7 23.105 6.105 24 5 24C6.105 24 7 24.895 7 26C7 24.895 7.895 24 9 24C7.895 24 7 23.105 7 22Z" fill="#1B3B2B"/>
               </svg>
             </span>
-            <span class="kb-header__feature-title">New Launches</span>
+            <span class="kb-header__feature-text-group">
+              <span class="kb-header__feature-badge">NEW</span>
+              <span class="kb-header__feature-title">New Launches</span>
+            </span>
           </a>
           <a class="kb-header__feature kb-header__feature--all" href="{{ routes.all_products_collection_url }}">
             <span class="kb-header__feature-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="4" y="9" width="9" height="11" rx="2"/>
-                <path d="M6 5h5v4H6z"/>
-                <rect x="15" y="12" width="5" height="8" rx="1"/>
-                <path d="M16.5 9h2v3h-2z"/>
+              <svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.5 25.5C6.5 25.5 8 11.5 25.5 6.5C25.5 6.5 20.5 24 6.5 25.5Z" stroke="#1B3B2B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.5 27.5C7 25 12 18.5 25.5 6.5" stroke="#1B3B2B" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M13 18.5L17.5 14.5" stroke="#1B3B2B" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M17.5 14L22 10" stroke="#1B3B2B" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M11.5 20L9 17" stroke="#1B3B2B" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M16 15.5L13.5 12.5" stroke="#1B3B2B" stroke-width="1.6" stroke-linecap="round"/>
               </svg>
             </span>
-            <span class="kb-header__feature-title">All Products</span>
+            <span class="kb-header__feature-text-group">
+              <span class="kb-header__feature-badge">POPULAR</span>
+              <span class="kb-header__feature-title">All Products</span>
+            </span>
           </a>
           <a class="kb-header__feature kb-header__feature--save" href="{{ routes.all_products_collection_url }}">
-            <span class="kb-header__feature-icon kb-header__feature-icon--text" aria-hidden="true">
-              <span class="kb-header__feature-text-badge">Under<br>₹999</span>
+            <span class="kb-header__feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M26 15.8L16.8 25C16 25.8 14.7 25.8 13.9 25L6 17.1C5.7 16.8 5.5 16.3 5.5 15.8V6.5C5.5 5.7 6.2 5 7 5H16.3C16.8 5 17.3 5.2 17.6 5.5L26 13.9C26.8 14.7 26.8 16 26 15.8Z" stroke="#1B3B2B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="9.5" cy="9.5" r="1.5" stroke="#1B3B2B" stroke-width="1.5"/>
+                <text x="13" y="19" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="900" fill="#1B3B2B" stroke="none">₹</text>
+              </svg>
             </span>
-            <span class="kb-header__feature-title">Under ₹999</span>
+            <span class="kb-header__feature-text-group">
+              <span class="kb-header__feature-badge">VALUE</span>
+              <span class="kb-header__feature-title">Under ₹999</span>
+            </span>
           </a>
         {% endif %}
       </div>

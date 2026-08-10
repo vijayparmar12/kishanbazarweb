@@ -4,15 +4,15 @@
 
   @param {collection|string} category - Collection object or handle/title string.
   @param {image} [custom_image] - Optional custom image override from Shopify settings.
-  @param {number} [size] - Icon size in px (default: 40).
+  @param {number} [size] - Icon size in px (default: 44).
   @param {string} [class] - Extra CSS classes.
 
   @example
-  {% render 'category-icon', category: ghee_collection, size: 40 %}
+  {% render 'category-icon', category: ghee_collection, size: 44 %}
 {% enddoc %}
 
 {% liquid
-  assign icon_size = size | default: 40
+  assign icon_size = size | default: 44
   assign img_width = icon_size | times: 2
 
   assign target_collection = nil
@@ -42,29 +42,82 @@
   endif
 %}
 
-<span class="kb-category-icon-wrapper {{ class }}" style="display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; vertical-align: middle; margin-right: 5px;" aria-hidden="true">
+<span class="kb-category-icon-wrapper {{ class }}" style="display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; vertical-align: middle;" aria-hidden="true">
   {% if category_img != blank %}
     {{
       category_img
       | image_url: width: img_width
       | image_tag:
         class: 'kb-category-icon-img',
-        style: 'height: 40px; width: 40px; max-width: 40px; max-height: 40px; object-fit: contain; display: block;',
+        style: 'height: 48px; width: 48px; max-width: 48px; max-height: 48px; object-fit: contain; display: block;',
         width: icon_size,
         height: icon_size,
         loading: 'eager',
-        alt: 'Shopify Collection Icon'
+        alt: 'Category Icon'
     }}
+  {% elsif cat_str contains 'oil' %}
+    <svg viewBox="0 0 48 48" width="{{ icon_size }}" height="{{ icon_size }}" fill="none" stroke="#23421f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12h10v4H19z" fill="#23421f" fill-opacity="0.15"/>
+      <path d="M24 6v6M18 16c-3 0-5 2-5 5v17c0 2.2 1.8 4 4 4h14c2.2 0 4-1.8 4-4V21c0-3-2-5-5-5H18z"/>
+      <path d="M24 24a4 4 0 0 1 4 4c0 3-4 6-4 6s-4-3-4-6a4 4 0 0 1 4-4z" fill="#23421f"/>
+    </svg>
+  {% elsif cat_str contains 'rice' %}
+    <svg viewBox="0 0 48 48" width="{{ icon_size }}" height="{{ icon_size }}" fill="none" stroke="#23421f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 18c0-3 5-6 12-6s12 3 12 6v18c0 4-5 8-12 8s-12-4-12-8V18z" fill="#23421f" fill-opacity="0.12"/>
+      <path d="M12 18c0 3 5 5 12 5s12-2 12-5"/>
+      <path d="M20 28c2 1.5 6 1.5 8 0"/>
+      <path d="M24 8V4M18 10l-3-4M30 10l3-4"/>
+    </svg>
+  {% elsif cat_str contains 'jaggery' or cat_str contains 'sweet' %}
+    <svg viewBox="0 0 48 48" width="{{ icon_size }}" height="{{ icon_size }}" fill="none" stroke="#23421f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="8" y="24" width="14" height="14" rx="2" fill="#23421f" fill-opacity="0.2"/>
+      <rect x="26" y="24" width="14" height="14" rx="2" fill="#23421f" fill-opacity="0.2"/>
+      <rect x="17" y="10" width="14" height="14" rx="2" fill="#23421f" fill-opacity="0.3"/>
+    </svg>
+  {% elsif cat_str contains 'spice' or cat_str contains 'turmeric' %}
+    <svg viewBox="0 0 48 48" width="{{ icon_size }}" height="{{ icon_size }}" fill="none" stroke="#23421f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 22c0 10 7.2 16 16 16s16-6 16-16H8z" fill="#23421f" fill-opacity="0.18"/>
+      <path d="M14 22c2-4 6-6 10-6s8 2 10 6"/>
+      <path d="M30 8l-8 10"/>
+    </svg>
+  {% elsif cat_str contains 'immunity' or cat_str contains 'honey' %}
+    <svg viewBox="0 0 48 48" width="{{ icon_size }}" height="{{ icon_size }}" fill="none" stroke="#23421f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 12h16M18 8h12v4H18z"/>
+      <path d="M14 16h20v22c0 2.2-1.8 4-4 4H18c-2.2 0-4-1.8-4-4V16z" fill="#23421f" fill-opacity="0.12"/>
+      <path d="M24 22c-3 0-5 2-5 4.5 0 3 5 6.5 5 6.5s5-3.5 5-6.5c0-2.5-2-4.5-5-4.5z" fill="#23421f"/>
+    </svg>
+  {% elsif cat_str contains 'breakfast' or cat_str contains 'snack' %}
+    <svg viewBox="0 0 48 48" width="{{ icon_size }}" height="{{ icon_size }}" fill="none" stroke="#23421f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 24c0 9 7.2 15 18 15s18-6 18-15H6z" fill="#23421f" fill-opacity="0.18"/>
+      <path d="M12 24c2-5 6-8 12-8s10 3 12 8"/>
+      <path d="M34 10l-8 10"/>
+    </svg>
+  {% elsif cat_str contains 'grain' or cat_str contains 'pulse' or cat_str contains 'dal' %}
+    <svg viewBox="0 0 48 48" width="{{ icon_size }}" height="{{ icon_size }}" fill="none" stroke="#23421f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 24c0 9 7.2 15 16 15s16-6 16-15H8z" fill="#23421f" fill-opacity="0.18"/>
+      <circle cx="18" cy="18" r="2.5" fill="#23421f"/>
+      <circle cx="24" cy="15" r="2.5" fill="#23421f"/>
+      <circle cx="30" cy="18" r="2.5" fill="#23421f"/>
+      <circle cx="21" cy="22" r="2.5" fill="#23421f"/>
+      <circle cx="27" cy="22" r="2.5" fill="#23421f"/>
+    </svg>
   {% elsif cat_str contains 'ghee' %}
-    <img src="{{ 'ghee.png' | asset_url }}" alt="Ghee" class="kb-category-icon-img" width="40" height="40" style="height: 40px; width: 40px; max-width: 40px; max-height: 40px; object-fit: contain; display: block;" loading="eager">
+    <svg viewBox="0 0 48 48" width="{{ icon_size }}" height="{{ icon_size }}" fill="none" stroke="#23421f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 12h12M20 8h8v4h-8z"/>
+      <path d="M13 18c0-3 3-6 11-6s11 3 11 6v16c0 4-5 6-11 6s-11-2-11-6V18z" fill="#23421f" fill-opacity="0.12"/>
+      <path d="M24 20c-3 0-5 2-5 4s5 5 5 5 5-3 5-5-2-4-5-4z" fill="#23421f"/>
+    </svg>
   {% elsif cat_str contains 'atta' or cat_str contains 'flour' %}
-    <img src="{{ 'atta.png' | asset_url }}" alt="Atta" class="kb-category-icon-img" width="40" height="40" style="height: 40px; width: 40px; max-width: 40px; max-height: 40px; object-fit: contain; display: block;" loading="eager">
+    <svg viewBox="0 0 48 48" width="{{ icon_size }}" height="{{ icon_size }}" fill="none" stroke="#23421f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10 18c0-2 4-4 14-4s14 2 14 4v18c0 3-4 6-14 6S10 39 10 36V18z" fill="#23421f" fill-opacity="0.12"/>
+      <path d="M10 18c0 2 4 4 14 4s14-2 14-4"/>
+      <path d="M24 6v8M18 8l-3-4M30 8l3-4"/>
+    </svg>
   {% else %}
-    <span class="kb-category-icon-svg" style="display: inline-flex; align-items: center; justify-content: center; color: var(--kb-accent, #23421f);">
-      <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#23421f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="9"/>
-        <path d="M12 7v10M7 12h10"/>
-      </svg>
-    </span>
+    <svg viewBox="0 0 48 48" width="{{ icon_size }}" height="{{ icon_size }}" fill="none" stroke="#23421f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="24" cy="24" r="18" fill="#23421f" fill-opacity="0.08"/>
+      <path d="M24 14v20M14 24h20"/>
+    </svg>
   {% endif %}
 </span>
+

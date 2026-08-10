@@ -217,25 +217,60 @@
   }
 }
 
+/* Desktop: Hide Mobile Slider */
+.home-hero-split__mobile-slider {
+  display: none;
+}
+
 @media (max-width: 48rem) {
+  /* Hide Desktop Grid Container on Mobile */
   .home-hero-split__container {
-    flex-direction: column;
-    height: auto;
-    gap: 0;
-  }
-
-  /* Main Left Image: Full width & increased height on mobile */
-  .home-hero-split__item--main {
-    flex: 0 0 100%;
-    width: 100%;
-    height: clamp(300px, 65vw, 380px);
-    min-height: 300px;
-    border-radius: 18px;
-  }
-
-  /* Hide right side stacked banners on mobile view */
-  .home-hero-split__right-stack {
     display: none !important;
+  }
+
+  /* Show Mobile Slider on Mobile View */
+  .home-hero-split__mobile-slider {
+    display: block !important;
+    position: relative;
+    width: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #faf6ec;
+    border: 1.5px solid rgba(35, 66, 31, 0.16);
+    box-shadow: 0 4px 18px rgba(35, 66, 31, 0.06);
+  }
+
+  .home-hero-split__mobile-slides-track {
+    position: relative;
+    width: 100%;
+    height: clamp(320px, 68vw, 400px);
+    overflow: hidden;
+  }
+
+  .home-hero-split__mobile-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 500ms cubic-bezier(0.4, 0, 0.2, 1), transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(1.02);
+  }
+
+  .home-hero-split__mobile-slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: scale(1);
+  }
+
+  .home-hero-split__mobile-slide .home-hero-split__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   /* Mobile Overlay Action Buttons (2 Buttons: Shop Essentials + Our Story) */
@@ -244,6 +279,8 @@
     left: 1rem;
     right: 1rem;
     width: auto;
+    position: absolute;
+    z-index: 15;
   }
 
   .home-hero-split__actions-desktop {
@@ -261,5 +298,39 @@
     font-size: 0.78rem;
     padding: 0.75rem 0.4rem;
     width: 100%;
+  }
+
+  /* Mobile Navigation Dots */
+  .home-hero-split__mobile-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.38);
+    padding: 4px 10px;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .home-hero-split__mobile-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 300ms ease, width 300ms ease;
+  }
+
+  .home-hero-split__mobile-dot.is-active {
+    background: #f0d78a;
+    width: 16px;
+    border-radius: 999px;
   }
 }

@@ -884,65 +884,102 @@
 }
 
 /* ==========================================================================
-   SECTION 5: PRODUCT DETAILS TABS
+   SECTION 5: TWO BROTHERS STYLE PRODUCT DETAILS ACCORDIONS
    ========================================================================== */
-.product-tabs {
+.product-accordions {
   background-color: #ffffff;
-  border: 1px solid #efe8da;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-  overflow: hidden;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  margin-top: 2.5rem;
+  width: 100%;
 }
 
-.product-tabs__header {
-  background-color: #faf7f2;
-  border-bottom: 1px solid #efe8da;
+.product-accordions__list {
   display: flex;
-  gap: 0.25rem;
-  overflow-x: auto;
-  padding: 0.5rem 0.5rem 0;
-  scrollbar-width: thin;
+  flex-direction: column;
 }
 
-.product-tabs__tab-btn {
-  background: transparent;
-  border: none;
-  border-bottom: 3px solid transparent;
-  color: #6b7280;
+.product-accordion-item {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s ease;
+}
+
+.product-accordion-item:last-child {
+  border-bottom: none;
+}
+
+.product-accordion-item summary {
+  list-style: none;
+}
+
+.product-accordion-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.product-accordion-item__header {
+  align-items: center;
+  color: #1b4317;
   cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 0.85rem 1.2rem;
-  transition: all 0.2s ease;
-  white-space: nowrap;
+  display: flex;
+  justify-content: space-between;
+  padding: 1.25rem 0.5rem;
+  user-select: none;
+  transition: color 0.2s ease;
 }
 
-.product-tabs__tab-btn:hover {
-  color: #1b4317;
+.product-accordion-item:hover .product-accordion-item__header {
+  color: #143511;
 }
 
-.product-tabs__tab-btn.is-active {
-  background-color: #ffffff;
-  border-bottom-color: #1b4317;
-  border-radius: 10px 10px 0 0;
-  color: #1b4317;
-}
-
-.product-tabs__body {
-  padding: 2rem;
-}
-
-.product-tabs__pane-title {
-  color: #111827;
-  font-size: 1.35rem;
+.product-accordion-item__title {
+  font-size: 1rem;
   font-weight: 800;
-  margin: 0 0 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #1b4317;
 }
 
-.product-tabs__pane-content {
-  color: #4b5563;
+.product-accordion-item__icon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-accordion-item__icon::before,
+.product-accordion-item__icon::after {
+  content: '';
+  position: absolute;
+  background-color: #1b4317;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Horizontal line of plus */
+.product-accordion-item__icon::before {
+  width: 14px;
+  height: 2px;
+}
+
+/* Vertical line of plus */
+.product-accordion-item__icon::after {
+  width: 2px;
+  height: 14px;
+}
+
+/* When accordion is open: fade out vertical line to form minus sign */
+.product-accordion-item[open] .product-accordion-item__icon::after {
+  opacity: 0;
+  transform: scaleY(0);
+}
+
+.product-accordion-item__content {
+  padding: 0 0.5rem 1.5rem;
+  color: #374151;
   font-size: 0.95rem;
   line-height: 1.65;
+}
 }
 
 .product-tabs__highlight-box {

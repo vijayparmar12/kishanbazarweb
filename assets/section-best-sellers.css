@@ -74,21 +74,23 @@
 .best-sellers__link {
   align-items: center;
   background: #1b4317;
-  border-radius: 8px;
+  border-radius: 999px;
   color: #ffffff;
   display: inline-flex;
-  font-size: 0.85rem;
-  font-weight: 700;
-  gap: 0.4rem;
-  padding: 0.5rem 1rem;
+  font-size: 0.90rem;
+  font-weight: 800;
+  gap: 0.5rem;
+  padding: 0.65rem 1.35rem;
   text-decoration: none;
-  transition: background 200ms ease, transform 200ms ease;
+  box-shadow: 0 4px 14px rgba(27, 67, 23, 0.22);
+  transition: all 200ms ease;
   white-space: nowrap;
 }
 
 .best-sellers__link:hover {
   background: #143511;
   transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(27, 67, 23, 0.32);
 }
 
 .best-sellers__tabs {

@@ -1,28 +1,36 @@
 /* ==========================================================================
-   Shop By Category Mega Menu (Matching Two Brothers India Reference Layout)
-   - Supports 100% full background image coverage uploaded from Shopify Admin
-   - Positioned directly below "Shop By Category" nav button with pointer arrow
-   - Spacious, attractive cards with 80px media icons
-   - Centered dark green "SHOP ALL ->" pill button
+   Shop By Category Mega Menu - Warm Natural Organic Parchment Aesthetic
    ========================================================================== */
 
 .kb-mega--category {
-  border-radius: 24px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+  border-radius: 22px;
+  box-shadow: 
+    0 24px 55px -10px rgba(35, 66, 31, 0.18),
+    0 0 0 1px rgba(184, 142, 74, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
   width: max-content;
-  max-width: min(960px, calc(100vw - 32px));
-  min-width: 380px;
+  max-width: min(800px, calc(100vw - 32px));
+  min-width: 200px;
   z-index: 999999 !important;
-  background-color: #ffffff;
+  background-color: #FAF6EE;
+  background-image: linear-gradient(180deg, #FCF9F4 0%, #FAF6EE 55%, #F4EFE4 100%);
   overflow: hidden;
-  left: 0 !important;
-  transform: translateY(12px);
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50% !important;
+  transform: translateX(-50%) translateY(8px);
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1), opacity 250ms ease, visibility 250ms ease;
+  border: none;
+  box-sizing: border-box;
 }
 
 .kb-header__nav-item--mega:hover .kb-mega--category,
 .kb-header__nav-item--mega:focus-within .kb-mega--category,
 .kb-header__nav-item--mega.is-open .kb-mega--category {
-  transform: translateY(0) !important;
+  transform: translateX(-50%) translateY(0) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
 }
 
 .kb-mega--category .kb-mega__inner {
@@ -31,14 +39,23 @@
   z-index: 5;
 }
 
+.kb-mega--category .kb-mega__pointer {
+  background: #FCF9F4;
+  border-left: 1px solid rgba(184, 142, 74, 0.22);
+  border-top: 1px solid rgba(184, 142, 74, 0.22);
+  left: 50% !important;
+  transform: translateX(-50%) rotate(45deg);
+  top: -8px;
+  position: absolute;
+}
+
 .kb-category-mega {
   position: relative;
   width: 100%;
-  padding: 34px 34px 24px;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  border-radius: 24px;
+  padding: 24px 28px 16px;
+  background-color: transparent;
+  border-radius: 22px;
+  box-sizing: border-box;
 }
 
 .kb-category-mega.has-bg-image {
@@ -51,53 +68,53 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px 20px;
+  align-items: flex-start;
+  gap: 14px 18px;
   position: relative;
   z-index: 10;
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: 760px;
+  margin: 0 auto 10px;
 }
 
 .kb-category-card {
   align-items: center;
   background: transparent;
   border: none;
-  border-radius: 16px;
-  color: #23421f;
+  border-radius: 14px;
+  color: #1B3B2B;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  padding: 8px 6px;
+  padding: 4px 2px;
   position: relative;
   text-align: center;
   text-decoration: none;
-  transition: transform 250ms ease;
-  width: 92px;
-  flex: 0 0 92px;
+  transition: transform 200ms ease;
+  width: 84px;
+  flex: 0 0 84px;
 }
 
 .kb-category-card:hover,
 .kb-category-card:focus-visible {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
 }
 
 .kb-category-card__media {
-  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80px;
-  width: 80px;
-  margin-bottom: 8px;
-  background: #ffffff;
-  box-shadow: 0 6px 18px rgba(35, 66, 31, 0.1);
-  transition: box-shadow 250ms ease, transform 250ms ease;
+  height: 54px;
+  width: 54px;
+  margin-bottom: 6px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transition: transform 200ms ease;
 }
 
 .kb-category-card:hover .kb-category-card__media,
 .kb-category-card:focus-visible .kb-category-card__media {
-  box-shadow: 0 12px 28px rgba(35, 66, 31, 0.22);
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 
 .kb-category-card__image {
@@ -105,49 +122,48 @@
   height: 100%;
   object-fit: contain;
   width: 100%;
-  padding: 5px;
 }
 
 .kb-category-card__content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
 }
 
 .kb-category-card__title {
-  color: #23421f;
-  font-size: 14px;
+  color: #1B3B2B;
+  font-size: 13px;
   font-weight: 800;
-  line-height: 1.2;
-  transition: color 250ms ease;
+  line-height: 1.25;
+  transition: color 200ms ease;
   word-break: break-word;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .kb-category-card:hover .kb-category-card__title,
 .kb-category-card:focus-visible .kb-category-card__title {
-  color: #166534;
+  color: #11281D;
 }
 
-.kb-category-card__subtitle {
+.kb-category-mega__empty {
   color: #557051;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 13px;
+  text-align: center;
+  padding: 12px;
+  margin: 0;
 }
 
-/* Organic Green Wave Background Illustration (Fallback when no image uploaded) */
+/* Organic Green Wave Background Illustration */
 .kb-category-mega__wave-container {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 140px;
+  height: 95px;
   pointer-events: none;
   z-index: 2;
   overflow: hidden;
-  border-bottom-left-radius: 24px;
-  border-bottom-right-radius: 24px;
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
 }
 
 .kb-category-mega__wave-svg {
@@ -162,29 +178,36 @@
   z-index: 15;
   display: flex;
   justify-content: center;
-  margin-top: 22px;
-  padding-top: 6px;
+  margin-top: 12px;
 }
 
 .kb-category-mega__button-pill {
-  background: #23421f;
+  background: linear-gradient(135deg, #1B3B2B 0%, #10291D 100%);
   color: #ffffff !important;
-  border-radius: 8px;
-  font-size: 14px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 6px;
+  font-size: 13px;
   font-weight: 900;
-  letter-spacing: 0.05em;
-  padding: 0.75rem 2.2rem;
+  letter-spacing: 0.06em;
+  padding: 8px 24px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  box-shadow: 0 6px 20px rgba(35, 66, 31, 0.25);
-  transition: background 250ms ease, transform 250ms ease, box-shadow 250ms ease;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(27, 59, 43, 0.28);
+  transition: all 200ms ease;
 }
 
 .kb-category-mega__button-pill:hover,
 .kb-category-mega__button-pill:focus-visible {
-  background: #166534;
+  background: linear-gradient(135deg, #23421F 0%, #153324 100%);
+  border-color: rgba(243, 229, 171, 0.7);
   transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(35, 66, 31, 0.35);
+  box-shadow: 0 8px 20px rgba(27, 59, 43, 0.38);
 }
+
+
+
+
+
+

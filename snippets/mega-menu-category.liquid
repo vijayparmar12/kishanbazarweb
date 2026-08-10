@@ -1,8 +1,8 @@
 {% doc %}
-  Renders the premium grocery-style Shop By Category mega menu.
-  Supports full background image coverage uploaded from Shopify Admin Theme Editor.
+  Renders the Shop By Category mega menu.
+  Displays ONLY categories added by the merchant in Shopify Admin or collections.
 
-  @param {section} section - Header section containing category_card blocks and wave settings.
+  @param {section} section - Header section containing category_card blocks.
 
   @example
   {% render 'mega-menu-category', section: section %}
@@ -19,6 +19,7 @@
       assign rendered_handles = '|'
     %}
 
+    <!-- 1. Custom Theme Editor Category Blocks -->
     {% for block in section.blocks %}
       {% if block.type == 'category_card' %}
         {% if block.settings.collection != blank %}
@@ -28,7 +29,6 @@
             {% assign rendered_handles = rendered_handles | append: card_collection.handle | append: '|' %}
             {% liquid
               assign card_title = card_collection.title
-              assign card_subtitle = block.settings.subtitle
               assign card_url = card_collection.url
               assign card_image = block.settings.image
               if card_image == blank
@@ -55,16 +55,11 @@
                       loading: 'lazy'
                   }}
                 {% else %}
-                  {{ 'collection-1' | placeholder_svg_tag: 'kb-category-card__image kb-category-card__image--placeholder' }}
+                  {% render 'category-icon', category: card_collection, size: 48 %}
                 {% endif %}
               </span>
               <span class="kb-category-card__content">
                 <span class="kb-category-card__title">{{ card_title }}</span>
-                {% if card_subtitle != blank %}
-                  <span class="kb-category-card__subtitle">{{ card_subtitle }}</span>
-                {% elsif card_collection.products_count > 0 %}
-                  <span class="kb-category-card__subtitle">{{ card_collection.products_count }} {{ card_collection.products_count | pluralize: 'product', 'products' }}</span>
-                {% endif %}
               </span>
             </a>
           {% endif %}
@@ -72,6 +67,7 @@
       {% endif %}
     {% endfor %}
 
+    <!-- 2. Store Collections -->
     {% for collection in collections limit: 12 %}
       {% unless collection.handle == 'all' %}
         {% unless rendered_handles contains collection.handle %}
@@ -101,12 +97,11 @@
                       loading: 'lazy'
                   }}
                 {% else %}
-                  {{ 'collection-1' | placeholder_svg_tag: 'kb-category-card__image kb-category-card__image--placeholder' }}
+                  {% render 'category-icon', category: collection, size: 48 %}
                 {% endif %}
               </span>
               <span class="kb-category-card__content">
                 <span class="kb-category-card__title">{{ collection.title }}</span>
-                <span class="kb-category-card__subtitle">{{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}</span>
               </span>
             </a>
           {% endif %}
@@ -115,16 +110,16 @@
     {% endfor %}
 
     {% if category_count == 0 %}
-      <p class="kb-category-mega__empty">Product categories will appear here after collections have products.</p>
+      <p class="kb-category-mega__empty">No categories added yet. Add collections or blocks in Theme Editor.</p>
     {% endif %}
   </div>
 
   {% if wave_img == blank %}
-    <!-- Organic Wave SVG fallback when no background image is uploaded -->
+    <!-- Two Brothers Style Organic Green Wave Illustration SVG -->
     <div class="kb-category-mega__wave-container" aria-hidden="true">
-      <svg class="kb-category-mega__wave-svg" viewBox="0 0 1200 180" preserveAspectRatio="none" fill="none">
-        <path d="M0,80 C300,160 600,20 900,120 C1050,170 1150,130 1200,100 L1200,180 L0,180 Z" fill="#dff2dd" fill-opacity="0.85"/>
-        <path d="M0,110 C250,175 550,60 850,150 C1020,185 1130,150 1200,130 L1200,180 L0,180 Z" fill="#cbe7c8" fill-opacity="0.95"/>
+      <svg class="kb-category-mega__wave-svg" viewBox="0 0 1200 140" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C300,110 600,10 900,80 C1050,110 1150,90 1200,70 L1200,140 L0,140 Z" fill="#e2f0e0" fill-opacity="0.85"/>
+        <path d="M0,65 C250,120 550,30 850,100 C1020,125 1130,105 1200,90 L1200,140 L0,140 Z" fill="#cbe6c7" fill-opacity="0.95"/>
       </svg>
     </div>
   {% endif %}
@@ -133,7 +128,10 @@
   <div class="kb-category-mega__footer-action">
     <a class="kb-category-mega__button-pill" href="{{ section.settings.category_button_url | default: routes.all_products_collection_url }}">
       <span>SHOP ALL</span>
-      <span aria-hidden="true">&rarr;</span>
     </a>
   </div>
 </div>
+
+
+
+
