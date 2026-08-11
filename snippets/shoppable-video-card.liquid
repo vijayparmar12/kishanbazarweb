@@ -95,7 +95,7 @@
 
       <!-- Floating Product Card Overlay (Slightly Overlapping 1/4 Below Video) -->
       <div class="shoppable-videos__product-overlay">
-        <div class="shoppable-videos__product-info-row">
+        <a href="{{ card_product.url | default: routes.all_products_collection_url }}" class="shoppable-videos__product-info-row" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.65rem;">
           <div class="shoppable-videos__product-image-box">
             {% if card_product.featured_image != blank %}
               {{ card_product.featured_image | image_url: width: 200 | image_tag: class: 'shoppable-videos__product-thumb', loading: 'lazy' }}
@@ -121,7 +121,7 @@
               {% endif %}
             </div>
           </div>
-        </div>
+        </a>
 
         <form method="post" action="{{ routes.cart_add_url }}" class="shoppable-videos__cart-form" data-product-form>
           <input type="hidden" name="id" value="{% if variant != blank %}{{ variant.id }}{% else %}44000000000000{% endif %}">

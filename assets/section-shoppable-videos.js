@@ -103,11 +103,11 @@ class ShoppableVideosSection {
       if (!mediaWrap) return;
 
       mediaWrap.addEventListener('click', (e) => {
-        if (e.target.closest('.shoppable-videos__product-overlay') || e.target.closest('[data-add-to-cart]') || e.target.closest('[data-video-mute]')) {
-          return;
-        }
+        if (e.target.closest('.shoppable-videos__product-info-row') || e.target.closest('[data-add-to-cart]') || e.target.closest('[data-video-mute]')) return;
 
         const clone = mediaWrap.cloneNode(true);
+        const overlayInClone = clone.querySelector('.shoppable-videos__product-overlay');
+        if (overlayInClone) overlayInClone.remove();
         if (modalBody) {
           modalBody.innerHTML = '';
           modalBody.appendChild(clone);
