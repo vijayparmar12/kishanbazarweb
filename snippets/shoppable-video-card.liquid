@@ -1,7 +1,8 @@
 {% doc %}
-  Renders a vertical video card with optional add-to-cart actions.
+  Renders a vertical video card with an overlapping floating product card.
 
   @param {object} section - Parent section for shared settings
+  @param {object} [block] - Current video block
   @param {product} [card_product] - Product used for add to cart
   @param {object} [hosted_video] - Shopify hosted video object
   @param {string} [mp4_url] - External MP4 URL
@@ -11,67 +12,47 @@
   @param {boolean} [is_preview] - Theme editor preview without saved product
   @param {boolean} [is_demo] - Built-in demo card
   @param {string} [shopify_attributes] - Block attributes from theme editor
-
-  @example
-  {% render 'shoppable-video-card', card_product: product, mp4_url: url, section: section %}
 {% enddoc %}
 
 {% liquid
   assign is_preview = is_preview | default: false
   assign is_demo = is_demo | default: false
 
-  if video_label == blank
-    if card_product != blank
-      assign video_label = card_product.title
-    else
-      assign video_label = 'sections.shoppable_videos.video_item' | t
-    endif
-  endif
-
-  assign button_label = button_text | default: section.settings.default_button_text
-  if button_label == blank
-    assign button_label = 'sections.shoppable_videos.add_to_cart' | t
-  endif
+  assign video_title = block.settings.video_label | default: video_label | default: 'SHOP BY VIDEOS'
+  assign badge_label = block.settings.badge_text | default: 'BESTSELLER'
+  assign p_title = block.settings.custom_title | default: card_product.title | default: 'Khapli Flour'
+  assign p_subtitle = block.settings.subtitle | default: card_product.metafields.descriptors.subtitle | default: 'Stone Ground • 1 Kg'
+  assign button_label = block.settings.button_text | default: button_text | default: section.settings.default_button_text | default: 'ADD TO CART'
 
   assign variant = blank
   if card_product != blank
     assign variant = card_product.selected_or_first_available_variant
   endif
+
+  assign selling_p = block.settings.selling_price
+  if selling_p == blank and variant != blank
+    assign selling_p = '₹' | append: variant.price | money_without_currency
+  elsif selling_p == blank
+    assign selling_p = '₹499'
+  endif
+
+  assign compare_p = block.settings.compare_price
+  if compare_p == blank and variant != blank and variant.compare_at_price > variant.price
+    assign compare_p = '₹' | append: variant.compare_at_price | money_without_currency
+  elsif compare_p == blank
+    assign compare_p = '₹599'
+  endif
 %}
 
-<li
-  class="shoppable-videos__slide"
-  data-carousel-slide
-  {{ shopify_attributes }}
->
-  <article
-    class="shoppable-videos__card{% if is_preview %} shoppable-videos__card--preview{% endif %}{% if is_demo %} shoppable-videos__card--demo{% endif %}"
-    data-shoppable-card
-    {% if variant != blank %}data-variant-id="{{ variant.id }}"{% endif %}
-  >
+<li class="shoppable-videos__slide" data-carousel-slide {{ shopify_attributes }}>
+  <article class="shoppable-videos__card{% if is_preview %} shoppable-videos__card--preview{% endif %}" data-shoppable-card {% if variant != blank %}data-variant-id="{{ variant.id }}"{% endif %}>
+    
+    <!-- Video Media Wrap -->
     <div class="shoppable-videos__media-wrap">
       {% if hosted_video != blank %}
-        {{
-          hosted_video
-          | video_tag:
-            class: 'shoppable-videos__video',
-            autoplay: false,
-            loop: section.settings.loop,
-            muted: true,
-            playsinline: true,
-            preload: 'none',
-            controls: false,
-            image_size: '720x'
-        }}
+        {{ hosted_video | video_tag: class: 'shoppable-videos__video', autoplay: false, loop: section.settings.loop, muted: true, playsinline: true, preload: 'none', controls: false, image_size: '720x' }}
       {% elsif mp4_url != blank %}
-        <video
-          class="shoppable-videos__video"
-          muted
-          playsinline
-          preload="none"
-          {% if section.settings.loop %}loop{% endif %}
-          {% if poster != blank %}poster="{{ poster | image_url: width: 720 }}"{% elsif card_product.featured_image %}poster="{{ card_product.featured_image | image_url: width: 720 }}"{% endif %}
-        >
+        <video class="shoppable-videos__video" muted playsinline preload="none" {% if section.settings.loop %}loop{% endif %} {% if poster != blank %}poster="{{ poster | image_url: width: 720 }}"{% elsif card_product.featured_image %}poster="{{ card_product.featured_image | image_url: width: 720 }}"{% endif %}>
           <source src="{{ mp4_url }}" type="video/mp4">
         </video>
       {% else %}
@@ -80,58 +61,60 @@
         </div>
       {% endif %}
 
-      {% if is_demo %}
-        <span class="shoppable-videos__demo-label">{{ 'sections.shoppable_videos.demo_badge' | t }}</span>
-      {% endif %}
+      <!-- Top Overlay Bar (Mute Toggle Only) -->
+      <div class="shoppable-videos__top-overlay" style="justify-content: flex-end;">
+        <button type="button" class="shoppable-videos__mute-btn" data-video-mute aria-label="Toggle mute">
+          <svg class="shoppable-videos__icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+          <svg class="shoppable-videos__icon-unmuted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        </button>
+      </div>
 
-      <button
-        type="button"
-        class="shoppable-videos__play"
-        data-video-play
-        aria-label="{{ 'sections.shoppable_videos.play_video' | t: title: video_label }}"
-      >
-        <span class="shoppable-videos__play-icon" aria-hidden="true">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" focusable="false">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
+      <!-- Center Play Button -->
+      <button type="button" class="shoppable-videos__play" data-video-play aria-label="Play video">
+        <span class="shoppable-videos__play-ring">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </span>
       </button>
 
-      {% if card_product != blank and variant != blank %}
-        <div class="shoppable-videos__actions-wrap">
-          {% if is_preview %}
-            <p class="shoppable-videos__preview-hint">{{ 'sections.shoppable_videos.select_product_hint' | t }}</p>
-          {% endif %}
-          <div class="shoppable-videos__actions">
-            <button
-              type="button"
-              class="shoppable-videos__add"
-              data-add-to-cart
-              data-variant-id="{{ variant.id }}"
-              {% if is_preview or is_demo %}disabled{% elsif card_product.available == false %}disabled{% endif %}
-            >
-              <span class="shoppable-videos__add-label" data-add-label>
-                {% if card_product.available or is_preview or is_demo %}
-                  {{ button_label }}
-                {% else %}
-                  {{ 'sections.shoppable_videos.sold_out' | t }}
-                {% endif %}
-              </span>
-              <span class="shoppable-videos__add-spinner" data-add-spinner hidden aria-hidden="true"></span>
-              <span class="shoppable-videos__add-success" data-add-success hidden aria-hidden="true">
-                {% render 'icon', name: 'star', size: 18 %}
-              </span>
-            </button>
-            <a
-              class="shoppable-videos__cart-icon"
-              href="{{ routes.cart_url }}"
-              aria-label="{{ 'sections.shoppable_videos.view_cart' | t }}"
-            >
-              {% render 'icon', name: 'cart', size: 22 %}
-            </a>
+      <!-- Floating Product Card Overlay (Slightly Overlapping 1/4 Below Video) -->
+      <div class="shoppable-videos__product-overlay">
+        <div class="shoppable-videos__product-info-row">
+          <div class="shoppable-videos__product-image-box">
+            {% if card_product.featured_image != blank %}
+              {{ card_product.featured_image | image_url: width: 200 | image_tag: class: 'shoppable-videos__product-thumb', loading: 'lazy' }}
+            {% elsif poster != blank %}
+              {{ poster | image_url: width: 200 | image_tag: class: 'shoppable-videos__product-thumb', loading: 'lazy' }}
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'shoppable-videos__product-thumb' }}
+            {% endif %}
+          </div>
+
+          <div class="shoppable-videos__product-details">
+            {% if badge_label != blank %}
+              <span class="shoppable-videos__product-badge">{{ badge_label }}</span>
+            {% endif %}
+            <h3 class="shoppable-videos__product-name">{{ p_title }}</h3>
+            {% if p_subtitle != blank %}
+              <p class="shoppable-videos__product-subtitle">{{ p_subtitle }}</p>
+            {% endif %}
+            <div class="shoppable-videos__product-prices">
+              <span class="shoppable-videos__price-current">{{ selling_p }}</span>
+              {% if compare_p != blank %}
+                <s class="shoppable-videos__price-compare">{{ compare_p }}</s>
+              {% endif %}
+            </div>
           </div>
         </div>
-      {% endif %}
+
+        <form method="post" action="{{ routes.cart_add_url }}" class="shoppable-videos__cart-form" data-product-form>
+          <input type="hidden" name="id" value="{% if variant != blank %}{{ variant.id }}{% else %}44000000000000{% endif %}">
+          <button type="submit" class="shoppable-videos__buy-btn" data-add-to-cart {% if card_product.available == false and is_preview == false and is_demo == false %}disabled{% endif %}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span>{{ button_label }}</span>
+          </button>
+        </form>
+      </div>
+
     </div>
   </article>
 </li>

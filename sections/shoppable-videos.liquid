@@ -195,6 +195,7 @@
                 video_label: block_label,
                 button_text: block.settings.button_text,
                 section: section,
+                block: block,
                 is_preview: is_block_preview,
                 shopify_attributes: block.shopify_attributes
               %}
@@ -361,39 +362,104 @@
   "blocks": [
     {
       "type": "video",
-      "name": "t:sections.shoppable_videos.blocks.video.name",
+      "name": "Video Card",
       "settings": [
         {
           "type": "product",
           "id": "product",
-          "label": "t:sections.shoppable_videos.blocks.video.settings.product.label"
+          "label": "Select Product"
         },
         {
           "type": "video",
           "id": "video",
-          "label": "t:sections.shoppable_videos.blocks.video.settings.video.label"
+          "label": "Shopify Hosted Video"
         },
         {
           "type": "text",
           "id": "video_url",
-          "label": "t:sections.shoppable_videos.blocks.video.settings.video_url.label",
-          "info": "t:sections.shoppable_videos.blocks.video.settings.video_url.info"
+          "label": "MP4 Video URL",
+          "info": "Direct link to video file (MP4)."
         },
         {
           "type": "image_picker",
           "id": "poster",
-          "label": "t:sections.shoppable_videos.blocks.video.settings.poster.label"
-        },
-        {
-          "type": "text",
-          "id": "button_text",
-          "label": "t:sections.shoppable_videos.blocks.video.settings.button_text.label"
+          "label": "Custom Video Poster / Cover Image"
         },
         {
           "type": "text",
           "id": "video_label",
-          "label": "t:sections.shoppable_videos.blocks.video.settings.video_label.label",
-          "info": "t:sections.shoppable_videos.blocks.video.settings.video_label.info"
+          "label": "Top Bar Tag Text",
+          "default": "SHOP BY VIDEOS"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Product Badge Text",
+          "default": "BESTSELLER"
+        },
+        {
+          "type": "text",
+          "id": "custom_title",
+          "label": "Custom Product Title (Optional)",
+          "info": "Overrides product title if set."
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Product Subtitle / Weight",
+          "default": "Stone Ground • 1 Kg"
+        },
+        {
+          "type": "text",
+          "id": "selling_price",
+          "label": "Selling Price Override (e.g. ₹499)"
+        },
+        {
+          "type": "text",
+          "id": "compare_price",
+          "label": "Compare Price Override (e.g. ₹599)"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Add to Cart Button Text",
+          "default": "ADD TO CART"
+        },
+        {
+          "type": "text",
+          "id": "like_count",
+          "label": "Likes Count Display",
+          "default": "1.2K"
+        },
+        {
+          "type": "text",
+          "id": "comment_count",
+          "label": "Comments Count Display",
+          "default": "86"
+        },
+        {
+          "type": "text",
+          "id": "share_count",
+          "label": "Shares Count Display",
+          "default": "120"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_likes",
+          "label": "Show Like Button & Count",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_comments",
+          "label": "Show Comment Button & Count",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_shares",
+          "label": "Show Share Button & Count",
+          "default": true
         }
       ]
     }
