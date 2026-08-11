@@ -79,6 +79,19 @@
     endif
   endif
 
+  if img_url_1 == blank
+    assign img_url_1 = 'icon1.png' | asset_url
+  endif
+  if img_url_2 == blank
+    assign img_url_2 = 'icon2.png' | asset_url
+  endif
+  if img_url_3 == blank
+    assign img_url_3 = 'icon3.png' | asset_url
+  endif
+  if img_url_4 == blank
+    assign img_url_4 = 'icon4.png' | asset_url
+  endif
+
   assign total_badges = 0
   if img_url_1 != blank
     assign total_badges = total_badges | plus: 1

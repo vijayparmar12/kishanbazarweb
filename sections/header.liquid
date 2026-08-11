@@ -238,6 +238,9 @@
                 {% endif %}
               </span>
               <span class="kb-header__feature-text-group">
+                {% if block.settings.badge != blank %}
+                  <span class="kb-header__feature-badge">{{ block.settings.badge }}</span>
+                {% endif %}
                 <span class="kb-header__feature-title">{{ block.settings.title }}</span>
               </span>
             </a>
@@ -403,6 +406,7 @@
       "limit": 5,
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Membership Deals" },
+        { "type": "text", "id": "badge", "label": "Badge text (optional)", "info": "e.g. OFFERS, NEW, POPULAR, VALUE" },
         { "type": "text", "id": "icon", "label": "Emoji icon", "default": "Gift" },
         { "type": "image_picker", "id": "icon_image", "label": "Custom icon image" },
         { "type": "url", "id": "link", "label": "Link" },
@@ -446,11 +450,10 @@
         { "type": "mega_link", "settings": { "menu_group": "customers", "title": "Contact Us" } },
         { "type": "mega_link", "settings": { "menu_group": "customers", "title": "Refund & Cancellation Policy" } },
         { "type": "mega_link", "settings": { "menu_group": "customers", "title": "Shipping & Delivery Policy" } },
-        { "type": "feature_icon", "settings": { "title": "Membership Deals", "icon": "Gift", "icon_background": "#5A2F08" } },
-        { "type": "feature_icon", "settings": { "title": "Monsoon Special", "icon": "Rain", "icon_background": "#23421F" } },
-        { "type": "feature_icon", "settings": { "title": "New Launches", "icon": "Box", "icon_background": "#23421F" } },
-        { "type": "feature_icon", "settings": { "title": "All Products", "icon": "Jar", "icon_background": "#23421F" } },
-        { "type": "feature_icon", "settings": { "title": "Under Rs.999", "icon": "Save", "icon_background": "#5A2F08" } }
+        { "type": "feature_icon", "settings": { "title": "Monsoon Special", "badge": "OFFERS", "icon": "Rain", "icon_background": "#23421F" } },
+        { "type": "feature_icon", "settings": { "title": "New Launches", "badge": "NEW", "icon": "Box", "icon_background": "#23421F" } },
+        { "type": "feature_icon", "settings": { "title": "All Products", "badge": "POPULAR", "icon": "Jar", "icon_background": "#23421F" } },
+        { "type": "feature_icon", "settings": { "title": "Under Rs.999", "badge": "VALUE", "icon": "Save", "icon_background": "#5A2F08" } }
       ]
     }
   ]

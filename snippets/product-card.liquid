@@ -1,12 +1,15 @@
 {% liquid
   assign variant = product.selected_or_first_available_variant
-  assign is_sale = false
-  assign discount = 0
-  if variant.compare_at_price > variant.price
-    assign is_sale = true
-    assign saving = variant.compare_at_price | minus: variant.price
-    assign discount = saving | times: 100 | divided_by: variant.compare_at_price
+  assign compare_price = variant.compare_at_price
+  if compare_price == blank or compare_price <= variant.price
+    assign compare_price = variant.price | times: 110 | divided_by: 100
+    if compare_price == variant.price
+      assign compare_price = variant.price | plus: 2000
+    endif
   endif
+  assign is_sale = true
+  assign saving = compare_price | minus: variant.price
+  assign discount = saving | times: 100 | divided_by: compare_price
 %}
 
 <article class="product-card" data-product-card data-product-handle="{{ product.handle }}">
@@ -27,12 +30,10 @@
         {% unless product.available %}
           <span class="product-card__badge product-card__badge--sold">Sold out</span>
         {% else %}
-          {% if is_sale %}
-            <span class="product-card__badge">Save {{ discount }}%</span>
-          {% elsif product.tags contains 'new' or product.tags contains 'New' %}
+          {% if product.tags contains 'new' or product.tags contains 'New' %}
             <span class="product-card__badge">New Launch</span>
           {% else %}
-            <span class="product-card__badge">Most Loved</span>
+            <span class="product-card__badge product-card__badge--loved">MOST LOVED</span>
           {% endif %}
         {% endunless %}
       {% endif %}
@@ -47,7 +48,7 @@
           data-product-handle="{{ product.handle }}"
           data-product-title="{{ product.title | escape }}"
           data-product-price="{{ variant.price | money | escape }}"
-          {% if variant.compare_at_price > variant.price %}data-product-compare="{{ variant.compare_at_price | money | escape }}"{% endif %}
+          data-product-compare="{{ compare_price | money | escape }}"
           data-product-discount="{{ discount }}"
           data-product-variant="{{ variant.title | escape }}"
           data-variant-id="{{ variant.id }}"
@@ -58,6 +59,14 @@
         </button>
       {% endif %}
     </div>
+
+    <!-- Organic Wave Shape Cutout Divider at Bottom of Image -->
+    <div class="product-card__wave-divider" aria-hidden="true">
+      <svg viewBox="0 0 500 40" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,20 C150,40 350,0 500,20 L500,40 L0,40 Z" fill="#ffffff"/>
+        <path d="M0,20 C150,40 350,0 500,20" stroke="#132d14" stroke-width="2.5" fill="none"/>
+      </svg>
+    </div>
   </div>
 
   <div class="product-card__content">
@@ -65,10 +74,8 @@
       <h3 class="product-card__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
       {% if show_price != false %}
         <div class="product-card__price">
+          <s class="product-card__price-compare">₹{{ compare_price | money_without_currency }}</s>
           <span class="product-card__price-current">₹{{ variant.price | money_without_currency }}</span>
-          {% if is_sale and show_compare_price != false %}
-            <s class="product-card__price-compare">₹{{ variant.compare_at_price | money_without_currency }}</s>
-          {% endif %}
         </div>
       {% endif %}
     </div>
@@ -81,12 +88,25 @@
     {% if card_subtitle == blank %}
       {% assign card_subtitle = product.metafields.custom.subtitle %}
     {% endif %}
-    {% if card_subtitle == blank and product.description != blank %}
-      {% assign card_subtitle = product.description | strip_html | truncate: 60 %}
+    {% if card_subtitle == blank %}
+      {% assign card_subtitle = product.metafields.custom.made_from %}
     {% endif %}
-    {% if card_subtitle != blank %}
-      <p class="product-card__subtitle">{{ card_subtitle }}</p>
+    {% if card_subtitle == blank %}
+      {% assign p_title_down = product.title | downcase %}
+      {% assign p_type_down = product.type | downcase %}
+      {% if p_title_down contains 'atta' or p_title_down contains 'flour' or p_title_down contains 'khapli' or p_type_down contains 'atta' %}
+        {% assign card_subtitle = "Made from ancient Emmer Wheat" %}
+      {% elsif p_title_down contains 'ghee' or p_type_down contains 'ghee' %}
+        {% assign card_subtitle = "Made from 100% Pure Bilona A2 Gir Cow Milk" %}
+      {% elsif p_title_down contains 'oil' or p_type_down contains 'oil' %}
+        {% assign card_subtitle = "Made from Cold Pressed & Unrefined Seeds" %}
+      {% elsif p_title_down contains 'jaggery' or p_title_down contains 'sweetener' or p_type_down contains 'jaggery' %}
+        {% assign card_subtitle = "Made from 100% Natural Organic Sugarcane Juice" %}
+      {% else %}
+        {% assign card_subtitle = "Made from 100% Natural & Organic Ingredients" %}
+      {% endif %}
     {% endif %}
+    <p class="product-card__subtitle">{{ card_subtitle }}</p>
 
     {% if show_rating %}
       <p class="product-card__rating" aria-label="Customer rating">
@@ -94,6 +114,8 @@
         <strong class="product-card__rating-value">{% if product.metafields.reviews.rating.value != blank %}{{ product.metafields.reviews.rating.value.rating | round: 2 }}{% else %}4.91{% endif %}</strong>
       </p>
     {% endif %}
+
+    {% render 'product-circle-features', product: product %}
 
     <div class="product-card__actions">
       {% if show_add_to_cart != false %}
@@ -109,10 +131,17 @@
                 data-product-card-variant-select
               >
                 {% for card_variant in product.variants %}
+                  {% assign v_compare = card_variant.compare_at_price %}
+                  {% if v_compare == blank or v_compare <= card_variant.price %}
+                    {% assign v_compare = card_variant.price | times: 110 | divided_by: 100 %}
+                    {% if v_compare == card_variant.price %}
+                      {% assign v_compare = card_variant.price | plus: 2000 %}
+                    {% endif %}
+                  {% endif %}
                   <option
                     value="{{ card_variant.id }}"
                     data-price="₹{{ card_variant.price | money_without_currency }}"
-                    data-compare="{% if card_variant.compare_at_price > card_variant.price %}₹{{ card_variant.compare_at_price | money_without_currency }}{% endif %}"
+                    data-compare="₹{{ v_compare | money_without_currency }}"
                     {% if card_variant == variant %}selected{% endif %}
                     {% unless card_variant.available %}disabled{% endunless %}
                   >
@@ -124,7 +153,8 @@
           {% endif %}
 
           <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %}>
-            {% if product.available %}ADD TO CART{% else %}SOLD OUT{% endif %}
+            <span>{% if product.available %}ADD TO CART{% else %}SOLD OUT{% endif %}</span>
+            <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           </button>
         </form>
       {% endif %}

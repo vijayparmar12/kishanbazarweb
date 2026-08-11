@@ -285,18 +285,18 @@
     display: block !important;
     position: relative;
     width: 100%;
-    border-radius: 18px;
-    overflow: hidden;
-    background: #faf6ec;
-    border: 1.5px solid rgba(35, 66, 31, 0.16);
-    box-shadow: 0 4px 18px rgba(35, 66, 31, 0.06);
+    background: transparent;
   }
 
   .home-hero-split__mobile-slides-track {
     position: relative;
     width: 100%;
-    height: clamp(320px, 68vw, 400px);
+    aspect-ratio: 1 / 1;
+    border-radius: 18px;
     overflow: hidden;
+    background: #faf6ec;
+    border: 1.5px solid rgba(35, 66, 31, 0.16);
+    box-shadow: 0 4px 18px rgba(35, 66, 31, 0.06);
   }
 
   .home-hero-split__mobile-slide {
@@ -322,15 +322,17 @@
   .home-hero-split__mobile-slide .home-hero-split__image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    background: #faf6ec;
   }
 
-  /* Mobile Overlay Action Buttons (2 Buttons: Shop Essentials + Our Story) */
+  /* Mobile Overlay Action Buttons (Centered at Bottom Inside Box) */
   .home-hero-split__actions-wrapper {
-    bottom: 1rem;
-    left: 1rem;
-    right: 1rem;
-    width: auto;
+    bottom: 0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 320px;
     position: absolute;
     z-index: 15;
   }
@@ -340,44 +342,47 @@
   }
 
   .home-hero-split__actions-mobile {
-    display: grid;
-    gap: 0.65rem;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
     width: 100%;
   }
 
   .home-hero-split__actions-mobile .home-hero-btn {
     font-size: 0.78rem;
-    padding: 0.75rem 0.4rem;
-    width: 100%;
+    font-weight: 800;
+    padding: 0.65rem 1.1rem;
+    border-radius: 999px;
+    text-align: center;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
   }
 
-  /* Mobile Navigation Dots */
+  /* Mobile Navigation Dots (Positioned BELOW the Hero Image Box) */
   .home-hero-split__mobile-dots {
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
     display: flex;
     align-items: center;
-    gap: 6px;
-    z-index: 20;
-    background: rgba(0, 0, 0, 0.38);
-    padding: 4px 10px;
-    border-radius: 999px;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    z-index: 10;
   }
 
   .home-hero-split__mobile-dot {
-    width: 7px;
-    height: 7px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
+    background: #c2d4be;
     border: none;
     padding: 0;
     cursor: pointer;
-    transition: background-color 300ms ease, width 300ms ease;
+    transition: all 250ms ease;
   }
 
   .home-hero-split__mobile-dot.is-active {

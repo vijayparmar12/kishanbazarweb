@@ -110,7 +110,7 @@
     if (!slider) return;
 
     const slides = Array.from(slider.querySelectorAll('[data-hero-mobile-slide]'));
-    const dots = Array.from(slider.querySelectorAll('[data-hero-mobile-dot]'));
+    const dots = Array.from(section.querySelectorAll('[data-hero-mobile-dot]'));
 
     if (slides.length <= 1) return;
 
@@ -158,7 +158,9 @@
     dots.forEach((dot, index) => {
       dot.addEventListener('click', (e) => {
         e.preventDefault();
-        goToSlide(index);
+        const dotIndex = parseInt(dot.getAttribute('data-hero-mobile-dot'), 10);
+        const targetIndex = !isNaN(dotIndex) ? dotIndex : index;
+        goToSlide(targetIndex);
         startAutoplay();
       });
     });

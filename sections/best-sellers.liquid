@@ -40,16 +40,6 @@
 {% endstyle %}
 
 <section id="BestSellers-{{ section.id }}" class="home-section best-sellers{% if section.settings.show_tabs %} best-sellers--with-tabs{% endif %}" data-best-sellers>
-  {% if section.settings.heading contains 'Loved' or section.settings.eyebrow contains 'Loved' %}
-    <!-- Decorative Farm Artworks -->
-    <div class="best-sellers__decor-home" aria-hidden="true">
-      <img src="{{ 'home.png' | asset_url }}" alt="Organic Cottage" width="70" height="70" loading="lazy">
-    </div>
-    <div class="best-sellers__decor-cow" aria-hidden="true">
-      <img src="{{ 'cow.png' | asset_url }}" alt="Gir Cow" width="65" height="65" loading="lazy">
-    </div>
-  {% endif %}
-
   <div class="best-sellers__illustration-bg" aria-hidden="true">
     <svg viewBox="0 0 1440 180" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
       <path d="M0 120C240 70 480 150 720 100C960 50 1200 130 1440 90V180H0V120Z" fill="rgba(35, 66, 31, 0.03)"/>
@@ -59,9 +49,6 @@
 
   <div class="home-section__head best-sellers__head">
     <div class="best-sellers__title-wrap">
-      <div class="best-sellers__decor" aria-hidden="true">
-        <img src="{{ 'grains.png' | asset_url }}" alt="Organic Grains" class="best-sellers__bird-img" width="56" height="42" loading="lazy">
-      </div>
 
       <p class="home-section__eyebrow">{{ section.settings.eyebrow | default: "Loved by Thousands ❤️" }}</p>
       <h2>{{ section.settings.heading | default: "Our most-loved picks" }}</h2>
