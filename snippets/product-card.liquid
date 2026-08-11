@@ -128,7 +128,7 @@
           {% when 'card_variant_selector' %}
             {% unless product.has_only_default_variant %}
               <div class="product-card__variant-wrap" style="margin-bottom: 0.5rem;" {{ block.shopify_attributes }}>
-                <select class="product-card__variant-select" name="id" aria-label="Select variant for {{ product.title | escape }}" data-product-card-variant-select>
+                <select class="product-card__variant-select" name="id" aria-label="Select variant for {{ product.title | escape }}" data-product-card-variant-select style="{% if block.settings.border_color != blank %}border-color: {{ block.settings.border_color }};{% endif %}{% if block.settings.bg_color != blank %}background-color: {{ block.settings.bg_color }};{% endif %}{% if block.settings.text_color != blank %}color: {{ block.settings.text_color }};{% endif %}">
                   {% for card_variant in product.variants %}
                     {% assign v_compare = card_variant.compare_at_price %}
                     {% if v_compare == blank or v_compare <= card_variant.price %}

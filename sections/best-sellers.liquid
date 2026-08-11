@@ -201,12 +201,20 @@
     {
       "type": "card_benefit_icons",
       "name": "Card Benefit Badges",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_benefit_icons", "label": "Show benefit circle icons", "default": true }
+      ]
     },
     {
       "type": "card_variant_selector",
       "name": "Card Variant Dropdown",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        { "type": "color", "id": "border_color", "label": "Dropdown border color", "default": "#1F1F1F" },
+        { "type": "color", "id": "bg_color", "label": "Dropdown background color", "default": "#FFFFFF" },
+        { "type": "color", "id": "text_color", "label": "Dropdown text color", "default": "#1F1F1F" }
+      ]
     },
     {
       "type": "card_buy_button",
