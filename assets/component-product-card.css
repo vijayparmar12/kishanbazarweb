@@ -498,8 +498,8 @@
   align-items: center;
   display: flex;
   justify-content: center;
-  height: var(--kb-benefit-icon-size, 58px);
-  width: var(--kb-benefit-icon-size, 58px);
+  height: var(--kb-benefit-icon-size, 72px);
+  width: var(--kb-benefit-icon-size, 72px);
   max-width: 100%;
   margin: 0 auto;
 }

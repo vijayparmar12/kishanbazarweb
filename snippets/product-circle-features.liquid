@@ -85,7 +85,7 @@
     assign uploaded_count = uploaded_count | plus: 1
   endif
 
-  assign current_icon_size = block.settings.icon_size | default: section.settings.icon_size | default: icon_size | default: 58
+  assign current_icon_size = block.settings.icon_size | default: section.settings.icon_size | default: icon_size | default: 72
 %}
 
 {% if uploaded_count > 0 %}
@@ -94,32 +94,32 @@
       
       {% if img_url_1 != blank %}
         <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img">
-            <img src="{{ img_url_1 }}" alt="Benefit 1" loading="lazy" width="85" height="85">
+          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px;">
+            <img src="{{ img_url_1 }}" alt="Benefit 1" loading="lazy" width="{{ current_icon_size }}" height="{{ current_icon_size }}" style="width: 100%; height: 100%; object-fit: contain;">
           </div>
         </div>
       {% endif %}
 
       {% if img_url_2 != blank %}
         <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img">
-            <img src="{{ img_url_2 }}" alt="Benefit 2" loading="lazy" width="85" height="85">
+          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px;">
+            <img src="{{ img_url_2 }}" alt="Benefit 2" loading="lazy" width="{{ current_icon_size }}" height="{{ current_icon_size }}" style="width: 100%; height: 100%; object-fit: contain;">
           </div>
         </div>
       {% endif %}
 
       {% if img_url_3 != blank %}
         <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img">
-            <img src="{{ img_url_3 }}" alt="Benefit 3" loading="lazy" width="85" height="85">
+          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px;">
+            <img src="{{ img_url_3 }}" alt="Benefit 3" loading="lazy" width="{{ current_icon_size }}" height="{{ current_icon_size }}" style="width: 100%; height: 100%; object-fit: contain;">
           </div>
         </div>
       {% endif %}
 
       {% if img_url_4 != blank %}
         <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img">
-            <img src="{{ img_url_4 }}" alt="Benefit 4" loading="lazy" width="85" height="85">
+          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px;">
+            <img src="{{ img_url_4 }}" alt="Benefit 4" loading="lazy" width="{{ current_icon_size }}" height="{{ current_icon_size }}" style="width: 100%; height: 100%; object-fit: contain;">
           </div>
         </div>
       {% endif %}
