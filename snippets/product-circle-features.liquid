@@ -15,81 +15,104 @@
 {% liquid
   assign c_meta = product.metafields.custom
 
-  assign item_1 = c_meta.badge_image_1.value | default: c_meta.badge_image_1 | default: c_meta.Badge_image_1.value | default: c_meta.Badge_image_1 | default: c_meta.feature_icon_1.value | default: c_meta.feature_icon_1
+  # Image 1 (Theme Setting / Block Setting override -> Metafield)
   assign img_url_1 = blank
-  if item_1 != blank
-    if item_1.preview_image != blank
-      assign img_url_1 = item_1.preview_image | image_url: width: 600
-    elsif item_1.cloudinary_src != blank
-      assign img_url_1 = item_1.cloudinary_src
-    elsif item_1.src != blank
-      assign img_url_1 = item_1.src | image_url: width: 600
-    elsif item_1.width != blank or item_1.aspect_ratio != blank
-      assign img_url_1 = item_1 | image_url: width: 600
-    else
-      assign img_url_1 = item_1 | file_url
+  if benefit_image_1 != blank
+    assign img_url_1 = benefit_image_1 | image_url: width: 300
+  elsif block.settings.benefit_image_1 != blank
+    assign img_url_1 = block.settings.benefit_image_1 | image_url: width: 300
+  elsif section.settings.benefit_image_1 != blank
+    assign img_url_1 = section.settings.benefit_image_1 | image_url: width: 300
+  else
+    assign item_1 = c_meta.badge_image_1.value | default: c_meta.badge_image_1 | default: c_meta.Badge_image_1.value | default: c_meta.Badge_image_1 | default: c_meta.feature_icon_1.value | default: c_meta.feature_icon_1
+    if item_1 != blank
+      if item_1.preview_image != blank
+        assign img_url_1 = item_1.preview_image | image_url: width: 300
+      elsif item_1.cloudinary_src != blank
+        assign img_url_1 = item_1.cloudinary_src
+      elsif item_1.src != blank
+        assign img_url_1 = item_1.src | image_url: width: 300
+      elsif item_1.width != blank or item_1.aspect_ratio != blank
+        assign img_url_1 = item_1 | image_url: width: 300
+      else
+        assign img_url_1 = item_1 | file_url
+      endif
     endif
   endif
 
-  assign item_2 = c_meta.badge_image_2.value | default: c_meta.badge_image_2 | default: c_meta.Badge_image_2.value | default: c_meta.Badge_image_2 | default: c_meta.feature_icon_2.value | default: c_meta.feature_icon_2
+  # Image 2
   assign img_url_2 = blank
-  if item_2 != blank
-    if item_2.preview_image != blank
-      assign img_url_2 = item_2.preview_image | image_url: width: 600
-    elsif item_2.cloudinary_src != blank
-      assign img_url_2 = item_2.cloudinary_src
-    elsif item_2.src != blank
-      assign img_url_2 = item_2.src | image_url: width: 600
-    elsif item_2.width != blank or item_2.aspect_ratio != blank
-      assign img_url_2 = item_2 | image_url: width: 600
-    else
-      assign img_url_2 = item_2 | file_url
+  if benefit_image_2 != blank
+    assign img_url_2 = benefit_image_2 | image_url: width: 300
+  elsif block.settings.benefit_image_2 != blank
+    assign img_url_2 = block.settings.benefit_image_2 | image_url: width: 300
+  elsif section.settings.benefit_image_2 != blank
+    assign img_url_2 = section.settings.benefit_image_2 | image_url: width: 300
+  else
+    assign item_2 = c_meta.badge_image_2.value | default: c_meta.badge_image_2 | default: c_meta.Badge_image_2.value | default: c_meta.Badge_image_2 | default: c_meta.feature_icon_2.value | default: c_meta.feature_icon_2
+    if item_2 != blank
+      if item_2.preview_image != blank
+        assign img_url_2 = item_2.preview_image | image_url: width: 300
+      elsif item_2.cloudinary_src != blank
+        assign img_url_2 = item_2.cloudinary_src
+      elsif item_2.src != blank
+        assign img_url_2 = item_2.src | image_url: width: 300
+      elsif item_2.width != blank or item_2.aspect_ratio != blank
+        assign img_url_2 = item_2 | image_url: width: 300
+      else
+        assign img_url_2 = item_2 | file_url
+      endif
     endif
   endif
 
-  assign item_3 = c_meta.badge_image_3.value | default: c_meta.badge_image_3 | default: c_meta.Badge_image_3.value | default: c_meta.Badge_image_3 | default: c_meta.feature_icon_3.value | default: c_meta.feature_icon_3
+  # Image 3
   assign img_url_3 = blank
-  if item_3 != blank
-    if item_3.preview_image != blank
-      assign img_url_3 = item_3.preview_image | image_url: width: 600
-    elsif item_3.cloudinary_src != blank
-      assign img_url_3 = item_3.cloudinary_src
-    elsif item_3.src != blank
-      assign img_url_3 = item_3.src | image_url: width: 600
-    elsif item_3.width != blank or item_3.aspect_ratio != blank
-      assign img_url_3 = item_3 | image_url: width: 600
-    else
-      assign img_url_3 = item_3 | file_url
+  if benefit_image_3 != blank
+    assign img_url_3 = benefit_image_3 | image_url: width: 300
+  elsif block.settings.benefit_image_3 != blank
+    assign img_url_3 = block.settings.benefit_image_3 | image_url: width: 300
+  elsif section.settings.benefit_image_3 != blank
+    assign img_url_3 = section.settings.benefit_image_3 | image_url: width: 300
+  else
+    assign item_3 = c_meta.badge_image_3.value | default: c_meta.badge_image_3 | default: c_meta.Badge_image_3.value | default: c_meta.Badge_image_3 | default: c_meta.feature_icon_3.value | default: c_meta.feature_icon_3
+    if item_3 != blank
+      if item_3.preview_image != blank
+        assign img_url_3 = item_3.preview_image | image_url: width: 300
+      elsif item_3.cloudinary_src != blank
+        assign img_url_3 = item_3.cloudinary_src
+      elsif item_3.src != blank
+        assign img_url_3 = item_3.src | image_url: width: 300
+      elsif item_3.width != blank or item_3.aspect_ratio != blank
+        assign img_url_3 = item_3 | image_url: width: 300
+      else
+        assign img_url_3 = item_3 | file_url
+      endif
     endif
   endif
 
-  assign item_4 = c_meta.badge_image_4.value | default: c_meta.badge_image_4 | default: c_meta.Badge_image_4.value | default: c_meta.Badge_image_4 | default: c_meta.feature_icon_4.value | default: c_meta.feature_icon_4
+  # Image 4
   assign img_url_4 = blank
-  if item_4 != blank
-    if item_4.preview_image != blank
-      assign img_url_4 = item_4.preview_image | image_url: width: 600
-    elsif item_4.cloudinary_src != blank
-      assign img_url_4 = item_4.cloudinary_src
-    elsif item_4.src != blank
-      assign img_url_4 = item_4.src | image_url: width: 600
-    elsif item_4.width != blank or item_4.aspect_ratio != blank
-      assign img_url_4 = item_4 | image_url: width: 600
-    else
-      assign img_url_4 = item_4 | file_url
+  if benefit_image_4 != blank
+    assign img_url_4 = benefit_image_4 | image_url: width: 300
+  elsif block.settings.benefit_image_4 != blank
+    assign img_url_4 = block.settings.benefit_image_4 | image_url: width: 300
+  elsif section.settings.benefit_image_4 != blank
+    assign img_url_4 = section.settings.benefit_image_4 | image_url: width: 300
+  else
+    assign item_4 = c_meta.badge_image_4.value | default: c_meta.badge_image_4 | default: c_meta.Badge_image_4.value | default: c_meta.Badge_image_4 | default: c_meta.feature_icon_4.value | default: c_meta.feature_icon_4
+    if item_4 != blank
+      if item_4.preview_image != blank
+        assign img_url_4 = item_4.preview_image | image_url: width: 300
+      elsif item_4.cloudinary_src != blank
+        assign img_url_4 = item_4.cloudinary_src
+      elsif item_4.src != blank
+        assign img_url_4 = item_4.src | image_url: width: 300
+      elsif item_4.width != blank or item_4.aspect_ratio != blank
+        assign img_url_4 = item_4 | image_url: width: 300
+      else
+        assign img_url_4 = item_4 | file_url
+      endif
     endif
-  endif
-
-  if img_url_1 == blank
-    assign img_url_1 = 'icon1.png' | asset_url
-  endif
-  if img_url_2 == blank
-    assign img_url_2 = 'icon2.png' | asset_url
-  endif
-  if img_url_3 == blank
-    assign img_url_3 = 'icon3.png' | asset_url
-  endif
-  if img_url_4 == blank
-    assign img_url_4 = 'icon4.png' | asset_url
   endif
 
   assign total_badges = 0
