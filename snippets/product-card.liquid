@@ -27,7 +27,7 @@
 
     <div class="product-card__top-bar">
       {% if show_badge %}
-        {% unless product.available %}
+        {% if product.available == false %}
           <span class="product-card__badge product-card__badge--sold">Sold out</span>
         {% else %}
           <span class="product-card__badge product-card__badge--loved" style="{% if badge_bg != blank %}background-color: {{ badge_bg }};{% endif %}{% if badge_color != blank %}color: {{ badge_color }};{% endif %}">
@@ -39,7 +39,7 @@
               MOST LOVED
             {% endif %}
           </span>
-        {% endunless %}
+        {% endif %}
       {% endif %}
 
       {% if show_wishlist %}
@@ -63,13 +63,6 @@
           {% render 'icon', name: 'heart', size: 18 %}
         </button>
       {% endif %}
-    </div>
-
-    <!-- Organic Wave Shape Cutout Divider at Bottom of Image -->
-    <div class="product-card__wave-divider" aria-hidden="true">
-      <svg viewBox="0 0 500 40" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,20 C150,40 350,0 500,20 L500,40 L0,40 Z" fill="#ffffff"/>
-      </svg>
     </div>
   </div>
 
@@ -121,18 +114,18 @@
 
           {% when 'card_benefit_icons' %}
             <div {{ block.shopify_attributes }}>
-              {% render 'product-circle-features', product: product, block: block %}
+              {% render 'product-circle-features', product: product, block: block, limit: 3 %}
             </div>
 
           {% when 'card_variant_selector' or 'card_buy_button' %}
-            {% unless rendered_actions_row %}
+            {% if rendered_actions_row != true %}
               {% assign rendered_actions_row = true %}
               <div class="product-card__actions" style="margin-top: auto; padding-top: 0.4rem; width: 100%;">
                 <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form style="display: flex; flex-direction: row; align-items: center; gap: 0.4rem; width: 100%;">
                   {% assign variant_block = card_blocks | where: 'type', 'card_variant_selector' | first %}
                   {% assign buy_block = card_blocks | where: 'type', 'card_buy_button' | first %}
 
-                  {% unless product.has_only_default_variant or show_variant_selector == false %}
+                  {% if product.has_only_default_variant == false and show_variant_selector != false %}
                     <div class="product-card__variant-wrap" style="flex: 1 1 38%; min-width: 0; margin-bottom: 0;">
                       <select class="product-card__variant-select" name="id" aria-label="Select variant for {{ product.title | escape }}" data-product-card-variant-select style="padding: 0.45rem 1.4rem 0.45rem 0.5rem; font-size: 0.82rem; height: 42px; min-height: 42px; width: 100%; {% if variant_block.settings.border_color != blank %}border-color: {{ variant_block.settings.border_color }};{% endif %}{% if variant_block.settings.bg_color != blank %}background-color: {{ variant_block.settings.bg_color }};{% endif %}{% if variant_block.settings.text_color != blank %}color: {{ variant_block.settings.text_color }};{% endif %}">
                         {% for card_variant in product.variants %}
@@ -140,23 +133,23 @@
                           {% if v_compare == blank or v_compare <= card_variant.price %}
                             {% assign v_compare = card_variant.price | times: 110 | divided_by: 100 %}
                           {% endif %}
-                          <option value="{{ card_variant.id }}" data-price="₹{{ card_variant.price | money_without_currency }}" data-compare="₹{{ v_compare | money_without_currency }}" {% if card_variant == variant %}selected{% endif %} {% unless card_variant.available %}disabled{% endunless %}>
-                            {{ card_variant.title }}{% unless card_variant.available %} (Sold out){% endunless %}
+                          <option value="{{ card_variant.id }}" data-price="₹{{ card_variant.price | money_without_currency }}" data-compare="₹{{ v_compare | money_without_currency }}" {% if card_variant == variant %}selected{% endif %} {% if card_variant.available == false %}disabled{% endif %}>
+                            {{ card_variant.title }}{% if card_variant.available == false %} (Sold out){% endif %}
                           </option>
                         {% endfor %}
                       </select>
                     </div>
                   {% else %}
                     <input type="hidden" name="id" value="{{ variant.id }}">
-                  {% endunless %}
+                  {% endif %}
 
-                  <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %} style="flex: 1 1 62%; min-width: 0; height: 42px; min-height: 42px; padding: 0.45rem 0.4rem; font-size: 0.80rem; white-space: nowrap; {% if buy_block.settings.btn_bg != blank %}background-color: {{ buy_block.settings.btn_bg }};{% elsif btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if buy_block.settings.btn_color != blank %}color: {{ buy_block.settings.btn_color }};{% elsif btn_color != blank %}color: {{ btn_color }};{% endif %}">
+                  <button class="product-card__add" type="submit"{% if product.available == false %} disabled{% endif %} style="flex: 1 1 62%; min-width: 0; height: 42px; min-height: 42px; padding: 0.45rem 0.4rem; font-size: 0.80rem; white-space: nowrap; {% if buy_block.settings.btn_bg != blank %}background-color: {{ buy_block.settings.btn_bg }};{% elsif btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if buy_block.settings.btn_color != blank %}color: {{ buy_block.settings.btn_color }};{% elsif btn_color != blank %}color: {{ btn_color }};{% endif %}">
                     <span>{% if product.available %}{{ buy_block.settings.add_to_cart_text | default: add_to_cart_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}</span>
                     <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 15px; height: 15px; margin-left: 0.2rem; flex-shrink: 0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
                   </button>
                 </form>
               </div>
-            {% endunless %}
+            {% endif %}
 
           {% when 'card_custom_text' %}
             {% if block.settings.text != blank %}
@@ -217,13 +210,13 @@
       {% endif %}
 
       {% if show_benefit_icons != false %}
-        {% render 'product-circle-features', product: product %}
+        {% render 'product-circle-features', product: product, limit: 3 %}
       {% endif %}
 
       <div class="product-card__actions" style="margin-top: auto; padding-top: 0.4rem; width: 100%;">
         {% if show_add_to_cart != false %}
           <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form style="display: flex; flex-direction: row; align-items: center; gap: 0.4rem; width: 100%;">
-            {% unless product.has_only_default_variant or show_variant_selector == false %}
+            {% if product.has_only_default_variant == false and show_variant_selector != false %}
               <div class="product-card__variant-wrap" style="flex: 1 1 38%; min-width: 0; margin-bottom: 0;">
                 <select
                   class="product-card__variant-select"
@@ -245,18 +238,18 @@
                       data-price="₹{{ card_variant.price | money_without_currency }}"
                       data-compare="₹{{ v_compare | money_without_currency }}"
                       {% if card_variant == variant %}selected{% endif %}
-                      {% unless card_variant.available %}disabled{% endunless %}
+                      {% if card_variant.available == false %}disabled{% endif %}
                     >
-                      {{ card_variant.title }}{% unless card_variant.available %} (Sold out){% endunless %}
+                      {{ card_variant.title }}{% if card_variant.available == false %} (Sold out){% endif %}
                     </option>
                   {% endfor %}
                 </select>
               </div>
             {% else %}
               <input type="hidden" name="id" value="{{ variant.id }}">
-            {% endunless %}
+            {% endif %}
 
-            <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %} style="flex: 1 1 62%; min-width: 0; height: 42px; min-height: 42px; padding: 0.45rem 0.4rem; font-size: 0.80rem; white-space: nowrap; {% if btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if btn_color != blank %}color: {{ btn_color }};{% endif %}">
+            <button class="product-card__add" type="submit"{% if product.available == false %} disabled{% endif %} style="flex: 1 1 62%; min-width: 0; height: 42px; min-height: 42px; padding: 0.45rem 0.4rem; font-size: 0.80rem; white-space: nowrap; {% if btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if btn_color != blank %}color: {{ btn_color }};{% endif %}">
               <span>
                 {% if product.available %}
                   {{ add_to_cart_text | default: "ADD TO CART" }}
