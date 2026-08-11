@@ -103,6 +103,7 @@ class ShoppableVideosSection {
       if (!mediaWrap) return;
 
       mediaWrap.addEventListener('click', (e) => {
+        if (this.hasMoved) return;
         if (e.target.closest('.shoppable-videos__product-info-row') || e.target.closest('[data-add-to-cart]') || e.target.closest('[data-video-mute]')) return;
 
         const clone = mediaWrap.cloneNode(true);
