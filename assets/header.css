@@ -944,27 +944,36 @@ body.kb-header-menu-open {
     max-height: 42px;
     max-width: min(var(--kb-logo-width, 200px), 150px);
   } */
-.kb-header__logo {
-  grid-area: logo;
-  position: relative;
-  left: auto;
-  top: auto;
-  transform: none;
-  justify-self: center;
-  align-self: center;
-  z-index: 5;
-  pointer-events: auto;
-}
+  .kb-header__action--account,
+  a.kb-header__action[href*="account"] {
+    display: none !important;
+  }
 
-.kb-header__logo-image {
-  display: block;
-  max-height: 42px;
-  max-width: min(var(--kb-logo-width, 200px), 150px);
-}
+  .kb-header__logo {
+    grid-area: logo;
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    justify-self: center !important;
+    align-self: center !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    z-index: 5;
+    pointer-events: auto;
+  }
 
-.kb-header__main-grid {
-  position: relative;
-}
+  .kb-header__logo-image {
+    display: block;
+    margin: 0 auto !important;
+    max-height: 42px;
+    max-width: min(var(--kb-logo-width, 200px), 150px);
+  }
+
+  .kb-header__main-grid {
+    position: relative;
+  }
+
   .kb-header--scrolled .kb-header__logo-image {
     max-height: 38px;
   }
@@ -1071,20 +1080,32 @@ body.kb-header-menu-open {
 
 .kb-header__mobile-account-btn {
   width: 100%;
-  min-height: 48px;
+  height: 44px;
+  min-height: 44px;
+  max-height: 44px;
   background: #23421f;
   color: #ffffff;
   border: none;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  font-weight: 800;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.65rem;
-  box-shadow: 0 4px 15px rgba(35, 66, 31, 0.15);
-  transition: all 200ms ease;
+  gap: 0.5rem;
+  box-shadow: none;
+  transition: background 200ms ease;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.kb-header__mobile-account-btn svg {
+  width: 20px !important;
+  height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  flex-shrink: 0 !important;
 }
 
 .kb-header__mobile-account-btn:hover {
