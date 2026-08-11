@@ -53,6 +53,13 @@
     </div>
   {% endif %}
 
+  {% assign promo_blocks = section.blocks | where: 'type', 'promo_text' %}
+  {% for promo in promo_blocks %}
+    <div class="best-sellers__promo-banner" style="background-color: {{ promo.settings.bg_color }}; color: {{ promo.settings.text_color }}; text-align: center; padding: 0.6rem 1rem; border-radius: 8px; margin: 0.75rem 1rem 1rem; font-weight: 600; font-size: 0.88rem;" {{ promo.shopify_attributes }}>
+      {{ promo.settings.text }}
+    </div>
+  {% endfor %}
+
   {% if displayed_collection != blank and displayed_collection.products_count > 0 %}
     <div class="best-sellers__carousel-wrapper">
       <button type="button" class="best-sellers__arrow best-sellers__arrow--prev" data-best-sellers-prev aria-label="Previous products">
@@ -65,14 +72,25 @@
           {% assign best_selling_products = displayed_collection.products %}
         {% endif %}
 
+        {% assign custom_badge_block = section.blocks | where: 'type', 'custom_badge_block' | first %}
+        {% assign card_badge_text = section.settings.custom_badge_text %}
+        {% assign card_badge_bg = section.settings.badge_bg %}
+        {% assign card_badge_color = section.settings.badge_color %}
+
+        {% if custom_badge_block != blank %}
+          {% assign card_badge_text = custom_badge_block.settings.badge_text %}
+          {% assign card_badge_bg = custom_badge_block.settings.badge_bg %}
+          {% assign card_badge_color = custom_badge_block.settings.badge_color %}
+        {% endif %}
+
         {% for product in best_selling_products limit: section.settings.maximum %}
           <div class="best-sellers__slide">
             {% render 'product-card',
               product: product,
               show_badge: section.settings.show_badge,
-              badge_text: section.settings.custom_badge_text,
-              badge_bg: section.settings.badge_bg,
-              badge_color: section.settings.badge_color,
+              badge_text: card_badge_text,
+              badge_bg: card_badge_bg,
+              badge_color: card_badge_color,
               show_wishlist: section.settings.show_wishlist,
               show_vendor: section.settings.show_vendor,
               show_subtitle: section.settings.show_subtitle,
@@ -133,6 +151,34 @@
     { "type": "text", "id": "cart_button_text", "label": "Add to Cart button text", "default": "ADD TO CART" },
     { "type": "color", "id": "cart_button_bg", "label": "Add to Cart button background", "default": "#23421F" },
     { "type": "color", "id": "cart_button_color", "label": "Add to Cart button text color", "default": "#FFFFFF" }
+  ],
+  "blocks": [
+    {
+      "type": "custom_badge_block",
+      "name": "Custom Card Badge",
+      "settings": [
+        { "type": "text", "id": "badge_text", "label": "Badge text", "default": "SPECIAL OFFER" },
+        { "type": "color", "id": "badge_bg", "label": "Badge background color", "default": "#E06535" },
+        { "type": "color", "id": "badge_color", "label": "Badge text color", "default": "#FFFFFF" }
+      ]
+    },
+    {
+      "type": "promo_text",
+      "name": "Custom Promo Banner",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Promo text", "default": "🚚 Free Shipping on orders over ₹499 • 100% Certified Organic" },
+        { "type": "color", "id": "bg_color", "label": "Background color", "default": "#23421F" },
+        { "type": "color", "id": "text_color", "label": "Text color", "default": "#FFFFFF" }
+      ]
+    },
+    {
+      "type": "custom_tab",
+      "name": "Category Filter Tab",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Tab name (e.g. Ghee, Oil, Honey)", "default": "Ghee" },
+        { "type": "text", "id": "filter_keyword", "label": "Product filter keyword", "default": "Ghee" }
+      ]
+    }
   ],
   "presets": [
     { "name": "Best sellers" }
