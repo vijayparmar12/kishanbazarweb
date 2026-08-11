@@ -146,6 +146,159 @@
       "step": 1,
       "default": 6
     }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "title",
+      "name": "Title & Subtitle",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_subtitle",
+          "label": "Show category subtitle",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price & Discount",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_tax_note",
+          "label": "Show tax & shipping note",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "rating",
+      "name": "Star Rating & Reviews",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "score",
+          "label": "Rating score",
+          "default": "4.9"
+        },
+        {
+          "type": "text",
+          "id": "review_count",
+          "label": "Review count text",
+          "default": "128 Verified Ratings"
+        }
+      ]
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant Picker",
+      "limit": 1
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy Buttons & Add to Cart",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_quantity",
+          "label": "Show quantity selector",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_buy_now",
+          "label": "Show Buy It Now button",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "cart_btn_text",
+          "label": "Add to Cart button text",
+          "default": "ADD TO CART"
+        },
+        {
+          "type": "color",
+          "id": "cart_btn_bg",
+          "label": "Add to Cart button background",
+          "default": "#23421F"
+        },
+        {
+          "type": "color",
+          "id": "cart_btn_color",
+          "label": "Add to Cart button text color",
+          "default": "#FFFFFF"
+        }
+      ]
+    },
+    {
+      "type": "benefit_icons",
+      "name": "Circle Benefit Badges",
+      "limit": 1
+    },
+    {
+      "type": "stock_status",
+      "name": "Stock & Dispatch Status",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "stock_text",
+          "label": "In stock status text",
+          "default": "In Stock • Ready to Dispatch in 24 Hours"
+        }
+      ]
+    },
+    {
+      "type": "custom_badge",
+      "name": "Custom Tag Badge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge label",
+          "default": "ORGANIC & PURE"
+        },
+        {
+          "type": "color",
+          "id": "badge_bg",
+          "label": "Badge background color",
+          "default": "#23421F"
+        },
+        {
+          "type": "color",
+          "id": "badge_color",
+          "label": "Badge text color",
+          "default": "#FFFFFF"
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Product Description",
+      "limit": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Page",
+      "blocks": [
+        { "type": "title" },
+        { "type": "rating" },
+        { "type": "benefit_icons" },
+        { "type": "price" },
+        { "type": "stock_status" },
+        { "type": "variant_picker" },
+        { "type": "buy_buttons" }
+      ]
+    }
   ]
 }
 {% endschema %}
