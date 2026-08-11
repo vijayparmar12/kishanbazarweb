@@ -144,11 +144,45 @@
         {% if nav_block_count == 0 %}
           {% if section.settings.menu != blank %}
             {% for link in section.settings.menu.links %}
-              <li class="kb-header__nav-item">
-                <a class="kb-header__nav-link" href="{{ link.url }}">
-                  <span>{{ link.title }}</span>
-                </a>
-              </li>
+              {% assign link_title_lower = link.title | downcase %}
+              {% assign auto_mega = 'none' %}
+              {% if link_title_lower contains 'category' or link_title_lower contains 'shop' or link_title_lower contains 'catalog' %}
+                {% assign auto_mega = 'category' %}
+              {% elsif link_title_lower contains 'farm' %}
+                {% assign auto_mega = 'farm' %}
+              {% elsif link_title_lower contains 'customer' %}
+                {% assign auto_mega = 'customers' %}
+              {% endif %}
+
+              {% if auto_mega != 'none' %}
+                <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item>
+                  <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-{{ auto_mega }}-{{ section.id }}" data-mega-trigger>
+                    <span>{{ link.title }}</span>
+                    <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span>
+                  </button>
+                  {% render 'mega-menu', section: section, menu_type: auto_mega %}
+                </li>
+              {% elsif link.links.size > 0 %}
+                <li class="kb-header__nav-item kb-header__nav-item--has-dropdown" data-dropdown-item>
+                  <a class="kb-header__nav-link" href="{{ link.url }}">
+                    <span>{{ link.title }}</span>
+                    <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span>
+                  </a>
+                  <ul class="kb-header__submenu" role="list">
+                    {% for childlink in link.links %}
+                      <li>
+                        <a href="{{ childlink.url }}" class="kb-header__submenu-link">{{ childlink.title }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </li>
+              {% else %}
+                <li class="kb-header__nav-item">
+                  <a class="kb-header__nav-link" href="{{ link.url }}">
+                    <span>{{ link.title }}</span>
+                  </a>
+                </li>
+              {% endif %}
             {% endfor %}
           {% else %}
             <li class="kb-header__nav-item">

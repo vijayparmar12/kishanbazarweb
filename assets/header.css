@@ -946,10 +946,12 @@ body.kb-header-menu-open {
   } */
 .kb-header__logo {
   grid-area: logo;
-  position: absolute;
-  left: 65%;
-  top: 40%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  justify-self: center;
+  align-self: center;
   z-index: 5;
   pointer-events: auto;
 }
@@ -1006,8 +1008,9 @@ body.kb-header-menu-open {
   padding: 0 1rem;
 }
 
+  .kb-header2,
   .kb-header__nav {
-    display: none;
+    display: none !important;
   }
 
   .kb-header__features-inner {

@@ -291,7 +291,7 @@
   .home-hero-split__mobile-slides-track {
     position: relative;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: var(--kb-mobile-hero-aspect, 1 / 1);
     border-radius: 18px;
     overflow: hidden;
     background: #faf6ec;
@@ -328,11 +328,11 @@
 
   /* Mobile Overlay Action Buttons (Centered at Bottom Inside Box) */
   .home-hero-split__actions-wrapper {
-    bottom: 0.75rem;
+    bottom: 0.85rem;
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
-    max-width: 320px;
+    width: auto;
+    max-width: 90%;
     position: absolute;
     z-index: 15;
   }
@@ -350,13 +350,23 @@
   }
 
   .home-hero-split__actions-mobile .home-hero-btn {
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     font-weight: 800;
-    padding: 0.65rem 1.1rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.65rem 1.4rem;
     border-radius: 999px;
     text-align: center;
     white-space: nowrap;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+    background: #1b3b2b;
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .home-hero-split__actions-mobile .home-hero-btn:active {
+    transform: scale(0.97);
   }
 
   /* Mobile Navigation Dots (Positioned BELOW the Hero Image Box) */
@@ -369,14 +379,14 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-top: 10px;
-    margin-bottom: 4px;
+    margin-top: 12px;
+    margin-bottom: 6px;
     z-index: 10;
   }
 
   .home-hero-split__mobile-dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: #c2d4be;
     border: none;
@@ -386,8 +396,8 @@
   }
 
   .home-hero-split__mobile-dot.is-active {
-    background: #f0d78a;
-    width: 16px;
+    background: #23421f;
+    width: 22px;
     border-radius: 999px;
   }
 }
