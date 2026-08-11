@@ -127,7 +127,7 @@
   <!-- Centered SHOP ALL Button -->
   <div class="kb-category-mega__footer-action">
     <a class="kb-category-mega__button-pill" href="{{ section.settings.category_button_url | default: routes.all_products_collection_url }}">
-      <span>SHOP ALL</span>
+      <span>{{ section.settings.category_button_text | default: "SHOP ALL" }}</span>
     </a>
   </div>
 </div>

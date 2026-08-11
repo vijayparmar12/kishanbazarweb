@@ -62,5 +62,5 @@
 </div>
 
 <div class="kb-mobile-shop-all-wrap">
-  <a href="{{ routes.all_products_collection_url }}" class="kb-mobile-shop-all-link">SHOP ALL &rarr;</a>
+  <a href="{{ section.settings.category_button_url | default: routes.all_products_collection_url }}" class="kb-mobile-shop-all-link">{{ section.settings.category_button_text | default: "SHOP ALL" }} &rarr;</a>
 </div>
