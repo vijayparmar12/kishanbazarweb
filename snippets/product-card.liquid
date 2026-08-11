@@ -125,33 +125,39 @@
               {% render 'product-circle-features', product: product, block: block %}
             </div>
 
-          {% when 'card_variant_selector' %}
-            {% unless product.has_only_default_variant %}
-              <div class="product-card__variant-wrap" style="margin-bottom: 0.5rem;" {{ block.shopify_attributes }}>
-                <select class="product-card__variant-select" name="id" aria-label="Select variant for {{ product.title | escape }}" data-product-card-variant-select style="{% if block.settings.border_color != blank %}border-color: {{ block.settings.border_color }};{% endif %}{% if block.settings.bg_color != blank %}background-color: {{ block.settings.bg_color }};{% endif %}{% if block.settings.text_color != blank %}color: {{ block.settings.text_color }};{% endif %}">
-                  {% for card_variant in product.variants %}
-                    {% assign v_compare = card_variant.compare_at_price %}
-                    {% if v_compare == blank or v_compare <= card_variant.price %}
-                      {% assign v_compare = card_variant.price | times: 110 | divided_by: 100 %}
-                    {% endif %}
-                    <option value="{{ card_variant.id }}" data-price="₹{{ card_variant.price | money_without_currency }}" data-compare="₹{{ v_compare | money_without_currency }}" {% if card_variant == variant %}selected{% endif %} {% unless card_variant.available %}disabled{% endunless %}>
-                      {{ card_variant.title }}{% unless card_variant.available %} (Sold out){% endunless %}
-                    </option>
-                  {% endfor %}
-                </select>
+          {% when 'card_variant_selector' or 'card_buy_button' %}
+            {% unless rendered_actions_row %}
+              {% assign rendered_actions_row = true %}
+              <div class="product-card__actions" style="margin-top: auto; padding-top: 0.4rem; width: 100%;">
+                <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form style="display: flex; flex-direction: row; align-items: center; gap: 0.4rem; width: 100%;">
+                  {% assign variant_block = card_blocks | where: 'type', 'card_variant_selector' | first %}
+                  {% assign buy_block = card_blocks | where: 'type', 'card_buy_button' | first %}
+
+                  {% unless product.has_only_default_variant or show_variant_selector == false %}
+                    <div class="product-card__variant-wrap" style="flex: 1 1 38%; min-width: 0; margin-bottom: 0;">
+                      <select class="product-card__variant-select" name="id" aria-label="Select variant for {{ product.title | escape }}" data-product-card-variant-select style="padding: 0.45rem 1.4rem 0.45rem 0.5rem; font-size: 0.82rem; height: 42px; min-height: 42px; width: 100%; {% if variant_block.settings.border_color != blank %}border-color: {{ variant_block.settings.border_color }};{% endif %}{% if variant_block.settings.bg_color != blank %}background-color: {{ variant_block.settings.bg_color }};{% endif %}{% if variant_block.settings.text_color != blank %}color: {{ variant_block.settings.text_color }};{% endif %}">
+                        {% for card_variant in product.variants %}
+                          {% assign v_compare = card_variant.compare_at_price %}
+                          {% if v_compare == blank or v_compare <= card_variant.price %}
+                            {% assign v_compare = card_variant.price | times: 110 | divided_by: 100 %}
+                          {% endif %}
+                          <option value="{{ card_variant.id }}" data-price="₹{{ card_variant.price | money_without_currency }}" data-compare="₹{{ v_compare | money_without_currency }}" {% if card_variant == variant %}selected{% endif %} {% unless card_variant.available %}disabled{% endunless %}>
+                            {{ card_variant.title }}{% unless card_variant.available %} (Sold out){% endunless %}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  {% else %}
+                    <input type="hidden" name="id" value="{{ variant.id }}">
+                  {% endunless %}
+
+                  <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %} style="flex: 1 1 62%; min-width: 0; height: 42px; min-height: 42px; padding: 0.45rem 0.4rem; font-size: 0.80rem; white-space: nowrap; {% if buy_block.settings.btn_bg != blank %}background-color: {{ buy_block.settings.btn_bg }};{% elsif btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if buy_block.settings.btn_color != blank %}color: {{ buy_block.settings.btn_color }};{% elsif btn_color != blank %}color: {{ btn_color }};{% endif %}">
+                    <span>{% if product.available %}{{ buy_block.settings.add_to_cart_text | default: add_to_cart_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}</span>
+                    <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 15px; height: 15px; margin-left: 0.2rem; flex-shrink: 0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                  </button>
+                </form>
               </div>
             {% endunless %}
-
-          {% when 'card_buy_button' %}
-            <div class="product-card__actions" {{ block.shopify_attributes }}>
-              <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form>
-                <input type="hidden" name="id" value="{{ variant.id }}">
-                <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %} style="{% if block.settings.btn_bg != blank %}background-color: {{ block.settings.btn_bg }};{% elsif btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if block.settings.btn_color != blank %}color: {{ block.settings.btn_color }};{% elsif btn_color != blank %}color: {{ btn_color }};{% endif %}">
-                  <span>{% if product.available %}{{ block.settings.add_to_cart_text | default: add_to_cart_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}</span>
-                  <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                </button>
-              </form>
-            </div>
 
           {% when 'card_custom_text' %}
             {% if block.settings.text != blank %}
@@ -215,18 +221,17 @@
         {% render 'product-circle-features', product: product %}
       {% endif %}
 
-      <div class="product-card__actions">
+      <div class="product-card__actions" style="margin-top: auto; padding-top: 0.4rem; width: 100%;">
         {% if show_add_to_cart != false %}
-          <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form>
-            {% if product.has_only_default_variant or show_variant_selector == false %}
-              <input type="hidden" name="id" value="{{ variant.id }}">
-            {% else %}
-              <div class="product-card__variant-wrap">
+          <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form style="display: flex; flex-direction: row; align-items: center; gap: 0.4rem; width: 100%;">
+            {% unless product.has_only_default_variant or show_variant_selector == false %}
+              <div class="product-card__variant-wrap" style="flex: 1 1 38%; min-width: 0; margin-bottom: 0;">
                 <select
                   class="product-card__variant-select"
                   name="id"
                   aria-label="Select variant for {{ product.title | escape }}"
                   data-product-card-variant-select
+                  style="padding: 0.45rem 1.4rem 0.45rem 0.5rem; font-size: 0.82rem; height: 42px; min-height: 42px; width: 100%;"
                 >
                   {% for card_variant in product.variants %}
                     {% assign v_compare = card_variant.compare_at_price %}
@@ -248,9 +253,11 @@
                   {% endfor %}
                 </select>
               </div>
-            {% endif %}
+            {% else %}
+              <input type="hidden" name="id" value="{{ variant.id }}">
+            {% endunless %}
 
-            <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %} style="{% if btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if btn_color != blank %}color: {{ btn_color }};{% endif %}">
+            <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %} style="flex: 1 1 62%; min-width: 0; height: 42px; min-height: 42px; padding: 0.45rem 0.4rem; font-size: 0.80rem; white-space: nowrap; {% if btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if btn_color != blank %}color: {{ btn_color }};{% endif %}">
               <span>
                 {% if product.available %}
                   {{ add_to_cart_text | default: "ADD TO CART" }}
@@ -258,7 +265,7 @@
                   SOLD OUT
                 {% endif %}
               </span>
-              <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 15px; height: 15px; margin-left: 0.2rem; flex-shrink: 0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             </button>
           </form>
         {% endif %}
