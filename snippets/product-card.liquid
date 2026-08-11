@@ -30,11 +30,15 @@
         {% unless product.available %}
           <span class="product-card__badge product-card__badge--sold">Sold out</span>
         {% else %}
-          {% if product.tags contains 'new' or product.tags contains 'New' %}
-            <span class="product-card__badge">New Launch</span>
-          {% else %}
-            <span class="product-card__badge product-card__badge--loved">MOST LOVED</span>
-          {% endif %}
+          <span class="product-card__badge product-card__badge--loved" style="{% if badge_bg != blank %}background-color: {{ badge_bg }};{% endif %}{% if badge_color != blank %}color: {{ badge_color }};{% endif %}">
+            {% if badge_text != blank %}
+              {{ badge_text }}
+            {% elsif product.tags contains 'new' or product.tags contains 'New' %}
+              New Launch
+            {% else %}
+              MOST LOVED
+            {% endif %}
+          </span>
         {% endunless %}
       {% endif %}
 
@@ -84,29 +88,31 @@
       <p class="product-card__vendor">{{ product.vendor }}</p>
     {% endif %}
 
-    {% assign card_subtitle = product.metafields.descriptors.subtitle %}
-    {% if card_subtitle == blank %}
-      {% assign card_subtitle = product.metafields.custom.subtitle %}
-    {% endif %}
-    {% if card_subtitle == blank %}
-      {% assign card_subtitle = product.metafields.custom.made_from %}
-    {% endif %}
-    {% if card_subtitle == blank %}
-      {% assign p_title_down = product.title | downcase %}
-      {% assign p_type_down = product.type | downcase %}
-      {% if p_title_down contains 'atta' or p_title_down contains 'flour' or p_title_down contains 'khapli' or p_type_down contains 'atta' %}
-        {% assign card_subtitle = "Made from ancient Emmer Wheat" %}
-      {% elsif p_title_down contains 'ghee' or p_type_down contains 'ghee' %}
-        {% assign card_subtitle = "Made from 100% Pure Bilona A2 Gir Cow Milk" %}
-      {% elsif p_title_down contains 'oil' or p_type_down contains 'oil' %}
-        {% assign card_subtitle = "Made from Cold Pressed & Unrefined Seeds" %}
-      {% elsif p_title_down contains 'jaggery' or p_title_down contains 'sweetener' or p_type_down contains 'jaggery' %}
-        {% assign card_subtitle = "Made from 100% Natural Organic Sugarcane Juice" %}
-      {% else %}
-        {% assign card_subtitle = "Made from 100% Natural & Organic Ingredients" %}
+    {% if show_subtitle != false %}
+      {% assign card_subtitle = product.metafields.descriptors.subtitle %}
+      {% if card_subtitle == blank %}
+        {% assign card_subtitle = product.metafields.custom.subtitle %}
       {% endif %}
+      {% if card_subtitle == blank %}
+        {% assign card_subtitle = product.metafields.custom.made_from %}
+      {% endif %}
+      {% if card_subtitle == blank %}
+        {% assign p_title_down = product.title | downcase %}
+        {% assign p_type_down = product.type | downcase %}
+        {% if p_title_down contains 'atta' or p_title_down contains 'flour' or p_title_down contains 'khapli' or p_type_down contains 'atta' %}
+          {% assign card_subtitle = "Made from ancient Emmer Wheat" %}
+        {% elsif p_title_down contains 'ghee' or p_type_down contains 'ghee' %}
+          {% assign card_subtitle = "Made from 100% Pure Bilona A2 Gir Cow Milk" %}
+        {% elsif p_title_down contains 'oil' or p_type_down contains 'oil' %}
+          {% assign card_subtitle = "Made from Cold Pressed & Unrefined Seeds" %}
+        {% elsif p_title_down contains 'jaggery' or p_title_down contains 'sweetener' or p_type_down contains 'jaggery' %}
+          {% assign card_subtitle = "Made from 100% Natural Organic Sugarcane Juice" %}
+        {% else %}
+          {% assign card_subtitle = "Made from 100% Natural & Organic Ingredients" %}
+        {% endif %}
+      {% endif %}
+      <p class="product-card__subtitle">{{ card_subtitle }}</p>
     {% endif %}
-    <p class="product-card__subtitle">{{ card_subtitle }}</p>
 
     {% if show_rating %}
       <p class="product-card__rating" aria-label="Customer rating">
@@ -115,12 +121,14 @@
       </p>
     {% endif %}
 
-    {% render 'product-circle-features', product: product %}
+    {% if show_benefit_icons != false %}
+      {% render 'product-circle-features', product: product %}
+    {% endif %}
 
     <div class="product-card__actions">
       {% if show_add_to_cart != false %}
         <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form>
-          {% if product.has_only_default_variant %}
+          {% if product.has_only_default_variant or show_variant_selector == false %}
             <input type="hidden" name="id" value="{{ variant.id }}">
           {% else %}
             <div class="product-card__variant-wrap">
@@ -152,8 +160,14 @@
             </div>
           {% endif %}
 
-          <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %}>
-            <span>{% if product.available %}ADD TO CART{% else %}SOLD OUT{% endif %}</span>
+          <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %} style="{% if btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if btn_color != blank %}color: {{ btn_color }};{% endif %}">
+            <span>
+              {% if product.available %}
+                {{ add_to_cart_text | default: "ADD TO CART" }}
+              {% else %}
+                SOLD OUT
+              {% endif %}
+            </span>
             <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           </button>
         </form>

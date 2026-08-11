@@ -164,7 +164,7 @@
   </div>
 
   <!-- Mobile Dedicated All-Image Auto-Play Slider (Mobile View Only) -->
-  <div class="home-hero-split__mobile-slider" data-hero-mobile-slider style="--kb-mobile-hero-aspect: {{ section.settings.mobile_aspect_ratio | default: '1 / 1' }};">
+  <div class="home-hero-split__mobile-slider" data-hero-mobile-slider style="--kb-mobile-hero-aspect: {{ section.settings.mobile_aspect_ratio | default: '3 / 2' }};">
     <div class="home-hero-split__mobile-slides-track">
       {% assign mobile_slides = section.blocks | where: 'type', 'mobile_hero_slide' %}
 
@@ -377,12 +377,13 @@
       "id": "mobile_aspect_ratio",
       "label": "Mobile Slide Aspect Ratio",
       "options": [
+        { "value": "3 / 2", "label": "3:2 (Landscape Banner - Recommended)" },
         { "value": "1 / 1", "label": "1:1 (Square)" },
         { "value": "4 / 3", "label": "4:3 (Standard)" },
         { "value": "16 / 9", "label": "16:9 (Wide)" },
         { "value": "auto", "label": "Auto" }
       ],
-      "default": "1 / 1"
+      "default": "3 / 2"
     }
   ],
   "blocks": [
