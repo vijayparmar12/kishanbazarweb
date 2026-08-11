@@ -87,6 +87,7 @@
           <div class="best-sellers__slide">
             {% render 'product-card',
               product: product,
+              card_blocks: section.blocks,
               show_badge: section.settings.show_badge,
               badge_text: card_badge_text,
               badge_bg: card_badge_bg,
@@ -106,9 +107,6 @@
               show_variant_selector: section.settings.show_variant_selector,
               show_add_to_cart: section.settings.show_add_to_cart,
               add_to_cart_text: section.settings.cart_button_text,
-              show_custom_note: section.settings.show_custom_note,
-              custom_note_label: section.settings.custom_note_label,
-              custom_note_placeholder: section.settings.custom_note_placeholder,
               btn_bg: section.settings.cart_button_bg,
               btn_color: section.settings.cart_button_color
             %}
@@ -159,13 +157,6 @@
     { "type": "text", "id": "cart_button_text", "label": "Add to Cart button text", "default": "ADD TO CART" },
     {
       "type": "header",
-      "content": "Cart Line Item Properties"
-    },
-    { "type": "checkbox", "id": "show_custom_note", "label": "Show gift note / special instruction field", "default": false },
-    { "type": "text", "id": "custom_note_label", "label": "Line item property name", "default": "Special Note" },
-    { "type": "text", "id": "custom_note_placeholder", "label": "Input placeholder text", "default": "Add special note or gift message..." },
-    {
-      "type": "header",
       "content": "Product Card Colors & Styling"
     },
     { "type": "color", "id": "title_color", "label": "Product Title text color", "default": "#23421F" },
@@ -181,6 +172,52 @@
     { "type": "color", "id": "cart_button_color", "label": "Add to Cart button text color", "default": "#FFFFFF" }
   ],
   "blocks": [
+    {
+      "type": "card_title_price",
+      "name": "Card Title & Price",
+      "limit": 1,
+      "settings": [
+        { "type": "color", "id": "title_color", "label": "Title text color", "default": "#23421F" },
+        { "type": "color", "id": "price_color", "label": "Price color", "default": "#23421F" },
+        { "type": "color", "id": "compare_price_color", "label": "Compare price color", "default": "#8D8D8D" }
+      ]
+    },
+    {
+      "type": "card_subtitle",
+      "name": "Card Subtitle Description",
+      "limit": 1,
+      "settings": [
+        { "type": "color", "id": "subtitle_color", "label": "Subtitle color", "default": "#6B7280" }
+      ]
+    },
+    {
+      "type": "card_rating",
+      "name": "Card Star Rating",
+      "limit": 1,
+      "settings": [
+        { "type": "color", "id": "rating_stars_color", "label": "Star rating color", "default": "#E5A800" }
+      ]
+    },
+    {
+      "type": "card_benefit_icons",
+      "name": "Card Benefit Badges",
+      "limit": 1
+    },
+    {
+      "type": "card_variant_selector",
+      "name": "Card Variant Dropdown",
+      "limit": 1
+    },
+    {
+      "type": "card_buy_button",
+      "name": "Card Add to Cart Button",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "add_to_cart_text", "label": "Button text", "default": "ADD TO CART" },
+        { "type": "color", "id": "btn_bg", "label": "Button background", "default": "#23421F" },
+        { "type": "color", "id": "btn_color", "label": "Button text color", "default": "#FFFFFF" }
+      ]
+    },
     {
       "type": "custom_badge_block",
       "name": "Custom Card Badge",
@@ -198,18 +235,20 @@
         { "type": "color", "id": "bg_color", "label": "Background color", "default": "#23421F" },
         { "type": "color", "id": "text_color", "label": "Text color", "default": "#FFFFFF" }
       ]
-    },
-    {
-      "type": "custom_tab",
-      "name": "Category Filter Tab",
-      "settings": [
-        { "type": "text", "id": "title", "label": "Tab name (e.g. Ghee, Oil, Honey)", "default": "Ghee" },
-        { "type": "text", "id": "filter_keyword", "label": "Product filter keyword", "default": "Ghee" }
-      ]
     }
   ],
   "presets": [
-    { "name": "Best sellers" }
+    {
+      "name": "Best sellers",
+      "blocks": [
+        { "type": "card_title_price" },
+        { "type": "card_subtitle" },
+        { "type": "card_rating" },
+        { "type": "card_benefit_icons" },
+        { "type": "card_variant_selector" },
+        { "type": "card_buy_button" }
+      ]
+    }
   ]
 }
 {% endschema %}

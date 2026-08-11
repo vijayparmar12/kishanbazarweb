@@ -75,120 +75,187 @@
   </div>
 
   <div class="product-card__content">
-    <div class="product-card__title-row">
-      <h3 class="product-card__title"><a href="{{ product.url }}" style="{% if title_color != blank %}color: {{ title_color }};{% endif %}">{{ product.title }}</a></h3>
-      {% if show_price != false %}
-        <div class="product-card__price">
-          <s class="product-card__price-compare" style="{% if compare_price_color != blank %}color: {{ compare_price_color }};{% endif %}">₹{{ compare_price | money_without_currency }}</s>
-          <span class="product-card__price-current" style="{% if price_color != blank %}color: {{ price_color }};{% endif %}">₹{{ variant.price | money_without_currency }}</span>
-        </div>
-      {% endif %}
-    </div>
-
-    {% if show_vendor %}
-      <p class="product-card__vendor">{{ product.vendor }}</p>
-    {% endif %}
-
-    {% if show_subtitle != false %}
-      {% assign card_subtitle = product.metafields.descriptors.subtitle %}
-      {% if card_subtitle == blank %}
-        {% assign card_subtitle = product.metafields.custom.subtitle %}
-      {% endif %}
-      {% if card_subtitle == blank %}
-        {% assign card_subtitle = product.metafields.custom.made_from %}
-      {% endif %}
-      {% if card_subtitle == blank %}
-        {% assign p_title_down = product.title | downcase %}
-        {% assign p_type_down = product.type | downcase %}
-        {% if p_title_down contains 'atta' or p_title_down contains 'flour' or p_title_down contains 'khapli' or p_type_down contains 'atta' %}
-          {% assign card_subtitle = "Made from ancient Emmer Wheat" %}
-        {% elsif p_title_down contains 'ghee' or p_type_down contains 'ghee' %}
-          {% assign card_subtitle = "Made from 100% Pure Bilona A2 Gir Cow Milk" %}
-        {% elsif p_title_down contains 'oil' or p_type_down contains 'oil' %}
-          {% assign card_subtitle = "Made from Cold Pressed & Unrefined Seeds" %}
-        {% elsif p_title_down contains 'jaggery' or p_title_down contains 'sweetener' or p_type_down contains 'jaggery' %}
-          {% assign card_subtitle = "Made from 100% Natural Organic Sugarcane Juice" %}
-        {% else %}
-          {% assign card_subtitle = "Made from 100% Natural & Organic Ingredients" %}
-        {% endif %}
-      {% endif %}
-      <p class="product-card__subtitle" style="{% if subtitle_color != blank %}color: {{ subtitle_color }};{% endif %}">{{ card_subtitle }}</p>
-    {% endif %}
-
-    {% if show_rating %}
-      <p class="product-card__rating" aria-label="Customer rating">
-        <span class="product-card__stars" aria-hidden="true" style="{% if rating_stars_color != blank %}color: {{ rating_stars_color }};{% endif %}">★★★★★</span>
-        <strong class="product-card__rating-value">{% if product.metafields.reviews.rating.value != blank %}{{ product.metafields.reviews.rating.value.rating | round: 2 }}{% else %}4.91{% endif %}</strong>
-      </p>
-    {% endif %}
-
-    {% if show_benefit_icons != false %}
-      {% render 'product-circle-features', product: product %}
-    {% endif %}
-
-    <div class="product-card__actions">
-      {% if show_add_to_cart != false %}
-        <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form>
-          {% if show_subtitle != false and card_subtitle != blank %}
-            <input type="hidden" name="properties[Subtitle]" value="{{ card_subtitle | escape }}">
-          {% endif %}
-
-          {% if show_custom_note %}
-            <div class="product-card__custom-note-wrap" style="margin-bottom: 0.5rem; width: 100%;">
-              <input
-                type="text"
-                name="properties[{{ custom_note_label | default: 'Special Note' }}]"
-                placeholder="{{ custom_note_placeholder | default: 'Add special note or gift message...' }}"
-                class="product-card__custom-note-input"
-                style="width: 100%; padding: 0.4rem 0.65rem; border: 1.5px solid #c2d4be; border-radius: 6px; font-size: 0.8rem; outline: none; background: #ffffff; color: #23421f;"
-              >
-            </div>
-          {% endif %}
-
-          {% if product.has_only_default_variant or show_variant_selector == false %}
-            <input type="hidden" name="id" value="{{ variant.id }}">
-          {% else %}
-            <div class="product-card__variant-wrap">
-              <select
-                class="product-card__variant-select"
-                name="id"
-                aria-label="Select variant for {{ product.title | escape }}"
-                data-product-card-variant-select
-              >
-                {% for card_variant in product.variants %}
-                  {% assign v_compare = card_variant.compare_at_price %}
-                  {% if v_compare == blank or v_compare <= card_variant.price %}
-                    {% assign v_compare = card_variant.price | times: 110 | divided_by: 100 %}
-                    {% if v_compare == card_variant.price %}
-                      {% assign v_compare = card_variant.price | plus: 2000 %}
-                    {% endif %}
-                  {% endif %}
-                  <option
-                    value="{{ card_variant.id }}"
-                    data-price="₹{{ card_variant.price | money_without_currency }}"
-                    data-compare="₹{{ v_compare | money_without_currency }}"
-                    {% if card_variant == variant %}selected{% endif %}
-                    {% unless card_variant.available %}disabled{% endunless %}
-                  >
-                    {{ card_variant.title }}{% unless card_variant.available %} (Sold out){% endunless %}
-                  </option>
-                {% endfor %}
-              </select>
-            </div>
-          {% endif %}
-
-          <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %} style="{% if btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if btn_color != blank %}color: {{ btn_color }};{% endif %}">
-            <span>
-              {% if product.available %}
-                {{ add_to_cart_text | default: "ADD TO CART" }}
-              {% else %}
-                SOLD OUT
+    {% if card_blocks.size > 0 %}
+      {% for block in card_blocks %}
+        {% case block.type %}
+          {% when 'card_title_price' %}
+            <div class="product-card__title-row" {{ block.shopify_attributes }}>
+              <h3 class="product-card__title"><a href="{{ product.url }}" style="{% if block.settings.title_color != blank %}color: {{ block.settings.title_color }};{% elsif title_color != blank %}color: {{ title_color }};{% endif %}">{{ product.title }}</a></h3>
+              {% if show_price != false %}
+                <div class="product-card__price">
+                  <s class="product-card__price-compare" style="{% if block.settings.compare_price_color != blank %}color: {{ block.settings.compare_price_color }};{% elsif compare_price_color != blank %}color: {{ compare_price_color }};{% endif %}">₹{{ compare_price | money_without_currency }}</s>
+                  <span class="product-card__price-current" style="{% if block.settings.price_color != blank %}color: {{ block.settings.price_color }};{% elsif price_color != blank %}color: {{ price_color }};{% endif %}">₹{{ variant.price | money_without_currency }}</span>
+                </div>
               {% endif %}
-            </span>
-            <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-          </button>
-        </form>
+            </div>
+
+          {% when 'card_subtitle' %}
+            {% assign card_subtitle = product.metafields.descriptors.subtitle %}
+            {% if card_subtitle == blank %}
+              {% assign card_subtitle = product.metafields.custom.subtitle %}
+            {% endif %}
+            {% if card_subtitle == blank %}
+              {% assign card_subtitle = product.metafields.custom.made_from %}
+            {% endif %}
+            {% if card_subtitle == blank %}
+              {% assign p_title_down = product.title | downcase %}
+              {% assign p_type_down = product.type | downcase %}
+              {% if p_title_down contains 'atta' or p_title_down contains 'flour' or p_title_down contains 'khapli' or p_type_down contains 'atta' %}
+                {% assign card_subtitle = "Made from ancient Emmer Wheat" %}
+              {% elsif p_title_down contains 'ghee' or p_type_down contains 'ghee' %}
+                {% assign card_subtitle = "Made from 100% Pure Bilona A2 Gir Cow Milk" %}
+              {% elsif p_title_down contains 'oil' or p_type_down contains 'oil' %}
+                {% assign card_subtitle = "Made from Cold Pressed & Unrefined Seeds" %}
+              {% elsif p_title_down contains 'jaggery' or p_title_down contains 'sweetener' or p_type_down contains 'jaggery' %}
+                {% assign card_subtitle = "Made from 100% Natural Organic Sugarcane Juice" %}
+              {% else %}
+                {% assign card_subtitle = "Made from 100% Natural & Organic Ingredients" %}
+              {% endif %}
+            {% endif %}
+            <p class="product-card__subtitle" style="{% if block.settings.subtitle_color != blank %}color: {{ block.settings.subtitle_color }};{% elsif subtitle_color != blank %}color: {{ subtitle_color }};{% endif %}" {{ block.shopify_attributes }}>{{ card_subtitle }}</p>
+
+          {% when 'card_rating' %}
+            <p class="product-card__rating" aria-label="Customer rating" {{ block.shopify_attributes }}>
+              <span class="product-card__stars" aria-hidden="true" style="{% if block.settings.rating_stars_color != blank %}color: {{ block.settings.rating_stars_color }};{% elsif rating_stars_color != blank %}color: {{ rating_stars_color }};{% endif %}">★★★★★</span>
+              <strong class="product-card__rating-value">{% if product.metafields.reviews.rating.value != blank %}{{ product.metafields.reviews.rating.value.rating | round: 2 }}{% else %}4.91{% endif %}</strong>
+            </p>
+
+          {% when 'card_benefit_icons' %}
+            <div {{ block.shopify_attributes }}>
+              {% render 'product-circle-features', product: product %}
+            </div>
+
+          {% when 'card_variant_selector' %}
+            {% unless product.has_only_default_variant %}
+              <div class="product-card__variant-wrap" style="margin-bottom: 0.5rem;" {{ block.shopify_attributes }}>
+                <select class="product-card__variant-select" name="id" aria-label="Select variant for {{ product.title | escape }}" data-product-card-variant-select>
+                  {% for card_variant in product.variants %}
+                    {% assign v_compare = card_variant.compare_at_price %}
+                    {% if v_compare == blank or v_compare <= card_variant.price %}
+                      {% assign v_compare = card_variant.price | times: 110 | divided_by: 100 %}
+                    {% endif %}
+                    <option value="{{ card_variant.id }}" data-price="₹{{ card_variant.price | money_without_currency }}" data-compare="₹{{ v_compare | money_without_currency }}" {% if card_variant == variant %}selected{% endif %} {% unless card_variant.available %}disabled{% endunless %}>
+                      {{ card_variant.title }}{% unless card_variant.available %} (Sold out){% endunless %}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% endunless %}
+
+          {% when 'card_buy_button' %}
+            <div class="product-card__actions" {{ block.shopify_attributes }}>
+              <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form>
+                <input type="hidden" name="id" value="{{ variant.id }}">
+                <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %} style="{% if block.settings.btn_bg != blank %}background-color: {{ block.settings.btn_bg }};{% elsif btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if block.settings.btn_color != blank %}color: {{ block.settings.btn_color }};{% elsif btn_color != blank %}color: {{ btn_color }};{% endif %}">
+                  <span>{% if product.available %}{{ block.settings.add_to_cart_text | default: add_to_cart_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}</span>
+                  <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                </button>
+              </form>
+            </div>
+
+        {% endcase %}
+      {% endfor %}
+    {% else %}
+      <!-- Standard Layout Fallback -->
+      <div class="product-card__title-row">
+        <h3 class="product-card__title"><a href="{{ product.url }}" style="{% if title_color != blank %}color: {{ title_color }};{% endif %}">{{ product.title }}</a></h3>
+        {% if show_price != false %}
+          <div class="product-card__price">
+            <s class="product-card__price-compare" style="{% if compare_price_color != blank %}color: {{ compare_price_color }};{% endif %}">₹{{ compare_price | money_without_currency }}</s>
+            <span class="product-card__price-current" style="{% if price_color != blank %}color: {{ price_color }};{% endif %}">₹{{ variant.price | money_without_currency }}</span>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if show_vendor %}
+        <p class="product-card__vendor">{{ product.vendor }}</p>
       {% endif %}
-    </div>
+
+      {% if show_subtitle != false %}
+        {% assign card_subtitle = product.metafields.descriptors.subtitle %}
+        {% if card_subtitle == blank %}
+          {% assign card_subtitle = product.metafields.custom.subtitle %}
+        {% endif %}
+        {% if card_subtitle == blank %}
+          {% assign card_subtitle = product.metafields.custom.made_from %}
+        {% endif %}
+        {% if card_subtitle == blank %}
+          {% assign p_title_down = product.title | downcase %}
+          {% assign p_type_down = product.type | downcase %}
+          {% if p_title_down contains 'atta' or p_title_down contains 'flour' or p_title_down contains 'khapli' or p_type_down contains 'atta' %}
+            {% assign card_subtitle = "Made from ancient Emmer Wheat" %}
+          {% elsif p_title_down contains 'ghee' or p_type_down contains 'ghee' %}
+            {% assign card_subtitle = "Made from 100% Pure Bilona A2 Gir Cow Milk" %}
+          {% elsif p_title_down contains 'oil' or p_type_down contains 'oil' %}
+            {% assign card_subtitle = "Made from Cold Pressed & Unrefined Seeds" %}
+          {% elsif p_title_down contains 'jaggery' or p_title_down contains 'sweetener' or p_type_down contains 'jaggery' %}
+            {% assign card_subtitle = "Made from 100% Natural Organic Sugarcane Juice" %}
+          {% else %}
+            {% assign card_subtitle = "Made from 100% Natural & Organic Ingredients" %}
+          {% endif %}
+        {% endif %}
+        <p class="product-card__subtitle" style="{% if subtitle_color != blank %}color: {{ subtitle_color }};{% endif %}">{{ card_subtitle }}</p>
+      {% endif %}
+
+      {% if show_rating %}
+        <p class="product-card__rating" aria-label="Customer rating">
+          <span class="product-card__stars" aria-hidden="true" style="{% if rating_stars_color != blank %}color: {{ rating_stars_color }};{% endif %}">★★★★★</span>
+          <strong class="product-card__rating-value">{% if product.metafields.reviews.rating.value != blank %}{{ product.metafields.reviews.rating.value.rating | round: 2 }}{% else %}4.91{% endif %}</strong>
+        </p>
+      {% endif %}
+
+      {% if show_benefit_icons != false %}
+        {% render 'product-circle-features', product: product %}
+      {% endif %}
+
+      <div class="product-card__actions">
+        {% if show_add_to_cart != false %}
+          <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form>
+            {% if product.has_only_default_variant or show_variant_selector == false %}
+              <input type="hidden" name="id" value="{{ variant.id }}">
+            {% else %}
+              <div class="product-card__variant-wrap">
+                <select
+                  class="product-card__variant-select"
+                  name="id"
+                  aria-label="Select variant for {{ product.title | escape }}"
+                  data-product-card-variant-select
+                >
+                  {% for card_variant in product.variants %}
+                    {% assign v_compare = card_variant.compare_at_price %}
+                    {% if v_compare == blank or v_compare <= card_variant.price %}
+                      {% assign v_compare = card_variant.price | times: 110 | divided_by: 100 %}
+                      {% if v_compare == card_variant.price %}
+                        {% assign v_compare = card_variant.price | plus: 2000 %}
+                      {% endif %}
+                    {% endif %}
+                    <option
+                      value="{{ card_variant.id }}"
+                      data-price="₹{{ card_variant.price | money_without_currency }}"
+                      data-compare="₹{{ v_compare | money_without_currency }}"
+                      {% if card_variant == variant %}selected{% endif %}
+                      {% unless card_variant.available %}disabled{% endunless %}
+                    >
+                      {{ card_variant.title }}{% unless card_variant.available %} (Sold out){% endunless %}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% endif %}
+
+            <button class="product-card__add" type="submit"{% unless product.available %} disabled{% endunless %} style="{% if btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if btn_color != blank %}color: {{ btn_color }};{% endif %}">
+              <span>
+                {% if product.available %}
+                  {{ add_to_cart_text | default: "ADD TO CART" }}
+                {% else %}
+                  SOLD OUT
+                {% endif %}
+              </span>
+              <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </button>
+          </form>
+        {% endif %}
+      </div>
+    {% endif %}
   </div>
 </article>

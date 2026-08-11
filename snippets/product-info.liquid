@@ -192,21 +192,6 @@
             {{ product.description }}
           </div>
 
-        {% when 'line_item_property' %}
-          <div class="product-info__line-item-prop" style="margin-bottom: 1rem;" {{ block.shopify_attributes }}>
-            <label for="Prop-{{ block.id }}" style="display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 0.35rem; color: #23421f;">
-              {{ block.settings.label }}:
-            </label>
-            <input
-              type="text"
-              id="Prop-{{ block.id }}"
-              name="properties[{{ block.settings.label | escape }}]"
-              placeholder="{{ block.settings.placeholder | escape }}"
-              {% if block.settings.required %}required{% endif %}
-              style="width: 100%; padding: 0.6rem 0.85rem; border: 1.5px solid #c2d4be; border-radius: 8px; font-size: 0.9rem; color: #23421f; background: #ffffff;"
-            >
-          </div>
-
       {% endcase %}
     {% endfor %}
   {% else %}
