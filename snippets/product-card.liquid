@@ -153,6 +153,13 @@
               </form>
             </div>
 
+          {% when 'card_custom_text' %}
+            {% if block.settings.text != blank %}
+              <p class="product-card__custom-text-line" style="color: {{ block.settings.text_color | default: '#23421F' }}; font-weight: {{ block.settings.font_weight | default: 'bold' }}; font-size: 0.85rem; margin: 0.25rem 0;" {{ block.shopify_attributes }}>
+                {{ block.settings.text }}
+              </p>
+            {% endif %}
+
         {% endcase %}
       {% endfor %}
     {% else %}
