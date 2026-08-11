@@ -3,8 +3,8 @@
   border-block: 1px solid rgba(35, 66, 31, 0.08);
   max-width: 100%;
   width: 100%;
-  padding-top: clamp(2.5rem, 5vw, 4rem);
-  padding-bottom: 6rem;
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-bottom: 1.5rem;
   padding-left: max(var(--container-padding), calc((100% - var(--container-width)) / 2));
   padding-right: max(var(--container-padding), calc((100% - var(--container-width)) / 2));
   position: relative;
@@ -255,6 +255,7 @@
 @media (max-width: 48rem) {
   .best-sellers {
     padding-inline: 1rem;
+    padding-block: 1rem 0.75rem;
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
