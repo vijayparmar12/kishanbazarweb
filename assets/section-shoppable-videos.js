@@ -62,6 +62,7 @@ class ShoppableVideosSection {
     this.bindCarousel();
     this.bindVideos();
     this.bindAddToCart();
+    this.bindModal();
     this.setSlideIndices();
     this.updateArrows();
 
@@ -76,6 +77,58 @@ class ShoppableVideosSection {
       }, { passive: true });
       this.updateActiveSlideOnScroll();
     }
+  }
+
+  bindModal() {
+    const modal = this.root.querySelector('[data-video-modal]');
+    if (!modal) return;
+
+    const modalBody = modal.querySelector('[data-modal-body]');
+    const closeBtns = modal.querySelectorAll('[data-modal-close]');
+
+    const closeModal = () => {
+      modal.removeAttribute('open');
+      document.body.classList.remove('shoppable-video-modal-open');
+      if (modalBody) {
+        const modalVideo = modalBody.querySelector('video');
+        if (modalVideo) modalVideo.pause();
+        modalBody.innerHTML = '';
+      }
+    };
+
+    closeBtns.forEach((btn) => btn.addEventListener('click', closeModal));
+
+    this.root.querySelectorAll(SELECTORS.card).forEach((card) => {
+      const mediaWrap = card.querySelector('.shoppable-videos__media-wrap');
+      if (!mediaWrap) return;
+
+      mediaWrap.addEventListener('click', (e) => {
+        if (e.target.closest('[data-add-to-cart]') || e.target.closest('[data-video-mute]')) return;
+
+        const clone = mediaWrap.cloneNode(true);
+        if (modalBody) {
+          modalBody.innerHTML = '';
+          modalBody.appendChild(clone);
+        }
+
+        const modalVideo = clone.querySelector('video');
+        if (modalVideo) {
+          modalVideo.muted = false;
+          modalVideo.play().catch(() => {});
+        }
+
+        const modalMute = clone.querySelector('[data-video-mute]');
+        if (modalMute && modalVideo) {
+          modalMute.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            modalVideo.muted = !modalVideo.muted;
+          });
+        }
+
+        document.body.classList.add('shoppable-video-modal-open');
+        modal.setAttribute('open', '');
+      });
+    });
   }
 
   updateActiveSlideOnScroll() {
