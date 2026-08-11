@@ -241,23 +241,15 @@
 }
 
 .shoppable-videos__video,
-.shoppable-videos__video--placeholder {
+.shoppable-videos__video--placeholder,
+.shoppable-videos__poster {
   display: block;
   height: 100%;
   object-fit: cover;
   width: 100%;
+  border-radius: 24px !important;
+  overflow: hidden !important;
 }
-
-.shoppable-videos__video--placeholder {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-
-.shoppable-videos__poster {
-  height: 100%;
-  object-fit: cover;
-  width: 100%;
 }
 
 .shoppable-videos__play {
@@ -696,11 +688,11 @@
   aspect-ratio: 9 / 16;
   min-height: 440px;
   height: 480px;
-  border-radius: 20px !important;
+  border-radius: 24px !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
   overflow: visible !important;
   position: relative;
-  background: #111111;
+  background: transparent;
 }
 
 /* Bottom Floating Product Card Overlay (Slightly 1/4 Overlapping Below Video) */

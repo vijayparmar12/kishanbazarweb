@@ -18,27 +18,44 @@
   assign is_preview = is_preview | default: false
   assign is_demo = is_demo | default: false
 
-  assign video_title = block.settings.video_label | default: video_label | default: 'SHOP BY VIDEOS'
-  assign badge_label = block.settings.badge_text | default: 'BESTSELLER'
-  assign p_title = block.settings.custom_title | default: card_product.title | default: 'Khapli Flour'
-  assign p_subtitle = block.settings.subtitle | default: card_product.metafields.descriptors.subtitle | default: 'Stone Ground • 1 Kg'
-  assign button_label = block.settings.button_text | default: button_text | default: section.settings.default_button_text | default: 'ADD TO CART'
-
   assign variant = blank
   if card_product != blank
     assign variant = card_product.selected_or_first_available_variant
   endif
 
+  assign video_title = block.settings.video_label | default: video_label | default: 'SHOP BY VIDEOS'
+  assign badge_label = block.settings.badge_text
+
+  assign p_title = block.settings.custom_title
+  if p_title == blank and card_product != blank
+    assign p_title = card_product.title
+  elsif p_title == blank
+    assign p_title = 'Khapli Flour'
+  endif
+
+  assign p_subtitle = block.settings.subtitle
+  if p_subtitle == blank and variant != blank and variant.title != 'Default Title'
+    assign p_subtitle = variant.title
+  elsif p_subtitle == blank and card_product != blank and card_product.metafields.descriptors.subtitle != blank
+    assign p_subtitle = card_product.metafields.descriptors.subtitle
+  elsif p_subtitle == blank
+    assign p_subtitle = 'Stone Ground • 1 Kg'
+  endif
+
+  assign button_label = block.settings.button_text | default: button_text | default: section.settings.default_button_text | default: 'ADD TO CART'
+
   assign selling_p = block.settings.selling_price
   if selling_p == blank and variant != blank
-    assign selling_p = '₹' | append: variant.price | money_without_currency
+    assign selling_p = variant.price | money
   elsif selling_p == blank
     assign selling_p = '₹499'
   endif
 
   assign compare_p = block.settings.compare_price
   if compare_p == blank and variant != blank and variant.compare_at_price > variant.price
-    assign compare_p = '₹' | append: variant.compare_at_price | money_without_currency
+    assign compare_p = variant.compare_at_price | money
+  elsif compare_p == blank and card_product != blank
+    assign compare_p = blank
   elsif compare_p == blank
     assign compare_p = '₹599'
   endif
