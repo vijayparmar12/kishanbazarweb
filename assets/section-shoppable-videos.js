@@ -202,39 +202,34 @@ class ShoppableVideosSection {
       this.hasMoved = false;
       this.dragStartX = event.clientX;
       this.scrollStart = this.track.scrollLeft;
-      this.viewport.classList.add('is-dragging');
-      this.viewport.setPointerCapture(event.pointerId);
     });
 
     this.viewport.addEventListener('pointermove', (event) => {
       if (!this.isDragging || !this.track) return;
       const delta = event.clientX - this.dragStartX;
-      if (Math.abs(delta) > 4) this.hasMoved = true;
-      this.track.scrollLeft = this.scrollStart - delta;
+      if (Math.abs(delta) > 10) {
+        this.hasMoved = true;
+        this.viewport.classList.add('is-dragging');
+      }
+      if (this.hasMoved) {
+        this.track.scrollLeft = this.scrollStart - delta;
+      }
     });
 
     const endDrag = (event) => {
       if (!this.isDragging) return;
       this.isDragging = false;
       this.viewport.classList.remove('is-dragging');
-      if (this.viewport.hasPointerCapture(event.pointerId)) {
+      if (this.viewport.hasPointerCapture && this.viewport.hasPointerCapture(event.pointerId)) {
         this.viewport.releasePointerCapture(event.pointerId);
       }
+      setTimeout(() => {
+        this.hasMoved = false;
+      }, 50);
     };
 
     this.viewport.addEventListener('pointerup', endDrag);
     this.viewport.addEventListener('pointercancel', endDrag);
-
-    this.track.addEventListener(
-      'click',
-      (event) => {
-        if (this.hasMoved) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-      },
-      true
-    );
   }
 
   scrollBy(direction) {
