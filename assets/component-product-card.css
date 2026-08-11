@@ -498,16 +498,16 @@
   align-items: center;
   display: flex;
   justify-content: center;
-  height: 48px;
-  width: 48px;
+  height: var(--kb-benefit-icon-size, 58px);
+  width: var(--kb-benefit-icon-size, 58px);
   max-width: 100%;
   margin: 0 auto;
 }
 
 .product-circle-features__circle img {
   display: block;
-  height: 48px;
-  width: 48px;
+  height: 100%;
+  width: 100%;
   max-width: 100%;
   object-fit: contain;
 }
