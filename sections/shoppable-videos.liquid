@@ -135,24 +135,6 @@
           aria-label="{{ 'sections.shoppable_videos.carousel_label' | t }}"
         >
           <ul class="shoppable-videos__track" data-carousel-track role="list">
-            {% if section.settings.show_demo_video and collections.all.products.size > 0 %}
-              {% assign demo_product = collections.all.products | first %}
-              {% render 'shoppable-video-card',
-                card_product: demo_product,
-                mp4_url: demo_video_url,
-                section: section,
-                is_demo: true,
-                video_label: 'Demo'
-              %}
-            {% elsif section.settings.show_demo_video %}
-              {% render 'shoppable-video-card',
-                mp4_url: demo_video_url,
-                section: section,
-                is_demo: true,
-                video_label: 'Demo'
-              %}
-            {% endif %}
-
             {% for block in section.blocks %}
               {% if block.type != 'video' %}
                 {% continue %}
@@ -164,9 +146,7 @@
               {% endif %}
 
               {% unless has_video %}
-                {% unless request.design_mode %}
-                  {% continue %}
-                {% endunless %}
+                {% continue %}
               {% endunless %}
 
               {% assign block_product = block.settings.product %}

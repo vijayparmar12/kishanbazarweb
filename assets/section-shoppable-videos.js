@@ -66,9 +66,46 @@ class ShoppableVideosSection {
     this.updateArrows();
 
     if (this.track) {
-      this.track.addEventListener('scroll', () => this.updateArrows(), { passive: true });
-      window.addEventListener('resize', () => this.updateArrows(), { passive: true });
+      this.track.addEventListener('scroll', () => {
+        this.updateArrows();
+        this.updateActiveSlideOnScroll();
+      }, { passive: true });
+      window.addEventListener('resize', () => {
+        this.updateArrows();
+        this.updateActiveSlideOnScroll();
+      }, { passive: true });
+      this.updateActiveSlideOnScroll();
     }
+  }
+
+  updateActiveSlideOnScroll() {
+    if (!this.track) return;
+    const slides = Array.from(this.root.querySelectorAll(SELECTORS.slide));
+    if (!slides.length) return;
+
+    const trackRect = this.track.getBoundingClientRect();
+    const trackCenterX = trackRect.left + trackRect.width / 2;
+
+    let closestSlide = slides[0];
+    let minDistance = Infinity;
+
+    slides.forEach((slide) => {
+      const slideRect = slide.getBoundingClientRect();
+      const slideCenterX = slideRect.left + slideRect.width / 2;
+      const distance = Math.abs(trackCenterX - slideCenterX);
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestSlide = slide;
+      }
+    });
+
+    slides.forEach((slide) => {
+      const card = slide.querySelector(SELECTORS.card);
+      if (card) {
+        card.classList.toggle('is-active', slide === closestSlide);
+      }
+    });
   }
 
   setSlideIndices() {
