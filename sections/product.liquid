@@ -203,7 +203,7 @@
     },
     {
       "type": "buy_buttons",
-      "name": "Buy Buttons & Add to Cart",
+      "name": "Buy Buttons",
       "limit": 1,
       "settings": [
         {
@@ -284,6 +284,30 @@
       "type": "description",
       "name": "Product Description",
       "limit": 1
+    },
+    {
+      "type": "line_item_property",
+      "name": "Custom Gift Note",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Property name (e.g. Gift Message, Custom Note)",
+          "default": "Gift Message"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Input placeholder text",
+          "default": "Add special note or gift message..."
+        },
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "Make field required",
+          "default": false
+        }
+      ]
     }
   ],
   "presets": [

@@ -92,13 +92,23 @@
               badge_bg: card_badge_bg,
               badge_color: card_badge_color,
               show_wishlist: section.settings.show_wishlist,
+              wishlist_bg: section.settings.wishlist_bg,
+              wishlist_color: section.settings.wishlist_color,
               show_vendor: section.settings.show_vendor,
               show_subtitle: section.settings.show_subtitle,
+              subtitle_color: section.settings.subtitle_color,
+              title_color: section.settings.title_color,
+              price_color: section.settings.price_color,
+              compare_price_color: section.settings.compare_price_color,
               show_rating: section.settings.show_rating,
+              rating_stars_color: section.settings.rating_stars_color,
               show_benefit_icons: section.settings.show_benefit_icons,
               show_variant_selector: section.settings.show_variant_selector,
               show_add_to_cart: section.settings.show_add_to_cart,
               add_to_cart_text: section.settings.cart_button_text,
+              show_custom_note: section.settings.show_custom_note,
+              custom_note_label: section.settings.custom_note_label,
+              custom_note_placeholder: section.settings.custom_note_placeholder,
               btn_bg: section.settings.cart_button_bg,
               btn_color: section.settings.cart_button_color
             %}
@@ -135,12 +145,10 @@
     { "type": "checkbox", "id": "show_tabs", "label": "Show category filter tabs (Ghee, Oil, Atta, etc.)", "default": false },
     {
       "type": "header",
-      "content": "Product Card Customization"
+      "content": "Product Card Customization & Toggles"
     },
     { "type": "checkbox", "id": "show_badge", "label": "Show product badge", "default": true },
     { "type": "text", "id": "custom_badge_text", "label": "Custom badge text (optional)", "info": "e.g. MOST LOVED, BESTSELLER, HOT, NEW" },
-    { "type": "color", "id": "badge_bg", "label": "Badge background color", "default": "#23421F" },
-    { "type": "color", "id": "badge_color", "label": "Badge text color", "default": "#FFFFFF" },
     { "type": "checkbox", "id": "show_wishlist", "label": "Show wishlist heart icon", "default": true },
     { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": false },
     { "type": "checkbox", "id": "show_subtitle", "label": "Show description subtitle", "default": true },
@@ -149,6 +157,26 @@
     { "type": "checkbox", "id": "show_variant_selector", "label": "Show variant dropdown", "default": true },
     { "type": "checkbox", "id": "show_add_to_cart", "label": "Show Add to Cart button", "default": true },
     { "type": "text", "id": "cart_button_text", "label": "Add to Cart button text", "default": "ADD TO CART" },
+    {
+      "type": "header",
+      "content": "Cart Line Item Properties"
+    },
+    { "type": "checkbox", "id": "show_custom_note", "label": "Show gift note / special instruction field", "default": false },
+    { "type": "text", "id": "custom_note_label", "label": "Line item property name", "default": "Special Note" },
+    { "type": "text", "id": "custom_note_placeholder", "label": "Input placeholder text", "default": "Add special note or gift message..." },
+    {
+      "type": "header",
+      "content": "Product Card Colors & Styling"
+    },
+    { "type": "color", "id": "title_color", "label": "Product Title text color", "default": "#23421F" },
+    { "type": "color", "id": "price_color", "label": "Product Price color", "default": "#23421F" },
+    { "type": "color", "id": "compare_price_color", "label": "Compare-at MRP price color", "default": "#8D8D8D" },
+    { "type": "color", "id": "subtitle_color", "label": "Subtitle description text color", "default": "#6B7280" },
+    { "type": "color", "id": "rating_stars_color", "label": "Rating stars color", "default": "#E5A800" },
+    { "type": "color", "id": "badge_bg", "label": "Badge background color", "default": "#23421F" },
+    { "type": "color", "id": "badge_color", "label": "Badge text color", "default": "#FFFFFF" },
+    { "type": "color", "id": "wishlist_bg", "label": "Wishlist button background", "default": "#FFFFFF" },
+    { "type": "color", "id": "wishlist_color", "label": "Wishlist icon color", "default": "#23421F" },
     { "type": "color", "id": "cart_button_bg", "label": "Add to Cart button background", "default": "#23421F" },
     { "type": "color", "id": "cart_button_color", "label": "Add to Cart button text color", "default": "#FFFFFF" }
   ],

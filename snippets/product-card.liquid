@@ -58,6 +58,7 @@
           data-variant-id="{{ variant.id }}"
           {% if product.featured_image != blank %}data-product-image="{{ product.featured_image | image_url: width: 300 }}"{% endif %}
           data-product-vendor="{{ product.vendor | default: 'Kishan Bazar' | escape }}"
+          style="{% if wishlist_bg != blank %}background-color: {{ wishlist_bg }};{% endif %}{% if wishlist_color != blank %}color: {{ wishlist_color }};{% endif %}"
         >
           {% render 'icon', name: 'heart', size: 18 %}
         </button>
@@ -75,11 +76,11 @@
 
   <div class="product-card__content">
     <div class="product-card__title-row">
-      <h3 class="product-card__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+      <h3 class="product-card__title"><a href="{{ product.url }}" style="{% if title_color != blank %}color: {{ title_color }};{% endif %}">{{ product.title }}</a></h3>
       {% if show_price != false %}
         <div class="product-card__price">
-          <s class="product-card__price-compare">₹{{ compare_price | money_without_currency }}</s>
-          <span class="product-card__price-current">₹{{ variant.price | money_without_currency }}</span>
+          <s class="product-card__price-compare" style="{% if compare_price_color != blank %}color: {{ compare_price_color }};{% endif %}">₹{{ compare_price | money_without_currency }}</s>
+          <span class="product-card__price-current" style="{% if price_color != blank %}color: {{ price_color }};{% endif %}">₹{{ variant.price | money_without_currency }}</span>
         </div>
       {% endif %}
     </div>
@@ -111,12 +112,12 @@
           {% assign card_subtitle = "Made from 100% Natural & Organic Ingredients" %}
         {% endif %}
       {% endif %}
-      <p class="product-card__subtitle">{{ card_subtitle }}</p>
+      <p class="product-card__subtitle" style="{% if subtitle_color != blank %}color: {{ subtitle_color }};{% endif %}">{{ card_subtitle }}</p>
     {% endif %}
 
     {% if show_rating %}
       <p class="product-card__rating" aria-label="Customer rating">
-        <span class="product-card__stars" aria-hidden="true">★★★★★</span>
+        <span class="product-card__stars" aria-hidden="true" style="{% if rating_stars_color != blank %}color: {{ rating_stars_color }};{% endif %}">★★★★★</span>
         <strong class="product-card__rating-value">{% if product.metafields.reviews.rating.value != blank %}{{ product.metafields.reviews.rating.value.rating | round: 2 }}{% else %}4.91{% endif %}</strong>
       </p>
     {% endif %}
@@ -128,6 +129,22 @@
     <div class="product-card__actions">
       {% if show_add_to_cart != false %}
         <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form>
+          {% if show_subtitle != false and card_subtitle != blank %}
+            <input type="hidden" name="properties[Subtitle]" value="{{ card_subtitle | escape }}">
+          {% endif %}
+
+          {% if show_custom_note %}
+            <div class="product-card__custom-note-wrap" style="margin-bottom: 0.5rem; width: 100%;">
+              <input
+                type="text"
+                name="properties[{{ custom_note_label | default: 'Special Note' }}]"
+                placeholder="{{ custom_note_placeholder | default: 'Add special note or gift message...' }}"
+                class="product-card__custom-note-input"
+                style="width: 100%; padding: 0.4rem 0.65rem; border: 1.5px solid #c2d4be; border-radius: 6px; font-size: 0.8rem; outline: none; background: #ffffff; color: #23421f;"
+              >
+            </div>
+          {% endif %}
+
           {% if product.has_only_default_variant or show_variant_selector == false %}
             <input type="hidden" name="id" value="{{ variant.id }}">
           {% else %}
