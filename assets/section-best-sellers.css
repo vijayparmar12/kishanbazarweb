@@ -227,8 +227,8 @@
 
 .best-sellers__tab.is-active,
 .best-sellers__tab:hover {
-  color: #1e3d20 !important;
-  border-bottom-color: #1e3d20 !important;
+  color: #1b4317 !important;
+  border-bottom-color: #1b4317 !important;
   font-weight: 900 !important;
   background: transparent !important;
   box-shadow: none !important;
@@ -237,7 +237,7 @@
 
 .best-sellers__tab.is-active .best-sellers__tab-icon,
 .best-sellers__tab:hover .best-sellers__tab-icon {
-  color: #1e3d20 !important;
+  color: #1b4317 !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -246,24 +246,24 @@
 
 .best-sellers__tab.is-active .best-sellers__tab-img,
 .best-sellers__tab:hover .best-sellers__tab-img {
-  filter: invert(18%) sepia(50%) saturate(1000%) hue-rotate(85deg) brightness(85%) contrast(100%) !important;
+  filter: invert(19%) sepia(35%) saturate(1250%) hue-rotate(75deg) brightness(85%) contrast(96%) !important;
   transform: translateY(-2px) scale(1.08);
 }
 
 .best-sellers__tab.is-active .best-sellers__tab-svg,
 .best-sellers__tab:hover .best-sellers__tab-svg {
-  color: #1e3d20 !important;
-  fill: #1e3d20 !important;
+  color: #1b4317 !important;
+  fill: #1b4317 !important;
 }
 
 .best-sellers__tab.is-active .svg-fill-target,
 .best-sellers__tab:hover .svg-fill-target {
-  fill: #1e3d20 !important;
+  fill: #1b4317 !important;
 }
 
 .best-sellers__tab.is-active .best-sellers__tab-label,
 .best-sellers__tab:hover .best-sellers__tab-label {
-  color: #1e3d20 !important;
+  color: #1b4317 !important;
   font-weight: 900 !important;
 }
 
