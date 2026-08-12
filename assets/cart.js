@@ -503,6 +503,8 @@
     }, 4000);
   };
 
+  window.showCartToast = showCartToast;
+
   const initAddToCartForms = () => {
     document.querySelectorAll('form[action*="/cart/add"]').forEach((form) => {
       if (form.dataset.ajaxAddInitialized === 'true') return;
