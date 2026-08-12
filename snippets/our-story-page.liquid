@@ -54,23 +54,21 @@
     </div>
   </section>
 
-  <!-- 3. OUR JOURNEY TIMELINE -->
-  <section class="story-journey">
+  <!-- 3. OUR VALUES -->
+  <section class="story-values">
     <div class="story-container">
       <div class="story-header story-header--center" data-story-reveal>
-        <span class="story-eyebrow">MILESTONES</span>
-        <h2 class="story-heading">Our Journey</h2>
-        <p class="story-subheading">From humble beginnings on native farms to thousands of happy, healthy kitchens.</p>
+        <span class="story-eyebrow">CORE GUIDING PRINCIPLES</span>
+        <h2 class="story-heading">Our Core Values</h2>
+        <p class="story-subheading">The principles that guide every seed we sow, every batch we grind, and every parcel we deliver.</p>
       </div>
-      <div class="story-timeline">
-        <div class="story-timeline__line"></div>
-        <div class="story-timeline__items">
-          {% render 'story-timeline-item', year: '2018', title: 'The Beginning', description: 'Founded with a promise to bring pure, unadulterated farm staples back into urban Indian homes.', is_even: false %}
-          {% render 'story-timeline-item', year: '2019', title: 'First Farmer Partnerships', description: 'Partnered directly with 25 organic farming families across Surat and Narmada region.', is_even: true %}
-          {% render 'story-timeline-item', year: '2021', title: 'First Traditional Products', description: 'Launched our signature Stone-Ground Khapli Atta and Vedic A2 Gir Cow Bilona Ghee.', is_even: false %}
-          {% render 'story-timeline-item', year: '2023', title: 'Growing Community', description: 'Crossed 50,000+ satisfied households delivered with zero chemical preservatives.', is_even: true %}
-          {% render 'story-timeline-item', year: '2026', title: 'Kishan Bazar Today', description: 'Empowering over 300+ native farmers and expanding our farm-to-table organic pantry nationwide.', is_even: false %}
-        </div>
+      <div class="story-values__grid">
+        {% render 'story-value-card', title: 'Honest Ingredients', description: 'Straight from certified Indian farms without artificial additives, preservatives, or synthetic bleaching.', icon: '🌱' %}
+        {% render 'story-value-card', title: 'Traditional Practices', description: 'Slow cold-stone grinding and Bilona curd-churning that preserves delicate natural vitamins.', icon: '⚙️' %}
+        {% render 'story-value-card', title: 'Farmer First', description: 'Fair pricing and direct farmer partnerships that empower indigenous farming families.', icon: '🤝' %}
+        {% render 'story-value-card', title: 'Quality Over Quantity', description: 'Fresh weekly small-batch production ensuring maximum freshness and nutrient retention.', icon: '✨' %}
+        {% render 'story-value-card', title: 'Sustainability', description: 'Eco-friendly farming practices that protect soil health and conserve local groundwater.', icon: '🌾' %}
+        {% render 'story-value-card', title: 'Full Transparency', description: 'Complete traceability from farm origin to packaging—no hidden ingredients ever.', icon: '🔍' %}
       </div>
     </div>
   </section>
@@ -124,217 +122,7 @@
     </div>
   </section>
 
-  <!-- 5. OUR VALUES -->
-  <section class="story-values">
-    <div class="story-container">
-      <div class="story-header story-header--center" data-story-reveal>
-        <span class="story-eyebrow">CORE GUIDING PRINCIPLES</span>
-        <h2 class="story-heading">Our Core Values</h2>
-        <p class="story-subheading">The principles that guide every seed we sow, every batch we grind, and every parcel we deliver.</p>
-      </div>
-      <div class="story-values__grid">
-        {% render 'story-value-card', title: 'Honest Ingredients', description: 'Straight from certified Indian farms without artificial additives, preservatives, or synthetic bleaching.', icon: '🌱' %}
-        {% render 'story-value-card', title: 'Traditional Practices', description: 'Slow cold-stone grinding and Bilona curd-churning that preserves delicate natural vitamins.', icon: '⚙️' %}
-        {% render 'story-value-card', title: 'Farmer First', description: 'Fair pricing and direct farmer partnerships that empower indigenous farming families.', icon: '🤝' %}
-        {% render 'story-value-card', title: 'Quality Over Quantity', description: 'Fresh weekly small-batch production ensuring maximum freshness and nutrient retention.', icon: '✨' %}
-        {% render 'story-value-card', title: 'Sustainability', description: 'Eco-friendly farming practices that protect soil health and conserve local groundwater.', icon: '🌾' %}
-        {% render 'story-value-card', title: 'Full Transparency', description: 'Complete traceability from farm origin to packaging—no hidden ingredients ever.', icon: '🔍' %}
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. FROM FARM TO FAMILY -->
-  <section class="story-farm-to-family">
-    <div class="story-container">
-      <div class="story-header story-header--center" data-story-reveal>
-        <span class="story-eyebrow">THE UNBROKEN CHAIN OF PURITY</span>
-        <h2 class="story-heading">From Farm to Your Family</h2>
-        <p class="story-subheading">Follow the journey of your food from certified organic soils to your kitchen.</p>
-      </div>
-      <div class="story-journey-flow">
-        <div class="story-journey-step" data-story-reveal>
-          <div class="story-journey-step__icon-box"><span class="story-journey-step__number">01</span><span class="story-journey-step__emoji">🌱</span></div>
-          <h3 class="story-journey-step__title">FARM</h3>
-          <p class="story-journey-step__desc">Soil tested, non-GMO native seeds sown with natural compost.</p>
-        </div>
-        <div class="story-journey-arrow" aria-hidden="true">→</div>
-        <div class="story-journey-step" data-story-reveal>
-          <div class="story-journey-step__icon-box"><span class="story-journey-step__number">02</span><span class="story-journey-step__emoji">🌾</span></div>
-          <h3 class="story-journey-step__title">HARVEST</h3>
-          <p class="story-journey-step__desc">Hand-harvested at peak nutritional maturity by native farmers.</p>
-        </div>
-        <div class="story-journey-arrow" aria-hidden="true">→</div>
-        <div class="story-journey-step" data-story-reveal>
-          <div class="story-journey-step__icon-box"><span class="story-journey-step__number">03</span><span class="story-journey-step__emoji">⚙️</span></div>
-          <h3 class="story-journey-step__title">PROCESS</h3>
-          <p class="story-journey-step__desc">Slow stone-ground at low temperatures to preserve vitamins.</p>
-        </div>
-        <div class="story-journey-arrow" aria-hidden="true">→</div>
-        <div class="story-journey-step" data-story-reveal>
-          <div class="story-journey-step__icon-box"><span class="story-journey-step__number">04</span><span class="story-journey-step__emoji">🔬</span></div>
-          <h3 class="story-journey-step__title">QUALITY CHECK</h3>
-          <p class="story-journey-step__desc">Strict lab screening for zero pesticide or heavy metal residues.</p>
-        </div>
-        <div class="story-journey-arrow" aria-hidden="true">→</div>
-        <div class="story-journey-step" data-story-reveal>
-          <div class="story-journey-step__icon-box"><span class="story-journey-step__number">05</span><span class="story-journey-step__emoji">📦</span></div>
-          <h3 class="story-journey-step__title">PACK</h3>
-          <p class="story-journey-step__desc">Sealed in food-grade, moisture-proof barrier pouches.</p>
-        </div>
-        <div class="story-journey-arrow" aria-hidden="true">→</div>
-        <div class="story-journey-step story-journey-step--final" data-story-reveal>
-          <div class="story-journey-step__icon-box"><span class="story-journey-step__number">06</span><span class="story-journey-step__emoji">🏡</span></div>
-          <h3 class="story-journey-step__title">YOUR HOME</h3>
-          <p class="story-journey-step__desc">Delivered fresh within 24–48 hours directly to your doorstep.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 7. OUR PRODUCTS SHOWCASE -->
-  <section class="story-products">
-    <div class="story-container">
-      <div class="story-header story-header--center" data-story-reveal>
-        <span class="story-eyebrow">ORGANIC PANTRY</span>
-        <h2 class="story-heading">Crafted with Native Organic Care</h2>
-        <p class="story-subheading">Explore our unrefined, cold-stone ground organic staples for your family.</p>
-      </div>
-      <div class="story-products__grid">
-        <div class="story-product-card" data-story-reveal>
-          <div class="story-product-card__media">
-            <img src="{{ 'ghee.png' | asset_url }}" alt="A2 Cow Ghee" class="story-product-card__img" loading="lazy" width="600" height="450">
-          </div>
-          <div class="story-product-card__content">
-            <h3 class="story-product-card__title">A2 Gir Cow Bilona Ghee</h3>
-            <p class="story-product-card__desc">Hand-churned from A2 curd using ancient Vedic Bilona method.</p>
-            <a href="{{ routes.all_products_collection_url }}" class="story-product-card__btn"><span>Explore Ghee</span><span class="story-arrow">&rarr;</span></a>
-          </div>
-        </div>
-        <div class="story-product-card" data-story-reveal>
-          <div class="story-product-card__media">
-            <img src="{{ 'atta.png' | asset_url }}" alt="Khapli Atta" class="story-product-card__img" loading="lazy" width="600" height="450">
-          </div>
-          <div class="story-product-card__content">
-            <h3 class="story-product-card__title">Stone-Ground Khapli Atta</h3>
-            <p class="story-product-card__desc">Low GI, ancient Emmer wheat ground slowly on traditional granite stones.</p>
-            <a href="{{ routes.all_products_collection_url }}" class="story-product-card__btn"><span>Explore Atta</span><span class="story-arrow">&rarr;</span></a>
-          </div>
-        </div>
-        <div class="story-product-card" data-story-reveal>
-          <div class="story-product-card__media">
-            <img src="{{ 'category-3.png.png' | asset_url }}" alt="Cold Pressed Oils" class="story-product-card__img" loading="lazy" width="600" height="450">
-          </div>
-          <div class="story-product-card__content">
-            <h3 class="story-product-card__title">Cold-Pressed Oils</h3>
-            <p class="story-product-card__desc">Wood-pressed mustard, groundnut, and sesame oils unrefined for health.</p>
-            <a href="{{ routes.all_products_collection_url }}" class="story-product-card__btn"><span>Explore Oils</span><span class="story-arrow">&rarr;</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. QUALITY PROMISE STATS -->
-  <section class="story-quality-promise">
-    <div class="story-container">
-      <div class="story-header story-header--center story-header--light" data-story-reveal>
-        <span class="story-eyebrow story-eyebrow--light">UNCOMPROMISING STANDARDS</span>
-        <h2 class="story-heading story-heading--light">Our Promise of Quality</h2>
-        <p class="story-subheading story-subheading--light">Empirical proof of our dedication to transparent sourcing and traditional food purity.</p>
-      </div>
-      <div class="story-stats-grid">
-        {% render 'story-stat', number: '100', suffix: '%', label: 'Transparent Sourcing', subtext: 'Direct trace back to verified organic farms.' %}
-        {% render 'story-stat', number: '300', suffix: '+', label: 'Farmer Partnerships', subtext: 'Empowering smallholder Indian farming families.' %}
-        {% render 'story-stat', number: '48', suffix: 'H', label: 'Fresh Batch Dispatch', subtext: 'Milled fresh and delivered to your doorstep.' %}
-        {% render 'story-stat', number: '0', suffix: '%', label: 'Chemicals & Bleach', subtext: 'Zero artificial preservatives or pesticides ever.' %}
-      </div>
-    </div>
-  </section>
-
-  <!-- 9. SUSTAINABILITY COMMITMENT -->
-  <section class="story-commitment">
-    <div class="story-container">
-      <div class="story-commitment__grid">
-        <div class="story-commitment__content-col" data-story-reveal>
-          <span class="story-eyebrow">SUSTAINABILITY & HARMONY</span>
-          <h2 class="story-heading">Better Food. Better Farming. Better Future.</h2>
-          <div class="story-commitment__body">
-            <p>True organic food isn't just about what is excluded from the plate—it's about what we give back to the soil, the ecosystem, and the farming communities.</p>
-            <p>Through regenerative agriculture practices, crop rotation, and water-efficient irrigation, our partner farmers nourish the land for generations to come.</p>
-            <p>We prioritize eco-friendly packaging, zero-waste processing, and direct fair-trade pricing to ensure our planet and producers thrive together.</p>
-          </div>
-          <div class="story-commitment__action">
-            <a href="{{ routes.all_products_collection_url }}" class="story-btn story-btn--primary">Learn About Our Commitment</a>
-          </div>
-        </div>
-        <div class="story-commitment__media-col" data-story-reveal>
-          <div class="story-commitment__image-wrap">
-            <img class="story-commitment__image" src="{{ 'video-thumbnail.jpg.png' | asset_url }}" alt="Better Food Better Farming" width="650" height="750" loading="lazy">
-            <div class="story-commitment__badge">
-              <span>🌿 Regenerative &bull; Ethical &bull; Sustainable</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 10. TESTIMONIALS -->
-  <section class="story-testimonials">
-    <div class="story-container">
-      <div class="story-header story-header--center" data-story-reveal>
-        <span class="story-eyebrow">VOICES OF TRUST</span>
-        <h2 class="story-heading">Loved by Health-Conscious Families</h2>
-        <p class="story-subheading">Hear what Indian mothers, chefs, and wellness enthusiasts say about Kishan Bazar.</p>
-      </div>
-      <div class="story-testimonials__grid">
-        <div class="story-testimonial-card" data-story-reveal>
-          <div class="story-testimonial-card__stars">★★★★★</div>
-          <p class="story-testimonial-card__review">"The aroma and texture of Khapli Atta reminded me of my grandmother's farm rotis. Unbelievably soft and easy to digest!"</p>
-          <div class="story-testimonial-card__author">
-            <div class="story-testimonial-card__avatar">
-              <img src="{{ 'testimonial-1.jpg.png' | asset_url }}" alt="Priya Sharma" class="story-testimonial-card__avatar-img" loading="lazy" width="80" height="80">
-            </div>
-            <div class="story-testimonial-card__meta">
-              <h4 class="story-testimonial-card__name">Priya Sharma</h4>
-              <span class="story-testimonial-card__location">📍 Mumbai, Maharashtra</span>
-              <span class="story-testimonial-card__verified">Verified Buyer &bull; Khapli Atta</span>
-            </div>
-          </div>
-        </div>
-        <div class="story-testimonial-card" data-story-reveal>
-          <div class="story-testimonial-card__stars">★★★★★</div>
-          <p class="story-testimonial-card__review">"A2 Gir Cow Bilona Ghee from Kishan Bazar has become a staple in our home. You can smell the authentic curd churning!"</p>
-          <div class="story-testimonial-card__author">
-            <div class="story-testimonial-card__avatar">
-              <img src="{{ 'testimonial-1.jpg.png' | asset_url }}" alt="Anish Mehta" class="story-testimonial-card__avatar-img" loading="lazy" width="80" height="80">
-            </div>
-            <div class="story-testimonial-card__meta">
-              <h4 class="story-testimonial-card__name">Dr. Anish Mehta</h4>
-              <span class="story-testimonial-card__location">📍 Pune, Maharashtra</span>
-              <span class="story-testimonial-card__verified">Verified Buyer &bull; A2 Gir Ghee</span>
-            </div>
-          </div>
-        </div>
-        <div class="story-testimonial-card" data-story-reveal>
-          <div class="story-testimonial-card__stars">★★★★★</div>
-          <p class="story-testimonial-card__review">"Knowing that my purchases directly support small native farmers in Surat makes every meal taste even better."</p>
-          <div class="story-testimonial-card__author">
-            <div class="story-testimonial-card__avatar">
-              <img src="{{ 'testimonial-1.jpg.png' | asset_url }}" alt="Sunita Rao" class="story-testimonial-card__avatar-img" loading="lazy" width="80" height="80">
-            </div>
-            <div class="story-testimonial-card__meta">
-              <h4 class="story-testimonial-card__name">Sunita Rao</h4>
-              <span class="story-testimonial-card__location">📍 Bengaluru, Karnataka</span>
-              <span class="story-testimonial-card__verified">Verified Buyer &bull; Organic Oils</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 11. FINAL CTA -->
+  <!-- 5. FINAL CTA -->
   <section class="story-final-cta">
     <div class="story-final-cta__bg-wrap">
       <img class="story-final-cta__bg-img" src="{{ 'newsletter-bg.jpg.png' | asset_url }}" alt="Be Part of Our Journey" width="1800" height="700" loading="lazy">
@@ -346,7 +134,6 @@
       <p class="story-final-cta__desc">Every purchase helps us bring better food to more families while supporting the people who grow it.</p>
       <div class="story-final-cta__actions">
         <a href="{{ routes.all_products_collection_url }}" class="story-btn story-btn--gold">Shop Now</a>
-        <a href="{{ routes.root_url }}" class="story-btn story-btn--light-outline">Join Our Community</a>
       </div>
     </div>
   </section>

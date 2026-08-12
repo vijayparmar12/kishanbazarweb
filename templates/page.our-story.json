@@ -97,14 +97,8 @@
   "order": [
     "hero",
     "intro",
-    "journey",
-    "farmers",
     "values",
-    "quality",
-    "products",
-    "stats",
-    "commitment",
-    "testimonials",
+    "farmers",
     "cta"
   ]
 }
