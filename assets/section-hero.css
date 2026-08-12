@@ -327,47 +327,11 @@
     background: #faf6ec;
   }
 
-  /* Mobile Overlay Action Buttons (Centered at Bottom Inside Box) */
-  .home-hero-split__actions-wrapper {
-    bottom: 0.85rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: auto;
-    max-width: 90%;
-    position: absolute;
-    z-index: 15;
-  }
-
-  .home-hero-split__actions-desktop {
-    display: none;
-  }
-
+  /* Mobile Overlay Action Buttons - HIDE ALL BUTTONS IN MOBILE VIEW */
+  .home-hero-split__actions-wrapper,
+  .home-hero-split__actions-desktop,
   .home-hero-split__actions-mobile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.6rem;
-    width: 100%;
-  }
-
-  .home-hero-split__actions-mobile .home-hero-btn {
-    font-size: 0.82rem;
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    padding: 0.65rem 1.4rem;
-    border-radius: 999px;
-    text-align: center;
-    white-space: nowrap;
-    background: #1b3b2b;
-    color: #ffffff;
-    border: none;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .home-hero-split__actions-mobile .home-hero-btn:active {
-    transform: scale(0.97);
+    display: none !important;
   }
 
   /* Mobile Navigation Dots (Positioned BELOW the Hero Image Box) */

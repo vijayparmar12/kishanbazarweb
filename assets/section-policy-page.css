@@ -1,0 +1,201 @@
+/* Kisan Bazar Policy Page Styles */
+.policy-page-section {
+  padding: 3rem 1rem 5rem;
+  background-color: #fafdfa;
+  min-height: 60vh;
+}
+
+.policy-page__container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.policy-page__header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px stroke #e2e8f0;
+  border-bottom: 2px dashed #cbd5e1;
+}
+
+.policy-page__eyebrow {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #166534;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.policy-page__heading {
+  font-family: Georgia, serif, inherit;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 900;
+  color: #1e3d20;
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+}
+
+.policy-page__subheading {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0;
+  font-weight: 500;
+}
+
+.policy-page__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.policy-clause-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 4px 12px rgba(35, 66, 31, 0.04);
+  transition: border-color 250ms ease, box-shadow 250ms ease;
+}
+
+.policy-clause-card:hover {
+  border-color: #166534;
+  box-shadow: 0 8px 24px rgba(35, 66, 31, 0.08);
+}
+
+.policy-clause__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.policy-clause__icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.policy-clause__title {
+  font-family: Georgia, serif, inherit;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #1e3d20;
+  margin: 0;
+}
+
+.policy-clause__content {
+  color: #334155;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.policy-clause__content p {
+  margin: 0 0 1rem;
+}
+
+.policy-clause__content p:last-child {
+  margin: 0;
+}
+
+.policy-clause__content ul,
+.policy-clause__content ol {
+  margin: 0.5rem 0 1rem 1.5rem;
+  padding: 0;
+}
+
+.policy-clause__content li {
+  margin-bottom: 0.5rem;
+}
+
+/* Highlight Box */
+.policy-highlight-card {
+  background: #f0fdf4;
+  border: 2px solid #bbf7d0;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin: 0.5rem 0;
+}
+
+.policy-highlight__title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #166534;
+  margin: 0 0 0.5rem;
+}
+
+.policy-highlight__content {
+  color: #1e3d20;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Contact Card */
+.policy-contact-card {
+  background: linear-gradient(135deg, #1e3d20 0%, #166534 100%);
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 2.25rem 2rem;
+  text-align: center;
+  margin-top: 1rem;
+  box-shadow: 0 12px 32px rgba(30, 61, 32, 0.18);
+}
+
+.policy-contact__title {
+  font-family: Georgia, serif, inherit;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 0.75rem;
+}
+
+.policy-contact__details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.98rem;
+}
+
+.policy-contact__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #e2e8f0;
+}
+
+.policy-contact__item a {
+  color: #ffffff;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.policy-contact__btn {
+  display: inline-block;
+  background: #ffffff;
+  color: #1e3d20;
+  font-weight: 800;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform 200ms ease, background 200ms ease;
+}
+
+.policy-contact__btn:hover {
+  background: #f8fafc;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 48rem) {
+  .policy-page-section {
+    padding: 2rem 1rem 3rem;
+  }
+  .policy-clause-card,
+  .policy-highlight-card,
+  .policy-contact-card {
+    padding: 1.25rem 1.25rem;
+  }
+}

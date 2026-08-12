@@ -1,0 +1,486 @@
+{% doc %}
+  Renders the complete customizable Contact Us page for Kisan Bazar, including hero banner, contact cards, Shopify native contact form, quick help links, why us features, FAQ accordion, map section, and final CTA banner.
+{% enddoc %}
+
+<link rel="stylesheet" href="{{ 'section-contact-page.css' | asset_url }}">
+<script src="{{ 'section-contact-page.js' | asset_url }}" defer="defer"></script>
+
+<div class="contact-page" id="ContactPage-{{ section.id }}">
+  <!-- 1. CONTACT HERO SECTION -->
+  {% if section.settings.show_hero %}
+    <section class="contact-hero">
+      <div class="contact-page__container">
+        {% if section.settings.hero_badge != blank %}
+          <span class="contact-hero__badge">{{ section.settings.hero_badge }}</span>
+        {% endif %}
+        <h1 class="contact-hero__heading">{{ section.settings.hero_heading | default: "Let's Connect" }}</h1>
+        {% if section.settings.hero_subheading != blank %}
+          <p class="contact-hero__subheading">{{ section.settings.hero_subheading }}</p>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- 2. CONTACT INFORMATION + FORM -->
+  <section class="contact-main-grid">
+    <div class="contact-page__container">
+      <div class="contact-main-grid__layout">
+        <!-- LEFT SIDE: Contact Information -->
+        <div class="contact-info">
+          <div class="contact-info__header">
+            <h2 class="contact-info__title">{{ section.settings.info_heading | default: "How Can We Help?" }}</h2>
+            <p class="contact-info__desc">{{ section.settings.info_desc | default: "Our team is always happy to help you with your questions, orders, products, and feedback." }}</p>
+          </div>
+
+          <div class="contact-cards-stack">
+            <!-- Call Us Card -->
+            <a href="tel:{{ section.settings.phone_number | default: '+919876543210' | remove: ' ' }}" class="contact-card">
+              <div class="contact-card__icon-wrap">📞</div>
+              <div class="contact-card__body">
+                <h3 class="contact-card__title">Call Us</h3>
+                <div class="contact-card__detail">{{ section.settings.phone_number | default: "+91 98765 43210" }}</div>
+                <p class="contact-card__subtext">Talk to our customer care team</p>
+              </div>
+            </a>
+
+            <!-- Email Us Card -->
+            <a href="mailto:{{ section.settings.email_address | default: 'support@kishanbazar.com' }}" class="contact-card">
+              <div class="contact-card__icon-wrap">📧</div>
+              <div class="contact-card__body">
+                <h3 class="contact-card__title">Email Us</h3>
+                <div class="contact-card__detail">{{ section.settings.email_address | default: "support@kishanbazar.com" }}</div>
+                <p class="contact-card__subtext">Send us your questions anytime</p>
+              </div>
+            </a>
+
+            <!-- Visit Us Card -->
+            <div class="contact-card">
+              <div class="contact-card__icon-wrap">📍</div>
+              <div class="contact-card__body">
+                <h3 class="contact-card__title">Visit Us</h3>
+                <div class="contact-card__detail">Kishan Bazar</div>
+                <p class="contact-card__subtext">{{ section.settings.address_text | default: "Surat, Gujarat, India" }}</p>
+              </div>
+            </div>
+
+            <!-- Customer Support Card -->
+            <div class="contact-card">
+              <div class="contact-card__icon-wrap">⏰</div>
+              <div class="contact-card__body">
+                <h3 class="contact-card__title">Customer Support</h3>
+                <div class="contact-card__detail">{{ section.settings.support_hours | default: "Monday – Saturday" }}</div>
+                <p class="contact-card__subtext">{{ section.settings.support_time | default: "10:00 AM – 6:00 PM" }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE: Contact Form -->
+        <div class="contact-form-card">
+          <h2 class="contact-form__title">{{ section.settings.form_heading | default: "Send Us a Message" }}</h2>
+          <p class="contact-form__subtitle">{{ section.settings.form_subheading | default: "Have a question? Fill in the form and our team will get back to you." }}</p>
+
+          {% form 'contact', id: 'ContactForm-Page' %}
+            {% if form.posted_successfully? %}
+              <div class="contact-form__alert contact-form__alert--success" role="status">
+                🌿 Thank you for reaching out! Your message has been received. Our team will contact you shortly.
+              </div>
+            {% elsif form.errors %}
+              <div class="contact-form__alert contact-form__alert--error" role="alert">
+                ⚠️ Please correct the errors below: {{ form.errors | default_errors }}
+              </div>
+            {% endif %}
+
+            <div class="contact-form__grid">
+              <div class="contact-form__field">
+                <label for="ContactForm-FirstName" class="contact-form__label">First Name <span class="required">*</span></label>
+                <input type="text" id="ContactForm-FirstName" name="contact[first_name]" class="contact-form__input" placeholder="e.g. Rahul" required>
+              </div>
+
+              <div class="contact-form__field">
+                <label for="ContactForm-LastName" class="contact-form__label">Last Name</label>
+                <input type="text" id="ContactForm-LastName" name="contact[last_name]" class="contact-form__input" placeholder="e.g. Sharma">
+              </div>
+
+              <div class="contact-form__field">
+                <label for="ContactForm-Email" class="contact-form__label">Email Address <span class="required">*</span></label>
+                <input type="email" id="ContactForm-Email" name="contact[email]" class="contact-form__input" placeholder="name@example.com" value="{{ form.email }}" required>
+              </div>
+
+              <div class="contact-form__field">
+                <label for="ContactForm-Phone" class="contact-form__label">Phone Number</label>
+                <input type="tel" id="ContactForm-Phone" name="contact[phone]" class="contact-form__input" placeholder="+91 98765 43210" value="{{ form.phone }}">
+              </div>
+
+              <div class="contact-form__field">
+                <label for="ContactForm-OrderNumber" class="contact-form__label">Order Number</label>
+                <input type="text" id="ContactForm-OrderNumber" name="contact[order_number]" class="contact-form__input" placeholder="e.g. #KB1042">
+              </div>
+
+              <div class="contact-form__field">
+                <label for="ContactForm-Subject" class="contact-form__label">Subject <span class="required">*</span></label>
+                <select id="ContactForm-Subject" name="contact[subject]" class="contact-form__select" required>
+                  <option value="" disabled selected>Select a Subject</option>
+                  <option value="Product Enquiry">Product Enquiry</option>
+                  <option value="Order Related">Order Related</option>
+                  <option value="Shipping & Delivery">Shipping & Delivery</option>
+                  <option value="Return & Refund">Return & Refund</option>
+                  <option value="Payment Issue">Payment Issue</option>
+                  <option value="Feedback">Feedback</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="contact-form__field contact-form__field--full">
+                <label for="ContactForm-Message" class="contact-form__label">Message <span class="required">*</span></label>
+                <textarea id="ContactForm-Message" name="contact[body]" class="contact-form__textarea" placeholder="How can we help you today?" required>{{ form.body }}</textarea>
+              </div>
+
+              <button type="submit" class="contact-form__submit-btn">Send Message</button>
+            </div>
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. QUICK HELP SECTION -->
+  {% assign quick_help_blocks = section.blocks | where: 'type', 'quick_help' %}
+  {% if section.settings.show_quick_help or quick_help_blocks.size > 0 %}
+    <section class="contact-quick-help">
+      <div class="contact-page__container">
+        <div class="contact-quick-help__header">
+          <h2 class="contact-quick-help__title">{{ section.settings.quick_help_title | default: "Looking for Quick Answers?" }}</h2>
+          <p class="contact-quick-help__subtitle">{{ section.settings.quick_help_subtitle | default: "You may find what you're looking for here." }}</p>
+        </div>
+
+        <div class="contact-quick-help__grid">
+          {% if quick_help_blocks.size > 0 %}
+            {% for block in quick_help_blocks %}
+              <a href="{{ block.settings.url | default: '#' }}" class="quick-help-card" {{ block.shopify_attributes }}>
+                <span class="quick-help-card__icon">{{ block.settings.icon | default: '📦' }}</span>
+                <h3 class="quick-help-card__title">{{ block.settings.title }}</h3>
+                <p class="quick-help-card__desc">{{ block.settings.desc }}</p>
+                <span class="quick-help-card__link">Explore &rarr;</span>
+              </a>
+            {% endfor %}
+          {% else %}
+            <a href="/pages/account" class="quick-help-card">
+              <span class="quick-help-card__icon">📦</span>
+              <h3 class="quick-help-card__title">Track My Order</h3>
+              <p class="quick-help-card__desc">Check your order status</p>
+              <span class="quick-help-card__link">Explore &rarr;</span>
+            </a>
+            <a href="/policies/shipping-policy" class="quick-help-card">
+              <span class="quick-help-card__icon">🚚</span>
+              <h3 class="quick-help-card__title">Shipping Information</h3>
+              <p class="quick-help-card__desc">Learn about delivery</p>
+              <span class="quick-help-card__link">Explore &rarr;</span>
+            </a>
+            <a href="/policies/refund-policy" class="quick-help-card">
+              <span class="quick-help-card__icon">🔄</span>
+              <h3 class="quick-help-card__title">Returns & Refunds</h3>
+              <p class="quick-help-card__desc">Understand our return policy</p>
+              <span class="quick-help-card__link">Explore &rarr;</span>
+            </a>
+            <a href="#contact-faq" class="quick-help-card">
+              <span class="quick-help-card__icon">❓</span>
+              <h3 class="quick-help-card__title">FAQs</h3>
+              <p class="quick-help-card__desc">Find answers to common questions</p>
+              <span class="quick-help-card__link">Explore &rarr;</span>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- 4. WHY KISHAN BAZAR SECTION -->
+  {% assign why_us_blocks = section.blocks | where: 'type', 'why_us' %}
+  {% if section.settings.show_why_us or why_us_blocks.size > 0 %}
+    <section class="contact-why-us">
+      <div class="contact-page__container">
+        <div class="contact-why-us__header">
+          <h2 class="contact-why-us__title">{{ section.settings.why_us_title | default: "Why Choose Kishan Bazar?" }}</h2>
+        </div>
+
+        <div class="contact-why-us__grid">
+          {% if why_us_blocks.size > 0 %}
+            {% for block in why_us_blocks %}
+              <div class="why-us-item" {{ block.shopify_attributes }}>
+                <span class="why-us-item__icon">{{ block.settings.icon | default: '🌿' }}</span>
+                <h3 class="why-us-item__title">{{ block.settings.title }}</h3>
+                <p class="why-us-item__desc">{{ block.settings.desc }}</p>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="why-us-item">
+              <span class="why-us-item__icon">🌿</span>
+              <h3 class="why-us-item__title">Natural & Authentic</h3>
+              <p class="why-us-item__desc">Thoughtfully sourced products</p>
+            </div>
+            <div class="why-us-item">
+              <span class="why-us-item__icon">🥛</span>
+              <h3 class="why-us-item__title">Pure & Traditional</h3>
+              <p class="why-us-item__desc">Made with care and trusted practices</p>
+            </div>
+            <div class="why-us-item">
+              <span class="why-us-item__icon">🚚</span>
+              <h3 class="why-us-item__title">Reliable Delivery</h3>
+              <p class="why-us-item__desc">Your order delivered safely</p>
+            </div>
+            <div class="why-us-item">
+              <span class="why-us-item__icon">🤝</span>
+              <h3 class="why-us-item__title">Customer First</h3>
+              <p class="why-us-item__desc">Here whenever you need us</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- 5. FAQ PREVIEW SECTION -->
+  {% assign faq_blocks = section.blocks | where: 'type', 'faq_item' %}
+  {% if section.settings.show_faq or faq_blocks.size > 0 %}
+    <section class="contact-faq" id="contact-faq">
+      <div class="contact-page__container">
+        <div class="contact-faq__header">
+          <h2 class="contact-faq__title">{{ section.settings.faq_title | default: "Frequently Asked Questions" }}</h2>
+        </div>
+
+        <div class="contact-faq__stack" data-faq-container>
+          {% if faq_blocks.size > 0 %}
+            {% for block in faq_blocks %}
+              <div class="faq-accordion-item" data-faq-accordion {{ block.shopify_attributes }}>
+                <button type="button" class="faq-accordion__trigger" data-faq-trigger>
+                  <span>{{ block.settings.question }}</span>
+                  <span class="faq-accordion__icon">+</span>
+                </button>
+                <div class="faq-accordion__content">
+                  <p class="faq-accordion__text">{{ block.settings.answer }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="faq-accordion-item" data-faq-accordion>
+              <button type="button" class="faq-accordion__trigger" data-faq-trigger>
+                <span>How can I track my order?</span>
+                <span class="faq-accordion__icon">+</span>
+              </button>
+              <div class="faq-accordion__content">
+                <p class="faq-accordion__text">Once your parcel is dispatched, you will receive a tracking link via SMS, WhatsApp, and Email to monitor your shipment in real time.</p>
+              </div>
+            </div>
+
+            <div class="faq-accordion-item" data-faq-accordion>
+              <button type="button" class="faq-accordion__trigger" data-faq-trigger>
+                <span>How long does delivery take?</span>
+                <span class="faq-accordion__icon">+</span>
+              </button>
+              <div class="faq-accordion__content">
+                <p class="faq-accordion__text">Standard delivery takes 2–4 business days for metro cities, and 3–5 business days for tier 2 & 3 cities across India.</p>
+              </div>
+            </div>
+
+            <div class="faq-accordion-item" data-faq-accordion>
+              <button type="button" class="faq-accordion__trigger" data-faq-trigger>
+                <span>What is your return policy?</span>
+                <span class="faq-accordion__icon">+</span>
+              </button>
+              <div class="faq-accordion__content">
+                <p class="faq-accordion__text">If your order arrives damaged or incorrect, contact us within 48 hours with photos for a hassle-free replacement or full refund.</p>
+              </div>
+            </div>
+
+            <div class="faq-accordion-item" data-faq-accordion>
+              <button type="button" class="faq-accordion__trigger" data-faq-trigger>
+                <span>How can I cancel my order?</span>
+                <span class="faq-accordion__icon">+</span>
+              </button>
+              <div class="faq-accordion__content">
+                <p class="faq-accordion__text">Orders can be cancelled before dispatch (within 4 hours of placing the order) by reaching out to our customer care team.</p>
+              </div>
+            </div>
+
+            <div class="faq-accordion-item" data-faq-accordion>
+              <button type="button" class="faq-accordion__trigger" data-faq-trigger>
+                <span>How can I contact customer support?</span>
+                <span class="faq-accordion__icon">+</span>
+              </button>
+              <div class="faq-accordion__content">
+                <p class="faq-accordion__text">You can call us at +91 98765 43210 or email support@kishanbazar.com from Monday to Saturday, 10:00 AM – 6:00 PM.</p>
+              </div>
+            </div>
+
+            <div class="faq-accordion-item" data-faq-accordion>
+              <button type="button" class="faq-accordion__trigger" data-faq-trigger>
+                <span>Do you deliver across India?</span>
+                <span class="faq-accordion__icon">+</span>
+              </button>
+              <div class="faq-accordion__content">
+                <p class="faq-accordion__text">Yes! We deliver farm-fresh organic staples to over 26,000+ pincodes nationwide with free shipping on orders above ₹499.</p>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="contact-faq__cta-wrap">
+          <a href="{{ section.settings.faq_cta_url | default: '/policies/terms-of-service' }}" class="contact-faq__cta-link">
+            <span>{{ section.settings.faq_cta_label | default: "View All FAQs &rarr;" }}</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- 6. MAP / LOCATION SECTION -->
+  {% if section.settings.show_map %}
+    <section class="contact-map-section">
+      <div class="contact-page__container">
+        <div class="contact-map__header">
+          <h2 class="contact-map__title">{{ section.settings.map_title | default: "Find Kishan Bazar" }}</h2>
+          <p class="contact-map__address">Kishan Bazar &bull; Surat, Gujarat, India</p>
+        </div>
+
+        <div class="contact-map__frame-wrap">
+          <iframe
+            src="{{ section.settings.map_iframe_url | default: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.41709511116!2d72.74109865045437!3d21.161026848206806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin' }}"
+            class="contact-map__iframe"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Kishan Bazar Location Map"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- 7. FINAL CTA BANNER -->
+  {% if section.settings.show_final_cta %}
+    <section class="contact-final-cta">
+      <div class="contact-page__container">
+        <h2 class="contact-final-cta__heading">{{ section.settings.cta_heading | default: "We're Always Happy to Help" }}</h2>
+        <p class="contact-final-cta__text">{{ section.settings.cta_text | default: "Have a question, suggestion, or feedback? Get in touch with the Kishan Bazar team." }}</p>
+        <a href="#ContactForm-Page" class="contact-final-cta__btn">{{ section.settings.cta_btn_label | default: "Contact Us" }}</a>
+      </div>
+    </section>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Contact Us Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "1. Hero Section"
+    },
+    { "type": "checkbox", "id": "show_hero", "label": "Show Hero Section", "default": true },
+    { "type": "text", "id": "hero_badge", "label": "Hero Eyebrow Badge", "default": "CONTACT KISHAN BAZAR" },
+    { "type": "text", "id": "hero_heading", "label": "Hero Heading", "default": "Let's Connect" },
+    { "type": "textarea", "id": "hero_subheading", "label": "Hero Subheading", "default": "We're here to help. Whether you have a question about our products, your order, or simply want to know more about Kishan Bazar, we'd love to hear from you." },
+    {
+      "type": "header",
+      "content": "2. Contact Information"
+    },
+    { "type": "text", "id": "info_heading", "label": "Info Column Heading", "default": "How Can We Help?" },
+    { "type": "textarea", "id": "info_desc", "label": "Info Column Description", "default": "Our team is always happy to help you with your questions, orders, products, and feedback." },
+    { "type": "text", "id": "phone_number", "label": "Phone Number", "default": "+91 98765 43210" },
+    { "type": "text", "id": "email_address", "label": "Email Address", "default": "support@kishanbazar.com" },
+    { "type": "text", "id": "address_text", "label": "Address Text", "default": "Surat, Gujarat, India" },
+    { "type": "text", "id": "support_hours", "label": "Support Days", "default": "Monday – Saturday" },
+    { "type": "text", "id": "support_time", "label": "Support Hours", "default": "10:00 AM – 6:00 PM" },
+    {
+      "type": "header",
+      "content": "3. Contact Form"
+    },
+    { "type": "text", "id": "form_heading", "label": "Form Heading", "default": "Send Us a Message" },
+    { "type": "textarea", "id": "form_subheading", "label": "Form Subheading", "default": "Have a question? Fill in the form and our team will get back to you." },
+    {
+      "type": "header",
+      "content": "4. Quick Help Section"
+    },
+    { "type": "checkbox", "id": "show_quick_help", "label": "Show Quick Help Section", "default": true },
+    { "type": "text", "id": "quick_help_title", "label": "Quick Help Title", "default": "Looking for Quick Answers?" },
+    { "type": "text", "id": "quick_help_subtitle", "label": "Quick Help Subtitle", "default": "You may find what you're looking for here." },
+    {
+      "type": "header",
+      "content": "5. Why Choose Us Section"
+    },
+    { "type": "checkbox", "id": "show_why_us", "label": "Show Why Choose Us Section", "default": true },
+    { "type": "text", "id": "why_us_title", "label": "Why Us Title", "default": "Why Choose Kishan Bazar?" },
+    {
+      "type": "header",
+      "content": "6. FAQ Section"
+    },
+    { "type": "checkbox", "id": "show_faq", "label": "Show FAQ Section", "default": true },
+    { "type": "text", "id": "faq_title", "label": "FAQ Title", "default": "Frequently Asked Questions" },
+    { "type": "text", "id": "faq_cta_label", "label": "FAQ CTA Label", "default": "View All FAQs →" },
+    { "type": "url", "id": "faq_cta_url", "label": "FAQ CTA Link" },
+    {
+      "type": "header",
+      "content": "7. Map Section"
+    },
+    { "type": "checkbox", "id": "show_map", "label": "Show Map Section", "default": true },
+    { "type": "text", "id": "map_title", "label": "Map Section Title", "default": "Find Kishan Bazar" },
+    { "type": "textarea", "id": "map_iframe_url", "label": "Google Maps Embed URL" },
+    {
+      "type": "header",
+      "content": "8. Final CTA Banner"
+    },
+    { "type": "checkbox", "id": "show_final_cta", "label": "Show Final CTA Banner", "default": true },
+    { "type": "text", "id": "cta_heading", "label": "CTA Heading", "default": "We're Always Happy to Help" },
+    { "type": "textarea", "id": "cta_text", "label": "CTA Text", "default": "Have a question, suggestion, or feedback? Get in touch with the Kishan Bazar team." },
+    { "type": "text", "id": "cta_btn_label", "label": "CTA Button Text", "default": "Contact Us" }
+  ],
+  "blocks": [
+    {
+      "type": "quick_help",
+      "name": "Quick Help Card",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Card Emoji/Icon", "default": "📦" },
+        { "type": "text", "id": "title", "label": "Card Title", "default": "Track My Order" },
+        { "type": "text", "id": "desc", "label": "Card Description", "default": "Check your order status" },
+        { "type": "url", "id": "url", "label": "Card Link Target" }
+      ]
+    },
+    {
+      "type": "why_us",
+      "name": "Why Us Feature Item",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Feature Emoji/Icon", "default": "🌿" },
+        { "type": "text", "id": "title", "label": "Feature Title", "default": "Natural & Authentic" },
+        { "type": "text", "id": "desc", "label": "Feature Description", "default": "Thoughtfully sourced products" }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ Accordion Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How long does delivery take?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Standard delivery takes 2–4 business days for metro cities, and 3–5 business days for tier 2 & 3 cities across India." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Default Contact Us Page",
+      "blocks": [
+        { "type": "quick_help", "settings": { "icon": "📦", "title": "Track My Order", "desc": "Check your order status" } },
+        { "type": "quick_help", "settings": { "icon": "🚚", "title": "Shipping Information", "desc": "Learn about delivery" } },
+        { "type": "quick_help", "settings": { "icon": "🔄", "title": "Returns & Refunds", "desc": "Understand our return policy" } },
+        { "type": "quick_help", "settings": { "icon": "❓", "title": "FAQs", "desc": "Find answers to common questions" } },
+        { "type": "why_us", "settings": { "icon": "🌿", "title": "Natural & Authentic", "desc": "Thoughtfully sourced products" } },
+        { "type": "why_us", "settings": { "icon": "🥛", "title": "Pure & Traditional", "desc": "Made with care and trusted practices" } },
+        { "type": "why_us", "settings": { "icon": "🚚", "title": "Reliable Delivery", "desc": "Your order delivered safely" } },
+        { "type": "why_us", "settings": { "icon": "🤝", "title": "Customer First", "desc": "Here whenever you need us" } },
+        { "type": "faq_item", "settings": { "question": "How can I track my order?", "answer": "Once your parcel is dispatched, you will receive a tracking link via SMS, WhatsApp, and Email to monitor your shipment in real time." } },
+        { "type": "faq_item", "settings": { "question": "How long does delivery take?", "answer": "Standard delivery takes 2–4 business days for metro cities, and 3–5 business days for tier 2 & 3 cities across India." } },
+        { "type": "faq_item", "settings": { "question": "What is your return policy?", "answer": "If your order arrives damaged or incorrect, contact us within 48 hours with photos for a hassle-free replacement or full refund." } },
+        { "type": "faq_item", "settings": { "question": "Do you deliver across India?", "answer": "Yes! We deliver farm-fresh organic staples to over 26,000+ pincodes nationwide with free shipping on orders above ₹499." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -18,12 +18,12 @@
         "quote": "Food should be simple, honest and close to its roots."
       }
     },
-    "journey": {
-      "type": "our-story-journey",
+    "values": {
+      "type": "our-story-values",
       "settings": {
-        "eyebrow": "MILESTONES",
-        "heading": "Our Journey",
-        "subheading": "From humble beginnings on native farms to thousands of happy, healthy kitchens."
+        "eyebrow": "CORE GUIDING PRINCIPLES",
+        "heading": "Our Core Values",
+        "subheading": "The principles that guide every seed we sow, every batch we grind, and every parcel we deliver."
       }
     },
     "farmers": {
@@ -33,54 +33,6 @@
         "heading": "People Behind Your Food",
         "subheading": "We work closely with farmers and producers who care deeply about the food they grow.",
         "cta_text": "Discover Our Farmers"
-      }
-    },
-    "values": {
-      "type": "our-story-values",
-      "settings": {
-        "eyebrow": "CORE GUIDING PRINCIPLES",
-        "heading": "Our Core Values",
-        "subheading": "The principles that guide every seed we sow, every batch we grind, and every parcel we deliver."
-      }
-    },
-    "quality": {
-      "type": "our-story-quality",
-      "settings": {
-        "eyebrow": "THE UNBROKEN CHAIN OF PURITY",
-        "heading": "From Farm to Your Family",
-        "subheading": "Follow the journey of your food from certified organic soils to your kitchen."
-      }
-    },
-    "products": {
-      "type": "our-story-products",
-      "settings": {
-        "eyebrow": "ORGANIC PANTRY",
-        "heading": "Crafted with Native Organic Care",
-        "subheading": "Explore our unrefined, cold-stone ground organic staples for your family."
-      }
-    },
-    "stats": {
-      "type": "our-story-timeline",
-      "settings": {
-        "eyebrow": "UNCOMPROMISING STANDARDS",
-        "heading": "Our Promise of Quality",
-        "subheading": "Empirical proof of our dedication to transparent sourcing and traditional food purity."
-      }
-    },
-    "commitment": {
-      "type": "our-story-commitment",
-      "settings": {
-        "eyebrow": "SUSTAINABILITY & HARMONY",
-        "heading": "Better Food. Better Farming. Better Future.",
-        "cta_text": "Learn About Our Commitment"
-      }
-    },
-    "testimonials": {
-      "type": "our-story-testimonials",
-      "settings": {
-        "eyebrow": "VOICES OF TRUST",
-        "heading": "Loved by Health-Conscious Families",
-        "subheading": "Hear what Indian mothers, chefs, and wellness enthusiasts say about Kishan Bazar."
       }
     },
     "cta": {

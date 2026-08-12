@@ -1,0 +1,76 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-policy-page",
+      "blocks": {
+        "summary": {
+          "type": "policy_highlight",
+          "settings": {
+            "title": "🔄 100% Quality Satisfaction Guarantee",
+            "content": "If your order arrives damaged, defective, or incorrect, notify us within 48 hours of delivery for a hassle-free replacement or full refund.",
+            "bg_color": "#FEFCE8",
+            "border_color": "#FEF08A",
+            "text_color": "#854D0E"
+          }
+        },
+        "clause_1": {
+          "type": "policy_clause",
+          "settings": {
+            "icon": "📦",
+            "title": "1. Return & Refund Eligibility",
+            "content": "<p>Due to the perishable and food-grade nature of our organic farm products (cold-stone ground attas, A2 bilona ghee, unrefined oils), returns are accepted under the following conditions:</p><ul><li>Product arrived damaged, leaked, or unsealed in transit</li><li>Incorrect item or weight received</li><li>Quality issue reported within 48 hours of delivery with photo/video proof</li></ul>"
+          }
+        },
+        "clause_2": {
+          "type": "policy_clause",
+          "settings": {
+            "icon": "⏱️",
+            "title": "2. Non-Refundable Scenarios",
+            "content": "<p>Refunds or replacements cannot be issued for:</p><ul><li>Opened or consumed food items without verified quality defect</li><li>Incorrect shipping address provided by the customer</li><li>Delivery delays caused by customer unavailability or incorrect contact number</li></ul>"
+          }
+        },
+        "clause_3": {
+          "type": "policy_clause",
+          "settings": {
+            "icon": "💸",
+            "title": "3. Refund Processing Time",
+            "content": "<p>Once your refund request is approved:</p><ul><li>Online Payments (UPI, Cards, NetBanking): Processed back to original source account within 5–7 business days.</li><li>Cash on Delivery (COD Orders): Refunded via Bank Transfer or UPI ID provided by the customer.</li></ul>"
+          }
+        },
+        "clause_4": {
+          "type": "policy_clause",
+          "settings": {
+            "icon": "❌",
+            "title": "4. Order Cancellation Policy",
+            "content": "<p>Orders can be cancelled before they are dispatched from our warehouse (usually within 4 hours of placing the order). Once dispatched, cancellation is no longer possible.</p>"
+          }
+        },
+        "contact": {
+          "type": "policy_contact",
+          "settings": {
+            "title": "Need Help With a Return or Refund?",
+            "email": "support@kishanbazar.com",
+            "phone": "+91 98765 43210",
+            "button_text": "Submit Refund Request"
+          }
+        }
+      },
+      "block_order": [
+        "summary",
+        "clause_1",
+        "clause_2",
+        "clause_3",
+        "clause_4",
+        "contact"
+      ],
+      "settings": {
+        "eyebrow": "KISAN BAZAR POLICIES",
+        "heading": "Refund & Return Policy",
+        "subheading": "Last updated: August 12, 2026 • Easy returns for damaged or incorrect items."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -38,4 +38,30 @@
 .site-header__quick-link:hover { color: #b57927; transform: translateY(-2px); }
 .site-header__wishlist { position: relative; }
 .site-header__count-badge { align-items: center; background: #294f2b; border: 2px solid #fff; border-radius: 50%; color: #fff; display: flex; font-size: .58rem; height: 1.05rem; justify-content: center; position: absolute; right: -.15rem; top: -.1rem; width: 1.05rem; }
-@media (max-width: 63.99rem) { .site-header__quick-links-inner { justify-content: flex-start; gap: 1.5rem; } .site-header__quick-link-icon { height: 2.6rem; width: 2.6rem; } }
+
+/* Mobile Drawer Direct Link (Contact Us) */
+.kb-header__mobile-direct-link {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  padding: 0.95rem 1.25rem !important;
+  color: #1e3d20 !important;
+  font-size: 1.05rem !important;
+  font-weight: 800 !important;
+  text-decoration: none !important;
+  border-top: 1.5px solid #e8efe8 !important;
+  background: #fafdfa !important;
+  border-radius: 12px !important;
+  margin-top: 0.5rem !important;
+  transition: background 200ms ease, color 200ms ease !important;
+}
+
+.kb-header__mobile-direct-link:hover,
+.kb-header__mobile-direct-link:active {
+  background: #f0fdf4 !important;
+  color: #166534 !important;
+}
+
+.kb-header__mobile-link-icon {
+  font-size: 1.25rem !important;
+}
