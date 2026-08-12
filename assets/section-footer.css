@@ -47,18 +47,21 @@
 }
 
 .site-footer__logo-link {
-  display: block;
+  display: inline-block;
   margin: 0 0 1rem;
   text-align: left;
 }
 
 .site-footer__logo {
-  height: 64px;
-  max-width: 220px;
-  width: auto;
+  height: auto;
+  max-height: 85px;
+  width: var(--logo-width, 180px);
+  max-width: 100%;
   object-fit: contain;
   display: block;
   margin: 0 0 0.85rem;
+  border: none !important;
+  outline: none !important;
 }
 
 .site-footer__brand-text {
