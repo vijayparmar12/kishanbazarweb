@@ -50,7 +50,7 @@
       {% for loop_pass in (1..2) %}
         {% for block in section.blocks %}
           {% assign full_review = block.settings.review | default: "Wholesome organic products with the kind of authentic flavour you remember from home. Fast delivery and exceptional quality." %}
-          <div class="testimonials__card{% if loop_pass == 2 %} testimonials__card--clone{% endif %}" data-testimonial-card {{ block.shopify_attributes }}>
+          <div class="testimonials__card{% if loop_pass == 2 %} testimonials__card--clone{% endif %}" data-testimonial-card data-full-review="{{ full_review | escape }}" {{ block.shopify_attributes }}>
             {% comment %} FRONT VIEW: Short Title + Photo + Author + Arrow {% endcomment %}
             <div class="testimonials__card-front" data-card-front>
               {% assign card_headline = block.settings.headline %}
@@ -83,7 +83,7 @@
             {% comment %} BACK VIEW: Full Review Message + Author + Toggle Back {% endcomment %}
             <div class="testimonials__card-back" data-card-back>
               <div class="testimonials__card-full-msg">
-                <p>"{{ full_review }}"</p>
+                <p class="testimonials__card-full-text">"{{ full_review }}"</p>
               </div>
 
               <footer class="testimonials__card-footer">
