@@ -350,17 +350,17 @@
 
 .site-footer__bottom-banner-img {
   width: 100%;
-  height: 380px;
-  max-height: 480px;
+  height: var(--illustration-height, 480px);
+  max-height: 650px;
   display: block;
   object-fit: cover;
-  object-position: bottom center;
+  object-position: var(--illustration-position, top center);
 }
 
 @media (max-width: 48rem) {
   .site-footer__bottom-banner-img {
-    height: 220px !important;
-    max-height: 280px !important;
+    height: clamp(240px, 45vw, 360px) !important;
+    max-height: 420px !important;
   }
 }
 

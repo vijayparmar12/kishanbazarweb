@@ -164,7 +164,7 @@
   </div>
 
   {% if section.settings.footer_bottom_image != blank or section.settings.show_default_bottom_image %}
-    <div class="site-footer__illustration-layer">
+    <div class="site-footer__illustration-layer" style="--illustration-height: {{ section.settings.illustration_height | default: 480 }}px; --illustration-position: {{ section.settings.illustration_position | default: 'top center' }};">
       <div class="site-footer__bottom-banner-wrap">
         {% if section.settings.footer_bottom_image != blank %}
           {{
@@ -182,7 +182,7 @@
             src="{{ 'home.png' | asset_url }}"
             alt="{{ section.settings.footer_bottom_image_alt | escape }}"
             width="1400"
-            height="320"
+            height="500"
             loading="lazy"
           >
         {% endif %}
@@ -225,6 +225,27 @@
       "id": "show_default_bottom_image",
       "label": "Show default bottom illustration when no image is selected",
       "default": true
+    },
+    {
+      "type": "range",
+      "id": "illustration_height",
+      "min": 250,
+      "max": 650,
+      "step": 10,
+      "default": 480,
+      "unit": "px",
+      "label": "Bottom illustration height"
+    },
+    {
+      "type": "select",
+      "id": "illustration_position",
+      "label": "Bottom illustration focal position",
+      "options": [
+        { "value": "top center", "label": "Top (Shows full tree tops)" },
+        { "value": "center center", "label": "Center" },
+        { "value": "bottom center", "label": "Bottom" }
+      ],
+      "default": "top center"
     },
     {
       "type": "text",
