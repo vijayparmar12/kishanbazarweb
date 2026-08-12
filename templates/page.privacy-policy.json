@@ -6,8 +6,8 @@
         "summary": {
           "type": "policy_highlight",
           "settings": {
-            "title": "🔒 Privacy Guarantee",
-            "content": "Your privacy is our priority. We never sell, trade, or compromise your personal data or contact details to third-party marketers.",
+            "title": "🔒 Privacy & Data Protection Guarantee",
+            "content": "Your privacy is paramount to us. We never sell, rent, trade, or compromise your personal information or contact details to third-party advertisers.",
             "bg_color": "#F0FDF4",
             "border_color": "#BBF7D0",
             "text_color": "#166534"
@@ -18,31 +18,31 @@
           "settings": {
             "icon": "📥",
             "title": "1. Information We Collect",
-            "content": "<p>When you visit Kisan Bazar or place an order, we collect essential personal information required to process and deliver your items:</p><ul><li>Contact Details: Full Name, Email Address, Phone Number</li><li>Delivery Information: Shipping & Billing Address, Pincode</li><li>Order & Payment Logs: Transaction ID, Payment Method (we do NOT store credit card CVV or passwords)</li></ul>"
+            "content": "<p>When you visit Kisan Bazar, create an account, or place an order for organic staples, we collect essential data to fulfill your request:</p><ul><li><strong>Contact Details:</strong> Full Name, Email Address, Mobile Number</li><li><strong>Delivery Details:</strong> Shipping & Billing Address, Pincode</li><li><strong>Transaction Logs:</strong> Order ID, Payment Method (we do NOT store credit card CVV or bank passwords)</li></ul>"
           }
         },
         "clause_2": {
           "type": "policy_clause",
           "settings": {
             "icon": "⚙️",
-            "title": "2. How We Use Your Data",
-            "content": "<p>We use your information exclusively to provide a seamless farm-to-table shopping experience:</p><ul><li>Processing and fulfilling your organic food orders</li><li>Sending SMS and WhatsApp delivery tracking notifications</li><li>Improving our store offerings, product freshness, and customer support</li><li>Sending optional promotional offers (you can unsubscribe anytime)</li></ul>"
+            "title": "2. How We Use Your Information",
+            "content": "<p>Your personal data is used exclusively to deliver an exceptional shopping experience:</p><ul><li>Processing, packing, and dispatching your farm-fresh orders</li><li>Sending real-time SMS, WhatsApp, and Email delivery updates</li><li>Providing responsive customer care and handling enquiries</li><li>Sending optional seasonal farm offers (unsubscribe anytime)</li></ul>"
           }
         },
         "clause_3": {
           "type": "policy_clause",
           "settings": {
             "icon": "🛡️",
-            "title": "3. Data Security & Storage",
-            "content": "<p>We implement industry-standard 256-bit SSL encryption to protect your data during checkout. Access to personal details is restricted strictly to authorized delivery partners and customer care personnel.</p>"
+            "title": "3. Data Encryption & Security",
+            "content": "<p>Kishan Bazar uses 256-bit SSL encryption to safeguard all checkout transactions and personal data. Access to shipping information is restricted strictly to authorized logistics partners and support team members.</p>"
           }
         },
         "clause_4": {
           "type": "policy_clause",
           "settings": {
             "icon": "🍪",
-            "title": "4. Cookies & Web Tracking",
-            "content": "<p>Our store uses essential cookies to remember your shopping cart items, keep you logged in, and analyze website traffic. You can disable cookies in your browser settings at any time.</p>"
+            "title": "4. Cookies & Preferences",
+            "content": "<p>We use essential cookies to keep items in your cart, remember session preferences, and analyze website traffic. You can modify or disable cookies in your browser settings at any time.</p>"
           }
         },
         "contact": {
@@ -66,7 +66,7 @@
       "settings": {
         "eyebrow": "KISAN BAZAR POLICIES",
         "heading": "Privacy Policy",
-        "subheading": "Last updated: August 12, 2026 • We respect and protect your personal information."
+        "subheading": "Effective Date: August 12, 2026 • We respect and protect your personal information."
       }
     }
   },

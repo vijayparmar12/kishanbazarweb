@@ -1,97 +1,139 @@
-/* Kisan Bazar Policy Page Styles */
+/* Kishan Bazar Terms of Use & Policy Page Attractive Styles */
 .policy-page-section {
-  padding: 3rem 1rem 5rem;
+  padding: 3.5rem 1.25rem 5.5rem;
   background-color: #fafdfa;
-  min-height: 60vh;
+  background-image: radial-gradient(#e8efe8 0.75px, transparent 0.75px);
+  background-size: 24px 24px;
+  min-height: 70vh;
 }
 
 .policy-page__container {
-  max-width: 860px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
+/* Hero Header Banner */
 .policy-page__header {
   text-align: center;
-  margin-bottom: 3rem;
-  padding-bottom: 2rem;
-  border-bottom: 2px stroke #e2e8f0;
-  border-bottom: 2px dashed #cbd5e1;
+  margin-bottom: 3.5rem;
+  padding: 2.5rem 1.75rem 2.25rem;
+  background: linear-gradient(180deg, #f4f8f4 0%, #ffffff 100%);
+  border: 1.5px solid #e8efe8;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(46, 93, 52, 0.05);
 }
 
 .policy-page__eyebrow {
   display: inline-block;
   font-size: 0.85rem;
   font-weight: 800;
-  letter-spacing: 0.1em;
-  color: #166534;
+  letter-spacing: 0.14em;
+  color: #2e5d34;
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
+  background: #e8efe8;
+  padding: 0.4rem 1.15rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
 }
 
 .policy-page__heading {
   font-family: Georgia, serif, inherit;
-  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-size: clamp(2.25rem, 4.5vw, 3rem);
   font-weight: 900;
-  color: #1e3d20;
-  margin: 0 0 0.75rem;
-  line-height: 1.2;
+  color: #2e5d34;
+  margin: 0 0 0.85rem;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
 }
 
 .policy-page__subheading {
-  font-size: 1rem;
-  color: #64748b;
-  margin: 0;
+  font-size: 1.05rem;
+  color: #475569;
+  margin: 0 auto;
+  max-width: 640px;
   font-weight: 500;
+  line-height: 1.6;
 }
 
 .policy-page__body {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.25rem;
 }
 
+/* Clause Card */
 .policy-clause-card {
   background: #ffffff;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 1.75rem 2rem;
-  box-shadow: 0 4px 12px rgba(35, 66, 31, 0.04);
-  transition: border-color 250ms ease, box-shadow 250ms ease;
+  border: 2px solid #e8efe8;
+  border-radius: 22px;
+  padding: 2.25rem 2.5rem;
+  box-shadow: 0 8px 24px rgba(46, 93, 52, 0.05);
+  transition: transform 280ms ease, border-color 280ms ease, box-shadow 280ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.policy-clause-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: #2e5d34;
+  opacity: 0;
+  transition: opacity 280ms ease;
 }
 
 .policy-clause-card:hover {
-  border-color: #166534;
-  box-shadow: 0 8px 24px rgba(35, 66, 31, 0.08);
+  transform: translateY(-4px);
+  border-color: #7cb342;
+  box-shadow: 0 16px 38px rgba(46, 93, 52, 0.12);
+}
+
+.policy-clause-card:hover::before {
+  opacity: 1;
 }
 
 .policy-clause__header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1.5px solid #f1f5f1;
 }
 
 .policy-clause__icon {
-  font-size: 1.5rem;
-  line-height: 1;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: #e8efe8;
+  color: #2e5d34;
+  font-size: 1.4rem;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
 }
 
 .policy-clause__title {
   font-family: Georgia, serif, inherit;
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   font-weight: 800;
-  color: #1e3d20;
+  color: #2e5d34;
   margin: 0;
+  line-height: 1.25;
 }
 
 .policy-clause__content {
   color: #334155;
-  font-size: 1rem;
-  line-height: 1.7;
+  font-size: 1.02rem;
+  line-height: 1.75;
 }
 
 .policy-clause__content p {
-  margin: 0 0 1rem;
+  margin: 0 0 1.15rem;
 }
 
 .policy-clause__content p:last-child {
@@ -100,102 +142,141 @@
 
 .policy-clause__content ul,
 .policy-clause__content ol {
-  margin: 0.5rem 0 1rem 1.5rem;
+  margin: 0.75rem 0 1.25rem 1.75rem;
   padding: 0;
 }
 
 .policy-clause__content li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  position: relative;
 }
 
-/* Highlight Box */
+.policy-clause__content strong {
+  color: #2e5d34;
+}
+
+/* Attractive Highlight Summary Callout */
 .policy-highlight-card {
-  background: #f0fdf4;
-  border: 2px solid #bbf7d0;
-  border-radius: 16px;
-  padding: 1.5rem 2rem;
-  margin: 0.5rem 0;
+  background: linear-gradient(135deg, #f0fdf4 0%, #e8f5e9 100%);
+  border: 2.5px dashed #7cb342;
+  border-radius: 22px;
+  padding: 1.85rem 2.25rem;
+  margin: 0.75rem 0;
+  box-shadow: 0 8px 20px rgba(124, 179, 66, 0.12);
+  position: relative;
 }
 
 .policy-highlight__title {
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 800;
-  color: #166534;
-  margin: 0 0 0.5rem;
+  color: #2e5d34;
+  margin: 0 0 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .policy-highlight__content {
   color: #1e3d20;
-  font-size: 0.98rem;
-  line-height: 1.6;
+  font-size: 1.02rem;
+  line-height: 1.65;
   margin: 0;
+  font-weight: 600;
 }
 
-/* Contact Card */
+/* Contact Support Card */
 .policy-contact-card {
-  background: linear-gradient(135deg, #1e3d20 0%, #166534 100%);
+  background: linear-gradient(135deg, #1e3d20 0%, #2e5d34 100%);
   color: #ffffff;
-  border-radius: 20px;
-  padding: 2.25rem 2rem;
+  border-radius: 24px;
+  padding: 2.75rem 2.25rem;
   text-align: center;
-  margin-top: 1rem;
-  box-shadow: 0 12px 32px rgba(30, 61, 32, 0.18);
+  margin-top: 1.5rem;
+  box-shadow: 0 16px 40px rgba(30, 61, 32, 0.22);
+  position: relative;
+  overflow: hidden;
+}
+
+.policy-contact-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .policy-contact__title {
   font-family: Georgia, serif, inherit;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 800;
   color: #ffffff;
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.85rem;
 }
 
 .policy-contact__details {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-  font-size: 0.98rem;
+  gap: 1.75rem;
+  margin-bottom: 1.75rem;
+  font-size: 1.02rem;
 }
 
 .policy-contact__item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #e2e8f0;
+  color: #e2e8e2;
 }
 
 .policy-contact__item a {
   color: #ffffff;
   text-decoration: underline;
-  font-weight: 600;
+  font-weight: 700;
+  transition: color 200ms ease;
+}
+
+.policy-contact__item a:hover {
+  color: #f0d78a;
 }
 
 .policy-contact__btn {
   display: inline-block;
   background: #ffffff;
-  color: #1e3d20;
+  color: #2e5d34;
   font-weight: 800;
-  font-size: 0.95rem;
-  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  padding: 0.85rem 2.25rem;
   border-radius: 999px;
   text-decoration: none;
-  transition: transform 200ms ease, background 200ms ease;
+  transition: transform 200ms ease, background 200ms ease, box-shadow 200ms ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .policy-contact__btn:hover {
   background: #f8fafc;
   transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22);
 }
 
 @media (max-width: 48rem) {
   .policy-page-section {
-    padding: 2rem 1rem 3rem;
+    padding: 2.25rem 1rem 3.5rem;
   }
-  .policy-clause-card,
-  .policy-highlight-card,
+  .policy-page__header {
+    padding: 1.75rem 1.25rem;
+  }
+  .policy-clause-card {
+    padding: 1.5rem 1.25rem;
+  }
+  .policy-highlight-card {
+    padding: 1.35rem 1.25rem;
+  }
   .policy-contact-card {
-    padding: 1.25rem 1.25rem;
+    padding: 2rem 1.25rem;
   }
 }

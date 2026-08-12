@@ -112,33 +112,29 @@
 .testimonials__carousel-container {
   margin-bottom: 0.5rem;
   position: relative;
-  overflow: hidden;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
   width: 100%;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+  cursor: grab;
+  scrollbar-width: none;
+  padding: 0.5rem 0.25rem 0.75rem;
+}
+
+.testimonials__carousel-container::-webkit-scrollbar {
+  display: none !important;
+}
+
+.testimonials__carousel-container:active {
+  cursor: grabbing;
 }
 
 .testimonials__track {
   display: flex;
   gap: 1.25rem;
-  padding: 0.5rem 0.25rem 0.75rem;
   width: max-content;
-  animation: testimonialInfiniteMarquee 26s linear infinite;
-  will-change: transform;
-}
-
-.testimonials__track:hover,
-.testimonials__track:active,
-.testimonials__track:focus-within,
-.testimonials__track.is-paused {
-  animation-play-state: paused !important;
-}
-
-@keyframes testimonialInfiniteMarquee {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(-50%, 0, 0);
-  }
+  will-change: scroll-position;
 }
 
 .testimonials__card {

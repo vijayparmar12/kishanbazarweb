@@ -6,8 +6,8 @@
         "summary": {
           "type": "policy_highlight",
           "settings": {
-            "title": "🚚 Farm-Fresh Delivery",
-            "content": "Free shipping on orders above ₹499 across India. All organic staples are freshly ground and packed within 24 hours of dispatch.",
+            "title": "🚚 Free Shipping Above ₹499 Nationwide",
+            "content": "Enjoy free standard shipping on all orders above ₹499 across 26,000+ Indian pincodes. All organic staples are freshly ground and dispatched within 24–48 hours of order confirmation.",
             "bg_color": "#EFF6FF",
             "border_color": "#BFDBFE",
             "text_color": "#1E40AF"
@@ -18,7 +18,7 @@
           "settings": {
             "icon": "⏱️",
             "title": "1. Processing & Dispatch Timelines",
-            "content": "<p>All orders are freshly packed and dispatched from our Gujarat/Surat warehouse within 24 to 48 hours of order confirmation.</p><p>Orders placed on Sundays or national holidays are dispatched on the next working business day.</p>"
+            "content": "<p>All orders are milled, stone-ground, and packed fresh in our Surat/Gujarat hub:</p><ul><li><strong>Standard Dispatch:</strong> Shipped within 24 to 48 hours of order placement.</li><li><strong>Weekend & Holiday Orders:</strong> Orders placed on Sundays or national holidays are dispatched on the next working business day.</li></ul>"
           }
         },
         "clause_2": {
@@ -26,23 +26,23 @@
           "settings": {
             "icon": "📍",
             "title": "2. Estimated Delivery Timeframes",
-            "content": "<ul><li>Metro Cities (Delhi, Mumbai, Bengaluru, Hyderabad, Chennai): 2–4 Business Days</li><li>Tier 2 & 3 Cities (Gujarat, Maharashtra, MP, Rajasthan): 3–5 Business Days</li><li>Rest of India & Remote Locations: 5–7 Business Days</li></ul>"
+            "content": "<p>We partner with premier express logistics (BlueDart, Delhivery, DTDC) to deliver your parcel safely:</p><ul><li><strong>Metro Cities (Mumbai, Delhi-NCR, Bengaluru, Hyderabad, Pune, Chennai):</strong> 2–4 Business Days</li><li><strong>Tier 2 & Tier 3 Cities (Gujarat, Maharashtra, MP, Rajasthan, UP):</strong> 3–5 Business Days</li><li><strong>Rest of India & Special Zones:</strong> 5–7 Business Days</li></ul>"
           }
         },
         "clause_3": {
           "type": "policy_clause",
           "settings": {
             "icon": "💰",
-            "title": "3. Shipping Charges & COD",
-            "content": "<p>We offer free standard shipping on orders above ₹499. For orders below ₹499, a nominal flat shipping fee of ₹49 is charged.</p><p>Cash on Delivery (COD) is available for eligible pincodes across India with a flat ₹30 COD handling fee.</p>"
+            "title": "3. Shipping Charges & Cash on Delivery (COD)",
+            "content": "<p>Our shipping fee structure is simple and transparent:</p><ul><li><strong>Orders ₹499 and Above:</strong> FREE Shipping nationwide!</li><li><strong>Orders Below ₹499:</strong> Flat nominal shipping fee of ₹49.</li><li><strong>Cash on Delivery (COD):</strong> Available for eligible pincodes with a flat ₹30 COD handling fee.</li></ul>"
           }
         },
         "clause_4": {
           "type": "policy_clause",
           "settings": {
             "icon": "📱",
-            "title": "4. Order Tracking",
-            "content": "<p>As soon as your parcel is handed over to our courier partner (BlueDart, Delhivery, DTDC), you will receive a tracking link via SMS, WhatsApp, and Email to monitor your parcel in real-time.</p>"
+            "title": "4. Real-Time Order Tracking",
+            "content": "<p>As soon as your parcel is handed over to our courier partner, you will receive an instant tracking link via SMS, WhatsApp, and Email so you can monitor your parcel's live journey to your doorstep.</p>"
           }
         },
         "contact": {
@@ -66,7 +66,7 @@
       "settings": {
         "eyebrow": "KISAN BAZAR POLICIES",
         "heading": "Shipping & Delivery Policy",
-        "subheading": "Last updated: August 12, 2026 • Fast, reliable farm-to-table dispatch."
+        "subheading": "Effective Date: August 12, 2026 • Fast, reliable farm-to-table dispatch across India."
       }
     }
   },

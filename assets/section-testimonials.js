@@ -1,12 +1,21 @@
-// Testimonials Card Flip & Interactive Section Script
+// Testimonials Card Flip & Dual Auto/Manual Scroll Script
 (function() {
-  // Delegate click for Testimonial Cards
+  let isDragging = false;
+  let startX = 0;
+  let scrollLeftStart = 0;
+  let dragThresholdPassed = false;
+
+  // Delegate click for Testimonial Cards (Only flip if NOT dragging)
   document.addEventListener('click', function(e) {
+    if (dragThresholdPassed) {
+      dragThresholdPassed = false;
+      return;
+    }
+
     const card = e.target.closest('.testimonials__card, [data-testimonial-card]');
     if (!card) return;
 
     const section = card.closest('.testimonials-carousel-section, [data-testimonials-section]');
-    const track = section ? section.querySelector('.testimonials__track, [data-testimonials-track]') : null;
 
     // Toggle expansion on this card
     const isExpanded = card.classList.contains('is-expanded');
@@ -25,96 +34,89 @@
     } else {
       card.classList.add('is-expanded');
     }
-
-    // Pause/resume infinite marquee scroll while a card is expanded
-    if (track) {
-      const anyExpanded = section.querySelector('.testimonials__card.is-expanded, [data-testimonial-card].is-expanded');
-      if (anyExpanded) {
-        track.classList.add('is-paused');
-      } else {
-        track.classList.remove('is-paused');
-      }
-    }
   });
 
-  // Handle optional product feedback form
-  function initFeedbackForms() {
-    document.querySelectorAll('[data-feedback-form]').forEach(function(form) {
-      const ratingSelector = form.querySelector('[data-rating-selector]');
-      const ratingValueInput = form.querySelector('[data-rating-value]');
-      const imageInput = form.querySelector('[data-image-input]');
-      const imagePreview = form.querySelector('[data-image-preview]');
-      const previewImg = form.querySelector('[data-preview-img]');
-      const removeImgBtn = form.querySelector('[data-remove-img]');
-      const successMsg = form.querySelector('[data-feedback-success]');
+  // Hybrid Auto-Scroll & Manual Drag Handler
+  function initTestimonialsCarousel() {
+    document.querySelectorAll('[data-testimonials-carousel]').forEach(function(container) {
+      const track = container.querySelector('[data-testimonials-track]');
+      if (!track) return;
 
-      let uploadedImageDataUrl = '';
+      let isPaused = false;
+      let animationFrameId = null;
+      let resumeTimeout = null;
 
-      if (ratingSelector) {
-        const starBtns = ratingSelector.querySelectorAll('[data-star]');
-        starBtns.forEach(function(btn) {
-          btn.addEventListener('click', function() {
-            const val = parseInt(btn.dataset.star, 10);
-            if (ratingValueInput) ratingValueInput.value = val;
-            starBtns.forEach(function(s) {
-              const sVal = parseInt(s.dataset.star, 10);
-              if (sVal <= val) {
-                s.classList.add('is-active');
-              } else {
-                s.classList.remove('is-active');
-              }
-            });
-          });
-        });
-      }
-
-      if (imageInput) {
-        imageInput.addEventListener('change', function(e) {
-          const file = e.target.files[0];
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-              uploadedImageDataUrl = evt.target.result;
-              if (previewImg) previewImg.src = uploadedImageDataUrl;
-              if (imagePreview) imagePreview.style.display = 'inline-flex';
-            };
-            reader.readAsDataURL(file);
+      function autoScrollStep() {
+        if (!isPaused) {
+          const anyExpanded = container.querySelector('.is-expanded');
+          if (!anyExpanded) {
+            container.scrollLeft += 0.8;
+            const maxScroll = (container.scrollWidth - container.clientWidth) / 2;
+            if (container.scrollLeft >= maxScroll && maxScroll > 0) {
+              container.scrollLeft = 0;
+            }
           }
-        });
+        }
+        animationFrameId = requestAnimationFrame(autoScrollStep);
       }
 
-      if (removeImgBtn) {
-        removeImgBtn.addEventListener('click', function() {
-          uploadedImageDataUrl = '';
-          if (imageInput) imageInput.value = '';
-          if (imagePreview) imagePreview.style.display = 'none';
-          if (previewImg) previewImg.src = '';
-        });
+      function pauseScroll() {
+        isPaused = true;
+        if (resumeTimeout) clearTimeout(resumeTimeout);
       }
 
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const nameInput = form.querySelector('[name="name"]');
-        const msgInput = form.querySelector('[name="message"]');
-        if (!nameInput || !msgInput) return;
-        const name = nameInput.value.trim();
-        const message = msgInput.value.trim();
-        if (!name || !message) return;
+      function resumeScroll() {
+        if (resumeTimeout) clearTimeout(resumeTimeout);
+        resumeTimeout = setTimeout(function() {
+          isPaused = false;
+        }, 2200);
+      }
 
-        form.reset();
-        uploadedImageDataUrl = '';
-        if (imagePreview) imagePreview.style.display = 'none';
-        if (successMsg) {
-          successMsg.style.display = 'block';
-          setTimeout(function() { successMsg.style.display = 'none'; }, 4500);
+      // Start auto scroll
+      animationFrameId = requestAnimationFrame(autoScrollStep);
+
+      // Pause on hover or focus
+      container.addEventListener('mouseenter', pauseScroll);
+      container.addEventListener('mouseleave', function() {
+        if (!isDragging) resumeScroll();
+      });
+
+      // Mouse Drag-to-Scroll Functionality
+      container.addEventListener('pointerdown', function(e) {
+        if (e.target.closest('[data-card-toggle]')) return;
+        isDragging = true;
+        dragThresholdPassed = false;
+        startX = e.pageX - container.offsetLeft;
+        scrollLeftStart = container.scrollLeft;
+        pauseScroll();
+      });
+
+      window.addEventListener('pointermove', function(e) {
+        if (!isDragging) return;
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        if (Math.abs(walk) > 6) {
+          dragThresholdPassed = true;
+        }
+        container.scrollLeft = scrollLeftStart - walk;
+      });
+
+      window.addEventListener('pointerup', function() {
+        if (isDragging) {
+          isDragging = false;
+          resumeScroll();
         }
       });
+
+      // Touch events for mobile
+      container.addEventListener('touchstart', pauseScroll, { passive: true });
+      container.addEventListener('touchend', resumeScroll, { passive: true });
     });
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFeedbackForms);
+    document.addEventListener('DOMContentLoaded', initTestimonialsCarousel);
   } else {
-    initFeedbackForms();
+    initTestimonialsCarousel();
   }
 })();
