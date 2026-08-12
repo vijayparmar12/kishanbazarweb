@@ -189,36 +189,26 @@
 }
 
 .best-sellers__tab-icon {
-  width: 48px !important;
-  height: 48px !important;
-  background: transparent !important;
-  border: none !important;
-  border-radius: 0 !important;
+  width: 54px !important;
+  height: 54px !important;
   display: grid;
   place-items: center;
-  color: #64748b;
-  padding: 0 !important;
-  transition: all 250ms ease;
+  color: #475569;
+  transition: color 250ms ease, transform 250ms ease, opacity 250ms ease;
 }
 
 .best-sellers__tab-svg {
   width: 38px !important;
   height: 38px !important;
-  color: #64748b;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: all 250ms ease;
+  color: #475569;
+  transition: color 250ms ease, fill 250ms ease, transform 250ms ease;
 }
 
 .best-sellers__tab-img {
-  width: 42px !important;
-  height: 42px !important;
+  width: 46px !important;
+  height: 46px !important;
   object-fit: contain;
-  filter: opacity(0.6) grayscale(0.5);
-  transition: all 250ms ease;
+  transition: opacity 250ms ease, transform 250ms ease;
 }
 
 .best-sellers__tab-img--active {
@@ -244,31 +234,19 @@
 
 .best-sellers__tab.is-active .best-sellers__tab-icon,
 .best-sellers__tab:hover .best-sellers__tab-icon {
-  background: transparent !important;
-  border: none !important;
   color: #1e3d20 !important;
   transform: translateY(-2px) scale(1.08);
-  box-shadow: none !important;
 }
 
 .best-sellers__tab.is-active .best-sellers__tab-svg,
 .best-sellers__tab:hover .best-sellers__tab-svg {
   color: #1e3d20 !important;
-  stroke: #1e3d20 !important;
   fill: #1e3d20 !important;
 }
 
 .best-sellers__tab.is-active .svg-fill-target,
 .best-sellers__tab:hover .svg-fill-target {
   fill: #1e3d20 !important;
-  stroke: none !important;
-}
-
-.best-sellers__tab.is-active .best-sellers__tab-img,
-.best-sellers__tab:hover .best-sellers__tab-img {
-  filter: invert(18%) sepia(45%) saturate(1200%) hue-rotate(90deg) brightness(95%) contrast(95%) !important;
-  opacity: 1 !important;
-  transform: scale(1.1) !important;
 }
 
 .best-sellers__tab.is-active .best-sellers__tab-img--normal {
@@ -277,7 +255,6 @@
 
 .best-sellers__tab.is-active .best-sellers__tab-img--active {
   display: inline-block !important;
-  filter: none !important;
 }
 
 @media (max-width: 48rem) {

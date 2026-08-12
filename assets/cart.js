@@ -189,8 +189,10 @@
       const response = await fetch(`${rootUrl}cart.js`);
       const cart = await response.json();
       updateDrawer(cart);
+      return cart;
     } catch (error) {
       console.error(error);
+      return null;
     }
   };
 
@@ -467,6 +469,40 @@
     if (event.detail?.cart) updateDrawer(event.detail.cart);
   });
 
+  const showCartToast = (cart) => {
+    let toast = document.querySelector('[data-kb-cart-toast]');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.dataset.kbCartToast = 'true';
+      toast.style.cssText = 'position: fixed; bottom: 20px; left: 20px; z-index: 99999; background: #1b4317; color: #ffffff; padding: 0.75rem 1.25rem; border-radius: 14px; box-shadow: 0 12px 30px rgba(27, 67, 23, 0.4); display: flex; align-items: center; gap: 1rem; font-family: inherit; font-size: 0.9rem; font-weight: 800; animation: kbToastSlideUp 350ms cubic-bezier(0.16, 1, 0.3, 1);';
+      document.body.appendChild(toast);
+    }
+
+    toast.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span style="font-size: 1.1rem;">🌿</span>
+        <span>${cart.item_count} ${cart.item_count === 1 ? 'item' : 'items'} added</span>
+      </div>
+      <button type="button" data-toast-open-cart style="background: #ffffff; color: #1b4317; border: none; padding: 0.4rem 0.85rem; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; white-space: nowrap;">View Cart &rarr;</button>
+    `;
+
+    const openBtn = toast.querySelector('[data-toast-open-cart]');
+    if (openBtn) {
+      openBtn.addEventListener('click', () => {
+        openDrawer();
+        toast.remove();
+      });
+    }
+
+    setTimeout(() => {
+      if (toast && toast.parentNode) {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 300ms ease';
+        setTimeout(() => toast.remove(), 300);
+      }
+    }, 4000);
+  };
+
   const initAddToCartForms = () => {
     document.querySelectorAll('form[action*="/cart/add"]').forEach((form) => {
       if (form.dataset.ajaxAddInitialized === 'true') return;
@@ -475,10 +511,16 @@
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
         const submitButton = form.querySelector('[type="submit"]');
-        const originalText = submitButton?.textContent;
+        const originalSpan = submitButton?.querySelector('span');
+        const originalText = originalSpan ? originalSpan.textContent : submitButton?.textContent;
+
         if (submitButton) {
           submitButton.disabled = true;
-          submitButton.textContent = 'Adding...';
+          if (originalSpan) {
+            originalSpan.textContent = 'ADDING...';
+          } else {
+            submitButton.textContent = 'ADDING...';
+          }
         }
 
         try {
@@ -493,14 +535,21 @@
 
           if (!addResponse.ok) throw new Error('Add to cart failed');
 
-          await updateDrawerFromServer();
+          const updatedCart = await updateDrawerFromServer();
+          if (updatedCart) {
+            showCartToast(updatedCart);
+          }
           openDrawer();
         } catch (error) {
           console.error(error);
         } finally {
           if (submitButton) {
             submitButton.disabled = false;
-            submitButton.textContent = originalText || 'Add to cart';
+            if (originalSpan) {
+              originalSpan.textContent = originalText || 'ADD TO CART';
+            } else {
+              submitButton.textContent = originalText || 'ADD TO CART';
+            }
           }
         }
       });
