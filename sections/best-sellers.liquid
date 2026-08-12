@@ -107,8 +107,10 @@
                 {% if block.settings.active_icon_image != blank and block.settings.icon_image != blank %}
                   {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--normal', loading: 'lazy', alt: block.settings.title }}
                   {{ block.settings.active_icon_image | image_url: width: 100 | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--active', loading: 'lazy', alt: block.settings.title }}
+                {% elsif block.settings.active_icon_image != blank %}
+                  {{ block.settings.active_icon_image | image_url: width: 100 | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--always', loading: 'lazy', alt: block.settings.title }}
                 {% elsif block.settings.icon_image != blank %}
-                  {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'best-sellers__tab-img', loading: 'lazy', alt: block.settings.title }}
+                  {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--always', loading: 'lazy', alt: block.settings.title }}
                 {% elsif block.settings.icon_type == 'ghee' or block.settings.title contains 'Ghee' or block.settings.title contains 'ghee' %}
                   <svg class="best-sellers__tab-svg" width="34" height="34" viewBox="0 0 24 24"><path d="M12 2v4M6 6h12v3a6 6 0 0 1-6 6 6 6 0 0 1-6-6V6z" fill="none" stroke="currentColor" stroke-width="2"/><path class="svg-fill-target" d="M5 21h14v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2z" fill="currentColor"/></svg>
                 {% elsif block.settings.icon_type == 'oil' or block.settings.title contains 'Oil' or block.settings.title contains 'oil' %}
