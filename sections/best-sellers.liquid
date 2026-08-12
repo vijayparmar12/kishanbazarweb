@@ -21,6 +21,35 @@
       background-color: #F8F4EB !important;
     {% endif %}
   }
+
+  {% assign active_color = section.settings.tab_active_color | default: '#1b4317' %}
+  #BestSellers-{{ section.id }} .best-sellers__tab.is-active,
+  #BestSellers-{{ section.id }} .best-sellers__tab:hover {
+    color: {{ active_color }} !important;
+    border-bottom-color: {{ active_color }} !important;
+  }
+  #BestSellers-{{ section.id }} .best-sellers__tab.is-active .best-sellers__tab-icon,
+  #BestSellers-{{ section.id }} .best-sellers__tab:hover .best-sellers__tab-icon,
+  #BestSellers-{{ section.id }} .best-sellers__tab.is-active .best-sellers__tab-svg,
+  #BestSellers-{{ section.id }} .best-sellers__tab:hover .best-sellers__tab-svg,
+  #BestSellers-{{ section.id }} .best-sellers__tab.is-active .svg-fill-target,
+  #BestSellers-{{ section.id }} .best-sellers__tab:hover .svg-fill-target,
+  #BestSellers-{{ section.id }} .best-sellers__tab.is-active .best-sellers__tab-label,
+  #BestSellers-{{ section.id }} .best-sellers__tab:hover .best-sellers__tab-label {
+    color: {{ active_color }} !important;
+    fill: {{ active_color }} !important;
+  }
+
+  {% if section.settings.tab_inactive_color != blank %}
+    #BestSellers-{{ section.id }} .best-sellers__tab {
+      color: {{ section.settings.tab_inactive_color }} !important;
+    }
+    #BestSellers-{{ section.id }} .best-sellers__tab-icon,
+    #BestSellers-{{ section.id }} .best-sellers__tab-svg,
+    #BestSellers-{{ section.id }} .best-sellers__tab-label {
+      color: {{ section.settings.tab_inactive_color }} !important;
+    }
+  {% endif %}
 {% endstyle %}
 
 <section id="BestSellers-{{ section.id }}" class="home-section best-sellers{% if section.settings.show_tabs %} best-sellers--with-tabs{% endif %}" data-best-sellers>
@@ -241,7 +270,13 @@
     { "type": "color", "id": "wishlist_bg", "label": "Wishlist button background", "default": "#FFFFFF" },
     { "type": "color", "id": "wishlist_color", "label": "Wishlist icon color", "default": "#23421F" },
     { "type": "color", "id": "cart_button_bg", "label": "Add to Cart button background", "default": "#23421F" },
-    { "type": "color", "id": "cart_button_color", "label": "Add to Cart button text color", "default": "#FFFFFF" }
+    { "type": "color", "id": "cart_button_color", "label": "Add to Cart button text color", "default": "#FFFFFF" },
+    {
+      "type": "header",
+      "content": "Category Filter Tabs Colors"
+    },
+    { "type": "color", "id": "tab_active_color", "label": "Active Tab & Icon Highlight Color", "default": "#1b4317", "info": "Pick active category tab icon color directly in Theme Editor" },
+    { "type": "color", "id": "tab_inactive_color", "label": "Inactive Tab Icon & Text Color", "default": "#64748b" }
   ],
   "blocks": [
     {
