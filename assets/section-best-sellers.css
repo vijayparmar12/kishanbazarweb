@@ -189,22 +189,22 @@
 }
 
 .best-sellers__tab-icon {
-  width: 54px !important;
-  height: 54px !important;
-  border-radius: 50% !important;
-  background: #f4f8f4 !important;
-  border: 1.5px solid #d0dfd0 !important;
+  width: 48px !important;
+  height: 48px !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
   display: grid;
   place-items: center;
   color: #64748b;
-  padding: 6px;
-  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0 !important;
+  transition: all 250ms ease;
 }
 
 .best-sellers__tab-svg {
-  width: 32px !important;
-  height: 32px !important;
-  color: #475569;
+  width: 38px !important;
+  height: 38px !important;
+  color: #64748b;
   fill: none;
   stroke: currentColor;
   stroke-width: 1.8px;
@@ -214,10 +214,10 @@
 }
 
 .best-sellers__tab-img {
-  width: 38px !important;
-  height: 38px !important;
+  width: 42px !important;
+  height: 42px !important;
   object-fit: contain;
-  filter: grayscale(0.5) opacity(0.7);
+  filter: opacity(0.6) grayscale(0.5);
   transition: all 250ms ease;
 }
 
@@ -244,31 +244,31 @@
 
 .best-sellers__tab.is-active .best-sellers__tab-icon,
 .best-sellers__tab:hover .best-sellers__tab-icon {
-  background: #1e3d20 !important;
-  border-color: #1e3d20 !important;
-  color: #ffffff !important;
-  transform: translateY(-3px) scale(1.12);
-  box-shadow: 0 8px 20px rgba(30, 61, 32, 0.32);
+  background: transparent !important;
+  border: none !important;
+  color: #1e3d20 !important;
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: none !important;
 }
 
 .best-sellers__tab.is-active .best-sellers__tab-svg,
 .best-sellers__tab:hover .best-sellers__tab-svg {
-  color: #ffffff !important;
-  stroke: #ffffff !important;
-  fill: none;
+  color: #1e3d20 !important;
+  stroke: #1e3d20 !important;
+  fill: #1e3d20 !important;
 }
 
 .best-sellers__tab.is-active .svg-fill-target,
 .best-sellers__tab:hover .svg-fill-target {
-  fill: #ffffff !important;
+  fill: #1e3d20 !important;
   stroke: none !important;
 }
 
 .best-sellers__tab.is-active .best-sellers__tab-img,
 .best-sellers__tab:hover .best-sellers__tab-img {
-  filter: brightness(0) invert(1) !important;
+  filter: invert(18%) sepia(45%) saturate(1200%) hue-rotate(90deg) brightness(95%) contrast(95%) !important;
   opacity: 1 !important;
-  transform: scale(1.05);
+  transform: scale(1.1) !important;
 }
 
 .best-sellers__tab.is-active .best-sellers__tab-img--normal {
