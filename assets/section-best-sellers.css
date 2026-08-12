@@ -172,7 +172,7 @@
   border: none !important;
   border-bottom: 3.5px solid transparent !important;
   border-radius: 0 !important;
-  color: #475569;
+  color: #64748b;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -185,26 +185,34 @@
   transition: all 250ms ease;
   white-space: nowrap;
   flex-shrink: 0 !important;
+  opacity: 0.75;
 }
 
 .best-sellers__tab-icon {
-  width: 52px !important;
-  height: 52px !important;
+  width: 54px !important;
+  height: 54px !important;
   display: grid;
   place-items: center;
-  color: #334155;
-  transition: color 250ms ease, transform 250ms ease;
+  color: #475569;
+  transition: color 250ms ease, transform 250ms ease, opacity 250ms ease;
 }
 
-.best-sellers__tab-icon svg {
-  width: 36px !important;
-  height: 36px !important;
+.best-sellers__tab-svg {
+  width: 38px !important;
+  height: 38px !important;
+  color: #475569;
+  transition: color 250ms ease, fill 250ms ease, transform 250ms ease;
 }
 
 .best-sellers__tab-img {
   width: 46px !important;
   height: 46px !important;
   object-fit: contain;
+  transition: opacity 250ms ease, transform 250ms ease;
+}
+
+.best-sellers__tab-img--active {
+  display: none !important;
 }
 
 .best-sellers__tab-label {
@@ -221,12 +229,32 @@
   font-weight: 900 !important;
   background: transparent !important;
   box-shadow: none !important;
+  opacity: 1 !important;
 }
 
 .best-sellers__tab.is-active .best-sellers__tab-icon,
 .best-sellers__tab:hover .best-sellers__tab-icon {
-  color: #1e3d20;
-  transform: translateY(-2px);
+  color: #1e3d20 !important;
+  transform: translateY(-2px) scale(1.08);
+}
+
+.best-sellers__tab.is-active .best-sellers__tab-svg,
+.best-sellers__tab:hover .best-sellers__tab-svg {
+  color: #1e3d20 !important;
+  fill: #1e3d20 !important;
+}
+
+.best-sellers__tab.is-active .svg-fill-target,
+.best-sellers__tab:hover .svg-fill-target {
+  fill: #1e3d20 !important;
+}
+
+.best-sellers__tab.is-active .best-sellers__tab-img--normal {
+  display: none !important;
+}
+
+.best-sellers__tab.is-active .best-sellers__tab-img--active {
+  display: inline-block !important;
 }
 
 @media (max-width: 48rem) {

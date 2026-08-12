@@ -60,7 +60,7 @@
               {% if section.settings.all_tab_icon != blank %}
                 {{ section.settings.all_tab_icon | image_url: width: 100 | image_tag: class: 'best-sellers__tab-img', loading: 'lazy' }}
               {% else %}
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg class="best-sellers__tab-svg" width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
               {% endif %}
             </span>
             <span class="best-sellers__tab-label">{{ section.settings.all_tab_label | default: "All" }}</span>
@@ -75,20 +75,23 @@
             {% endif %}
             <button class="best-sellers__tab{% if forloop.first and section.settings.show_all_tab == false %} is-active{% endif %}" type="button" role="tab" data-best-sellers-tab data-category-filter="{{ filter_name | escape }}" {{ block.shopify_attributes }}>
               <span class="best-sellers__tab-icon">
-                {% if block.settings.icon_image != blank %}
+                {% if block.settings.active_icon_image != blank and block.settings.icon_image != blank %}
+                  {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--normal', loading: 'lazy', alt: block.settings.title }}
+                  {{ block.settings.active_icon_image | image_url: width: 100 | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--active', loading: 'lazy', alt: block.settings.title }}
+                {% elsif block.settings.icon_image != blank %}
                   {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'best-sellers__tab-img', loading: 'lazy', alt: block.settings.title }}
                 {% elsif block.settings.icon_type == 'ghee' or block.settings.title contains 'Ghee' or block.settings.title contains 'ghee' %}
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M6 6h12v3a6 6 0 0 1-6 6 6 6 0 0 1-6-6V6z"/><path d="M5 21h14v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2z"/></svg>
+                  <svg class="best-sellers__tab-svg" width="34" height="34" viewBox="0 0 24 24"><path d="M12 2v4M6 6h12v3a6 6 0 0 1-6 6 6 6 0 0 1-6-6V6z" fill="none" stroke="currentColor" stroke-width="2"/><path class="svg-fill-target" d="M5 21h14v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2z" fill="currentColor"/></svg>
                 {% elsif block.settings.icon_type == 'oil' or block.settings.title contains 'Oil' or block.settings.title contains 'oil' %}
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s-6 7-6 11a6 6 0 0 0 12 0c0-4-6-11-6-11z"/></svg>
+                  <svg class="best-sellers__tab-svg" width="34" height="34" viewBox="0 0 24 24"><path d="M12 2.5S6.5 9.25 6.5 13.5a5.5 5.5 0 0 0 11 0C17.5 9.25 12 2.5 12 2.5z" class="svg-fill-target" fill="currentColor"/></svg>
                 {% elsif block.settings.icon_type == 'atta' or block.settings.title contains 'Atta' or block.settings.title contains 'Flour' %}
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l2 18H4L6 3z"/><path d="M6 9h12"/></svg>
+                  <svg class="best-sellers__tab-svg" width="34" height="34" viewBox="0 0 24 24"><path class="svg-fill-target" d="M6 3h12l1.8 17.5A1.5 1.5 0 0 1 18.3 22H5.7a1.5 1.5 0 0 1-1.5-1.5L6 3z" fill="currentColor"/><path d="M6 8h12M12 11v7M9.5 14.5L12 12l2.5 2.5" stroke="#FFFFFF" stroke-width="1.8" fill="none"/></svg>
                 {% elsif block.settings.icon_type == 'combos' or block.settings.title contains 'Combo' or block.settings.title contains 'Pack' %}
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M12 5v3M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                  <svg class="best-sellers__tab-svg" width="34" height="34" viewBox="0 0 24 24"><rect class="svg-fill-target" x="3" y="8" width="18" height="13" rx="2" fill="currentColor"/><path d="M8 8V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3" fill="none" stroke="currentColor" stroke-width="2"/></svg>
                 {% elsif block.settings.icon_type == 'deal' or block.settings.title contains 'Deal' or block.settings.title contains 'Offer' %}
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><line x1="6" y1="12" x2="6.01" y2="12"/><line x1="18" y1="12" x2="18.01" y2="12"/></svg>
+                  <svg class="best-sellers__tab-svg" width="34" height="34" viewBox="0 0 24 24"><rect class="svg-fill-target" x="2" y="5" width="20" height="14" rx="2.5" fill="currentColor"/><circle cx="12" cy="12" r="3.5" fill="#FFFFFF"/></svg>
                 {% else %}
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
+                  <svg class="best-sellers__tab-svg" width="34" height="34" viewBox="0 0 24 24"><path class="svg-fill-target" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" fill="currentColor"/></svg>
                 {% endif %}
               </span>
               <span class="best-sellers__tab-label">{{ block.settings.title }}</span>
@@ -96,23 +99,23 @@
           {% endfor %}
         {% else %}
           <button class="best-sellers__tab is-active" type="button" role="tab" data-best-sellers-tab data-category-filter="Ghee">
-            <span class="best-sellers__tab-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M6 6h12v3a6 6 0 0 1-6 6 6 6 0 0 1-6-6V6z"/><path d="M5 21h14v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2z"/></svg></span>
+            <span class="best-sellers__tab-icon"><svg class="best-sellers__tab-svg" width="34" height="34" viewBox="0 0 24 24"><path d="M12 2v4M6 6h12v3a6 6 0 0 1-6 6 6 6 0 0 1-6-6V6z" fill="none" stroke="currentColor" stroke-width="2"/><path class="svg-fill-target" d="M5 21h14v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2z" fill="currentColor"/></svg></span>
             <span class="best-sellers__tab-label">Ghee</span>
           </button>
           <button class="best-sellers__tab" type="button" role="tab" data-best-sellers-tab data-category-filter="Oils">
-            <span class="best-sellers__tab-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s-6 7-6 11a6 6 0 0 0 12 0c0-4-6-11-6-11z"/></svg></span>
+            <span class="best-sellers__tab-icon"><svg class="best-sellers__tab-svg" width="34" height="34" viewBox="0 0 24 24"><path d="M12 2.5S6.5 9.25 6.5 13.5a5.5 5.5 0 0 0 11 0C17.5 9.25 12 2.5 12 2.5z" class="svg-fill-target" fill="currentColor"/></svg></span>
             <span class="best-sellers__tab-label">Oils</span>
           </button>
           <button class="best-sellers__tab" type="button" role="tab" data-best-sellers-tab data-category-filter="Atta">
-            <span class="best-sellers__tab-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l2 18H4L6 3z"/><path d="M6 9h12"/></svg></span>
+            <span class="best-sellers__tab-icon"><svg class="best-sellers__tab-svg" width="34" height="34" viewBox="0 0 24 24"><path class="svg-fill-target" d="M6 3h12l1.8 17.5A1.5 1.5 0 0 1 18.3 22H5.7a1.5 1.5 0 0 1-1.5-1.5L6 3z" fill="currentColor"/><path d="M6 8h12M12 11v7M9.5 14.5L12 12l2.5 2.5" stroke="#FFFFFF" stroke-width="1.8" fill="none"/></svg></span>
             <span class="best-sellers__tab-label">Atta</span>
           </button>
           <button class="best-sellers__tab" type="button" role="tab" data-best-sellers-tab data-category-filter="Combos">
-            <span class="best-sellers__tab-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M12 5v3M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span>
+            <span class="best-sellers__tab-icon"><svg class="best-sellers__tab-svg" width="34" height="34" viewBox="0 0 24 24"><rect class="svg-fill-target" x="3" y="8" width="18" height="13" rx="2" fill="currentColor"/><path d="M8 8V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>
             <span class="best-sellers__tab-label">Combos</span>
           </button>
           <button class="best-sellers__tab" type="button" role="tab" data-best-sellers-tab data-category-filter="Deal">
-            <span class="best-sellers__tab-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><line x1="6" y1="12" x2="6.01" y2="12"/><line x1="18" y1="12" x2="18.01" y2="12"/></svg></span>
+            <span class="best-sellers__tab-icon"><svg class="best-sellers__tab-svg" width="34" height="34" viewBox="0 0 24 24"><rect class="svg-fill-target" x="2" y="5" width="20" height="14" rx="2.5" fill="currentColor"/><circle cx="12" cy="12" r="3.5" fill="#FFFFFF"/></svg></span>
             <span class="best-sellers__tab-label">Deal</span>
           </button>
         {% endif %}
@@ -336,7 +339,12 @@
         {
           "type": "image_picker",
           "id": "icon_image",
-          "label": "Custom Icon Image"
+          "label": "Normal / Inactive Icon Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "active_icon_image",
+          "label": "Active / Filled Color Icon Image"
         },
         {
           "type": "select",
