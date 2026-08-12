@@ -1,36 +1,39 @@
-function initTestimonials() {
-  const section = document.querySelector('[data-testimonials-section]');
-  if (!section || section.dataset.initialized) return;
-  section.dataset.initialized = 'true';
+// Global Delegated Click Handler for Testimonial Cards
+document.addEventListener('click', (e) => {
+  const card = e.target.closest('.testimonials__card, [data-testimonial-card]');
+  if (!card) return;
 
-  // Toggle ONLY the clicked card box
-  section.querySelectorAll('[data-testimonial-card]').forEach((card) => {
-    card.addEventListener('click', (e) => {
-      // Prevent drag or link selection issues
-      const isExpanded = card.classList.contains('is-expanded');
+  const section = card.closest('.testimonials-carousel-section, [data-testimonials-section]');
+  const isExpanded = card.classList.contains('is-expanded');
 
-      // Close all other open cards so only the clicked card is flipped
-      section.querySelectorAll('[data-testimonial-card].is-expanded').forEach((otherCard) => {
-        if (otherCard !== card) {
-          otherCard.classList.remove('is-expanded');
-        }
-      });
-
-      // Toggle this card
-      card.classList.toggle('is-expanded');
-
-      // Pause carousel movement while card is expanded for comfortable reading
-      const track = section.querySelector('[data-testimonials-track]');
-      if (track) {
-        const anyExpanded = section.querySelector('[data-testimonial-card].is-expanded');
-        if (anyExpanded) {
-          track.classList.add('is-paused');
-        } else {
-          track.classList.remove('is-paused');
-        }
+  // Close all other expanded cards in the section
+  if (section) {
+    section.querySelectorAll('.testimonials__card.is-expanded, [data-testimonial-card].is-expanded').forEach((otherCard) => {
+      if (otherCard !== card) {
+        otherCard.classList.remove('is-expanded');
       }
     });
-  });
+  }
+
+  // Toggle this card
+  card.classList.toggle('is-expanded');
+
+  // Pause marquee scrolling while a card is expanded
+  if (section) {
+    const track = section.querySelector('.testimonials__track, [data-testimonials-track]');
+    if (track) {
+      const anyExpanded = section.querySelector('.testimonials__card.is-expanded, [data-testimonial-card].is-expanded');
+      if (anyExpanded) {
+        track.classList.add('is-paused');
+      } else {
+        track.classList.remove('is-paused');
+      }
+    }
+  }
+});
+
+function initTestimonials() {
+  // Initialization logic for user reviews if needed
 }
 
   function createCardElement(reviewData) {

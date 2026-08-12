@@ -89,22 +89,24 @@
 }
 
 .testimonials__heading {
-  color: #166534;
-  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  color: #1e3d20 !important;
+  font-size: clamp(1.6rem, 3.5vw, 2.75rem);
   font-weight: 900;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.01em;
   margin: 0 auto 0.35rem;
-  text-transform: uppercase;
+  font-family: Georgia, serif, inherit;
   text-align: center !important;
 }
 
 .testimonials__subheading {
-  color: #64748b;
-  font-size: clamp(0.85rem, 1.8vw, 1rem);
+  color: #166534;
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  font-weight: 600;
   margin: 0 auto;
-  max-width: 520px;
+  max-width: 540px;
   line-height: 1.45;
   text-align: center;
+  font-family: Georgia, serif, inherit;
 }
 
 .testimonials__carousel-container {
@@ -192,12 +194,12 @@
 }
 
 .testimonials__card.is-expanded .testimonials__card-front {
-  display: none;
+  display: none !important;
 }
 
 .testimonials__card.is-expanded .testimonials__card-back {
-  display: flex;
-  opacity: 1;
+  display: flex !important;
+  opacity: 1 !important;
   animation: fadeInReviewMsg 350ms ease forwards;
 }
 
@@ -213,12 +215,12 @@
 }
 
 .testimonials__card-headline {
-  color: #1e1b18;
-  font-size: 1.35rem;
-  font-weight: 900;
-  line-height: 1.25;
+  color: #1e3d20;
+  font-size: clamp(1.2rem, 2vw, 1.35rem);
+  font-weight: 800;
+  line-height: 1.3;
   margin: 0 0 1rem 0;
-  font-family: Arial Black, sans-serif, system-ui;
+  font-family: Georgia, serif, inherit;
   letter-spacing: -0.01em;
 }
 
@@ -253,16 +255,19 @@
 
 .testimonials__card-full-msg {
   flex: 1;
+  max-height: 280px;
   overflow-y: auto;
   margin-bottom: 1rem;
+  padding-right: 0.25rem;
 }
 
 .testimonials__card-full-msg p {
   color: #334155;
-  font-size: 0.95rem;
+  font-size: 0.96rem;
   line-height: 1.65;
   font-weight: 500;
   margin: 0;
+  font-family: inherit;
 }
 
 .testimonials__card-footer {
@@ -281,9 +286,10 @@
 }
 
 .testimonials__author-name {
-  color: #1e1b18;
-  font-size: 1.15rem;
-  font-weight: 900;
+  color: #1e3d20;
+  font-size: 1.1rem;
+  font-weight: 800;
+  font-family: Georgia, serif, inherit;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -293,6 +299,7 @@
   font-size: 0.84rem;
   font-weight: 600;
   margin-top: 0.25rem;
+  font-family: inherit;
 }
 
 .testimonials__expand-btn {
