@@ -1102,3 +1102,21 @@ body.shoppable-video-modal-open > footer {
 .shoppable-videos__modal-body .shoppable-videos__product-overlay {
   display: none !important;
 }
+
+.shoppable-videos__modal-ctrl-btn {
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.shoppable-videos__modal-ctrl-btn:hover {
+  transform: scale(1.1);
+  background: rgba(0, 0, 0, 0.75) !important;
+}
+
+.shoppable-videos__modal-add-btn {
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.shoppable-videos__modal-add-btn:hover:not(:disabled) {
+  background: #183015 !important;
+  transform: translateY(-1px);
+}

@@ -106,25 +106,137 @@ class ShoppableVideosSection {
         if (this.hasMoved) return;
         if (e.target.closest('.shoppable-videos__product-info-row') || e.target.closest('[data-add-to-cart]') || e.target.closest('[data-video-mute]')) return;
 
+        // Extract Product details for Modal White Box
+        const variantId = card.dataset.variantId || '';
+        const thumb = card.querySelector('.shoppable-videos__product-thumb')?.src || '';
+        const title = card.querySelector('.shoppable-videos__product-name')?.textContent || 'Organic Product';
+        const subtitle = card.querySelector('.shoppable-videos__product-subtitle')?.textContent || '';
+        const price = card.querySelector('.shoppable-videos__price-current')?.textContent || '₹199.00';
+        const comparePrice = card.querySelector('.shoppable-videos__price-compare')?.textContent || '';
+
         const clone = mediaWrap.cloneNode(true);
         const overlayInClone = clone.querySelector('.shoppable-videos__product-overlay');
         if (overlayInClone) overlayInClone.remove();
+
+        // Build Top Controls Bar (Play/Pause Start-Stop & Mute Buttons)
+        const topControls = document.createElement('div');
+        topControls.className = 'shoppable-videos__modal-top-bar';
+        topControls.style.cssText = 'position: absolute; top: 14px; left: 14px; right: 60px; z-index: 100; display: flex; align-items: center; gap: 8px;';
+        topControls.innerHTML = `
+          <button type="button" class="shoppable-videos__modal-ctrl-btn" data-modal-play-btn aria-label="Start / Stop Video" style="width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; display: grid; place-items: center; font-size: 0.9rem;">
+            <span data-play-icon style="display: none;">▶</span>
+            <span data-pause-icon style="display: inline-block;">❚❚</span>
+          </button>
+          <button type="button" class="shoppable-videos__modal-ctrl-btn" data-modal-mute-btn aria-label="Mute / Unmute" style="width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; display: grid; place-items: center; font-size: 0.9rem;">
+            <span data-mute-icon style="display: none;">🔇</span>
+            <span data-unmute-icon style="display: inline-block;">🔊</span>
+          </button>
+        `;
+        clone.appendChild(topControls);
+
+        // Build Bottom White Product Box Card
+        const whiteProductBox = document.createElement('div');
+        whiteProductBox.className = 'shoppable-videos__modal-white-box';
+        whiteProductBox.style.cssText = 'position: absolute; bottom: 12px; left: 12px; right: 12px; z-index: 100; background: #ffffff; border-radius: 16px; padding: 10px 12px; box-shadow: 0 12px 30px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid rgba(35,66,31,0.12);';
+        whiteProductBox.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1;">
+            ${thumb ? `<img src="${thumb}" alt="${title}" style="width: 50px; height: 50px; border-radius: 10px; object-fit: cover; flex-shrink: 0; border: 1px solid #f0f0f0;">` : ''}
+            <div style="min-width: 0; flex: 1;">
+              <h4 style="margin: 0 0 2px; font-size: 0.86rem; font-weight: 800; color: #132d14; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${title}</h4>
+              ${subtitle ? `<p style="margin: 0 0 3px; font-size: 0.75rem; color: #52604d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${subtitle}</p>` : ''}
+              <div style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 900; color: #23421f;">
+                <span>${price}</span>
+                ${comparePrice ? `<s style="font-size: 0.76rem; color: #94a3b8; font-weight: 500;">${comparePrice}</s>` : ''}
+              </div>
+            </div>
+          </div>
+          <button type="button" class="shoppable-videos__modal-add-btn" data-modal-add-cart style="background: #23421f; color: #ffffff; border: none; padding: 0.55rem 0.95rem; border-radius: 10px; font-weight: 800; font-size: 0.78rem; cursor: pointer; white-space: nowrap; flex-shrink: 0; box-shadow: 0 4px 12px rgba(35,66,31,0.25);">ADD TO CART</button>
+        `;
+        clone.appendChild(whiteProductBox);
+
         if (modalBody) {
           modalBody.innerHTML = '';
           modalBody.appendChild(clone);
         }
 
         const modalVideo = clone.querySelector('video');
+        const playBtn = topControls.querySelector('[data-modal-play-btn]');
+        const playIcon = playBtn?.querySelector('[data-play-icon]');
+        const pauseIcon = playBtn?.querySelector('[data-pause-icon]');
+        const muteBtn = topControls.querySelector('[data-modal-mute-btn]');
+        const muteIcon = muteBtn?.querySelector('[data-mute-icon]');
+        const unmuteIcon = muteBtn?.querySelector('[data-unmute-icon]');
+
         if (modalVideo) {
           modalVideo.muted = false;
           modalVideo.play().catch(() => {});
+
+          // Toggle Play/Pause (Start/Stop)
+          const togglePlay = (ev) => {
+            if (ev) ev.stopPropagation();
+            if (modalVideo.paused) {
+              modalVideo.play();
+              if (playIcon) playIcon.style.display = 'none';
+              if (pauseIcon) pauseIcon.style.display = 'inline-block';
+            } else {
+              modalVideo.pause();
+              if (playIcon) playIcon.style.display = 'inline-block';
+              if (pauseIcon) pauseIcon.style.display = 'none';
+            }
+          };
+
+          if (playBtn) playBtn.addEventListener('click', togglePlay);
+          modalVideo.addEventListener('click', togglePlay);
+
+          // Toggle Mute/Unmute
+          if (muteBtn) {
+            muteBtn.addEventListener('click', (ev) => {
+              ev.stopPropagation();
+              modalVideo.muted = !modalVideo.muted;
+              if (muteIcon && unmuteIcon) {
+                muteIcon.style.display = modalVideo.muted ? 'inline-block' : 'none';
+                unmuteIcon.style.display = modalVideo.muted ? 'none' : 'inline-block';
+              }
+            });
+          }
         }
 
-        const modalMute = clone.querySelector('[data-video-mute]');
-        if (modalMute && modalVideo) {
-          modalMute.addEventListener('click', (ev) => {
+        // Handle Add to Cart inside modal white box
+        const modalAddBtn = whiteProductBox.querySelector('[data-modal-add-cart]');
+        if (modalAddBtn && variantId) {
+          modalAddBtn.addEventListener('click', async (ev) => {
             ev.stopPropagation();
-            modalVideo.muted = !modalVideo.muted;
+            modalAddBtn.disabled = true;
+            modalAddBtn.textContent = 'ADDING...';
+
+            try {
+              const formData = new FormData();
+              formData.append('id', variantId);
+              formData.append('quantity', '1');
+
+              const addRes = await fetch('/cart/add.js', {
+                method: 'POST',
+                headers: { Accept: 'application/json' },
+                body: formData
+              });
+
+              if (!addRes.ok) throw new Error('Add to cart failed');
+
+              const cartRes = await fetch('/cart.js');
+              const updatedCart = await cartRes.json();
+              document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
+              if (window.showCartToast) window.showCartToast(updatedCart);
+              updateHeaderCartCount();
+              modalAddBtn.textContent = 'ADDED ✓';
+              setTimeout(() => {
+                modalAddBtn.disabled = false;
+                modalAddBtn.textContent = 'ADD TO CART';
+              }, 2000);
+            } catch (err) {
+              console.error(err);
+              modalAddBtn.disabled = false;
+              modalAddBtn.textContent = 'ADD TO CART';
+            }
           });
         }
 
