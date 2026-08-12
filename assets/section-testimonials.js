@@ -3,27 +3,24 @@ function initTestimonials() {
   if (!section || section.dataset.initialized) return;
   section.dataset.initialized = 'true';
 
-  const track = section.querySelector('[data-testimonials-track]');
-
   // Toggle ONLY the clicked card box
-  section.addEventListener('click', (e) => {
-    const toggleBtn = e.target.closest('[data-card-toggle]');
-    const card = e.target.closest('[data-testimonial-card]');
+  section.querySelectorAll('[data-testimonial-card]').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      // Prevent drag or link selection issues
+      const isExpanded = card.classList.contains('is-expanded');
 
-    if (!card) return;
-
-    // Toggle expansion on this specific card
-    if (toggleBtn || !card.classList.contains('is-expanded')) {
-      // Close other open cards so only the clicked card is flipped
+      // Close all other open cards so only the clicked card is flipped
       section.querySelectorAll('[data-testimonial-card].is-expanded').forEach((otherCard) => {
         if (otherCard !== card) {
           otherCard.classList.remove('is-expanded');
         }
       });
 
+      // Toggle this card
       card.classList.toggle('is-expanded');
 
       // Pause carousel movement while card is expanded for comfortable reading
+      const track = section.querySelector('[data-testimonials-track]');
       if (track) {
         const anyExpanded = section.querySelector('[data-testimonial-card].is-expanded');
         if (anyExpanded) {
@@ -32,7 +29,7 @@ function initTestimonials() {
           track.classList.remove('is-paused');
         }
       }
-    }
+    });
   });
 }
 
