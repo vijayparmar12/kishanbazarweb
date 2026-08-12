@@ -238,6 +238,15 @@
 .best-sellers__tab.is-active .best-sellers__tab-icon,
 .best-sellers__tab:hover .best-sellers__tab-icon {
   color: #1e3d20 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: translateY(-2px) scale(1.08);
+}
+
+.best-sellers__tab.is-active .best-sellers__tab-img,
+.best-sellers__tab:hover .best-sellers__tab-img {
+  filter: invert(18%) sepia(50%) saturate(1000%) hue-rotate(85deg) brightness(85%) contrast(100%) !important;
   transform: translateY(-2px) scale(1.08);
 }
 
@@ -256,6 +265,15 @@
 .best-sellers__tab:hover .best-sellers__tab-label {
   color: #1e3d20 !important;
   font-weight: 900 !important;
+}
+
+.best-sellers__tab.is-active .best-sellers__tab-img--normal {
+  display: none !important;
+}
+
+.best-sellers__tab.is-active .best-sellers__tab-img--active {
+  display: inline-block !important;
+  filter: none !important;
 }
 
 .best-sellers__tab.is-active .best-sellers__tab-img--normal {
