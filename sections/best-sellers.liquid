@@ -23,6 +23,19 @@
   }
 
   {% assign active_color = section.settings.tab_active_color | default: '#1b4317' %}
+  {% assign icon_sz = section.settings.tab_icon_size | default: 76 %}
+  #BestSellers-{{ section.id }} .best-sellers__tab-icon {
+    width: {{ icon_sz }}px !important;
+    height: {{ icon_sz }}px !important;
+  }
+  #BestSellers-{{ section.id }} .best-sellers__tab-img {
+    width: {{ icon_sz | minus: 8 }}px !important;
+    height: {{ icon_sz | minus: 8 }}px !important;
+  }
+  #BestSellers-{{ section.id }} .best-sellers__tab-svg {
+    width: {{ icon_sz | minus: 20 }}px !important;
+    height: {{ icon_sz | minus: 20 }}px !important;
+  }
   #BestSellers-{{ section.id }} .best-sellers__tab.is-active,
   #BestSellers-{{ section.id }} .best-sellers__tab:hover {
     color: {{ active_color }} !important;
@@ -275,8 +288,9 @@
     { "type": "color", "id": "cart_button_color", "label": "Add to Cart button text color", "default": "#FFFFFF" },
     {
       "type": "header",
-      "content": "Category Filter Tabs Colors"
+      "content": "Category Filter Tabs Colors & Size"
     },
+    { "type": "range", "id": "tab_icon_size", "label": "Category Tab Icon Size (px)", "min": 40, "max": 140, "step": 2, "default": 76, "unit": "px" },
     { "type": "color", "id": "tab_active_color", "label": "Active Tab & Icon Highlight Color", "default": "#1b4317", "info": "Pick active category tab icon color directly in Theme Editor" },
     { "type": "color", "id": "tab_inactive_color", "label": "Inactive Tab Icon & Text Color", "default": "#64748b" }
   ],

@@ -140,17 +140,21 @@
 }
 
 .best-sellers__tabs-wrapper {
-  margin: 0.5rem auto 0.75rem !important;
+  margin: 0.5rem auto 1rem !important;
   width: 100%;
   position: relative;
   z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .best-sellers__tabs {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  gap: clamp(1.25rem, 3.5vw, 2.5rem);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: clamp(1.25rem, 4vw, 2.75rem);
   position: relative;
   z-index: 1;
   overflow-x: auto !important;
@@ -161,6 +165,7 @@
   touch-action: pan-x pan-y;
   padding: 0.5rem 1rem 0.75rem;
   max-width: 100%;
+  margin: 0 auto;
 }
 
 .best-sellers__tabs::-webkit-scrollbar {
@@ -177,6 +182,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 0.5rem;
   font: inherit;
   font-size: 1rem !important;
@@ -186,52 +193,65 @@
   white-space: nowrap;
   flex-shrink: 0 !important;
   opacity: 0.75;
+  margin: 0 auto;
 }
 
 .best-sellers__tab-icon {
-  width: 54px !important;
-  height: 54px !important;
+  width: 76px !important;
+  height: 76px !important;
   display: grid;
   place-items: center;
+  text-align: center;
   color: #475569;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   transition: color 250ms ease, transform 250ms ease, opacity 250ms ease;
+  margin: 0 auto;
 }
 
 .best-sellers__tab-svg {
-  width: 38px !important;
-  height: 38px !important;
+  width: 52px !important;
+  height: 52px !important;
   color: #475569;
   transition: color 250ms ease, fill 250ms ease, transform 250ms ease;
+  margin: 0 auto;
 }
 
 .best-sellers__tab-img {
-  width: 46px !important;
-  height: 46px !important;
+  width: 68px !important;
+  height: 68px !important;
+  max-width: 100%;
   object-fit: contain;
   transition: opacity 200ms ease, transform 200ms ease;
   display: block;
+  margin: 0 auto;
 }
 
 .best-sellers__tab-img--normal {
   display: block !important;
+  margin: 0 auto;
 }
 
 .best-sellers__tab-img--active {
   display: none !important;
+  margin: 0 auto;
 }
 
 .best-sellers__tab-img--always {
   display: block !important;
+  margin: 0 auto;
 }
 
 .best-sellers__tab-label {
-  font-size: 0.98rem !important;
+  font-size: 1rem !important;
   font-weight: 800 !important;
   line-height: 1.2;
   letter-spacing: 0.01em;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .best-sellers__tab.is-active,
