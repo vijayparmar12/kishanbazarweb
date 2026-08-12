@@ -143,6 +143,13 @@
       "settings": {
         "heading": "Kind words from your table"
       }
+    },
+    "beyond_products": {
+      "type": "beyond-products",
+      "settings": {
+        "subheading": "Native Ingredients. No Substitutes.",
+        "heading": "Beyond Our Products"
+      }
     }
   },
   "order": [
@@ -150,6 +157,7 @@
     "categories",
     "shoppable_videos",
     "best_sellers",
+    "beyond_products",
     "testimonials"
   ]
 }

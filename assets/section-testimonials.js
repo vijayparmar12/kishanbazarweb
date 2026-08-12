@@ -1,7 +1,40 @@
 function initTestimonials() {
-  const track = document.querySelector('[data-testimonials-track]');
-  if (!track || track.dataset.initialized) return;
-  track.dataset.initialized = 'true';
+  const section = document.querySelector('[data-testimonials-section]');
+  if (!section || section.dataset.initialized) return;
+  section.dataset.initialized = 'true';
+
+  const track = section.querySelector('[data-testimonials-track]');
+
+  // Toggle ONLY the clicked card box
+  section.addEventListener('click', (e) => {
+    const toggleBtn = e.target.closest('[data-card-toggle]');
+    const card = e.target.closest('[data-testimonial-card]');
+
+    if (!card) return;
+
+    // Toggle expansion on this specific card
+    if (toggleBtn || !card.classList.contains('is-expanded')) {
+      // Close other open cards so only the clicked card is flipped
+      section.querySelectorAll('[data-testimonial-card].is-expanded').forEach((otherCard) => {
+        if (otherCard !== card) {
+          otherCard.classList.remove('is-expanded');
+        }
+      });
+
+      card.classList.toggle('is-expanded');
+
+      // Pause carousel movement while card is expanded for comfortable reading
+      if (track) {
+        const anyExpanded = section.querySelector('[data-testimonial-card].is-expanded');
+        if (anyExpanded) {
+          track.classList.add('is-paused');
+        } else {
+          track.classList.remove('is-paused');
+        }
+      }
+    }
+  });
+}
 
   function createCardElement(reviewData) {
     const card = document.createElement('figure');
