@@ -23,10 +23,15 @@
 .site-footer__inner {
   display: grid;
   gap: clamp(1.25rem, 2.5vw, 2.5rem);
-  grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+  grid-template-columns: minmax(220px, 1.35fr) repeat(auto-fit, minmax(160px, 1fr));
   margin: 0 auto;
   max-width: var(--container-width, 1160px);
   padding: 0 var(--container-padding, 1.25rem);
+}
+
+.site-footer__brand-col,
+.site-footer__col {
+  min-width: 0;
 }
 
 @media (max-width: 60rem) {
@@ -80,6 +85,7 @@
 /* Newsletter Input Form inside Column 4 */
 .site-footer__newsletter {
   margin-bottom: 1rem;
+  margin-top: 1.25rem;
 }
 
 .site-footer__newsletter-input-wrap {
@@ -134,10 +140,22 @@
   display: flex;
   gap: 0.85rem;
   justify-content: center;
-  margin: 0 auto;
+  margin: 1rem auto 0;
   position: relative !important;
   z-index: 20 !important;
   pointer-events: auto !important;
+}
+
+.social-btn__text {
+  color: #23421f;
+  display: inline-flex;
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1;
+  max-width: 34px;
+  overflow: hidden;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .social-btn {

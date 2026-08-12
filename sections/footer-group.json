@@ -14,9 +14,97 @@
     "footer": {
       "type": "footer",
       "settings": {
-        "menu": "",
-        "show_payment_icons": true
-      }
+        "show_default_bottom_image": true,
+        "footer_bottom_image_alt": "Footer farm illustration",
+        "copyright_text": "Copyright &copy; [year], [shop] &bull; All Rights Reserved."
+      },
+      "blocks": {
+        "brand": {
+          "type": "brand",
+          "settings": {
+            "show_default_logo": true,
+            "about_text": "Kishan Bazar, Welcome to our farm-fresh organic kitchen. We build wholesome pantry staples and marketing experiences that help brands stand out and scale confidently.",
+            "email_label": "Email:",
+            "email": "support@kishanbazar.com",
+            "phone_label": "Tel:",
+            "phone": "+91 88888 88888"
+          }
+        },
+        "categories": {
+          "type": "link_column",
+          "settings": {
+            "heading": "Categories",
+            "link_1_label": "Ghee",
+            "link_1_url": "/collections/ghee",
+            "link_2_label": "Atta / Flour",
+            "link_2_url": "/collections/atta",
+            "link_3_label": "Shop All Categories",
+            "link_3_url": "/collections",
+            "link_4_label": "Farm Life",
+            "link_4_url": "/pages/our-story"
+          }
+        },
+        "general": {
+          "type": "link_column",
+          "settings": {
+            "heading": "General",
+            "link_1_label": "Our Story",
+            "link_1_url": "/pages/our-story",
+            "link_2_label": "Terms of Use",
+            "link_2_url": "/policies/terms-of-service",
+            "link_3_label": "Privacy Policy",
+            "link_3_url": "/policies/privacy-policy",
+            "link_4_label": "Refund Policy",
+            "link_4_url": "/policies/refund-policy",
+            "link_5_label": "Shipping Policy",
+            "link_5_url": "/policies/shipping-policy"
+          }
+        },
+        "company_contact": {
+          "type": "contact",
+          "settings": {
+            "heading": "Company & contact",
+            "address_text": "11th Floor, Jasminium Building, Magarpatta City, Hadapsar, Pune, Maharashtra, 411028",
+            "show_newsletter": true,
+            "newsletter_placeholder": "Your e-mail",
+            "newsletter_button_text": "&rarr;",
+            "newsletter_button_label": "Subscribe"
+          }
+        },
+        "facebook": {
+          "type": "social_link",
+          "settings": {
+            "platform": "facebook",
+            "label": "Facebook",
+            "url": "https://www.facebook.com/kisanbazaarstore"
+          }
+        },
+        "instagram": {
+          "type": "social_link",
+          "settings": {
+            "platform": "instagram",
+            "label": "Instagram",
+            "url": "https://www.instagram.com/kisanbazaar_organic_store/"
+          }
+        },
+        "youtube": {
+          "type": "social_link",
+          "settings": {
+            "platform": "youtube",
+            "label": "YouTube",
+            "url": "https://www.youtube.com/@kisanbazaar5352"
+          }
+        }
+      },
+      "block_order": [
+        "brand",
+        "categories",
+        "general",
+        "company_contact",
+        "facebook",
+        "instagram",
+        "youtube"
+      ]
     }
   },
   "order": [
