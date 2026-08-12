@@ -193,22 +193,28 @@
   height: 54px !important;
   display: grid;
   place-items: center;
-  color: #475569;
-  transition: color 250ms ease, transform 250ms ease, opacity 250ms ease;
+  color: #64748b;
+  transition: color 250ms ease, transform 250ms ease, opacity 250ms ease, filter 250ms ease;
 }
 
 .best-sellers__tab-svg {
   width: 38px !important;
   height: 38px !important;
-  color: #475569;
-  transition: color 250ms ease, fill 250ms ease, transform 250ms ease;
+  color: #64748b;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: color 250ms ease, fill 250ms ease, stroke 250ms ease, transform 250ms ease;
 }
 
 .best-sellers__tab-img {
   width: 46px !important;
   height: 46px !important;
   object-fit: contain;
-  transition: opacity 250ms ease, transform 250ms ease;
+  filter: opacity(0.55) grayscale(0.3);
+  transition: opacity 250ms ease, transform 250ms ease, filter 250ms ease;
 }
 
 .best-sellers__tab-img--active {
@@ -247,6 +253,13 @@
 .best-sellers__tab.is-active .svg-fill-target,
 .best-sellers__tab:hover .svg-fill-target {
   fill: #1e3d20 !important;
+  stroke: none !important;
+}
+
+.best-sellers__tab.is-active .best-sellers__tab-img {
+  filter: none !important;
+  opacity: 1 !important;
+  transform: scale(1.1) !important;
 }
 
 .best-sellers__tab.is-active .best-sellers__tab-img--normal {
