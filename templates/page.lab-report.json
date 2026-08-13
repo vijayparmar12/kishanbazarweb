@@ -1,0 +1,101 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-lab-report-page",
+      "blocks": {
+        "report_ghee": {
+          "type": "lab_report",
+          "settings": {
+            "product_title": "A2 Gir Cow Bilona Ghee",
+            "batch_no": "BATCH #KB-GHEE-2026-08",
+            "lab_name": "Eurofins / NABL Accredited Lab",
+            "test_date": "August 2026",
+            "status_badge": "PASS - 100% PURE",
+            "summary": "Verified free from oxytocin, synthetic fats, heavy metals, and chemical preservatives.",
+            "report_url": "#",
+            "button_text": "Download PDF Report ↓"
+          }
+        },
+        "report_atta": {
+          "type": "lab_report",
+          "settings": {
+            "product_title": "Organic Khapli Wheat Flour",
+            "batch_no": "BATCH #KB-ATTA-2026-08",
+            "lab_name": "SGS India / NABL Accredited Lab",
+            "test_date": "August 2026",
+            "status_badge": "PASS - ZERO PESTICIDES",
+            "summary": "100% Ancient Emmer Wheat. Zero chemical residues, non-GMO, and high natural fiber.",
+            "report_url": "#",
+            "button_text": "Download PDF Report ↓"
+          }
+        },
+        "report_oil": {
+          "type": "lab_report",
+          "settings": {
+            "product_title": "Wood Pressed Mustard Oil",
+            "batch_no": "BATCH #KB-OIL-2026-08",
+            "lab_name": "Intertek / NABL Accredited Lab",
+            "test_date": "August 2026",
+            "status_badge": "PASS - UNREFINED",
+            "summary": "Cold wood pressed, unrefined & unbleached. Tested zero argemone or mineral oil.",
+            "report_url": "#",
+            "button_text": "Download PDF Report ↓"
+          }
+        },
+        "pillar_1": {
+          "type": "quality_pillar",
+          "settings": {
+            "icon": "🌱",
+            "title": "Organic Farm Sourcing",
+            "description": "Grown naturally without chemical pesticides or artificial fertilizers."
+          }
+        },
+        "pillar_2": {
+          "type": "quality_pillar",
+          "settings": {
+            "icon": "🥛",
+            "title": "Traditional Bilona Process",
+            "description": "Crafted slowly using ancient Vedic methods to retain maximum nutrients."
+          }
+        },
+        "pillar_3": {
+          "type": "quality_pillar",
+          "settings": {
+            "icon": "🔬",
+            "title": "NABL Lab Certification",
+            "description": "Rigorous multi-parameter laboratory testing before packaging."
+          }
+        },
+        "pillar_4": {
+          "type": "quality_pillar",
+          "settings": {
+            "icon": "📦",
+            "title": "Hygienic Sealed Packing",
+            "description": "Packed in glass jars and food-grade containers for uncompromised freshness."
+          }
+        }
+      },
+      "block_order": [
+        "report_ghee",
+        "report_atta",
+        "report_oil",
+        "pillar_1",
+        "pillar_2",
+        "pillar_3",
+        "pillar_4"
+      ],
+      "settings": {
+        "badge": "100% CERTIFIED & TESTED",
+        "heading": "Lab Testing & Quality Reports",
+        "subheading": "Transparency is our promise. View and download NABL-accredited laboratory test reports for all Kishan Bazar organic products.",
+        "grid_heading": "Certified Product Test Reports",
+        "grid_subheading": "Click on any report below to view or download the full laboratory analysis certificate.",
+        "pillars_heading": "Our 4-Step Quality Guarantee",
+        "pillars_subheading": "How we ensure every single batch delivered to your doorstep meets peak purity."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

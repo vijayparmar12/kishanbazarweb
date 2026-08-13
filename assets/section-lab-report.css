@@ -1,0 +1,310 @@
+/* Lab Report Page - Premium Organic Parchment Aesthetic */
+.lab-report-page {
+  background: #FDFBF7;
+  color: #1F2937;
+  font-family: inherit;
+  padding-bottom: 4rem;
+}
+
+.lab-report-hero {
+  background: linear-gradient(180deg, #F4F8F0 0%, #FDFBF7 100%);
+  border-bottom: 1px solid rgba(35, 66, 31, 0.08);
+  padding: clamp(2.5rem, 5vw, 4.5rem) 1.5rem clamp(2rem, 4vw, 3.5rem);
+  text-align: center;
+  position: relative;
+}
+
+.lab-report-hero__inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.lab-report-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #EAF2E5;
+  color: #23421F;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(35, 66, 31, 0.15);
+}
+
+.lab-report-hero__heading {
+  font-family: Georgia, serif;
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  font-weight: 900;
+  color: #132D14;
+  margin: 0 0 1rem;
+  line-height: 1.25;
+}
+
+.lab-report-hero__subheading {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: #4B5563;
+  line-height: 1.6;
+  margin: 0 auto 2rem;
+  max-width: 680px;
+}
+
+/* Stats Row */
+.lab-report-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.lab-report-stat {
+  background: #FFFFFF;
+  border: 1px solid rgba(35, 66, 31, 0.12);
+  border-radius: 16px;
+  padding: 1.15rem 1rem;
+  box-shadow: 0 4px 16px rgba(35, 66, 31, 0.05);
+  text-align: center;
+}
+
+.lab-report-stat__icon {
+  font-size: 1.6rem;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.lab-report-stat__title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #132D14;
+  margin: 0 0 0.15rem;
+}
+
+.lab-report-stat__desc {
+  font-size: 0.8rem;
+  color: #6B7280;
+  margin: 0;
+}
+
+/* Main Grid & Cards */
+.lab-report-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 0;
+}
+
+.lab-report-section-title {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.lab-report-section-title h2 {
+  font-family: Georgia, serif;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  font-weight: 900;
+  color: #132D14;
+  margin: 0 0 0.5rem;
+}
+
+.lab-report-section-title p {
+  color: #6B7280;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.lab-report-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.75rem;
+}
+
+.lab-report-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(35, 66, 31, 0.12);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(35, 66, 31, 0.06);
+  display: flex;
+  flex-direction: column;
+  transition: transform 250ms ease, box-shadow 250ms ease;
+}
+
+.lab-report-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(35, 66, 31, 0.12);
+}
+
+.lab-report-card__media {
+  position: relative;
+  height: 200px;
+  background: #F4F8F0;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(35, 66, 31, 0.08);
+}
+
+.lab-report-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 400ms ease;
+}
+
+.lab-report-card:hover .lab-report-card__media img {
+  transform: scale(1.05);
+}
+
+.lab-report-card__status {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #23421F;
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.lab-report-card__body {
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.lab-report-card__batch {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #166534;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+
+.lab-report-card__title {
+  font-family: Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #132D14;
+  margin: 0 0 0.6rem;
+  line-height: 1.3;
+}
+
+.lab-report-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: #4B5563;
+  background: #F9FAF7;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(35, 66, 31, 0.06);
+}
+
+.lab-report-card__meta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lab-report-card__meta-label {
+  font-weight: 600;
+  color: #6B7280;
+}
+
+.lab-report-card__meta-val {
+  font-weight: 700;
+  color: #132D14;
+}
+
+.lab-report-card__summary {
+  font-size: 0.84rem;
+  color: #374151;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.lab-report-card__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #23421F;
+  color: #FFFFFF;
+  font-size: 0.88rem;
+  font-weight: 800;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background 200ms ease, transform 150ms ease;
+  box-shadow: 0 4px 14px rgba(35, 66, 31, 0.18);
+  box-sizing: border-box;
+}
+
+.lab-report-card__btn:hover {
+  background: #183015;
+  transform: translateY(-1px);
+}
+
+/* Quality Pillars */
+.lab-report-pillars {
+  margin-top: 4rem;
+  background: #FFFFFF;
+  border: 1px solid rgba(35, 66, 31, 0.12);
+  border-radius: 24px;
+  padding: 3rem 2rem;
+  box-shadow: 0 8px 30px rgba(35, 66, 31, 0.05);
+}
+
+.lab-report-pillars__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+}
+
+.lab-report-pillar {
+  text-align: center;
+}
+
+.lab-report-pillar__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #EAF2E5;
+  color: #23421F;
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  margin: 0 auto 1rem;
+  border: 1px solid rgba(35, 66, 31, 0.15);
+}
+
+.lab-report-pillar__title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #132D14;
+  margin: 0 0 0.35rem;
+}
+
+.lab-report-pillar__desc {
+  font-size: 0.85rem;
+  color: #6B7280;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 48rem) {
+  .lab-report-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -150,7 +150,17 @@ class ShoppableVideosSection {
               </div>
             </div>
           </div>
-          <button type="button" class="shoppable-videos__modal-add-btn" data-modal-add-cart style="background: #23421f; color: #ffffff; border: none; padding: 0.55rem 0.95rem; border-radius: 10px; font-weight: 800; font-size: 0.78rem; cursor: pointer; white-space: nowrap; flex-shrink: 0; box-shadow: 0 4px 12px rgba(35,66,31,0.25);">ADD TO CART</button>
+          <form method="post" action="/cart/add" data-product-card-form style="margin: 0;">
+            <input type="hidden" name="id" value="${variantId || ''}">
+            <div style="position: relative; height: 38px;">
+              <button type="submit" class="shoppable-videos__modal-add-btn" data-card-add-btn style="background: #23421f; color: #ffffff; border: none; padding: 0.55rem 0.95rem; border-radius: 10px; font-weight: 800; font-size: 0.78rem; cursor: pointer; white-space: nowrap; flex-shrink: 0; box-shadow: 0 4px 12px rgba(35,66,31,0.25);">ADD TO CART</button>
+              <div class="shoppable-videos__inline-stepper" data-card-inline-stepper style="display: none; height: 38px; border: 2px solid #23421f; border-radius: 10px; background: #ffffff; align-items: center; justify-content: space-between; padding: 0 8px; box-sizing: border-box; min-width: 95px;">
+                <button type="button" data-inline-minus style="border: none; background: transparent; cursor: pointer; font-size: 1.15rem; font-weight: 900; color: #23421f; padding: 0 4px;">-</button>
+                <span data-inline-count style="font-size: 0.90rem; font-weight: 900; color: #23421f;">1</span>
+                <button type="button" data-inline-plus style="border: none; background: transparent; cursor: pointer; font-size: 1.15rem; font-weight: 900; color: #23421f; padding: 0 4px;">+</button>
+              </div>
+            </div>
+          </form>
         `;
         clone.appendChild(whiteProductBox);
 
@@ -160,10 +170,10 @@ class ShoppableVideosSection {
         }
 
         const modalVideo = clone.querySelector('video');
-        const playBtn = topControls.querySelector('[data-modal-play-btn]');
+        const playBtn = topControls?.querySelector('[data-modal-play-btn]');
         const playIcon = playBtn?.querySelector('[data-play-icon]');
         const pauseIcon = playBtn?.querySelector('[data-pause-icon]');
-        const muteBtn = topControls.querySelector('[data-modal-mute-btn]');
+        const muteBtn = topControls?.querySelector('[data-modal-mute-btn]');
         const muteIcon = muteBtn?.querySelector('[data-mute-icon]');
         const unmuteIcon = muteBtn?.querySelector('[data-unmute-icon]');
 
@@ -171,7 +181,6 @@ class ShoppableVideosSection {
           modalVideo.muted = false;
           modalVideo.play().catch(() => {});
 
-          // Toggle Play/Pause (Start/Stop)
           const togglePlay = (ev) => {
             if (ev) ev.stopPropagation();
             if (modalVideo.paused) {
@@ -188,7 +197,6 @@ class ShoppableVideosSection {
           if (playBtn) playBtn.addEventListener('click', togglePlay);
           modalVideo.addEventListener('click', togglePlay);
 
-          // Toggle Mute/Unmute
           if (muteBtn) {
             muteBtn.addEventListener('click', (ev) => {
               ev.stopPropagation();
@@ -201,44 +209,7 @@ class ShoppableVideosSection {
           }
         }
 
-        // Handle Add to Cart inside modal white box
-        const modalAddBtn = whiteProductBox.querySelector('[data-modal-add-cart]');
-        if (modalAddBtn && variantId) {
-          modalAddBtn.addEventListener('click', async (ev) => {
-            ev.stopPropagation();
-            modalAddBtn.disabled = true;
-            modalAddBtn.textContent = 'ADDING...';
-
-            try {
-              const formData = new FormData();
-              formData.append('id', variantId);
-              formData.append('quantity', '1');
-
-              const addRes = await fetch('/cart/add.js', {
-                method: 'POST',
-                headers: { Accept: 'application/json' },
-                body: formData
-              });
-
-              if (!addRes.ok) throw new Error('Add to cart failed');
-
-              const cartRes = await fetch('/cart.js');
-              const updatedCart = await cartRes.json();
-              document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
-              if (window.showCartToast) window.showCartToast(updatedCart);
-              updateHeaderCartCount();
-              modalAddBtn.textContent = 'ADDED ✓';
-              setTimeout(() => {
-                modalAddBtn.disabled = false;
-                modalAddBtn.textContent = 'ADD TO CART';
-              }, 2000);
-            } catch (err) {
-              console.error(err);
-              modalAddBtn.disabled = false;
-              modalAddBtn.textContent = 'ADD TO CART';
-            }
-          });
-        }
+        document.dispatchEvent(new CustomEvent('kb:cart:updated'));
 
         document.body.classList.add('shoppable-video-modal-open');
         modal.setAttribute('open', '');
