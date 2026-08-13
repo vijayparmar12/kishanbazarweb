@@ -573,7 +573,9 @@
 .kb-header__mobile-submenu a {
   border-radius: 8px;
   color: #23421f;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-weight: 800;
   padding: 0.85rem 0.75rem;
   text-decoration: none;
