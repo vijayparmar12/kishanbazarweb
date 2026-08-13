@@ -250,9 +250,7 @@
 }
 
 .main-collection .product-card__media {
-  aspect-ratio: 1.2 / 1;
-  border-radius: 18px !important;
-  overflow: hidden !important;
+  aspect-ratio: 1 / 1;
 }
 
 .main-collection .product-card__content {
