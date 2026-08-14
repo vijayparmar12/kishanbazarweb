@@ -165,9 +165,9 @@
   </div>
 
   {% if section.settings.show_cta_btn != false %}
-    <div class="best-sellers__cta-container">
-      <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
-        <span>{{ section.settings.cta_label | default: "Shop All Categories →" }}</span>
+    <div class="best-sellers__cta-container best-sellers__cta-container--right" style="display: flex; justify-content: flex-end; width: 100%; margin-top: 0.75rem; margin-bottom: 1.25rem;">
+      <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}" style="margin-left: auto; margin-right: 0;">
+        <span>{{ section.settings.cta_label | default: "Shop More" }}</span>
       </a>
     </div>
   {% endif %}
