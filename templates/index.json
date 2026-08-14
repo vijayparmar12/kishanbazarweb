@@ -221,7 +221,7 @@
         "video_4"
       ],
       "settings": {
-        "heading_image_desktop": "shopify://shop_images/ChatGPT_Image_Aug_14_2026_04_42_10_PM.png",
+        "heading_image_desktop": "shopify://shop_images/second_image_same_size_as_first.png",
         "heading_box_bg_size": "contain",
         "heading_box_bg_size_mobile": "contain",
         "heading_box_height_desktop": 260,
