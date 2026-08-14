@@ -145,8 +145,12 @@
         {% endfor %}
 
         {% if nav_block_count == 0 %}
-          {% if section.settings.menu != blank %}
-            {% for link in section.settings.menu.links %}
+          {% assign desktop_menu = section.settings.menu %}
+          {% if desktop_menu == blank or desktop_menu.links.size == 0 %}
+            {% assign desktop_menu = linklists['main-menu'] %}
+          {% endif %}
+          {% if desktop_menu != blank and desktop_menu.links.size > 0 %}
+            {% for link in desktop_menu.links %}
               {% assign link_title_lower = link.title | downcase %}
               {% assign auto_mega = 'none' %}
               {% if link_title_lower contains 'category' or link_title_lower contains 'shop' or link_title_lower contains 'catalog' %}
@@ -236,6 +240,12 @@
       <ul class="kb-header__mobile-list" role="list">
         {% assign mobile_source = section.settings.mobile_menu_source | default: 'shopify_menu' %}
         {% assign active_mobile_menu = section.settings.mobile_menu %}
+        {% if active_mobile_menu == blank or active_mobile_menu.links.size == 0 %}
+          {% assign active_mobile_menu = section.settings.menu %}
+        {% endif %}
+        {% if active_mobile_menu == blank or active_mobile_menu.links.size == 0 %}
+          {% assign active_mobile_menu = linklists['main-menu'] %}
+        {% endif %}
         {% assign rendered_mobile_items = 0 %}
 
         {% comment %} 1. Render Shopify Mobile Navigation Menu if source is 'shopify_menu' or 'combined' {% endcomment %}
