@@ -153,28 +153,26 @@
 
 .kb-header__search {
   align-items: center;
-  background: #f8faf6;
-  border: 1px solid rgba(35, 66, 31, 0.18);
-  border-radius: 30px;
+  border: 1.5px solid rgb(35 66 31 / 65%);
+  border-radius: 6px;
   display: flex;
-  height: 38px;
-  max-width: 320px;
-  min-width: 200px;
+  height: 42px;
+  max-width: 360px;
+  min-width: 220px;
   overflow: hidden;
   position: relative;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, height 0.3s ease;
   width: 100%;
   justify-self: start;
 }
 
 .kb-header__search:focus-within {
-  background: #ffffff;
   border-color: var(--kb-accent, #23421f);
-  box-shadow: 0 0 0 3px rgba(35, 66, 31, 0.08);
+  box-shadow: 0 0 0 3px rgb(35 66 31 / 12%);
 }
 
 .kb-header__search-icon {
-  color: rgba(35, 66, 31, 0.7);
+  color: rgb(35 66 31 / 80%);
   display: none;
   left: 1rem;
   line-height: 0;
@@ -191,17 +189,17 @@
   color: #23421f;
   flex: 1;
   font: inherit;
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.92rem;
+  font-weight: 600;
   height: 100%;
   min-width: 0;
   outline: 0;
-  padding: 0 0.8rem 0 1rem;
+  padding: 0 0.9rem 0 1rem;
 }
 
 .kb-header__search-input::placeholder {
-  color: #64748b;
-  opacity: 0.85;
+  color: #5d7354;
+  opacity: 1;
 }
 
 .kb-header__search-submit {
@@ -344,15 +342,15 @@
   align-items: center;
   color: var(--kb-nav-text, #23421f);
   display: inline-flex;
-  font-size: 0.86rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 800;
   gap: 0.35rem;
-  letter-spacing: 0.05em;
-  min-height: 42px;
+  letter-spacing: 0.02em;
+  min-height: 48px;
   position: relative;
   text-decoration: none;
   text-transform: uppercase;
-  transition: color 0.25s ease;
+  transition: color 0.3s ease;
   white-space: nowrap;
 }
 
@@ -363,20 +361,20 @@
 
 .kb-header__nav-link span:last-child::after {
   background: var(--kb-accent, #23421f);
-  bottom: -3px;
+  bottom: -2px;
   content: "";
-  height: 1.5px;
+  height: 2px;
   left: 0;
   position: absolute;
   transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: left;
+  transition: transform 0.3s ease;
   width: 100%;
 }
 
 .kb-header__nav-link:hover,
 .kb-header__nav-link--active {
-  color: var(--kb-accent, #166534);
+  color: var(--kb-accent, #23421f);
 }
 
 .kb-header__nav-link:hover span:last-child::after,
@@ -720,20 +718,20 @@
 
 .kb-header__features {
   background: #ffffff !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 8px 0 10px;
+  border-bottom: none !important;
+  padding: 10px 0 12px;
 }
 
 .kb-header__features-inner {
   display: flex;
-  gap: 12px;
+  gap: 18px;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
   max-width: var(--container-width, 1280px);
   width: 100%;
   overflow-x: auto;
-  padding: 2px var(--container-padding, 1.25rem);
+  padding: 4px var(--container-padding, 1.25rem);
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
@@ -746,42 +744,42 @@
 
 .kb-header__feature {
   align-items: center;
-  background: #fbfbf9;
-  border: 1px solid rgba(35, 66, 31, 0.14);
-  border-radius: 30px;
-  color: #1b3b2b;
+  background: #FFFDF9;
+  border: 1px solid #E6DEC8;
+  border-radius: 16px;
+  color: #1B3B2B;
   display: inline-flex;
   flex: 0 0 auto;
   flex-direction: row;
-  padding: 5px 16px 5px 6px;
-  gap: 9px;
+  padding: 8px 22px 8px 10px;
+  gap: 12px;
   text-decoration: none;
-  box-shadow: none;
-  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease;
   position: relative;
   cursor: pointer;
 }
 
 .kb-header__feature:hover,
 .kb-header__feature:focus-visible {
-  background: #ffffff;
-  border-color: rgba(35, 66, 31, 0.35);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(35, 66, 31, 0.08);
+  background: #FFFFFF;
+  border-color: #D4A359;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(35, 66, 31, 0.1);
 }
 
 .kb-header__feature-icon {
   align-items: center;
-  background: rgba(35, 66, 31, 0.08) !important;
-  border: none !important;
+  background: #EFF3D3 !important;
+  border: 1px solid #D6CB9E !important;
   border-radius: 50% !important;
   display: flex;
-  height: 32px;
-  width: 32px;
+  height: 46px;
+  width: 46px;
   justify-content: center;
   position: relative;
-  transition: transform 0.2s ease;
-  flex: 0 0 32px;
+  transition: transform 200ms ease;
+  flex: 0 0 46px;
   box-shadow: none !important;
 }
 
@@ -789,8 +787,8 @@
 .kb-header__feature--new .kb-header__feature-icon,
 .kb-header__feature--all .kb-header__feature-icon,
 .kb-header__feature--save .kb-header__feature-icon {
-  background: rgba(35, 66, 31, 0.08) !important;
-  border: none !important;
+  background: #EFF3D3 !important;
+  border: 1px solid #D6CB9E !important;
   border-radius: 50% !important;
 }
 
@@ -802,14 +800,14 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1px;
+  gap: 2px;
 }
 
 .kb-header__feature-badge {
-  color: #166534;
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  color: #756C5B;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
   line-height: 1;
   text-transform: uppercase;
   background: transparent;
@@ -817,16 +815,16 @@
 }
 
 .kb-header__feature-title {
-  color: #1b3b2b;
-  font-size: 0.82rem;
-  font-weight: 600;
+  color: #1B3B2B;
+  font-size: 0.94rem;
+  font-weight: 800;
   line-height: 1.2;
   white-space: nowrap !important;
-  transition: color 0.2s ease;
+  transition: color 200ms ease;
 }
 
 .kb-header__feature:hover .kb-header__feature-title {
-  color: #166534;
+  color: #11281D;
 }
 
 @media (max-width: 48rem) {
@@ -1255,4 +1253,28 @@ body.kb-header-menu-open {
     animation: none;
     padding-left: 0;
   }
+}
+
+/* Seamless Section Connection - Remove Section Divider Lines & Borders */
+.home-section,
+.section,
+.best-sellers,
+.explore-pantry,
+.featured-collections,
+.categories,
+.beyond-products,
+.testimonials-section,
+.home-hero-split,
+.home-video,
+.site-footer,
+.kb-header__features,
+.shoppable-videos {
+  border-top: none !important;
+  border-bottom: none !important;
+  border-block: none !important;
+}
+
+.best-sellers__illustration-bg,
+.shoppable-videos__trees-top {
+  display: none !important;
 }

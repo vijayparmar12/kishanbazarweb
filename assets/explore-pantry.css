@@ -1,7 +1,9 @@
 .explore-pantry {
   background:
     linear-gradient(180deg, #fffaf0 0%, var(--explore-pantry-bg, #faf8f1) 48%, #f2f7ea 100%);
-  border-block: 1px solid rgb(35 66 31 / 8%);
+  border-block: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
   padding-block: clamp(54px, 7vw, 92px);
 }
 

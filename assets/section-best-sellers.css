@@ -1,6 +1,8 @@
 .best-sellers {
   background: linear-gradient(180deg, #fbfdf9 0%, #f4f8ee 100%);
-  border-block: 1px solid rgba(35, 66, 31, 0.08);
+  border-block: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
   max-width: 100%;
   width: 100%;
   padding-top: clamp(1.5rem, 3vw, 2.5rem);
@@ -325,6 +327,18 @@
   width: 100%;
   max-width: 100%;
   overflow: hidden;
+}
+
+.best-sellers {
+  position: relative;
+  overflow: hidden;
+  border-block: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.best-sellers__illustration-bg {
+  display: none !important;
 }
 
 .best-sellers__arrow {
