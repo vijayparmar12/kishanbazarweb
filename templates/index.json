@@ -273,7 +273,7 @@
         "heading_image_desktop": "shopify://shop_images/2706449e-59c7-4e7a-8ed7-4519a6220853.png",
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "contain",
-        "heading_box_height_desktop": 220,
+        "heading_box_height_desktop": 190,
         "heading_box_height_mobile": 80,
         "collection": "",
         "cta_label": "Shop More",
