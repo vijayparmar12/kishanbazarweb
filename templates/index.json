@@ -223,7 +223,7 @@
         "heading_image_desktop": "shopify://shop_images/129cc311-bece-4040-a556-4db9c1ac87cb.png",
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
-        "heading_box_height_desktop": 110,
+        "heading_box_height_desktop": 80,
         "heading_box_height_mobile": 80,
         "heading": "",
         "subheading": "",
