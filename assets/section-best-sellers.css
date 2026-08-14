@@ -43,21 +43,25 @@
   padding: 0 !important;
 }
 
-.best-sellers__cta-wrap--left {
+.best-sellers__cta-container {
   display: flex !important;
   justify-content: flex-start !important;
   align-items: center !important;
   width: 100% !important;
-  margin-top: 0.5rem !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 1.25rem !important;
   clear: both !important;
   position: relative !important;
   z-index: 5 !important;
 }
 
-.best-sellers__cta-wrap--left .best-sellers__shop-all-btn {
+.best-sellers__cta-container .best-sellers__shop-all-btn {
   margin: 0 !important;
   display: inline-flex !important;
   position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
 }
 
 .best-sellers__head--card-box {

@@ -132,15 +132,15 @@
         {% endif %}
       </div>
     {% endif %}
-
-    {% if section.settings.show_cta_btn != false %}
-      <div class="best-sellers__cta-wrap best-sellers__cta-wrap--left">
-        <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
-          <span>{{ section.settings.cta_label | default: "Shop All Categories →" }}</span>
-        </a>
-      </div>
-    {% endif %}
   </div>
+
+  {% if section.settings.show_cta_btn != false %}
+    <div class="best-sellers__cta-container">
+      <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
+        <span>{{ section.settings.cta_label | default: "Shop All Categories →" }}</span>
+      </a>
+    </div>
+  {% endif %}
 
   {% assign category_blocks = section.blocks | where: 'type', 'category_tab' %}
   {% if section.settings.show_tabs or category_blocks.size > 0 %}
