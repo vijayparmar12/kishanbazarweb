@@ -12,30 +12,114 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "badge": "Grown with care",
-        "heading": "Good food, from good soil.",
-        "subheading": "<p>Thoughtfully sourced pantry staples for your everyday table.</p>",
-        "primary_label": "Shop essentials",
-        "primary_link": "",
-        "secondary_label": "Our story",
-        "secondary_link": "/pages/our-story",
+        "left_image": "shopify://shop_images/hero_banner.png",
+        "left_link": "",
+        "shop_btn_text": "SHOP ESSENTIALS",
+        "story_btn_text": "OUR STORY",
         "story_link": "/pages/our-story",
+        "right_top_image": "shopify://shop_images/slider1.png",
+        "right_top_link": "",
+        "right_top_image_2": "shopify://shop_images/slider2.png",
+        "right_top_link_2": "",
+        "right_top_image_3": "shopify://shop_images/slider3.png",
+        "right_top_link_3": "",
+        "right_bottom_image": "shopify://shop_images/our_story.png",
         "right_bottom_link": "/pages/our-story",
-        "overlay_opacity": "medium",
-        "text_alignment": "left"
+        "mobile_aspect_ratio": "3 / 2"
       }
     },
     "categories": {
       "type": "best-sellers",
+      "blocks": {
+        "card_title_price_gXgeTC": {
+          "type": "card_title_price",
+          "settings": {
+            "title_color": "#23421f",
+            "price_color": "#23421f",
+            "compare_price_color": "#8d8d8d"
+          }
+        },
+        "card_subtitle_kBDzzL": {
+          "type": "card_subtitle",
+          "settings": {
+            "subtitle_color": "#6b7280"
+          }
+        },
+        "card_rating_AEP9Vq": {
+          "type": "card_rating",
+          "settings": {
+            "rating_stars_color": "#e5a800"
+          }
+        },
+        "card_benefit_icons_qPwcFa": {
+          "type": "card_benefit_icons",
+          "settings": {
+            "show_benefit_icons": true,
+            "icon_size": 72,
+            "benefit_image_1": "shopify://shop_images/2_6d0f5203-c03b-471d-97b5-109576d4357e.png",
+            "benefit_image_2": "shopify://shop_images/3_1_f0acb653-cc5e-4071-96ff-8b1d50010d43.png",
+            "benefit_image_3": "shopify://shop_images/1_1_555885c8-1f8f-4a33-a480-1e451151a50b.png"
+          }
+        },
+        "card_variant_selector_LXjbbe": {
+          "type": "card_variant_selector",
+          "settings": {
+            "border_color": "#1f1f1f",
+            "bg_color": "#ffffff",
+            "text_color": "#1f1f1f"
+          }
+        },
+        "card_buy_button_RCMTAq": {
+          "type": "card_buy_button",
+          "settings": {
+            "add_to_cart_text": "ADD TO CART",
+            "btn_bg": "#23421f",
+            "btn_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "card_title_price_gXgeTC",
+        "card_subtitle_kBDzzL",
+        "card_rating_AEP9Vq",
+        "card_benefit_icons_qPwcFa",
+        "card_variant_selector_LXjbbe",
+        "card_buy_button_RCMTAq"
+      ],
       "settings": {
         "eyebrow": "Loved by Thousands ❤️",
         "heading": "Our most-loved picks",
         "collection": "",
         "cta_label": "Shop Now →",
-        "columns": "4",
+        "background_color": "#f8f4eb",
         "maximum": 8,
+        "show_tabs": true,
+        "show_cta_btn": true,
+        "cta_url": "",
+        "show_badge": true,
+        "custom_badge_text": "",
+        "show_wishlist": true,
         "show_vendor": false,
-        "show_rating": true
+        "show_subtitle": true,
+        "show_rating": true,
+        "show_benefit_icons": true,
+        "show_variant_selector": true,
+        "show_add_to_cart": true,
+        "cart_button_text": "ADD TO CART",
+        "title_color": "#23421f",
+        "price_color": "#23421f",
+        "compare_price_color": "#8d8d8d",
+        "subtitle_color": "#6b7280",
+        "rating_stars_color": "#e5a800",
+        "badge_bg": "#23421f",
+        "badge_color": "#ffffff",
+        "wishlist_bg": "#ffffff",
+        "wishlist_color": "#23421f",
+        "cart_button_bg": "#23421f",
+        "cart_button_color": "#ffffff",
+        "tab_icon_size": 76,
+        "tab_active_color": "#1b4317",
+        "tab_inactive_color": "#64748b"
       }
     },
     "shoppable_videos": {
@@ -44,33 +128,81 @@
         "video_1": {
           "type": "video",
           "settings": {
-            "show_price": true,
-            "show_compare_price": true,
-            "show_product_image": true
+            "product": "",
+            "video_url": "",
+            "video_label": "SHOP BY VIDEOS",
+            "badge_text": "BESTSELLER",
+            "custom_title": "",
+            "subtitle": "Stone Ground • 1 Kg",
+            "selling_price": "",
+            "compare_price": "",
+            "button_text": "ADD TO CART",
+            "like_count": "1.2K",
+            "comment_count": "86",
+            "share_count": "120",
+            "show_likes": true,
+            "show_comments": true,
+            "show_shares": true
           }
         },
         "video_2": {
           "type": "video",
           "settings": {
-            "show_price": true,
-            "show_compare_price": true,
-            "show_product_image": true
+            "product": "",
+            "video_url": "",
+            "video_label": "SHOP BY VIDEOS",
+            "badge_text": "BESTSELLER",
+            "custom_title": "",
+            "subtitle": "Stone Ground • 1 Kg",
+            "selling_price": "",
+            "compare_price": "",
+            "button_text": "ADD TO CART",
+            "like_count": "1.2K",
+            "comment_count": "86",
+            "share_count": "120",
+            "show_likes": true,
+            "show_comments": true,
+            "show_shares": true
           }
         },
         "video_3": {
           "type": "video",
           "settings": {
-            "show_price": true,
-            "show_compare_price": true,
-            "show_product_image": true
+            "product": "",
+            "video_url": "",
+            "video_label": "SHOP BY VIDEOS",
+            "badge_text": "BESTSELLER",
+            "custom_title": "",
+            "subtitle": "Stone Ground • 1 Kg",
+            "selling_price": "",
+            "compare_price": "",
+            "button_text": "ADD TO CART",
+            "like_count": "1.2K",
+            "comment_count": "86",
+            "share_count": "120",
+            "show_likes": true,
+            "show_comments": true,
+            "show_shares": true
           }
         },
         "video_4": {
           "type": "video",
           "settings": {
-            "show_price": true,
-            "show_compare_price": true,
-            "show_product_image": true
+            "product": "",
+            "video_url": "",
+            "video_label": "SHOP BY VIDEOS",
+            "badge_text": "BESTSELLER",
+            "custom_title": "",
+            "subtitle": "Stone Ground • 1 Kg",
+            "selling_price": "",
+            "compare_price": "",
+            "button_text": "ADD TO CART",
+            "like_count": "1.2K",
+            "comment_count": "86",
+            "share_count": "120",
+            "show_likes": true,
+            "show_comments": true,
+            "show_shares": true
           }
         }
       },
@@ -81,13 +213,20 @@
         "video_4"
       ],
       "settings": {
+        "use_default_header_bg": true,
+        "header_bg_color": "#ffffff",
+        "header_padding_desktop": 20,
+        "header_padding_desktop_h": 24,
+        "header_padding_mobile": 14,
+        "header_padding_mobile_h": 16,
+        "header_border_radius": 16,
         "heading": "It takes a village to make good food — come take a peek!",
         "subheading": "Shop by videos",
         "show_demo_video": true,
         "bulk_video_csv": "# product-handle,https://video-url.mp4\n# organic-ghee,https://cdn.shopify.com/s/files/1/YOUR_SHOP/files/video1.mp4",
-        "default_button_text": "Add to cart",
         "background_color": "#eef2e4",
         "heading_color": "#2e5d34",
+        "default_button_text": "Add to cart",
         "autoplay": true,
         "loop": true,
         "show_arrows": true,
@@ -101,10 +240,52 @@
         "heading": "Top Picks For You",
         "collection": "",
         "cta_label": "Shop More",
-        "show_tabs": true,
+        "background_color": "#f8f4eb",
         "maximum": 8,
+        "show_tabs": true,
+        "show_cta_btn": true,
+        "cta_url": "",
+        "show_badge": true,
+        "custom_badge_text": "",
+        "show_wishlist": true,
         "show_vendor": false,
-        "show_rating": true
+        "show_subtitle": true,
+        "show_rating": true,
+        "show_benefit_icons": true,
+        "show_variant_selector": true,
+        "show_add_to_cart": true,
+        "cart_button_text": "ADD TO CART",
+        "title_color": "#23421f",
+        "price_color": "#23421f",
+        "compare_price_color": "#8d8d8d",
+        "subtitle_color": "#6b7280",
+        "rating_stars_color": "#e5a800",
+        "badge_bg": "#23421f",
+        "badge_color": "#ffffff",
+        "wishlist_bg": "#ffffff",
+        "wishlist_color": "#23421f",
+        "cart_button_bg": "#23421f",
+        "cart_button_color": "#ffffff",
+        "tab_icon_size": 76,
+        "tab_active_color": "#1b4317",
+        "tab_inactive_color": "#64748b"
+      }
+    },
+    "beyond_products": {
+      "type": "beyond-products",
+      "settings": {
+        "subheading": "Native Ingredients. No Substitutes.",
+        "heading": "Beyond Our Products",
+        "use_default_header_bg": true,
+        "header_bg_color": "#ffffff",
+        "header_padding_desktop": 20,
+        "header_padding_desktop_h": 24,
+        "header_padding_mobile": 14,
+        "header_padding_mobile_h": 16,
+        "header_border_radius": 16,
+        "bg_color": "#f8f4eb",
+        "subheading_color": "#8b4513",
+        "heading_color": "#23421f"
       }
     },
     "testimonials": {
@@ -113,25 +294,31 @@
         "review_1": {
           "type": "testimonial",
           "settings": {
+            "headline": "Finally a truly delicious and quality product.",
+            "review": "The quality is beautiful and every order feels thoughtfully packed. Kishan Bazar has become a staple in our kitchen.",
             "name": "Priya S.",
-            "rating": 5,
-            "review": "The quality is beautiful and every order feels thoughtfully packed. Kishan Bazar has become a staple in our kitchen."
+            "role": "Owner and Coach at Crossfit Third Eye",
+            "rating": 5
           }
         },
         "review_2": {
           "type": "testimonial",
           "settings": {
+            "headline": "Finally a truly delicious and quality product.",
+            "review": "Wholesome products with the kind of flavour you remember from home. Fast delivery too.",
             "name": "Aman R.",
-            "rating": 5,
-            "review": "Wholesome products with the kind of flavour you remember from home. Fast delivery too."
+            "role": "Owner and Coach at Crossfit Third Eye",
+            "rating": 5
           }
         },
         "review_3": {
           "type": "testimonial",
           "settings": {
+            "headline": "Finally a truly delicious and quality product.",
+            "review": "I love knowing where our pantry essentials come from. The range is simple, honest, and delicious.",
             "name": "Neha K.",
-            "rating": 5,
-            "review": "I love knowing where our pantry essentials come from. The range is simple, honest, and delicious."
+            "role": "Owner and Coach at Crossfit Third Eye",
+            "rating": 5
           }
         }
       },
@@ -141,14 +328,18 @@
         "review_3"
       ],
       "settings": {
-        "heading": "Kind words from your table"
-      }
-    },
-    "beyond_products": {
-      "type": "beyond-products",
-      "settings": {
-        "subheading": "Native Ingredients. No Substitutes.",
-        "heading": "Beyond Our Products"
+        "use_default_header_bg": true,
+        "header_bg_color": "#ffffff",
+        "header_padding_desktop": 20,
+        "header_padding_desktop_h": 24,
+        "header_padding_mobile": 14,
+        "header_padding_mobile_h": 16,
+        "header_border_radius": 16,
+        "eyebrow": "⭐ 10,000+ VERIFIED REVIEWS ⭐",
+        "heading": "Kind words from your table",
+        "subheading": "Real stories from families who love our pure, farm-fresh organic staples.",
+        "card_border_color": "#23421f",
+        "card_bg_color": "#ffffff"
       }
     }
   },
