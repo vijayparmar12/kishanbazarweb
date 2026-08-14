@@ -25,10 +25,12 @@
     {% endif %}
   }
 
-  #BestSellers-{{ section.id }} .home-section__heading-picture {
+  #BestSellers-{{ section.id }} .home-section__heading-picture,
+  #BestSellers-{{ section.id }} .best-sellers__heading-banner-wrap {
     display: block;
-    width: 100%;
-    max-width: {{ section.settings.heading_image_max_width | default: 1000 }}px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
   }
 
   #BestSellers-{{ section.id }} .home-section__heading-image {
@@ -36,7 +38,8 @@
     max-width: 100% !important;
     height: auto !important;
     display: block !important;
-    object-fit: contain !important;
+    object-fit: cover !important;
+    margin: 0 !important;
   }
 
   @media screen and (max-width: 749px) {
@@ -48,8 +51,9 @@
       {% endif %}
     }
     #BestSellers-{{ section.id }} .home-section__heading-picture {
-      max-width: {{ section.settings.heading_image_mobile_max_width | default: 600 }}px !important;
-      margin: 0 auto;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
     }
   }
 
