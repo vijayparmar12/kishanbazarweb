@@ -45,6 +45,34 @@
     {% endif %}
   }
 
+  #BestSellers-{{ section.id }} .best-sellers__cta-container {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    text-align: right !important;
+    width: 100% !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.75rem !important;
+    clear: both !important;
+  }
+
+  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+    background-color: #1b4317 !important;
+    color: #ffffff !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    padding: 0.42rem 1rem !important;
+    border-radius: 999px !important;
+    text-decoration: none !important;
+    box-shadow: 0 3px 10px rgba(27, 67, 23, 0.2) !important;
+    transition: all 200ms ease !important;
+  }
+
   @media screen and (max-width: 749px) {
     #BestSellers-{{ section.id }} {
       {% if section.settings.background_image_mobile != blank %}
@@ -57,6 +85,23 @@
       width: 100% !important;
       max-width: 100% !important;
       margin: 0 !important;
+    }
+    #BestSellers-{{ section.id }} .best-sellers__cta-container {
+      display: flex !important;
+      justify-content: flex-end !important;
+      text-align: right !important;
+      width: 100% !important;
+      margin-top: 0.35rem !important;
+      margin-bottom: 0.65rem !important;
+    }
+    #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn {
+      font-size: 0.72rem !important;
+      padding: 0.32rem 0.82rem !important;
+      margin-left: auto !important;
+      margin-right: 0 !important;
+      background-color: #1b4317 !important;
+      color: #ffffff !important;
+      border-radius: 999px !important;
     }
   }
 
@@ -137,7 +182,13 @@
     {% endif %}
   </div>
 
-
+  {% if section.settings.show_cta_btn != false %}
+    <div class="best-sellers__cta-container">
+      <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
+        <span>{{ section.settings.cta_label | default: "Shop All Categories →" }}</span>
+      </a>
+    </div>
+  {% endif %}
 
   {% assign category_blocks = section.blocks | where: 'type', 'category_tab' %}
   {% if section.settings.show_tabs or category_blocks.size > 0 %}
@@ -327,6 +378,9 @@
     { "type": "color", "id": "background_color", "label": "Background Color", "default": "#FFFFFF" },
     { "type": "range", "id": "maximum", "label": "Maximum products", "min": 2, "max": 16, "step": 1, "default": 8 },
     { "type": "checkbox", "id": "show_tabs", "label": "Show category filter tabs (Ghee, Oil, Atta, etc.)", "default": true },
+    { "type": "checkbox", "id": "show_cta_btn", "label": "Show 'Shop All Categories' CTA button", "default": true },
+    { "type": "text", "id": "cta_label", "label": "Shop All CTA button label", "default": "Shop All Categories →" },
+    { "type": "url", "id": "cta_url", "label": "CTA button link" },
     {
       "type": "header",
       "content": "Product Card Customization & Toggles"
