@@ -473,8 +473,33 @@
   position: absolute;
 }
 
+/* Desktop & Mobile Header Background Images */
+.kb-header,
+.kb-header1,
+.kb-header2,
+.kb-header-top-sticky {
+  background-color: var(--kb-header-bg, #ffffff);
+  background-image: var(--kb-header-bg-desktop, none);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media screen and (max-width: 749px) {
+  .kb-header,
+  .kb-header1,
+  .kb-header2,
+  .kb-header-top-sticky {
+    background-image: var(--kb-header-bg-mobile, var(--kb-header-bg-desktop, none));
+  }
+}
+
 .kb-header__mobile-panel {
-  background: #fff;
+  background-color: #ffffff;
+  background-image: var(--kb-drawer-bg-image, none);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   box-shadow: 18px 0 42px rgb(35 66 31 / 18%);
   display: flex;
   flex-direction: column;
@@ -487,10 +512,6 @@
   width: 100%;
   z-index: 2;
 }
-
-/* ==========================================================================
-   3-Column Mobile Category Grid (Matching Two Brothers Reference - Icon ABOVE Title)
-   ========================================================================== */
 
 .kb-mobile-cat-grid {
   display: grid;

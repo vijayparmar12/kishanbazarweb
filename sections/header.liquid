@@ -1,9 +1,25 @@
+
 {{ 'header.css' | asset_url | stylesheet_tag }}
 {{ 'mega-menu.css' | asset_url | stylesheet_tag }}
 {{ 'mega-menu-category.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'header.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'mega-menu.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'mega-menu-category.js' | asset_url }}" defer="defer"></script>
+
+{% assign header_bg_desktop = '' %}
+{% if section.settings.header_background_image_desktop != blank %}
+  {% assign header_bg_desktop = section.settings.header_background_image_desktop | image_url: width: 2000 %}
+{% endif %}
+
+{% assign header_bg_mobile = '' %}
+{% if section.settings.header_background_image_mobile != blank %}
+  {% assign header_bg_mobile = section.settings.header_background_image_mobile | image_url: width: 1000 %}
+{% endif %}
+
+{% assign drawer_bg_mobile = '' %}
+{% if section.settings.mobile_drawer_background_image != blank %}
+  {% assign drawer_bg_mobile = section.settings.mobile_drawer_background_image | image_url: width: 1000 %}
+{% endif %}
 
 <header
   class="kb-header{% if section.settings.enable_sticky_header %} kb-header--sticky{% endif %}{% unless template.name == 'index' %} kb-header--inner-page{% endunless %}"
@@ -12,6 +28,9 @@
     --kb-announcement-bg: {{ section.settings.announcement_background }};
     --kb-announcement-text: {{ section.settings.announcement_text_color }};
     --kb-header-bg: {{ section.settings.header_background }};
+    {% if header_bg_desktop != blank %}--kb-header-bg-desktop: url('{{ header_bg_desktop }}');{% endif %}
+    {% if header_bg_mobile != blank %}--kb-header-bg-mobile: url('{{ header_bg_mobile }}');{% endif %}
+    {% if drawer_bg_mobile != blank %}--kb-drawer-bg-image: url('{{ drawer_bg_mobile }}');{% endif %}
     --kb-nav-text: {{ section.settings.nav_text_color }};
     --kb-accent: {{ section.settings.accent_color }};
     --kb-feature-bg: {{ section.settings.feature_row_background }};
@@ -42,8 +61,6 @@
         </div>
       </div>
     {% endif %}
-
-    <!-- HEADER 1: SEARCH, LOGO, PROFILE, WISHLIST, CART -->
     <header class="kb-header1" data-header1>
       <div class="kb-header__main-grid">
         <button class="kb-header__menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="kb-mobile-menu-{{ section.id }}" data-menu-toggle>
@@ -376,11 +393,15 @@
     { "type": "text", "id": "announcement_text_3", "label": "Announcement text 3", "default": "Farm-fresh staples delivered to your doorstep" },
     { "type": "color", "id": "announcement_background", "label": "Announcement background", "default": "#23421F" },
     { "type": "color", "id": "announcement_text_color", "label": "Announcement text color", "default": "#FFFFFF" },
-    { "type": "header", "content": "Header" },
+    { "type": "header", "content": "Header Styling & Colors" },
     { "type": "image_picker", "id": "logo", "label": "Logo" },
     { "type": "range", "id": "logo_width", "label": "Logo width", "min": 90, "max": 320, "step": 10, "unit": "px", "default": 220 },
     { "type": "checkbox", "id": "enable_sticky_header", "label": "Enable sticky header", "default": true },
-    { "type": "color", "id": "header_background", "label": "Header background", "default": "#FFFFFF" },
+    { "type": "color", "id": "header_background", "label": "Header background color", "default": "#FFFFFF" },
+    { "type": "header", "content": "Header Background Images (Theme Editor)" },
+    { "type": "image_picker", "id": "header_background_image_desktop", "label": "Desktop Header Background Image", "info": "Upload background image for Desktop / Web view" },
+    { "type": "image_picker", "id": "header_background_image_mobile", "label": "Mobile Header Background Image", "info": "Upload background image for Mobile Header view" },
+    { "type": "image_picker", "id": "mobile_drawer_background_image", "label": "Mobile Drawer Menu Background Image", "info": "Upload background image for 3-line mobile drawer panel" },
     { "type": "color", "id": "nav_text_color", "label": "Navigation text", "default": "#23421F" },
     { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#23421F" },
     { "type": "header", "content": "Search" },
