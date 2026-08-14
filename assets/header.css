@@ -1,6 +1,16 @@
 /* STICKY TOP CONTAINER: ANNOUNCEMENT BAR + HEADER 1 (SEARCH, LOGO, PROFILE, WISHLIST, CART) */
+.kb-header {
+  background-color: var(--kb-header-bg, #ffffff);
+  background-image: var(--kb-header-bg-desktop, none);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  width: 100%;
+}
+
 .kb-header-top-sticky {
-  background: var(--kb-header-bg, #ffffff);
+  background: transparent;
   width: 100%;
   transition: box-shadow 200ms ease;
   position: relative;
@@ -15,11 +25,15 @@
   width: 100% !important;
   z-index: 9000 !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
-  background: var(--kb-header-bg, #ffffff) !important;
+  background-color: var(--kb-header-bg, #ffffff) !important;
+  background-image: var(--kb-header-bg-desktop, none) !important;
+  background-position: center top !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
 }
 
 .kb-header1 {
-  background: var(--kb-header-bg, #ffffff);
+  background: transparent;
   color: var(--kb-nav-text, #23421f);
   width: 100%;
   border-bottom: none;
@@ -30,7 +44,7 @@
 .kb-header2 {
   position: relative;
   z-index: 9000;
-  background: var(--kb-header-bg, #ffffff);
+  background: transparent;
   color: var(--kb-nav-text, #23421f);
   width: 100%;
   border-bottom: none;
@@ -474,22 +488,16 @@
 }
 
 /* Desktop & Mobile Header Background Images */
-.kb-header,
-.kb-header1,
-.kb-header2,
-.kb-header-top-sticky {
+.kb-header {
   background-color: var(--kb-header-bg, #ffffff);
   background-image: var(--kb-header-bg-desktop, none);
-  background-position: center;
+  background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 @media screen and (max-width: 749px) {
-  .kb-header,
-  .kb-header1,
-  .kb-header2,
-  .kb-header-top-sticky {
+  .kb-header {
     background-image: var(--kb-header-bg-mobile, var(--kb-header-bg-desktop, none));
   }
 }
