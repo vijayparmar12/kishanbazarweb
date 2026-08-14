@@ -113,37 +113,40 @@
 
         {% if desktop_menu != blank and desktop_menu.links.size > 0 %}
           {% for link in desktop_menu.links %}
-            {% assign total_nav_count = total_nav_count | plus: 1 %}
-            {% if link.links.size > 0 %}
-              <li class="kb-header__nav-item kb-header__nav-item--has-dropdown" data-dropdown-item>
-                <a class="kb-header__nav-link" href="{{ link.url }}">
-                  <span>{{ link.title }}</span>
-                  <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span>
-                </a>
-                <ul class="kb-header__submenu" role="list">
-                  {% for childlink in link.links %}
-                    <li>
-                      <a href="{{ childlink.url }}" class="kb-header__submenu-link">{{ childlink.title }}</a>
-                      {% if childlink.links.size > 0 %}
-                        <ul class="kb-header__submenu-child-list" role="list">
-                          {% for grandchildlink in childlink.links %}
-                            <li>
-                              <a href="{{ grandchildlink.url }}" class="kb-header__submenu-link kb-header__submenu-link--grandchild">{{ grandchildlink.title }}</a>
-                            </li>
-                          {% endfor %}
-                        </ul>
-                      {% endif %}
-                    </li>
-                  {% endfor %}
-                </ul>
-              </li>
-            {% else %}
-              <li class="kb-header__nav-item">
-                <a class="kb-header__nav-link" href="{{ link.url }}">
-                  <span>{{ link.title }}</span>
-                </a>
-              </li>
-            {% endif %}
+            {% assign link_title_clean = link.title | downcase | strip %}
+            {% unless link_title_clean == 'home' %}
+              {% assign total_nav_count = total_nav_count | plus: 1 %}
+              {% if link.links.size > 0 %}
+                <li class="kb-header__nav-item kb-header__nav-item--has-dropdown" data-dropdown-item>
+                  <a class="kb-header__nav-link" href="{{ link.url }}">
+                    <span>{{ link.title }}</span>
+                    <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span>
+                  </a>
+                  <ul class="kb-header__submenu" role="list">
+                    {% for childlink in link.links %}
+                      <li>
+                        <a href="{{ childlink.url }}" class="kb-header__submenu-link">{{ childlink.title }}</a>
+                        {% if childlink.links.size > 0 %}
+                          <ul class="kb-header__submenu-child-list" role="list">
+                            {% for grandchildlink in childlink.links %}
+                              <li>
+                                <a href="{{ grandchildlink.url }}" class="kb-header__submenu-link kb-header__submenu-link--grandchild">{{ grandchildlink.title }}</a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </li>
+              {% else %}
+                <li class="kb-header__nav-item">
+                  <a class="kb-header__nav-link" href="{{ link.url }}">
+                    <span>{{ link.title }}</span>
+                  </a>
+                </li>
+              {% endif %}
+            {% endunless %}
           {% endfor %}
         {% endif %}
 
