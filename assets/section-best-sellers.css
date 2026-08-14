@@ -50,6 +50,11 @@
   margin-bottom: 1.25rem !important;
 }
 
+.best-sellers__heading-banner-wrap {
+  width: 100%;
+  display: block;
+}
+
 .home-section__heading-picture {
   display: block;
   width: 100%;
