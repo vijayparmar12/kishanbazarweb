@@ -107,11 +107,12 @@
 
 .home-section__heading-image {
   height: auto !important;
+  max-height: clamp(90px, 16vw, 175px) !important;
   object-fit: contain !important;
-  width: 100% !important;
+  width: auto !important;
   max-width: 100% !important;
   display: block !important;
-  margin: 0 0 0.5rem 0 !important;
+  margin: 0 auto 0.25rem auto !important;
   border-radius: 12px;
   position: relative !important;
 }
