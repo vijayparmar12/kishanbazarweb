@@ -528,3 +528,19 @@
     align-items: center;
   }
 }
+
+/* Enforce Right-Aligned Shop More Button below Heading */
+.best-sellers__cta-container {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 1.25rem !important;
+  clear: both !important;
+}
+
+.best-sellers__cta-container .best-sellers__shop-all-btn {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
