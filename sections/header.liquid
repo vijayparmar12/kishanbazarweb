@@ -105,38 +105,41 @@
         {% assign nav_block_count = 0 %}
         {% for block in section.blocks %}
           {% if block.type == 'nav_item' %}
-            {% assign nav_block_count = nav_block_count | plus: 1 %}
-            {% assign mega_type = block.settings.mega_menu | default: 'none' %}
-            {% if mega_type != 'none' and mega_type != blank %}
-              <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item {{ block.shopify_attributes }}>
-                <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-{{ mega_type }}-{{ section.id }}" data-mega-trigger>
-                  {% if block.settings.icon_image != blank %}
-                    {{ block.settings.icon_image | image_url: width: 48 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
-                  {% elsif block.settings.icon != blank %}
-                    <span aria-hidden="true">{{ block.settings.icon }}</span>
-                  {% endif %}
-                  <span>{{ block.settings.title }}</span>
-                  {% if block.settings.badge != blank %}
-                    <span class="kb-nav-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
-                  {% endif %}
-                  <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span>
-                </button>
-                {% render 'mega-menu', section: section, menu_type: mega_type %}
-              </li>
-            {% else %}
-              <li class="kb-header__nav-item" {{ block.shopify_attributes }}>
-                <a class="kb-header__nav-link{% if block.settings.icon_image != blank or block.settings.icon != blank %} kb-header__nav-link--icon{% endif %}" href="{{ block.settings.url | default: routes.all_products_collection_url }}">
-                  {% if block.settings.icon_image != blank %}
-                    {{ block.settings.icon_image | image_url: width: 48 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
-                  {% elsif block.settings.icon != blank %}
-                    <span aria-hidden="true">{{ block.settings.icon }}</span>
-                  {% endif %}
-                  <span>{{ block.settings.title }}</span>
-                  {% if block.settings.badge != blank %}
-                    <span class="kb-nav-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
-                  {% endif %}
-                </a>
-              </li>
+            {% assign target = block.settings.display_target | default: 'all' %}
+            {% if target == 'all' or target == 'desktop' %}
+              {% assign nav_block_count = nav_block_count | plus: 1 %}
+              {% assign mega_type = block.settings.mega_menu | default: 'none' %}
+              {% if mega_type != 'none' and mega_type != blank %}
+                <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item {{ block.shopify_attributes }}>
+                  <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-{{ mega_type }}-{{ section.id }}" data-mega-trigger>
+                    {% if block.settings.icon_image != blank %}
+                      {{ block.settings.icon_image | image_url: width: 48 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
+                    {% elsif block.settings.icon != blank %}
+                      <span aria-hidden="true">{{ block.settings.icon }}</span>
+                    {% endif %}
+                    <span>{{ block.settings.title }}</span>
+                    {% if block.settings.badge != blank %}
+                      <span class="kb-nav-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
+                    {% endif %}
+                    <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span>
+                  </button>
+                  {% render 'mega-menu', section: section, menu_type: mega_type %}
+                </li>
+              {% else %}
+                <li class="kb-header__nav-item" {{ block.shopify_attributes }}>
+                  <a class="kb-header__nav-link{% if block.settings.icon_image != blank or block.settings.icon != blank %} kb-header__nav-link--icon{% endif %}" href="{{ block.settings.url | default: routes.all_products_collection_url }}">
+                    {% if block.settings.icon_image != blank %}
+                      {{ block.settings.icon_image | image_url: width: 48 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
+                    {% elsif block.settings.icon != blank %}
+                      <span aria-hidden="true">{{ block.settings.icon }}</span>
+                    {% endif %}
+                    <span>{{ block.settings.title }}</span>
+                    {% if block.settings.badge != blank %}
+                      <span class="kb-nav-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
+                    {% endif %}
+                  </a>
+                </li>
+              {% endif %}
             {% endif %}
           {% endif %}
         {% endfor %}
@@ -231,34 +234,107 @@
         <button class="kb-header__mobile-close" type="button" aria-label="Close menu" data-menu-close>{% render 'icon', name: 'close', size: 24 %}</button>
       </div>
       <ul class="kb-header__mobile-list" role="list">
-        {% assign total_nav_blocks = 0 %}
-        {% for block in section.blocks %}
-          {% if block.type == 'nav_item' %}
-            {% assign total_nav_blocks = total_nav_blocks | plus: 1 %}
-            {% assign mega_type = block.settings.mega_menu | default: 'none' %}
-            {% if mega_type != 'none' and mega_type != blank %}
-              <li class="kb-header__mobile-item" {{ block.shopify_attributes }}>
-                {% render 'mega-menu', section: section, menu_type: mega_type, mobile: true, custom_title: block.settings.title, custom_icon_image: block.settings.icon_image, custom_icon: block.settings.icon, custom_badge: block.settings.badge %}
-              </li>
-            {% else %}
-              <li class="kb-header__mobile-item kb-header__mobile-item--standard" {{ block.shopify_attributes }}>
-                <a class="kb-header__mobile-link" href="{{ block.settings.url | default: routes.root_url }}">
-                  {% if block.settings.icon_image != blank %}
-                    {{ block.settings.icon_image | image_url: width: 48 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
-                  {% elsif block.settings.icon != blank %}
-                    <span aria-hidden="true">{{ block.settings.icon }}</span>
-                  {% endif %}
-                  <span>{{ block.settings.title }}</span>
-                  {% if block.settings.badge != blank %}
-                    <span class="kb-nav-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
-                  {% endif %}
-                </a>
-              </li>
+        {% assign mobile_source = section.settings.mobile_menu_source | default: 'shopify_menu' %}
+        {% assign mobile_menu_handle = section.settings.mobile_menu %}
+        {% if mobile_menu_handle == blank %}
+          {% assign mobile_menu_handle = section.settings.menu %}
+        {% endif %}
+        {% assign rendered_mobile_items = 0 %}
+
+        {% comment %} 1. Render Shopify Mobile Navigation Menu if source is 'shopify_menu' or 'combined' {% endcomment %}
+        {% if mobile_source == 'shopify_menu' or mobile_source == 'combined' %}
+          {% if mobile_menu_handle != blank %}
+            {% assign active_mobile_menu = linklists[mobile_menu_handle] %}
+            {% if active_mobile_menu.links.size > 0 %}
+              {% for link in active_mobile_menu.links %}
+                {% assign rendered_mobile_items = rendered_mobile_items | plus: 1 %}
+                {% if link.links.size > 0 %}
+                  <li class="kb-header__mobile-item">
+                    <details class="kb-mega-mobile" data-mega-mobile>
+                      <summary class="kb-header__mobile-link kb-mega-mobile__summary">
+                        <span>{{ link.title }}</span>
+                        <span class="kb-mega-mobile__icon" aria-hidden="true">
+                          <svg class="kb-mega-mobile__chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                          </svg>
+                        </span>
+                      </summary>
+                      <div class="kb-mega-mobile__content">
+                        <ul class="kb-header__mobile-child-list" role="list">
+                          {% for childlink in link.links %}
+                            {% if childlink.links.size > 0 %}
+                              <li class="kb-header__mobile-child-item">
+                                <details class="kb-mega-mobile kb-mega-mobile--sub" data-mega-mobile>
+                                  <summary class="kb-header__mobile-link kb-header__mobile-link--sub">
+                                    <span>{{ childlink.title }}</span>
+                                    <span class="kb-mega-mobile__icon" aria-hidden="true">
+                                      <svg class="kb-mega-mobile__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                      </svg>
+                                    </span>
+                                  </summary>
+                                  <ul class="kb-header__mobile-grandchild-list" role="list">
+                                    {% for grandchildlink in childlink.links %}
+                                      <li>
+                                        <a href="{{ grandchildlink.url }}" class="kb-header__mobile-grandchild-link">{{ grandchildlink.title }}</a>
+                                      </li>
+                                    {% endfor %}
+                                  </ul>
+                                </details>
+                              </li>
+                            {% else %}
+                              <li class="kb-header__mobile-child-item">
+                                <a href="{{ childlink.url }}" class="kb-header__mobile-child-link">{{ childlink.title }}</a>
+                              </li>
+                            {% endif %}
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    </details>
+                  </li>
+                {% else %}
+                  <li class="kb-header__mobile-item">
+                    <a class="kb-header__mobile-link" href="{{ link.url }}">
+                      <span>{{ link.title }}</span>
+                    </a>
+                  </li>
+                {% endif %}
+              {% endfor %}
             {% endif %}
           {% endif %}
-        {% endfor %}
+        {% endif %}
 
-        {% if total_nav_blocks == 0 %}
+        {% comment %} 2. Render Mobile Theme Editor Blocks if source is 'blocks' or 'combined', or if no shopify menu was rendered {% endcomment %}
+        {% if mobile_source == 'blocks' or mobile_source == 'combined' or rendered_mobile_items == 0 %}
+          {% for block in section.blocks %}
+            {% assign target = block.settings.display_target | default: 'all' %}
+            {% if block.type == 'mobile_nav_item' or (block.type == 'nav_item' and (target == 'all' or target == 'mobile')) %}
+              {% assign rendered_mobile_items = rendered_mobile_items | plus: 1 %}
+              {% assign mega_type = block.settings.mega_menu | default: 'none' %}
+              {% if mega_type != 'none' and mega_type != blank %}
+                <li class="kb-header__mobile-item" {{ block.shopify_attributes }}>
+                  {% render 'mega-menu', section: section, menu_type: mega_type, mobile: true, custom_title: block.settings.title, custom_icon_image: block.settings.icon_image, custom_icon: block.settings.icon, custom_badge: block.settings.badge %}
+                </li>
+              {% else %}
+                <li class="kb-header__mobile-item kb-header__mobile-item--standard" {{ block.shopify_attributes }}>
+                  <a class="kb-header__mobile-link" href="{{ block.settings.url | default: routes.root_url }}">
+                    {% if block.settings.icon_image != blank %}
+                      {{ block.settings.icon_image | image_url: width: 48 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
+                    {% elsif block.settings.icon != blank %}
+                      <span aria-hidden="true">{{ block.settings.icon }}</span>
+                    {% endif %}
+                    <span>{{ block.settings.title }}</span>
+                    {% if block.settings.badge != blank %}
+                      <span class="kb-nav-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
+                    {% endif %}
+                  </a>
+                </li>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {% if rendered_mobile_items == 0 %}
           <li>{% render 'mega-menu', section: section, menu_type: 'category', mobile: true %}</li>
           <li>{% render 'mega-menu', section: section, menu_type: 'farm', mobile: true %}</li>
           <li>{% render 'mega-menu', section: section, menu_type: 'customers', mobile: true %}</li>
@@ -337,8 +413,15 @@
     { "type": "checkbox", "id": "show_search", "label": "Show search", "default": true },
     { "type": "text", "id": "search_fallback_placeholder", "label": "Fallback placeholder", "default": "Search For Jaggery" },
     { "type": "textarea", "id": "search_placeholders", "label": "Animated placeholder list", "info": "Add one placeholder per line.", "default": "Search For Jaggery\nSearch for Ghee\nSearch for Atta\nSearch for Oil\nSearch for Rice" },
-    { "type": "header", "content": "Navigation titles and links" },
-    { "type": "link_list", "id": "menu", "label": "Shopify Navigation Menu", "info": "Select a menu created under Shopify Admin > Navigation (optional)", "default": "main-menu" },
+    { "type": "header", "content": "Desktop Navigation Menu" },
+    { "type": "link_list", "id": "menu", "label": "Shopify Desktop Navigation Menu", "info": "Select a menu created under Shopify Admin > Navigation for Desktop view (optional)", "default": "main-menu" },
+    { "type": "header", "content": "Mobile Navigation Menu" },
+    { "type": "link_list", "id": "mobile_menu", "label": "Shopify Mobile Navigation Menu", "info": "Select a distinct menu created under Shopify Admin > Navigation specifically for mobile view (optional)" },
+    { "type": "select", "id": "mobile_menu_source", "label": "Mobile menu content source", "options": [
+      { "value": "shopify_menu", "label": "Shopify Mobile Navigation Menu" },
+      { "value": "blocks", "label": "Theme Editor Blocks" },
+      { "value": "combined", "label": "Shopify Mobile Navigation Menu + Blocks" }
+    ], "default": "shopify_menu" },
     { "type": "text", "id": "ghee_title", "label": "Ghee title", "default": "Ghee" },
     { "type": "url", "id": "ghee_url", "label": "Ghee link" },
     { "type": "text", "id": "atta_title", "label": "Atta title", "default": "Atta" },
@@ -410,6 +493,11 @@
         { "type": "text", "id": "badge", "label": "Badge text (optional)", "info": "e.g. HOT, NEW, 10% OFF, SALE" },
         { "type": "color", "id": "badge_background", "label": "Badge background", "default": "#E53935" },
         { "type": "color", "id": "badge_color", "label": "Badge text color", "default": "#FFFFFF" },
+        { "type": "select", "id": "display_target", "label": "Display visibility", "options": [
+          { "value": "all", "label": "Both Desktop & Mobile" },
+          { "value": "desktop", "label": "Desktop Only" },
+          { "value": "mobile", "label": "Mobile Drawer Only" }
+        ], "default": "all" },
         { "type": "select", "id": "mega_menu", "label": "Connect Mega menu panel", "options": [
           { "value": "none", "label": "None (Standard link)" },
           { "value": "category", "label": "Shop By Category Mega Menu" },
@@ -417,6 +505,25 @@
           { "value": "customers", "label": "Customers Mega Menu" }
         ], "default": "none" },
         { "type": "text", "id": "icon", "label": "Emoji icon or badge text", "info": "e.g. 🌿 or 🔥" },
+        { "type": "image_picker", "id": "icon_image", "label": "Custom icon image" }
+      ]
+    },
+    {
+      "type": "mobile_nav_item",
+      "name": "Mobile navigation item",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Mobile Link" },
+        { "type": "url", "id": "url", "label": "Link URL" },
+        { "type": "text", "id": "badge", "label": "Badge text (optional)", "info": "e.g. HOT, NEW, SALE" },
+        { "type": "color", "id": "badge_background", "label": "Badge background", "default": "#E53935" },
+        { "type": "color", "id": "badge_color", "label": "Badge text color", "default": "#FFFFFF" },
+        { "type": "select", "id": "mega_menu", "label": "Connect Accordion panel", "options": [
+          { "value": "none", "label": "None (Standard link)" },
+          { "value": "category", "label": "Shop By Category Panel" },
+          { "value": "farm", "label": "Farm Life Panel" },
+          { "value": "customers", "label": "Customers Panel" }
+        ], "default": "none" },
+        { "type": "text", "id": "icon", "label": "Emoji icon", "info": "e.g. 🌿 or 🔥" },
         { "type": "image_picker", "id": "icon_image", "label": "Custom icon image" }
       ]
     },
