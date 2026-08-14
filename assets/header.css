@@ -441,6 +441,22 @@
   color: #5a2f08;
 }
 
+.kb-header__submenu-child-list {
+  border-left: 1px solid rgb(35 66 31 / 12%);
+  display: grid;
+  gap: 0.1rem;
+  list-style: none;
+  margin: 0.1rem 0 0.25rem 0.65rem;
+  padding: 0 0 0 0.45rem;
+}
+
+.kb-header__submenu-link--grandchild {
+  color: #3b5c37;
+  font-size: 0.84rem;
+  font-weight: 600;
+  padding-block: 0.5rem;
+}
+
 .kb-header__mobile-menu {
   inset: 0;
   position: fixed;
