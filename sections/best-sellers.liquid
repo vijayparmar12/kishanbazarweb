@@ -25,16 +25,18 @@
     {% endif %}
   }
 
-  #BestSellers-{{ section.id }} .best-sellers__head--card-box {
-    border: none !important;
-    box-shadow: none !important;
-    {% if section.settings.heading_image_desktop != blank %}
-      background-image: url('{{ section.settings.heading_image_desktop | image_url: width: 2200 }}') !important;
-      background-size: {{ section.settings.heading_box_bg_size | default: 'contain' }} !important;
-      background-position: center !important;
-      background-repeat: no-repeat !important;
-      min-height: {{ section.settings.heading_box_height_desktop | default: 110 }}px !important;
-    {% endif %}
+  #BestSellers-{{ section.id }} .home-section__heading-picture {
+    display: block;
+    width: 100%;
+    max-width: {{ section.settings.heading_image_max_width | default: 650 }}px !important;
+  }
+
+  #BestSellers-{{ section.id }} .home-section__heading-image {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    object-fit: contain !important;
   }
 
   @media screen and (max-width: 749px) {
@@ -45,17 +47,9 @@
         background-position: center top !important;
       {% endif %}
     }
-    #BestSellers-{{ section.id }} .best-sellers__head--card-box {
-      border: none !important;
-      box-shadow: none !important;
-      {% if section.settings.heading_image_mobile != blank or section.settings.heading_image_desktop != blank %}
-        {% assign mobile_head_bg = section.settings.heading_image_mobile | default: section.settings.heading_image_desktop %}
-        background-image: url('{{ mobile_head_bg | image_url: width: 1200 }}') !important;
-        background-size: {{ section.settings.heading_box_bg_size_mobile | default: 'contain' }} !important;
-        background-position: center !important;
-        background-repeat: no-repeat !important;
-        min-height: {{ section.settings.heading_box_height_mobile | default: 80 }}px !important;
-      {% endif %}
+    #BestSellers-{{ section.id }} .home-section__heading-picture {
+      max-width: {{ section.settings.heading_image_mobile_max_width | default: 360 }}px !important;
+      margin: 0 auto;
     }
   }
 
@@ -111,15 +105,25 @@
 
   <div class="home-section__head best-sellers__head best-sellers__head--card-box">
     <div class="best-sellers__title-wrap">
-      {% if section.settings.eyebrow != blank %}
-        <p class="home-section__eyebrow" style="color: #166534; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; font-family: Georgia, serif;">
-          {{ section.settings.eyebrow }}
-        </p>
-      {% endif %}
-      {% if section.settings.heading != blank %}
-        <h2 style="color: #1e3d20; font-size: clamp(1.6rem, 3.5vw, 2.65rem); font-weight: 900; font-family: Georgia, serif; margin: 0;">
-          {{ section.settings.heading }}
-        </h2>
+      {% if section.settings.heading_image_desktop != blank or section.settings.heading_image_mobile != blank %}
+        <picture class="home-section__heading-picture">
+          {% if section.settings.heading_image_mobile != blank %}
+            <source media="(max-width: 749px)" srcset="{{ section.settings.heading_image_mobile | image_url: width: 1200 }}">
+          {% endif %}
+          {% assign heading_img = section.settings.heading_image_desktop | default: section.settings.heading_image_mobile %}
+          {{ heading_img | image_url: width: 2200 | image_tag: class: 'home-section__heading-image', alt: section.settings.heading, loading: 'lazy' }}
+        </picture>
+      {% else %}
+        {% if section.settings.eyebrow != blank %}
+          <p class="home-section__eyebrow" style="color: #166534; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; font-family: Georgia, serif;">
+            {{ section.settings.eyebrow }}
+          </p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 style="color: #1e3d20; font-size: clamp(1.6rem, 3.5vw, 2.65rem); font-weight: 900; font-family: Georgia, serif; margin: 0;">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
       {% endif %}
     </div>
 
@@ -309,8 +313,8 @@
       ],
       "default": "contain"
     },
-    { "type": "range", "id": "heading_box_height_desktop", "label": "Heading Box Minimum Height (Desktop px)", "min": 60, "max": 400, "step": 10, "default": 110, "unit": "px" },
-    { "type": "range", "id": "heading_box_height_mobile", "label": "Heading Box Minimum Height (Mobile px)", "min": 40, "max": 300, "step": 10, "default": 80, "unit": "px" },
+    { "type": "range", "id": "heading_image_max_width", "label": "Desktop Heading Image Max Width (px)", "min": 200, "max": 1200, "step": 20, "default": 650, "unit": "px" },
+    { "type": "range", "id": "heading_image_mobile_max_width", "label": "Mobile Heading Image Max Width (px)", "min": 150, "max": 800, "step": 10, "default": 360, "unit": "px" },
     { "type": "collection", "id": "collection", "label": "Collection" },
     { "type": "text", "id": "cta_label", "label": "Shop All CTA button label", "default": "Shop All Categories →" },
     { "type": "image_picker", "id": "background_image", "label": "Custom Background Image" },
