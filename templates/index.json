@@ -220,14 +220,6 @@
         "video_4"
       ],
       "settings": {
-        "header_bg_desktop": "shopify://shop_images/ChatGPT_Image_Aug_14_2026_04_42_10_PM.png",
-        "use_default_header_bg": true,
-        "header_bg_color": "#ffffff",
-        "header_padding_desktop": 60,
-        "header_padding_desktop_h": 16,
-        "header_padding_mobile": 14,
-        "header_padding_mobile_h": 16,
-        "header_border_radius": 16,
         "heading": "",
         "subheading": "",
         "show_demo_video": true,
@@ -343,13 +335,6 @@
       "settings": {
         "subheading": "Native Ingredients. No Substitutes.",
         "heading": "Beyond Our Products",
-        "use_default_header_bg": true,
-        "header_bg_color": "#ffffff",
-        "header_padding_desktop": 20,
-        "header_padding_desktop_h": 24,
-        "header_padding_mobile": 14,
-        "header_padding_mobile_h": 16,
-        "header_border_radius": 16,
         "bg_color": "#ffffff",
         "subheading_color": "#8b4513",
         "heading_color": "#23421f"
