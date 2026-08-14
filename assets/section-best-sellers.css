@@ -30,28 +30,34 @@
 }
 
 .best-sellers__head {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  justify-content: flex-start;
-  margin-bottom: 1.25rem !important;
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  box-sizing: border-box;
+  align-items: flex-start !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.85rem !important;
+  justify-content: flex-start !important;
+  margin-bottom: 1.5rem !important;
+  position: relative !important;
+  z-index: 2 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 0 !important;
 }
 
 .best-sellers__cta-wrap--left {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  margin-top: 0.25rem;
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-top: 0.5rem !important;
+  clear: both !important;
+  position: relative !important;
+  z-index: 5 !important;
 }
 
 .best-sellers__cta-wrap--left .best-sellers__shop-all-btn {
-  margin-left: 0 !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  position: relative !important;
 }
 
 .best-sellers__head--card-box {
@@ -66,8 +72,9 @@
   width: 100% !important;
   max-width: 100% !important;
   display: block !important;
-  margin: 0 !important;
+  margin: 0 0 0.5rem 0 !important;
   padding: 0 !important;
+  position: relative !important;
 }
 
 .home-section__heading-picture {
@@ -76,26 +83,36 @@
   max-width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
+  position: relative !important;
 }
 
 .home-section__heading-image {
   height: auto !important;
-  object-fit: cover !important;
+  object-fit: contain !important;
   width: 100% !important;
   max-width: 100% !important;
   display: block !important;
-  margin: 0 !important;
+  margin: 0 0 0.5rem 0 !important;
   border-radius: 12px;
+  position: relative !important;
 }
 
 @media (max-width: 749px) {
+  .best-sellers__head {
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+  }
   .best-sellers__head--card-box {
-    padding: 0.85rem 1rem !important;
-    border-radius: 16px !important;
-    gap: 0.75rem;
+    padding: 0 !important;
+    border-radius: 0 !important;
   }
   .home-section__heading-image {
-    max-height: 85px;
+    max-height: none !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .best-sellers__cta-wrap--left {
+    justify-content: flex-start !important;
+    margin-top: 0.5rem !important;
   }
 }
 
