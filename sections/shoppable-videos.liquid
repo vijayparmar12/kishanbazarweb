@@ -5,12 +5,10 @@
   #ShoppableVideos-{{ section.id }} {
     {% if section.settings.background_image != blank %}
       background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
-    {% else %}
-      background-image: url('{{ "2.png" | asset_url }}') !important;
+      background-size: cover !important;
+      background-position: center top !important;
+      background-repeat: no-repeat !important;
     {% endif %}
-    background-size: cover !important;
-    background-position: center top !important;
-    background-repeat: no-repeat !important;
   }
   @media (max-width: 48rem) {
     #ShoppableVideos-{{ section.id }} {
