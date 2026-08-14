@@ -5,12 +5,14 @@
   #Testimonials-{{ section.id }} {
     {% if section.settings.background_image != blank %}
       background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
+      background-size: cover !important;
+      background-position: center top !important;
+      background-repeat: no-repeat !important;
     {% else %}
-      background-image: url('{{ "5.png" | asset_url }}') !important;
+      background: #ffffff !important;
+      background-color: #ffffff !important;
+      background-image: none !important;
     {% endif %}
-    background-size: cover !important;
-    background-position: center top !important;
-    background-repeat: no-repeat !important;
   }
   #Testimonials-{{ section.id }} .testimonials__card {
     border-color: {{ section.settings.card_border_color | default: '#23421F' }} !important;
