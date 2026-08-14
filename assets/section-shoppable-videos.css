@@ -9,7 +9,7 @@
 
   background: var(--shoppable-videos-bg, #eef2e4);
   overflow: hidden;
-  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+  padding: 0.75rem 0 1.25rem 0 !important;
   position: relative;
 }
 
@@ -126,7 +126,7 @@
 }
 
 .shoppable-videos__header {
-  margin-bottom: clamp(1.75rem, 3vw, 2.75rem);
+  margin-bottom: 0.5rem !important;
   text-align: center;
 }
 

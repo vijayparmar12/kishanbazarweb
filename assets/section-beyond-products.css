@@ -1,7 +1,7 @@
 .beyond-products {
   width: 100%;
-  padding-top: clamp(2rem, 4vw, 3.5rem);
-  padding-bottom: clamp(2rem, 4vw, 3.5rem);
+  padding-top: 0.5rem !important;
+  padding-bottom: 1rem !important;
   padding-left: max(var(--container-padding, 1rem), calc((100% - var(--container-width, 1280px)) / 2));
   padding-right: max(var(--container-padding, 1rem), calc((100% - var(--container-width, 1280px)) / 2));
   box-sizing: border-box;
@@ -17,7 +17,7 @@
 
 .beyond-products__header {
   text-align: center;
-  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  margin-bottom: 0.5rem !important;
 }
 
 .beyond-products__heading-banner-wrap {
