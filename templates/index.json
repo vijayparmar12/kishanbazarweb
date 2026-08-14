@@ -129,7 +129,8 @@
         "video_1": {
           "type": "video",
           "settings": {
-            "product": "",
+            "product": "khapli-atta",
+            "video": "shopify://files/videos/AR_Video_Generation_Request.mp4",
             "video_url": "",
             "video_label": "SHOP BY VIDEOS",
             "badge_text": "BESTSELLER",
@@ -149,7 +150,8 @@
         "video_2": {
           "type": "video",
           "settings": {
-            "product": "",
+            "product": "khapli-aatta",
+            "video": "shopify://files/videos/WhatsApp Video 2026-07-06 at 1.45.54 PM.mp4",
             "video_url": "",
             "video_label": "SHOP BY VIDEOS",
             "badge_text": "BESTSELLER",
@@ -275,6 +277,34 @@
     },
     "beyond_products": {
       "type": "beyond-products",
+      "blocks": {
+        "story_card_YNL6tE": {
+          "type": "story_card",
+          "settings": {
+            "image": "shopify://shop_images/1_1.png",
+            "title": "",
+            "description": "",
+            "text_color": "#166534",
+            "text_position": "top",
+            "link": ""
+          }
+        },
+        "story_card_KMnz4H": {
+          "type": "story_card",
+          "settings": {
+            "image": "shopify://shop_images/8.0.png",
+            "title": "",
+            "description": "",
+            "text_color": "#166534",
+            "text_position": "top",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "story_card_YNL6tE",
+        "story_card_KMnz4H"
+      ],
       "settings": {
         "subheading": "Native Ingredients. No Substitutes.",
         "heading": "Beyond Our Products",
@@ -293,31 +323,12 @@
     "testimonials": {
       "type": "testimonials",
       "blocks": {
-        "review_1": {
-          "type": "testimonial",
-          "settings": {
-            "headline": "Finally a truly delicious and quality product.",
-            "review": "The quality is beautiful and every order feels thoughtfully packed. Kishan Bazar has become a staple in our kitchen.",
-            "name": "Priya S.",
-            "role": "Owner and Coach at Crossfit Third Eye",
-            "rating": 5
-          }
-        },
-        "review_2": {
-          "type": "testimonial",
-          "settings": {
-            "headline": "Finally a truly delicious and quality product.",
-            "review": "Wholesome products with the kind of flavour you remember from home. Fast delivery too.",
-            "name": "Aman R.",
-            "role": "Owner and Coach at Crossfit Third Eye",
-            "rating": 5
-          }
-        },
         "review_3": {
           "type": "testimonial",
           "settings": {
             "headline": "Finally a truly delicious and quality product.",
             "review": "I love knowing where our pantry essentials come from. The range is simple, honest, and delicious.",
+            "image": "shopify://shop_images/WhatsAppImage2026-07-31at11.08.22AM.jpg",
             "name": "Neha K.",
             "role": "Owner and Coach at Crossfit Third Eye",
             "rating": 5
@@ -325,8 +336,6 @@
         }
       },
       "block_order": [
-        "review_1",
-        "review_2",
         "review_3"
       ],
       "settings": {
