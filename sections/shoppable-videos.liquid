@@ -10,11 +10,22 @@
       background-repeat: no-repeat !important;
     {% endif %}
   }
+  #ShoppableVideos-{{ section.id }} .home-section__heading-image {
+    max-height: 180px !important;
+    width: auto !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+  }
   @media (max-width: 48rem) {
     #ShoppableVideos-{{ section.id }} {
       background-size: 100% auto !important;
       background-position: bottom center !important;
       background-repeat: no-repeat !important;
+    }
+    #ShoppableVideos-{{ section.id }} .home-section__heading-image {
+      max-height: 110px !important;
     }
   }
 {% endstyle %}
