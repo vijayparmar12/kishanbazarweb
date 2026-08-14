@@ -43,26 +43,24 @@
 }
 
 .best-sellers__head--card-box {
-  background: #ffffff;
+  background: transparent;
   border: none !important;
-  border-radius: 20px;
-  padding: clamp(0.75rem, 2vw, 1.25rem) clamp(1rem, 2.5vw, 1.5rem);
   box-shadow: none !important;
+  padding: 0;
+  margin-bottom: 1.25rem !important;
 }
 
 .home-section__heading-picture {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  display: block;
   width: 100%;
 }
 
 .home-section__heading-image {
-  height: auto;
-  object-fit: contain;
-  max-height: 120px;
-  width: auto;
-  display: block;
+  height: auto !important;
+  object-fit: contain !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
 }
 
 @media (max-width: 749px) {

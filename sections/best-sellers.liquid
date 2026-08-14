@@ -28,7 +28,7 @@
   #BestSellers-{{ section.id }} .home-section__heading-picture {
     display: block;
     width: 100%;
-    max-width: {{ section.settings.heading_image_max_width | default: 650 }}px !important;
+    max-width: {{ section.settings.heading_image_max_width | default: 1000 }}px !important;
   }
 
   #BestSellers-{{ section.id }} .home-section__heading-image {
@@ -48,7 +48,7 @@
       {% endif %}
     }
     #BestSellers-{{ section.id }} .home-section__heading-picture {
-      max-width: {{ section.settings.heading_image_mobile_max_width | default: 360 }}px !important;
+      max-width: {{ section.settings.heading_image_mobile_max_width | default: 600 }}px !important;
       margin: 0 auto;
     }
   }
