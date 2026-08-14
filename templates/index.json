@@ -89,11 +89,9 @@
       "settings": {
         "eyebrow": "",
         "heading": "",
-        "heading_image_desktop": "shopify://shop_images/c3102383-fa47-4907-87ed-dcfed109e48f.png",
-        "heading_image_max_width": 800,
-        "heading_image_mobile_max_width": 500,
+        "heading_image_desktop": "shopify://shop_images/caefa5d9-d3fa-44dd-945b-0330f50fd44a.png",
         "collection": "",
-        "cta_label": "Shop Now →",
+        "cta_label": "Shop More",
         "background_color": "#f8f4eb",
         "maximum": 8,
         "show_tabs": false,
@@ -241,8 +239,6 @@
       "settings": {
         "eyebrow": "Handpicked for you",
         "heading": "Top Picks For You",
-        "heading_image_max_width": 400,
-        "heading_image_mobile_max_width": 280,
         "collection": "",
         "cta_label": "Shop More",
         "background_color": "#f8f4eb",
