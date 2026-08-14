@@ -126,20 +126,15 @@
 }
 
 .shoppable-videos__header {
-  margin-bottom: 0.25rem !important;
+  margin-bottom: 0.5rem !important;
   text-align: center;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
 }
 
 .shoppable-videos__heading-banner-wrap {
   width: 100% !important;
   max-width: 100% !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  margin: 0 auto !important;
+  display: block !important;
+  margin: 0 !important;
   padding: 0 !important;
 }
 

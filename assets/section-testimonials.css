@@ -23,26 +23,9 @@
 .testimonials__heading-banner-wrap {
   width: 100% !important;
   max-width: 100% !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  margin: 0 auto !important;
+  display: block !important;
+  margin: 0 !important;
   padding: 0 !important;
-}
-
-.testimonials-section .home-section__heading-image {
-  max-height: 180px !important;
-  height: auto !important;
-  width: auto !important;
-  max-width: 100% !important;
-  object-fit: contain !important;
-  margin: 0 auto !important;
-}
-
-@media (max-width: 749px) {
-  .testimonials-section .home-section__heading-image {
-    max-height: 110px !important;
-  }
 }
 
 .testimonials-carousel-section {

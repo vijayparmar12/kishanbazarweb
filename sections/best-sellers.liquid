@@ -34,13 +34,12 @@
   }
 
   #BestSellers-{{ section.id }} .home-section__heading-image {
-    max-height: 180px !important;
-    width: auto !important;
+    width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
     display: block !important;
-    object-fit: contain !important;
-    margin: 0 auto !important;
+    object-fit: cover !important;
+    margin: 0 !important;
     {% if section.settings.heading_image_flip %}
       transform: scaleX(-1) !important;
     {% endif %}
@@ -86,9 +85,6 @@
       width: 100% !important;
       max-width: 100% !important;
       margin: 0 !important;
-    }
-    #BestSellers-{{ section.id }} .home-section__heading-image {
-      max-height: 110px !important;
     }
     #BestSellers-{{ section.id }} .best-sellers__cta-container {
       display: flex !important;
