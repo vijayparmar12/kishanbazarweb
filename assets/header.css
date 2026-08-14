@@ -733,7 +733,7 @@
 
 
 .kb-header__features {
-  background: #ffffff !important;
+  background: transparent;
   border-bottom: 1px solid rgba(35, 66, 31, 0.06);
   padding: 10px 0 12px;
 }
