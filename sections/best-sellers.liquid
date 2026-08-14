@@ -172,7 +172,7 @@
     {% endif %}
   </div>
 
-  {% if section.settings.show_cta_btn != false %}
+  {% if section.settings.show_cta_btn %}
     <div class="best-sellers__cta-container best-sellers__cta-container--right" style="display: flex; justify-content: flex-end; width: 100%; margin-top: 0.75rem; margin-bottom: 1.25rem;">
       <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}" style="margin-left: auto; margin-right: 0;">
         <span>{{ section.settings.cta_label | default: "Shop More" }}</span>
@@ -369,7 +369,7 @@
     { "type": "color", "id": "background_color", "label": "Background Color", "default": "#FFFFFF" },
     { "type": "range", "id": "maximum", "label": "Maximum products", "min": 2, "max": 16, "step": 1, "default": 8 },
     { "type": "checkbox", "id": "show_tabs", "label": "Show category filter tabs (Ghee, Oil, Atta, etc.)", "default": true },
-    { "type": "checkbox", "id": "show_cta_btn", "label": "Show 'Shop All Categories' CTA button", "default": true },
+    { "type": "checkbox", "id": "show_cta_btn", "label": "Show 'Shop All Categories' CTA button", "default": false },
     { "type": "url", "id": "cta_url", "label": "CTA button link" },
     {
       "type": "header",
