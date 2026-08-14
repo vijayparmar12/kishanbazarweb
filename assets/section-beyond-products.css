@@ -23,21 +23,9 @@
 .beyond-products__heading-banner-wrap {
   width: 100% !important;
   max-width: 100% !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  margin: 0 auto !important;
-  padding: 0 !important;
-}
-
-.beyond-products .home-section__heading-image {
-  max-height: clamp(90px, 16vw, 175px) !important;
-  height: auto !important;
-  width: auto !important;
-  max-width: 100% !important;
-  object-fit: contain !important;
   display: block !important;
-  margin: 0 auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .beyond-products__subheading {

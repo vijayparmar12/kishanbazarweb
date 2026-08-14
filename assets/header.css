@@ -1476,20 +1476,3 @@ main,
 .shoppable-videos__trees-top {
   display: none !important;
 }
-
-/* Global Heading Image Max Height & Compact Spacing */
-.home-section__heading-image {
-  max-height: clamp(90px, 16vw, 175px) !important;
-  height: auto !important;
-  width: auto !important;
-  max-width: 100% !important;
-  object-fit: contain !important;
-  display: block !important;
-  margin: 0 auto !important;
-}
-
-@media screen and (max-width: 749px) {
-  .home-section__heading-image {
-    max-height: clamp(65px, 22vw, 120px) !important;
-  }
-}
