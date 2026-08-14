@@ -15,11 +15,22 @@
       background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
       background-size: cover !important;
       background-position: center top !important;
+      background-repeat: no-repeat !important;
     {% elsif section.settings.background_color != blank %}
       background-color: {{ section.settings.background_color }} !important;
     {% else %}
       background-color: #F8F4EB !important;
     {% endif %}
+  }
+
+  @media screen and (max-width: 749px) {
+    #BestSellers-{{ section.id }} {
+      {% if section.settings.background_image_mobile != blank %}
+        background-image: url('{{ section.settings.background_image_mobile | image_url: width: 1200 }}') !important;
+        background-size: cover !important;
+        background-position: center top !important;
+      {% endif %}
+    }
   }
 
   {% assign active_color = section.settings.tab_active_color | default: '#1b4317' %}
@@ -252,6 +263,7 @@
     { "type": "collection", "id": "collection", "label": "Collection" },
     { "type": "text", "id": "cta_label", "label": "Shop All CTA button label", "default": "Shop All Categories →" },
     { "type": "image_picker", "id": "background_image", "label": "Custom Background Image" },
+    { "type": "image_picker", "id": "background_image_mobile", "label": "Custom Mobile Background Image (Optional)" },
     { "type": "color", "id": "background_color", "label": "Background Color", "default": "#F8F4EB" },
     { "type": "range", "id": "maximum", "label": "Maximum products", "min": 2, "max": 16, "step": 1, "default": 8 },
     { "type": "checkbox", "id": "show_tabs", "label": "Show category filter tabs (Ghee, Oil, Atta, etc.)", "default": true },
