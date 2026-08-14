@@ -6,44 +6,11 @@
 <script src="{{ 'mega-menu.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'mega-menu-category.js' | asset_url }}" defer="defer"></script>
 
-{% assign desktop_bg_img = section.settings.background_image %}
-{% if desktop_bg_img == blank %}
-  {% assign desktop_bg_img = section.settings.header_background_image_desktop %}
-{% endif %}
-
-{% assign header_bg_desktop = '' %}
-{% if desktop_bg_img != blank %}
-  {% assign header_bg_desktop = desktop_bg_img | image_url: width: 2000 %}
-{% endif %}
-
-{% assign mobile_bg_img = section.settings.header_background_image_mobile %}
-{% if mobile_bg_img == blank %}
-  {% assign mobile_bg_img = desktop_bg_img %}
-{% endif %}
-
-{% assign header_bg_mobile = '' %}
-{% if mobile_bg_img != blank %}
-  {% assign header_bg_mobile = mobile_bg_img | image_url: width: 1000 %}
-{% endif %}
-
-{% assign drawer_bg_mobile = '' %}
-{% if section.settings.mobile_drawer_background_image != blank %}
-  {% assign drawer_bg_mobile = section.settings.mobile_drawer_background_image | image_url: width: 1000 %}
-{% endif %}
-
-{% assign active_header_bg = section.settings.background_color %}
-{% if active_header_bg == blank %}
-  {% assign active_header_bg = section.settings.header_background %}
-{% endif %}
-
 {% style %}
   .kb-header {
     --kb-announcement-bg: {{ section.settings.announcement_background }};
     --kb-announcement-text: {{ section.settings.announcement_text_color }};
-    --kb-header-bg: {{ active_header_bg | default: '#ffffff' }};
-    {% if header_bg_desktop != blank %}--kb-header-bg-desktop: url('{{ header_bg_desktop }}');{% endif %}
-    {% if header_bg_mobile != blank %}--kb-header-bg-mobile: url('{{ header_bg_mobile }}');{% endif %}
-    {% if drawer_bg_mobile != blank %}--kb-drawer-bg-image: url('{{ drawer_bg_mobile }}');{% endif %}
+    --kb-header-bg: {{ section.settings.header_background | default: '#ffffff' }};
     --kb-nav-text: {{ section.settings.nav_text_color }};
     --kb-accent: {{ section.settings.accent_color }};
     --kb-feature-bg: {{ section.settings.feature_row_background }};
@@ -52,33 +19,8 @@
     --kb-mega-text: {{ section.settings.mega_text_color }};
     --kb-mega-hover: {{ section.settings.mega_hover_color }};
     --kb-mega-wave: {{ section.settings.mega_wave_color }};
+    background-image: none !important;
   }
-
-  {% if header_bg_desktop != blank or header_bg_mobile != blank %}
-    .kb-header {
-      background-image: var(--kb-header-bg-desktop, none) !important;
-      background-size: cover !important;
-      background-position: center top !important;
-      background-repeat: no-repeat !important;
-    }
-    .kb-header1,
-    .kb-header2,
-    .kb-header__features,
-    .kb-header-top-sticky:not(.kb-header-top--fixed) {
-      background: transparent !important;
-      background-color: transparent !important;
-      background-image: none !important;
-    }
-    .kb-header__feature {
-      background: rgba(255, 255, 255, 0.88) !important;
-      backdrop-filter: blur(8px);
-    }
-    @media screen and (max-width: 749px) {
-      .kb-header {
-        background-image: var(--kb-header-bg-mobile, var(--kb-header-bg-desktop, none)) !important;
-      }
-    }
-  {% endif %}
 {% endstyle %}
 
 <header

@@ -1,16 +1,13 @@
 /* STICKY TOP CONTAINER: ANNOUNCEMENT BAR + HEADER 1 (SEARCH, LOGO, PROFILE, WISHLIST, CART) */
 .kb-header {
   background-color: var(--kb-header-bg, #ffffff);
-  background-image: var(--kb-header-bg-desktop, none);
-  background-position: center top;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-image: none;
   position: relative;
   width: 100%;
 }
 
 .kb-header-top-sticky {
-  background: transparent;
+  background: var(--kb-header-bg, #ffffff);
   width: 100%;
   transition: box-shadow 200ms ease;
   position: relative;
@@ -25,15 +22,11 @@
   width: 100% !important;
   z-index: 9000 !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
-  background-color: var(--kb-header-bg, #ffffff) !important;
-  background-image: var(--kb-header-bg-desktop, none) !important;
-  background-position: center top !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
+  background: var(--kb-header-bg, #ffffff) !important;
 }
 
 .kb-header1 {
-  background: transparent;
+  background: var(--kb-header-bg, #ffffff);
   color: var(--kb-nav-text, #23421f);
   width: 100%;
   border-bottom: none;
@@ -44,7 +37,7 @@
 .kb-header2 {
   position: relative;
   z-index: 9000;
-  background: transparent;
+  background: var(--kb-header-bg, #ffffff);
   color: var(--kb-nav-text, #23421f);
   width: 100%;
   border-bottom: none;
@@ -487,19 +480,10 @@
   position: absolute;
 }
 
-/* Desktop & Mobile Header Background Images */
+/* Header Background */
 .kb-header {
   background-color: var(--kb-header-bg, #ffffff);
-  background-image: var(--kb-header-bg-desktop, none);
-  background-position: center top;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-@media screen and (max-width: 749px) {
-  .kb-header {
-    background-image: var(--kb-header-bg-mobile, var(--kb-header-bg-desktop, none));
-  }
+  background-image: none;
 }
 
 .kb-header__mobile-panel {
@@ -733,7 +717,7 @@
 
 
 .kb-header__features {
-  background: transparent;
+  background: #ffffff !important;
   border-bottom: 1px solid rgba(35, 66, 31, 0.06);
   padding: 10px 0 12px;
 }
