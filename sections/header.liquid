@@ -239,19 +239,34 @@
       </div>
       <ul class="kb-header__mobile-list" role="list">
         {% assign mobile_source = section.settings.mobile_menu_source | default: 'shopify_menu' %}
-        {% assign active_mobile_menu = section.settings.mobile_menu %}
-        {% if active_mobile_menu == blank or active_mobile_menu.links.size == 0 %}
-          {% assign active_mobile_menu = section.settings.menu %}
+        {% assign active_mobile_linklist = nil %}
+
+        {% if section.settings.mobile_menu != blank %}
+          {% assign active_mobile_linklist = section.settings.mobile_menu %}
+          {% if active_mobile_linklist.links.size == 0 %}
+            {% assign active_mobile_linklist = linklists[section.settings.mobile_menu] %}
+          {% endif %}
         {% endif %}
-        {% if active_mobile_menu == blank or active_mobile_menu.links.size == 0 %}
-          {% assign active_mobile_menu = linklists['main-menu'] %}
+
+        {% if active_mobile_linklist == blank or active_mobile_linklist.links.size == 0 %}
+          {% if section.settings.menu != blank %}
+            {% assign active_mobile_linklist = section.settings.menu %}
+            {% if active_mobile_linklist.links.size == 0 %}
+              {% assign active_mobile_linklist = linklists[section.settings.menu] %}
+            {% endif %}
+          {% endif %}
         {% endif %}
+
+        {% if active_mobile_linklist == blank or active_mobile_linklist.links.size == 0 %}
+          {% assign active_mobile_linklist = linklists['main-menu'] %}
+        {% endif %}
+
         {% assign rendered_mobile_items = 0 %}
 
         {% comment %} 1. Render Shopify Mobile Navigation Menu if source is 'shopify_menu' or 'combined' {% endcomment %}
         {% if mobile_source == 'shopify_menu' or mobile_source == 'combined' %}
-          {% if active_mobile_menu != blank and active_mobile_menu.links.size > 0 %}
-            {% for link in active_mobile_menu.links %}
+          {% if active_mobile_linklist != blank and active_mobile_linklist.links.size > 0 %}
+            {% for link in active_mobile_linklist.links %}
               {% assign rendered_mobile_items = rendered_mobile_items | plus: 1 %}
               {% assign link_title_lower = link.title | downcase %}
 
@@ -322,8 +337,8 @@
           {% endif %}
         {% endif %}
 
-        {% comment %} 2. Render Mobile Theme Editor Blocks ONLY {% endcomment %}
-        {% if mobile_source == 'blocks' or mobile_source == 'combined' or rendered_mobile_items == 0 %}
+        {% comment %} 2. Render Mobile Theme Editor Blocks ONLY if source is 'blocks' or 'combined' {% endcomment %}
+        {% if mobile_source == 'blocks' or mobile_source == 'combined' %}
           {% for block in section.blocks %}
             {% if block.type == 'mobile_nav_item' or (block.type == 'nav_item' and block.settings.display_target == 'mobile') %}
               {% assign rendered_mobile_items = rendered_mobile_items | plus: 1 %}

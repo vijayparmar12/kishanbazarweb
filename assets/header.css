@@ -447,6 +447,10 @@
   z-index: 99999 !important;
 }
 
+.kb-header__mobile-menu[hidden] {
+  display: none !important;
+}
+
 .kb-header__mobile-backdrop {
   background: rgb(25 28 22 / 45%);
   inset: 0;

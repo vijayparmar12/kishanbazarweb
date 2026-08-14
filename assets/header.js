@@ -109,6 +109,19 @@
       }
     });
 
+    document.addEventListener('shopify:block:select', (event) => {
+      const menu = header.querySelector('[data-mobile-menu]');
+      if (menu && menu.contains(event.target)) {
+        setMobileMenu(header, true);
+      } else {
+        setMobileMenu(header, false);
+      }
+    });
+
+    document.addEventListener('shopify:block:deselect', () => {
+      setMobileMenu(header, false);
+    });
+
     const syncTopHeaderSticky = () => {
       const topSticky = document.querySelector('[data-header-top-sticky]');
       const placeholder = document.querySelector('[data-header-top-placeholder]');
