@@ -87,8 +87,8 @@
         "card_buy_button_RCMTAq"
       ],
       "settings": {
-        "eyebrow": "Loved by Thousands ❤️",
-        "heading": "Our most-loved picks",
+        "eyebrow": "",
+        "heading": "",
         "heading_image_desktop": "shopify://shop_images/86753ef8-2895-4e6a-b364-05c719bc6c3d.png",
         "heading_image_max_width": 800,
         "heading_image_mobile_max_width": 500,
@@ -96,7 +96,7 @@
         "cta_label": "Shop Now →",
         "background_color": "#f8f4eb",
         "maximum": 8,
-        "show_tabs": true,
+        "show_tabs": false,
         "show_cta_btn": true,
         "cta_url": "",
         "show_badge": true,
