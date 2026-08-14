@@ -40,6 +40,9 @@
     display: block !important;
     object-fit: cover !important;
     margin: 0 !important;
+    {% if section.settings.heading_image_flip %}
+      transform: scaleX(-1) !important;
+    {% endif %}
   }
 
   #BestSellers-{{ section.id }} .best-sellers__cta-container {
@@ -331,6 +334,7 @@
     { "type": "text", "id": "heading", "label": "Heading text (optional text over background image)" },
     { "type": "image_picker", "id": "heading_image_desktop", "label": "Heading Box Background Image (Desktop)", "info": "Upload graphic image to use as background for the Heading Box on Desktop" },
     { "type": "image_picker", "id": "heading_image_mobile", "label": "Heading Box Background Image (Mobile)", "info": "Upload graphic image to use as background for the Heading Box on Mobile" },
+    { "type": "checkbox", "id": "heading_image_flip", "label": "Flip Heading Image Horizontally (Moves graphic text/button to Right side)", "default": false },
     {
       "type": "select",
       "id": "heading_box_bg_size",
