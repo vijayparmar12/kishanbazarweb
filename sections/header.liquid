@@ -104,9 +104,9 @@
       <ul class="kb-header__nav-list" role="list">
         {% assign nav_block_count = 0 %}
         {% for block in section.blocks %}
-          {% if block.type == 'nav_item' %}
-            {% assign target = block.settings.display_target | default: 'all' %}
-            {% if target == 'all' or target == 'desktop' %}
+          {% if block.type == 'nav_item' or block.type == 'desktop_nav_item' %}
+            {% assign target = block.settings.display_target | default: 'desktop' %}
+            {% if block.type == 'desktop_nav_item' or target == 'desktop' or target == 'all' %}
               {% assign nav_block_count = nav_block_count | plus: 1 %}
               {% assign mega_type = block.settings.mega_menu | default: 'none' %}
               {% if mega_type != 'none' and mega_type != blank %}
@@ -236,9 +236,6 @@
       <ul class="kb-header__mobile-list" role="list">
         {% assign mobile_source = section.settings.mobile_menu_source | default: 'shopify_menu' %}
         {% assign active_mobile_menu = section.settings.mobile_menu %}
-        {% if active_mobile_menu == blank or active_mobile_menu.links.size == 0 %}
-          {% assign active_mobile_menu = section.settings.menu %}
-        {% endif %}
         {% assign rendered_mobile_items = 0 %}
 
         {% comment %} 1. Render Shopify Mobile Navigation Menu if source is 'shopify_menu' or 'combined' {% endcomment %}
@@ -315,11 +312,10 @@
           {% endif %}
         {% endif %}
 
-        {% comment %} 2. Render Mobile Theme Editor Blocks if source is 'blocks' or 'combined', or if no shopify menu was rendered {% endcomment %}
+        {% comment %} 2. Render Mobile Theme Editor Blocks ONLY {% endcomment %}
         {% if mobile_source == 'blocks' or mobile_source == 'combined' or rendered_mobile_items == 0 %}
           {% for block in section.blocks %}
-            {% assign target = block.settings.display_target | default: 'all' %}
-            {% if block.type == 'mobile_nav_item' or (block.type == 'nav_item' and (target == 'all' or target == 'mobile')) %}
+            {% if block.type == 'mobile_nav_item' or (block.type == 'nav_item' and block.settings.display_target == 'mobile') %}
               {% assign rendered_mobile_items = rendered_mobile_items | plus: 1 %}
               {% assign mega_type = block.settings.mega_menu | default: 'none' %}
               {% if mega_type != 'none' and mega_type != blank %}
@@ -496,8 +492,27 @@
       ]
     },
     {
+      "type": "desktop_nav_item",
+      "name": "Desktop Header Link",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Desktop Link" },
+        { "type": "url", "id": "url", "label": "Link URL" },
+        { "type": "text", "id": "badge", "label": "Badge text (optional)", "info": "e.g. HOT, NEW, 10% OFF, SALE" },
+        { "type": "color", "id": "badge_background", "label": "Badge background", "default": "#E53935" },
+        { "type": "color", "id": "badge_color", "label": "Badge text color", "default": "#FFFFFF" },
+        { "type": "select", "id": "mega_menu", "label": "Connect Mega menu panel", "options": [
+          { "value": "none", "label": "None (Standard link)" },
+          { "value": "category", "label": "Shop By Category Mega Menu" },
+          { "value": "farm", "label": "Farm Life Mega Menu" },
+          { "value": "customers", "label": "Customers Mega Menu" }
+        ], "default": "none" },
+        { "type": "text", "id": "icon", "label": "Emoji icon or badge text", "info": "e.g. 🌿 or 🔥" },
+        { "type": "image_picker", "id": "icon_image", "label": "Custom icon image" }
+      ]
+    },
+    {
       "type": "nav_item",
-      "name": "Navigation menu item",
+      "name": "Navigation menu item (Legacy)",
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Custom Link" },
         { "type": "url", "id": "url", "label": "Link URL" },
@@ -505,10 +520,10 @@
         { "type": "color", "id": "badge_background", "label": "Badge background", "default": "#E53935" },
         { "type": "color", "id": "badge_color", "label": "Badge text color", "default": "#FFFFFF" },
         { "type": "select", "id": "display_target", "label": "Display visibility", "options": [
-          { "value": "all", "label": "Both Desktop & Mobile" },
-          { "value": "desktop", "label": "Desktop Only" },
-          { "value": "mobile", "label": "Mobile Drawer Only" }
-        ], "default": "all" },
+          { "value": "desktop", "label": "Desktop Header Only" },
+          { "value": "mobile", "label": "Mobile Drawer Only" },
+          { "value": "all", "label": "Both Desktop & Mobile" }
+        ], "default": "desktop" },
         { "type": "select", "id": "mega_menu", "label": "Connect Mega menu panel", "options": [
           { "value": "none", "label": "None (Standard link)" },
           { "value": "category", "label": "Shop By Category Mega Menu" },
@@ -521,7 +536,7 @@
     },
     {
       "type": "mobile_nav_item",
-      "name": "Mobile navigation item",
+      "name": "Mobile Drawer Link",
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Mobile Link" },
         { "type": "url", "id": "url", "label": "Link URL" },
