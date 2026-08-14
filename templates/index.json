@@ -220,6 +220,11 @@
         "video_4"
       ],
       "settings": {
+        "heading_image_desktop": "shopify://shop_images/129cc311-bece-4040-a556-4db9c1ac87cb.png",
+        "heading_box_bg_size": "cover",
+        "heading_box_bg_size_mobile": "cover",
+        "heading_box_height_desktop": 110,
+        "heading_box_height_mobile": 80,
         "heading": "",
         "subheading": "",
         "show_demo_video": true,
@@ -333,6 +338,10 @@
         "story_card_KMnz4H"
       ],
       "settings": {
+        "heading_box_bg_size": "cover",
+        "heading_box_bg_size_mobile": "cover",
+        "heading_box_height_desktop": 110,
+        "heading_box_height_mobile": 80,
         "subheading": "Native Ingredients. No Substitutes.",
         "heading": "Beyond Our Products",
         "bg_color": "#ffffff",
@@ -359,6 +368,10 @@
         "review_3"
       ],
       "settings": {
+        "heading_box_bg_size": "cover",
+        "heading_box_bg_size_mobile": "cover",
+        "heading_box_height_desktop": 110,
+        "heading_box_height_mobile": 80,
         "eyebrow": "⭐ 10,000+ VERIFIED REVIEWS ⭐",
         "heading": "Kind words from your table",
         "subheading": "Real stories from families who love our pure, farm-fresh organic staples.",
