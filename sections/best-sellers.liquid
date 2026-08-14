@@ -183,8 +183,8 @@
   </div>
 
   {% if section.settings.show_cta_btn != false %}
-    <div class="best-sellers__cta-container">
-      <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
+    <div class="best-sellers__cta-container" style="display: flex !important; justify-content: flex-end !important; align-items: center !important; width: 100% !important; margin-top: 0.4rem !important; margin-bottom: 0.75rem !important; text-align: right !important;">
+      <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}" style="margin-left: auto !important; margin-right: 0 !important; display: inline-flex !important; align-items: center !important; gap: 0.35rem !important; background-color: #1b4317 !important; color: #ffffff !important; font-size: 0.75rem !important; font-weight: 700 !important; padding: 0.38rem 0.95rem !important; border-radius: 999px !important; text-decoration: none !important; box-shadow: 0 3px 10px rgba(27, 67, 23, 0.2) !important;">
         <span>{{ section.settings.cta_label | default: "Shop All Categories →" }}</span>
       </a>
     </div>
