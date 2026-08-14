@@ -15,16 +15,26 @@
 
 <section id="BeyondProducts-{{ section.id }}" class="beyond-products" data-beyond-products>
   <div class="beyond-products__inner">
-    {% if section.settings.heading != blank or section.settings.subheading != blank %}
-      <div class="beyond-products__header">
+    <div class="beyond-products__header">
+      {% if section.settings.heading_image_desktop != blank or section.settings.heading_image_mobile != blank %}
+        <div class="beyond-products__heading-banner-wrap">
+          <picture class="home-section__heading-picture">
+            {% if section.settings.heading_image_mobile != blank %}
+              <source media="(max-width: 749px)" srcset="{{ section.settings.heading_image_mobile | image_url: width: 1200 }}">
+            {% endif %}
+            {% assign heading_img = section.settings.heading_image_desktop | default: section.settings.heading_image_mobile %}
+            {{ heading_img | image_url: width: 2200 | image_tag: class: 'home-section__heading-image', alt: section.settings.heading, loading: 'lazy' }}
+          </picture>
+        </div>
+      {% else %}
         {% if section.settings.subheading != blank %}
           <p class="beyond-products__subheading">{{ section.settings.subheading }}</p>
         {% endif %}
         {% if section.settings.heading != blank %}
           <h2 class="beyond-products__heading">{{ section.settings.heading }}</h2>
         {% endif %}
-      </div>
-    {% endif %}
+      {% endif %}
+    </div>
 
     <div class="beyond-products__carousel" data-beyond-carousel>
       <div class="beyond-products__track" data-beyond-track>
@@ -130,6 +140,8 @@
   "tag": "section",
   "class": "section-beyond-products",
   "settings": [
+    { "type": "image_picker", "id": "heading_image_desktop", "label": "Heading Box Graphic Image (Desktop)", "info": "Upload graphic image for section title on Desktop" },
+    { "type": "image_picker", "id": "heading_image_mobile", "label": "Heading Box Graphic Image (Mobile)", "info": "Upload graphic image for section title on Mobile" },
     {
       "type": "text",
       "id": "subheading",

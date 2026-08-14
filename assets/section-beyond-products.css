@@ -20,6 +20,14 @@
   margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
 }
 
+.beyond-products__heading-banner-wrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 .beyond-products__subheading {
   font-size: clamp(1.2rem, 2.5vw, 1.8rem);
   font-weight: 800;
