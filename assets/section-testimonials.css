@@ -1,6 +1,7 @@
 /* Testimonials & Feedback Section - Green Shades & White Theme */
 .testimonials-section {
-  background: linear-gradient(180deg, #f7faf5 0%, #edf5e8 100%);
+  background: #ffffff !important;
+  background-color: #ffffff !important;
   color: #1e293b;
   max-width: none;
   padding: 1.5rem 0;

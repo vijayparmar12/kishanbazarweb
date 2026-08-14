@@ -1250,12 +1250,210 @@ body.kb-header-menu-open {
   }
 
   .kb-header__announcement-text {
+    padding: 0.45rem 1rem 0.6rem;
+    align-items: center;
+  }
+
+  .kb-header__menu-toggle {
+    display: inline-flex;
+    grid-area: toggle;
+    justify-self: start !important;
+    align-self: center !important;
+  }
+
+  .kb-header__action--account,
+  a.kb-header__action[href*="account"] {
+    display: none !important;
+  }
+
+  .kb-header__logo {
+    grid-area: logo;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    justify-self: center !important;
+    align-self: center !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    z-index: 5;
+    pointer-events: auto;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    width: min(var(--kb-logo-width, 200px), 42vw) !important;
+  }
+
+  .kb-header__logo-image {
+    display: block;
+    margin: 0 auto !important;
+    max-height: 38px;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .kb-header--scrolled .kb-header__logo-image {
+    max-height: 34px;
+  }
+
+  .kb-header__actions {
+    grid-area: actions;
+    justify-self: end !important;
+    align-self: center !important;
+    gap: 0.15rem;
+  }
+
+  .kb-header__search {
+    grid-area: search;
+    border-color: #1f1f1f;
+    border-radius: 5px;
+    height: 42px;
+    max-width: none;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .kb-header__search-icon {
+    display: inline-flex;
+  }
+
+  .kb-header__search-input {
+    padding-left: 3rem;
+  }
+
+  .kb-header__search-submit {
+    display: none;
+  }
+
+  .kb-header__search-clear {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #5c473d;
+  cursor: pointer;
+  display: none;
+  height: 100%;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+  .kb-header2,
+  .kb-header__nav {
+    display: none !important;
+  }
+
+  .kb-header__features-inner {
+    justify-content: flex-start;
+    padding: 0.7rem 1rem 0.75rem;
+  }
+}
+
+@media screen and (max-width: 39.99rem) {
+  .kb-header__announcement {
+    font-size: 0.76rem;
+    padding-inline: 0;
+  }
+
+  .kb-header__announcement-text {
+    animation-duration: 16s;
+  }
+
+  .kb-header__announcement-set {
+    gap: 3rem;
+    padding-right: 3rem;
+  }
+
+  .kb-header__main-grid {
+    padding-inline: 0.8rem;
+  }
+
+  .kb-header__action,
+  .kb-header__menu-toggle,
+  .kb-header__mobile-close {
+    height: 36px;
+    width: 36px;
+  }
+
+  .kb-header__feature-image {
+    height: 32px;
+    width: 32px;
+  }
+}
+
+@keyframes kb-header-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Mobile Menu Account Wrapper */
+.kb-header__mobile-account-wrap {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid #eef2ed;
+  margin-top: auto;
+  background: #fcfdfc;
+}
+
+.kb-header__mobile-account-btn {
+  width: 100%;
+  height: 44px;
+  min-height: 44px;
+  max-height: 44px;
+  background: #23421f;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: none;
+  transition: background 200ms ease;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.kb-header__mobile-account-btn svg {
+  width: 20px !important;
+  height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  flex-shrink: 0 !important;
+}
+
+.kb-header__mobile-account-btn:hover {
+  background: #162f15;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-header *,
+  .kb-header *::before,
+  .kb-header *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .kb-header__announcement-text {
     animation: none;
     padding-left: 0;
   }
 }
 
-/* Seamless Section Connection - Remove Section Divider Lines & Borders */
+/* Seamless Section Connection & Clean White Backgrounds */
+body,
+main,
+#MainContent,
 .home-section,
 .section,
 .best-sellers,
@@ -1264,11 +1462,11 @@ body.kb-header-menu-open {
 .categories,
 .beyond-products,
 .testimonials-section,
+.testimonials-carousel-section,
 .home-hero-split,
 .home-video,
-.site-footer,
-.kb-header__features,
 .shoppable-videos {
+  background-color: #ffffff !important;
   border-top: none !important;
   border-bottom: none !important;
   border-block: none !important;

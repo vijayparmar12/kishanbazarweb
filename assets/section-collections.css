@@ -35,7 +35,8 @@
 }
 
 .featured-collections {
-  background: linear-gradient(180deg, #fffaf0 0%, #fff 100%);
+  background: #ffffff !important;
+  background-color: #ffffff !important;
   border-block: none !important;
   border-top: none !important;
   border-bottom: none !important;

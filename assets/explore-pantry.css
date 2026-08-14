@@ -1,6 +1,6 @@
 .explore-pantry {
-  background:
-    linear-gradient(180deg, #fffaf0 0%, var(--explore-pantry-bg, #faf8f1) 48%, #f2f7ea 100%);
+  background: #ffffff !important;
+  background-color: #ffffff !important;
   border-block: none !important;
   border-top: none !important;
   border-bottom: none !important;

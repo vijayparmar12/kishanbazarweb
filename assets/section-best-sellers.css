@@ -1,5 +1,6 @@
 .best-sellers {
-  background: linear-gradient(180deg, #fbfdf9 0%, #f4f8ee 100%);
+  background: #ffffff !important;
+  background-color: #ffffff !important;
   border-block: none !important;
   border-top: none !important;
   border-bottom: none !important;
