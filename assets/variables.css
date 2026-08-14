@@ -87,7 +87,7 @@
 
   /* Layout */
   --container-width: 80rem;
-  --container-padding: clamp(1.25rem, 4vw, 3rem);
+  --container-padding: var(--space-4);
   --header-height: 4.5rem;
   --button-height: 2.75rem;
   --card-radius: var(--radius-md);
@@ -104,6 +104,6 @@
 
 @media screen and (min-width: 48rem) {
   :root {
-    --container-padding: clamp(1.5rem, 4.5vw, 3.5rem);
+    --container-padding: var(--space-6);
   }
 }

@@ -4,7 +4,7 @@
    ========================================================================== */
 
 .home-hero-split {
-  padding: 0.35rem max(clamp(1.5rem, 4.5vw, 3.5rem), calc((100% - var(--container-width, 1280px)) / 2 + 1.5rem)) 1rem;
+  padding: 0.35rem max(var(--container-padding, 1rem), calc((100% - var(--container-width, 1280px)) / 2)) 1rem;
   background: #ffffff;
   width: 100%;
   box-sizing: border-box;
@@ -32,7 +32,7 @@
 
 @media (max-width: 48rem) {
   .home-hero-split {
-    padding: 0.35rem clamp(1.25rem, 4vw, 2rem) 0.75rem !important;
+    padding: 0.35rem 0.5rem 0.75rem !important;
   }
 
   .home-hero-split__decor-badal {

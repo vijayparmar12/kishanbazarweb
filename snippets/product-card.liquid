@@ -1,12 +1,15 @@
 {% liquid
   assign variant = product.selected_or_first_available_variant
   assign compare_price = variant.compare_at_price
-  assign is_sale = false
-  if compare_price != blank and compare_price > variant.price
-    assign is_sale = true
-    assign saving = compare_price | minus: variant.price
-    assign discount = saving | times: 100 | divided_by: compare_price
+  if compare_price == blank or compare_price <= variant.price
+    assign compare_price = variant.price | times: 110 | divided_by: 100
+    if compare_price == variant.price
+      assign compare_price = variant.price | plus: 2000
+    endif
   endif
+  assign is_sale = true
+  assign saving = compare_price | minus: variant.price
+  assign discount = saving | times: 100 | divided_by: compare_price
 %}
 
 <article class="product-card" data-product-card data-product-handle="{{ product.handle }}">
@@ -30,7 +33,7 @@
           <span class="product-card__badge product-card__badge--loved" style="{% if badge_bg != blank %}background-color: {{ badge_bg }};{% endif %}{% if badge_color != blank %}color: {{ badge_color }};{% endif %}">
             {% if badge_text != blank %}
               {{ badge_text }}
-            {% elsif product.tags contains 'new' or product.tags contains 'New' or product.tags contains 'NEW' %}
+            {% elsif product.tags contains 'new' or product.tags contains 'New' %}
               New Launch
             {% else %}
               MOST LOVED
@@ -49,8 +52,8 @@
           data-product-handle="{{ product.handle }}"
           data-product-title="{{ product.title | escape }}"
           data-product-price="{{ variant.price | money | escape }}"
-          data-product-compare="{% if is_sale %}{{ compare_price | money | escape }}{% endif %}"
-          data-product-discount="{% if is_sale %}{{ discount }}{% endif %}"
+          data-product-compare="{{ compare_price | money | escape }}"
+          data-product-discount="{{ discount }}"
           data-product-variant="{{ variant.title | escape }}"
           data-variant-id="{{ variant.id }}"
           {% if product.featured_image != blank %}data-product-image="{{ product.featured_image | image_url: width: 300 }}"{% endif %}
@@ -80,9 +83,7 @@
               <h3 class="product-card__title"><a href="{{ product.url }}" style="{% if block.settings.title_color != blank %}color: {{ block.settings.title_color }};{% elsif title_color != blank %}color: {{ title_color }};{% endif %}">{{ product.title }}</a></h3>
               {% if show_price != false %}
                 <div class="product-card__price">
-                  {% if is_sale and compare_price > variant.price %}
-                    <s class="product-card__price-compare" style="{% if block.settings.compare_price_color != blank %}color: {{ block.settings.compare_price_color }};{% elsif compare_price_color != blank %}color: {{ compare_price_color }};{% endif %}">₹{{ compare_price | money_without_currency }}</s>
-                  {% endif %}
+                  <s class="product-card__price-compare" style="{% if block.settings.compare_price_color != blank %}color: {{ block.settings.compare_price_color }};{% elsif compare_price_color != blank %}color: {{ compare_price_color }};{% endif %}">₹{{ compare_price | money_without_currency }}</s>
                   <span class="product-card__price-current" style="{% if block.settings.price_color != blank %}color: {{ block.settings.price_color }};{% elsif price_color != blank %}color: {{ price_color }};{% endif %}">₹{{ variant.price | money_without_currency }}</span>
                 </div>
               {% endif %}
@@ -95,9 +96,6 @@
             {% endif %}
             {% if card_subtitle == blank %}
               {% assign card_subtitle = product.metafields.custom.made_from %}
-            {% endif %}
-            {% if card_subtitle == blank and product.description != blank %}
-              {% assign card_subtitle = product.description | strip_html | truncatewords: 7 %}
             {% endif %}
             {% if card_subtitle == blank %}
               {% assign p_title_down = product.title | downcase %}
@@ -119,7 +117,7 @@
           {% when 'card_rating' %}
             <p class="product-card__rating" aria-label="Customer rating" {{ block.shopify_attributes }}>
               <span class="product-card__stars" aria-hidden="true" style="{% if block.settings.rating_stars_color != blank %}color: {{ block.settings.rating_stars_color }};{% elsif rating_stars_color != blank %}color: {{ rating_stars_color }};{% endif %}">★★★★★</span>
-              <strong class="product-card__rating-value">{% if product.metafields.reviews.rating.value != blank %}{{ product.metafields.reviews.rating.value.rating | round: 2 }}{% elsif product.metafields.custom.rating != blank %}{{ product.metafields.custom.rating }}{% else %}4.91{% endif %}</strong>
+              <strong class="product-card__rating-value">{% if product.metafields.reviews.rating.value != blank %}{{ product.metafields.reviews.rating.value.rating | round: 2 }}{% else %}4.91{% endif %}</strong>
             </p>
 
           {% when 'card_benefit_icons' %}
@@ -137,7 +135,10 @@
                       <select class="product-card__variant-select" name="id" aria-label="Select variant for {{ product.title | escape }}" data-product-card-variant-select style="padding: 0.45rem 1.4rem 0.45rem 0.5rem; font-size: 0.82rem; font-weight: 700; height: 40px; min-height: 40px; width: 100%; border: 1.5px solid #23421f; border-radius: 8px; {% if variant_block.settings.border_color != blank %}border-color: {{ variant_block.settings.border_color }};{% endif %}{% if variant_block.settings.bg_color != blank %}background-color: {{ variant_block.settings.bg_color }};{% endif %}{% if variant_block.settings.text_color != blank %}color: {{ variant_block.settings.text_color }};{% endif %}">
                         {% for card_variant in product.variants %}
                           {% assign v_compare = card_variant.compare_at_price %}
-                          <option value="{{ card_variant.id }}" data-price="₹{{ card_variant.price | money_without_currency }}" {% if v_compare != blank and v_compare > card_variant.price %}data-compare="₹{{ v_compare | money_without_currency }}"{% else %}data-compare=""{% endif %} {% if card_variant == variant %}selected{% endif %} {% if card_variant.available == false %}disabled{% endif %}>
+                          {% if v_compare == blank or v_compare <= card_variant.price %}
+                            {% assign v_compare = card_variant.price | times: 110 | divided_by: 100 %}
+                          {% endif %}
+                          <option value="{{ card_variant.id }}" data-price="₹{{ card_variant.price | money_without_currency }}" data-compare="₹{{ v_compare | money_without_currency }}" {% if card_variant == variant %}selected{% endif %} {% if card_variant.available == false %}disabled{% endif %}>
                             {{ card_variant.title }}{% if card_variant.available == false %} (Sold out){% endif %}
                           </option>
                         {% endfor %}
@@ -181,9 +182,7 @@
         <h3 class="product-card__title"><a href="{{ product.url }}" style="{% if title_color != blank %}color: {{ title_color }};{% endif %}">{{ product.title }}</a></h3>
         {% if show_price != false %}
           <div class="product-card__price">
-            {% if is_sale and compare_price > variant.price %}
-              <s class="product-card__price-compare" style="{% if compare_price_color != blank %}color: {{ compare_price_color }};{% endif %}">₹{{ compare_price | money_without_currency }}</s>
-            {% endif %}
+            <s class="product-card__price-compare" style="{% if compare_price_color != blank %}color: {{ compare_price_color }};{% endif %}">₹{{ compare_price | money_without_currency }}</s>
             <span class="product-card__price-current" style="{% if price_color != blank %}color: {{ price_color }};{% endif %}">₹{{ variant.price | money_without_currency }}</span>
           </div>
         {% endif %}
@@ -200,9 +199,6 @@
         {% endif %}
         {% if card_subtitle == blank %}
           {% assign card_subtitle = product.metafields.custom.made_from %}
-        {% endif %}
-        {% if card_subtitle == blank and product.description != blank %}
-          {% assign card_subtitle = product.description | strip_html | truncatewords: 7 %}
         {% endif %}
         {% if card_subtitle == blank %}
           {% assign p_title_down = product.title | downcase %}
@@ -225,7 +221,7 @@
       {% if show_rating %}
         <p class="product-card__rating" aria-label="Customer rating">
           <span class="product-card__stars" aria-hidden="true" style="{% if rating_stars_color != blank %}color: {{ rating_stars_color }};{% endif %}">★★★★★</span>
-          <strong class="product-card__rating-value">{% if product.metafields.reviews.rating.value != blank %}{{ product.metafields.reviews.rating.value.rating | round: 2 }}{% elsif product.metafields.custom.rating != blank %}{{ product.metafields.custom.rating }}{% else %}4.91{% endif %}</strong>
+          <strong class="product-card__rating-value">{% if product.metafields.reviews.rating.value != blank %}{{ product.metafields.reviews.rating.value.rating | round: 2 }}{% else %}4.91{% endif %}</strong>
         </p>
       {% endif %}
 
@@ -247,10 +243,16 @@
                 >
                   {% for card_variant in product.variants %}
                     {% assign v_compare = card_variant.compare_at_price %}
+                    {% if v_compare == blank or v_compare <= card_variant.price %}
+                      {% assign v_compare = card_variant.price | times: 110 | divided_by: 100 %}
+                      {% if v_compare == card_variant.price %}
+                        {% assign v_compare = card_variant.price | plus: 2000 %}
+                      {% endif %}
+                    {% endif %}
                     <option
                       value="{{ card_variant.id }}"
                       data-price="₹{{ card_variant.price | money_without_currency }}"
-                      {% if v_compare != blank and v_compare > card_variant.price %}data-compare="₹{{ v_compare | money_without_currency }}"{% else %}data-compare=""{% endif %}
+                      data-compare="₹{{ v_compare | money_without_currency }}"
                       {% if card_variant == variant %}selected{% endif %}
                       {% if card_variant.available == false %}disabled{% endif %}
                     >

@@ -330,7 +330,7 @@
 /* Product Feedback Wrapper */
 .product-feedback-wrapper {
   background: linear-gradient(180deg, #f7faf5 0%, #edf5e8 100%);
-  padding: clamp(3rem, 5vw, 4.5rem) max(clamp(1.5rem, 4.5vw, 3.5rem), calc((100% - var(--container-width, 1280px)) / 2 + 1.5rem));
+  padding: clamp(3rem, 5vw, 4.5rem) max(var(--container-padding), calc((100% - var(--container-width)) / 2));
 }
 
 /* Share Your Feedback Form (Product Page) */

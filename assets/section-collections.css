@@ -40,7 +40,7 @@
   border-top: none !important;
   border-bottom: none !important;
   max-width: none;
-  padding: clamp(3rem, 6vw, 5rem) max(clamp(1.5rem, 4.5vw, 3.5rem), calc((100% - var(--container-width, 1280px)) / 2 + 1.5rem));
+  padding: clamp(3rem, 6vw, 5rem) max(var(--container-padding), calc((100% - var(--container-width)) / 2));
 }
 
 .featured-collections__grid {
