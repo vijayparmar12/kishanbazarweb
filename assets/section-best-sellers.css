@@ -44,10 +44,10 @@
 
 .best-sellers__head--card-box {
   background: #ffffff;
-  border: 1.5px solid rgba(35, 66, 31, 0.08);
+  border: none !important;
   border-radius: 20px;
-  padding: clamp(1rem, 2.5vw, 1.5rem) clamp(1.25rem, 3vw, 2rem);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  padding: clamp(0.75rem, 2vw, 1.25rem) clamp(1rem, 2.5vw, 1.5rem);
+  box-shadow: none !important;
 }
 
 .home-section__heading-picture {
