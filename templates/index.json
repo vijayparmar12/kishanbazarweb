@@ -100,7 +100,7 @@
         "background_color": "#ffffff",
         "maximum": 8,
         "show_tabs": false,
-        "show_cta_btn": false,
+        "show_cta_btn": true,
         "cta_url": "",
         "show_badge": true,
         "custom_badge_text": "",
