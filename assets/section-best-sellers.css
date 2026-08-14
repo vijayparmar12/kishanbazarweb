@@ -7,8 +7,8 @@
   width: 100%;
   padding-top: clamp(1.5rem, 3vw, 2.5rem);
   padding-bottom: 1.5rem;
-  padding-left: max(var(--container-padding), calc((100% - var(--container-width)) / 2));
-  padding-right: max(var(--container-padding), calc((100% - var(--container-width)) / 2));
+  padding-left: max(clamp(1.5rem, 4.5vw, 3.5rem), calc((100% - var(--container-width, 1280px)) / 2 + 1.5rem));
+  padding-right: max(clamp(1.5rem, 4.5vw, 3.5rem), calc((100% - var(--container-width, 1280px)) / 2 + 1.5rem));
   position: relative;
   overflow: visible;
   box-sizing: border-box;
@@ -409,7 +409,7 @@
 
 @media (max-width: 48rem) {
   .best-sellers {
-    padding-inline: 1rem;
+    padding-inline: clamp(1.25rem, 4vw, 2.25rem);
     padding-block: 1rem 0.75rem;
     width: 100%;
     max-width: 100%;

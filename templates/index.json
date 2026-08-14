@@ -97,8 +97,8 @@
     "best_sellers": {
       "type": "best-sellers",
       "settings": {
-        "eyebrow": "Handpicked for you",
-        "heading": "Top Picks For You",
+        "eyebrow": "",
+        "heading": "",
         "collection": "",
         "cta_label": "Shop More",
         "show_tabs": true,

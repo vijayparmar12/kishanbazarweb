@@ -2,8 +2,8 @@
   width: 100%;
   padding-top: clamp(2rem, 4vw, 3.5rem);
   padding-bottom: clamp(2rem, 4vw, 3.5rem);
-  padding-left: max(var(--container-padding, 1rem), calc((100% - var(--container-width, 1280px)) / 2));
-  padding-right: max(var(--container-padding, 1rem), calc((100% - var(--container-width, 1280px)) / 2));
+  padding-left: max(clamp(1.5rem, 4.5vw, 3.5rem), calc((100% - var(--container-width, 1280px)) / 2 + 1.5rem));
+  padding-right: max(clamp(1.5rem, 4.5vw, 3.5rem), calc((100% - var(--container-width, 1280px)) / 2 + 1.5rem));
   box-sizing: border-box;
   position: relative;
   overflow: hidden;

@@ -73,24 +73,28 @@
     </svg>
   </div>
 
-  <div class="home-section__head best-sellers__head">
-    <div class="best-sellers__title-wrap">
-      {% if section.settings.eyebrow != blank %}
-        <p class="home-section__eyebrow" style="color: #166534; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; font-family: Georgia, serif;">
-          {{ section.settings.eyebrow | default: "Handpicked for you" }}
-        </p>
-      {% endif %}
-      <h2 style="color: #1e3d20; font-size: clamp(1.6rem, 3.5vw, 2.65rem); font-weight: 900; font-family: Georgia, serif; margin: 0;">
-        {{ section.settings.heading | default: "Top Picks For You" }}
-      </h2>
-    </div>
+  {% if section.settings.heading != blank or section.settings.eyebrow != blank or section.settings.show_cta_btn %}
+    <div class="home-section__head best-sellers__head" style="background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; margin-bottom: 1rem !important;">
+      <div class="best-sellers__title-wrap">
+        {% if section.settings.eyebrow != blank %}
+          <p class="home-section__eyebrow" style="color: #166534; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; font-family: Georgia, serif;">
+            {{ section.settings.eyebrow }}
+          </p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 style="color: #1e3d20; font-size: clamp(1.6rem, 3.5vw, 2.65rem); font-weight: 900; font-family: Georgia, serif; margin: 0;">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+      </div>
 
-    {% if section.settings.show_cta_btn != false %}
-      <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
-        <span>{{ section.settings.cta_label | default: "Shop All Categories →" }}</span>
-      </a>
-    {% endif %}
-  </div>
+      {% if section.settings.show_cta_btn != false and section.settings.cta_label != blank %}
+        <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
+          <span>{{ section.settings.cta_label }}</span>
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
 
   {% assign category_blocks = section.blocks | where: 'type', 'category_tab' %}
   {% if section.settings.show_tabs or category_blocks.size > 0 %}
