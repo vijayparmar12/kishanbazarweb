@@ -220,11 +220,12 @@
         "video_4"
       ],
       "settings": {
-        "heading_image_desktop": "shopify://shop_images/129cc311-bece-4040-a556-4db9c1ac87cb.png",
+        "heading_image_desktop": "shopify://shop_images/ChatGPT_Image_Aug_14_2026_04_42_10_PM.png",
+        "heading_image_mobile": "shopify://shop_images/129cc311-bece-4040-a556-4db9c1ac87cb.png",
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
-        "heading_box_height_desktop": 80,
-        "heading_box_height_mobile": 80,
+        "heading_box_height_desktop": 60,
+        "heading_box_height_mobile": 40,
         "heading": "",
         "subheading": "",
         "show_demo_video": true,
