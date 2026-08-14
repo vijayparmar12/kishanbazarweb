@@ -23,12 +23,14 @@
     {% endif %}
   }
 
-  #BestSellers-{{ section.id }} .home-section__heading-image {
-    max-width: {{ section.settings.heading_image_max_width | default: 400 }}px !important;
-    width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
+  #BestSellers-{{ section.id }} .best-sellers__head--card-box {
+    {% if section.settings.heading_image_desktop != blank %}
+      background-image: url('{{ section.settings.heading_image_desktop | image_url: width: 2200 }}') !important;
+      background-size: cover !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      min-height: {{ section.settings.heading_box_height_desktop | default: 110 }}px !important;
+    {% endif %}
   }
 
   @media screen and (max-width: 749px) {
@@ -39,8 +41,15 @@
         background-position: center top !important;
       {% endif %}
     }
-    #BestSellers-{{ section.id }} .home-section__heading-image {
-      max-width: {{ section.settings.heading_image_mobile_max_width | default: 280 }}px !important;
+    #BestSellers-{{ section.id }} .best-sellers__head--card-box {
+      {% if section.settings.heading_image_mobile != blank or section.settings.heading_image_desktop != blank %}
+        {% assign mobile_head_bg = section.settings.heading_image_mobile | default: section.settings.heading_image_desktop %}
+        background-image: url('{{ mobile_head_bg | image_url: width: 1200 }}') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        min-height: {{ section.settings.heading_box_height_mobile | default: 80 }}px !important;
+      {% endif %}
     }
   }
 
@@ -72,7 +81,6 @@
   #BestSellers-{{ section.id }} .best-sellers__tab.is-active .best-sellers__tab-label,
   #BestSellers-{{ section.id }} .best-sellers__tab:hover .best-sellers__tab-label {
     color: {{ active_color }} !important;
-    fill: {{ active_color }} !important;
   }
 
   {% if section.settings.tab_inactive_color != blank %}
@@ -97,22 +105,14 @@
 
   <div class="home-section__head best-sellers__head best-sellers__head--card-box">
     <div class="best-sellers__title-wrap">
-      {% if section.settings.heading_image_desktop != blank or section.settings.heading_image_mobile != blank %}
-        <picture class="home-section__heading-picture">
-          {% if section.settings.heading_image_mobile != blank %}
-            <source media="(max-width: 749px)" srcset="{{ section.settings.heading_image_mobile | image_url: width: 800 }}">
-          {% endif %}
-          {% assign heading_img = section.settings.heading_image_desktop | default: section.settings.heading_image_mobile %}
-          {{ heading_img | image_url: width: 1200 | image_tag: class: 'home-section__heading-image', alt: section.settings.heading, loading: 'lazy' }}
-        </picture>
-      {% else %}
-        {% if section.settings.eyebrow != blank %}
-          <p class="home-section__eyebrow" style="color: #166534; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; font-family: Georgia, serif;">
-            {{ section.settings.eyebrow | default: "Handpicked for you" }}
-          </p>
-        {% endif %}
+      {% if section.settings.eyebrow != blank %}
+        <p class="home-section__eyebrow" style="color: #166534; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; font-family: Georgia, serif;">
+          {{ section.settings.eyebrow }}
+        </p>
+      {% endif %}
+      {% if section.settings.heading != blank %}
         <h2 style="color: #1e3d20; font-size: clamp(1.6rem, 3.5vw, 2.65rem); font-weight: 900; font-family: Georgia, serif; margin: 0;">
-          {{ section.settings.heading | default: "Top Picks For You" }}
+          {{ section.settings.heading }}
         </h2>
       {% endif %}
     </div>
@@ -279,12 +279,12 @@
       "type": "header",
       "content": "Section Title & Background"
     },
-    { "type": "text", "id": "eyebrow", "label": "Small eyebrow label", "default": "Loved by Thousands ❤️" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Our most-loved picks" },
-    { "type": "image_picker", "id": "heading_image_desktop", "label": "Desktop Custom Heading Image (Optional)", "info": "Upload graphic image for section title on Desktop" },
-    { "type": "image_picker", "id": "heading_image_mobile", "label": "Mobile Custom Heading Image (Optional)", "info": "Upload graphic image for section title on Mobile" },
-    { "type": "range", "id": "heading_image_max_width", "label": "Desktop Heading Image Max Width (px)", "min": 100, "max": 800, "step": 10, "default": 400, "unit": "px" },
-    { "type": "range", "id": "heading_image_mobile_max_width", "label": "Mobile Heading Image Max Width (px)", "min": 80, "max": 500, "step": 10, "default": 280, "unit": "px" },
+    { "type": "text", "id": "eyebrow", "label": "Small eyebrow label (optional text over background image)" },
+    { "type": "text", "id": "heading", "label": "Heading text (optional text over background image)" },
+    { "type": "image_picker", "id": "heading_image_desktop", "label": "Heading Box Background Image (Desktop)", "info": "Upload graphic image to use as background for the Heading Box on Desktop" },
+    { "type": "image_picker", "id": "heading_image_mobile", "label": "Heading Box Background Image (Mobile)", "info": "Upload graphic image to use as background for the Heading Box on Mobile" },
+    { "type": "range", "id": "heading_box_height_desktop", "label": "Heading Box Minimum Height (Desktop px)", "min": 60, "max": 400, "step": 10, "default": 110, "unit": "px" },
+    { "type": "range", "id": "heading_box_height_mobile", "label": "Heading Box Minimum Height (Mobile px)", "min": 40, "max": 300, "step": 10, "default": 80, "unit": "px" },
     { "type": "collection", "id": "collection", "label": "Collection" },
     { "type": "text", "id": "cta_label", "label": "Shop All CTA button label", "default": "Shop All Categories →" },
     { "type": "image_picker", "id": "background_image", "label": "Custom Background Image" },
