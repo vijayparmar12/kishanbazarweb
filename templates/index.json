@@ -238,6 +238,32 @@
     },
     "best_sellers": {
       "type": "best-sellers",
+      "blocks": {
+        "category_tab_cRHrih": {
+          "type": "category_tab",
+          "settings": {
+            "title": "Aatta",
+            "collection": "",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_13_2026_10_48_13_AM.png",
+            "active_icon_image": "shopify://shop_images/ChatGPT_Image_Aug_13_2026_10_51_53_AM.png",
+            "icon_type": "ghee"
+          }
+        },
+        "category_tab_UWnxqx": {
+          "type": "category_tab",
+          "settings": {
+            "title": "Aatta",
+            "collection": "",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_13_2026_10_48_13_AM.png",
+            "active_icon_image": "shopify://shop_images/ChatGPT_Image_Aug_13_2026_10_51_53_AM.png",
+            "icon_type": "ghee"
+          }
+        }
+      },
+      "block_order": [
+        "category_tab_cRHrih",
+        "category_tab_UWnxqx"
+      ],
       "name": "shop By category",
       "settings": {
         "eyebrow": "Handpicked for you",
@@ -339,13 +365,6 @@
         "review_3"
       ],
       "settings": {
-        "use_default_header_bg": true,
-        "header_bg_color": "#ffffff",
-        "header_padding_desktop": 20,
-        "header_padding_desktop_h": 24,
-        "header_padding_mobile": 14,
-        "header_padding_mobile_h": 16,
-        "header_border_radius": 16,
         "eyebrow": "⭐ 10,000+ VERIFIED REVIEWS ⭐",
         "heading": "Kind words from your table",
         "subheading": "Real stories from families who love our pure, farm-fresh organic staples.",
