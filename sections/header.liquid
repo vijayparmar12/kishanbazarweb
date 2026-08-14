@@ -158,6 +158,7 @@
   <div class="kb-header2" data-header2>
     <nav class="kb-header__nav" aria-label="Main navigation">
       <ul class="kb-header__nav-list" role="list">
+        {% assign total_nav_count = 0 %}
         {% assign desktop_menu = section.settings.menu %}
         {% if desktop_menu == blank or desktop_menu.links.size == 0 %}
           {% assign desktop_menu = linklists['main-menu'] %}
@@ -165,6 +166,7 @@
 
         {% if desktop_menu != blank and desktop_menu.links.size > 0 %}
           {% for link in desktop_menu.links %}
+            {% assign total_nav_count = total_nav_count | plus: 1 %}
             {% if link.links.size > 0 %}
               <li class="kb-header__nav-item kb-header__nav-item--has-dropdown" data-dropdown-item>
                 <a class="kb-header__nav-link" href="{{ link.url }}">
@@ -196,83 +198,82 @@
               </li>
             {% endif %}
           {% endfor %}
-        {% else %}
-          {% assign nav_block_count = 0 %}
-          {% for block in section.blocks %}
-            {% if block.type == 'nav_item' or block.type == 'desktop_nav_item' %}
-              {% assign target = block.settings.display_target | default: 'desktop' %}
-              {% if block.type == 'desktop_nav_item' or target == 'desktop' or target == 'all' %}
-                {% assign nav_block_count = nav_block_count | plus: 1 %}
-                {% assign mega_type = block.settings.mega_menu | default: 'none' %}
-                {% if mega_type != 'none' and mega_type != blank %}
-                  <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item {{ block.shopify_attributes }}>
-                    <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-{{ mega_type }}-{{ section.id }}" data-mega-trigger>
-                      {% if block.settings.icon_image != blank %}
-                        {{ block.settings.icon_image | image_url: width: 48 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
-                      {% elsif block.settings.icon != blank %}
-                        <span aria-hidden="true">{{ block.settings.icon }}</span>
-                      {% endif %}
-                      <span>{{ block.settings.title }}</span>
-                      {% if block.settings.badge != blank %}
-                        <span class="kb-nav-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
-                      {% endif %}
-                      <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span>
-                    </button>
-                    {% render 'mega-menu', section: section, menu_type: mega_type %}
-                  </li>
-                {% else %}
-                  <li class="kb-header__nav-item" {{ block.shopify_attributes }}>
-                    <a class="kb-header__nav-link{% if block.settings.icon_image != blank or block.settings.icon != blank %} kb-header__nav-link--icon{% endif %}" href="{{ block.settings.url | default: routes.all_products_collection_url }}">
-                      {% if block.settings.icon_image != blank %}
-                        {{ block.settings.icon_image | image_url: width: 48 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
-                      {% elsif block.settings.icon != blank %}
-                        <span aria-hidden="true">{{ block.settings.icon }}</span>
-                      {% endif %}
-                      <span>{{ block.settings.title }}</span>
-                      {% if block.settings.badge != blank %}
-                        <span class="kb-nav-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
-                      {% endif %}
-                    </a>
-                  </li>
-                {% endif %}
+        {% endif %}
+
+        {% for block in section.blocks %}
+          {% if block.type == 'nav_item' or block.type == 'desktop_nav_item' %}
+            {% assign target = block.settings.display_target | default: 'desktop' %}
+            {% if block.type == 'desktop_nav_item' or target == 'desktop' or target == 'all' %}
+              {% assign total_nav_count = total_nav_count | plus: 1 %}
+              {% assign mega_type = block.settings.mega_menu | default: 'none' %}
+              {% if mega_type != 'none' and mega_type != blank %}
+                <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item {{ block.shopify_attributes }}>
+                  <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-{{ mega_type }}-{{ section.id }}" data-mega-trigger>
+                    {% if block.settings.icon_image != blank %}
+                      {{ block.settings.icon_image | image_url: width: 48 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
+                    {% elsif block.settings.icon != blank %}
+                      <span aria-hidden="true">{{ block.settings.icon }}</span>
+                    {% endif %}
+                    <span>{{ block.settings.title }}</span>
+                    {% if block.settings.badge != blank %}
+                      <span class="kb-nav-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
+                    {% endif %}
+                    <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span>
+                  </button>
+                  {% render 'mega-menu', section: section, menu_type: mega_type %}
+                </li>
+              {% else %}
+                <li class="kb-header__nav-item" {{ block.shopify_attributes }}>
+                  <a class="kb-header__nav-link{% if block.settings.icon_image != blank or block.settings.icon != blank %} kb-header__nav-link--icon{% endif %}" href="{{ block.settings.url | default: routes.all_products_collection_url }}">
+                    {% if block.settings.icon_image != blank %}
+                      {{ block.settings.icon_image | image_url: width: 48 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
+                    {% elsif block.settings.icon != blank %}
+                      <span aria-hidden="true">{{ block.settings.icon }}</span>
+                    {% endif %}
+                    <span>{{ block.settings.title }}</span>
+                    {% if block.settings.badge != blank %}
+                      <span class="kb-nav-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
+                    {% endif %}
+                  </a>
+                </li>
               {% endif %}
             {% endif %}
-          {% endfor %}
-
-          {% if nav_block_count == 0 %}
-            <li class="kb-header__nav-item">
-              <a class="kb-header__nav-link kb-header__nav-link--icon" href="{{ section.settings.ghee_url | default: routes.collections_url }}">
-                <span>{{ section.settings.ghee_title }}</span>
-              </a>
-            </li>
-            <li class="kb-header__nav-item">
-              <a class="kb-header__nav-link kb-header__nav-link--icon" href="{{ section.settings.atta_url | default: routes.collections_url }}">
-                <span>{{ section.settings.atta_title }}</span>
-              </a>
-            </li>
-            <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item>
-              <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-category-{{ section.id }}" data-mega-trigger>{{ section.settings.category_title }} <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span></button>
-              {% render 'mega-menu', section: section, menu_type: 'category' %}
-            </li>
-            <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item>
-              <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-farm-{{ section.id }}" data-mega-trigger>
-                <span>{{ section.settings.farm_title }}</span>
-                <span class="kb-nav-sprout-icon" aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; margin-left: 2px;">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#23421f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 22V12"/>
-                    <path d="M12 12c-3 0-6-3-6-7 4 0 6 3 6 7z"/>
-                    <path d="M12 14c3 0 5-2.5 5-6-3.5 0-5 2.5-5 6z"/>
-                  </svg>
-                </span>
-                <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span>
-              </button>
-              {% render 'mega-menu', section: section, menu_type: 'farm' %}
-            </li>
-            <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item>
-              <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-customers-{{ section.id }}" data-mega-trigger>{{ section.settings.customers_title }} <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span></button>
-              {% render 'mega-menu', section: section, menu_type: 'customers' %}
-            </li>
           {% endif %}
+        {% endfor %}
+
+        {% if total_nav_count == 0 %}
+          <li class="kb-header__nav-item">
+            <a class="kb-header__nav-link kb-header__nav-link--icon" href="{{ section.settings.ghee_url | default: routes.collections_url }}">
+              <span>{{ section.settings.ghee_title }}</span>
+            </a>
+          </li>
+          <li class="kb-header__nav-item">
+            <a class="kb-header__nav-link kb-header__nav-link--icon" href="{{ section.settings.atta_url | default: routes.collections_url }}">
+              <span>{{ section.settings.atta_title }}</span>
+            </a>
+          </li>
+          <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item>
+            <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-category-{{ section.id }}" data-mega-trigger>{{ section.settings.category_title }} <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span></button>
+            {% render 'mega-menu', section: section, menu_type: 'category' %}
+          </li>
+          <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item>
+            <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-farm-{{ section.id }}" data-mega-trigger>
+              <span>{{ section.settings.farm_title }}</span>
+              <span class="kb-nav-sprout-icon" aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; margin-left: 2px;">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#23421f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22V12"/>
+                  <path d="M12 12c-3 0-6-3-6-7 4 0 6 3 6 7z"/>
+                  <path d="M12 14c3 0 5-2.5 5-6-3.5 0-5 2.5-5 6z"/>
+                </svg>
+              </span>
+              <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span>
+            </button>
+            {% render 'mega-menu', section: section, menu_type: 'farm' %}
+          </li>
+          <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item>
+            <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-customers-{{ section.id }}" data-mega-trigger>{{ section.settings.customers_title }} <span class="kb-header__nav-caret" aria-hidden="true">&dtrif;</span></button>
+            {% render 'mega-menu', section: section, menu_type: 'customers' %}
+          </li>
         {% endif %}
       </ul>
     </nav>
@@ -364,11 +365,30 @@
               </li>
             {% endif %}
           {% endfor %}
-        {% else %}
-          <li class="kb-header__mobile-item">
-            <span class="kb-header__mobile-link">Select a Shopify navigation menu</span>
-          </li>
         {% endif %}
+
+        {% for block in section.blocks %}
+          {% if block.type == 'nav_item' or block.type == 'mobile_nav_item' %}
+            {% assign target = block.settings.display_target | default: 'mobile' %}
+            {% if block.type == 'mobile_nav_item' or target == 'mobile' or target == 'all' %}
+              {% assign mega_type = block.settings.mega_menu | default: 'none' %}
+              {% if mega_type != 'none' and mega_type != blank %}
+                <li class="kb-header__mobile-item" {{ block.shopify_attributes }}>
+                  {% render 'mega-menu', section: section, menu_type: mega_type, mobile: true, custom_title: block.settings.title %}
+                </li>
+              {% else %}
+                <li class="kb-header__mobile-item" {{ block.shopify_attributes }}>
+                  <a class="kb-header__mobile-link" href="{{ block.settings.url | default: routes.all_products_collection_url }}">
+                    <span>{{ block.settings.title }}</span>
+                    {% if block.settings.badge != blank %}
+                      <span class="kb-nav-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
+                    {% endif %}
+                  </a>
+                </li>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
       </ul>
       <div class="kb-header__mobile-account-wrap">
         <button type="button" class="kb-header__mobile-account-btn" data-customer-login-trigger>
