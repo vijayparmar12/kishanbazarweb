@@ -131,12 +131,14 @@
           </h2>
         {% endif %}
       </div>
+    {% endif %}
 
-      {% if section.settings.show_cta_btn != false %}
+    {% if section.settings.show_cta_btn != false %}
+      <div class="best-sellers__cta-wrap best-sellers__cta-wrap--left">
         <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
           <span>{{ section.settings.cta_label | default: "Shop All Categories →" }}</span>
         </a>
-      {% endif %}
+      </div>
     {% endif %}
   </div>
 
