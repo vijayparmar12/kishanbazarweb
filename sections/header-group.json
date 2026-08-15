@@ -90,7 +90,7 @@
             "badge": "",
             "badge_background": "#e53935",
             "badge_color": "#ffffff",
-            "mega_menu": "none",
+            "mega_menu": "category",
             "icon": ""
           }
         },
@@ -218,6 +218,7 @@
         "announcement_text_color": "#ffffff",
         "logo": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_04_21_23_PM.png",
         "logo_width": 320,
+        "mobile_logo_width": 240,
         "enable_sticky_header": true,
         "header_background": "#ffffff",
         "background_color": "#ffffff",
