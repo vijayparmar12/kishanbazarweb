@@ -46,68 +46,6 @@
     {% endif %}
   }
 
-  #BestSellers-{{ section.id }} .best-sellers__cta-container {
-    display: flex !important;
-    justify-content: flex-end !important;
-    align-items: center !important;
-    text-align: right !important;
-    width: 100% !important;
-    margin-top: 0.5rem !important;
-    margin-bottom: 0.85rem !important;
-    clear: both !important;
-    position: relative !important;
-    z-index: 5 !important;
-  }
-
-  #BestSellers-{{ section.id }} .best-sellers__cta-container--overlay {
-    position: absolute !important;
-    right: 1.5rem !important;
-    bottom: 1.2rem !important;
-    margin: 0 !important;
-    width: auto !important;
-    z-index: 10 !important;
-  }
-
-  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn,
-  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn:link,
-  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn:visited {
-    margin-left: auto !important;
-    margin-right: 0 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 0.45rem !important;
-    background-color: {{ section.settings.cta_bg_color | default: '#1b4317' }} !important;
-    color: {{ section.settings.cta_text_color | default: '#ffffff' }} !important;
-    font-size: 0.82rem !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.02em !important;
-    padding: 0.48rem 1.2rem !important;
-    border-radius: 999px !important;
-    text-decoration: none !important;
-    box-shadow: 0 4px 12px rgba(27, 67, 23, 0.22) !important;
-    transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1) !important;
-    line-height: 1.2 !important;
-  }
-
-  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn:hover,
-  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn:focus {
-    background-color: #143511 !important;
-    color: #ffffff !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 18px rgba(27, 67, 23, 0.35) !important;
-    text-decoration: none !important;
-  }
-
-  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn .cta-arrow {
-    display: inline-block !important;
-    transition: transform 220ms ease !important;
-  }
-
-  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn:hover .cta-arrow {
-    transform: translateX(4px) !important;
-  }
-
   @media screen and (max-width: 749px) {
     #BestSellers-{{ section.id }} {
       {% if section.settings.background_image_mobile != blank %}
@@ -120,30 +58,6 @@
       width: 100% !important;
       max-width: 100% !important;
       margin: 0 !important;
-    }
-    #BestSellers-{{ section.id }} .best-sellers__cta-container {
-      display: flex !important;
-      justify-content: flex-end !important;
-      text-align: right !important;
-      width: 100% !important;
-      margin-top: 0.35rem !important;
-      margin-bottom: 0.65rem !important;
-    }
-    #BestSellers-{{ section.id }} .best-sellers__cta-container--overlay {
-      right: 0.75rem !important;
-      bottom: 0.6rem !important;
-    }
-    #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn,
-    #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn:link,
-    #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn:visited {
-      font-size: 0.76rem !important;
-      padding: 0.38rem 0.95rem !important;
-      margin-left: auto !important;
-      margin-right: 0 !important;
-      background-color: {{ section.settings.cta_bg_color | default: '#1b4317' }} !important;
-      color: {{ section.settings.cta_text_color | default: '#ffffff' }} !important;
-      border-radius: 999px !important;
-      text-decoration: none !important;
     }
   }
 
@@ -207,16 +121,6 @@
           {% assign heading_img = section.settings.heading_image_desktop | default: section.settings.heading_image_mobile %}
           {{ heading_img | image_url: width: 2200 | image_tag: class: 'home-section__heading-image', alt: section.settings.heading, loading: 'lazy' }}
         </picture>
-        {% if section.settings.show_cta_btn != false %}
-          <div class="best-sellers__cta-container best-sellers__cta-container--overlay">
-            <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
-              {% assign raw_cta_label = section.settings.cta_label | default: "Shop All Categories" %}
-              {% assign cleaned_cta_label = raw_cta_label | remove: '→' | remove: '->' | strip %}
-              <span>{{ cleaned_cta_label }}</span>
-              <span class="cta-arrow" aria-hidden="true">&rarr;</span>
-            </a>
-          </div>
-        {% endif %}
       </div>
     {% else %}
       <div class="best-sellers__title-wrap">
@@ -231,16 +135,6 @@
           </h2>
         {% endif %}
       </div>
-      {% if section.settings.show_cta_btn != false %}
-        <div class="best-sellers__cta-container">
-          <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
-            {% assign raw_cta_label = section.settings.cta_label | default: "Shop All Categories" %}
-            {% assign cleaned_cta_label = raw_cta_label | remove: '→' | remove: '->' | strip %}
-            <span>{{ cleaned_cta_label }}</span>
-            <span class="cta-arrow" aria-hidden="true">&rarr;</span>
-          </a>
-        </div>
-      {% endif %}
     {% endif %}
   </div>
 
@@ -432,11 +326,6 @@
     { "type": "color", "id": "background_color", "label": "Background Color", "default": "#FFFFFF" },
     { "type": "range", "id": "maximum", "label": "Maximum products", "min": 2, "max": 16, "step": 1, "default": 8 },
     { "type": "checkbox", "id": "show_tabs", "label": "Show category filter tabs (Ghee, Oil, Atta, etc.)", "default": true },
-    { "type": "checkbox", "id": "show_cta_btn", "label": "Show 'Shop All Categories' CTA button", "default": true },
-    { "type": "text", "id": "cta_label", "label": "Shop All CTA button label", "default": "Shop All Categories →" },
-    { "type": "url", "id": "cta_url", "label": "CTA button link" },
-    { "type": "color", "id": "cta_bg_color", "label": "CTA Button Background Color", "default": "#1b4317" },
-    { "type": "color", "id": "cta_text_color", "label": "CTA Button Text Color", "default": "#ffffff" },
     {
       "type": "header",
       "content": "Product Card Customization & Toggles"
