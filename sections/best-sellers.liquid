@@ -28,6 +28,7 @@
   #BestSellers-{{ section.id }} .home-section__heading-picture,
   #BestSellers-{{ section.id }} .best-sellers__heading-banner-wrap {
     display: block;
+    position: relative !important;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
@@ -56,6 +57,15 @@
     clear: both !important;
     position: relative !important;
     z-index: 5 !important;
+  }
+
+  #BestSellers-{{ section.id }} .best-sellers__cta-container--overlay {
+    position: absolute !important;
+    right: 1.5rem !important;
+    bottom: 1.2rem !important;
+    margin: 0 !important;
+    width: auto !important;
+    z-index: 10 !important;
   }
 
   #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn,
@@ -118,6 +128,10 @@
       width: 100% !important;
       margin-top: 0.35rem !important;
       margin-bottom: 0.65rem !important;
+    }
+    #BestSellers-{{ section.id }} .best-sellers__cta-container--overlay {
+      right: 0.75rem !important;
+      bottom: 0.6rem !important;
     }
     #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn,
     #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-all-btn:link,
@@ -193,6 +207,16 @@
           {% assign heading_img = section.settings.heading_image_desktop | default: section.settings.heading_image_mobile %}
           {{ heading_img | image_url: width: 2200 | image_tag: class: 'home-section__heading-image', alt: section.settings.heading, loading: 'lazy' }}
         </picture>
+        {% if section.settings.show_cta_btn != false %}
+          <div class="best-sellers__cta-container best-sellers__cta-container--overlay">
+            <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
+              {% assign raw_cta_label = section.settings.cta_label | default: "Shop All Categories" %}
+              {% assign cleaned_cta_label = raw_cta_label | remove: '→' | remove: '->' | strip %}
+              <span>{{ cleaned_cta_label }}</span>
+              <span class="cta-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        {% endif %}
       </div>
     {% else %}
       <div class="best-sellers__title-wrap">
@@ -207,19 +231,18 @@
           </h2>
         {% endif %}
       </div>
+      {% if section.settings.show_cta_btn != false %}
+        <div class="best-sellers__cta-container">
+          <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
+            {% assign raw_cta_label = section.settings.cta_label | default: "Shop All Categories" %}
+            {% assign cleaned_cta_label = raw_cta_label | remove: '→' | remove: '->' | strip %}
+            <span>{{ cleaned_cta_label }}</span>
+            <span class="cta-arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      {% endif %}
     {% endif %}
   </div>
-
-  {% if section.settings.show_cta_btn != false %}
-    <div class="best-sellers__cta-container">
-      <a class="best-sellers__shop-all-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
-        {% assign raw_cta_label = section.settings.cta_label | default: "Shop All Categories" %}
-        {% assign cleaned_cta_label = raw_cta_label | remove: '→' | remove: '->' | strip %}
-        <span>{{ cleaned_cta_label }}</span>
-        <span class="cta-arrow" aria-hidden="true">&rarr;</span>
-      </a>
-    </div>
-  {% endif %}
 
   {% assign category_blocks = section.blocks | where: 'type', 'category_tab' %}
   {% if section.settings.show_tabs or category_blocks.size > 0 %}
