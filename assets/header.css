@@ -1,4 +1,4 @@
-/* STICKY TOP CONTAINER: ANNOUNCEMENT BAR + HEADER 1 (SEARCH, LOGO, PROFILE, WISHLIST, CART) */
+/* STICKY TOP CONTAINER: ANNOUNCEMENT BAR + HEADER 1 (SEARCH/LOGO/ACTIONS) + HEADER 2 (NAV MENU BAR) */
 .kb-header {
   background-color: var(--kb-header-bg, #ffffff);
   background-image: none;
@@ -11,7 +11,7 @@
   width: 100%;
   transition: box-shadow 200ms ease;
   position: relative;
-  z-index: 900;
+  z-index: 9000;
 }
 
 .kb-header-top-sticky.kb-header-top--fixed {
@@ -33,7 +33,7 @@
   padding: 0.25rem 0;
 }
 
-/* HEADER 2: Sub-navigation links & Features (SCROLLS NATURALLY BELOW HEADER 1) */
+/* HEADER 2: Sub-navigation links & Features (STICKY ALONG WITH HEADER 1) */
 .kb-header2 {
   position: relative;
   z-index: 9000;

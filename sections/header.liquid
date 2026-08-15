@@ -98,11 +98,9 @@
         </div>
       </div>
     </header>
-  </div>
-  <div class="kb-header-top-placeholder" data-header-top-placeholder style="display: none; height: 110px;"></div>
 
-  <!-- HEADER 2: NAVIGATION LINKS & FEATURES (SCROLLS NATURALLY BELOW HEADER 1) -->
-  <div class="kb-header2" data-header2>
+    <!-- HEADER 2: NAVIGATION LINKS & FEATURES (STICKY TOGETHER WITH HEADER 1) -->
+    <div class="kb-header2" data-header2>
     <nav class="kb-header__nav" aria-label="Main navigation">
       <ul class="kb-header__nav-list" role="list">
         {% assign total_nav_count = 0 %}
@@ -228,6 +226,8 @@
       </ul>
     </nav>
   </div>
+</div>
+<div class="kb-header-top-placeholder" data-header-top-placeholder style="display: none; height: 160px;"></div>
 
   <nav class="kb-header__mobile-menu" id="kb-mobile-menu-{{ section.id }}" aria-label="Mobile navigation" hidden data-mobile-menu>
     <div class="kb-header__mobile-backdrop" data-menu-close></div>
