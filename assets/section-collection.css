@@ -5,11 +5,7 @@
 }
 
 .collection-banner {
-  align-items: end;
-  background: var(--color-primary);
   color: var(--color-white);
-  display: grid;
-  min-height: 18rem;
   overflow: hidden;
   position: relative;
 }
@@ -20,13 +16,6 @@
   object-fit: cover;
   position: absolute;
   width: 100%;
-}
-
-.collection-banner:not(.collection-banner--no-image)::after {
-  background: linear-gradient(90deg, rgb(14 43 22 / 82%), rgb(14 43 22 / 34%));
-  content: "";
-  inset: 0;
-  position: absolute;
 }
 
 .collection-banner__content {
@@ -368,9 +357,6 @@
 }
 
 @media (max-width: 47.99rem) {
-  .collection-banner {
-    min-height: 15rem;
-  }
 
   .collection-banner__content {
     padding-block: var(--space-8);

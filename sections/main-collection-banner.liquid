@@ -1,28 +1,203 @@
-<section class="collection-banner{% unless section.settings.show_image %} collection-banner--no-image{% endunless %}">
-  {% if section.settings.show_image %}
-    {% if collection.image != blank %}
-      {{ collection.image | image_url: width: 2000 | image_tag: class: 'collection-banner__image', loading: 'eager', fetchpriority: 'high', widths: '750, 1200, 1600, 2000' }}
-    {% elsif collection.products.first.featured_image != blank %}
-      {{ collection.products.first.featured_image | image_url: width: 2000 | image_tag: class: 'collection-banner__image', loading: 'eager', fetchpriority: 'high', widths: '750, 1200, 1600, 2000' }}
+{% style %}
+  #CollectionBanner-{{ section.id }} {
+    position: relative !important;
+    width: 100% !important;
+    max-width: {{ section.settings.banner_max_width | default: 2000 }}px !important;
+    height: {{ section.settings.banner_height_desktop | default: 380 }}px !important;
+    min-height: {{ section.settings.banner_height_desktop | default: 380 }}px !important;
+    margin: 0 auto !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: {{ section.settings.vertical_alignment | default: 'center' }} !important;
+    justify-content: {{ section.settings.horizontal_alignment | default: 'center' }} !important;
+    text-align: {{ section.settings.text_align | default: 'center' }} !important;
+    background-color: {{ section.settings.bg_color | default: '#1b4317' }} !important;
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__picture {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1 !important;
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: {{ section.settings.image_fit_desktop | default: 'cover' }} !important;
+    object-position: center !important;
+    display: block !important;
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__overlay {
+    position: absolute !important;
+    inset: 0 !important;
+    background-color: {{ section.settings.overlay_color | default: '#000000' }} !important;
+    opacity: {{ section.settings.overlay_opacity | default: 30 | divided_by: 100.0 }} !important;
+    z-index: 2 !important;
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__content {
+    position: relative !important;
+    z-index: 3 !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    padding: 1.5rem 1rem !important;
+    color: {{ section.settings.text_color | default: '#ffffff' }} !important;
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__title {
+    color: {{ section.settings.text_color | default: '#ffffff' }} !important;
+    font-size: {{ section.settings.title_size_desktop | default: 42 }}px !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    margin: 0.3rem 0 !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__subheading {
+    color: {{ section.settings.text_color | default: '#ffffff' }} !important;
+    font-size: 1.05rem !important;
+    opacity: 0.95 !important;
+    margin-top: 0.25rem !important;
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__description {
+    color: {{ section.settings.text_color | default: '#ffffff' }} !important;
+    font-size: 0.95rem !important;
+    opacity: 0.9 !important;
+    max-width: 700px !important;
+    margin: 0.4rem auto 0 !important;
+  }
+
+  #CollectionBanner-{{ section.id }} .breadcrumb a,
+  #CollectionBanner-{{ section.id }} .breadcrumb span {
+    color: {{ section.settings.breadcrumb_color | default: '#ffffff' }} !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    #CollectionBanner-{{ section.id }} {
+      height: {{ section.settings.banner_height_mobile | default: 220 }}px !important;
+      min-height: {{ section.settings.banner_height_mobile | default: 220 }}px !important;
+    }
+    #CollectionBanner-{{ section.id }} .collection-banner__img {
+      object-fit: {{ section.settings.image_fit_mobile | default: 'cover' }} !important;
+    }
+    #CollectionBanner-{{ section.id }} .collection-banner__title {
+      font-size: {{ section.settings.title_size_mobile | default: 28 }}px !important;
+    }
+  }
+{% endstyle %}
+
+{% assign banner_img_desktop = section.settings.custom_image_desktop | default: collection.image | default: collection.products.first.featured_image %}
+{% assign banner_img_mobile = section.settings.custom_image_mobile | default: section.settings.custom_image_desktop | default: collection.image | default: collection.products.first.featured_image %}
+
+<section id="CollectionBanner-{{ section.id }}" class="collection-banner">
+  {% if section.settings.show_image and banner_img_desktop != blank %}
+    <picture class="collection-banner__picture">
+      {% if banner_img_mobile != blank %}
+        <source media="(max-width: 749px)" srcset="{{ banner_img_mobile | image_url: width: 1200 }}">
+      {% endif %}
+      {{ banner_img_desktop | image_url: width: 2200 | image_tag: class: 'collection-banner__img', alt: collection.title, loading: 'eager', fetchpriority: 'high' }}
+    </picture>
+    {% if section.settings.enable_overlay %}
+      <div class="collection-banner__overlay"></div>
     {% endif %}
   {% endif %}
+
   <div class="collection-banner__content page-width">
-    {% render 'breadcrumb', collection: collection %}
-    <h1>{% if current_tags %}{{ current_tags | join: ', ' }}{% else %}{{ collection.title }}{% endif %}</h1>
+    {% if section.settings.show_breadcrumbs %}
+      {% render 'breadcrumb', collection: collection %}
+    {% endif %}
+
+    {% if section.settings.show_title %}
+      <h1 class="collection-banner__title">
+        {% if section.settings.custom_title != blank %}
+          {{ section.settings.custom_title }}
+        {% elsif current_tags %}
+          {{ current_tags | join: ', ' }}
+        {% else %}
+          {{ collection.title }}
+        {% endif %}
+      </h1>
+    {% endif %}
+
+    {% if section.settings.custom_subheading != blank %}
+      <p class="collection-banner__subheading">{{ section.settings.custom_subheading }}</p>
+    {% endif %}
+
     {% if section.settings.show_description %}
-      {% if collection.description != blank %}<div class="collection-banner__description rte">{{ collection.description }}</div>{% endif %}
+      {% if section.settings.custom_description != blank %}
+        <div class="collection-banner__description rte">{{ section.settings.custom_description }}</div>
+      {% elsif collection.description != blank %}
+        <div class="collection-banner__description rte">{{ collection.description }}</div>
+      {% endif %}
     {% endif %}
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Collection banner",
+  "name": "Collection Banner",
   "tag": "section",
   "class": "section-collection-banner",
   "settings": [
-    { "type": "checkbox", "id": "show_image", "label": "Show collection image", "default": true },
-    { "type": "checkbox", "id": "show_description", "label": "Show collection description", "default": true }
+    { "type": "header", "content": "Banner Height & Layout" },
+    { "type": "range", "id": "banner_height_desktop", "label": "Desktop Banner Height (px)", "min": 150, "max": 650, "step": 10, "default": 380, "unit": "px" },
+    { "type": "range", "id": "banner_height_mobile", "label": "Mobile Banner Height (px)", "min": 100, "max": 450, "step": 10, "default": 220, "unit": "px" },
+    { "type": "range", "id": "banner_max_width", "label": "Banner Max Width (px)", "min": 800, "max": 2200, "step": 50, "default": 2000, "unit": "px" },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    { "type": "header", "content": "Banner Background Images" },
+    { "type": "checkbox", "id": "show_image", "label": "Show Background Image", "default": true },
+    { "type": "image_picker", "id": "custom_image_desktop", "label": "Custom Desktop Banner Image", "info": "Upload custom graphic image to override default collection image on Desktop" },
+    { "type": "image_picker", "id": "custom_image_mobile", "label": "Custom Mobile Banner Image", "info": "Upload custom graphic image to override default collection image on Mobile" },
+    {
+      "type": "select",
+      "id": "image_fit_desktop",
+      "label": "Desktop Image Fit Mode",
+      "options": [
+        { "value": "cover", "label": "Cover (Fill entire banner)" },
+        { "value": "contain", "label": "Contain (Fit full image without cropping)" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "image_fit_mobile",
+      "label": "Mobile Image Fit Mode",
+      "options": [
+        { "value": "cover", "label": "Cover (Fill entire banner)" },
+        { "value": "contain", "label": "Contain (Fit full image without cropping)" }
+      ],
+      "default": "cover"
+    },
+    { "type": "header", "content": "Overlay Tint & Colors" },
+    { "type": "checkbox", "id": "enable_overlay", "label": "Enable Dark/Tint Overlay", "default": true },
+    { "type": "color", "id": "overlay_color", "label": "Overlay Tint Color", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay Opacity (%)", "min": 0, "max": 100, "step": 5, "default": 30, "unit": "%" },
+    { "type": "color", "id": "bg_color", "label": "Fallback Background Color", "default": "#1b4317" },
+    { "type": "color", "id": "text_color", "label": "Title & Text Color", "default": "#ffffff" },
+    { "type": "color", "id": "breadcrumb_color", "label": "Breadcrumb Color", "default": "#ffffff" },
+    { "type": "header", "content": "Title & Content Options" },
+    { "type": "checkbox", "id": "show_breadcrumbs", "label": "Show Breadcrumbs", "default": true },
+    { "type": "checkbox", "id": "show_title", "label": "Show Collection Title", "default": true },
+    { "type": "text", "id": "custom_title", "label": "Custom Title Override", "info": "Leave blank to use default Collection Title" },
+    { "type": "text", "id": "custom_subheading", "label": "Custom Subheading / Tagline", "info": "e.g. 100% Natural & Organic Essentials" },
+    { "type": "checkbox", "id": "show_description", "label": "Show Collection Description", "default": true },
+    { "type": "textarea", "id": "custom_description", "label": "Custom Description Override", "info": "Leave blank to use default Collection Description" },
+    { "type": "range", "id": "title_size_desktop", "label": "Desktop Title Size (px)", "min": 24, "max": 72, "step": 2, "default": 42, "unit": "px" },
+    { "type": "range", "id": "title_size_mobile", "label": "Mobile Title Size (px)", "min": 18, "max": 48, "step": 2, "default": 28, "unit": "px" }
   ]
 }
 {% endschema %}
