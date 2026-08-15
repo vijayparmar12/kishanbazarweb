@@ -13,15 +13,11 @@
   "sections": {
     "footer": {
       "type": "footer",
-      "settings": {
-        "show_default_bottom_image": true,
-        "footer_bottom_image_alt": "Footer farm illustration",
-        "copyright_text": "Copyright &copy; [year], [shop] &bull; All Rights Reserved."
-      },
       "blocks": {
         "brand": {
           "type": "brand",
           "settings": {
+            "logo_width": 180,
             "show_default_logo": true,
             "about_text": "Kishan Bazar, Welcome to our farm-fresh organic kitchen. We build wholesome pantry staples and marketing experiences that help brands stand out and scale confidently.",
             "email_label": "Email:",
@@ -34,6 +30,7 @@
           "type": "link_column",
           "settings": {
             "heading": "Categories",
+            "menu": "",
             "link_1_label": "Ghee",
             "link_1_url": "/collections/ghee",
             "link_2_label": "Atta / Flour",
@@ -41,13 +38,22 @@
             "link_3_label": "Shop All Categories",
             "link_3_url": "/collections",
             "link_4_label": "Farm Life",
-            "link_4_url": "/pages/our-story"
+            "link_4_url": "/pages/our-story",
+            "link_5_label": "",
+            "link_5_url": "",
+            "link_6_label": "",
+            "link_6_url": "",
+            "link_7_label": "",
+            "link_7_url": "",
+            "link_8_label": "",
+            "link_8_url": ""
           }
         },
         "general": {
           "type": "link_column",
           "settings": {
             "heading": "General",
+            "menu": "",
             "link_1_label": "Our Story",
             "link_1_url": "/pages/our-story",
             "link_2_label": "Terms of Use",
@@ -57,7 +63,13 @@
             "link_4_label": "Refund Policy",
             "link_4_url": "/policies/refund-policy",
             "link_5_label": "Shipping Policy",
-            "link_5_url": "/policies/shipping-policy"
+            "link_5_url": "/policies/shipping-policy",
+            "link_6_label": "",
+            "link_6_url": "",
+            "link_7_label": "",
+            "link_7_url": "",
+            "link_8_label": "",
+            "link_8_url": ""
           }
         },
         "company_contact": {
@@ -76,7 +88,9 @@
           "settings": {
             "platform": "facebook",
             "label": "Facebook",
-            "url": "https://www.facebook.com/kisanbazaarstore"
+            "url": "https://www.facebook.com/kisanbazaarstore",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_13_2026_01_31_50_PM.png",
+            "icon_text": "Link"
           }
         },
         "instagram": {
@@ -84,7 +98,9 @@
           "settings": {
             "platform": "instagram",
             "label": "Instagram",
-            "url": "https://www.instagram.com/kisanbazaar_organic_store/"
+            "url": "https://www.instagram.com/kisanbazaar_organic_store/",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_13_2026_01_23_06_PM.png",
+            "icon_text": "Link"
           }
         },
         "youtube": {
@@ -92,7 +108,19 @@
           "settings": {
             "platform": "youtube",
             "label": "YouTube",
-            "url": "https://www.youtube.com/@kisanbazaar5352"
+            "url": "https://www.youtube.com/@kisanbazaar5352",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_13_2026_01_34_23_PM.png",
+            "icon_text": "Link"
+          }
+        },
+        "social_link_6JWrQg": {
+          "type": "social_link",
+          "settings": {
+            "platform": "custom",
+            "label": "Linkedln",
+            "url": "https://www.youtube.com/@kisanbazaar5352",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_13_2026_01_43_58_PM.png",
+            "icon_text": "Link"
           }
         }
       },
@@ -103,8 +131,18 @@
         "company_contact",
         "facebook",
         "instagram",
-        "youtube"
-      ]
+        "youtube",
+        "social_link_6JWrQg"
+      ],
+      "settings": {
+        "footer_text_color": "#23421f",
+        "footer_bottom_image": "shopify://shop_images/footer2.png",
+        "show_default_bottom_image": true,
+        "illustration_height": 480,
+        "illustration_position": "top center",
+        "footer_bottom_image_alt": "Footer farm illustration",
+        "copyright_text": "Copyright &copy; [year], [shop] &bull; All Rights Reserved."
+      }
     }
   },
   "order": [
