@@ -354,6 +354,7 @@
         "story_card_KMnz4H"
       ],
       "settings": {
+        "heading_image_desktop": "shopify://shop_images/61f5c4ca-792a-40e9-9d2f-283b3220da2f.png",
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
         "heading_image_flip": false,
