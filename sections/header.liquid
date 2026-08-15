@@ -352,7 +352,7 @@
     </div>
   </nav>
 
-  {% unless template.name == 'product' or page.handle == 'contact' or template.suffix == 'contact' %}
+  {% unless template.name == 'collection' or template.name == 'product' or page.handle == 'contact' or template.suffix == 'contact' %}
     <section class="kb-header__features" aria-label="Featured shopping links">
       <div class="kb-header__features-inner">
         {% assign feature_count = 0 %}
