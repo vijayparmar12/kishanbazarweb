@@ -19,7 +19,7 @@
         "show_image": true,
         "custom_image_desktop": "shopify://shop_images/atta.png",
         "image_fit_desktop": "cover",
-        "image_fit_mobile": "contain",
+        "image_fit_mobile": "cover",
         "enable_overlay": true,
         "overlay_color": "#000000",
         "overlay_opacity": 30,
