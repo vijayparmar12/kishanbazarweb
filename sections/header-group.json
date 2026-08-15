@@ -14,6 +14,62 @@
     "header": {
       "type": "header",
       "blocks": {
+        "feature_icon_MTtYQN": {
+          "type": "feature_icon",
+          "settings": {
+            "title": "Monsoon festivals",
+            "badge": "Offers",
+            "badge_background": "#FFFFFF",
+            "badge_color": "#000000",
+            "icon": "Gift",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_31_56_AM.png",
+            "link": "",
+            "icon_background": "#23421f",
+            "icon_color": "#f0d78a"
+          }
+        },
+        "feature_icon_BiUfch": {
+          "type": "feature_icon",
+          "settings": {
+            "title": "New Launches",
+            "badge": "New",
+            "badge_background": "#FFFFFF",
+            "badge_color": "#000000",
+            "icon": "Gift",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_36_02_AM.png",
+            "link": "",
+            "icon_background": "#23421f",
+            "icon_color": "#f0d78a"
+          }
+        },
+        "feature_icon_fcB6QD": {
+          "type": "feature_icon",
+          "settings": {
+            "title": "All Products",
+            "badge": "Popular",
+            "badge_background": "#FFFFFF",
+            "badge_color": "#000000",
+            "icon": "Gift",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_39_04_AM.png",
+            "link": "",
+            "icon_background": "#23421f",
+            "icon_color": "#f0d78a"
+          }
+        },
+        "feature_icon_aJDHYg": {
+          "type": "feature_icon",
+          "settings": {
+            "title": "Under 999",
+            "badge": "Value",
+            "badge_background": "#FFFFFF",
+            "badge_color": "#000000",
+            "icon": "Gift",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_41_02_AM.png",
+            "link": "",
+            "icon_background": "#23421f",
+            "icon_color": "#f0d78a"
+          }
+        },
         "mobile_nav_item_LP7DBN": {
           "type": "mobile_nav_item",
           "settings": {
@@ -138,6 +194,10 @@
         }
       },
       "block_order": [
+        "feature_icon_MTtYQN",
+        "feature_icon_BiUfch",
+        "feature_icon_fcB6QD",
+        "feature_icon_aJDHYg",
         "mobile_nav_item_LP7DBN",
         "mobile_nav_item_AhtadC",
         "mobile_nav_item_zE9b4C",
