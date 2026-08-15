@@ -52,16 +52,10 @@
   margin-bottom: 0.25rem !important;
 }
 
-.home-section__heading-banner-wrap,
-.categories__heading-banner-wrap,
-.best-sellers__heading-banner-wrap,
-.explore-pantry__heading-banner-wrap,
-.beyond-products__heading-banner-wrap,
-.shoppable-videos__heading-banner-wrap,
-.testimonials__heading-banner-wrap {
+.best-sellers__heading-banner-wrap {
   width: 100% !important;
   max-width: 100% !important;
-  height: 180px !important;
+  height: 180px;
   display: block !important;
   margin: 0 auto 0.25rem auto !important;
   padding: 0 !important;
@@ -100,13 +94,7 @@
     padding: 0 !important;
     border-radius: 0 !important;
   }
-  .home-section__heading-banner-wrap,
-  .categories__heading-banner-wrap,
-  .best-sellers__heading-banner-wrap,
-  .explore-pantry__heading-banner-wrap,
-  .beyond-products__heading-banner-wrap,
-  .shoppable-videos__heading-banner-wrap,
-  .testimonials__heading-banner-wrap {
+  .best-sellers__heading-banner-wrap {
     height: 110px !important;
   }
   .home-section__heading-image {
