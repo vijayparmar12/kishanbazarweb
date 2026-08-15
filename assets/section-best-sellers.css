@@ -42,9 +42,58 @@
   width: 100% !important;
   box-sizing: border-box !important;
   padding: 0 !important;
+.best-sellers__cta-container {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-top: 0.35rem !important;
+  margin-bottom: 0.65rem !important;
+  clear: both !important;
+  position: relative !important;
+  z-index: 5 !important;
+  text-align: right !important;
 }
 
-.best-sellers__head--card-box {
+.best-sellers__cta-container .best-sellers__shop-more-btn,
+.best-sellers__cta-container .best-sellers__shop-more-btn:link,
+.best-sellers__cta-container .best-sellers__shop-more-btn:visited {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.4rem !important;
+  background-color: #1b4317 !important;
+  color: #ffffff !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  padding: 0.45rem 1.15rem !important;
+  border-radius: 999px !important;
+  text-decoration: none !important;
+  box-shadow: 0 4px 12px rgba(27, 67, 23, 0.22) !important;
+  transition: all 220ms ease !important;
+  line-height: 1.2 !important;
+}
+
+.best-sellers__cta-container .best-sellers__shop-more-btn:hover,
+.best-sellers__cta-container .best-sellers__shop-more-btn:focus {
+  background-color: #143511 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(27, 67, 23, 0.32) !important;
+  text-decoration: none !important;
+}
+
+.best-sellers__cta-container .best-sellers__shop-more-btn .cta-arrow {
+  display: inline-block !important;
+  transition: transform 200ms ease !important;
+}
+
+.best-sellers__cta-container .best-sellers__shop-more-btn:hover .cta-arrow {
+  transform: translateX(4px) !important;
+}
   background: transparent;
   border: none !important;
   box-shadow: none !important;
