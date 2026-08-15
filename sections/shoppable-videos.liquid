@@ -10,11 +10,43 @@
       background-repeat: no-repeat !important;
     {% endif %}
   }
+  #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-banner-wrap {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
+    height: {{ section.settings.heading_box_height_desktop | default: 180 }}px !important;
+    margin: 0 auto !important;
+    overflow: hidden !important;
+    border-radius: 12px !important;
+  }
+  #ShoppableVideos-{{ section.id }} .home-section__heading-picture {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 auto !important;
+  }
+  #ShoppableVideos-{{ section.id }} .home-section__heading-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: {{ section.settings.heading_box_bg_size | default: 'cover' }} !important;
+    object-position: center !important;
+    display: block !important;
+    margin: 0 auto !important;
+    border-radius: 12px !important;
+  }
   @media (max-width: 48rem) {
     #ShoppableVideos-{{ section.id }} {
       background-size: 100% auto !important;
       background-position: bottom center !important;
       background-repeat: no-repeat !important;
+    }
+    #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-banner-wrap {
+      max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
+      height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
+    }
+    #ShoppableVideos-{{ section.id }} .home-section__heading-image {
+      object-fit: {{ section.settings.heading_box_bg_size_mobile | default: 'cover' }} !important;
     }
   }
 {% endstyle %}
