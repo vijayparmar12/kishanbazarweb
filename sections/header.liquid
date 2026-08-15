@@ -15,6 +15,7 @@
     --kb-accent: {{ section.settings.accent_color }};
     --kb-feature-bg: {{ section.settings.feature_row_background }};
     --kb-logo-width: {{ section.settings.logo_width }}px;
+    --kb-mobile-logo-width: {{ section.settings.mobile_logo_width | default: section.settings.logo_width }}px;
     --kb-mega-bg: {{ section.settings.mega_background }};
     --kb-mega-text: {{ section.settings.mega_text_color }};
     --kb-mega-hover: {{ section.settings.mega_hover_color }};
@@ -404,7 +405,8 @@
     { "type": "color", "id": "announcement_text_color", "label": "Announcement text color", "default": "#FFFFFF" },
     { "type": "header", "content": "Header Styling & Colors" },
     { "type": "image_picker", "id": "logo", "label": "Logo" },
-    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 90, "max": 320, "step": 10, "unit": "px", "default": 220 },
+    { "type": "range", "id": "logo_width", "label": "Desktop Logo width", "min": 90, "max": 500, "step": 10, "unit": "px", "default": 320 },
+    { "type": "range", "id": "mobile_logo_width", "label": "Mobile Logo width", "min": 90, "max": 400, "step": 10, "unit": "px", "default": 240 },
     { "type": "checkbox", "id": "enable_sticky_header", "label": "Enable sticky header", "default": true },
     { "type": "color", "id": "header_background", "label": "Header background color", "default": "#FFFFFF" },
     { "type": "header", "content": "Header Background Images (Theme Editor)" },

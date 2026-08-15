@@ -245,16 +245,16 @@
 .kb-header__logo-image {
   display: block;
   height: auto;
-  max-height: 52px;
-  max-width: var(--kb-logo-width, 220px);
+  max-height: 95px !important;
+  width: var(--kb-logo-width, 320px) !important;
+  max-width: 100% !important;
   object-fit: contain;
-  transition: max-height 0.3s ease, max-width 0.3s ease;
-  width: auto;
+  transition: max-height 0.3s ease, width 0.3s ease;
 }
 
 .kb-header--scrolled .kb-header__logo-image {
-  max-height: 44px;
-  max-width: calc(var(--kb-logo-width, 170px) * 0.88);
+  max-height: 75px !important;
+  width: calc(var(--kb-logo-width, 320px) * 0.88) !important;
 }
 
 .kb-header__actions {
@@ -1088,19 +1088,21 @@ body.kb-header-menu-open {
     align-items: center !important;
     justify-content: center !important;
     min-width: 0 !important;
-    width: min(var(--kb-logo-width, 200px), 42vw) !important;
+    width: var(--kb-mobile-logo-width, min(var(--kb-logo-width, 260px), 55vw)) !important;
+    max-width: 60vw !important;
   }
 
   .kb-header__logo-image {
     display: block;
     margin: 0 auto !important;
-    max-height: 38px;
-    max-width: 100%;
+    max-height: 65px !important;
+    width: 100% !important;
+    max-width: 100% !important;
     object-fit: contain;
   }
 
   .kb-header--scrolled .kb-header__logo-image {
-    max-height: 34px;
+    max-height: 52px !important;
   }
 
   .kb-header__actions {
@@ -1283,19 +1285,21 @@ body.kb-header-menu-open {
     align-items: center !important;
     justify-content: center !important;
     min-width: 0 !important;
-    width: min(var(--kb-logo-width, 200px), 42vw) !important;
+    width: var(--kb-mobile-logo-width, min(var(--kb-logo-width, 260px), 55vw)) !important;
+    max-width: 60vw !important;
   }
 
   .kb-header__logo-image {
     display: block;
     margin: 0 auto !important;
-    max-height: 38px;
-    max-width: 100%;
+    max-height: 65px !important;
+    width: 100% !important;
+    max-width: 100% !important;
     object-fit: contain;
   }
 
   .kb-header--scrolled .kb-header__logo-image {
-    max-height: 34px;
+    max-height: 52px !important;
   }
 
   .kb-header__actions {
