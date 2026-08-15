@@ -13,7 +13,187 @@
   "sections": {
     "header": {
       "type": "header",
-      "settings": {}
+      "blocks": {
+        "mobile_nav_item_g3bfBd": {
+          "type": "mobile_nav_item",
+          "settings": {
+            "title": "Home",
+            "url": "",
+            "badge": "",
+            "badge_background": "#e53935",
+            "badge_color": "#ffffff",
+            "mega_menu": "none",
+            "icon": ""
+          }
+        },
+        "mobile_nav_item_rCkftz": {
+          "type": "mobile_nav_item",
+          "settings": {
+            "title": "Shop By Category",
+            "url": "shopify://collections",
+            "badge": "",
+            "badge_background": "#e53935",
+            "badge_color": "#ffffff",
+            "mega_menu": "none",
+            "icon": ""
+          }
+        },
+        "mobile_nav_item_kxc96p": {
+          "type": "mobile_nav_item",
+          "settings": {
+            "title": "Fram Life",
+            "url": "",
+            "badge": "",
+            "badge_background": "#e53935",
+            "badge_color": "#ffffff",
+            "mega_menu": "farm",
+            "icon": ""
+          }
+        },
+        "mobile_nav_item_zP48rj": {
+          "type": "mobile_nav_item",
+          "settings": {
+            "title": "Our Story",
+            "url": "shopify://pages/our-story-1",
+            "badge": "",
+            "badge_background": "#e53935",
+            "badge_color": "#ffffff",
+            "mega_menu": "none",
+            "icon": ""
+          }
+        },
+        "mobile_nav_item_zP7qcP": {
+          "type": "mobile_nav_item",
+          "settings": {
+            "title": "Lab reports",
+            "url": "shopify://pages/lab-report",
+            "badge": "",
+            "badge_background": "#e53935",
+            "badge_color": "#ffffff",
+            "mega_menu": "none",
+            "icon": ""
+          }
+        },
+        "mobile_nav_item_H8TFFh": {
+          "type": "mobile_nav_item",
+          "settings": {
+            "title": "Contact Us",
+            "url": "shopify://pages/contact",
+            "badge": "",
+            "badge_background": "#e53935",
+            "badge_color": "#ffffff",
+            "mega_menu": "none",
+            "icon": ""
+          }
+        },
+        "desktop_nav_item_Yg7mAb": {
+          "type": "desktop_nav_item",
+          "settings": {
+            "title": "Ghee",
+            "url": "shopify://collections/ghee",
+            "badge": "",
+            "badge_background": "#e53935",
+            "badge_color": "#ffffff",
+            "mega_menu": "none",
+            "icon": "",
+            "icon_image": "shopify://shop_images/ghee.png"
+          }
+        },
+        "desktop_nav_item_FPeGPX": {
+          "type": "desktop_nav_item",
+          "settings": {
+            "title": "Aatta",
+            "url": "shopify://collections/frontpage",
+            "badge": "",
+            "badge_background": "#e53935",
+            "badge_color": "#ffffff",
+            "mega_menu": "none",
+            "icon": "",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_4_2026_02_54_46_PM.png"
+          }
+        },
+        "desktop_nav_item_HJjjxt": {
+          "type": "desktop_nav_item",
+          "settings": {
+            "title": "Shop By Category",
+            "url": "",
+            "badge": "",
+            "badge_background": "#e53935",
+            "badge_color": "#ffffff",
+            "mega_menu": "category",
+            "icon": ""
+          }
+        },
+        "desktop_nav_item_Fp679N": {
+          "type": "desktop_nav_item",
+          "settings": {
+            "title": "Fram Life",
+            "url": "",
+            "badge": "",
+            "badge_background": "#e53935",
+            "badge_color": "#ffffff",
+            "mega_menu": "farm",
+            "icon": ""
+          }
+        }
+      },
+      "block_order": [
+        "mobile_nav_item_g3bfBd",
+        "mobile_nav_item_rCkftz",
+        "mobile_nav_item_kxc96p",
+        "mobile_nav_item_zP48rj",
+        "mobile_nav_item_zP7qcP",
+        "mobile_nav_item_H8TFFh",
+        "desktop_nav_item_Yg7mAb",
+        "desktop_nav_item_FPeGPX",
+        "desktop_nav_item_HJjjxt",
+        "desktop_nav_item_Fp679N"
+      ],
+      "settings": {
+        "show_announcement": true,
+        "announcement_text": "Big Savings Alert! Get 10% OFF on orders above Rs.3000 | Use code: TBOF10",
+        "announcement_text_2": "Enjoy free shipping on orders above Rs.1499 | Shop now",
+        "announcement_text_3": "Farm-fresh staples delivered to your doorstep",
+        "announcement_background": "#23421f",
+        "announcement_text_color": "#ffffff",
+        "logo_width": 220,
+        "enable_sticky_header": true,
+        "header_background": "#ffffff",
+        "background_color": "#ffffff",
+        "nav_text_color": "#23421f",
+        "accent_color": "#23421f",
+        "show_search": true,
+        "search_fallback_placeholder": "Search For Jaggery",
+        "search_placeholders": "Search For Jaggery\nSearch for Ghee\nSearch for Atta\nSearch for Oil\nSearch for Rice",
+        "menu": "main-menu",
+        "mobile_menu": "",
+        "mobile_menu_source": "shopify_menu",
+        "ghee_title": "Ghee",
+        "ghee_url": "",
+        "atta_title": "Atta",
+        "atta_url": "",
+        "category_title": "Shop By Category",
+        "collective_title": "Join Collective",
+        "collective_url": "",
+        "concern_title": "Shop By Concern",
+        "farm_title": "Farm Life",
+        "customers_title": "Customers",
+        "enable_category_mega": true,
+        "enable_concern_mega": true,
+        "enable_farm_mega": true,
+        "enable_customers_mega": true,
+        "category_button_text": "Shop All",
+        "category_button_url": "",
+        "mega_background": "#ffffff",
+        "mega_text_color": "#23421f",
+        "mega_hover_color": "#f1f8ec",
+        "mega_wave_color": "#eaf5e3",
+        "show_account": true,
+        "show_wishlist": true,
+        "wishlist_url": "",
+        "show_cart": true,
+        "feature_row_background": "#faf6ec"
+      }
     }
   },
   "order": [
