@@ -9,8 +9,50 @@
  */
 {
   "sections": {
-    "banner": { "type": "main-collection-banner", "settings": {} },
-    "product_grid": { "type": "main-collection-product-grid", "settings": {} }
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "banner_height_desktop": 590,
+        "banner_height_mobile": 290,
+        "banner_max_width": 1400,
+        "text_align": "center",
+        "show_image": true,
+        "custom_image_desktop": "shopify://shop_images/atta.png",
+        "image_fit_desktop": "cover",
+        "image_fit_mobile": "cover",
+        "enable_overlay": true,
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "bg_color": "#1b4317",
+        "text_color": "#ffffff",
+        "breadcrumb_color": "#ffffff",
+        "show_breadcrumbs": true,
+        "show_title": true,
+        "custom_title": "",
+        "custom_subheading": "",
+        "show_description": true,
+        "custom_description": "",
+        "title_size_desktop": 42,
+        "title_size_mobile": 28
+      }
+    },
+    "product_grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 16,
+        "products_per_row": "4",
+        "enable_filters": true,
+        "enable_sorting": true,
+        "show_vendor": true,
+        "show_price": true,
+        "show_compare_price": true,
+        "show_rating": false,
+        "show_badges": true
+      }
+    }
   },
-  "order": ["banner", "product_grid"]
+  "order": [
+    "banner",
+    "product_grid"
+  ]
 }
