@@ -1,0 +1,69 @@
+{% doc %}
+  Renders dynamic vector SVG rating stars (Full, Half, or Empty) based on exact rating value.
+
+  @param {object} [product] - The Shopify product object
+  @param {number|string} [rating] - Explicit rating number (e.g. 4.91, 4.5, 5.0)
+  @param {string} [stars_color] - CSS color override
+
+  @example
+  {% render 'rating-stars', product: product %}
+{% enddoc %}
+
+{% liquid
+  assign rating_val = product.metafields.reviews.rating.value.rating | default: rating | default: 4.91 | times: 1.0
+  assign full_stars = rating_val | floor
+  assign decimal_part = rating_val | minus: full_stars
+  
+  # For 4.91, 4.9, 4.8, 4.5 -> 4 full stars + 1 half/partial star (not 100% filled)
+  assign has_half_star = false
+  if decimal_part >= 0.15 and decimal_part < 0.98
+    assign has_half_star = true
+  elsif decimal_part >= 0.98
+    assign full_stars = full_stars | plus: 1
+  endif
+
+  if full_stars > 5
+    assign full_stars = 5
+  endif
+
+  assign empty_stars = 5 | minus: full_stars
+  if has_half_star and empty_stars > 0
+    assign empty_stars = empty_stars | minus: 1
+  endif
+  
+  assign rand_id = product.id | default: 'def'
+  assign active_star_color = stars_color | default: '#e5b42a'
+%}
+
+<span class="product-card__stars" aria-hidden="true" style="color: {{ active_star_color }};">
+  <!-- Full Stars -->
+  {% if full_stars > 0 %}
+    {% for i in (1..full_stars) %}
+      <svg class="product-card__star-icon product-card__star-icon--full" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+      </svg>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Partial / Half Star -->
+  {% if has_half_star %}
+    <svg class="product-card__star-icon product-card__star-icon--half" viewBox="0 0 20 20">
+      <defs>
+        <linearGradient id="star-grad-{{ rand_id }}">
+          <stop offset="70%" stop-color="{{ active_star_color }}"/>
+          <stop offset="70%" stop-color="#d1d5db"/>
+        </linearGradient>
+      </defs>
+      <path fill="url(#star-grad-{{ rand_id }})" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+    </svg>
+  {% endif %}
+
+  <!-- Empty Stars -->
+  {% if empty_stars > 0 %}
+    {% for i in (1..empty_stars) %}
+      <svg class="product-card__star-icon product-card__star-icon--empty" viewBox="0 0 20 20" fill="#d1d5db">
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+      </svg>
+    {% endfor %}
+  {% endif %}
+</span>
