@@ -18,10 +18,12 @@
   width: 100%;
 }
 
-.collection-banner__content {
-  padding-block: var(--space-12);
-  position: relative;
-  z-index: 1;
+.collection-banner__content,
+.collection-banner .breadcrumb,
+.collection-banner h1,
+.collection-banner__title,
+.collection-banner__overlay {
+  display: none !important;
 }
 
 .collection-banner h1 {

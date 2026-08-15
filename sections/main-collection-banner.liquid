@@ -71,9 +71,12 @@
     margin: 0.4rem auto 0 !important;
   }
 
-  #CollectionBanner-{{ section.id }} .breadcrumb a,
-  #CollectionBanner-{{ section.id }} .breadcrumb span {
-    color: {{ section.settings.breadcrumb_color | default: '#ffffff' }} !important;
+  #CollectionBanner-{{ section.id }} .collection-banner__content,
+  #CollectionBanner-{{ section.id }} .breadcrumb,
+  #CollectionBanner-{{ section.id }} h1,
+  #CollectionBanner-{{ section.id }} .collection-banner__title,
+  #CollectionBanner-{{ section.id }} .collection-banner__overlay {
+    display: none !important;
   }
 
   @media screen and (max-width: 749px) {
@@ -83,9 +86,6 @@
     }
     #CollectionBanner-{{ section.id }} .collection-banner__img {
       object-fit: {{ section.settings.image_fit_mobile | default: 'cover' }} !important;
-    }
-    #CollectionBanner-{{ section.id }} .collection-banner__title {
-      font-size: {{ section.settings.title_size_mobile | default: 28 }}px !important;
     }
   }
 {% endstyle %}
@@ -101,41 +101,6 @@
       {% endif %}
       {{ banner_img_desktop | image_url: width: 2200 | image_tag: class: 'collection-banner__img', alt: collection.title, loading: 'eager', fetchpriority: 'high' }}
     </picture>
-    {% if section.settings.enable_overlay %}
-      <div class="collection-banner__overlay"></div>
-    {% endif %}
-  {% endif %}
-
-  {% if section.settings.show_breadcrumbs or section.settings.show_title or section.settings.custom_subheading != blank or section.settings.show_description %}
-    <div class="collection-banner__content page-width">
-      {% if section.settings.show_breadcrumbs %}
-        {% render 'breadcrumb', collection: collection %}
-      {% endif %}
-
-      {% if section.settings.show_title %}
-        <h1 class="collection-banner__title">
-          {% if section.settings.custom_title != blank %}
-            {{ section.settings.custom_title }}
-          {% elsif current_tags %}
-            {{ current_tags | join: ', ' }}
-          {% else %}
-            {{ collection.title }}
-          {% endif %}
-        </h1>
-      {% endif %}
-
-      {% if section.settings.custom_subheading != blank %}
-        <p class="collection-banner__subheading">{{ section.settings.custom_subheading }}</p>
-      {% endif %}
-
-      {% if section.settings.show_description %}
-        {% if section.settings.custom_description != blank %}
-          <div class="collection-banner__description rte">{{ section.settings.custom_description }}</div>
-        {% elsif collection.description != blank %}
-          <div class="collection-banner__description rte">{{ collection.description }}</div>
-        {% endif %}
-      {% endif %}
-    </div>
   {% endif %}
 </section>
 
