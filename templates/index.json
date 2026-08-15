@@ -251,6 +251,51 @@
     "best_sellers": {
       "type": "best-sellers",
       "blocks": {
+        "card_title_price_q6DyNh": {
+          "type": "card_title_price",
+          "settings": {
+            "title_color": "#23421f",
+            "price_color": "#23421f",
+            "compare_price_color": "#8d8d8d"
+          }
+        },
+        "card_subtitle_tfahix": {
+          "type": "card_subtitle",
+          "settings": {
+            "subtitle_color": "#6b7280"
+          }
+        },
+        "card_rating_mEJ9Wg": {
+          "type": "card_rating",
+          "settings": {
+            "rating_stars_color": "#e5a800"
+          }
+        },
+        "card_benefit_icons_D4fXYB": {
+          "type": "card_benefit_icons",
+          "settings": {
+            "show_benefit_icons": true,
+            "icon_size": 72,
+            "benefit_image_1": "shopify://shop_images/1_1_555885c8-1f8f-4a33-a480-1e451151a50b.png",
+            "benefit_image_2": "shopify://shop_images/2_6d0f5203-c03b-471d-97b5-109576d4357e.png"
+          }
+        },
+        "card_variant_selector_P9HiVz": {
+          "type": "card_variant_selector",
+          "settings": {
+            "border_color": "#1f1f1f",
+            "bg_color": "#ffffff",
+            "text_color": "#1f1f1f"
+          }
+        },
+        "card_buy_button_34nVEe": {
+          "type": "card_buy_button",
+          "settings": {
+            "add_to_cart_text": "ADD TO CART",
+            "btn_bg": "#23421f",
+            "btn_color": "#ffffff"
+          }
+        },
         "category_tab_cRHrih": {
           "type": "category_tab",
           "settings": {
@@ -273,6 +318,12 @@
         }
       },
       "block_order": [
+        "card_title_price_q6DyNh",
+        "card_subtitle_tfahix",
+        "card_rating_mEJ9Wg",
+        "card_benefit_icons_D4fXYB",
+        "card_variant_selector_P9HiVz",
+        "card_buy_button_34nVEe",
         "category_tab_cRHrih",
         "category_tab_UWnxqx"
       ],
@@ -290,7 +341,7 @@
         "heading_image_max_width": 1200,
         "heading_image_mobile_max_width": 800,
         "collection": "",
-        "background_color": "#FFFFFF",
+        "background_color": "#ffffff",
         "maximum": 8,
         "show_tabs": true,
         "show_cta_btn": true,
