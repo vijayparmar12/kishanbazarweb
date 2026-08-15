@@ -99,10 +99,11 @@
         </div>
       </div>
     </header>
+  </div>
 
-    <!-- HEADER 2: NAVIGATION LINKS & FEATURES (STICKY TOGETHER WITH HEADER 1) -->
-    {% unless template.name == 'collection' or template.name == 'product' %}
-      <div class="kb-header2" data-header2>
+  <!-- HEADER 2: NAVIGATION LINKS (NON-STICKY) -->
+  {% unless template.name == 'collection' or template.name == 'product' %}
+    <div class="kb-header2" data-header2>
       <nav class="kb-header__nav" aria-label="Main navigation">
       <ul class="kb-header__nav-list" role="list">
         {% assign total_nav_count = 0 %}
@@ -228,8 +229,7 @@
       </ul>
       </nav>
     </div>
-    {% endunless %}
-</div>
+  {% endunless %}
 <div class="kb-header-top-placeholder" data-header-top-placeholder style="display: none; height: 160px;"></div>
 
   <nav class="kb-header__mobile-menu" id="kb-mobile-menu-{{ section.id }}" aria-label="Mobile navigation" hidden data-mobile-menu>
