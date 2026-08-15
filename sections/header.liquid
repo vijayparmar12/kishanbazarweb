@@ -101,8 +101,9 @@
     </header>
 
     <!-- HEADER 2: NAVIGATION LINKS & FEATURES (STICKY TOGETHER WITH HEADER 1) -->
-    <div class="kb-header2" data-header2>
-    <nav class="kb-header__nav" aria-label="Main navigation">
+    {% unless template.name == 'collection' or template.name == 'product' %}
+      <div class="kb-header2" data-header2>
+      <nav class="kb-header__nav" aria-label="Main navigation">
       <ul class="kb-header__nav-list" role="list">
         {% assign total_nav_count = 0 %}
         {% assign desktop_menu = section.settings.menu %}
@@ -225,8 +226,9 @@
           </li>
         {% endif %}
       </ul>
-    </nav>
-  </div>
+      </nav>
+    </div>
+    {% endunless %}
 </div>
 <div class="kb-header-top-placeholder" data-header-top-placeholder style="display: none; height: 160px;"></div>
 

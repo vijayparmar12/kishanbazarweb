@@ -44,6 +44,14 @@
   padding: 0.08rem 0 !important;
 }
 
+/* Hide Header 2 & Header 3 (Sub-navigation links & feature row) on Collection and Product pages */
+body.template-collection .kb-header2,
+body.template-product .kb-header2,
+.template-collection .kb-header2,
+.template-product .kb-header2 {
+  display: none !important;
+}
+
 .kb-header__nav-link--icon {
   display: inline-flex !important;
   align-items: center !important;
