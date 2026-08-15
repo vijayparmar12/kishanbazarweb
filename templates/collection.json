@@ -13,8 +13,8 @@
       "type": "main-collection-banner",
       "settings": {
         "banner_height_desktop": 590,
-        "banner_height_mobile": 290,
-        "banner_max_width": 1400,
+        "banner_height_mobile": 250,
+        "banner_max_width": 1150,
         "text_align": "center",
         "show_image": true,
         "custom_image_desktop": "shopify://shop_images/atta.png",
