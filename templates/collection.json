@@ -13,7 +13,7 @@
       "type": "main-collection-banner",
       "settings": {
         "banner_height_desktop": 550,
-        "banner_height_mobile": 210,
+        "banner_height_mobile": 200,
         "banner_max_width": 1550,
         "text_align": "center",
         "show_image": true,
