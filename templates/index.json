@@ -256,8 +256,8 @@
           "settings": {
             "title": "Aatta",
             "collection": "",
-            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_13_2026_10_48_13_AM.png",
-            "active_icon_image": "shopify://shop_images/ChatGPT_Image_Aug_13_2026_10_51_53_AM.png",
+            "icon_image": "shopify://shop_images/gemini-svg_5.svg",
+            "active_icon_image": "shopify://shop_images/gemini-svg_4.svg",
             "icon_type": "ghee"
           }
         },
