@@ -151,6 +151,19 @@
     width: 100% !important;
     margin-bottom: 0.25rem !important;
   }
+  .best-sellers__cta-container {
+    margin-top: 0.1rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+  .best-sellers__cta-container .best-sellers__shop-more-btn,
+  .best-sellers__cta-container .best-sellers__shop-more-btn:link,
+  .best-sellers__cta-container .best-sellers__shop-more-btn:visited {
+    font-size: 0.58rem !important;
+    padding: 0.15rem 0.5rem !important;
+    gap: 0.2rem !important;
+    border-radius: 999px !important;
+    box-shadow: 0 2px 5px rgba(27, 67, 23, 0.16) !important;
+  }
 }
 
 .best-sellers__title-wrap {

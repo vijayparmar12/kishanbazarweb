@@ -49,6 +49,50 @@
     {% endif %}
   }
 
+  #Categories-{{ section.id }} .categories__cta-container {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    text-align: right !important;
+    width: 100% !important;
+    margin-top: 0.35rem !important;
+    margin-bottom: 0.65rem !important;
+    clear: both !important;
+    position: relative !important;
+    z-index: 5 !important;
+  }
+
+  #Categories-{{ section.id }} .categories__cta-container .categories__shop-more-btn,
+  #Categories-{{ section.id }} .categories__cta-container .categories__shop-more-btn:link,
+  #Categories-{{ section.id }} .categories__cta-container .categories__shop-more-btn:visited {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.4rem !important;
+    background-color: {{ section.settings.cta_bg_color | default: '#1b4317' }} !important;
+    color: {{ section.settings.cta_text_color | default: '#ffffff' }} !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+    padding: 0.45rem 1.15rem !important;
+    border-radius: 999px !important;
+    text-decoration: none !important;
+    box-shadow: 0 4px 12px rgba(27, 67, 23, 0.22) !important;
+    transition: all 220ms ease !important;
+    line-height: 1.2 !important;
+  }
+
+  #Categories-{{ section.id }} .categories__cta-container .categories__shop-more-btn .cta-arrow {
+    display: inline-block !important;
+    transition: transform 200ms ease !important;
+  }
+
+  #Categories-{{ section.id }} .categories__cta-container .categories__shop-more-btn:hover .cta-arrow {
+    transform: translateX(4px) !important;
+  }
+
   @media screen and (max-width: 749px) {
     #Categories-{{ section.id }} .categories__heading-banner-wrap {
       max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
@@ -62,6 +106,19 @@
     #Categories-{{ section.id }} .home-section__heading-image {
       object-fit: {{ section.settings.heading_box_bg_size_mobile | default: 'cover' }} !important;
       margin: 0 auto !important;
+    }
+    #Categories-{{ section.id }} .categories__cta-container {
+      margin-top: 0.1rem !important;
+      margin-bottom: 0.25rem !important;
+    }
+    #Categories-{{ section.id }} .categories__cta-container .categories__shop-more-btn,
+    #Categories-{{ section.id }} .categories__cta-container .categories__shop-more-btn:link,
+    #Categories-{{ section.id }} .categories__cta-container .categories__shop-more-btn:visited {
+      font-size: 0.58rem !important;
+      padding: 0.15rem 0.5rem !important;
+      gap: 0.2rem !important;
+      border-radius: 999px !important;
+      box-shadow: 0 2px 5px rgba(27, 67, 23, 0.16) !important;
     }
   }
 {% endstyle %}
@@ -85,6 +142,15 @@
       </div>
     {% endif %}
   </div>
+
+  {% if section.settings.show_cta_btn != false %}
+    <div class="categories__cta-container">
+      <a class="categories__shop-more-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
+        <span>{{ section.settings.cta_label | default: "Shop More" }}</span>
+        <span class="cta-arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  {% endif %}
 
   <div class="categories__grid">
     {% assign rendered_collections = 0 %}
@@ -184,6 +250,11 @@
     { "type": "range", "id": "heading_box_height_mobile", "label": "Mobile Heading Box Fixed Height (px)", "min": 40, "max": 250, "step": 10, "default": 110, "unit": "px" },
     { "type": "range", "id": "heading_image_max_width", "label": "Desktop Heading Image Max Width (px)", "min": 200, "max": 1200, "step": 20, "default": 640, "unit": "px" },
     { "type": "range", "id": "heading_image_mobile_max_width", "label": "Mobile Heading Image Max Width (px)", "min": 150, "max": 800, "step": 10, "default": 360, "unit": "px" },
+    { "type": "checkbox", "id": "show_cta_btn", "label": "Show 'Shop More' button", "default": true },
+    { "type": "text", "id": "cta_label", "label": "Button text label", "default": "Shop More" },
+    { "type": "url", "id": "cta_url", "label": "Button link URL" },
+    { "type": "color", "id": "cta_bg_color", "label": "Button Background Color", "default": "#1b4317" },
+    { "type": "color", "id": "cta_text_color", "label": "Button Text Color", "default": "#ffffff" },
     {
       "type": "text",
       "id": "subheading",
