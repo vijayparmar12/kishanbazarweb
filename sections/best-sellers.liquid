@@ -65,6 +65,59 @@
     {% endif %}
   }
 
+  #BestSellers-{{ section.id }} .best-sellers__cta-container {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    text-align: right !important;
+    width: 100% !important;
+    margin-top: 0.35rem !important;
+    margin-bottom: 0.65rem !important;
+    clear: both !important;
+    position: relative !important;
+    z-index: 5 !important;
+  }
+
+  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-more-btn,
+  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-more-btn:link,
+  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-more-btn:visited {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.4rem !important;
+    background-color: {{ section.settings.cta_bg_color | default: '#1b4317' }} !important;
+    color: {{ section.settings.cta_text_color | default: '#ffffff' }} !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+    padding: 0.45rem 1.15rem !important;
+    border-radius: 999px !important;
+    text-decoration: none !important;
+    box-shadow: 0 4px 12px rgba(27, 67, 23, 0.22) !important;
+    transition: all 220ms ease !important;
+    line-height: 1.2 !important;
+  }
+
+  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-more-btn:hover,
+  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-more-btn:focus {
+    background-color: #143511 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(27, 67, 23, 0.32) !important;
+    text-decoration: none !important;
+  }
+
+  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-more-btn .cta-arrow {
+    display: inline-block !important;
+    transition: transform 200ms ease !important;
+  }
+
+  #BestSellers-{{ section.id }} .best-sellers__cta-container .best-sellers__shop-more-btn:hover .cta-arrow {
+    transform: translateX(4px) !important;
+  }
+
   @media screen and (max-width: 749px) {
     #BestSellers-{{ section.id }} {
       {% if section.settings.background_image_mobile != blank %}
@@ -164,6 +217,15 @@
       </div>
     {% endif %}
   </div>
+
+  {% if section.settings.show_cta_btn != false %}
+    <div class="best-sellers__cta-container">
+      <a class="best-sellers__shop-more-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}">
+        <span>{{ section.settings.cta_label | default: "Shop More" }}</span>
+        <span class="cta-arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  {% endif %}
 
   {% assign category_blocks = section.blocks | where: 'type', 'category_tab' %}
   {% if section.settings.show_tabs or category_blocks.size > 0 %}
@@ -355,6 +417,11 @@
     { "type": "color", "id": "background_color", "label": "Background Color", "default": "#FFFFFF" },
     { "type": "range", "id": "maximum", "label": "Maximum products", "min": 2, "max": 16, "step": 1, "default": 8 },
     { "type": "checkbox", "id": "show_tabs", "label": "Show category filter tabs (Ghee, Oil, Atta, etc.)", "default": true },
+    { "type": "checkbox", "id": "show_cta_btn", "label": "Show 'Shop More' button", "default": true },
+    { "type": "text", "id": "cta_label", "label": "Button text label", "default": "Shop More" },
+    { "type": "url", "id": "cta_url", "label": "Button link URL" },
+    { "type": "color", "id": "cta_bg_color", "label": "Button Background Color", "default": "#1b4317" },
+    { "type": "color", "id": "cta_text_color", "label": "Button Text Color", "default": "#ffffff" },
     {
       "type": "header",
       "content": "Product Card Customization & Toggles"
