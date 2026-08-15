@@ -106,35 +106,37 @@
     {% endif %}
   {% endif %}
 
-  <div class="collection-banner__content page-width">
-    {% if section.settings.show_breadcrumbs %}
-      {% render 'breadcrumb', collection: collection %}
-    {% endif %}
-
-    {% if section.settings.show_title %}
-      <h1 class="collection-banner__title">
-        {% if section.settings.custom_title != blank %}
-          {{ section.settings.custom_title }}
-        {% elsif current_tags %}
-          {{ current_tags | join: ', ' }}
-        {% else %}
-          {{ collection.title }}
-        {% endif %}
-      </h1>
-    {% endif %}
-
-    {% if section.settings.custom_subheading != blank %}
-      <p class="collection-banner__subheading">{{ section.settings.custom_subheading }}</p>
-    {% endif %}
-
-    {% if section.settings.show_description %}
-      {% if section.settings.custom_description != blank %}
-        <div class="collection-banner__description rte">{{ section.settings.custom_description }}</div>
-      {% elsif collection.description != blank %}
-        <div class="collection-banner__description rte">{{ collection.description }}</div>
+  {% if section.settings.show_breadcrumbs or section.settings.show_title or section.settings.custom_subheading != blank or section.settings.show_description %}
+    <div class="collection-banner__content page-width">
+      {% if section.settings.show_breadcrumbs %}
+        {% render 'breadcrumb', collection: collection %}
       {% endif %}
-    {% endif %}
-  </div>
+
+      {% if section.settings.show_title %}
+        <h1 class="collection-banner__title">
+          {% if section.settings.custom_title != blank %}
+            {{ section.settings.custom_title }}
+          {% elsif current_tags %}
+            {{ current_tags | join: ', ' }}
+          {% else %}
+            {{ collection.title }}
+          {% endif %}
+        </h1>
+      {% endif %}
+
+      {% if section.settings.custom_subheading != blank %}
+        <p class="collection-banner__subheading">{{ section.settings.custom_subheading }}</p>
+      {% endif %}
+
+      {% if section.settings.show_description %}
+        {% if section.settings.custom_description != blank %}
+          <div class="collection-banner__description rte">{{ section.settings.custom_description }}</div>
+        {% elsif collection.description != blank %}
+          <div class="collection-banner__description rte">{{ collection.description }}</div>
+        {% endif %}
+      {% endif %}
+    </div>
+  {% endif %}
 </section>
 
 {% schema %}
@@ -183,18 +185,18 @@
       "default": "cover"
     },
     { "type": "header", "content": "Overlay Tint & Colors" },
-    { "type": "checkbox", "id": "enable_overlay", "label": "Enable Dark/Tint Overlay", "default": true },
+    { "type": "checkbox", "id": "enable_overlay", "label": "Enable Dark/Tint Overlay", "default": false },
     { "type": "color", "id": "overlay_color", "label": "Overlay Tint Color", "default": "#000000" },
-    { "type": "range", "id": "overlay_opacity", "label": "Overlay Opacity (%)", "min": 0, "max": 100, "step": 5, "default": 30, "unit": "%" },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay Opacity (%)", "min": 0, "max": 100, "step": 5, "default": 0, "unit": "%" },
     { "type": "color", "id": "bg_color", "label": "Fallback Background Color", "default": "#1b4317" },
     { "type": "color", "id": "text_color", "label": "Title & Text Color", "default": "#ffffff" },
     { "type": "color", "id": "breadcrumb_color", "label": "Breadcrumb Color", "default": "#ffffff" },
     { "type": "header", "content": "Title & Content Options" },
     { "type": "checkbox", "id": "show_breadcrumbs", "label": "Show Breadcrumbs", "default": false },
-    { "type": "checkbox", "id": "show_title", "label": "Show Collection Title", "default": true },
+    { "type": "checkbox", "id": "show_title", "label": "Show Collection Title", "default": false },
     { "type": "text", "id": "custom_title", "label": "Custom Title Override", "info": "Leave blank to use default Collection Title" },
     { "type": "text", "id": "custom_subheading", "label": "Custom Subheading / Tagline", "info": "e.g. 100% Natural & Organic Essentials" },
-    { "type": "checkbox", "id": "show_description", "label": "Show Collection Description", "default": true },
+    { "type": "checkbox", "id": "show_description", "label": "Show Collection Description", "default": false },
     { "type": "textarea", "id": "custom_description", "label": "Custom Description Override", "info": "Leave blank to use default Collection Description" },
     { "type": "range", "id": "title_size_desktop", "label": "Desktop Title Size (px)", "min": 24, "max": 72, "step": 2, "default": 42, "unit": "px" },
     { "type": "range", "id": "title_size_mobile", "label": "Mobile Title Size (px)", "min": 18, "max": 48, "step": 2, "default": 28, "unit": "px" }
