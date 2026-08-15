@@ -26,18 +26,86 @@
       z-index: 1;
     }
   {% endif %}
+
+  #VideoSection-{{ section.id }} .home-video__head {
+    margin-bottom: 0.25rem !important;
+    margin-top: 0 !important;
+    padding: 0 !important;
+  }
+
+  #VideoSection-{{ section.id }} .home-video__heading-banner-wrap {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
+    height: {{ section.settings.heading_box_height_desktop | default: 180 }}px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-radius: 12px !important;
+  }
+
+  #VideoSection-{{ section.id }} .home-section__heading-picture {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+
+  #VideoSection-{{ section.id }} .home-section__heading-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: {{ section.settings.heading_box_bg_size | default: 'cover' }} !important;
+    object-position: center !important;
+    display: block !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    border-radius: 12px !important;
+    {% if section.settings.heading_image_flip %}
+      transform: scaleX(-1) !important;
+    {% endif %}
+  }
+
+  @media screen and (max-width: 749px) {
+    #VideoSection-{{ section.id }} .home-video__heading-banner-wrap {
+      max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
+      height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
+    }
+    #VideoSection-{{ section.id }} .home-section__heading-picture {
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 auto !important;
+    }
+    #VideoSection-{{ section.id }} .home-section__heading-image {
+      object-fit: {{ section.settings.heading_box_bg_size_mobile | default: 'cover' }} !important;
+      margin: 0 auto !important;
+    }
+  }
 {% endstyle %}
 
 <section id="VideoSection-{{ section.id }}" class="home-section home-video" data-home-video>
   <div class="home-video__container">
     <!-- Header Section -->
-    <div class="home-section__head home-section__head--center">
-      <span class="home-video__eyebrow-pill">🌿 OUR FARM TO TABLE STORY</span>
-      <h2 class="home-video__title">{{ section.settings.heading | default: "Meet the Farmers & Millers" }}</h2>
-      {% if section.settings.description != blank %}
-        <div class="home-video__subtitle">{{ section.settings.description }}</div>
+    <div class="home-section__head home-video__head">
+      {% if section.settings.heading_image_desktop != blank or section.settings.heading_image_mobile != blank %}
+        <div class="home-video__heading-banner-wrap">
+          <picture class="home-section__heading-picture">
+            {% if section.settings.heading_image_mobile != blank %}
+              <source media="(max-width: 749px)" srcset="{{ section.settings.heading_image_mobile | image_url: width: 1200 }}">
+            {% endif %}
+            {% assign heading_img = section.settings.heading_image_desktop | default: section.settings.heading_image_mobile %}
+            {{ heading_img | image_url: width: 2200 | image_tag: class: 'home-section__heading-image', alt: section.settings.heading, loading: 'lazy' }}
+          </picture>
+        </div>
       {% else %}
-        <p class="home-video__subtitle">Take a closer look at the traditional stone-grinding practices and farm-fresh care behind every Kishan Bazar staple.</p>
+        <span class="home-video__eyebrow-pill">🌿 OUR FARM TO TABLE STORY</span>
+        <h2 class="home-video__title">{{ section.settings.heading | default: "Meet the Farmers & Millers" }}</h2>
+        {% if section.settings.description != blank %}
+          <div class="home-video__subtitle">{{ section.settings.description }}</div>
+        {% else %}
+          <p class="home-video__subtitle">Take a closer look at the traditional stone-grinding practices and farm-fresh care behind every Kishan Bazar staple.</p>
+        {% endif %}
       {% endif %}
     </div>
 
@@ -142,6 +210,33 @@
       "label": "Section Background Image",
       "info": "Upload custom background image from Shopify."
     },
+    { "type": "image_picker", "id": "heading_image_desktop", "label": "Heading Box Background Image (Desktop)", "info": "Upload graphic image to use as background for the Heading Box on Desktop" },
+    { "type": "image_picker", "id": "heading_image_mobile", "label": "Heading Box Background Image (Mobile)", "info": "Upload graphic image to use as background for the Heading Box on Mobile" },
+    {
+      "type": "select",
+      "id": "heading_box_bg_size",
+      "label": "Desktop Image Fit Mode",
+      "options": [
+        { "value": "cover", "label": "Cover (Fill entire box)" },
+        { "value": "contain", "label": "Contain (Fit full image without cropping)" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "heading_box_bg_size_mobile",
+      "label": "Mobile Image Fit Mode",
+      "options": [
+        { "value": "cover", "label": "Cover (Fill entire box)" },
+        { "value": "contain", "label": "Contain (Fit full image without cropping)" }
+      ],
+      "default": "cover"
+    },
+    { "type": "checkbox", "id": "heading_image_flip", "label": "Flip Heading Image Horizontally", "default": false },
+    { "type": "range", "id": "heading_box_height_desktop", "label": "Desktop Heading Box Fixed Height (px)", "min": 60, "max": 400, "step": 10, "default": 180, "unit": "px" },
+    { "type": "range", "id": "heading_box_height_mobile", "label": "Mobile Heading Box Fixed Height (px)", "min": 40, "max": 250, "step": 10, "default": 110, "unit": "px" },
+    { "type": "range", "id": "heading_image_max_width", "label": "Desktop Heading Image Max Width (px)", "min": 200, "max": 1200, "step": 20, "default": 640, "unit": "px" },
+    { "type": "range", "id": "heading_image_mobile_max_width", "label": "Mobile Heading Image Max Width (px)", "min": 150, "max": 800, "step": 10, "default": 360, "unit": "px" },
     {
       "type": "range",
       "id": "overlay_opacity",
