@@ -388,6 +388,7 @@
         "review_3"
       ],
       "settings": {
+        "heading_image_desktop": "shopify://shop_images/c26c6ae0-96bf-4ee5-b54a-7971897fca6c_1.png",
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
         "heading_image_flip": false,
