@@ -30,12 +30,13 @@
 }
 
 .best-sellers__head {
-  align-items: flex-start !important;
+  align-items: center !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 0.85rem !important;
-  justify-content: flex-start !important;
-  margin-bottom: 1.5rem !important;
+  gap: 0.35rem !important;
+  justify-content: center !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.35rem !important;
   position: relative !important;
   z-index: 2 !important;
   width: 100% !important;
@@ -43,59 +44,63 @@
   padding: 0 !important;
 }
 
-
-
 .best-sellers__head--card-box {
   background: transparent;
   border: none !important;
   box-shadow: none !important;
   padding: 0;
-  margin-bottom: 0.35rem !important;
+  margin-bottom: 0.25rem !important;
 }
 
 .best-sellers__heading-banner-wrap {
   width: 100% !important;
   max-width: 100% !important;
-  display: block !important;
-  margin: 0 0 0.5rem 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: 0 auto 0.25rem auto !important;
   padding: 0 !important;
   position: relative !important;
+  overflow: hidden !important;
 }
 
 .home-section__heading-picture {
-  display: block !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
   width: 100% !important;
   max-width: 100% !important;
-  margin: 0 !important;
+  margin: 0 auto !important;
   padding: 0 !important;
   position: relative !important;
 }
 
 .home-section__heading-image {
   height: auto !important;
-  object-fit: contain !important;
-  width: 100% !important;
+  max-height: 180px !important;
+  width: auto !important;
   max-width: 100% !important;
+  object-fit: contain !important;
   display: block !important;
-  margin: 0 0 0.5rem 0 !important;
+  margin: 0 auto !important;
   border-radius: 12px;
   position: relative !important;
 }
 
 @media (max-width: 749px) {
   .best-sellers__head {
-    align-items: flex-start !important;
-    gap: 0.75rem !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
+    margin-bottom: 0.25rem !important;
   }
   .best-sellers__head--card-box {
     padding: 0 !important;
     border-radius: 0 !important;
   }
   .home-section__heading-image {
-    max-height: none !important;
-    margin-bottom: 0.5rem !important;
+    max-height: 120px !important;
+    margin-bottom: 0.25rem !important;
   }
-
 }
 
 .best-sellers__title-wrap {
