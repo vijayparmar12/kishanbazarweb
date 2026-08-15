@@ -363,8 +363,11 @@
       ],
       "default": "cover"
     },
-    { "type": "range", "id": "heading_box_height_desktop", "label": "Heading Box Minimum Height (Desktop px)", "min": 60, "max": 400, "step": 10, "default": 110, "unit": "px" },
-    { "type": "range", "id": "heading_box_height_mobile", "label": "Heading Box Minimum Height (Mobile px)", "min": 40, "max": 300, "step": 10, "default": 80, "unit": "px" },
+    { "type": "checkbox", "id": "heading_image_flip", "label": "Flip Heading Image Horizontally", "default": false },
+    { "type": "range", "id": "heading_box_height_desktop", "label": "Desktop Heading Box Fixed Height (px)", "min": 60, "max": 400, "step": 10, "default": 180, "unit": "px" },
+    { "type": "range", "id": "heading_box_height_mobile", "label": "Mobile Heading Box Fixed Height (px)", "min": 40, "max": 250, "step": 10, "default": 110, "unit": "px" },
+    { "type": "range", "id": "heading_image_max_width", "label": "Desktop Heading Image Max Width (px)", "min": 200, "max": 1200, "step": 20, "default": 640, "unit": "px" },
+    { "type": "range", "id": "heading_image_mobile_max_width", "label": "Mobile Heading Image Max Width (px)", "min": 150, "max": 800, "step": 10, "default": 360, "unit": "px" },
     {
       "type": "text",
       "id": "heading",
