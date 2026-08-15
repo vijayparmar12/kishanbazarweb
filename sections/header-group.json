@@ -19,7 +19,7 @@
           "settings": {
             "title": "Monsoon Festivals",
             "badge": "Offers",
-            "badge_background": "#FFFFFF",
+            "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
             "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_31_56_AM.png",
@@ -33,7 +33,7 @@
           "settings": {
             "title": "New Launches",
             "badge": "New",
-            "badge_background": "#FFFFFF",
+            "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
             "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_36_02_AM.png",
@@ -47,7 +47,7 @@
           "settings": {
             "title": "All Products",
             "badge": "Popular",
-            "badge_background": "#FFFFFF",
+            "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
             "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_39_04_AM.png",
@@ -61,7 +61,7 @@
           "settings": {
             "title": "Under 999",
             "badge": "Value",
-            "badge_background": "#FFFFFF",
+            "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
             "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_41_02_AM.png",
@@ -216,7 +216,8 @@
         "announcement_text_3": "Farm-fresh staples delivered to your doorstep",
         "announcement_background": "#23421f",
         "announcement_text_color": "#ffffff",
-        "logo_width": 220,
+        "logo": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_04_21_23_PM.png",
+        "logo_width": 320,
         "enable_sticky_header": true,
         "header_background": "#ffffff",
         "background_color": "#ffffff",
