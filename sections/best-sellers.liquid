@@ -31,27 +31,35 @@
     padding: 0 !important;
   }
 
-  #BestSellers-{{ section.id }} .home-section__heading-picture,
   #BestSellers-{{ section.id }} .best-sellers__heading-banner-wrap {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
+    display: block !important;
     position: relative !important;
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
+    height: {{ section.settings.heading_box_height_desktop | default: 180 }}px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-radius: 12px !important;
+  }
+
+  #BestSellers-{{ section.id }} .home-section__heading-picture {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
     margin: 0 auto !important;
     padding: 0 !important;
   }
 
   #BestSellers-{{ section.id }} .home-section__heading-image {
-    max-height: {{ section.settings.heading_image_max_height | default: 180 }}px !important;
-    height: auto !important;
-    width: auto !important;
-    max-width: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: {{ section.settings.heading_box_bg_size | default: 'cover' }} !important;
+    object-position: center !important;
     display: block !important;
-    object-fit: contain !important;
     margin: 0 auto !important;
     padding: 0 !important;
+    border-radius: 12px !important;
     {% if section.settings.heading_image_flip %}
       transform: scaleX(-1) !important;
     {% endif %}
@@ -65,13 +73,17 @@
         background-position: center top !important;
       {% endif %}
     }
+    #BestSellers-{{ section.id }} .best-sellers__heading-banner-wrap {
+      max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
+      height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
+    }
     #BestSellers-{{ section.id }} .home-section__heading-picture {
       width: 100% !important;
-      max-width: 100% !important;
+      height: 100% !important;
       margin: 0 auto !important;
     }
     #BestSellers-{{ section.id }} .home-section__heading-image {
-      max-height: {{ section.settings.heading_image_mobile_max_height | default: 120 }}px !important;
+      object-fit: {{ section.settings.heading_box_bg_size_mobile | default: 'cover' }} !important;
       margin: 0 auto !important;
     }
   }
@@ -333,10 +345,10 @@
       ],
       "default": "contain"
     },
+    { "type": "range", "id": "heading_box_height_desktop", "label": "Desktop Heading Box Fixed Height (px)", "min": 60, "max": 400, "step": 10, "default": 180, "unit": "px" },
+    { "type": "range", "id": "heading_box_height_mobile", "label": "Mobile Heading Box Fixed Height (px)", "min": 40, "max": 250, "step": 10, "default": 110, "unit": "px" },
     { "type": "range", "id": "heading_image_max_width", "label": "Desktop Heading Image Max Width (px)", "min": 200, "max": 1200, "step": 20, "default": 640, "unit": "px" },
     { "type": "range", "id": "heading_image_mobile_max_width", "label": "Mobile Heading Image Max Width (px)", "min": 150, "max": 800, "step": 10, "default": 360, "unit": "px" },
-    { "type": "range", "id": "heading_image_max_height", "label": "Desktop Heading Image Max Height (px)", "min": 60, "max": 400, "step": 10, "default": 180, "unit": "px" },
-    { "type": "range", "id": "heading_image_mobile_max_height", "label": "Mobile Heading Image Max Height (px)", "min": 40, "max": 250, "step": 10, "default": 120, "unit": "px" },
     { "type": "collection", "id": "collection", "label": "Collection" },
     { "type": "image_picker", "id": "background_image", "label": "Custom Background Image" },
     { "type": "image_picker", "id": "background_image_mobile", "label": "Custom Mobile Background Image (Optional)" },

@@ -55,32 +55,29 @@
 .best-sellers__heading-banner-wrap {
   width: 100% !important;
   max-width: 100% !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
+  height: 180px;
+  display: block !important;
   margin: 0 auto 0.25rem auto !important;
   padding: 0 !important;
   position: relative !important;
   overflow: hidden !important;
+  border-radius: 12px !important;
 }
 
 .home-section__heading-picture {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
+  display: block !important;
   width: 100% !important;
-  max-width: 100% !important;
+  height: 100% !important;
   margin: 0 auto !important;
   padding: 0 !important;
   position: relative !important;
 }
 
 .home-section__heading-image {
-  height: auto !important;
-  max-height: 180px !important;
-  width: auto !important;
-  max-width: 100% !important;
-  object-fit: contain !important;
+  height: 100% !important;
+  width: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
   display: block !important;
   margin: 0 auto !important;
   border-radius: 12px;
@@ -97,8 +94,12 @@
     padding: 0 !important;
     border-radius: 0 !important;
   }
+  .best-sellers__heading-banner-wrap {
+    height: 110px !important;
+  }
   .home-section__heading-image {
-    max-height: 120px !important;
+    height: 100% !important;
+    width: 100% !important;
     margin-bottom: 0.25rem !important;
   }
 }
