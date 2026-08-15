@@ -94,7 +94,7 @@
         "heading_image_flip": false,
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
-        "heading_image_max_width": 200,
+        "heading_image_max_width": 620,
         "heading_image_mobile_max_width": 360,
         "heading_image_max_height": 400,
         "heading_image_mobile_max_height": 200,
