@@ -284,7 +284,7 @@
         "heading_image_mobile": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_03_59_36_PM.png",
         "heading_image_flip": false,
         "heading_box_bg_size": "cover",
-        "heading_box_bg_size_mobile": "contain",
+        "heading_box_bg_size_mobile": "cover",
         "heading_box_height_desktop": 200,
         "heading_box_height_mobile": 130,
         "heading_image_max_width": 1200,
