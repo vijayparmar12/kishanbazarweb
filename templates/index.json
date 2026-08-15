@@ -227,9 +227,9 @@
       ],
       "settings": {
         "heading_image_desktop": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_02_13_40_PM.png",
-        "heading_image_mobile": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_01_26_29_PM.png",
+        "heading_image_mobile": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_02_13_40_PM.png",
         "heading_box_bg_size": "contain",
-        "heading_box_bg_size_mobile": "contain",
+        "heading_box_bg_size_mobile": "cover",
         "heading_image_flip": false,
         "heading_box_height_desktop": 140,
         "heading_box_height_mobile": 50,
