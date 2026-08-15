@@ -151,18 +151,6 @@
     width: 100% !important;
     margin-bottom: 0.25rem !important;
   }
-  .best-sellers__cta-container {
-    margin-top: 0.15rem !important;
-    margin-bottom: 0.35rem !important;
-  }
-  .best-sellers__cta-container .best-sellers__shop-more-btn,
-  .best-sellers__cta-container .best-sellers__shop-more-btn:link,
-  .best-sellers__cta-container .best-sellers__shop-more-btn:visited {
-    font-size: 0.65rem !important;
-    padding: 0.22rem 0.65rem !important;
-    gap: 0.25rem !important;
-    box-shadow: 0 2px 6px rgba(27, 67, 23, 0.18) !important;
-  }
 }
 
 .best-sellers__title-wrap {
