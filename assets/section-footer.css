@@ -292,62 +292,44 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  line-height: 1;
+  transition: transform 300ms ease;
+  color: #23421f;
 }
 
-.footer-chevron-svg {
-  width: 18px;
-  height: 18px;
-  stroke: #23421f;
-  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
-  display: block;
-}
-
-.site-footer__col-toggle[aria-expanded="true"] .footer-chevron-svg,
-.site-footer__col.is-open .footer-chevron-svg {
+.site-footer__col-toggle[aria-expanded="true"] .accordion-icon,
+.site-footer__col.is-open .accordion-icon {
   transform: rotate(180deg);
+}
+
+.chevron-icon {
+  display: block;
+  width: 14px;
+  height: 14px;
+  stroke: #23421f;
 }
 
 /* Accordion Control on Mobile View (<768px) */
 @media (max-width: 47.99rem) {
   .site-footer__col .site-footer__list,
-  .site-footer__contact-col .site-footer__company-details {
+  .site-footer__col .site-footer__accordion-content {
     display: none;
     margin-top: 0.5rem;
   }
 
   .site-footer__col.is-open .site-footer__list,
-  .site-footer__contact-col.is-open .site-footer__company-details {
+  .site-footer__col.is-open .site-footer__accordion-content {
     display: block;
   }
 
   .site-footer__col-toggle {
-    display: flex !important;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
     border-bottom: 1px solid rgba(35, 66, 31, 0.15);
     padding-bottom: 0.75rem;
     margin-bottom: 0.75rem;
-  }
-
-  .site-footer__col-title--static {
-    display: none !important;
-  }
-}
-
-@media (min-width: 48rem) {
-  .site-footer__col-toggle {
-    display: none !important;
-  }
-
-  .site-footer__col-title--static {
-    display: block !important;
-  }
-
-  .site-footer__list,
-  .site-footer__company-details {
-    display: block !important;
+    width: 100%;
   }
 }
 
@@ -358,10 +340,11 @@
   }
 
   .site-footer__col-toggle .accordion-icon {
-    display: none;
+    display: none !important;
   }
 
-  .site-footer__col .site-footer__list {
+  .site-footer__col .site-footer__list,
+  .site-footer__col .site-footer__accordion-content {
     display: block !important;
   }
 }
