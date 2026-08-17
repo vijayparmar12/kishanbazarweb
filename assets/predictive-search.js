@@ -136,14 +136,17 @@
 
     async fetchResults(query) {
       try {
-        const response = await fetch(`/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product,article,page,queries&resources[limit]=6`);
-        if (!response.ok) return;
-
-        const data = await response.json();
-        const predictiveResults = data.resources?.results;
-        if (!predictiveResults) return;
-
-        this.renderResults(query, predictiveResults);
+        const suggestUrl = `/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product,article,page,query&resources[limit]=6`;
+        const response = await fetch(suggestUrl);
+        
+        if (response.ok) {
+          const data = await response.json();
+          const predictiveResults = data.resources?.results;
+          if (predictiveResults) {
+            this.renderResults(query, predictiveResults);
+            return;
+          }
+        }
       } catch (err) {
         console.error('Predictive search error:', err);
       }
