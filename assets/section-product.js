@@ -295,12 +295,14 @@ function initReviewsAndModal(container) {
     modalTrigger.addEventListener('click', () => {
       modal.classList.add('is-open');
       modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
     });
 
     modalCloses.forEach((btn) => {
       btn.addEventListener('click', () => {
         modal.classList.remove('is-open');
         modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
       });
     });
   }

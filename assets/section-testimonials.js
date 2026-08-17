@@ -5,11 +5,31 @@
   let scrollLeftStart = 0;
   let dragThresholdPassed = false;
 
-  // Delegate click for Testimonial Cards (Only flip if NOT dragging)
+  // Delegate click for Testimonial Cards (Only flip if NOT dragging) & Review Anchors
   document.addEventListener('click', function(e) {
     if (dragThresholdPassed) {
       dragThresholdPassed = false;
       return;
+    }
+
+    // Smooth scroll for anchor links pointing to reviews
+    const anchor = e.target.closest('a[href^="#ProductReviews"], a[href^="#Testimonials"]');
+    if (anchor) {
+      const targetId = anchor.getAttribute('href');
+      if (targetId && targetId !== '#' && targetId.startsWith('#')) {
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          e.preventDefault();
+          const stickyHeader = document.querySelector('[data-header-top-sticky], .kb-header-top-sticky, .site-header');
+          const headerHeight = stickyHeader ? stickyHeader.offsetHeight : 130;
+          const targetTop = targetEl.getBoundingClientRect().top + window.scrollY - headerHeight - 20;
+          window.scrollTo({
+            top: Math.max(0, targetTop),
+            behavior: 'smooth'
+          });
+          return;
+        }
+      }
     }
 
     const card = e.target.closest('.testimonials__card, [data-testimonial-card]');
@@ -33,6 +53,22 @@
       card.classList.remove('is-expanded');
     } else {
       card.classList.add('is-expanded');
+
+      // Keep expanded card stable and clear of the top sticky header
+      setTimeout(function() {
+        const stickyHeader = document.querySelector('[data-header-top-sticky], .kb-header-top-sticky, .site-header');
+        const headerHeight = stickyHeader ? stickyHeader.offsetHeight : 130;
+        const rect = card.getBoundingClientRect();
+
+        // If top of card is behind sticky header or bottom is past viewport
+        if (rect.top < headerHeight + 15 || rect.bottom > window.innerHeight - 15) {
+          const targetScroll = window.scrollY + rect.top - headerHeight - 20;
+          window.scrollTo({
+            top: Math.max(0, targetScroll),
+            behavior: 'smooth'
+          });
+        }
+      }, 60);
     }
   });
 

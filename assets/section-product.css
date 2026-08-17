@@ -1052,6 +1052,18 @@
 /* ==========================================================================
    SECTION 6: CUSTOMER REVIEWS & RATINGS DASHBOARD
    ========================================================================== */
+.product-reviews,
+[id^="ProductReviews"] {
+  scroll-margin-top: 140px !important;
+}
+
+@media (max-width: 749px) {
+  .product-reviews,
+  [id^="ProductReviews"] {
+    scroll-margin-top: 110px !important;
+  }
+}
+
 .product-reviews__header-row {
   align-items: flex-end;
   display: flex;
