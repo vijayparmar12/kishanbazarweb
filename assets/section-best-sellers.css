@@ -555,6 +555,7 @@
   .best-sellers__track {
     width: 100%;
     max-width: 100%;
+    gap: 1rem !important;
     padding-left: 1rem !important;
     padding-right: 1rem !important;
     overscroll-behavior-x: contain;
@@ -566,9 +567,9 @@
   }
 
   .best-sellers__slide {
-    flex: 0 0 min(78vw, 275px);
-    width: min(78vw, 275px);
-    max-width: 275px;
+    flex: 0 0 min(74vw, 260px);
+    width: min(74vw, 260px);
+    max-width: 260px;
     scroll-snap-align: start;
   }
 
