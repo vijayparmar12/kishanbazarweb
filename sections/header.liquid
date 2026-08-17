@@ -254,23 +254,44 @@
           {% for link in active_mobile_linklist.links %}
             {% assign link_title_lower = link.title | downcase %}
 
+            {% assign matching_block = nil %}
+            {% for block in section.blocks %}
+              {% if block.type == 'mobile_nav_item' or block.type == 'nav_item' %}
+                {% assign b_title_lower = block.settings.title | downcase %}
+                {% if b_title_lower == link_title_lower %}
+                  {% assign matching_block = block %}
+                  {% break %}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+
+            {% assign link_icon_image = matching_block.settings.icon_image %}
+            {% assign link_icon_emoji = matching_block.settings.icon %}
+
             {% if link_title_lower contains 'category' or link_title_lower contains 'shop by category' %}
               <li class="kb-header__mobile-item">
-                {% render 'mega-menu', section: section, menu_type: 'category', mobile: true, custom_title: link.title %}
+                {% render 'mega-menu', section: section, menu_type: 'category', mobile: true, custom_title: link.title, custom_icon_image: link_icon_image, custom_icon: link_icon_emoji %}
               </li>
             {% elsif link_title_lower contains 'farm' %}
               <li class="kb-header__mobile-item">
-                {% render 'mega-menu', section: section, menu_type: 'farm', mobile: true, custom_title: link.title %}
+                {% render 'mega-menu', section: section, menu_type: 'farm', mobile: true, custom_title: link.title, custom_icon_image: link_icon_image, custom_icon: link_icon_emoji %}
               </li>
             {% elsif link_title_lower contains 'customer' %}
               <li class="kb-header__mobile-item">
-                {% render 'mega-menu', section: section, menu_type: 'customers', mobile: true, custom_title: link.title %}
+                {% render 'mega-menu', section: section, menu_type: 'customers', mobile: true, custom_title: link.title, custom_icon_image: link_icon_image, custom_icon: link_icon_emoji %}
               </li>
             {% elsif link.links.size > 0 %}
               <li class="kb-header__mobile-item">
                 <details class="kb-mega-mobile" data-mega-mobile>
                   <summary class="kb-header__mobile-link kb-mega-mobile__summary">
-                    <span>{{ link.title }}</span>
+                    <span class="kb-header__mobile-link-left">
+                      {% if link_icon_image != blank %}
+                        {{ link_icon_image | image_url: width: 64 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
+                      {% elsif link_icon_emoji != blank %}
+                        <span class="kb-header__mobile-icon-emoji">{{ link_icon_emoji }}</span>
+                      {% endif %}
+                      <span>{{ link.title }}</span>
+                    </span>
                     <span class="kb-mega-mobile__icon" aria-hidden="true">
                       <svg class="kb-mega-mobile__chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="6 9 12 15 18 9"></polyline>
@@ -313,7 +334,14 @@
             {% else %}
               <li class="kb-header__mobile-item">
                 <a class="kb-header__mobile-link" href="{{ link.url }}">
-                  <span>{{ link.title }}</span>
+                  <span class="kb-header__mobile-link-left">
+                    {% if link_icon_image != blank %}
+                      {{ link_icon_image | image_url: width: 64 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
+                    {% elsif link_icon_emoji != blank %}
+                      <span class="kb-header__mobile-icon-emoji">{{ link_icon_emoji }}</span>
+                    {% endif %}
+                    <span>{{ link.title }}</span>
+                  </span>
                 </a>
               </li>
             {% endif %}
@@ -327,12 +355,19 @@
               {% assign mega_type = block.settings.mega_menu | default: 'none' %}
               {% if mega_type != 'none' and mega_type != blank %}
                 <li class="kb-header__mobile-item" {{ block.shopify_attributes }}>
-                  {% render 'mega-menu', section: section, menu_type: mega_type, mobile: true, custom_title: block.settings.title %}
+                  {% render 'mega-menu', section: section, menu_type: mega_type, mobile: true, custom_title: block.settings.title, custom_icon_image: block.settings.icon_image, custom_icon: block.settings.icon, custom_badge: block.settings.badge %}
                 </li>
               {% else %}
                 <li class="kb-header__mobile-item" {{ block.shopify_attributes }}>
                   <a class="kb-header__mobile-link" href="{{ block.settings.url | default: routes.all_products_collection_url }}">
-                    <span>{{ block.settings.title }}</span>
+                    <span class="kb-header__mobile-link-left">
+                      {% if block.settings.icon_image != blank %}
+                        {{ block.settings.icon_image | image_url: width: 64 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
+                      {% elsif block.settings.icon != blank %}
+                        <span class="kb-header__mobile-icon-emoji">{{ block.settings.icon }}</span>
+                      {% endif %}
+                      <span>{{ block.settings.title }}</span>
+                    </span>
                     {% if block.settings.badge != blank %}
                       <span class="kb-nav-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
                     {% endif %}

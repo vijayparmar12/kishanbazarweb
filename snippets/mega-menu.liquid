@@ -70,11 +70,11 @@
   {% elsif mobile %}
     <details class="kb-mega-mobile" data-mega-mobile>
       <summary class="kb-header__mobile-link kb-mega-mobile__summary">
-        <span style="display: inline-flex; align-items: center; gap: 0.5rem;">
+        <span class="kb-header__mobile-link-left">
           {% if custom_icon_image != blank %}
-            {{ custom_icon_image | image_url: width: 64 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy', style: 'width: 28px; height: 28px; object-fit: contain;' }}
+            {{ custom_icon_image | image_url: width: 64 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
           {% elsif custom_icon != blank %}
-            <span>{{ custom_icon }}</span>
+            <span class="kb-header__mobile-icon-emoji">{{ custom_icon }}</span>
           {% endif %}
           <span>{{ custom_title | default: panel_title }}</span>
           {% if custom_badge != blank %}
