@@ -169,10 +169,14 @@
     }
   },
   "search": {
-    "title": "Search",
+    "title": "Search Results",
     "placeholder": "Search articles, pages, or products",
     "submit": "Search",
-    "no_results_html": "No results found for {{ terms }}",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "no_results_html": "No results found for \"{{ terms }}\"",
+    "empty_hint": "Try checking your spelling or searching for another term.",
+    "browse_collections": "Browse All Collections",
+    "categories_heading": "Matching Categories",
+    "category_products": "{{ count }} products",
+    "results_for_html": "{{ count }} results found for \"{{ terms }}\""
   }
 }
