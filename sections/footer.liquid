@@ -3,21 +3,23 @@
 
 {% style %}
   .site-footer {
+    background-color: {{ section.settings.bg_color | default: '#f7f2e8' }} !important;
+    background: {{ section.settings.bg_color | default: '#f7f2e8' }} !important;
+    color: {{ section.settings.text_color | default: '#2d261e' }};
     position: relative;
-    background-color: transparent !important;
-    background: transparent !important;
-    color: {{ section.settings.footer_text_color | default: '#23421f' }};
+    width: 100%;
     overflow: hidden;
   }
 
-  .site-footer__content-layer {
-    background: transparent !important;
-    position: relative;
-    z-index: 5;
+  .site-footer a {
+    color: {{ section.settings.link_color | default: '#2d261e' }};
+  }
+
+  .site-footer__bottom {
+    background-color: {{ section.settings.copyright_bg_color | default: '#d8c4a5' }} !important;
+    color: {{ section.settings.copyright_text_color | default: '#2d261e' }};
   }
 {% endstyle %}
-
-{% assign social_blocks = section.blocks | where: 'type', 'social_link' %}
 
 <footer class="site-footer" data-site-footer>
   <div class="site-footer__content-layer">
@@ -51,25 +53,13 @@
                       style="--logo-width: {{ block.settings.logo_width | default: 180 }}px;"
                       onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
                     >
-                    <span class="site-footer__logo-fallback-text" style="display: none; font-size: 1.5rem; font-weight: 800; color: #23421f; letter-spacing: -0.02em;">KISANVEDA</span>
+                    <span class="site-footer__logo-fallback-text" style="display: none; font-size: 1.6rem; font-weight: 800; color: #2d261e; letter-spacing: -0.02em;">{{ shop.name }}</span>
                   {% endif %}
                 </a>
               {% endif %}
 
               {% if block.settings.about_text != blank %}
                 <div class="site-footer__brand-text">{{ block.settings.about_text | newline_to_br }}</div>
-              {% endif %}
-
-              {% if block.settings.email != blank or block.settings.phone != blank %}
-                <div class="site-footer__brand-contact">
-                  {% if block.settings.email != blank %}
-                    <p class="site-footer__contact-line"><strong>{{ block.settings.email_label }}</strong> <a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a></p>
-                  {% endif %}
-                  {% if block.settings.phone != blank %}
-                    {% assign phone_href = block.settings.phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')' %}
-                    <p class="site-footer__contact-line"><strong>{{ block.settings.phone_label }}</strong> <a href="tel:{{ phone_href }}">{{ block.settings.phone }}</a></p>
-                  {% endif %}
-                </div>
               {% endif %}
             </div>
 
@@ -88,14 +78,14 @@
                     <li><a href="{{ link.url }}">{{ link.title }}</a></li>
                   {% endfor %}
                 {% else %}
-                  {% if block.settings.link_1_label != blank %}<li><a href="{{ block.settings.link_1_url }}">{{ block.settings.link_1_label }}</a></li>{% endif %}
-                  {% if block.settings.link_2_label != blank %}<li><a href="{{ block.settings.link_2_url }}">{{ block.settings.link_2_label }}</a></li>{% endif %}
-                  {% if block.settings.link_3_label != blank %}<li><a href="{{ block.settings.link_3_url }}">{{ block.settings.link_3_label }}</a></li>{% endif %}
-                  {% if block.settings.link_4_label != blank %}<li><a href="{{ block.settings.link_4_url }}">{{ block.settings.link_4_label }}</a></li>{% endif %}
-                  {% if block.settings.link_5_label != blank %}<li><a href="{{ block.settings.link_5_url }}">{{ block.settings.link_5_label }}</a></li>{% endif %}
-                  {% if block.settings.link_6_label != blank %}<li><a href="{{ block.settings.link_6_url }}">{{ block.settings.link_6_label }}</a></li>{% endif %}
-                  {% if block.settings.link_7_label != blank %}<li><a href="{{ block.settings.link_7_url }}">{{ block.settings.link_7_label }}</a></li>{% endif %}
-                  {% if block.settings.link_8_label != blank %}<li><a href="{{ block.settings.link_8_url }}">{{ block.settings.link_8_label }}</a></li>{% endif %}
+                  {% if block.settings.link_1_label != blank %}<li><a href="{{ block.settings.link_1_url | default: '#' }}">{{ block.settings.link_1_label }}</a></li>{% endif %}
+                  {% if block.settings.link_2_label != blank %}<li><a href="{{ block.settings.link_2_url | default: '#' }}">{{ block.settings.link_2_label }}</a></li>{% endif %}
+                  {% if block.settings.link_3_label != blank %}<li><a href="{{ block.settings.link_3_url | default: '#' }}">{{ block.settings.link_3_label }}</a></li>{% endif %}
+                  {% if block.settings.link_4_label != blank %}<li><a href="{{ block.settings.link_4_url | default: '#' }}">{{ block.settings.link_4_label }}</a></li>{% endif %}
+                  {% if block.settings.link_5_label != blank %}<li><a href="{{ block.settings.link_5_url | default: '#' }}">{{ block.settings.link_5_label }}</a></li>{% endif %}
+                  {% if block.settings.link_6_label != blank %}<li><a href="{{ block.settings.link_6_url | default: '#' }}">{{ block.settings.link_6_label }}</a></li>{% endif %}
+                  {% if block.settings.link_7_label != blank %}<li><a href="{{ block.settings.link_7_url | default: '#' }}">{{ block.settings.link_7_label }}</a></li>{% endif %}
+                  {% if block.settings.link_8_label != blank %}<li><a href="{{ block.settings.link_8_url | default: '#' }}">{{ block.settings.link_8_label }}</a></li>{% endif %}
                 {% endif %}
               </ul>
             </div>
@@ -107,54 +97,92 @@
               {% endif %}
 
               <div class="site-footer__company-details">
+                {% if block.settings.company_name != blank %}
+                  <p class="site-footer__company-name"><strong>{{ block.settings.company_name }}</strong></p>
+                {% endif %}
                 {% if block.settings.address_text != blank %}
                   <div class="site-footer__address">{{ block.settings.address_text | newline_to_br }}</div>
                 {% endif %}
-
-                {% if block.settings.show_newsletter %}
-                  <div class="site-footer__newsletter">
-                    {% form 'customer', class: 'site-footer__newsletter-form' %}
-                      <input type="hidden" name="contact[tags]" value="newsletter">
-                      <div class="site-footer__newsletter-input-wrap">
-                        <input
-                          type="email"
-                          name="contact[email]"
-                          class="site-footer__newsletter-input"
-                          value="{{ form.email }}"
-                          placeholder="{{ block.settings.newsletter_placeholder | escape }}"
-                          aria-label="{{ block.settings.newsletter_placeholder | escape }}"
-                          required
-                        >
-                        <button type="submit" class="site-footer__newsletter-btn" aria-label="{{ block.settings.newsletter_button_label | escape }}">{{ block.settings.newsletter_button_text }}</button>
-                      </div>
-                    {% endform %}
-                  </div>
+                {% if block.settings.email != blank %}
+                  <p class="site-footer__contact-line"><strong>Email:</strong> <a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a></p>
                 {% endif %}
+                {% if block.settings.phone != blank %}
+                  <p class="site-footer__contact-line"><strong>Tel:</strong> <a href="tel:{{ block.settings.phone | remove: ' ' }}">{{ block.settings.phone }}</a></p>
+                {% endif %}
+              </div>
+            </div>
 
-                {% if social_blocks.size > 0 %}
+          {% when 'newsletter' %}
+            <div class="site-footer__col site-footer__newsletter-col" {{ block.shopify_attributes }}>
+              {% if block.settings.heading != blank %}
+                <h3 class="site-footer__col-title site-footer__col-title--static">{{ block.settings.heading }}</h3>
+              {% endif %}
+
+              <div class="site-footer__newsletter-wrap">
+                {% form 'customer', class: 'site-footer__newsletter-form' %}
+                  <input type="hidden" name="contact[tags]" value="newsletter">
+                  {% if form.posted_successfully? %}
+                    <div class="site-footer__newsletter-success">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                      <span>{{ block.settings.success_message | default: "Thanks for subscribing" }}</span>
+                    </div>
+                  {% endif %}
+
+                  {% if block.settings.show_phone_input %}
+                    <div class="site-footer__input-pill">
+                      <input
+                        type="tel"
+                        name="contact[note]"
+                        class="site-footer__pill-field"
+                        placeholder="{{ block.settings.phone_placeholder | default: 'Enter your phone' }}"
+                        aria-label="{{ block.settings.phone_placeholder | default: 'Enter your phone' }}"
+                      >
+                    </div>
+                  {% endif %}
+
+                  <div class="site-footer__input-pill site-footer__input-pill--submit">
+                    <input
+                      type="email"
+                      name="contact[email]"
+                      class="site-footer__pill-field"
+                      value="{{ form.email }}"
+                      placeholder="{{ block.settings.email_placeholder | default: 'Enter your email' }}"
+                      aria-label="{{ block.settings.email_placeholder | default: 'Enter your email' }}"
+                      required
+                    >
+                    <button type="submit" class="site-footer__pill-btn" aria-label="Subscribe">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                  </div>
+                {% endform %}
+
+                {% assign social_blocks = section.blocks | where: 'type', 'social_link' %}
+                {% if social_blocks.size > 0 or block.settings.show_default_socials %}
                   <div class="site-footer__social-row">
-                    {% for social_block in social_blocks %}
-                      {% if social_block.settings.url != blank %}
-                        {% assign social_label = social_block.settings.label | default: social_block.settings.platform %}
-                        <a href="{{ social_block.settings.url }}" class="social-btn social-btn--img" aria-label="{{ social_label | escape }}" target="_blank" rel="noopener noreferrer" {{ social_block.shopify_attributes }}>
-                          {% if social_block.settings.icon_image != blank %}
-                            {{
-                              social_block.settings.icon_image
-                              | image_url: width: 80
-                              | image_tag: alt: social_label, width: 40, height: 40, loading: 'lazy'
-                            }}
-                          {% elsif social_block.settings.platform == 'facebook' %}
-                            <img src="{{ 'facebook.png' | asset_url }}" alt="{{ social_label | escape }}" width="40" height="40" loading="lazy">
-                          {% elsif social_block.settings.platform == 'instagram' %}
-                            <img src="{{ 'instagram.png' | asset_url }}" alt="{{ social_label | escape }}" width="40" height="40" loading="lazy">
-                          {% elsif social_block.settings.platform == 'youtube' %}
-                            <img src="{{ 'youtube.png' | asset_url }}" alt="{{ social_label | escape }}" width="40" height="40" loading="lazy">
-                          {% else %}
-                            <span class="social-btn__text">{{ social_block.settings.icon_text }}</span>
-                          {% endif %}
-                        </a>
-                      {% endif %}
-                    {% endfor %}
+                    {% if social_blocks.size > 0 %}
+                      {% for social_block in social_blocks %}
+                        {% if social_block.settings.url != blank %}
+                          <a href="{{ social_block.settings.url }}" class="social-circle-btn" aria-label="{{ social_block.settings.platform | escape }}" target="_blank" rel="noopener noreferrer" {{ social_block.shopify_attributes }}>
+                            {% case social_block.settings.platform %}
+                              {% when 'facebook' %}
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                              {% when 'instagram' %}
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                              {% when 'youtube' %}
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"></polygon></svg>
+                              {% when 'linkedin' %}
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                              {% else %}
+                                <span class="social-circle-btn__text">{{ social_block.settings.platform | slice: 0, 2 | upcase }}</span>
+                            {% endcase %}
+                          </a>
+                        {% endif %}
+                      {% endfor %}
+                    {% elsif block.settings.show_default_socials %}
+                      <a href="#" class="social-circle-btn" aria-label="Facebook"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+                      <a href="#" class="social-circle-btn" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                      <a href="#" class="social-circle-btn" aria-label="YouTube"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"></polygon></svg></a>
+                    {% endif %}
                   </div>
                 {% endif %}
               </div>
@@ -164,39 +192,40 @@
     </div>
   </div>
 
-  {% if section.settings.footer_bottom_image != blank or section.settings.show_default_bottom_image %}
-    <div class="site-footer__illustration-layer" style="--illustration-height: {{ section.settings.illustration_height | default: 480 }}px; --illustration-position: {{ section.settings.illustration_position | default: 'top center' }};">
-      <div class="site-footer__bottom-banner-wrap">
-        {% if section.settings.footer_bottom_image != blank %}
-          {{
-            section.settings.footer_bottom_image
-            | image_url: width: 2400
-            | image_tag:
-              class: 'site-footer__bottom-banner-img',
-              loading: 'lazy',
-              widths: '750, 1100, 1400, 1800, 2400',
-              alt: section.settings.footer_bottom_image_alt
-          }}
-        {% else %}
-          <img
-            class="site-footer__bottom-banner-img"
-            src="{{ 'home.png' | asset_url }}"
-            alt="{{ section.settings.footer_bottom_image_alt | escape }}"
-            width="1400"
-            height="500"
-            loading="lazy"
-          >
-        {% endif %}
-      </div>
+  {% if section.settings.show_wave_divider %}
+    <div class="site-footer__wave-divider">
+      <svg viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none">
+        <path d="M0,32L60,42.7C120,53,240,75,360,80C480,85,600,75,720,58.7C840,43,960,21,1080,21.3C1200,21,1320,43,1380,53.3L1440,64L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z" fill="{{ section.settings.copyright_bg_color | default: '#d8c4a5' }}"></path>
+      </svg>
     </div>
   {% endif %}
 
-  {% if section.settings.copyright_text != blank %}
-    {% assign current_year = 'now' | date: '%Y' %}
-    {% assign copyright_text = section.settings.copyright_text | replace: '[year]', current_year | replace: '[shop]', shop.name %}
-    <div class="site-footer__bottom">
+  <div class="site-footer__bottom">
+    <div class="site-footer__bottom-inner">
+      {% assign current_year = 'now' | date: '%Y' %}
+      {% assign copyright_text = section.settings.copyright_text | replace: '[year]', current_year | replace: '[shop]', shop.name %}
       <p class="site-footer__copyright">{{ copyright_text }}</p>
+
+      {% if section.settings.show_payment_icons %}
+        <div class="site-footer__payment-icons">
+          {% for type in shop.enabled_payment_types %}
+            {{ type | payment_type_svg_tag: class: 'payment-icon' }}
+          {% else %}
+            <span class="payment-badge">VISA</span>
+            <span class="payment-badge">Mastercard</span>
+            <span class="payment-badge">PayPal</span>
+            <span class="payment-badge">PayU</span>
+            <span class="payment-badge">G Pay</span>
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
+  </div>
+
+  {% if section.settings.show_back_to_top %}
+    <button type="button" class="site-footer__back-to-top" data-back-to-top aria-label="Back to top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+    </button>
   {% endif %}
 </footer>
 
@@ -208,69 +237,77 @@
   "settings": [
     {
       "type": "header",
-      "content": "Footer design"
+      "content": "Footer Colors & Styles"
     },
     {
       "type": "color",
-      "id": "footer_text_color",
-      "label": "Footer text color",
-      "default": "#23421f"
+      "id": "bg_color",
+      "label": "Footer background color",
+      "default": "#f7f2e8"
     },
     {
-      "type": "image_picker",
-      "id": "footer_bottom_image",
-      "label": "Bottom illustration image"
+      "type": "color",
+      "id": "text_color",
+      "label": "Footer text & heading color",
+      "default": "#2d261e"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Footer link color",
+      "default": "#2d261e"
+    },
+    {
+      "type": "color",
+      "id": "copyright_bg_color",
+      "label": "Bottom copyright background color",
+      "default": "#d8c4a5"
+    },
+    {
+      "type": "color",
+      "id": "copyright_text_color",
+      "label": "Bottom copyright text color",
+      "default": "#2d261e"
     },
     {
       "type": "checkbox",
-      "id": "show_default_bottom_image",
-      "label": "Show default bottom illustration when no image is selected",
+      "id": "show_wave_divider",
+      "label": "Show organic wave divider above copyright bar",
       "default": true
     },
     {
-      "type": "range",
-      "id": "illustration_height",
-      "min": 250,
-      "max": 650,
-      "step": 10,
-      "default": 480,
-      "unit": "px",
-      "label": "Bottom illustration height"
-    },
-    {
-      "type": "select",
-      "id": "illustration_position",
-      "label": "Bottom illustration focal position",
-      "options": [
-        { "value": "top center", "label": "Top (Shows full tree tops)" },
-        { "value": "center center", "label": "Center" },
-        { "value": "bottom center", "label": "Bottom" }
-      ],
-      "default": "top center"
-    },
-    {
-      "type": "text",
-      "id": "footer_bottom_image_alt",
-      "label": "Bottom illustration alt text",
-      "default": "Footer farm illustration"
+      "type": "header",
+      "content": "Copyright & Extras"
     },
     {
       "type": "textarea",
       "id": "copyright_text",
       "label": "Copyright text",
-      "default": "Copyright &copy; [year], [shop] &bull; All Rights Reserved."
+      "default": "Copyright &copy; [year] [shop]. All Rights Reserved."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment method icons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_back_to_top",
+      "label": "Show Back to Top floating button",
+      "default": true
     }
   ],
   "blocks": [
     {
       "type": "brand",
-      "name": "Brand content",
+      "name": "Brand Column",
       "limit": 1,
       "settings": [
         {
           "type": "image_picker",
           "id": "logo",
-          "label": "Logo"
+          "label": "Footer Logo"
         },
         {
           "type": "range",
@@ -285,74 +322,49 @@
         {
           "type": "checkbox",
           "id": "show_default_logo",
-          "label": "Show default logo when no logo is selected",
+          "label": "Show default logo when no logo selected",
           "default": true
         },
         {
           "type": "textarea",
           "id": "about_text",
-          "label": "About text",
-          "default": "Kishan Bazar, Welcome to our farm-fresh organic kitchen. We build wholesome pantry staples and marketing experiences that help brands stand out and scale confidently."
-        },
-        {
-          "type": "text",
-          "id": "email_label",
-          "label": "Email label",
-          "default": "Email:"
-        },
-        {
-          "type": "text",
-          "id": "email",
-          "label": "Email",
-          "default": "support@kishanbazar.com"
-        },
-        {
-          "type": "text",
-          "id": "phone_label",
-          "label": "Phone label",
-          "default": "Tel:"
-        },
-        {
-          "type": "text",
-          "id": "phone",
-          "label": "Phone",
-          "default": "+91 88888 88888"
+          "label": "Brand about text",
+          "default": "Bringing the wisdom and flavors of Old Bharat to today's tables - that's the Kisan Bazar promise."
         }
       ]
     },
     {
       "type": "link_column",
-      "name": "Link column",
+      "name": "Navigation Link Column",
       "settings": [
         {
           "type": "text",
           "id": "heading",
-          "label": "Heading",
-          "default": "Categories"
+          "label": "Column Heading",
+          "default": "HELPFUL LINKS"
         },
         {
           "type": "link_list",
           "id": "menu",
-          "label": "Shopify navigation menu",
-          "info": "Use this for fully managed links from Shopify Admin > Navigation."
+          "label": "Shopify navigation menu"
         },
         {
           "type": "header",
-          "content": "Theme editor links"
+          "content": "Theme Editor Links (Used if no Shopify Menu selected)"
         },
-        { "type": "text", "id": "link_1_label", "label": "Link 1 label" },
+        { "type": "text", "id": "link_1_label", "label": "Link 1 label", "default": "Our Story" },
         { "type": "url", "id": "link_1_url", "label": "Link 1 URL" },
-        { "type": "text", "id": "link_2_label", "label": "Link 2 label" },
+        { "type": "text", "id": "link_2_label", "label": "Link 2 label", "default": "All Products" },
         { "type": "url", "id": "link_2_url", "label": "Link 2 URL" },
-        { "type": "text", "id": "link_3_label", "label": "Link 3 label" },
+        { "type": "text", "id": "link_3_label", "label": "Link 3 label", "default": "Recipes" },
         { "type": "url", "id": "link_3_url", "label": "Link 3 URL" },
-        { "type": "text", "id": "link_4_label", "label": "Link 4 label" },
+        { "type": "text", "id": "link_4_label", "label": "Link 4 label", "default": "Blog" },
         { "type": "url", "id": "link_4_url", "label": "Link 4 URL" },
-        { "type": "text", "id": "link_5_label", "label": "Link 5 label" },
+        { "type": "text", "id": "link_5_label", "label": "Link 5 label", "default": "Lab Reports" },
         { "type": "url", "id": "link_5_url", "label": "Link 5 URL" },
-        { "type": "text", "id": "link_6_label", "label": "Link 6 label" },
+        { "type": "text", "id": "link_6_label", "label": "Link 6 label", "default": "Manufacturer List" },
         { "type": "url", "id": "link_6_url", "label": "Link 6 URL" },
-        { "type": "text", "id": "link_7_label", "label": "Link 7 label" },
+        { "type": "text", "id": "link_7_label", "label": "Link 7 label", "default": "Career" },
         { "type": "url", "id": "link_7_url", "label": "Link 7 URL" },
         { "type": "text", "id": "link_8_label", "label": "Link 8 label" },
         { "type": "url", "id": "link_8_url", "label": "Link 8 URL" }
@@ -360,84 +372,105 @@
     },
     {
       "type": "contact",
-      "name": "Company and newsletter",
+      "name": "Contact Us Column",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "heading",
-          "label": "Heading",
-          "default": "Company & contact"
+          "label": "Column Heading",
+          "default": "CONTACT US"
+        },
+        {
+          "type": "text",
+          "id": "company_name",
+          "label": "Company Name (Bold)",
+          "default": "Kisan Bazar Pvt. Ltd."
         },
         {
           "type": "textarea",
           "id": "address_text",
-          "label": "Company address",
-          "default": "11th Floor, Jasminium Building, Magarpatta City, Hadapsar, Pune, Maharashtra, 411028"
+          "label": "Company Address",
+          "default": "House No. B-2994/75, Gali No. 75, B-Block Sant Nagar, Burari, North West, Delhi - 110084"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Contact Email",
+          "default": "support@kishanbazar.com"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Contact Phone",
+          "default": "+91 88888 88888"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter & Social Column",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Column Heading",
+          "default": "SUBSCRIBE TO OUR NEWSLETTER"
         },
         {
           "type": "checkbox",
-          "id": "show_newsletter",
-          "label": "Show newsletter form",
+          "id": "show_phone_input",
+          "label": "Show Phone Number field",
           "default": true
         },
         {
           "type": "text",
-          "id": "newsletter_placeholder",
-          "label": "Newsletter placeholder",
-          "default": "Your e-mail"
+          "id": "phone_placeholder",
+          "label": "Phone field placeholder",
+          "default": "Enter your phone"
         },
         {
           "type": "text",
-          "id": "newsletter_button_text",
-          "label": "Newsletter button text",
-          "default": "&rarr;"
+          "id": "email_placeholder",
+          "label": "Email field placeholder",
+          "default": "Enter your email"
         },
         {
           "type": "text",
-          "id": "newsletter_button_label",
-          "label": "Newsletter button accessibility label",
-          "default": "Subscribe"
+          "id": "success_message",
+          "label": "Success Message",
+          "default": "Thanks for subscribing"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_default_socials",
+          "label": "Show default social icons when no social link blocks are added",
+          "default": true
         }
       ]
     },
     {
       "type": "social_link",
-      "name": "Social link",
+      "name": "Social Icon Link",
       "settings": [
         {
           "type": "select",
           "id": "platform",
-          "label": "Platform icon",
+          "label": "Platform",
           "options": [
             { "value": "facebook", "label": "Facebook" },
             { "value": "instagram", "label": "Instagram" },
             { "value": "youtube", "label": "YouTube" },
+            { "value": "linkedin", "label": "LinkedIn" },
             { "value": "custom", "label": "Custom" }
           ],
           "default": "facebook"
         },
         {
-          "type": "text",
-          "id": "label",
-          "label": "Label",
-          "default": "Facebook"
-        },
-        {
           "type": "url",
           "id": "url",
-          "label": "URL"
-        },
-        {
-          "type": "image_picker",
-          "id": "icon_image",
-          "label": "Custom icon image"
-        },
-        {
-          "type": "text",
-          "id": "icon_text",
-          "label": "Custom icon text",
-          "default": "Link"
+          "label": "Profile URL"
         }
       ]
     }
@@ -446,41 +479,59 @@
     {
       "name": "Footer",
       "blocks": [
-        { "type": "brand" },
         {
-          "type": "link_column",
+          "type": "brand",
           "settings": {
-            "heading": "Categories",
-            "link_1_label": "Ghee",
-            "link_1_url": "/collections/ghee",
-            "link_2_label": "Atta / Flour",
-            "link_2_url": "/collections/atta",
-            "link_3_label": "Shop All Categories",
-            "link_3_url": "/collections",
-            "link_4_label": "Farm Life",
-            "link_4_url": "/pages/our-story"
+            "about_text": "Bringing the wisdom and flavors of Old Bharat to today's tables - that's the Kisan Bazar promise."
           }
         },
         {
           "type": "link_column",
           "settings": {
-            "heading": "General",
+            "heading": "HELPFUL LINKS",
             "link_1_label": "Our Story",
-            "link_1_url": "/pages/our-story",
-            "link_2_label": "Terms of Use",
-            "link_2_url": "/policies/terms-of-service",
+            "link_2_label": "All Products",
+            "link_3_label": "Recipes",
+            "link_4_label": "Blog",
+            "link_5_label": "Lab Reports",
+            "link_6_label": "Manufacturer List",
+            "link_7_label": "Career"
+          }
+        },
+        {
+          "type": "link_column",
+          "settings": {
+            "heading": "POLICIES",
+            "link_1_label": "Refund Policy",
+            "link_1_url": "/policies/refund-policy",
+            "link_2_label": "Shipping Policy",
+            "link_2_url": "/policies/shipping-policy",
             "link_3_label": "Privacy Policy",
             "link_3_url": "/policies/privacy-policy",
-            "link_4_label": "Refund Policy",
-            "link_4_url": "/policies/refund-policy",
-            "link_5_label": "Shipping Policy",
-            "link_5_url": "/policies/shipping-policy"
+            "link_4_label": "Terms of Service",
+            "link_4_url": "/policies/terms-of-service"
           }
         },
-        { "type": "contact" },
-        { "type": "social_link", "settings": { "platform": "facebook", "label": "Facebook", "url": "https://www.facebook.com/kisanbazaarstore" } },
-        { "type": "social_link", "settings": { "platform": "instagram", "label": "Instagram", "url": "https://www.instagram.com/kisanbazaar_organic_store/" } },
-        { "type": "social_link", "settings": { "platform": "youtube", "label": "YouTube", "url": "https://www.youtube.com/@kisanbazaar5352" } }
+        {
+          "type": "contact",
+          "settings": {
+            "heading": "CONTACT US",
+            "company_name": "Kisan Bazar Pvt. Ltd.",
+            "address_text": "House No. B-2994/75, Gali No. 75, B-Block Sant Nagar, Burari, North West, Delhi - 110084"
+          }
+        },
+        {
+          "type": "newsletter",
+          "settings": {
+            "heading": "SUBSCRIBE TO OUR NEWSLETTER",
+            "show_phone_input": true,
+            "phone_placeholder": "Enter your phone",
+            "email_placeholder": "Enter your email"
+          }
+        },
+        { "type": "social_link", "settings": { "platform": "facebook", "url": "https://facebook.com" } },
+        { "type": "social_link", "settings": { "platform": "instagram", "url": "https://instagram.com" } },
+        { "type": "social_link", "settings": { "platform": "youtube", "url": "https://youtube.com" } }
       ]
     }
   ]
