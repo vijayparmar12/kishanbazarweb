@@ -327,12 +327,29 @@
               {% assign mega_type = block.settings.mega_menu | default: 'none' %}
               {% if mega_type != 'none' and mega_type != blank %}
                 <li class="kb-header__mobile-item" {{ block.shopify_attributes }}>
-                  {% render 'mega-menu', section: section, menu_type: mega_type, mobile: true, custom_title: block.settings.title %}
+                  {% render 'mega-menu',
+                    section: section,
+                    menu_type: mega_type,
+                    mobile: true,
+                    custom_title: block.settings.title,
+                    custom_icon_image: block.settings.icon_image,
+                    custom_icon: block.settings.icon,
+                    custom_badge: block.settings.badge,
+                    badge_bg: block.settings.badge_background,
+                    badge_color: block.settings.badge_color
+                  %}
                 </li>
               {% else %}
                 <li class="kb-header__mobile-item" {{ block.shopify_attributes }}>
                   <a class="kb-header__mobile-link" href="{{ block.settings.url | default: routes.all_products_collection_url }}">
-                    <span>{{ block.settings.title }}</span>
+                    <span style="display: inline-flex; align-items: center; gap: 0.55rem;">
+                      {% if block.settings.icon_image != blank %}
+                        {{ block.settings.icon_image | image_url: width: 64 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy', alt: block.settings.title }}
+                      {% elsif block.settings.icon != blank %}
+                        <span class="kb-nav-icon-emoji" style="font-size: 1.1rem; line-height: 1; display: inline-block; vertical-align: middle;">{{ block.settings.icon }}</span>
+                      {% endif %}
+                      <span>{{ block.settings.title }}</span>
+                    </span>
                     {% if block.settings.badge != blank %}
                       <span class="kb-nav-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
                     {% endif %}

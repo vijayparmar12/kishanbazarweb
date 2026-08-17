@@ -72,13 +72,13 @@
       <summary class="kb-header__mobile-link kb-mega-mobile__summary">
         <span style="display: inline-flex; align-items: center; gap: 0.5rem;">
           {% if custom_icon_image != blank %}
-            {{ custom_icon_image | image_url: width: 64 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy', style: 'width: 28px; height: 28px; object-fit: contain;' }}
+            {{ custom_icon_image | image_url: width: 64 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
           {% elsif custom_icon != blank %}
-            <span>{{ custom_icon }}</span>
+            <span class="kb-nav-icon-emoji" style="font-size: 1.1rem; line-height: 1; display: inline-block; vertical-align: middle;">{{ custom_icon }}</span>
           {% endif %}
           <span>{{ custom_title | default: panel_title }}</span>
           {% if custom_badge != blank %}
-            <span class="kb-nav-badge">{{ custom_badge }}</span>
+            <span class="kb-nav-badge" style="{% if badge_bg != blank %}background-color: {{ badge_bg }};{% endif %}{% if badge_color != blank %}color: {{ badge_color }};{% endif %}">{{ custom_badge }}</span>
           {% endif %}
         </span>
         <span class="kb-mega-mobile__icon" aria-hidden="true">
