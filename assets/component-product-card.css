@@ -73,23 +73,31 @@
 }
 
 .product-card__badge {
+  align-items: center;
   background: linear-gradient(135deg, #ffc400 0%, #ff9800 100%);
-  border-radius: 8px !important;
-  color: #352600;
-  font-size: 0.75rem;
-  font-weight: 800;
-  left: 14px;
-  padding: 0.38rem 0.85rem;
-  position: absolute;
-  top: 14px;
+  border-radius: 6px !important;
   box-shadow: 0 4px 12px rgba(255, 196, 0, 0.35);
-  letter-spacing: 0.02em;
+  box-sizing: border-box;
+  color: #352600;
+  display: inline-flex !important;
+  font-size: 0.68rem !important;
+  font-weight: 800;
+  height: 32px !important;
+  justify-content: center;
+  left: 12px !important;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  padding: 0 0.65rem !important;
+  position: absolute;
+  top: 12px !important;
+  text-transform: uppercase;
+  z-index: 2;
 }
 
 .product-card__badge--sold {
   background: linear-gradient(135deg, #757575 0%, #424242 100%);
   color: #ffffff;
-  border-radius: 8px !important;
+  border-radius: 6px !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -101,15 +109,20 @@
   color: #23421f;
   cursor: pointer;
   display: grid;
-  height: 38px;
-  width: 38px;
+  height: 32px !important;
+  width: 32px !important;
   padding: 0;
   place-items: center;
   position: absolute;
-  right: 14px;
-  top: 14px;
+  right: 12px !important;
+  top: 12px !important;
   transition: transform 250ms ease, background 250ms ease, color 250ms ease;
   z-index: 2;
+}
+
+.product-card__action svg {
+  width: 16px !important;
+  height: 16px !important;
 }
 
 .product-card__action:hover {
@@ -372,14 +385,14 @@
 .product-card__badge--sale {
   background: #e62e2e !important;
   color: #ffffff !important;
-  border-radius: 8px !important;
+  border-radius: 6px !important;
   box-shadow: 0 4px 12px rgba(230, 46, 46, 0.3) !important;
 }
 
 .product-card__badge--loved {
   background: #132d14 !important;
   color: #ffffff !important;
-  border-radius: 8px !important;
+  border-radius: 6px !important;
   box-shadow: 0 4px 12px rgba(19, 45, 20, 0.3) !important;
 }
 
