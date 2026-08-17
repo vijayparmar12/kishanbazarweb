@@ -91,33 +91,6 @@
                     </div>
                   </div>
                 {% endform %}
-
-                {% if social_blocks.size > 0 %}
-                  <div class="site-footer__social-row site-footer__social-row--mobile" style="margin-top: 1.15rem; justify-content: center;">
-                    {% for social_block in social_blocks %}
-                      {% if social_block.settings.url != blank %}
-                        {% assign social_label = social_block.settings.label | default: social_block.settings.platform %}
-                        <a href="{{ social_block.settings.url }}" class="social-btn social-btn--img" aria-label="{{ social_label | escape }}" target="_blank" rel="noopener noreferrer" {{ social_block.shopify_attributes }}>
-                          {% if social_block.settings.icon_image != blank %}
-                            {{
-                              social_block.settings.icon_image
-                              | image_url: width: 80
-                              | image_tag: alt: social_label, width: 40, height: 40, loading: 'lazy'
-                            }}
-                          {% elsif social_block.settings.platform == 'facebook' %}
-                            <img src="{{ 'facebook.png' | asset_url }}" alt="{{ social_label | escape }}" width="40" height="40" loading="lazy">
-                          {% elsif social_block.settings.platform == 'instagram' %}
-                            <img src="{{ 'instagram.png' | asset_url }}" alt="{{ social_label | escape }}" width="40" height="40" loading="lazy">
-                          {% elsif social_block.settings.platform == 'youtube' %}
-                            <img src="{{ 'youtube.png' | asset_url }}" alt="{{ social_label | escape }}" width="40" height="40" loading="lazy">
-                          {% else %}
-                            <span class="social-btn__text">{{ social_block.settings.icon_text }}</span>
-                          {% endif %}
-                        </a>
-                      {% endif %}
-                    {% endfor %}
-                  </div>
-                {% endif %}
               </div>
             </div>
 
@@ -169,7 +142,7 @@
                 {% assign footer_email = block.settings.email | default: 'support@kishanbazar.com' %}
                 {% assign footer_phone = block.settings.phone | default: '+91 88888 88888' %}
 
-                <div class="site-footer__contact-details" style="margin-top: 0.65rem; margin-bottom: 1.15rem;">
+                <div class="site-footer__contact-details" style="margin-top: 0.65rem; margin-bottom: 0.85rem;">
                   {% if footer_phone != blank %}
                     <p class="site-footer__contact-line" style="margin: 0 0 0.35rem; font-size: 0.92rem; color: #23421f;">
                       <strong>Tel:</strong> <a href="tel:{{ footer_phone | remove: ' ' }}" style="color: #23421f; text-decoration: none;">{{ footer_phone }}</a>
@@ -181,6 +154,33 @@
                     </p>
                   {% endif %}
                 </div>
+
+                {% if social_blocks.size > 0 %}
+                  <div class="site-footer__social-row" style="margin-top: 0.85rem; margin-bottom: 1.15rem; display: flex; flex-wrap: wrap; gap: 0.65rem; justify-content: flex-start;">
+                    {% for social_block in social_blocks %}
+                      {% if social_block.settings.url != blank %}
+                        {% assign social_label = social_block.settings.label | default: social_block.settings.platform %}
+                        <a href="{{ social_block.settings.url }}" class="social-btn social-btn--img" aria-label="{{ social_label | escape }}" target="_blank" rel="noopener noreferrer" {{ social_block.shopify_attributes }}>
+                          {% if social_block.settings.icon_image != blank %}
+                            {{
+                              social_block.settings.icon_image
+                              | image_url: width: 80
+                              | image_tag: alt: social_label, width: 40, height: 40, loading: 'lazy'
+                            }}
+                          {% elsif social_block.settings.platform == 'facebook' %}
+                            <img src="{{ 'facebook.png' | asset_url }}" alt="{{ social_label | escape }}" width="40" height="40" loading="lazy">
+                          {% elsif social_block.settings.platform == 'instagram' %}
+                            <img src="{{ 'instagram.png' | asset_url }}" alt="{{ social_label | escape }}" width="40" height="40" loading="lazy">
+                          {% elsif social_block.settings.platform == 'youtube' %}
+                            <img src="{{ 'youtube.png' | asset_url }}" alt="{{ social_label | escape }}" width="40" height="40" loading="lazy">
+                          {% else %}
+                            <span class="social-btn__text">{{ social_block.settings.icon_text }}</span>
+                          {% endif %}
+                        </a>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
 
                 {% if block.settings.show_newsletter %}
                   <div class="site-footer__newsletter site-footer__newsletter--desktop" style="margin-top: 1.15rem;">
@@ -214,33 +214,6 @@
                         </div>
                       </div>
                     {% endform %}
-
-                    {% if social_blocks.size > 0 %}
-                      <div class="site-footer__social-row site-footer__social-row--desktop" style="margin-top: 1.15rem; justify-content: flex-start;">
-                        {% for social_block in social_blocks %}
-                          {% if social_block.settings.url != blank %}
-                            {% assign social_label = social_block.settings.label | default: social_block.settings.platform %}
-                            <a href="{{ social_block.settings.url }}" class="social-btn social-btn--img" aria-label="{{ social_label | escape }}" target="_blank" rel="noopener noreferrer" {{ social_block.shopify_attributes }}>
-                              {% if social_block.settings.icon_image != blank %}
-                                {{
-                                  social_block.settings.icon_image
-                                  | image_url: width: 80
-                                  | image_tag: alt: social_label, width: 40, height: 40, loading: 'lazy'
-                                }}
-                              {% elsif social_block.settings.platform == 'facebook' %}
-                                <img src="{{ 'facebook.png' | asset_url }}" alt="{{ social_label | escape }}" width="40" height="40" loading="lazy">
-                              {% elsif social_block.settings.platform == 'instagram' %}
-                                <img src="{{ 'instagram.png' | asset_url }}" alt="{{ social_label | escape }}" width="40" height="40" loading="lazy">
-                              {% elsif social_block.settings.platform == 'youtube' %}
-                                <img src="{{ 'youtube.png' | asset_url }}" alt="{{ social_label | escape }}" width="40" height="40" loading="lazy">
-                              {% else %}
-                                <span class="social-btn__text">{{ social_block.settings.icon_text }}</span>
-                              {% endif %}
-                            </a>
-                          {% endif %}
-                        {% endfor %}
-                      </div>
-                    {% endif %}
                   </div>
                 {% endif %}
               </div>
