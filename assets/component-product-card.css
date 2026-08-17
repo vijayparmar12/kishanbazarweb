@@ -566,13 +566,14 @@
 .cta-arrow-circle,
 .shoppable-videos__arrow,
 .product-recommendations-slider__nav-btn,
-.testimonials__expand-btn {
-  width: 38px !important;
-  height: 38px !important;
-  min-width: 38px !important;
-  min-height: 38px !important;
+.testimonials__expand-btn,
+.best-sellers__arrow {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
   border-radius: 50% !important;
-  border: 2px solid #1e3d20 !important;
+  border: 2.5px solid #1e3d20 !important;
   background: #ffffff !important;
   color: #1e3d20 !important;
   display: inline-flex !important;
@@ -580,31 +581,38 @@
   justify-content: center !important;
   cursor: pointer !important;
   transition: transform 250ms ease, background-color 250ms ease, color 250ms ease, border-color 250ms ease, box-shadow 250ms ease !important;
-  box-shadow: 0 2px 8px rgba(30, 61, 32, 0.12) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16) !important;
   padding: 0 !important;
   margin: 0 !important;
   flex-shrink: 0 !important;
+  z-index: 50 !important;
 }
 
 .cta-arrow-circle:hover,
 .shoppable-videos__arrow:hover:not(:disabled),
 .product-recommendations-slider__nav-btn:hover:not(:disabled),
 .testimonials__expand-btn:hover,
+.best-sellers__arrow:hover:not(:disabled),
 .best-sellers__shop-more-btn:hover .cta-arrow-circle,
 .categories__shop-more-btn:hover .cta-arrow-circle {
   background: #1e3d20 !important;
   color: #ffffff !important;
   border-color: #1e3d20 !important;
-  transform: scale(1.08) !important;
-  box-shadow: 0 4px 14px rgba(30, 61, 32, 0.25) !important;
+  box-shadow: 0 6px 18px rgba(30, 61, 32, 0.3) !important;
+}
+
+.best-sellers__arrow:hover:not(:disabled),
+.shoppable-videos__arrow:hover:not(:disabled) {
+  transform: translateY(-50%) scale(1.1) !important;
 }
 
 .cta-arrow-circle svg,
 .shoppable-videos__arrow svg,
 .product-recommendations-slider__nav-btn svg,
-.testimonials__expand-btn svg {
-  width: 18px !important;
-  height: 18px !important;
+.testimonials__expand-btn svg,
+.best-sellers__arrow svg {
+  width: 20px !important;
+  height: 20px !important;
   stroke-width: 2.5px !important;
   color: inherit !important;
 }
@@ -619,4 +627,74 @@
   font-weight: 800 !important;
   font-size: 1.05rem !important;
   text-decoration: none !important;
+}
+
+/* Ensure desktop container overflow allows circular arrow buttons to float prominently */
+@media (min-width: 750px) {
+  .best-sellers__carousel-wrapper,
+  .shoppable-videos__viewport,
+  .product-recommendations-slider__inner {
+    overflow: visible !important;
+    position: relative !important;
+  }
+
+  .best-sellers__arrow--prev,
+  .shoppable-videos__arrow--prev {
+    left: -22px !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  .best-sellers__arrow--next,
+  .shoppable-videos__arrow--next {
+    right: -22px !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+}
+
+/* Mobile View: Side Padding & Smooth Horizontal Scroll */
+@media (max-width: 749px) {
+  .best-sellers__track,
+  .categories__grid,
+  .shoppable-videos__track,
+  .testimonials__track,
+  .product-recommendations-slider__track {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
+    width: calc(100% + 2rem) !important;
+    max-width: calc(100% + 2rem) !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    scroll-padding-left: 1rem !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    box-sizing: border-box !important;
+  }
+
+  .best-sellers__track::-webkit-scrollbar,
+  .categories__grid::-webkit-scrollbar,
+  .shoppable-videos__track::-webkit-scrollbar,
+  .testimonials__track::-webkit-scrollbar,
+  .product-recommendations-slider__track::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .best-sellers__slide,
+  .categories__card,
+  .shoppable-videos__slide,
+  .testimonials__card,
+  .product-recommendations-slider__slide {
+    scroll-snap-align: start !important;
+  }
+
+  .best-sellers__arrow,
+  .shoppable-videos__arrow {
+    display: none !important;
+  }
 }

@@ -453,12 +453,12 @@
   z-index: 1;
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
+  overflow: visible !important;
 }
 
 .best-sellers {
   position: relative;
-  overflow: hidden;
+  overflow: visible !important;
   border-block: none !important;
   border-top: none !important;
   border-bottom: none !important;
