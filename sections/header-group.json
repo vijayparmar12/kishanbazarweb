@@ -92,7 +92,8 @@
             "badge_background": "#e53935",
             "badge_color": "#ffffff",
             "mega_menu": "category",
-            "icon": ""
+            "icon": "",
+            "icon_image": "shopify://shop_images/shop_by_category_icon_1.svg"
           }
         },
         "mobile_nav_item_kxc96p": {
@@ -104,7 +105,8 @@
             "badge_background": "#e53935",
             "badge_color": "#ffffff",
             "mega_menu": "farm",
-            "icon": ""
+            "icon": "",
+            "icon_image": "shopify://shop_images/farm_life_icon_1.svg"
           }
         },
         "mobile_nav_item_zP48rj": {
@@ -116,7 +118,8 @@
             "badge_background": "#e53935",
             "badge_color": "#ffffff",
             "mega_menu": "none",
-            "icon": ""
+            "icon": "",
+            "icon_image": "shopify://shop_images/our_story_icon_535b8adb-ba85-4e33-a1c8-44cb064c5ff1.svg"
           }
         },
         "mobile_nav_item_zP7qcP": {
@@ -128,7 +131,8 @@
             "badge_background": "#e53935",
             "badge_color": "#ffffff",
             "mega_menu": "none",
-            "icon": ""
+            "icon": "",
+            "icon_image": "shopify://shop_images/lab_report_icon_b0b62f70-177f-4e7f-9e3c-f6d8a07597ba.svg"
           }
         },
         "mobile_nav_item_H8TFFh": {
@@ -140,7 +144,8 @@
             "badge_background": "#e53935",
             "badge_color": "#ffffff",
             "mega_menu": "none",
-            "icon": ""
+            "icon": "",
+            "icon_image": "shopify://shop_images/contact_us_icon_2.svg"
           }
         },
         "desktop_nav_item_Yg7mAb": {
