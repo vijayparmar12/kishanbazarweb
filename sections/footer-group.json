@@ -90,7 +90,7 @@
             "platform": "facebook",
             "label": "Facebook",
             "url": "https://www.facebook.com/kisanbazaarstore",
-            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_17_2026_01_16_54_PM.png",
+            "icon_image": "shopify://shop_images/fb.png",
             "icon_text": "Link"
           }
         },
@@ -100,7 +100,7 @@
             "platform": "instagram",
             "label": "Instagram",
             "url": "https://www.instagram.com/kisanbazaar_organic_store/",
-            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_17_2026_01_18_08_PM.png",
+            "icon_image": "shopify://shop_images/ld.png",
             "icon_text": "Link"
           }
         },
@@ -110,7 +110,7 @@
             "platform": "youtube",
             "label": "YouTube",
             "url": "https://www.youtube.com/@kisanbazaar5352",
-            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_17_2026_01_13_14_PM.png",
+            "icon_image": "shopify://shop_images/yt.png",
             "icon_text": "Link"
           }
         },
@@ -120,7 +120,7 @@
             "platform": "custom",
             "label": "Linkedln",
             "url": "https://www.youtube.com/@kisanbazaar5352",
-            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_17_2026_01_17_28_PM.png",
+            "icon_image": "shopify://shop_images/ld.png",
             "icon_text": "Link"
           }
         }
