@@ -136,7 +136,7 @@
   display: flex;
   align-items: center;
   border: 1.8px solid #23421f !important;
-  border-radius: 999px !important;
+  border-radius: 8px !important;
   background: #ffffff !important;
   padding: 4px 6px 4px 16px !important;
   width: 100% !important;
@@ -184,7 +184,7 @@
   border: none;
   background: #23421f;
   color: #ffffff;
-  border-radius: 50%;
+  border-radius: 6px !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
