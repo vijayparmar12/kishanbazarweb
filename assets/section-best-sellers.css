@@ -545,15 +545,20 @@
   }
 
   .best-sellers__carousel-wrapper {
-    width: 100%;
-    max-width: 100%;
+    width: calc(100% + 2rem) !important;
+    max-width: calc(100% + 2rem) !important;
+    margin-left: -1rem !important;
+    margin-right: -1rem !important;
     overflow: hidden;
   }
 
   .best-sellers__track {
     width: 100%;
     max-width: 100%;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
     overscroll-behavior-x: contain;
+    box-sizing: border-box !important;
   }
 
   .best-sellers__arrow {
@@ -561,9 +566,9 @@
   }
 
   .best-sellers__slide {
-    flex: 0 0 min(82vw, 290px);
-    width: min(82vw, 290px);
-    max-width: 290px;
+    flex: 0 0 min(78vw, 275px);
+    width: min(78vw, 275px);
+    max-width: 275px;
     scroll-snap-align: start;
   }
 
