@@ -38,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
     }
+  });
+
   // Variant Select Dropdown Change Handler
   document.addEventListener('change', (e) => {
     const select = e.target.closest('[data-product-card-variant-select]');

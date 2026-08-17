@@ -655,7 +655,7 @@
   }
 }
 
-/* Mobile View: Side Padding (1.25rem / 20px) & Smooth Horizontal Scroll */
+/* Mobile View: Symmetrical Left & Right Side Padding (1.25rem / 20px) & Smooth Horizontal Scroll */
 @media (max-width: 749px) {
   .best-sellers__track,
   .categories__grid,
@@ -666,6 +666,7 @@
     padding-right: 1.25rem !important;
     scroll-padding-left: 1.25rem !important;
     scroll-padding-right: 1.25rem !important;
+    gap: 1rem !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
     scroll-snap-type: x mandatory !important;
@@ -683,10 +684,17 @@
   }
 
   .best-sellers__slide,
+  .product-recommendations-slider__slide {
+    scroll-snap-align: start !important;
+    flex: 0 0 calc(80vw - 1rem) !important;
+    max-width: 320px !important;
+    min-width: 250px !important;
+    width: auto !important;
+  }
+
   .categories__card,
   .shoppable-videos__slide,
-  .testimonials__card,
-  .product-recommendations-slider__slide {
+  .testimonials__card {
     scroll-snap-align: start !important;
   }
 
