@@ -238,7 +238,7 @@
         "heading_image_mobile_max_width": 800,
         "heading": "",
         "subheading": "",
-        "show_demo_video": true,
+        "show_demo_video": false,
         "bulk_video_csv": "# product-handle,https://video-url.mp4\n# organic-ghee,https://cdn.shopify.com/s/files/1/YOUR_SHOP/files/video1.mp4",
         "background_color": "#eef2e4",
         "heading_color": "#2e5d34",
