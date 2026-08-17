@@ -118,21 +118,33 @@ class ShoppableVideosSection {
         const overlayInClone = clone.querySelector('.shoppable-videos__product-overlay');
         if (overlayInClone) overlayInClone.remove();
 
-        // Build Top Controls Bar (Play/Pause Start-Stop & Mute Buttons)
+        // Build Top Right Controls Bar (Mute & Close Buttons)
         const topControls = document.createElement('div');
         topControls.className = 'shoppable-videos__modal-top-bar';
-        topControls.style.cssText = 'position: absolute; top: 14px; left: 14px; right: 60px; z-index: 100; display: flex; align-items: center; gap: 8px;';
+        topControls.style.cssText = 'position: absolute; top: 14px; right: 14px; z-index: 120; display: flex; align-items: center; gap: 8px;';
         topControls.innerHTML = `
-          <button type="button" class="shoppable-videos__modal-ctrl-btn" data-modal-play-btn aria-label="Start / Stop Video" style="width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; display: grid; place-items: center; font-size: 0.9rem;">
-            <span data-play-icon style="display: none;">▶</span>
-            <span data-pause-icon style="display: inline-block;">❚❚</span>
+          <button type="button" class="shoppable-videos__modal-ctrl-btn" data-modal-mute-btn aria-label="Mute / Unmute" style="width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; display: grid; place-items: center;">
+            <svg data-unmute-icon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            <svg data-mute-icon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
           </button>
-          <button type="button" class="shoppable-videos__modal-ctrl-btn" data-modal-mute-btn aria-label="Mute / Unmute" style="width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; display: grid; place-items: center; font-size: 0.9rem;">
-            <span data-mute-icon style="display: none;">🔇</span>
-            <span data-unmute-icon style="display: inline-block;">🔊</span>
+          <button type="button" class="shoppable-videos__modal-ctrl-btn" data-modal-close aria-label="Close video" style="width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; display: grid; place-items: center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         `;
         clone.appendChild(topControls);
+
+        // Build Centered Play / Pause Button Overlay
+        const centerPlayBtn = document.createElement('button');
+        centerPlayBtn.type = 'button';
+        centerPlayBtn.className = 'shoppable-videos__modal-center-play';
+        centerPlayBtn.setAttribute('data-modal-play-btn', '');
+        centerPlayBtn.setAttribute('aria-label', 'Play or Pause Video');
+        centerPlayBtn.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 110; width: 58px; height: 58px; border-radius: 50%; background: rgba(255,255,255,0.92); color: #132d14; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(0,0,0,0.35); transition: transform 200ms ease, opacity 250ms ease;';
+        centerPlayBtn.innerHTML = `
+          <svg data-play-icon width="24" height="24" viewBox="0 0 24 24" fill="#132d14" style="display: none; margin-left: 2px;"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+          <svg data-pause-icon width="22" height="22" viewBox="0 0 24 24" fill="#132d14" style="display: inline-block;"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+        `;
+        clone.appendChild(centerPlayBtn);
 
         // Build Bottom White Product Box Card
         const whiteProductBox = document.createElement('div');
@@ -170,16 +182,39 @@ class ShoppableVideosSection {
         }
 
         const modalVideo = clone.querySelector('video');
-        const playBtn = topControls?.querySelector('[data-modal-play-btn]');
+        const playBtn = clone.querySelector('[data-modal-play-btn]');
         const playIcon = playBtn?.querySelector('[data-play-icon]');
         const pauseIcon = playBtn?.querySelector('[data-pause-icon]');
         const muteBtn = topControls?.querySelector('[data-modal-mute-btn]');
         const muteIcon = muteBtn?.querySelector('[data-mute-icon]');
         const unmuteIcon = muteBtn?.querySelector('[data-unmute-icon]');
+        const modalCloseBtn = topControls?.querySelector('[data-modal-close]');
+
+        if (modalCloseBtn) {
+          modalCloseBtn.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            const modalEl = this.root.querySelector('[data-video-modal]');
+            if (modalEl) {
+              modalEl.removeAttribute('open');
+              document.body.classList.remove('shoppable-video-modal-open');
+              if (modalBody) {
+                const v = modalBody.querySelector('video');
+                if (v) v.pause();
+                modalBody.innerHTML = '';
+              }
+            }
+          });
+        }
 
         if (modalVideo) {
           modalVideo.muted = false;
-          modalVideo.play().catch(() => {});
+          modalVideo.play().then(() => {
+            if (playIcon) playIcon.style.display = 'none';
+            if (pauseIcon) pauseIcon.style.display = 'inline-block';
+            setTimeout(() => {
+              if (!modalVideo.paused && playBtn) playBtn.style.opacity = '0';
+            }, 1200);
+          }).catch(() => {});
 
           const togglePlay = (ev) => {
             if (ev) ev.stopPropagation();
@@ -187,10 +222,15 @@ class ShoppableVideosSection {
               modalVideo.play();
               if (playIcon) playIcon.style.display = 'none';
               if (pauseIcon) pauseIcon.style.display = 'inline-block';
+              if (playBtn) playBtn.style.opacity = '1';
+              setTimeout(() => {
+                if (!modalVideo.paused && playBtn) playBtn.style.opacity = '0';
+              }, 1200);
             } else {
               modalVideo.pause();
               if (playIcon) playIcon.style.display = 'inline-block';
               if (pauseIcon) pauseIcon.style.display = 'none';
+              if (playBtn) playBtn.style.opacity = '1';
             }
           };
 
@@ -202,8 +242,8 @@ class ShoppableVideosSection {
               ev.stopPropagation();
               modalVideo.muted = !modalVideo.muted;
               if (muteIcon && unmuteIcon) {
-                muteIcon.style.display = modalVideo.muted ? 'inline-block' : 'none';
-                unmuteIcon.style.display = modalVideo.muted ? 'none' : 'inline-block';
+                muteIcon.style.display = modalVideo.muted ? 'none' : 'inline-block';
+                unmuteIcon.style.display = modalVideo.muted ? 'inline-block' : 'none';
               }
             });
           }
