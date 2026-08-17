@@ -536,19 +536,20 @@
 
 @media (max-width: 48rem) {
   .best-sellers {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
     padding-block: 0.5rem 0.75rem;
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
+    box-sizing: border-box !important;
   }
 
   .best-sellers__carousel-wrapper {
-    width: calc(100% + 2rem) !important;
-    max-width: calc(100% + 2rem) !important;
-    margin-left: -1rem !important;
-    margin-right: -1rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     overflow: hidden;
   }
 
@@ -556,8 +557,8 @@
     width: 100%;
     max-width: 100%;
     gap: 1rem !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     overscroll-behavior-x: contain;
     box-sizing: border-box !important;
   }
@@ -567,9 +568,9 @@
   }
 
   .best-sellers__slide {
-    flex: 0 0 min(74vw, 260px);
-    width: min(74vw, 260px);
-    max-width: 260px;
+    flex: 0 0 min(78vw, 270px);
+    width: min(78vw, 270px);
+    max-width: 270px;
     scroll-snap-align: start;
   }
 

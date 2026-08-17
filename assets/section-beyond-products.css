@@ -206,6 +206,13 @@
 }
 
 @media (max-width: 48rem) {
+  .beyond-products {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    padding-block: 0.5rem 1rem !important;
+    box-sizing: border-box !important;
+  }
+
   .beyond-products__track {
     display: flex;
     overflow-x: auto;
@@ -215,6 +222,12 @@
     -webkit-overflow-scrolling: touch;
     gap: 1rem;
     padding-bottom: 0.5rem;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
   }
 
   .beyond-products__track::-webkit-scrollbar {
@@ -222,8 +235,9 @@
   }
 
   .beyond-products__slide {
-    flex: 0 0 82%;
-    scroll-snap-align: center;
+    flex: 0 0 84% !important;
+    max-width: 84% !important;
+    scroll-snap-align: start;
   }
 
   .beyond-products__dots {

@@ -66,7 +66,11 @@
 
 @media screen and (max-width: 749px) {
   .shoppable-videos {
-    padding: clamp(1.25rem, 3vw, 2rem) 0;
+    padding-top: clamp(1.25rem, 3vw, 2rem) !important;
+    padding-bottom: clamp(1.25rem, 3vw, 2rem) !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    box-sizing: border-box !important;
   }
 
   .shoppable-videos__track {

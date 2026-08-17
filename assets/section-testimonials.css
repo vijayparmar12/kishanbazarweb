@@ -587,15 +587,18 @@
   .testimonials-section,
   .testimonials-carousel-section,
   .story-testimonials {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    box-sizing: border-box !important;
   }
 
   .testimonials__carousel-container {
-    padding-left: 1.25rem !important;
-    padding-right: 1.25rem !important;
-    scroll-padding-left: 1.25rem !important;
-    scroll-padding-right: 1.25rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
   }
 }
 
