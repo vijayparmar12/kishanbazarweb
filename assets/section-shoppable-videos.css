@@ -171,12 +171,13 @@
 
 .shoppable-videos__carousel {
   position: relative;
+  overflow: visible !important;
 }
 
 .shoppable-videos__viewport {
   cursor: grab;
   outline: none;
-  overflow: hidden;
+  overflow: visible !important;
   touch-action: pan-y;
 }
 
@@ -573,36 +574,39 @@
 
 .shoppable-videos__arrow {
   align-items: center;
-  background: var(--color-white);
-  border: none;
-  border-radius: var(--radius-circle);
-  box-shadow: var(--shadow-medium);
-  color: var(--color-text);
+  background: #ffffff !important;
+  border: 2.5px solid #1e3d20 !important;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+  color: #1e3d20 !important;
   cursor: pointer;
   display: none;
-  height: 2.75rem;
+  height: 44px !important;
+  width: 44px !important;
   justify-content: center;
   position: absolute;
-  top: 38%;
-  transform: translateY(-50%);
-  transition: box-shadow var(--transition-shadow), transform var(--transition-transform);
-  width: 2.75rem;
-  z-index: 4;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  transition: transform 200ms ease, background 200ms ease, color 200ms ease, box-shadow 200ms ease !important;
+  z-index: 50 !important;
 }
 
 @media screen and (min-width: 750px) {
   .shoppable-videos__arrow {
-    display: flex;
+    display: flex !important;
   }
 }
 
 .shoppable-videos__arrow:hover:not(:disabled) {
-  box-shadow: var(--shadow-hover);
-  transform: translateY(-50%) scale(1.04);
+  background: #1e3d20 !important;
+  color: #ffffff !important;
+  border-color: #1e3d20 !important;
+  box-shadow: 0 6px 18px rgba(30, 61, 32, 0.3) !important;
+  transform: translateY(-50%) scale(1.1) !important;
 }
 
 .shoppable-videos__arrow:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid #1e3d20;
   outline-offset: 3px;
 }
 
@@ -612,7 +616,7 @@
 }
 
 .shoppable-videos__arrow--prev {
-  left: -0.35rem;
+  left: -22px !important;
 }
 
 .shoppable-videos__arrow--prev .shoppable-videos__arrow-icon {
@@ -620,7 +624,7 @@
 }
 
 .shoppable-videos__arrow--next {
-  right: -0.35rem;
+  right: -22px !important;
 }
 
 .shoppable-videos__guide {
