@@ -115,14 +115,14 @@
                 {% assign footer_phone = block.settings.phone | default: '+91 88888 88888' %}
 
                 <div class="site-footer__contact-details" style="margin-top: 0.65rem; margin-bottom: 1.15rem;">
-                  {% if footer_email != blank %}
+                  {% if footer_phone != blank %}
                     <p class="site-footer__contact-line" style="margin: 0 0 0.35rem; font-size: 0.92rem; color: #23421f;">
-                      <strong>Email:</strong> <a href="mailto:{{ footer_email }}" style="color: #23421f; text-decoration: underline;">{{ footer_email }}</a>
+                      <strong>Tel:</strong> <a href="tel:{{ footer_phone | remove: ' ' }}" style="color: #23421f; text-decoration: none;">{{ footer_phone }}</a>
                     </p>
                   {% endif %}
-                  {% if footer_phone != blank %}
+                  {% if footer_email != blank %}
                     <p class="site-footer__contact-line" style="margin: 0; font-size: 0.92rem; color: #23421f;">
-                      <strong>Tel:</strong> <a href="tel:{{ footer_phone | remove: ' ' }}" style="color: #23421f; text-decoration: none;">{{ footer_phone }}</a>
+                      <strong>Email:</strong> <a href="mailto:{{ footer_email }}" style="color: #23421f; text-decoration: underline;">{{ footer_email }}</a>
                     </p>
                   {% endif %}
                 </div>
@@ -134,6 +134,15 @@
                       <div class="site-footer__newsletter-boxes">
                         <div class="site-footer__newsletter-input-wrap">
                           <input
+                            type="tel"
+                            name="contact[note][mobile]"
+                            class="site-footer__newsletter-input"
+                            placeholder="{{ block.settings.phone_placeholder | default: 'Mobile / Phone Number' | escape }}"
+                            aria-label="Mobile or Phone Number"
+                          >
+                        </div>
+                        <div class="site-footer__newsletter-input-wrap">
+                          <input
                             type="email"
                             name="contact[email]"
                             class="site-footer__newsletter-input"
@@ -141,15 +150,6 @@
                             placeholder="{{ block.settings.newsletter_placeholder | default: 'Your e-mail' | escape }}"
                             aria-label="Your e-mail"
                             required
-                          >
-                        </div>
-                        <div class="site-footer__newsletter-input-wrap">
-                          <input
-                            type="tel"
-                            name="contact[note][mobile]"
-                            class="site-footer__newsletter-input"
-                            placeholder="{{ block.settings.phone_placeholder | default: 'Mobile / Phone Number' | escape }}"
-                            aria-label="Mobile or Phone Number"
                           >
                           <button type="submit" class="site-footer__newsletter-btn" aria-label="Subscribe">&rarr;</button>
                         </div>
