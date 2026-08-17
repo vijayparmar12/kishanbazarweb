@@ -181,7 +181,8 @@
         "video_3": {
           "type": "video",
           "settings": {
-            "product": "",
+            "product": "khapli-aatta",
+            "video": "shopify://files/videos/WhatsApp Video 2026-07-06 at 1.45.54 PM.mp4",
             "video_url": "",
             "video_label": "SHOP BY VIDEOS",
             "badge_text": "BESTSELLER",
