@@ -204,8 +204,9 @@
 
 @media (max-width: 48rem) {
   .testimonials__card {
-    flex: 0 0 290px !important;
-    width: 290px !important;
+    flex: 0 0 min(76vw, 270px) !important;
+    width: min(76vw, 270px) !important;
+    max-width: 270px !important;
     height: 420px !important;
     min-height: 420px !important;
     max-height: 420px !important;
