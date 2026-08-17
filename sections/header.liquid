@@ -55,22 +55,31 @@
         </button>
 
         {% if section.settings.show_search %}
-          <form class="kb-header__search" action="{{ routes.search_url }}" method="get" role="search">
-            <label class="visually-hidden" for="kb-header-search-{{ section.id }}"></label>
-            <span class="kb-header__search-icon" aria-hidden="true">{% render 'icon', name: 'search', size: 22 %}</span>
-            <input
-              id="kb-header-search-{{ section.id }}"
-              class="kb-header__search-input"
-              type="search"
-              name="q"
-              value="{{ search.terms | escape }}"
-              placeholder="{{ section.settings.search_fallback_placeholder | escape }}"
-              autocomplete="off"
-              data-typing-search
-            >
-            <button class="kb-header__search-submit" type="submit" aria-label="Submit search">{% render 'icon', name: 'search', size: 20 %}</button>
-            <button class="kb-header__search-clear" type="button" aria-label="Clear search" data-search-clear>{% render 'icon', name: 'close', size: 24 %}</button>
-          </form>
+          <div class="kb-header__search-wrap">
+            <form class="kb-header__search" action="{{ routes.search_url }}" method="get" role="search">
+              <label class="visually-hidden" for="kb-header-search-{{ section.id }}"></label>
+              <span class="kb-header__search-icon" aria-hidden="true">{% render 'icon', name: 'search', size: 22 %}</span>
+              <input
+                id="kb-header-search-{{ section.id }}"
+                class="kb-header__search-input"
+                type="search"
+                name="q"
+                value="{{ search.terms | escape }}"
+                placeholder="{{ section.settings.search_fallback_placeholder | escape }}"
+                autocomplete="off"
+                data-typing-search
+              >
+              <button class="kb-header__search-submit" type="submit" aria-label="Submit search">{% render 'icon', name: 'search', size: 20 %}</button>
+              <button class="kb-header__search-clear" type="button" aria-label="Clear search" data-search-clear>{% render 'icon', name: 'close', size: 24 %}</button>
+            </form>
+            <div class="kb-header__popular-searches" data-popular-searches>
+              <span class="kb-header__popular-label">Popular Searches:</span>
+              <button type="button" class="kb-popular-tag" data-popular-search="A2 Ghee">A2 Ghee</button>
+              <button type="button" class="kb-popular-tag" data-popular-search="Bilona Ghee">Bilona Ghee</button>
+              <button type="button" class="kb-popular-tag" data-popular-search="Khapli Atta">Khapli Atta</button>
+              <button type="button" class="kb-popular-tag" data-popular-search="Cold Pressed Oil">Cold Pressed Oil</button>
+            </div>
+          </div>
           <script type="application/json" data-placeholder-source>{{ section.settings.search_placeholders | json }}</script>
         {% endif %}
 

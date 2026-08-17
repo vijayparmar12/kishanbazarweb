@@ -8,12 +8,13 @@
       this.clearBtn = this.drawer.querySelector('[data-search-input-clear]');
       this.closeBtns = this.drawer.querySelectorAll('[data-search-close]');
       this.pills = this.drawer.querySelectorAll('[data-search-pill]');
+      this.popularTags = document.querySelectorAll('[data-popular-search]');
       this.resultsContainer = this.drawer.querySelector('[data-predictive-search-results]');
       this.suggestionList = this.drawer.querySelector('[data-suggestion-list-container]');
-      this.pillsContainer = this.drawer.querySelector('.kb-search-drawer__pills');
+      this.pillsContainer = this.drawer.querySelector('[data-pills-container]');
       this.productsContainer = this.drawer.querySelector('[data-products-container]');
       this.blogsContainer = this.drawer.querySelector('[data-blogs-container]');
-      this.viewAllLink = this.drawer.querySelector('[data-view-all-products]');
+      this.statusText = this.drawer.querySelector('[data-search-status-text]');
       
       this.debounceTimer = null;
       this.initialProductsHTML = this.productsContainer ? this.productsContainer.innerHTML : '';
@@ -54,7 +55,21 @@
         }
       });
 
-      // 3. Listen to focus and input on main header search input
+      // 3. Popular Searches tags click handlers
+      this.popularTags.forEach((tag) => {
+        tag.addEventListener('click', (e) => {
+          e.preventDefault();
+          const query = tag.dataset.popularSearch || tag.textContent.trim();
+          const mainInput = document.querySelector('[data-typing-search]');
+          if (mainInput) mainInput.value = query;
+          if (this.input) this.input.value = query;
+          this.toggleClearBtn();
+          this.open();
+          this.fetchResults(query);
+        });
+      });
+
+      // 4. Listen to focus and input on main header search input
       const mainSearchInput = document.querySelector('[data-typing-search]');
       if (mainSearchInput) {
         mainSearchInput.addEventListener('focus', () => {
@@ -85,7 +100,7 @@
         });
       }
 
-      // 4. Intercept search form submit inside predictive search drawer
+      // 5. Intercept search form submit inside predictive search drawer
       const drawerForm = this.drawer.querySelector('[data-predictive-search-form]');
       if (drawerForm) {
         drawerForm.addEventListener('submit', (e) => {
@@ -112,6 +127,8 @@
         this.clearBtn.addEventListener('click', () => {
           if (this.input) {
             this.input.value = '';
+            const mainInput = document.querySelector('[data-typing-search]');
+            if (mainInput) mainInput.value = '';
             this.toggleClearBtn();
             this.resetToInitialState();
             this.input.focus();
@@ -119,12 +136,14 @@
         });
       }
 
-      // Suggestion Pill clicks
+      // Suggestion Pill clicks inside drawer
       this.pills.forEach((pill) => {
         pill.addEventListener('click', () => {
           const query = pill.dataset.searchPill || pill.textContent.trim();
           if (this.input) {
             this.input.value = query;
+            const mainInput = document.querySelector('[data-typing-search]');
+            if (mainInput) mainInput.value = query;
             this.toggleClearBtn();
             this.fetchResults(query);
             this.input.focus();
@@ -136,6 +155,8 @@
       if (this.input) {
         this.input.addEventListener('input', () => {
           const query = this.input.value.trim();
+          const mainInput = document.querySelector('[data-typing-search]');
+          if (mainInput) mainInput.value = query;
           this.toggleClearBtn();
 
           clearTimeout(this.debounceTimer);
@@ -183,7 +204,7 @@
       }
       if (this.productsContainer) this.productsContainer.innerHTML = this.initialProductsHTML;
       if (this.blogsContainer) this.blogsContainer.innerHTML = this.initialBlogsHTML;
-      if (this.viewAllLink) this.viewAllLink.style.display = 'none';
+      if (this.statusText) this.statusText.textContent = 'Type to search or pick a popular term above';
     }
 
     async fetchResults(query) {
@@ -204,6 +225,10 @@
     renderResults(query, results) {
       const { products = [], articles = [], queries = [] } = results;
 
+      if (this.statusText) {
+        this.statusText.textContent = `Results for "${query}"`;
+      }
+
       // 1. Render Suggestion List with Rosier Yellow Highlight
       if (queries.length > 0) {
         if (this.pillsContainer) this.pillsContainer.style.display = 'none';
@@ -220,6 +245,8 @@
               const text = li.dataset.suggestionText;
               if (this.input) {
                 this.input.value = text;
+                const mainInput = document.querySelector('[data-typing-search]');
+                if (mainInput) mainInput.value = text;
                 this.toggleClearBtn();
                 this.fetchResults(text);
               }
@@ -237,18 +264,14 @@
           this.productsContainer.innerHTML = products.map((product) => {
             const priceFormatted = product.price ? `₹${parseFloat(product.price).toFixed(2)}` : '';
             return `
-              <div class="kb-search-product-card">
-                <a href="${product.url}" class="kb-search-product-card__link" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
-                  <div class="kb-search-product-card__img-wrap">
+              <div class="kb-search-product-row">
+                <a href="${product.url}" class="kb-search-product-row__link">
+                  <div class="kb-search-product-row__img-wrap">
                     <img src="${product.featured_image?.url || product.image || ''}" alt="${product.title}" class="kb-search-product-thumb" loading="lazy">
                   </div>
-                  <div class="kb-search-product-card__info" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div class="kb-search-product-row__info">
                     <h4 class="kb-search-product-title">${this.highlightText(product.title, query)}</h4>
-                    <div class="kb-search-product-rating" style="margin-top: 4px;">
-                      <span>★ 4.9</span>
-                      <span style="color: #64748b; font-weight: 500;">(1279 reviews)</span>
-                    </div>
-                    <div class="kb-search-product-prices" style="margin-top: 6px;">
+                    <div class="kb-search-product-prices">
                       <span class="kb-search-product-price">${priceFormatted}</span>
                     </div>
                   </div>
@@ -256,14 +279,8 @@
               </div>
             `;
           }).join('');
-
-          if (this.viewAllLink) {
-            this.viewAllLink.href = `/search?q=${encodeURIComponent(query)}`;
-            this.viewAllLink.style.display = 'inline-block';
-          }
         } else {
-          this.productsContainer.innerHTML = `<p style="color: #64748b; font-size: 0.95rem; font-weight: 600; padding: 0.5rem 0;">No products found matching "${query}".</p>`;
-          if (this.viewAllLink) this.viewAllLink.style.display = 'none';
+          this.productsContainer.innerHTML = `<p style="color: #64748b; font-size: 0.90rem; font-weight: 600; padding: 0.5rem 0;">No products found matching "${query}".</p>`;
         }
       }
 
