@@ -115,8 +115,7 @@ class ShoppableVideosSection {
         const comparePrice = card.querySelector('.shoppable-videos__price-compare')?.textContent || '';
 
         const clone = mediaWrap.cloneNode(true);
-        const overlayInClone = clone.querySelector('.shoppable-videos__product-overlay');
-        if (overlayInClone) overlayInClone.remove();
+        clone.querySelectorAll('.shoppable-videos__product-overlay, .shoppable-videos__top-overlay, .shoppable-videos__play').forEach(el => el.remove());
 
         // Build Top Right Controls Bar (Mute & Close Buttons)
         const topControls = document.createElement('div');
