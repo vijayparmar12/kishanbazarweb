@@ -512,7 +512,7 @@
   overflow-y: hidden;
   width: 100%;
   max-width: 100%;
-  padding: 0.5rem 0.25rem 1.25rem;
+  padding: 0.5rem 1.25rem 1.25rem !important;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;

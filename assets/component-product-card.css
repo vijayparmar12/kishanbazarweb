@@ -655,23 +655,20 @@
   }
 }
 
-/* Mobile View: Side Padding & Smooth Horizontal Scroll */
+/* Mobile View: Side Padding (1.25rem / 20px) & Smooth Horizontal Scroll */
 @media (max-width: 749px) {
   .best-sellers__track,
   .categories__grid,
   .shoppable-videos__track,
   .testimonials__track,
   .product-recommendations-slider__track {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-    margin-left: -1rem !important;
-    margin-right: -1rem !important;
-    width: calc(100% + 2rem) !important;
-    max-width: calc(100% + 2rem) !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    scroll-padding-left: 1.25rem !important;
+    scroll-padding-right: 1.25rem !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
     scroll-snap-type: x mandatory !important;
-    scroll-padding-left: 1rem !important;
     -webkit-overflow-scrolling: touch !important;
     scrollbar-width: none !important;
     box-sizing: border-box !important;
