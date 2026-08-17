@@ -1119,6 +1119,36 @@ body.shoppable-video-modal-open > footer {
   margin: 0 !important;
 }
 
+@media (max-width: 48rem) {
+  .section-shoppable-videos .shoppable-videos__carousel-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .section-shoppable-videos .shoppable-videos__track {
+    padding-left: calc(16vw - 0.5rem) !important;
+    padding-right: calc(16vw - 0.5rem) !important;
+    padding-top: 1rem !important;
+    padding-bottom: 2.5rem !important;
+    gap: 0.85rem !important;
+    scroll-snap-type: x mandatory !important;
+    box-sizing: border-box !important;
+  }
+
+  .section-shoppable-videos .shoppable-videos__slide {
+    flex: 0 0 min(68vw, 250px) !important;
+    width: min(68vw, 250px) !important;
+    max-width: 250px !important;
+    scroll-snap-align: center !important;
+  }
+
+  .section-shoppable-videos .shoppable-videos__media-wrap {
+    height: 400px !important;
+    min-height: 400px !important;
+  }
+}
+
 .shoppable-videos__modal-body .shoppable-videos__video {
   width: 100% !important;
   height: 100% !important;
