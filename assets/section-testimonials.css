@@ -595,12 +595,12 @@
   }
 
   .testimonials__carousel-container {
-    width: calc(100% + 1.25rem) !important;
-    max-width: calc(100% + 1.25rem) !important;
-    margin-left: 0 !important;
+    width: calc(100% + 2.5rem) !important;
+    max-width: calc(100% + 2.5rem) !important;
+    margin-left: -1.25rem !important;
     margin-right: -1.25rem !important;
-    padding-left: 0 !important;
-    padding-right: 1.25rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
     box-sizing: border-box !important;
   }
 
