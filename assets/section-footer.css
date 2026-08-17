@@ -46,11 +46,18 @@
   }
 }
 
+.site-footer__brand-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
 .site-footer__logo-link {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto 1rem;
+  margin: 0 auto 0.85rem auto;
   text-align: center;
   width: 100%;
 }
@@ -62,7 +69,7 @@
   max-width: 100%;
   object-fit: contain;
   display: block;
-  margin: 0 auto 0.85rem !important;
+  margin: 0 auto 0.85rem auto !important;
   border: none !important;
   outline: none !important;
 }
@@ -72,9 +79,11 @@
   font-size: 0.92rem;
   font-weight: 500;
   line-height: 1.6;
-  margin: 0 0 0.85rem;
+  margin: 0 auto 0.85rem auto;
   max-width: 26rem;
   opacity: 0.95;
+  text-align: justify !important;
+  text-justify: inter-word !important;
 }
 
 .site-footer__brand-contact {

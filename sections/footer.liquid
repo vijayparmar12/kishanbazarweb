@@ -59,18 +59,6 @@
               {% if block.settings.about_text != blank %}
                 <div class="site-footer__brand-text">{{ block.settings.about_text | newline_to_br }}</div>
               {% endif %}
-
-              {% if block.settings.email != blank or block.settings.phone != blank %}
-                <div class="site-footer__brand-contact">
-                  {% if block.settings.email != blank %}
-                    <p class="site-footer__contact-line"><strong>{{ block.settings.email_label }}</strong> <a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a></p>
-                  {% endif %}
-                  {% if block.settings.phone != blank %}
-                    {% assign phone_href = block.settings.phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')' %}
-                    <p class="site-footer__contact-line"><strong>{{ block.settings.phone_label }}</strong> <a href="tel:{{ phone_href }}">{{ block.settings.phone }}</a></p>
-                  {% endif %}
-                </div>
-              {% endif %}
             </div>
 
           {% when 'link_column' %}
