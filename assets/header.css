@@ -257,16 +257,16 @@ body.template-product .kb-header__features,
 .kb-header__logo-image {
   display: block;
   height: auto;
-  max-height: 95px !important;
-  width: var(--kb-logo-width, 320px) !important;
+  max-height: 115px !important;
+  width: var(--kb-logo-width, 360px) !important;
   max-width: 100% !important;
   object-fit: contain;
   transition: max-height 0.3s ease, width 0.3s ease;
 }
 
 .kb-header--scrolled .kb-header__logo-image {
-  max-height: 75px !important;
-  width: calc(var(--kb-logo-width, 320px) * 0.88) !important;
+  max-height: 90px !important;
+  width: calc(var(--kb-logo-width, 360px) * 0.88) !important;
 }
 
 .kb-header__actions {

@@ -64,8 +64,8 @@
 
 .site-footer__logo {
   height: auto;
-  max-height: 85px;
-  width: var(--logo-width, 180px);
+  max-height: 120px !important;
+  width: var(--logo-width, 240px);
   max-width: 100%;
   object-fit: contain;
   display: block;
