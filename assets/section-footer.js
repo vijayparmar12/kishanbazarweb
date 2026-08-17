@@ -15,11 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const isExpanded = btn.getAttribute('aria-expanded') === 'true';
         btn.setAttribute('aria-expanded', String(!isExpanded));
         parent.classList.toggle('is-open', !isExpanded);
-
-        const icon = btn.querySelector('.accordion-icon');
-        if (icon) {
-          icon.textContent = !isExpanded ? '-' : '+';
-        }
       });
     });
   });
