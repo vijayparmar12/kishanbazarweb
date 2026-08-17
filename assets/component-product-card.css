@@ -74,7 +74,7 @@
 
 .product-card__badge {
   background: linear-gradient(135deg, #ffc400 0%, #ff9800 100%);
-  border-radius: 30px;
+  border-radius: 8px !important;
   color: #352600;
   font-size: 0.75rem;
   font-weight: 800;
@@ -89,6 +89,7 @@
 .product-card__badge--sold {
   background: linear-gradient(135deg, #757575 0%, #424242 100%);
   color: #ffffff;
+  border-radius: 8px !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -371,12 +372,14 @@
 .product-card__badge--sale {
   background: #e62e2e !important;
   color: #ffffff !important;
+  border-radius: 8px !important;
   box-shadow: 0 4px 12px rgba(230, 46, 46, 0.3) !important;
 }
 
 .product-card__badge--loved {
   background: #132d14 !important;
   color: #ffffff !important;
+  border-radius: 8px !important;
   box-shadow: 0 4px 12px rgba(19, 45, 20, 0.3) !important;
 }
 
