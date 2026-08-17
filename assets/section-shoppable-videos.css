@@ -66,12 +66,16 @@
 
 @media screen and (max-width: 749px) {
   .shoppable-videos {
-    padding: clamp(1.75rem, 4vw, 2.5rem) 0;
+    padding: clamp(1.25rem, 3vw, 2rem) 0;
   }
 
   .shoppable-videos__track {
-    padding: 1rem 1.5rem 3rem !important;
+    padding-left: calc(50vw - 120px) !important;
+    padding-right: calc(50vw - 120px) !important;
+    padding-top: 1rem !important;
+    padding-bottom: 2.5rem !important;
     scroll-snap-type: x mandatory !important;
+    box-sizing: border-box !important;
   }
 
   .shoppable-videos__slide {
@@ -82,8 +86,8 @@
   }
 
   .shoppable-videos__card {
-    transform: scale(0.82) !important;
-    opacity: 0.72 !important;
+    transform: scale(0.84) !important;
+    opacity: 0.75 !important;
     transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease !important;
     transform-origin: center center !important;
   }
@@ -198,7 +202,10 @@
   list-style: none;
   margin: 0;
   overflow-x: auto;
-  padding: 1.5rem 2rem 2.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 2.5rem;
+  padding-left: max(var(--container-padding, 1.25rem), calc((100% - var(--container-width, 1280px)) / 2)) !important;
+  padding-right: max(var(--container-padding, 1.25rem), calc((100% - var(--container-width, 1280px)) / 2)) !important;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -206,6 +213,7 @@
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
   align-items: center;
+  box-sizing: border-box !important;
 }
 
 .shoppable-videos__track::-webkit-scrollbar {
@@ -227,8 +235,7 @@
   transition: transform 0.35s ease, opacity 0.35s ease;
 }
 
-.shoppable-videos__card.is-active,
-.shoppable-videos__slide:first-child .shoppable-videos__card {
+.shoppable-videos__card.is-active {
   transform: scale(1);
   opacity: 1;
 }
@@ -1117,36 +1124,6 @@ body.shoppable-video-modal-open > footer {
   overflow: hidden !important;
   aspect-ratio: auto !important;
   margin: 0 !important;
-}
-
-@media (max-width: 48rem) {
-  .section-shoppable-videos .shoppable-videos__carousel-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-  }
-
-  .section-shoppable-videos .shoppable-videos__track {
-    padding-left: calc(16vw - 0.5rem) !important;
-    padding-right: calc(16vw - 0.5rem) !important;
-    padding-top: 1rem !important;
-    padding-bottom: 2.5rem !important;
-    gap: 0.85rem !important;
-    scroll-snap-type: x mandatory !important;
-    box-sizing: border-box !important;
-  }
-
-  .section-shoppable-videos .shoppable-videos__slide {
-    flex: 0 0 min(68vw, 250px) !important;
-    width: min(68vw, 250px) !important;
-    max-width: 250px !important;
-    scroll-snap-align: center !important;
-  }
-
-  .section-shoppable-videos .shoppable-videos__media-wrap {
-    height: 400px !important;
-    min-height: 400px !important;
-  }
 }
 
 .shoppable-videos__modal-body .shoppable-videos__video {
