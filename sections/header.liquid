@@ -102,7 +102,7 @@
   </div>
 
   <!-- HEADER 2: NAVIGATION LINKS (NON-STICKY) -->
-  {% unless template.name == 'collection' or template.name == 'product' %}
+  {% unless template.name == 'collection' or template.name == 'product' or template.name == 'search' %}
     <div class="kb-header2" data-header2>
       <nav class="kb-header__nav" aria-label="Main navigation">
       <ul class="kb-header__nav-list" role="list">
@@ -387,7 +387,7 @@
     </div>
   </nav>
 
-  {% unless template.name == 'collection' or template.name == 'product' or page.handle == 'contact' or template.suffix == 'contact' %}
+  {% unless template.name == 'collection' or template.name == 'product' or template.name == 'search' or page.handle == 'contact' or template.suffix == 'contact' %}
     <section class="kb-header__features" aria-label="Featured shopping links">
       <div class="kb-header__features-inner">
         {% assign feature_count = 0 %}
