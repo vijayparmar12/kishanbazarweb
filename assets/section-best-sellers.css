@@ -6,10 +6,13 @@
   border-bottom: none !important;
   max-width: 100%;
   width: 100%;
-  padding: 0.5rem 0 0.75rem !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.75rem !important;
+  padding-left: max(var(--container-padding, 1.25rem), calc((100% - var(--container-width, 1280px)) / 2)) !important;
+  padding-right: max(var(--container-padding, 1.25rem), calc((100% - var(--container-width, 1280px)) / 2)) !important;
   position: relative;
   overflow: visible;
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 
 .best-sellers__illustration-bg {
@@ -491,7 +494,7 @@
 }
 
 .best-sellers__arrow--prev {
-  left: 0.5rem !important;
+  left: max(0.5rem, calc((100% - var(--container-width, 1280px)) / 2 - 20px)) !important;
 }
 
 .best-sellers__arrow--prev .icon {
@@ -499,7 +502,7 @@
 }
 
 .best-sellers__arrow--next {
-  right: 0.5rem !important;
+  right: max(0.5rem, calc((100% - var(--container-width, 1280px)) / 2 - 20px)) !important;
 }
 
 .best-sellers__track {
@@ -509,7 +512,7 @@
   overflow-y: hidden;
   width: 100%;
   max-width: 100%;
-  padding: 0.5rem 1.25rem 1.25rem !important;
+  padding: 0.5rem 0 1.25rem !important;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -533,7 +536,8 @@
 
 @media (max-width: 48rem) {
   .best-sellers {
-    padding-inline: 0;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
     padding-block: 0.5rem 0.75rem;
     width: 100%;
     max-width: 100%;
