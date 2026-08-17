@@ -23,10 +23,11 @@
 .site-footer__inner {
   display: grid;
   gap: clamp(1.25rem, 2.5vw, 2.5rem);
-  grid-template-columns: minmax(220px, 1.35fr) repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(4, 1fr) !important;
   margin: 0 auto;
-  max-width: var(--container-width, 1160px);
+  max-width: var(--container-width, 1280px);
   padding: 0 var(--container-padding, 1.25rem);
+  box-sizing: border-box;
 }
 
 .site-footer__brand-col,
@@ -36,13 +37,13 @@
 
 @media (max-width: 60rem) {
   .site-footer__inner {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
 
 @media (max-width: 35rem) {
   .site-footer__inner {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 }
 
