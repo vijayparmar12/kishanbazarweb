@@ -23,19 +23,78 @@
     }
 
     bindEvents() {
-      // Listen for click on header search input or search submit button to open drawer
+      // 1. Intercept all header and page search forms to prevent navigation to /search page
+      document.querySelectorAll('form.kb-header__search, form[action*="/search"]').forEach((form) => {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const formInput = form.querySelector('input[type="search"], input[name="q"]');
+          const query = formInput ? formInput.value.trim() : '';
+          this.open();
+          if (query) {
+            if (this.input) this.input.value = query;
+            this.toggleClearBtn();
+            this.fetchResults(query);
+          }
+        });
+      });
+
+      // 2. Listen for click on header search input or search submit button to open drawer
       document.addEventListener('click', (e) => {
         const searchTrigger = e.target.closest('[data-typing-search], .kb-header__search-icon, .kb-header__search-submit');
         if (searchTrigger) {
           e.preventDefault();
+          const mainInput = document.querySelector('[data-typing-search]');
+          const query = mainInput ? mainInput.value.trim() : '';
           this.open();
+          if (query) {
+            if (this.input) this.input.value = query;
+            this.toggleClearBtn();
+            this.fetchResults(query);
+          }
         }
       });
 
-      // Also listen to focus on main header search input
+      // 3. Listen to focus and input on main header search input
       const mainSearchInput = document.querySelector('[data-typing-search]');
       if (mainSearchInput) {
-        mainSearchInput.addEventListener('focus', () => this.open());
+        mainSearchInput.addEventListener('focus', () => {
+          const query = mainSearchInput.value.trim();
+          this.open();
+          if (query && this.input) {
+            this.input.value = query;
+            this.toggleClearBtn();
+            this.fetchResults(query);
+          }
+        });
+
+        mainSearchInput.addEventListener('input', () => {
+          const query = mainSearchInput.value.trim();
+          this.open();
+          if (this.input) {
+            this.input.value = query;
+            this.toggleClearBtn();
+          }
+          clearTimeout(this.debounceTimer);
+          if (query.length < 2) {
+            this.resetToInitialState();
+            return;
+          }
+          this.debounceTimer = setTimeout(() => {
+            this.fetchResults(query);
+          }, 280);
+        });
+      }
+
+      // 4. Intercept search form submit inside predictive search drawer
+      const drawerForm = this.drawer.querySelector('[data-predictive-search-form]');
+      if (drawerForm) {
+        drawerForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const query = this.input ? this.input.value.trim() : '';
+          if (query) {
+            this.fetchResults(query);
+          }
+        });
       }
 
       // Close handlers
@@ -73,7 +132,7 @@
         });
       });
 
-      // Input typing event
+      // Input typing event inside drawer
       if (this.input) {
         this.input.addEventListener('input', () => {
           const query = this.input.value.trim();
