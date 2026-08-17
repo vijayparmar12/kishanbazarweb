@@ -629,18 +629,22 @@
   text-decoration: none !important;
 }
 
-/* Ensure desktop container overflow allows circular arrow buttons to float prominently */
+/* Ensure desktop container side padding creates dedicated space for circular arrow buttons without overlapping cards */
 @media (min-width: 750px) {
   .best-sellers__carousel-wrapper,
+  .shoppable-videos__carousel,
   .shoppable-videos__viewport,
   .product-recommendations-slider__inner {
     overflow: visible !important;
     position: relative !important;
+    padding-left: 3.5rem !important;
+    padding-right: 3.5rem !important;
+    box-sizing: border-box !important;
   }
 
   .best-sellers__arrow--prev,
   .shoppable-videos__arrow--prev {
-    left: -22px !important;
+    left: 0.5rem !important;
     position: absolute !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
@@ -648,7 +652,7 @@
 
   .best-sellers__arrow--next,
   .shoppable-videos__arrow--next {
-    right: -22px !important;
+    right: 0.5rem !important;
     position: absolute !important;
     top: 50% !important;
     transform: translateY(-50%) !important;

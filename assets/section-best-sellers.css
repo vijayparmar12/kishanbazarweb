@@ -494,7 +494,7 @@
 }
 
 .best-sellers__arrow--prev {
-  left: -18px;
+  left: 0.5rem !important;
 }
 
 .best-sellers__arrow--prev .icon {
@@ -502,7 +502,7 @@
 }
 
 .best-sellers__arrow--next {
-  right: -18px;
+  right: 0.5rem !important;
 }
 
 .best-sellers__track {

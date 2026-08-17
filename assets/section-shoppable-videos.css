@@ -636,7 +636,7 @@
 }
 
 .shoppable-videos__arrow--prev {
-  left: -22px !important;
+  left: 0.5rem !important;
 }
 
 .shoppable-videos__arrow--prev .shoppable-videos__arrow-icon {
@@ -644,7 +644,7 @@
 }
 
 .shoppable-videos__arrow--next {
-  right: -22px !important;
+  right: 0.5rem !important;
 }
 
 .shoppable-videos__guide {
