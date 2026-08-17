@@ -23,11 +23,10 @@
 .site-footer__inner {
   display: grid;
   gap: clamp(1.25rem, 2.5vw, 2.5rem);
-  grid-template-columns: repeat(4, 1fr) !important;
+  grid-template-columns: minmax(220px, 1.35fr) repeat(auto-fit, minmax(160px, 1fr));
   margin: 0 auto;
-  max-width: var(--container-width, 1280px);
+  max-width: var(--container-width, 1160px);
   padding: 0 var(--container-padding, 1.25rem);
-  box-sizing: border-box;
 }
 
 .site-footer__brand-col,
@@ -37,13 +36,13 @@
 
 @media (max-width: 60rem) {
   .site-footer__inner {
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
 @media (max-width: 35rem) {
   .site-footer__inner {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -102,6 +101,27 @@
 .site-footer__newsletter {
   margin-bottom: 1rem;
   margin-top: 1.25rem;
+}
+
+.site-footer__newsletter--mobile {
+  display: none !important;
+}
+
+.site-footer__newsletter--desktop {
+  display: block !important;
+}
+
+@media (max-width: 47.99rem) {
+  .site-footer__newsletter--mobile {
+    display: block !important;
+    margin: 1.25rem auto 1.5rem auto !important;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .site-footer__newsletter--desktop {
+    display: none !important;
+  }
 }
 
 .site-footer__newsletter-boxes {

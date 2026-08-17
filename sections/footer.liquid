@@ -59,6 +59,35 @@
               {% if block.settings.about_text != blank %}
                 <div class="site-footer__brand-text">{{ block.settings.about_text | newline_to_br }}</div>
               {% endif %}
+
+              <div class="site-footer__newsletter site-footer__newsletter--mobile">
+                {% form 'customer', class: 'site-footer__newsletter-form' %}
+                  <input type="hidden" name="contact[tags]" value="newsletter">
+                  <div class="site-footer__newsletter-boxes">
+                    <div class="site-footer__newsletter-input-wrap">
+                      <input
+                        type="tel"
+                        name="contact[note][mobile]"
+                        class="site-footer__newsletter-input"
+                        placeholder="Mobile / Phone Number"
+                        aria-label="Mobile or Phone Number"
+                      >
+                    </div>
+                    <div class="site-footer__newsletter-input-wrap">
+                      <input
+                        type="email"
+                        name="contact[email]"
+                        class="site-footer__newsletter-input"
+                        value="{{ form.email }}"
+                        placeholder="Your e-mail"
+                        aria-label="Your e-mail"
+                        required
+                      >
+                      <button type="submit" class="site-footer__newsletter-btn" aria-label="Subscribe">&rarr;</button>
+                    </div>
+                  </div>
+                {% endform %}
+              </div>
             </div>
 
           {% when 'link_column' %}
@@ -116,7 +145,7 @@
                 </div>
 
                 {% if block.settings.show_newsletter %}
-                  <div class="site-footer__newsletter" style="margin-top: 1.15rem;">
+                  <div class="site-footer__newsletter site-footer__newsletter--desktop" style="margin-top: 1.15rem;">
                     {% form 'customer', class: 'site-footer__newsletter-form' %}
                       <input type="hidden" name="contact[tags]" value="newsletter">
                       <div class="site-footer__newsletter-boxes">
