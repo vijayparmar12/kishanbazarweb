@@ -22,7 +22,7 @@
             "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
-            "icon_image": "shopify://shop_images/gemini-svg_28.svg",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_31_56_AM.png",
             "link": "",
             "icon_background": "#23421f",
             "icon_color": "#f0d78a"
@@ -36,7 +36,7 @@
             "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
-            "icon_image": "shopify://shop_images/gemini-svg_31.svg",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_36_02_AM.png",
             "link": "",
             "icon_background": "#23421f",
             "icon_color": "#f0d78a"
@@ -50,7 +50,7 @@
             "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
-            "icon_image": "shopify://shop_images/gemini-svg_34.svg",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_39_04_AM.png",
             "link": "",
             "icon_background": "#23421f",
             "icon_color": "#f0d78a"
@@ -64,7 +64,7 @@
             "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
-            "icon_image": "shopify://shop_images/gemini-svg_35.svg",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_41_02_AM.png",
             "link": "",
             "icon_background": "#23421f",
             "icon_color": "#f0d78a"
@@ -247,6 +247,7 @@
         "farm_title": "Farm Life",
         "customers_title": "Customers",
         "enable_category_mega": true,
+        "category_wave_image": "shopify://shop_images/shop_by_category_bg.png",
         "enable_concern_mega": true,
         "enable_farm_mega": true,
         "enable_customers_mega": true,
