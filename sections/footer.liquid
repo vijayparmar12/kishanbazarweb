@@ -29,6 +29,7 @@
               {% if block.settings.logo != blank or block.settings.show_default_logo %}
                 <a href="{{ routes.root_url }}" class="site-footer__logo-link" aria-label="{{ shop.name | escape }} home">
                   {% if block.settings.logo != blank %}
+                    {% assign footer_logo_style = '--logo-width: ' | append: block.settings.logo_width | append: 'px;' %}
                     {{
                       block.settings.logo
                       | image_url: width: 600
@@ -37,7 +38,7 @@
                         alt: shop.name,
                         loading: 'lazy',
                         widths: '180, 240, 320, 420, 600',
-                        style: '--logo-width: ' | append: block.settings.logo_width | append: 'px;'
+                        style: footer_logo_style
                     }}
                   {% else %}
                     <img
