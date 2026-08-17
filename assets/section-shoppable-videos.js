@@ -192,10 +192,10 @@ class ShoppableVideosSection {
         const playBtn = clone.querySelector('[data-modal-play-btn]');
         const playIcon = playBtn?.querySelector('[data-play-icon]');
         const pauseIcon = playBtn?.querySelector('[data-pause-icon]');
-        const muteBtn = topControls?.querySelector('[data-modal-mute-btn]');
+        const muteBtn = clone.querySelector('[data-modal-mute-btn]');
         const muteIcon = muteBtn?.querySelector('[data-mute-icon]');
         const unmuteIcon = muteBtn?.querySelector('[data-unmute-icon]');
-        const modalCloseBtn = topControls?.querySelector('[data-modal-close]');
+        const modalCloseBtn = clone.querySelector('[data-modal-close]');
 
         if (modalCloseBtn) {
           modalCloseBtn.addEventListener('click', (ev) => {
