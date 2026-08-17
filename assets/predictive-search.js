@@ -17,8 +17,19 @@
       this.debounceTimer = null;
       this.initialProductsHTML = this.productsContainer ? this.productsContainer.innerHTML : '';
       this.initialBlogsHTML = this.blogsContainer ? this.blogsContainer.innerHTML : '';
+      this.storeProducts = this.loadStoreProducts();
 
       this.bindEvents();
+    }
+
+    loadStoreProducts() {
+      try {
+        const jsonScript = document.getElementById('PredictiveSearchStoreProducts');
+        if (!jsonScript) return [];
+        return JSON.parse(jsonScript.textContent || '[]');
+      } catch (err) {
+        return [];
+      }
     }
 
     bindEvents() {
@@ -75,9 +86,8 @@
             return;
           }
 
-          this.debounceTimer = setTimeout(() => {
-            this.fetchResults(query);
-          }, 260);
+          // Instant local search result update
+          this.fetchResults(query);
         });
       }
 
@@ -135,37 +145,63 @@
     }
 
     async fetchResults(query) {
+      const normalizedQuery = query.toLowerCase().trim();
+      const cleanTerm = normalizedQuery.replace(/^a+t+a+$/, 'atta').replace(/^a+t+t+a+$/, 'atta');
+
+      // 1. Instant Client-Side Filter from Store Products
+      let matchedProducts = [];
+      if (this.storeProducts.length > 0) {
+        matchedProducts = this.storeProducts.filter((product) => {
+          const titleMatch = product.title && product.title.toLowerCase().includes(cleanTerm);
+          const typeMatch = product.type && product.type.toLowerCase().includes(cleanTerm);
+          const tagMatch = Array.isArray(product.tags) && product.tags.some((t) => t.toLowerCase().includes(cleanTerm));
+          const termInTitle = product.title && (product.title.toLowerCase().includes('atta') || product.title.toLowerCase().includes('flour')) && (cleanTerm === 'aatta' || cleanTerm === 'atta');
+          return titleMatch || typeMatch || tagMatch || termInTitle;
+        });
+      }
+
+      // If instant local search found matching products, render them immediately!
+      if (matchedProducts.length > 0) {
+        this.renderProducts(query, matchedProducts);
+        this.renderSuggestions(query, [cleanTerm, `${cleanTerm} combos`, `A2 ${cleanTerm}`]);
+      }
+
+      // 2. Concurrently fetch Shopify Predictive Search API
       try {
-        const suggestUrl = `/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product,article,page,query&resources[limit]=6`;
+        const suggestUrl = `/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product,article,page&resources[options][prefix]=last`;
         const response = await fetch(suggestUrl);
-        
+
         if (response.ok) {
           const data = await response.json();
-          const predictiveResults = data.resources?.results;
-          if (predictiveResults) {
-            this.renderResults(query, predictiveResults);
-            return;
+          const apiProducts = data.resources?.results?.products;
+          const apiArticles = data.resources?.results?.articles;
+
+          if (Array.isArray(apiProducts) && apiProducts.length > 0) {
+            this.renderProducts(query, apiProducts);
+          } else if (matchedProducts.length === 0) {
+            this.renderProducts(query, []);
+          }
+
+          if (Array.isArray(apiArticles) && apiArticles.length > 0) {
+            this.renderArticles(query, apiArticles);
           }
         }
       } catch (err) {
-        console.error('Predictive search error:', err);
+        if (matchedProducts.length === 0) {
+          this.renderProducts(query, []);
+        }
       }
     }
 
-    renderResults(query, results) {
-      const { products = [], articles = [], queries = [] } = results;
-
-      // 1. Render Suggestion List with Rosier Yellow Highlight
-      if (queries.length > 0) {
+    renderSuggestions(query, list) {
+      if (list && list.length > 0) {
         if (this.pillsContainer) this.pillsContainer.style.display = 'none';
         if (this.suggestionList) {
           this.suggestionList.style.display = 'flex';
-          this.suggestionList.innerHTML = queries.map((item) => {
-            const highlightedText = this.highlightText(item.text, query);
-            return `<li class="kb-search-suggestion-item" data-suggestion-text="${item.text}">${highlightedText}</li>`;
+          this.suggestionList.innerHTML = list.map((term) => {
+            return `<li class="kb-search-suggestion-item" data-suggestion-text="${term}">${this.highlightText(term, query)}</li>`;
           }).join('');
 
-          // Bind click on suggestions
           this.suggestionList.querySelectorAll('.kb-search-suggestion-item').forEach((li) => {
             li.addEventListener('click', () => {
               const text = li.dataset.suggestionText;
@@ -176,45 +212,44 @@
             });
           });
         }
+      }
+    }
+
+    renderProducts(query, products) {
+      if (!this.productsContainer) return;
+
+      if (products.length > 0) {
+        this.productsContainer.innerHTML = products.map((product) => {
+          const priceFormatted = product.price ? (typeof product.price === 'number' ? `₹ ${(product.price / 100).toFixed(2)}` : product.price) : '';
+          const imgSrc = product.featured_image?.url || product.image || '';
+          return `
+            <a href="${product.url}" class="kb-search-product-row">
+              <div class="kb-search-product-row__img-wrap">
+                ${imgSrc ? `<img src="${imgSrc}" alt="${product.title}" class="kb-search-product-row__img" loading="lazy">` : `<div style="width:100%;height:100%;background:#f1f5f9;"></div>`}
+              </div>
+              <div class="kb-search-product-row__details">
+                <h4 class="kb-search-product-row__title">${this.highlightText(product.title, query)}</h4>
+                <div class="kb-search-product-row__meta">
+                  <span class="kb-search-product-row__price">${priceFormatted}</span>
+                  <span class="kb-search-product-row__rating">★ 4.9 <small style="color: #64748b; font-weight: 500;">(1279)</small></span>
+                </div>
+              </div>
+            </a>
+          `;
+        }).join('');
       } else {
-        if (this.pillsContainer) this.pillsContainer.style.display = 'flex';
-        if (this.suggestionList) this.suggestionList.style.display = 'none';
+        this.productsContainer.innerHTML = `<p style="color: #64748b; font-size: 0.90rem; font-weight: 600; padding: 0.5rem 0;">No products found matching "${query}".</p>`;
       }
+    }
 
-      // 2. Render Products as Rosier Row Cards
-      if (this.productsContainer) {
-        if (products.length > 0) {
-          this.productsContainer.innerHTML = products.map((product) => {
-            const priceFormatted = product.price ? `₹ ${parseFloat(product.price).toFixed(2)}` : '';
-            return `
-              <a href="${product.url}" class="kb-search-product-row">
-                <div class="kb-search-product-row__img-wrap">
-                  <img src="${product.featured_image?.url || product.image || ''}" alt="${product.title}" class="kb-search-product-row__img" loading="lazy">
-                </div>
-                <div class="kb-search-product-row__details">
-                  <h4 class="kb-search-product-row__title">${this.highlightText(product.title, query)}</h4>
-                  <div class="kb-search-product-row__meta">
-                    <span class="kb-search-product-row__price">${priceFormatted}</span>
-                    <span class="kb-search-product-row__rating">★ 4.9 <small style="color: #64748b; font-weight: 500;">(1279)</small></span>
-                  </div>
-                </div>
-              </a>
-            `;
-          }).join('');
-        } else {
-          this.productsContainer.innerHTML = `<p style="color: #64748b; font-size: 0.90rem; font-weight: 600; padding: 0.5rem 0;">No products found matching "${query}".</p>`;
-        }
-      }
-
-      // 3. Render Articles / Pages
-      if (this.blogsContainer) {
-        if (articles.length > 0) {
-          this.blogsContainer.innerHTML = articles.map((article) => {
-            return `<a href="${article.url}" class="kb-search-article-link">${this.highlightText(article.title, query)}</a>`;
-          }).join('');
-        } else {
-          this.blogsContainer.innerHTML = this.initialBlogsHTML;
-        }
+    renderArticles(query, articles) {
+      if (!this.blogsContainer) return;
+      if (articles.length > 0) {
+        this.blogsContainer.innerHTML = articles.map((article) => {
+          return `<a href="${article.url}" class="kb-search-article-link">${this.highlightText(article.title, query)}</a>`;
+        }).join('');
+      } else {
+        this.blogsContainer.innerHTML = this.initialBlogsHTML;
       }
     }
 

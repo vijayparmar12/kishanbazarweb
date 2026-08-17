@@ -1,7 +1,7 @@
 {% doc %}
   Renders the attached floating predictive search dropdown combining Rosier Foods layout
   (#F8F4EB cream backdrop, 2-column layout for suggestions & products, serif headers with divider lines)
-  with Anveshan structure (pills, blog links, star ratings).
+  with Anveshan structure (pills, blog links, star ratings) and client-side instant search fallback.
 
   @example
   {% render 'predictive-search-drawer' %}
@@ -88,3 +88,19 @@
 
   </div>
 </div>
+
+<script type="application/json" id="PredictiveSearchStoreProducts">
+[
+  {% for product in collections['all'].products limit: 50 %}
+    {
+      "id": {{ product.id | json }},
+      "title": {{ product.title | json }},
+      "url": {{ product.url | json }},
+      "price": {{ product.price | money | json }},
+      "image": {% if product.featured_image != blank %}{{ product.featured_image | image_url: width: 140 | json }}{% else %}""{% endif %},
+      "type": {{ product.type | json }},
+      "tags": {{ product.tags | json }}
+    }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+]
+</script>
