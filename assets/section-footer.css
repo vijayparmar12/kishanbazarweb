@@ -124,6 +124,22 @@
   }
 }
 
+.site-footer__newsletter-title {
+  color: #23421f;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0 0 0.65rem 0;
+  text-align: center;
+}
+
+@media screen and (min-width: 769px) {
+  .site-footer__newsletter--desktop .site-footer__newsletter-title {
+    text-align: left;
+  }
+}
+
 .site-footer__newsletter-boxes {
   display: flex;
   flex-direction: column;

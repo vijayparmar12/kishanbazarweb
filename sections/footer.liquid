@@ -61,6 +61,9 @@
               {% endif %}
 
               <div class="site-footer__newsletter site-footer__newsletter--mobile">
+                <h3 class="site-footer__newsletter-title">
+                  {{ block.settings.newsletter_title | default: 'SUBSCRIBE TO OUR NEWSLETTER' | escape }}
+                </h3>
                 {% form 'customer', class: 'site-footer__newsletter-form' %}
                   <input type="hidden" name="contact[tags]" value="newsletter">
                   <div class="site-footer__newsletter-boxes">
@@ -181,6 +184,9 @@
 
                 {% if block.settings.show_newsletter %}
                   <div class="site-footer__newsletter site-footer__newsletter--desktop" style="margin-top: 1.15rem;">
+                    <h3 class="site-footer__newsletter-title">
+                      {{ block.settings.newsletter_title | default: 'SUBSCRIBE TO OUR NEWSLETTER' | escape }}
+                    </h3>
                     {% form 'customer', class: 'site-footer__newsletter-form' %}
                       <input type="hidden" name="contact[tags]" value="newsletter">
                       <div class="site-footer__newsletter-boxes">
