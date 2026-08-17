@@ -117,30 +117,28 @@ class ShoppableVideosSection {
         const clone = mediaWrap.cloneNode(true);
         clone.querySelectorAll('.shoppable-videos__product-overlay, .shoppable-videos__top-overlay, .shoppable-videos__play').forEach(el => el.remove());
 
-        // Build Top Left Volume / Mute Button
-        const topLeftMuteBtn = document.createElement('button');
-        topLeftMuteBtn.type = 'button';
-        topLeftMuteBtn.className = 'shoppable-videos__modal-ctrl-btn';
-        topLeftMuteBtn.setAttribute('data-modal-mute-btn', '');
-        topLeftMuteBtn.setAttribute('aria-label', 'Mute / Unmute');
-        topLeftMuteBtn.style.cssText = 'position: absolute; top: 14px; left: 14px; z-index: 120; width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; display: grid; place-items: center;';
-        topLeftMuteBtn.innerHTML = `
-          <svg data-unmute-icon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-          <svg data-mute-icon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+        // Build Top Left Volume Mute Button
+        const topLeftMute = document.createElement('div');
+        topLeftMute.className = 'shoppable-videos__modal-top-left';
+        topLeftMute.style.cssText = 'position: absolute; top: 14px; left: 14px; z-index: 120;';
+        topLeftMute.innerHTML = `
+          <button type="button" class="shoppable-videos__modal-ctrl-btn" data-modal-mute-btn aria-label="Mute / Unmute" style="width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; display: grid; place-items: center;">
+            <svg data-unmute-icon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            <svg data-mute-icon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+          </button>
         `;
-        clone.appendChild(topLeftMuteBtn);
+        clone.appendChild(topLeftMute);
 
         // Build Top Right Close Button
-        const topRightCloseBtn = document.createElement('button');
-        topRightCloseBtn.type = 'button';
-        topRightCloseBtn.className = 'shoppable-videos__modal-ctrl-btn';
-        topRightCloseBtn.setAttribute('data-modal-close', '');
-        topRightCloseBtn.setAttribute('aria-label', 'Close video');
-        topRightCloseBtn.style.cssText = 'position: absolute; top: 14px; right: 14px; z-index: 120; width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; display: grid; place-items: center;';
-        topRightCloseBtn.innerHTML = `
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        const topRightClose = document.createElement('div');
+        topRightClose.className = 'shoppable-videos__modal-top-right';
+        topRightClose.style.cssText = 'position: absolute; top: 14px; right: 14px; z-index: 120;';
+        topRightClose.innerHTML = `
+          <button type="button" class="shoppable-videos__modal-ctrl-btn" data-modal-close aria-label="Close video" style="width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; display: grid; place-items: center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
         `;
-        clone.appendChild(topRightCloseBtn);
+        clone.appendChild(topRightClose);
 
         // Build Centered Play / Pause Button Overlay
         const centerPlayBtn = document.createElement('button');
@@ -194,10 +192,10 @@ class ShoppableVideosSection {
         const playBtn = clone.querySelector('[data-modal-play-btn]');
         const playIcon = playBtn?.querySelector('[data-play-icon]');
         const pauseIcon = playBtn?.querySelector('[data-pause-icon]');
-        const muteBtn = clone.querySelector('[data-modal-mute-btn]');
+        const muteBtn = topControls?.querySelector('[data-modal-mute-btn]');
         const muteIcon = muteBtn?.querySelector('[data-mute-icon]');
         const unmuteIcon = muteBtn?.querySelector('[data-unmute-icon]');
-        const modalCloseBtn = clone.querySelector('[data-modal-close]');
+        const modalCloseBtn = topControls?.querySelector('[data-modal-close]');
 
         if (modalCloseBtn) {
           modalCloseBtn.addEventListener('click', (ev) => {
