@@ -79,7 +79,8 @@
             "badge_background": "#e53935",
             "badge_color": "#ffffff",
             "mega_menu": "none",
-            "icon": ""
+            "icon": "",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_17_2026_12_40_35_PM.png"
           }
         },
         "mobile_nav_item_rCkftz": {
