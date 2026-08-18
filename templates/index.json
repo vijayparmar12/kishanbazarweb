@@ -441,6 +441,7 @@
       "block_order": [
         "review_3"
       ],
+      "disabled": true,
       "settings": {
         "heading_image_desktop": "shopify://shop_images/first_image_2048px_width_1.png",
         "heading_image_mobile": "shopify://shop_images/ChatGPT_Image_Aug_17_2026_10_23_50_AM.png",
