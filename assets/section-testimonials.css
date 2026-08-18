@@ -616,3 +616,136 @@
   font-weight: 700;
   margin-top: 1rem;
 }
+
+/* ==========================================================================
+   Judge.me Cards Carousel App Widget - Mirroring KisanVeda Testimonials UI
+   ========================================================================== */
+
+.jdgm-carousel-wrapper,
+.jdgm-all-reviews-widget,
+.jdgm-carousel {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 1.5rem 0 !important;
+}
+
+.jdgm-carousel-item,
+.jdgm-carousel-slide,
+.jdgm-rev-widg__item,
+.jdgm-carousel__item {
+  background-color: #ffffff !important;
+  border: 2px solid #23421F !important;
+  border-radius: 20px !important;
+  padding: 1.35rem 1.25rem !important;
+  box-shadow: 0 10px 24px -4px rgba(35, 66, 31, 0.08) !important;
+  transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  text-align: center !important;
+  min-height: 380px !important;
+}
+
+.jdgm-carousel-item:hover,
+.jdgm-carousel-slide:hover,
+.jdgm-carousel__item:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 36px -4px rgba(35, 66, 31, 0.16) !important;
+}
+
+.jdgm-carousel-item__review-image,
+.jdgm-carousel-item__product-image,
+.jdgm-carousel-item__photo,
+.jdgm-rev__pic,
+.jdgm-carousel-item__product-image-wrapper {
+  width: 100% !important;
+  height: 200px !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  margin-bottom: 1rem !important;
+  background: #f1f5f9 !important;
+  display: block !important;
+}
+
+.jdgm-carousel-item__review-image img,
+.jdgm-carousel-item__product-image img,
+.jdgm-carousel-item__photo img,
+.jdgm-rev__pic img,
+.jdgm-carousel-item__product-image-wrapper img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 14px !important;
+}
+
+.jdgm-carousel-item__review-title,
+.jdgm-rev__title,
+.jdgm-carousel-item__title {
+  color: #1e3d20 !important;
+  font-size: 1.18rem !important;
+  font-weight: 800 !important;
+  line-height: 1.3 !important;
+  margin: 0 0 0.5rem 0 !important;
+  font-family: Georgia, serif, inherit !important;
+  letter-spacing: -0.01em !important;
+  text-align: center !important;
+}
+
+.jdgm-carousel-item__review-body,
+.jdgm-rev__body,
+.jdgm-carousel-item__body {
+  color: #1e293b !important;
+  font-size: 0.95rem !important;
+  line-height: 1.65 !important;
+  font-weight: 500 !important;
+  margin: 0 0 1rem 0 !important;
+  font-family: inherit !important;
+  text-align: center !important;
+}
+
+.jdgm-carousel-item__reviewer-name,
+.jdgm-rev__author-name,
+.jdgm-rev__author,
+.jdgm-carousel-item__name {
+  color: #23421F !important;
+  font-weight: 800 !important;
+  font-size: 1.02rem !important;
+  margin-top: auto !important;
+  display: block !important;
+}
+
+.jdgm-carousel-item__review-rating,
+.jdgm-carousel-item__rating,
+.jdgm-star-icon,
+.jdgm-carousel-item__stars {
+  color: #d97706 !important;
+  font-size: 1.15rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.jdgm-carousel__left-arrow,
+.jdgm-carousel__right-arrow,
+.jdgm-carousel__arrow {
+  background: #23421F !important;
+  color: #ffffff !important;
+  border-radius: 50% !important;
+  width: 44px !important;
+  height: 44px !important;
+  border: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 12px rgba(35, 66, 31, 0.25) !important;
+  transition: background 200ms ease, transform 200ms ease !important;
+  opacity: 0.95 !important;
+}
+
+.jdgm-carousel__left-arrow:hover,
+.jdgm-carousel__right-arrow:hover,
+.jdgm-carousel__arrow:hover {
+  background: #166534 !important;
+  transform: scale(1.1) !important;
+  opacity: 1 !important;
+}
