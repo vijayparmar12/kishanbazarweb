@@ -26,7 +26,7 @@
     assign enabled = section.settings.enable_customers_mega
     assign panel_title = section.settings.customers_title
     assign panel_class = 'kb-mega--customers'
-  elsif menu_type == 'custom'
+  elsif menu_type contains 'custom'
     assign enabled = true
     assign panel_title = 'Custom Accordion Panel'
     assign panel_class = 'kb-mega--custom'
@@ -58,7 +58,15 @@
           {% assign defaults = 'Diabetes,Gut Health,Immunity,Weight Loss' %}
         {% elsif menu_type == 'customers' %}
           {% assign defaults = 'Track Order,Contact Us,Refund & Cancellation Policy,Shipping & Delivery Policy' %}
-        {% elsif menu_type == 'custom' %}
+        {% elsif menu_type == 'custom1' %}
+          {% assign defaults = 'Pure Ghee Recipes,Khapli Wheat Delights,Cold Pressed Oil Cooking,Natural Sweetener Treats' %}
+        {% elsif menu_type == 'custom2' %}
+          {% assign defaults = 'Buy 2 Get 1 Free,Monsoon Combo Offers,Special Festival Coupon,First Order Discount' %}
+        {% elsif menu_type == 'custom3' %}
+          {% assign defaults = 'Zero Chemical Pledge,Soil Health Mission,Partner Farmers Story,Water Conservation' %}
+        {% elsif menu_type == 'custom4' %}
+          {% assign defaults = 'Track My Order,Frequently Asked Questions,Returns & Refunds,Store Locator' %}
+        {% elsif menu_type contains 'custom' %}
           {% assign defaults = 'Explore Collections,Featured Deals,Organic Guarantee,Customer Support' %}
         {% elsif menu_type == 'farm_left' %}
           {% assign defaults = 'Founders & Team,Media Recognition,Traceability,Health of People & Planet,Team on Ground' %}
