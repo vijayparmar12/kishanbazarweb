@@ -175,7 +175,9 @@
 }
 
 .kb-wishlist-header__icon {
-  font-size: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .kb-wishlist-header__title {
@@ -224,9 +226,10 @@
 
 .kb-wishlist-search-icon {
   position: absolute;
-  left: 12px;
-  font-size: 0.9rem;
-  color: #64748b;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
 }
 
@@ -235,7 +238,7 @@
   background: #f8faf7;
   border: 1px solid #dcdfdc;
   border-radius: 8px;
-  padding: 0.75rem 1rem 0.75rem 2.4rem;
+  padding: 0.75rem 1rem 0.75rem 2.6rem;
   font-size: 0.95rem;
   color: #0f172a;
   outline: none;
@@ -291,17 +294,20 @@
 
 .kb-wishlist-empty__icon-wrap {
   position: relative;
-  width: 72px;
-  height: 72px;
+  width: 76px;
+  height: 76px;
   background: #edf4ec;
   border-radius: 50%;
   display: grid;
   place-items: center;
   margin-bottom: 1.25rem;
+  border: 1px solid #d8e6d6;
 }
 
 .kb-wishlist-empty__icon {
-  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .kb-wishlist-empty__pulse {
@@ -339,25 +345,29 @@
   color: #64748b;
   font-size: 0.95rem;
   line-height: 1.5;
-  margin: 0 0 1.5rem;
+  margin: 0 0 1.75rem;
   max-width: 320px;
 }
 
+/* Button style with rounded corners matching Most Loved / Best Sellers buttons */
 .kb-wishlist-empty__cta {
   background: #23421f;
   color: #ffffff;
-  padding: 0.8rem 1.75rem;
-  border-radius: 50px;
+  padding: 0.85rem 2rem;
+  border-radius: 8px;
   font-weight: 800;
   text-decoration: none;
   font-size: 0.95rem;
+  letter-spacing: 0.02em;
   transition: all 200ms ease;
-  box-shadow: 0 4px 12px rgba(35, 66, 31, 0.2);
+  box-shadow: 0 4px 14px rgba(35, 66, 31, 0.2);
+  display: inline-block;
 }
 
 .kb-wishlist-empty__cta:hover {
   background: #162f15;
   transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(35, 66, 31, 0.28);
 }
 
 /* Wishlist Product Card */
@@ -377,7 +387,7 @@
   width: 110px;
   height: 110px;
   flex-shrink: 0;
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
   background: #fcfcfb;
   border: 1px solid #eef2ed;
@@ -482,8 +492,8 @@
   background: #23421f;
   color: #ffffff;
   border: none;
-  border-radius: 6px;
-  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  padding: 0.65rem 1.25rem;
   font-size: 0.85rem;
   font-weight: 800;
   letter-spacing: 0.03em;

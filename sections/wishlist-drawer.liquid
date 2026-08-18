@@ -4,10 +4,10 @@
 {% enddoc %}
 
 {% assign enable_toast = settings.wishlist_enable_toast | default: section.settings.enable_toast | default: true %}
-{% assign toast_added = settings.wishlist_toast_added_text | default: section.settings.toast_added_text | default: 'Item has been successfully added to your wishlist ❤️' %}
+{% assign toast_added = settings.wishlist_toast_added_text | default: section.settings.toast_added_text | default: 'Item has been successfully added to your wishlist' %}
 {% assign toast_removed = settings.wishlist_toast_removed_text | default: section.settings.toast_removed_text | default: 'Item has been successfully removed from your wishlist' %}
 {% assign drawer_title = settings.wishlist_drawer_title | default: section.settings.drawer_title | default: 'My Wishlist' %}
-{% assign move_all_text = settings.wishlist_move_all_btn_text | default: section.settings.move_all_btn_text | default: '🛒 Move All to Cart' %}
+{% assign move_all_text = settings.wishlist_move_all_btn_text | default: section.settings.move_all_btn_text | default: 'Move All to Cart' %}
 {% assign continue_text = settings.wishlist_continue_shopping_text | default: section.settings.continue_shopping_text | default: 'Continue Shopping' %}
 
 <aside
@@ -70,7 +70,7 @@
 
     { "type": "header", "content": "Pop-up Notification (Toast)" },
     { "type": "checkbox", "id": "enable_toast", "label": "Enable Toast Notifications", "default": true },
-    { "type": "text", "id": "toast_added_text", "label": "Item Added Toast Message", "default": "Item has been successfully added to your wishlist ❤️" },
+    { "type": "text", "id": "toast_added_text", "label": "Item Added Toast Message", "default": "Item has been successfully added to your wishlist" },
     { "type": "text", "id": "toast_removed_text", "label": "Item Removed Toast Message", "default": "Item has been successfully removed from your wishlist" },
 
     { "type": "header", "content": "Empty Wishlist State" },
@@ -80,7 +80,7 @@
     { "type": "url", "id": "empty_btn_url", "label": "Empty State Button Link", "default": "/collections/all" },
 
     { "type": "header", "content": "Footer Buttons" },
-    { "type": "text", "id": "move_all_btn_text", "label": "Move All to Cart Button Text", "default": "🛒 Move All to Cart" },
+    { "type": "text", "id": "move_all_btn_text", "label": "Move All to Cart Button Text", "default": "Move All to Cart" },
     { "type": "text", "id": "continue_shopping_text", "label": "Continue Shopping Button Text", "default": "Continue Shopping" }
   ]
 }

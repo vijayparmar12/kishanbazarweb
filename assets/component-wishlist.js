@@ -320,7 +320,7 @@
         wishlistBtn.classList.add('is-active');
         wishlistBtn.setAttribute('aria-pressed', 'true');
 
-        const toastAddedText = drawer ? drawer.dataset.toastAdded : 'Item has been successfully added to your wishlist ❤️';
+        const toastAddedText = drawer ? drawer.dataset.toastAdded : 'Item has been successfully added to your wishlist';
         showWishlistToast(toastAddedText);
         openWishlistDrawer();
       }
