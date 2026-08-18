@@ -425,6 +425,16 @@
     "testimonials": {
       "type": "testimonials",
       "blocks": {
+        "testimonial_yE7aF8": {
+          "type": "testimonial",
+          "settings": {
+            "headline": "Finally a truly delicious and quality product.",
+            "review": "The Whole Truth's chocolate protein powder stands out in multiple ways. First, it's backed by a trustworthy brand known for quality and transparency. The texture is superb with no clumps.",
+            "name": "Amaan Bakali",
+            "role": "Owner and Coach at Crossfit Third Eye",
+            "rating": 5
+          }
+        },
         "review_3": {
           "type": "testimonial",
           "settings": {
@@ -438,6 +448,7 @@
         }
       },
       "block_order": [
+        "testimonial_yE7aF8",
         "review_3"
       ],
       "settings": {
