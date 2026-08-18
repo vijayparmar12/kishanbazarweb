@@ -174,10 +174,20 @@
     }, 300);
   }
 
-  // Delegate click for Testimonial Cards & Review Anchors
+  // Block Judge.me Popup Modal and expand review in-place on card click
   document.addEventListener('click', function(e) {
     if (dragThresholdPassed) {
       dragThresholdPassed = false;
+      return;
+    }
+
+    // Intercept clicks on Judge.me review cards & links to block popup modal
+    const jgCard = e.target.closest('.jdgm-carousel-item, .jdgm-carousel-slide, .jdgm-rev-widg__item, .jdgm-carousel__item, .jdgm-rev');
+    if (jgCard) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      jgCard.classList.toggle('is-expanded');
       return;
     }
 
@@ -198,12 +208,6 @@
           return;
         }
       }
-    }
-
-    const jgCard = e.target.closest('.jdgm-carousel-item, .jdgm-carousel-slide, .jdgm-rev-widg__item, .jdgm-carousel__item');
-    if (jgCard && !e.target.closest('a')) {
-      jgCard.classList.toggle('is-expanded');
-      return;
     }
 
     const card = e.target.closest('.testimonials__card, [data-testimonial-card]');
