@@ -1,13 +1,20 @@
 {% doc %}
   Renders the empty state view when no items are saved in the wishlist.
+
+  @param {object} [section] - The parent section containing schema settings
 {% enddoc %}
+
+{% assign empty_heading = section.settings.empty_heading | default: 'Your Wishlist is Empty' %}
+{% assign empty_text = section.settings.empty_text | default: 'Discover pure, farm-fresh organic staples you love and save them here for later.' %}
+{% assign empty_btn_text = section.settings.empty_btn_text | default: 'Continue Shopping' %}
+{% assign empty_btn_url = section.settings.empty_btn_url | default: '/collections/all' %}
 
 <div class="kb-wishlist-empty" data-wishlist-empty>
   <div class="kb-wishlist-empty__icon-wrap">
     <span class="kb-wishlist-empty__icon" aria-hidden="true">❤️</span>
     <span class="kb-wishlist-empty__pulse"></span>
   </div>
-  <h3 class="kb-wishlist-empty__heading">Your Wishlist is Empty</h3>
-  <p class="kb-wishlist-empty__description">Discover pure, farm-fresh organic staples you love and save them here for later.</p>
-  <a href="/collections/all" class="kb-wishlist-empty__cta" data-wishlist-close>Continue Shopping</a>
+  <h3 class="kb-wishlist-empty__heading">{{ empty_heading }}</h3>
+  <p class="kb-wishlist-empty__description">{{ empty_text }}</p>
+  <a href="{{ empty_btn_url }}" class="kb-wishlist-empty__cta" data-wishlist-close>{{ empty_btn_text }}</a>
 </div>

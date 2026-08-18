@@ -18,6 +18,38 @@
     return '';
   };
 
+  // Floating Toast Notification Pop-up
+  const showWishlistToast = (message) => {
+    const drawer = document.querySelector('[data-wishlist-drawer]');
+    const enableToast = drawer ? drawer.dataset.enableToast !== 'false' : true;
+    if (!enableToast || !message) return;
+
+    // Remove existing toast if present
+    const existing = document.querySelector('.kb-wishlist-toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.className = 'kb-wishlist-toast';
+    toast.setAttribute('role', 'alert');
+    toast.innerHTML =
+      '<span class="kb-wishlist-toast__msg">' + message + '</span>' +
+      '<button type="button" class="kb-wishlist-toast__close" aria-label="Close notification">&times;</button>';
+
+    document.body.appendChild(toast);
+
+    toast.querySelector('.kb-wishlist-toast__close').addEventListener('click', () => {
+      toast.classList.add('is-hiding');
+      setTimeout(() => toast.remove(), 250);
+    });
+
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.classList.add('is-hiding');
+        setTimeout(() => toast.remove(), 250);
+      }
+    }, 3500);
+  };
+
   // Asynchronously fetch real product images from Shopify Storefront API
   const fetchStoreProducts = async () => {
     try {
@@ -141,7 +173,7 @@
           '<article class="kb-wishlist-card" data-wishlist-card data-variant-id="' + item.variantId + '">' +
             '<div class="kb-wishlist-card__image-wrap">' +
               '<a href="/products/' + item.handle + '" class="kb-wishlist-card__image-link">' +
-                '<img src="' + imgSrc + '" alt="' + (item.title || 'Product') + '" class="kb-wishlist-card__img kb-wishlist-card__img--primary" width="150" height="150">' +
+                '<img src="' + imgSrc + '" alt="' + (item.title || 'Product') + '" class="kb-wishlist-card__img" width="150" height="150">' +
               '</a>' +
               discountHtml +
             '</div>' +
@@ -180,6 +212,10 @@
     items = items.filter((item) => String(item.variantId) !== String(variantId));
     saveWishlist(items);
     renderWishlist();
+
+    const drawer = document.querySelector('[data-wishlist-drawer]');
+    const toastRemovedText = drawer ? drawer.dataset.toastRemoved : 'Item has been successfully removed from your wishlist';
+    showWishlistToast(toastRemovedText);
   };
 
   const moveToCart = async (variantId, btnElement) => {
@@ -198,7 +234,7 @@
         body: JSON.stringify({ items: [{ id: variantId, quantity: 1 }] })
       });
     } catch (e) {
-      console.warn('Simulated AJAX cart add locally');
+      console.warn('Simulated Cart Add');
     }
 
     removeFromWishlist(variantId);
@@ -228,7 +264,7 @@
         body: JSON.stringify({ items: cartItems })
       });
     } catch (e) {
-      console.warn('Simulated move all to cart locally');
+      console.warn('Simulated Move All to Cart');
     }
 
     saveWishlist([]);
@@ -261,10 +297,15 @@
         return false;
       });
 
+      const drawer = document.querySelector('[data-wishlist-drawer]');
+
       if (existingIndex > -1) {
         items.splice(existingIndex, 1);
         wishlistBtn.classList.remove('is-active');
         wishlistBtn.setAttribute('aria-pressed', 'false');
+
+        const toastRemovedText = drawer ? drawer.dataset.toastRemoved : 'Item has been successfully removed from your wishlist';
+        showWishlistToast(toastRemovedText);
       } else {
         items.unshift({
           variantId,
@@ -278,6 +319,9 @@
         });
         wishlistBtn.classList.add('is-active');
         wishlistBtn.setAttribute('aria-pressed', 'true');
+
+        const toastAddedText = drawer ? drawer.dataset.toastAdded : 'Item has been successfully added to your wishlist ❤️';
+        showWishlistToast(toastAddedText);
         openWishlistDrawer();
       }
       saveWishlist(items);
@@ -314,6 +358,16 @@
     // 5. Move All to Cart
     if (event.target.closest('[data-move-all-to-cart]')) {
       moveAllToCart();
+    }
+
+    // 6. Search Clear Click
+    if (event.target.closest('[data-wishlist-search-clear]')) {
+      const input = document.querySelector('[data-wishlist-search-input]');
+      if (input) {
+        input.value = '';
+        event.target.closest('[data-wishlist-search-clear]').style.display = 'none';
+        renderWishlist('');
+      }
     }
   });
 

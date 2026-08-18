@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Premium Wishlist Drawer & Card System - Kishan Bazar
+   Premium Wishlist Drawer & Floating Toast Notification System - Kishan Bazar
    ========================================================================== */
 
 :root {
@@ -9,9 +9,99 @@
   --kb-wishlist-bg: #ffffff;
   --kb-wishlist-card-bg: #ffffff;
   --kb-wishlist-border: #eef2ed;
-  --kb-wishlist-shadow: -18px 0 50px rgba(19, 45, 20, 0.15);
+  --kb-wishlist-shadow: -18px 0 50px rgba(19, 45, 20, 0.18);
 }
 
+/* ==========================================================================
+   Floating Toast Pop-up Notification (Top-Left / Top-Center)
+   ========================================================================== */
+.kb-wishlist-toast {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 999999;
+  background: #ffffff;
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
+  border-left: 4px solid #23421f;
+  border-radius: 8px;
+  padding: 0.9rem 1.2rem;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 440px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.4;
+  animation: kbToastSlideIn 320ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@media (max-width: 640px) {
+  .kb-wishlist-toast {
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    max-width: none;
+  }
+}
+
+.kb-wishlist-toast.is-hiding {
+  animation: kbToastFadeOut 250ms ease forwards;
+}
+
+@keyframes kbToastSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes kbToastFadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-15px) scale(0.95);
+  }
+}
+
+.kb-wishlist-toast__msg {
+  flex: 1;
+  color: #1e3f23;
+  font-weight: 700;
+}
+
+.kb-wishlist-toast__close {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 150ms ease;
+}
+
+.kb-wishlist-toast__close:hover {
+  color: #0f172a;
+}
+
+/* ==========================================================================
+   Wishlist Drawer Shell & Backdrop Overlay
+   ========================================================================== */
 .kb-wishlist-drawer {
   position: fixed;
   inset: 0;
@@ -25,16 +115,16 @@
 .kb-wishlist-drawer__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   transition: opacity 300ms ease;
 }
 
 .kb-wishlist-drawer__panel {
   position: absolute;
   inset: 0 0 0 auto;
-  width: min(520px, 100%);
+  width: min(480px, 100%);
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -59,7 +149,9 @@
   }
 }
 
-/* Header */
+/* ==========================================================================
+   Drawer Header
+   ========================================================================== */
 .kb-wishlist-header {
   position: sticky;
   top: 0;
@@ -82,16 +174,21 @@
   gap: 0.6rem;
 }
 
+.kb-wishlist-header__icon {
+  font-size: 1.35rem;
+}
+
 .kb-wishlist-header__title {
   font-size: 1.45rem;
   font-weight: 800;
   color: #1e3f23;
   margin: 0;
   letter-spacing: -0.02em;
+  font-family: Georgia, serif, inherit;
 }
 
 .kb-wishlist-header__count {
-  background: #f1f5f0;
+  background: #edf4ec;
   color: #23421f;
   font-size: 0.85rem;
   font-weight: 800;
@@ -116,6 +213,7 @@
 .kb-wishlist-header__close:hover {
   background: #23421f;
   color: #ffffff;
+  transform: rotate(90deg);
 }
 
 .kb-wishlist-header__search-wrap {
@@ -124,22 +222,49 @@
   align-items: center;
 }
 
+.kb-wishlist-search-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 0.9rem;
+  color: #64748b;
+  pointer-events: none;
+}
+
 .kb-wishlist-search-input {
   width: 100%;
-  background: #ffffff;
+  background: #f8faf7;
   border: 1px solid #dcdfdc;
-  border-radius: 6px;
-  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  padding: 0.75rem 1rem 0.75rem 2.4rem;
   font-size: 0.95rem;
   color: #0f172a;
   outline: none;
+  transition: all 200ms ease;
 }
 
 .kb-wishlist-search-input:focus {
+  background: #ffffff;
   border-color: #23421f;
+  box-shadow: 0 0 0 3px rgba(35, 66, 31, 0.1);
 }
 
-/* Body */
+.kb-wishlist-search-clear {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.kb-wishlist-search-clear:hover {
+  color: #0f172a;
+}
+
+/* ==========================================================================
+   Drawer Body & Product Cards Grid
+   ========================================================================== */
 .kb-wishlist-drawer__body {
   flex: 1;
   overflow-y: auto;
@@ -161,7 +286,45 @@
   justify-content: center;
   text-align: center;
   padding: 3rem 1.5rem;
-  min-height: 60vh;
+  min-height: 55vh;
+}
+
+.kb-wishlist-empty__icon-wrap {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  background: #edf4ec;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.kb-wishlist-empty__icon {
+  font-size: 2rem;
+}
+
+.kb-wishlist-empty__pulse {
+  position: absolute;
+  inset: -6px;
+  border: 2px solid rgba(35, 66, 31, 0.2);
+  border-radius: 50%;
+  animation: kbPulse 2s infinite;
+}
+
+@keyframes kbPulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
 }
 
 .kb-wishlist-empty__heading {
@@ -169,29 +332,55 @@
   font-weight: 800;
   color: #1e3f23;
   margin: 0 0 0.5rem;
+  font-family: Georgia, serif, inherit;
 }
 
-/* Wishlist Product Card (Matching Two Brothers India Shop reference layout) */
+.kb-wishlist-empty__description {
+  color: #64748b;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 1.5rem;
+  max-width: 320px;
+}
+
+.kb-wishlist-empty__cta {
+  background: #23421f;
+  color: #ffffff;
+  padding: 0.8rem 1.75rem;
+  border-radius: 50px;
+  font-weight: 800;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 200ms ease;
+  box-shadow: 0 4px 12px rgba(35, 66, 31, 0.2);
+}
+
+.kb-wishlist-empty__cta:hover {
+  background: #162f15;
+  transform: translateY(-1px);
+}
+
+/* Wishlist Product Card */
 .kb-wishlist-card {
   background: #ffffff;
   border-bottom: 1px solid #f0f3ef;
   padding-bottom: 1.25rem;
   display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 1.25rem;
+  grid-template-columns: 110px 1fr;
+  gap: 1.15rem;
   position: relative;
   align-items: start;
 }
 
 .kb-wishlist-card__image-wrap {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 110px;
+  height: 110px;
   flex-shrink: 0;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
   background: #fcfcfb;
-  border: 1px solid #f0f3ef;
+  border: 1px solid #eef2ed;
 }
 
 .kb-wishlist-card__image-link {
@@ -204,6 +393,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 300ms ease;
+}
+
+.kb-wishlist-card:hover .kb-wishlist-card__img {
+  transform: scale(1.05);
 }
 
 .kb-wishlist-card__badge-discount {
@@ -224,7 +418,7 @@
 }
 
 .kb-wishlist-card__title {
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-weight: 800;
   margin: 0 0 0.35rem;
   line-height: 1.35;
@@ -233,17 +427,22 @@
 .kb-wishlist-card__title a {
   color: #1e3f23;
   text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.kb-wishlist-card__title a:hover {
+  color: #23421f;
 }
 
 .kb-wishlist-card__price-row {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.75rem;
 }
 
 .kb-wishlist-card__prices .price {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 900;
   color: #1e3f23;
 }
@@ -255,7 +454,7 @@
 }
 
 .kb-wishlist-card__unit {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: #64748b;
 }
 
@@ -266,12 +465,13 @@
   background: transparent;
   border: none;
   font-size: 1.1rem;
-  color: #64748b;
+  color: #94a3b8;
   cursor: pointer;
   padding: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: color 150ms ease;
 }
 
 .kb-wishlist-card__remove-btn:hover {
@@ -283,10 +483,10 @@
   color: #ffffff;
   border: none;
   border-radius: 6px;
-  padding: 0.65rem 1.25rem;
+  padding: 0.6rem 1.25rem;
   font-size: 0.85rem;
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -298,7 +498,9 @@
   background: #162f15;
 }
 
-/* Footer */
+/* ==========================================================================
+   Drawer Footer
+   ========================================================================== */
 .kb-wishlist-drawer__footer {
   position: sticky;
   bottom: 0;
@@ -317,6 +519,7 @@
   align-items: center;
   justify-content: space-between;
   font-size: 0.9rem;
+  color: #475569;
 }
 
 .kb-wishlist-footer-btn {
@@ -329,6 +532,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 200ms ease;
 }
 
 .kb-wishlist-footer-btn--move-all {
@@ -337,8 +541,16 @@
   border: none;
 }
 
+.kb-wishlist-footer-btn--move-all:hover {
+  background: #162f15;
+}
+
 .kb-wishlist-footer-btn--continue {
   background: #f1f5f0;
   color: #23421f;
   border: 1px solid #dcdfdc;
+}
+
+.kb-wishlist-footer-btn--continue:hover {
+  background: #e2e8e0;
 }

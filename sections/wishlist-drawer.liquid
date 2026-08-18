@@ -1,15 +1,25 @@
 {% doc %}
-  Renders the global Right-Side Sliding Wishlist Drawer shell.
+  Renders the global Right-Side Sliding Wishlist Drawer & Toast Notification System.
+  Fully customizable via Shopify Theme Editor.
 {% enddoc %}
 
-<aside class="kb-wishlist-drawer" id="WishlistDrawer" hidden data-wishlist-drawer aria-label="My Wishlist">
+<aside
+  class="kb-wishlist-drawer"
+  id="WishlistDrawer"
+  hidden
+  data-wishlist-drawer
+  data-enable-toast="{{ section.settings.enable_toast }}"
+  data-toast-added="{{ section.settings.toast_added_text | default: 'Item has been successfully added to your wishlist ❤️' | escape }}"
+  data-toast-removed="{{ section.settings.toast_removed_text | default: 'Item has been successfully removed from your wishlist' | escape }}"
+  aria-label="{{ section.settings.drawer_title | default: 'My Wishlist' }}"
+>
   <div class="kb-wishlist-drawer__overlay" data-wishlist-close></div>
   
   <div class="kb-wishlist-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="WishlistDrawerTitle">
-    {% render 'wishlist-header' %}
+    {% render 'wishlist-header', section: section %}
 
     <div class="kb-wishlist-drawer__body" data-wishlist-body>
-      {% render 'wishlist-empty' %}
+      {% render 'wishlist-empty', section: section %}
       
       <div class="kb-wishlist-items-grid" data-wishlist-items-grid style="display: none;">
         <!-- Dynamic Wishlist Item Cards loaded via JS -->
@@ -24,7 +34,7 @@
       
       <div class="kb-wishlist-footer__actions">
         <button type="button" class="kb-wishlist-footer-btn kb-wishlist-footer-btn--move-all" data-move-all-to-cart>
-          <span class="btn-text">🛒 Move All to Cart</span>
+          <span class="btn-text">{{ section.settings.move_all_btn_text | default: '🛒 Move All to Cart' }}</span>
           <span class="btn-loader" style="display: none;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
@@ -34,7 +44,7 @@
         </button>
 
         <button type="button" class="kb-wishlist-footer-btn kb-wishlist-footer-btn--continue" data-wishlist-close>
-          Continue Shopping
+          {{ section.settings.continue_shopping_text | default: 'Continue Shopping' }}
         </button>
       </div>
     </div>
@@ -46,6 +56,25 @@
   "name": "Wishlist Drawer",
   "tag": "section",
   "class": "section-wishlist-drawer",
-  "settings": []
+  "settings": [
+    { "type": "header", "content": "Wishlist Drawer Header" },
+    { "type": "text", "id": "drawer_title", "label": "Drawer Title", "default": "My Wishlist" },
+    { "type": "text", "id": "search_placeholder", "label": "Search Input Placeholder", "default": "Search saved products..." },
+
+    { "type": "header", "content": "Pop-up Notification (Toast)" },
+    { "type": "checkbox", "id": "enable_toast", "label": "Enable Toast Notifications", "default": true },
+    { "type": "text", "id": "toast_added_text", "label": "Item Added Toast Message", "default": "Item has been successfully added to your wishlist ❤️" },
+    { "type": "text", "id": "toast_removed_text", "label": "Item Removed Toast Message", "default": "Item has been successfully removed from your wishlist" },
+
+    { "type": "header", "content": "Empty Wishlist State" },
+    { "type": "text", "id": "empty_heading", "label": "Empty State Heading", "default": "Your Wishlist is Empty" },
+    { "type": "textarea", "id": "empty_text", "label": "Empty State Description", "default": "Discover pure, farm-fresh organic staples you love and save them here for later." },
+    { "type": "text", "id": "empty_btn_text", "label": "Empty State Button Text", "default": "Continue Shopping" },
+    { "type": "url", "id": "empty_btn_url", "label": "Empty State Button Link", "default": "/collections/all" },
+
+    { "type": "header", "content": "Footer Buttons" },
+    { "type": "text", "id": "move_all_btn_text", "label": "Move All to Cart Button Text", "default": "🛒 Move All to Cart" },
+    { "type": "text", "id": "continue_shopping_text", "label": "Continue Shopping Button Text", "default": "Continue Shopping" }
+  ]
 }
 {% endschema %}
