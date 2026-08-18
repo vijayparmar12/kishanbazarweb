@@ -14,36 +14,64 @@
       
       this.debounceTimer = null;
       this.bindEvents();
+      this.checkUrlSearch();
     }
 
     bindEvents() {
-      const mainSearchInput = document.querySelector('[data-typing-search]');
+      // 1. Prevent form submit navigation on Enter key or Search button across the whole store
+      document.addEventListener('submit', (e) => {
+        const form = e.target.closest('form[action*="/search"], form.kb-header__search, form.search-page__form, form.kb-search-drawer__form');
+        if (form) {
+          e.preventDefault();
+          const formInput = form.querySelector('input[type="search"], input[name="q"]');
+          const query = formInput ? formInput.value.trim() : (this.input ? this.input.value.trim() : '');
+          if (query) {
+            this.syncInputs(query);
+            this.open();
+            this.toggleClearBtn();
+            this.fetchResults(query);
+          }
+        }
+      });
+
+      // 2. Intercept click on search submit button
+      document.addEventListener('click', (e) => {
+        const submitBtn = e.target.closest('.kb-header__search-submit, .search-page__submit, .kb-search-drawer__submit');
+        if (submitBtn) {
+          const form = submitBtn.closest('form');
+          if (form) {
+            e.preventDefault();
+            const formInput = form.querySelector('input[type="search"], input[name="q"]');
+            const query = formInput ? formInput.value.trim() : '';
+            if (query) {
+              this.syncInputs(query);
+              this.open();
+              this.toggleClearBtn();
+              this.fetchResults(query);
+            }
+          }
+        }
+      });
+
+      // 3. Header Search Input typing & focus
+      const mainSearchInput = document.querySelector('[data-typing-search], .search-page__input');
 
       if (mainSearchInput) {
-        // 1. On focus: only open search drawer if query is NOT empty
         mainSearchInput.addEventListener('focus', () => {
           const query = mainSearchInput.value.trim();
           if (query.length >= 1) {
             this.open();
-            if (this.input) this.input.value = query;
+            this.syncInputs(query);
             this.toggleClearBtn();
             this.fetchResults(query);
-          } else {
-            // Nothing typed -> nothing visible!
-            this.close();
           }
         });
 
-        // 2. On typing in header search:
         mainSearchInput.addEventListener('input', () => {
           const query = mainSearchInput.value.trim();
-          if (this.input) {
-            this.input.value = query;
-            this.toggleClearBtn();
-          }
-          
+          this.syncInputs(query);
+
           if (query.length < 1) {
-            // Nothing typed -> close search drawer immediately!
             this.close();
             return;
           }
@@ -52,16 +80,15 @@
           clearTimeout(this.debounceTimer);
           this.debounceTimer = setTimeout(() => {
             this.fetchResults(query);
-          }, 250);
+          }, 200);
         });
       }
 
-      // 3. On typing in drawer search input:
+      // 4. Drawer search input typing
       if (this.input) {
         this.input.addEventListener('input', () => {
           const query = this.input.value.trim();
-          if (mainSearchInput) mainSearchInput.value = query;
-          this.toggleClearBtn();
+          this.syncInputs(query);
 
           if (query.length < 1) {
             this.close();
@@ -71,7 +98,7 @@
           clearTimeout(this.debounceTimer);
           this.debounceTimer = setTimeout(() => {
             this.fetchResults(query);
-          }, 250);
+          }, 200);
         });
       }
 
@@ -87,12 +114,30 @@
       // Clear button
       if (this.clearBtn) {
         this.clearBtn.addEventListener('click', () => {
-          if (this.input) this.input.value = '';
-          if (mainSearchInput) mainSearchInput.value = '';
+          this.syncInputs('');
           this.toggleClearBtn();
           this.close();
         });
       }
+    }
+
+    // Automatically open 2nd image box if on /search page with query
+    checkUrlSearch() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const query = urlParams.get('q');
+      if (query && query.trim().length > 0) {
+        this.syncInputs(query.trim());
+        this.open();
+        this.toggleClearBtn();
+        this.fetchResults(query.trim());
+      }
+    }
+
+    syncInputs(val) {
+      if (this.input) this.input.value = val;
+      document.querySelectorAll('[data-typing-search], .search-page__input').forEach(inp => {
+        inp.value = val;
+      });
     }
 
     open() {
@@ -118,14 +163,64 @@
 
     async fetchResults(query) {
       try {
-        const response = await fetch(`/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product,article,queries&resources[limit]=8`);
-        if (!response.ok) return;
+        // Step 1: Query Shopify predictive search API
+        const suggestUrl = `/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product,article,queries&resources[limit]=10`;
+        const response = await fetch(suggestUrl);
+        let products = [];
+        let queries = [];
 
-        const data = await response.json();
-        const predictiveResults = data.resources?.results;
-        if (!predictiveResults) return;
+        if (response.ok) {
+          const data = await response.json();
+          const predictiveResults = data.resources?.results;
+          if (predictiveResults) {
+            products = predictiveResults.products || [];
+            queries = predictiveResults.queries || [];
+          }
+        }
 
-        this.renderResults(query, predictiveResults);
+        // Step 2: Fallback to full search page HTML parsing if predictive search returned 0 products!
+        if (products.length === 0) {
+          const searchPageUrl = `/search?q=${encodeURIComponent(query)}&type=product`;
+          const htmlRes = await fetch(searchPageUrl);
+          if (htmlRes.ok) {
+            const htmlText = await htmlRes.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlText, 'text/html');
+
+            const cardElements = doc.querySelectorAll('.product-card, .search-result-card, [role="listitem"]');
+            const parsedProducts = [];
+            const seenUrls = new Set();
+
+            cardElements.forEach(card => {
+              const link = card.querySelector('a[href*="/products/"]');
+              if (!link) return;
+              const url = link.getAttribute('href');
+              if (!url || seenUrls.has(url)) return;
+              seenUrls.add(url);
+
+              const img = card.querySelector('img');
+              const titleEl = card.querySelector('.product-card__title, .card__heading, h3, h4, .search-result-card__content') || link;
+              const priceEl = card.querySelector('.price, .product-card__price, .price-item');
+
+              const title = titleEl ? titleEl.textContent.trim() : 'Product';
+              const imgUrl = img ? (img.getAttribute('src') || img.getAttribute('data-src') || '') : '';
+              const price = priceEl ? priceEl.textContent.trim() : '';
+
+              parsedProducts.push({
+                url,
+                title,
+                price,
+                image: imgUrl
+              });
+            });
+
+            if (parsedProducts.length > 0) {
+              products = parsedProducts;
+            }
+          }
+        }
+
+        this.renderResults(query, { products, queries });
       } catch (err) {
         console.error('Predictive search error:', err);
       }
@@ -134,54 +229,51 @@
     renderResults(query, results) {
       const { products = [], queries = [] } = results;
 
-      // 1. Suggestions List (Left Column)
+      // 1. Render Suggestions List (Left Column)
       if (this.suggestionList) {
         let suggestionItems = [];
         
         if (queries.length > 0) {
           suggestionItems = queries.map(q => q.text);
-        } else if (products.length > 0) {
+        } else {
           const set = new Set();
           set.add(query);
           products.forEach(p => {
             const words = p.title.split(' ');
             words.forEach(w => {
-              if (w.toLowerCase().includes(query.toLowerCase())) {
+              if (w.toLowerCase().includes(query.toLowerCase()) && w.length > 2) {
                 set.add(w.toLowerCase());
               }
             });
-            if (p.product_type) set.add(p.product_type);
           });
           suggestionItems = Array.from(set).slice(0, 6);
         }
 
-        if (suggestionItems.length > 0) {
-          this.suggestionList.innerHTML = suggestionItems.map((item) => {
-            const highlighted = this.highlightText(item, query);
-            return `<li class="kb-search-suggestion-item" data-suggestion-text="${item}">${highlighted}</li>`;
-          }).join('');
+        this.suggestionList.innerHTML = suggestionItems.map((item) => {
+          const highlighted = this.highlightText(item, query);
+          return `<li class="kb-search-suggestion-item" data-suggestion-text="${item}">${highlighted}</li>`;
+        }).join('');
 
-          // Click handler for suggestion items
-          this.suggestionList.querySelectorAll('.kb-search-suggestion-item').forEach((li) => {
-            li.addEventListener('click', () => {
-              const text = li.dataset.suggestionText;
-              const mainSearchInput = document.querySelector('[data-typing-search]');
-              if (this.input) this.input.value = text;
-              if (mainSearchInput) mainSearchInput.value = text;
-              this.toggleClearBtn();
-              this.fetchResults(text);
-            });
+        // Click handler on suggestions
+        this.suggestionList.querySelectorAll('.kb-search-suggestion-item').forEach((li) => {
+          li.addEventListener('click', () => {
+            const text = li.dataset.suggestionText;
+            this.syncInputs(text);
+            this.toggleClearBtn();
+            this.fetchResults(text);
           });
-        } else {
-          this.suggestionList.innerHTML = `<li class="kb-search-suggestion-item">${this.highlightText(query, query)}</li>`;
-        }
+        });
       }
 
-      // 2. Products List (Right Column - Rosier Foods Row Layout)
+      // 2. Render Products (Right Column - Rosier Row Layout)
       if (this.productsContainer) {
         if (products.length > 0) {
           this.productsContainer.innerHTML = products.map((product) => {
-            const priceFormatted = product.price ? `₹${parseFloat(product.price).toFixed(2)}` : (product.price_min ? `₹${parseFloat(product.price_min).toFixed(2)}` : '');
+            let priceFormatted = product.price || '';
+            if (typeof product.price === 'number' || (typeof product.price === 'string' && !product.price.includes('₹'))) {
+              const numPrice = parseFloat(product.price);
+              if (!isNaN(numPrice)) priceFormatted = `₹${numPrice.toFixed(2)}`;
+            }
             const imgUrl = product.featured_image?.url || product.image || '';
             return `
               <div class="kb-search-product-row">
@@ -191,7 +283,7 @@
                   </div>
                   <div class="kb-search-product-row__info">
                     <h4 class="kb-search-product-row__title">${this.highlightText(product.title, query)}</h4>
-                    <div class="kb-search-product-row__price">${priceFormatted}</div>
+                    ${priceFormatted ? `<div class="kb-search-product-row__price">${priceFormatted}</div>` : ''}
                   </div>
                 </a>
               </div>
@@ -199,11 +291,10 @@
           }).join('');
 
           if (this.viewAllLink) {
-            this.viewAllLink.href = `/search?q=${encodeURIComponent(query)}`;
-            this.viewAllLink.style.display = 'inline-block';
+            this.viewAllLink.style.display = 'none';
           }
         } else {
-          this.productsContainer.innerHTML = `<p style="color: #64748b; font-size: 0.9rem; padding: 0.5rem 0;">No products found for "${query}".</p>`;
+          this.productsContainer.innerHTML = `<p style="color: #64748b; font-size: 0.9rem; padding: 0.5rem 0;">No products found matching "${query}".</p>`;
           if (this.viewAllLink) this.viewAllLink.style.display = 'none';
         }
       }
