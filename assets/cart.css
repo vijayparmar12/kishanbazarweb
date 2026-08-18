@@ -531,12 +531,12 @@ body.kb-cart-drawer-open {
 
 @media (max-width: 640px) {
   .kb-cart-drawer__panel {
-    width: 100vw !important;
-    max-width: 100vw !important;
+    width: 100% !important;
+    max-width: 100% !important;
     border-radius: 0 !important;
   }
   .kb-cart-drawer__body {
-    padding: 8px 10px 20px !important;
+    padding: 10px 16px 20px !important;
   }
   .kb-cart-item {
     grid-template-columns: 70px minmax(0, 1fr) !important;
@@ -2095,4 +2095,136 @@ body.kb-cart-drawer-open {
 .kb-express-security {
   font-size: 0.75rem;
   color: #64748b;
-}
+}
+
+/* ==========================================================================
+   Mobile Right Padding & Overflow Fix for Cart Drawer
+   ========================================================================== */
+@media (max-width: 768px) {
+  .kb-cart-drawer {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  .kb-cart-drawer__panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+    border-radius: 0 !important;
+  }
+
+  .kb-cart-drawer__header {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .kb-cart-drawer__promo-bar {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    font-size: 0.8rem !important;
+  }
+
+  .kb-cart-drawer__promo-copy {
+    margin-left: 16px !important;
+    margin-right: 16px !important;
+    width: calc(100% - 32px) !important;
+    box-sizing: border-box !important;
+  }
+
+  .kb-cart-drawer__progress {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .kb-cart-drawer__body {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  .kb-cart-drawer__empty h3,
+  .kb-cart-drawer__empty p {
+    max-width: 100% !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .kb-cart-drawer__offers-block {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .kb-cart-coupon-box {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    gap: 8px !important;
+  }
+
+  .kb-cart-coupon-info {
+    min-width: 0 !important;
+    flex: 1 !important;
+  }
+
+  .kb-cart-coupon-text {
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .kb-cart-coupon-apply-btn {
+    flex-shrink: 0 !important;
+  }
+
+  .kb-cart-offers-link {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .kb-cart-drawer__addons-block {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .kb-cart-addons-track {
+    padding-right: 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  .kb-cart-addon-card {
+    flex: 0 0 165px !important;
+    width: 165px !important;
+    box-sizing: border-box !important;
+  }
+
+  .kb-cart-drawer__footer {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .kb-cart-drawer__checkout-btn {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+}
+
