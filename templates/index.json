@@ -427,7 +427,6 @@
       "blocks": {
         "review_3": {
           "type": "testimonial",
-          "disabled": true,
           "settings": {
             "headline": "Finally a truly delicious and quality product.",
             "review": "I love knowing where our pantry essentials come from. The range is simple, honest, and delicious.",
@@ -441,7 +440,6 @@
       "block_order": [
         "review_3"
       ],
-      "disabled": true,
       "settings": {
         "heading_image_desktop": "shopify://shop_images/first_image_2048px_width_1.png",
         "heading_image_mobile": "shopify://shop_images/ChatGPT_Image_Aug_17_2026_10_23_50_AM.png",
@@ -458,51 +456,6 @@
         "card_border_color": "#23421f",
         "card_bg_color": "#ffffff"
       }
-    },
-    "1787038896525606de": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_cards_carousel_bFXatC": {
-          "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "show_sample_reviews": true,
-            "reviews_selection": "all",
-            "products": [],
-            "filter_pinned": false,
-            "filter_featured": false,
-            "filter_custom_tags": "",
-            "star_rating": "all",
-            "show_review_media": true,
-            "display_order": "media_first",
-            "no_image_fallback": "review_text_only",
-            "max_reviews": 20,
-            "review_length": "medium",
-            "text_size": "medium",
-            "image_ratio": "0.75",
-            "reviews_shown": 4,
-            "show_reviewer_name": true,
-            "show_product_name": true,
-            "hide_arrows_mobile": true,
-            "arrows_position": "sides",
-            "max_width": 1100,
-            "corner_styling": "soft",
-            "header_text_color": "#000000",
-            "text_color": "#000000",
-            "card_color": "#F9F9F9",
-            "stars_color": "",
-            "arrows_color": "#000000",
-            "transition_speed": 5,
-            "header_text": "Customers are saying",
-            "show_average_rating": true,
-            "rating_display": "default"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_cards_carousel_bFXatC"
-      ],
-      "name": "Review",
-      "settings": {}
     }
   },
   "order": [
@@ -511,7 +464,6 @@
     "shoppable_videos",
     "best_sellers",
     "beyond_products",
-    "testimonials",
-    "1787038896525606de"
+    "testimonials"
   ]
 }
