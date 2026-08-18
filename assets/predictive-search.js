@@ -10,7 +10,6 @@
       this.resultsContainer = this.drawer.querySelector('[data-predictive-search-results]');
       this.suggestionList = this.drawer.querySelector('[data-suggestion-list-container]');
       this.productsContainer = this.drawer.querySelector('[data-products-container]');
-      this.viewAllLink = this.drawer.querySelector('[data-view-all-products]');
       
       this.debounceTimer = null;
       this.bindEvents();
@@ -18,7 +17,7 @@
     }
 
     bindEvents() {
-      // 1. Prevent form submit navigation on Enter key or Search button across the whole store
+      // 1. Prevent form submit navigation on Enter key or Search button
       document.addEventListener('submit', (e) => {
         const form = e.target.closest('form[action*="/search"], form.kb-header__search, form.search-page__form, form.kb-search-drawer__form');
         if (form) {
@@ -121,7 +120,6 @@
       }
     }
 
-    // Automatically open 2nd image box if on /search page with query
     checkUrlSearch() {
       const urlParams = new URLSearchParams(window.location.search);
       const query = urlParams.get('q');
@@ -251,7 +249,12 @@
 
         this.suggestionList.innerHTML = suggestionItems.map((item) => {
           const highlighted = this.highlightText(item, query);
-          return `<li class="kb-search-suggestion-item" data-suggestion-text="${item}">${highlighted}</li>`;
+          return `
+            <li class="kb-search-suggestion-item" data-suggestion-text="${item}">
+              <svg class="kb-search-suggestion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <span>${highlighted}</span>
+            </li>
+          `;
         }).join('');
 
         // Click handler on suggestions
@@ -265,7 +268,7 @@
         });
       }
 
-      // 2. Render Products (Right Column - Rosier Row Layout)
+      // 2. Render Products (Right Column - Premium Kisanveda / Rosier Card Layout)
       if (this.productsContainer) {
         if (products.length > 0) {
           this.productsContainer.innerHTML = products.map((product) => {
@@ -283,19 +286,17 @@
                   </div>
                   <div class="kb-search-product-row__info">
                     <h4 class="kb-search-product-row__title">${this.highlightText(product.title, query)}</h4>
-                    ${priceFormatted ? `<div class="kb-search-product-row__price">${priceFormatted}</div>` : ''}
+                    <div class="kb-search-product-row__meta">
+                      ${priceFormatted ? `<span class="kb-search-product-row__price">${priceFormatted}</span>` : ''}
+                    </div>
                   </div>
+                  <span class="kb-search-product-row__arrow" aria-hidden="true">&rarr;</span>
                 </a>
               </div>
             `;
           }).join('');
-
-          if (this.viewAllLink) {
-            this.viewAllLink.style.display = 'none';
-          }
         } else {
           this.productsContainer.innerHTML = `<p style="color: #64748b; font-size: 0.9rem; padding: 0.5rem 0;">No products found matching "${query}".</p>`;
-          if (this.viewAllLink) this.viewAllLink.style.display = 'none';
         }
       }
     }

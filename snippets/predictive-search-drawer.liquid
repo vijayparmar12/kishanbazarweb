@@ -1,7 +1,5 @@
 {% doc %}
-  Renders the predictive search dropdown drawer matching Rosier Foods layout
-  (Split 2-column: Suggestions on Left with yellow match highlight, Products row list on Right).
-  Hidden when input is empty.
+  Renders the predictive search drawer popup with ultra-premium Rosier / Kisanveda aesthetics.
 
   @example
   {% render 'predictive-search-drawer' %}
@@ -14,14 +12,17 @@
   <div class="kb-search-drawer__backdrop" data-search-close></div>
 
   <div class="kb-search-drawer__container" role="dialog" aria-modal="true" aria-label="Search store">
-    <!-- Header Row inside drawer -->
+    <!-- Header Input Bar -->
     <div class="kb-search-drawer__header-row">
       <form action="{{ routes.search_url }}" method="get" role="search" class="kb-search-drawer__form" data-predictive-search-form>
+        <span class="kb-search-drawer__search-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#23421f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </span>
         <input
           type="search"
           name="q"
           class="kb-search-drawer__input"
-          placeholder="Search products..."
+          placeholder="Search for Atta, Ghee, Oil..."
           value=""
           autocomplete="off"
           autocorrect="off"
@@ -30,27 +31,23 @@
           data-predictive-search-input
         >
         <button type="button" class="kb-search-drawer__clear" aria-label="Clear search query" data-search-input-clear style="display: none;">&times;</button>
-        <button type="submit" class="kb-search-drawer__submit" aria-label="Submit search">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        </button>
       </form>
-      <button type="button" class="kb-search-drawer__close" aria-label="Close search modal" data-search-close>&times;</button>
+      <button type="button" class="kb-search-drawer__close" aria-label="Close search modal" data-search-close>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
     </div>
 
-    <!-- Scrollable Results Body (Split Layout: Suggestions Left | Products Right) -->
+    <!-- Scrollable Results Body (2 Columns) -->
     <div class="kb-search-drawer__body" data-predictive-search-results style="display: none;">
-      <!-- Column 1: Suggestions -->
+      <!-- Suggestions Column -->
       <div class="kb-search-drawer__col kb-search-drawer__col--suggestions" data-section-suggestions>
         <h3 class="kb-search-drawer__title">Suggestions</h3>
         <ul class="kb-search-drawer__suggestion-list" data-suggestion-list-container></ul>
       </div>
 
-      <!-- Column 2: Products -->
+      <!-- Products Column -->
       <div class="kb-search-drawer__col kb-search-drawer__col--products" data-section-products>
-        <h3 class="kb-search-drawer__title">
-          <span>Products</span>
-          <a href="{{ routes.all_products_collection_url }}" class="kb-search-drawer__view-all" data-view-all-products style="display: none;">View All &rarr;</a>
-        </h3>
+        <h3 class="kb-search-drawer__title">Products</h3>
         <div class="kb-search-drawer__products-list" data-products-container></div>
       </div>
     </div>
