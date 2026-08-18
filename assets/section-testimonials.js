@@ -68,40 +68,39 @@
   // Dynamic Sync of ALL Judge.me Imported Reviews into Green Testimonial Cards
   function syncJudgemeToGreenCards() {
     const jgWrapper = document.querySelector('.jdgm-carousel-wrapper, .jdgm-all-reviews-widget, .jdgm-widget, .jdgm-rev-widg');
-    if (!jgWrapper) return;
+    const sections = document.querySelectorAll('.testimonials-carousel-section, [data-testimonials-section]');
 
     // Find review elements inside Judge.me widget
-    const reviewEls = jgWrapper.querySelectorAll('.jdgm-carousel-item, .jdgm-rev, .jdgm-carousel-slide, [data-review-id]');
-    if (!reviewEls || reviewEls.length === 0) return;
+    const reviewEls = jgWrapper ? jgWrapper.querySelectorAll('.jdgm-carousel-item, .jdgm-rev, .jdgm-carousel-slide, [data-review-id]') : [];
 
     const extractedReviews = [];
     const seenKeys = new Set();
 
-    reviewEls.forEach(el => {
-      if (el.classList.contains('jdgm--hidden') || el.style.display === 'none') return;
+    if (reviewEls && reviewEls.length > 0) {
+      reviewEls.forEach(el => {
+        if (el.classList.contains('jdgm--hidden') || el.style.display === 'none') return;
 
-      const titleEl = el.querySelector('.jdgm-carousel-item__review-title, .jdgm-rev__title, .jdgm-carousel-item__title, .jdgm-rev-widg__title');
-      const bodyEl = el.querySelector('.jdgm-carousel-item__review-body, .jdgm-rev__body, .jdgm-carousel-item__body, .jdgm-rev-widg__body');
-      const nameEl = el.querySelector('.jdgm-carousel-item__reviewer-name, .jdgm-rev__author-name, .jdgm-carousel-item__name, .jdgm-rev__author');
+        const titleEl = el.querySelector('.jdgm-carousel-item__review-title, .jdgm-rev__title, .jdgm-carousel-item__title, .jdgm-rev-widg__title');
+        const bodyEl = el.querySelector('.jdgm-carousel-item__review-body, .jdgm-rev__body, .jdgm-carousel-item__body, .jdgm-rev-widg__body');
+        const nameEl = el.querySelector('.jdgm-carousel-item__reviewer-name, .jdgm-rev__author-name, .jdgm-carousel-item__name, .jdgm-rev__author');
 
-      const headline = titleEl ? titleEl.textContent.trim() : '';
-      const fullText = bodyEl ? bodyEl.textContent.trim() : '';
-      const name = nameEl ? nameEl.textContent.trim() : 'Verified Customer';
-      const imgSrc = extractJudgemeImage(el);
+        const headline = titleEl ? titleEl.textContent.trim() : '';
+        const fullText = bodyEl ? bodyEl.textContent.trim() : '';
+        const name = nameEl ? nameEl.textContent.trim() : 'Verified Customer';
+        const imgSrc = extractJudgemeImage(el);
 
-      const uniqueKey = `${name}_${headline}_${fullText}`;
-      if ((headline || fullText) && !seenKeys.has(uniqueKey)) {
-        seenKeys.add(uniqueKey);
-        extractedReviews.push({
-          headline: headline || fullText.split('. ')[0],
-          fullText: fullText || headline,
-          name: name,
-          imgSrc: imgSrc
-        });
-      }
-    });
-
-    if (extractedReviews.length === 0) return;
+        const uniqueKey = `${name}_${headline}_${fullText}`;
+        if ((headline || fullText) && !seenKeys.has(uniqueKey)) {
+          seenKeys.add(uniqueKey);
+          extractedReviews.push({
+            headline: headline || fullText.split('. ')[0],
+            fullText: fullText || headline,
+            name: name,
+            imgSrc: imgSrc
+          });
+        }
+      });
+    }
 
     // Hide top plain default Judge.me widget container safely
     const jgContainer = document.querySelector('.testimonials__judgeme-container');
@@ -110,6 +109,26 @@
       jgContainer.style.position = 'absolute';
       jgContainer.style.left = '-9999px';
     }
+
+    // If Judge.me is loaded and has ZERO published reviews, clear track
+    if (jgWrapper && extractedReviews.length === 0) {
+      const tracks = document.querySelectorAll('[data-testimonials-track]');
+      tracks.forEach(track => {
+        track.innerHTML = '';
+      });
+      sections.forEach(sec => {
+        sec.style.display = 'none';
+      });
+      hasSyncedJudgeme = true;
+      return;
+    }
+
+    if (extractedReviews.length === 0) return;
+
+    // Show section if reviews exist
+    sections.forEach(sec => {
+      sec.style.display = '';
+    });
 
     // Populate green cards strictly for current active Judge.me reviews
     const tracks = document.querySelectorAll('[data-testimonials-track]');
