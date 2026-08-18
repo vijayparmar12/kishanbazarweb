@@ -200,6 +200,12 @@
       }
     }
 
+    const jgCard = e.target.closest('.jdgm-carousel-item, .jdgm-carousel-slide, .jdgm-rev-widg__item, .jdgm-carousel__item');
+    if (jgCard && !e.target.closest('a')) {
+      jgCard.classList.toggle('is-expanded');
+      return;
+    }
+
     const card = e.target.closest('.testimonials__card, [data-testimonial-card]');
     if (!card) return;
 
