@@ -1,13 +1,51 @@
-// Testimonials Card Flip & Dynamic Sync of Judge.me Imported Reviews
+// Testimonials Card Flip, Drag Scroll & Dynamic Sync of ALL Judge.me Imported Reviews & Photos
 (function() {
   let isDragging = false;
   let startX = 0;
   let scrollLeftStart = 0;
   let dragThresholdPassed = false;
+  let hasSyncedJudgeme = false;
 
-  // Sync Judge.me imported reviews into green testimonial cards
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function extractJudgemeImage(el) {
+    if (!el) return '';
+
+    // 1. Check img tags inside element (excluding rating star SVGs/PNGs)
+    const imgs = el.querySelectorAll('img');
+    for (let img of imgs) {
+      const src = img.getAttribute('data-src') || img.getAttribute('src') || img.getAttribute('data-url') || '';
+      if (src && !src.includes('star') && !src.includes('badge') && !src.includes('icon') && !src.endsWith('.svg')) {
+        return src;
+      }
+    }
+
+    // 2. Check picture or link background images
+    const picWrap = el.querySelector('.jdgm-rev__pic, .jdgm-rev__pic-link, .jdgm-carousel-item__review-image, .jdgm-temp-picture');
+    if (picWrap) {
+      const bg = picWrap.style.backgroundImage || window.getComputedStyle(picWrap).backgroundImage;
+      if (bg && bg.includes('url(')) {
+        const match = bg.match(/url\(['"]?(.*?)['"]?\)/);
+        if (match && match[1] && !match[1].includes('star')) return match[1];
+      }
+      const dataSrc = picWrap.getAttribute('data-src') || picWrap.getAttribute('data-bg');
+      if (dataSrc) return dataSrc;
+    }
+
+    return '';
+  }
+
+  // Dynamic Sync of ALL Judge.me Imported Reviews into Green Testimonial Cards
   function syncJudgemeToGreenCards() {
-    const jgWrapper = document.querySelector('.jdgm-carousel-wrapper, .jdgm-all-reviews-widget, .jdgm-widget');
+    const jgWrapper = document.querySelector('.jdgm-carousel-wrapper, .jdgm-all-reviews-widget, .jdgm-widget, .jdgm-rev-widg');
     if (!jgWrapper) return;
 
     // Find review elements inside Judge.me widget
@@ -19,12 +57,11 @@
       const titleEl = el.querySelector('.jdgm-carousel-item__review-title, .jdgm-rev__title, .jdgm-carousel-item__title, .jdgm-rev-widg__title');
       const bodyEl = el.querySelector('.jdgm-carousel-item__review-body, .jdgm-rev__body, .jdgm-carousel-item__body, .jdgm-rev-widg__body');
       const nameEl = el.querySelector('.jdgm-carousel-item__reviewer-name, .jdgm-rev__author-name, .jdgm-carousel-item__name, .jdgm-rev__author');
-      const imgEl = el.querySelector('.jdgm-carousel-item__review-image img, .jdgm-rev__pic img, img[src*="judgeme"]');
 
       const headline = titleEl ? titleEl.textContent.trim() : '';
       const fullText = bodyEl ? bodyEl.textContent.trim() : '';
       const name = nameEl ? nameEl.textContent.trim() : 'Verified Customer';
-      const imgSrc = imgEl ? imgEl.src : '';
+      const imgSrc = extractJudgemeImage(el);
 
       if (headline || fullText) {
         extractedReviews.push({
@@ -38,61 +75,65 @@
 
     if (extractedReviews.length === 0) return;
 
-    // Hide top default plain Judge.me container widget
+    // Hide top plain default Judge.me widget container
     const jgContainer = document.querySelector('.testimonials__judgeme-container');
     if (jgContainer) {
       jgContainer.style.display = 'none';
     }
 
-    // Populate green cards in testimonials track
+    // Populate green cards for ALL extracted Judge.me reviews
     const tracks = document.querySelectorAll('[data-testimonials-track]');
     tracks.forEach(track => {
-      const cards = track.querySelectorAll('.testimonials__card');
-      if (cards.length === 0) return;
+      let newCardsHTML = '';
 
-      cards.forEach((card, index) => {
-        const reviewData = extractedReviews[index % extractedReviews.length];
-        if (!reviewData) return;
+      // Build cards for all imported reviews
+      extractedReviews.forEach(review => {
+        const headlineClean = escapeHtml(review.headline.replace(/^"+|"+$/g, ''));
+        const fullTextClean = escapeHtml(review.fullText);
+        const nameClean = escapeHtml(review.name);
+        const initialLetter = (review.name || 'V').charAt(0).toUpperCase();
 
-        // Front view elements
-        const frontHeadline = card.querySelector('.testimonials__card-headline');
-        const frontMedia = card.querySelector('.testimonials__card-media');
-        const frontName = card.querySelector('.testimonials__author-name');
-        const frontRole = card.querySelector('.testimonials__author-role');
+        const mediaHTML = review.imgSrc
+          ? `<img src="${review.imgSrc}" class="testimonials__card-img" alt="${nameClean}" loading="lazy">`
+          : `<div class="testimonials__card-avatar-fallback"><span class="testimonials__avatar-text">${initialLetter}</span></div>`;
 
-        // Back view elements
-        const backText = card.querySelector('.testimonials__card-full-text');
-        const backName = card.querySelectorAll('.testimonials__author-name')[1];
-        const backRole = card.querySelectorAll('.testimonials__author-role')[1];
-
-        // Update card data attribute
-        card.dataset.fullReview = reviewData.fullText;
-
-        if (frontHeadline) {
-          frontHeadline.textContent = `"${reviewData.headline.replace(/^"+|"+$/g, '')}"`;
-        }
-        if (backText) {
-          backText.textContent = `"${reviewData.fullText}"`;
-        }
-        if (frontName) frontName.textContent = reviewData.name;
-        if (backName) backName.textContent = reviewData.name;
-        if (frontRole) frontRole.textContent = '✓ Verified Customer';
-        if (backRole) backRole.textContent = '✓ Verified Customer';
-
-        if (frontMedia) {
-          const initialLetter = (reviewData.name || 'V').charAt(0).toUpperCase();
-          if (reviewData.imgSrc) {
-            frontMedia.innerHTML = `<img src="${reviewData.imgSrc}" class="testimonials__card-img" alt="${reviewData.name}">`;
-          } else {
-            frontMedia.innerHTML = `
-              <div class="testimonials__card-avatar-fallback">
-                <span class="testimonials__avatar-text">${initialLetter}</span>
+        newCardsHTML += `
+          <div class="testimonials__card" data-testimonial-card data-full-review="${fullTextClean}">
+            <div class="testimonials__card-front" data-card-front>
+              <h3 class="testimonials__card-headline">"${headlineClean}"</h3>
+              <div class="testimonials__card-media">${mediaHTML}</div>
+              <footer class="testimonials__card-footer">
+                <div class="testimonials__author-info">
+                  <strong class="testimonials__author-name">${nameClean}</strong>
+                  <span class="testimonials__author-role">✓ Verified Customer</span>
+                </div>
+                <button type="button" class="testimonials__expand-btn" data-card-toggle aria-label="Read full review from ${nameClean}">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </footer>
+            </div>
+            <div class="testimonials__card-back" data-card-back>
+              <div class="testimonials__card-full-msg">
+                <p class="testimonials__card-full-text">"${fullTextClean}"</p>
               </div>
-            `;
-          }
-        }
+              <footer class="testimonials__card-footer">
+                <div class="testimonials__author-info">
+                  <strong class="testimonials__author-name">${nameClean}</strong>
+                  <span class="testimonials__author-role">✓ Verified Customer</span>
+                </div>
+                <button type="button" class="testimonials__expand-btn testimonials__expand-btn--active" data-card-toggle aria-label="Close full review">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                </button>
+              </footer>
+            </div>
+          </div>
+        `;
       });
+
+      track.innerHTML = newCardsHTML;
     });
+
+    hasSyncedJudgeme = true;
   }
 
   function initJudgemeSync() {
@@ -100,8 +141,8 @@
     const interval = setInterval(() => {
       attempts++;
       syncJudgemeToGreenCards();
-      if (attempts > 15) clearInterval(interval);
-    }, 400);
+      if (hasSyncedJudgeme || attempts > 20) clearInterval(interval);
+    }, 350);
   }
 
   // Delegate click for Testimonial Cards & Review Anchors
@@ -134,7 +175,6 @@
     if (!card) return;
 
     const section = card.closest('.testimonials-carousel-section, [data-testimonials-section]');
-
     const isExpanded = card.classList.contains('is-expanded');
 
     if (section) {
