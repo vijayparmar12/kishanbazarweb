@@ -4,10 +4,10 @@
   @param {object} [section] - The parent section containing schema settings
 {% enddoc %}
 
-{% assign empty_heading = section.settings.empty_heading | default: 'Your Wishlist is Empty' %}
-{% assign empty_text = section.settings.empty_text | default: 'Discover pure, farm-fresh organic staples you love and save them here for later.' %}
-{% assign empty_btn_text = section.settings.empty_btn_text | default: 'Continue Shopping' %}
-{% assign empty_btn_url = section.settings.empty_btn_url | default: '/collections/all' %}
+{% assign empty_heading = settings.wishlist_empty_heading | default: section.settings.empty_heading | default: 'Your Wishlist is Empty' %}
+{% assign empty_text = settings.wishlist_empty_text | default: section.settings.empty_text | default: 'Discover pure, farm-fresh organic staples you love and save them here for later.' %}
+{% assign empty_btn_text = settings.wishlist_empty_btn_text | default: section.settings.empty_btn_text | default: 'Continue Shopping' %}
+{% assign empty_btn_url = settings.wishlist_empty_btn_url | default: section.settings.empty_btn_url | default: '/collections/all' %}
 
 <div class="kb-wishlist-empty" data-wishlist-empty>
   <div class="kb-wishlist-empty__icon-wrap">

@@ -4,8 +4,8 @@
   @param {object} [section] - The parent section containing schema settings
 {% enddoc %}
 
-{% assign drawer_title = section.settings.drawer_title | default: 'My Wishlist' %}
-{% assign search_placeholder = section.settings.search_placeholder | default: 'Search saved products...' %}
+{% assign drawer_title = settings.wishlist_drawer_title | default: section.settings.drawer_title | default: 'My Wishlist' %}
+{% assign search_placeholder = settings.wishlist_search_placeholder | default: section.settings.search_placeholder | default: 'Search saved products...' %}
 
 <div class="kb-wishlist-header">
   <div class="kb-wishlist-header__top">
