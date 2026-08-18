@@ -424,22 +424,6 @@
     },
     "testimonials": {
       "type": "testimonials",
-      "blocks": {
-        "review_3": {
-          "type": "testimonial",
-          "settings": {
-            "headline": "Finally a truly delicious and quality product.",
-            "review": "I love knowing where our pantry essentials come from. The range is simple, honest, and delicious.",
-            "image": "shopify://shop_images/WhatsAppImage2026-07-31at11.08.22AM.jpg",
-            "name": "Neha K.",
-            "role": "Owner and Coach at Crossfit Third Eye",
-            "rating": 5
-          }
-        }
-      },
-      "block_order": [
-        "review_3"
-      ],
       "settings": {
         "heading_image_desktop": "shopify://shop_images/first_image_2048px_width_1.png",
         "heading_image_mobile": "shopify://shop_images/ChatGPT_Image_Aug_17_2026_10_23_50_AM.png",
