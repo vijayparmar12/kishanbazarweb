@@ -153,12 +153,14 @@ class ShoppableVideosSection {
         `;
         clone.appendChild(centerPlayBtn);
 
+        const productUrl = card.dataset.productUrl || card.querySelector('.shoppable-videos__product-info-row')?.href || '/collections/all';
+
         // Build Bottom White Product Box Card
         const whiteProductBox = document.createElement('div');
         whiteProductBox.className = 'shoppable-videos__modal-white-box';
         whiteProductBox.style.cssText = 'position: absolute; bottom: 12px; left: 12px; right: 12px; z-index: 100; background: #ffffff; border-radius: 16px; padding: 10px 12px; box-shadow: 0 12px 30px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid rgba(35,66,31,0.12);';
         whiteProductBox.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1;">
+          <a href="${productUrl}" style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; text-decoration: none; color: inherit;">
             ${thumb ? `<img src="${thumb}" alt="${title}" style="width: 50px; height: 50px; border-radius: 10px; object-fit: cover; flex-shrink: 0; border: 1px solid #f0f0f0;">` : ''}
             <div style="min-width: 0; flex: 1;">
               <h4 style="margin: 0 0 2px; font-size: 0.86rem; font-weight: 800; color: #132d14; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${title}</h4>
@@ -168,18 +170,8 @@ class ShoppableVideosSection {
                 ${comparePrice ? `<s style="font-size: 0.76rem; color: #94a3b8; font-weight: 500;">${comparePrice}</s>` : ''}
               </div>
             </div>
-          </div>
-          <form method="post" action="/cart/add" data-product-card-form style="margin: 0;">
-            <input type="hidden" name="id" value="${variantId || ''}">
-            <div style="position: relative; height: 38px;">
-              <button type="submit" class="shoppable-videos__modal-add-btn" data-card-add-btn style="background: #23421f; color: #ffffff; border: none; padding: 0.55rem 0.95rem; border-radius: 10px; font-weight: 800; font-size: 0.78rem; cursor: pointer; white-space: nowrap; flex-shrink: 0; box-shadow: 0 4px 12px rgba(35,66,31,0.25);">ADD TO CART</button>
-              <div class="shoppable-videos__inline-stepper" data-card-inline-stepper style="display: none; height: 38px; border: 2px solid #23421f; border-radius: 10px; background: #ffffff; align-items: center; justify-content: space-between; padding: 0 8px; box-sizing: border-box; min-width: 95px;">
-                <button type="button" data-inline-minus style="border: none; background: transparent; cursor: pointer; font-size: 1.15rem; font-weight: 900; color: #23421f; padding: 0 4px;">-</button>
-                <span data-inline-count style="font-size: 0.90rem; font-weight: 900; color: #23421f;">1</span>
-                <button type="button" data-inline-plus style="border: none; background: transparent; cursor: pointer; font-size: 1.15rem; font-weight: 900; color: #23421f; padding: 0 4px;">+</button>
-              </div>
-            </div>
-          </form>
+          </a>
+          <a href="${productUrl}" class="shoppable-videos__modal-add-btn" data-video-navigate-btn style="background: #23421f; color: #ffffff; border: none; padding: 0.55rem 1rem; border-radius: 10px; font-weight: 800; font-size: 0.78rem; cursor: pointer; white-space: nowrap; flex-shrink: 0; box-shadow: 0 4px 12px rgba(35,66,31,0.25); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; text-transform: uppercase;">ADD TO CART</a>
         `;
         clone.appendChild(whiteProductBox);
 
@@ -562,5 +554,24 @@ document.addEventListener('shopify:section:load', (event) => {
     new ShoppableVideosSection(section);
   }
 });
+
+document.addEventListener('click', (event) => {
+  const navBtn = event.target.closest('[data-video-navigate-btn], .shoppable-videos__buy-btn, .shoppable-videos__modal-add-btn');
+  if (!navBtn) return;
+
+  let targetUrl = navBtn.getAttribute('href') || navBtn.dataset.productUrl;
+  if (!targetUrl || targetUrl === '#') {
+    const card = navBtn.closest('[data-shoppable-card], .shoppable-videos__card, .shoppable-videos__modal-white-box, .shoppable-videos__product-overlay');
+    if (card) {
+      targetUrl = card.dataset.productUrl || card.querySelector('a')?.href;
+    }
+  }
+
+  if (targetUrl) {
+    event.preventDefault();
+    event.stopPropagation();
+    window.location.href = targetUrl;
+  }
+}, true);
 
 export {};
