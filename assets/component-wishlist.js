@@ -166,7 +166,6 @@
     if (grid) {
       grid.innerHTML = filtered.map((item) => {
         const imgSrc = item.image || getLogoUrl();
-        const discountHtml = item.discount ? '<span class="kb-wishlist-card__badge-discount">-' + item.discount + '% OFF</span>' : '';
         const compareHtml = item.comparePrice ? '<s class="compare-price">' + item.comparePrice + '</s>' : '';
 
         return (
@@ -175,7 +174,6 @@
               '<a href="/products/' + item.handle + '" class="kb-wishlist-card__image-link">' +
                 '<img src="' + imgSrc + '" alt="' + (item.title || 'Product') + '" class="kb-wishlist-card__img" width="150" height="150">' +
               '</a>' +
-              discountHtml +
             '</div>' +
             '<div class="kb-wishlist-card__content">' +
               '<button type="button" class="kb-wishlist-card__remove-btn" aria-label="Remove item" data-remove-wishlist data-variant-id="' + item.variantId + '">' +
