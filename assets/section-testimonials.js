@@ -19,25 +19,47 @@
   function extractJudgemeImage(el) {
     if (!el) return '';
 
-    // 1. Check img tags inside element (excluding rating star SVGs/PNGs)
-    const imgs = el.querySelectorAll('img');
-    for (let img of imgs) {
-      const src = img.getAttribute('data-src') || img.getAttribute('src') || img.getAttribute('data-url') || '';
-      if (src && !src.includes('star') && !src.includes('badge') && !src.includes('icon') && !src.endsWith('.svg')) {
+    // 1. Specific Judge.me Image Selectors (Product or Review Photo)
+    const imgSelect = el.querySelector(
+      '.jdgm-carousel-item__review-image img, .jdgm-carousel-item__product-image img, .jdgm-rev__pic img, .jdgm-rev__product-image img, .jdgm-rev__photo img, .jdgm-temp-picture img, .jdgm-carousel-item__photo img'
+    );
+    if (imgSelect) {
+      let src = imgSelect.getAttribute('data-src') || imgSelect.getAttribute('src') || imgSelect.getAttribute('data-lazy-src') || '';
+      if (src.includes(' ')) src = src.split(' ')[0];
+      if (src && !src.includes('star') && !src.includes('badge') && !src.endsWith('.svg')) {
+        if (src.startsWith('//')) src = 'https:' + src;
         return src;
       }
     }
 
-    // 2. Check picture or link background images
-    const picWrap = el.querySelector('.jdgm-rev__pic, .jdgm-rev__pic-link, .jdgm-carousel-item__review-image, .jdgm-temp-picture');
+    // 2. Fallback: Any img element inside the review card
+    const imgs = el.querySelectorAll('img');
+    for (let img of imgs) {
+      let src = img.getAttribute('data-src') || img.getAttribute('src') || img.getAttribute('data-lazy-src') || '';
+      if (src.includes(' ')) src = src.split(' ')[0];
+      if (src && !src.includes('star') && !src.includes('badge') && !src.includes('icon') && !src.endsWith('.svg')) {
+        if (src.startsWith('//')) src = 'https:' + src;
+        return src;
+      }
+    }
+
+    // 3. Fallback: Background image style
+    const picWrap = el.querySelector('.jdgm-rev__pic, .jdgm-rev__pic-link, .jdgm-carousel-item__review-image, .jdgm-carousel-item__product-image, .jdgm-temp-picture');
     if (picWrap) {
-      const bg = picWrap.style.backgroundImage || window.getComputedStyle(picWrap).backgroundImage;
+      const bg = picWrap.style.backgroundImage || (window.getComputedStyle ? window.getComputedStyle(picWrap).backgroundImage : '');
       if (bg && bg.includes('url(')) {
         const match = bg.match(/url\(['"]?(.*?)['"]?\)/);
-        if (match && match[1] && !match[1].includes('star')) return match[1];
+        if (match && match[1] && !match[1].includes('star')) {
+          let src = match[1];
+          if (src.startsWith('//')) src = 'https:' + src;
+          return src;
+        }
       }
-      const dataSrc = picWrap.getAttribute('data-src') || picWrap.getAttribute('data-bg');
-      if (dataSrc) return dataSrc;
+      let dataSrc = picWrap.getAttribute('data-src') || picWrap.getAttribute('data-bg');
+      if (dataSrc) {
+        if (dataSrc.startsWith('//')) dataSrc = 'https:' + dataSrc;
+        return dataSrc;
+      }
     }
 
     return '';
@@ -75,10 +97,12 @@
 
     if (extractedReviews.length === 0) return;
 
-    // Hide top plain default Judge.me widget container
+    // Hide top plain default Judge.me widget container safely
     const jgContainer = document.querySelector('.testimonials__judgeme-container');
     if (jgContainer) {
-      jgContainer.style.display = 'none';
+      jgContainer.style.opacity = '0';
+      jgContainer.style.position = 'absolute';
+      jgContainer.style.left = '-9999px';
     }
 
     // Populate green cards for ALL extracted Judge.me reviews
@@ -86,7 +110,6 @@
     tracks.forEach(track => {
       let newCardsHTML = '';
 
-      // Build cards for all imported reviews
       extractedReviews.forEach(review => {
         const headlineClean = escapeHtml(review.headline.replace(/^"+|"+$/g, ''));
         const fullTextClean = escapeHtml(review.fullText);
@@ -141,8 +164,8 @@
     const interval = setInterval(() => {
       attempts++;
       syncJudgemeToGreenCards();
-      if (hasSyncedJudgeme || attempts > 20) clearInterval(interval);
-    }, 350);
+      if (hasSyncedJudgeme || attempts > 25) clearInterval(interval);
+    }, 300);
   }
 
   // Delegate click for Testimonial Cards & Review Anchors

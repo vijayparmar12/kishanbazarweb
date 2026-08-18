@@ -118,8 +118,8 @@
     {% endif %}
   </div>
 
-  <!-- Hidden Judge.me Widget Source (Used by JS to extract imported reviews) -->
-  <div class="testimonials__judgeme-container" style="display: none !important; opacity: 0; position: absolute; pointer-events: none;">
+  <!-- Hidden Off-screen Judge.me Widget Source (Kept in active DOM so Judge.me loads review images) -->
+  <div class="testimonials__judgeme-container" style="opacity: 0.001; position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; pointer-events: none;">
     <div class='jdgm-carousel-wrapper'>
       {% if shop.metafields.judgeme.featured_carousel != blank %}
         {{ shop.metafields.judgeme.featured_carousel }}
