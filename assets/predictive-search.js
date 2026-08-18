@@ -231,6 +231,52 @@
       }
     }
 
+    formatProductPrice(product) {
+      let compareAtPrice = '';
+      let price = '';
+
+      if (product.compare_at_price || product.compare_at_price_min) {
+        const rawCompare = parseFloat(product.compare_at_price || product.compare_at_price_min);
+        const rawPrice = parseFloat(product.price);
+        if (!isNaN(rawCompare) && rawCompare > rawPrice) {
+          compareAtPrice = `₹${rawCompare.toFixed(2)}`;
+        }
+      }
+
+      if (typeof product.price === 'number') {
+        price = `₹${parseFloat(product.price).toFixed(2)}`;
+      } else if (typeof product.price === 'string') {
+        const matches = product.price.match(/(?:₹|Rs\.?|INR)?\s*[\d,]+(?:\.\d+)?/gi);
+        if (matches && matches.length >= 2) {
+          const p1 = parseFloat(matches[0].replace(/[^0-9.]/g, ''));
+          const p2 = parseFloat(matches[1].replace(/[^0-9.]/g, ''));
+          if (!isNaN(p1) && !isNaN(p2)) {
+            if (p1 > p2) {
+              compareAtPrice = `₹${p1.toFixed(2)}`;
+              price = `₹${p2.toFixed(2)}`;
+            } else if (p2 > p1) {
+              compareAtPrice = `₹${p2.toFixed(2)}`;
+              price = `₹${p1.toFixed(2)}`;
+            } else {
+              price = `₹${p1.toFixed(2)}`;
+            }
+          } else {
+            price = matches[1].includes('₹') ? matches[1].trim() : `₹${matches[1].trim()}`;
+          }
+        } else if (matches && matches.length === 1) {
+          const num = parseFloat(matches[0].replace(/[^0-9.]/g, ''));
+          price = !isNaN(num) ? `₹${num.toFixed(2)}` : matches[0].trim();
+        } else {
+          price = product.price;
+        }
+      }
+
+      if (compareAtPrice && compareAtPrice !== price) {
+        return `<s class="kb-search-product-row__compare-price">${compareAtPrice}</s><span class="kb-search-product-row__price">${price}</span>`;
+      }
+      return `<span class="kb-search-product-row__price">${price}</span>`;
+    }
+
     renderResults(query, results) {
       const { products = [], queries = [] } = results;
 
@@ -279,11 +325,7 @@
       if (this.productsContainer) {
         if (products.length > 0) {
           this.productsContainer.innerHTML = products.map((product) => {
-            let priceFormatted = product.price || '';
-            if (typeof product.price === 'number' || (typeof product.price === 'string' && !product.price.includes('₹'))) {
-              const numPrice = parseFloat(product.price);
-              if (!isNaN(numPrice)) priceFormatted = `₹${numPrice.toFixed(2)}`;
-            }
+            const priceHtml = this.formatProductPrice(product);
             const imgUrl = product.featured_image?.url || product.image || '';
             return `
               <div class="kb-search-product-row">
@@ -294,7 +336,7 @@
                   <div class="kb-search-product-row__info">
                     <h4 class="kb-search-product-row__title">${this.highlightText(product.title, query)}</h4>
                     <div class="kb-search-product-row__meta">
-                      ${priceFormatted ? `<span class="kb-search-product-row__price">${priceFormatted}</span>` : ''}
+                      ${priceHtml}
                     </div>
                   </div>
                   <span class="kb-search-product-row__arrow" aria-hidden="true">&rarr;</span>
