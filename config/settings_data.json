@@ -104,6 +104,117 @@
         "settings": {
           "widget_type": "testimonials-carousel"
         }
+      },
+      "12370671433297797528": {
+        "type": "shopify://apps/wishy-wishlist-app/blocks/floating_wishlist/019df288-b721-7af8-8bd1-1c399b90c956",
+        "disabled": false,
+        "settings": {
+          "wishlist_url": "/apps/wishlist",
+          "style_preset": "solid_accent_2",
+          "button_visibility": "always_visible",
+          "position": "bottom_right",
+          "horizontal_offset": 10,
+          "vertical_offset": 20,
+          "button_size": 56,
+          "border_thickness": 2,
+          "border_radius": 40,
+          "show_shadow": true,
+          "icon_type": "heart",
+          "icon_size": 24,
+          "stroke_thickness": 2,
+          "show_counter": true,
+          "counter_visibility": "always_show",
+          "counter_style_preset": "solid_accent_1",
+          "counter_size": 18,
+          "counter_border_thickness": 1,
+          "counter_border_radius": 20,
+          "counter_horizontal_offset": 0,
+          "counter_vertical_offset": -5
+        }
+      },
+      "5201229448157027715": {
+        "type": "shopify://apps/wishy-wishlist-app/blocks/collection_wishlist/019df288-b721-7af8-8bd1-1c399b90c956",
+        "disabled": false,
+        "settings": {
+          "style_preset": "solid_accent_2",
+          "show_sparkles": true,
+          "show_notification": false,
+          "position": "bottom_left",
+          "horizontal_offset": 0,
+          "vertical_offset": 0,
+          "icon_type": "heart",
+          "icon_size": 18,
+          "stroke_thickness": 1,
+          "card_selectors": ".card, .product-card, .grid__item, li.grid__item, .productgrid--item",
+          "link_selectors": "a[href*=\"/products/\"]",
+          "label_add": "Add to wishlist",
+          "label_in_wishlist": "In wishlist",
+          "z_index": 10,
+          "show_wishlist_count": true
+        }
+      },
+      "18425711383626600375": {
+        "type": "shopify://apps/wishy-wishlist-app/blocks/app_settings/019df288-b721-7af8-8bd1-1c399b90c956",
+        "disabled": true,
+        "settings": {
+          "accent_1": "#080808",
+          "accent_2": "#000000",
+          "solid_button_label": "#ED2D2D",
+          "outline_button_label": "#000000",
+          "background_1": "#FFFFFF",
+          "background_2": "#FFFFFF",
+          "text_color": "#000000",
+          "notification_position": "bottom_right",
+          "notification_bg": "#FFFFFF",
+          "notification_text": "#333333",
+          "button_height": 45,
+          "button_border_thickness": 1,
+          "button_border_radius": 0,
+          "input_height": 45,
+          "input_border_thickness": 1,
+          "border_radius": 0,
+          "shadow_opacity": 15,
+          "shadow_horizontal_offset": 0,
+          "shadow_vertical_offset": 2,
+          "shadow_blur": 4,
+          "font_size_scale": 100,
+          "image_aspect_ratio": "1/1",
+          "image_fit": "cover"
+        }
+      },
+      "9100728164729158524": {
+        "type": "shopify://apps/wishy-wishlist-app/blocks/code_access/019df288-b721-7af8-8bd1-1c399b90c956",
+        "disabled": true,
+        "settings": {}
+      },
+      "11189589152356031867": {
+        "type": "shopify://apps/wishy-wishlist-app/blocks/wishlist_page/019df288-b721-7af8-8bd1-1c399b90c956",
+        "disabled": true,
+        "settings": {
+          "heading": "Wishlist",
+          "column_width": "small",
+          "product_options": "dropdowns",
+          "call_to_action": "add_to_cart",
+          "call_to_action_style": "outline_accent_1",
+          "discover_more_label": "Discover more",
+          "discover_more_url": "shopify://collections/all",
+          "page_width": 1200,
+          "padding_top": 20,
+          "padding_bottom": 60,
+          "empty_state_text": "Your wishlist is empty.",
+          "show_login_message": true,
+          "login_message": "To save your wishlist please",
+          "login_label": "login",
+          "signup_label": "sign up",
+          "show_share_button": true,
+          "share_button_label": "Share wishlist",
+          "share_button_style": "inherit",
+          "show_clear_wishlist_button": true,
+          "clear_wishlist_label": "Clear wishlist",
+          "clear_button_style": "inherit",
+          "remove_from_wishlist": true,
+          "remove_product_from_wishlist_on_add": false
+        }
       }
     }
   }

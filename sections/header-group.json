@@ -14,6 +14,18 @@
     "header": {
       "type": "header",
       "blocks": {
+        "mobile_nav_item_wat3xh": {
+          "type": "mobile_nav_item",
+          "settings": {
+            "title": "THE VEDIC WAY",
+            "url": "",
+            "badge": "",
+            "badge_background": "#e53935",
+            "badge_color": "#ffffff",
+            "mega_menu": "none",
+            "icon": ""
+          }
+        },
         "feature_icon_Q3GXNa": {
           "type": "feature_icon",
           "settings": {
@@ -200,6 +212,7 @@
         }
       },
       "block_order": [
+        "mobile_nav_item_wat3xh",
         "feature_icon_Q3GXNa",
         "feature_icon_biPcJz",
         "feature_icon_mzn3UJ",
@@ -244,7 +257,7 @@
         "collective_title": "Join Collective",
         "collective_url": "",
         "concern_title": "Shop By Concern",
-        "farm_title": "Farm Life",
+        "farm_title": "THE VEDIC WAY",
         "customers_title": "Customers",
         "enable_category_mega": true,
         "category_wave_image": "shopify://shop_images/shop_by_category_bg.png",
