@@ -75,7 +75,11 @@
     if (!reviewEls || reviewEls.length === 0) return;
 
     const extractedReviews = [];
+    const seenKeys = new Set();
+
     reviewEls.forEach(el => {
+      if (el.classList.contains('jdgm--hidden') || el.style.display === 'none') return;
+
       const titleEl = el.querySelector('.jdgm-carousel-item__review-title, .jdgm-rev__title, .jdgm-carousel-item__title, .jdgm-rev-widg__title');
       const bodyEl = el.querySelector('.jdgm-carousel-item__review-body, .jdgm-rev__body, .jdgm-carousel-item__body, .jdgm-rev-widg__body');
       const nameEl = el.querySelector('.jdgm-carousel-item__reviewer-name, .jdgm-rev__author-name, .jdgm-carousel-item__name, .jdgm-rev__author');
@@ -85,7 +89,9 @@
       const name = nameEl ? nameEl.textContent.trim() : 'Verified Customer';
       const imgSrc = extractJudgemeImage(el);
 
-      if (headline || fullText) {
+      const uniqueKey = `${name}_${headline}_${fullText}`;
+      if ((headline || fullText) && !seenKeys.has(uniqueKey)) {
+        seenKeys.add(uniqueKey);
         extractedReviews.push({
           headline: headline || fullText.split('. ')[0],
           fullText: fullText || headline,
@@ -105,7 +111,7 @@
       jgContainer.style.left = '-9999px';
     }
 
-    // Populate green cards for ALL extracted Judge.me reviews
+    // Populate green cards strictly for current active Judge.me reviews
     const tracks = document.querySelectorAll('[data-testimonials-track]');
     tracks.forEach(track => {
       let newCardsHTML = '';
