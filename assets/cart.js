@@ -107,7 +107,31 @@
             </div>
           </article>`;
           }).join('')
-        : `<div class="kb-cart-drawer__empty"><h3>Your cart is empty</h3><p>Add a few essentials and come back to complete your order.</p></div>`;
+        : `<div class="kb-cart-drawer__empty" data-cart-drawer-empty>
+             <h2 class="kb-cart-drawer__empty-heading">Cart</h2>
+             <p class="kb-cart-drawer__empty-text">Your cart is empty</p>
+             <a href="/collections/all" class="kb-cart-drawer__empty-btn" data-cart-drawer-close>START SHOPPING</a>
+           </div>`;
+    }
+
+    const offersBlock = drawer.querySelector('[data-cart-offers-block]');
+    const addonsBlock = drawer.querySelector('.kb-cart-drawer__addons-block');
+    const footer = drawer.querySelector('.kb-cart-drawer__footer');
+    const promo = drawer.querySelector('.kb-cart-drawer__promo');
+    const progress = drawer.querySelector('.kb-cart-drawer__progress');
+
+    if (cart.item_count === 0) {
+      if (offersBlock) offersBlock.style.display = 'none';
+      if (addonsBlock) addonsBlock.style.display = 'none';
+      if (footer) footer.style.display = 'none';
+      if (promo) promo.style.display = 'none';
+      if (progress) progress.style.display = 'none';
+    } else {
+      if (offersBlock) offersBlock.style.display = 'block';
+      if (addonsBlock) addonsBlock.style.display = 'block';
+      if (footer) footer.style.display = 'flex';
+      if (promo) promo.style.display = 'grid';
+      if (progress) progress.style.display = 'block';
     }
 
     const subtotal = drawer.querySelector('[data-cart-drawer-subtotal]');

@@ -55,7 +55,11 @@
             </div>
           </article>`;
           }).join('')
-        : `<div class="kb-cart-drawer__empty"><h3>Your cart is empty</h3><p>Add a few essentials and come back to complete your order.</p></div>`;
+        : `<div class="kb-cart-drawer__empty" data-cart-drawer-empty>
+             <h2 class="kb-cart-drawer__empty-heading">Cart</h2>
+             <p class="kb-cart-drawer__empty-text">Your cart is empty</p>
+             <a href="/collections/all" class="kb-cart-drawer__empty-btn" data-cart-drawer-close>START SHOPPING</a>
+           </div>`;
 
       // Re-bind listeners for newly rendered cart items
       items.querySelectorAll('[data-cart-line-item]').forEach(bindCartItem);

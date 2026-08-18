@@ -15,20 +15,20 @@
       </button>
     </div>
 
-    <div class="kb-cart-drawer__promo">
+    <div class="kb-cart-drawer__promo" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
       <div class="kb-cart-drawer__promo-bar">🎉 Get 10% OFF on orders above ₹3000 | <strong>TBOF10</strong></div>
       <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status>
         {% if cart.total_price >= 300000 %}
           🎉 Hurray! You've unlocked 10% OFF + FREE Shipping
         {% elsif cart.total_price >= 149900 %}
-          🎉 Hurray! You've unlocked FREE Shipping! Add {{ 300000 | minus: cart.total_price | money_without_trailing_zeros }} more for 10% OFF
+          You're {{ 300000 | minus: cart.total_price | money }} Away from 10% OFF
         {% else %}
-          Add {{ 149900 | minus: cart.total_price | money_without_trailing_zeros }} more for FREE Shipping
+          You're {{ 149900 | minus: cart.total_price | money }} Away from FREE Shipping 🚚
         {% endif %}
       </p>
     </div>
 
-    <div class="kb-cart-drawer__progress" data-cart-drawer-progress>
+    <div class="kb-cart-drawer__progress" data-cart-drawer-progress {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
       <div class="kb-cart-drawer__progress-track">
         {% liquid
           assign fill_pct = 0
@@ -70,15 +70,16 @@
         {% for item in cart.items %}
           {% render 'cart-item', item: item, line_index: forloop.index, compact: true %}
         {% else %}
-          <div class="kb-cart-drawer__empty" data-cart-drawer-empty data-empty-title="{{ 'sections.main_cart.empty_title' | t }}" data-empty-text="{{ 'sections.main_cart.empty_text' | t }}">
-            <h3>{{ 'sections.main_cart.empty_title' | t }}</h3>
-            <p>{{ 'sections.main_cart.empty_text' | t }}</p>
+          <div class="kb-cart-drawer__empty" data-cart-drawer-empty>
+            <h2 class="kb-cart-drawer__empty-heading">Cart</h2>
+            <p class="kb-cart-drawer__empty-text">Your cart is empty</p>
+            <a href="/collections/all" class="kb-cart-drawer__empty-btn" data-cart-drawer-close>START SHOPPING</a>
           </div>
         {% endfor %}
       </div>
 
-      <!-- Offers & Discounts Block (Image 1) -->
-      <div class="kb-cart-drawer__offers-block" data-cart-offers-block>
+      <!-- Offers & Discounts Block -->
+      <div class="kb-cart-drawer__offers-block" data-cart-offers-block {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
         <div class="kb-cart-coupon-box">
           <div class="kb-cart-coupon-info">
             <span class="kb-cart-coupon-icon">%</span>
@@ -98,7 +99,7 @@
       </div>
 
       <!-- Frequently Bought Together Carousel -->
-      <div class="kb-cart-drawer__addons-block">
+      <div class="kb-cart-drawer__addons-block" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
         <div class="kb-cart-addons-tabs">
           <button type="button" class="kb-cart-tab-btn is-active" data-cart-tab="frequently">Frequently Bought Together</button>
         </div>
@@ -110,7 +111,12 @@
                 <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" class="kb-cart-addon-img" width="60" height="60" loading="lazy">
                 <div class="kb-cart-addon-details">
                   <div class="kb-cart-addon-title">{{ product.title }}</div>
-                  <div class="kb-cart-addon-price">{{ product.price | money }}</div>
+                  <div class="kb-cart-addon-price">
+                    {% if product.compare_at_price > product.price %}
+                      <s class="kb-cart-addon-compare">{{ product.compare_at_price | money }}</s>
+                    {% endif %}
+                    <span>{{ product.price | money }}</span>
+                  </div>
                 </div>
                 <button type="button" class="kb-cart-addon-add-btn" data-add-variant-id="{{ product.selected_or_first_available_variant.id }}">+ ADD</button>
               </div>
@@ -120,7 +126,7 @@
       </div>
     </div>
 
-    <div class="kb-cart-drawer__footer">
+    <div class="kb-cart-drawer__footer" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
       <button class="kb-cart-drawer__checkout-btn" type="button" data-trigger-express-checkout>
         <span class="kb-cart-drawer__checkout-label">Checkout</span>
         <span class="kb-cart-drawer__payment-badges">
