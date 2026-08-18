@@ -192,7 +192,7 @@
               </div>
 
               {% if social_blocks.size > 0 %}
-                <div class="site-footer__social-row" style="margin-top: 1.15rem; justify-content: flex-start;">
+                <div class="site-footer__social-row" style="margin-top: 1.15rem; justify-content: center;">
                   {% for social_block in social_blocks %}
                     {% if social_block.settings.url != blank %}
                       {% assign social_label = social_block.settings.label | default: social_block.settings.platform %}

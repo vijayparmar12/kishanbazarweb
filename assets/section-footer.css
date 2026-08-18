@@ -1,17 +1,6 @@
 /* ==========================================================================
-   Sticky Footer Architecture & Overscroll Fix
+   Footer Overlapping Architecture (Transparent Content Background + Mobile Accordion Control)
    ========================================================================== */
-html {
-  height: 100%;
-  background-color: #23421f !important;
-}
-
-body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: #ffffff;
-}
 
 .site-footer {
   background: transparent !important;
@@ -20,7 +9,6 @@ body {
   position: relative;
   width: 100%;
   overflow: hidden;
-  margin-top: auto !important;
 }
 
 .site-footer__content-layer {
@@ -243,6 +231,7 @@ body {
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  width: 100%;
   position: relative !important;
   z-index: 20 !important;
   pointer-events: auto !important;

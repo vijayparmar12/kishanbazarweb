@@ -70,7 +70,6 @@
             >
             <button class="kb-header__search-submit" type="submit" aria-label="Submit search">{% render 'icon', name: 'search', size: 20 %}</button>
             <button class="kb-header__search-clear" type="button" aria-label="Clear search" data-search-clear>{% render 'icon', name: 'close', size: 24 %}</button>
-            {% render 'predictive-search-drawer' %}
           </form>
           <script type="application/json" data-placeholder-source>{{ section.settings.search_placeholders | json }}</script>
         {% endif %}

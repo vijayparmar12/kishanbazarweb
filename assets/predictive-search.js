@@ -1,18 +1,19 @@
 (() => {
-  class PredictiveSearchDropdown {
+  class PredictiveSearchDrawer {
     constructor() {
       this.drawer = document.querySelector('[data-predictive-search-drawer]');
       if (!this.drawer) return;
 
-      this.input = document.querySelector('[data-typing-search]') || this.drawer.querySelector('[data-predictive-search-input]');
-      this.clearBtn = document.querySelector('[data-search-clear]') || this.drawer.querySelector('[data-search-input-clear]');
+      this.input = this.drawer.querySelector('[data-predictive-search-input]');
+      this.clearBtn = this.drawer.querySelector('[data-search-input-clear]');
       this.closeBtns = this.drawer.querySelectorAll('[data-search-close]');
       this.pills = this.drawer.querySelectorAll('[data-search-pill]');
+      this.resultsContainer = this.drawer.querySelector('[data-predictive-search-results]');
       this.suggestionList = this.drawer.querySelector('[data-suggestion-list-container]');
-      this.pillsContainer = this.drawer.querySelector('[data-search-pills-container]');
+      this.pillsContainer = this.drawer.querySelector('.kb-search-drawer__pills');
       this.productsContainer = this.drawer.querySelector('[data-products-container]');
       this.blogsContainer = this.drawer.querySelector('[data-blogs-container]');
-      this.footerQuery = this.drawer.querySelector('[data-search-footer-query]');
+      this.viewAllLink = this.drawer.querySelector('[data-view-all-products]');
       
       this.debounceTimer = null;
       this.initialProductsHTML = this.productsContainer ? this.productsContainer.innerHTML : '';
@@ -22,7 +23,7 @@
     }
 
     bindEvents() {
-      // 1. Intercept all search form submissions to prevent navigation to /search page
+      // 1. Intercept all header and page search forms to prevent navigation to /search page
       document.querySelectorAll('form.kb-header__search, form[action*="/search"]').forEach((form) => {
         form.addEventListener('submit', (e) => {
           e.preventDefault();
@@ -30,36 +31,38 @@
           const query = formInput ? formInput.value.trim() : '';
           this.open();
           if (query) {
-            this.updateFooterQuery(query);
+            if (this.input) this.input.value = query;
+            this.toggleClearBtn();
             this.fetchResults(query);
           }
         });
       });
 
-      // 2. Listen for click or focus on header search input to open dropdown
+      // 2. Listen for click on header search input or search submit button to open drawer
       document.addEventListener('click', (e) => {
         const searchTrigger = e.target.closest('[data-typing-search], .kb-header__search-icon, .kb-header__search-submit');
         if (searchTrigger) {
+          e.preventDefault();
           const mainInput = document.querySelector('[data-typing-search]');
           const query = mainInput ? mainInput.value.trim() : '';
           this.open();
           if (query) {
-            this.updateFooterQuery(query);
+            if (this.input) this.input.value = query;
+            this.toggleClearBtn();
             this.fetchResults(query);
           }
-        } else if (!e.target.closest('.kb-header__search, [data-predictive-search-drawer]')) {
-          this.close();
         }
       });
 
-      // 3. Listen to input events on main search input
+      // 3. Listen to focus and input on main header search input
       const mainSearchInput = document.querySelector('[data-typing-search]');
       if (mainSearchInput) {
         mainSearchInput.addEventListener('focus', () => {
           const query = mainSearchInput.value.trim();
           this.open();
-          if (query) {
-            this.updateFooterQuery(query);
+          if (query && this.input) {
+            this.input.value = query;
+            this.toggleClearBtn();
             this.fetchResults(query);
           }
         });
@@ -67,17 +70,30 @@
         mainSearchInput.addEventListener('input', () => {
           const query = mainSearchInput.value.trim();
           this.open();
-          this.updateFooterQuery(query);
-
+          if (this.input) {
+            this.input.value = query;
+            this.toggleClearBtn();
+          }
           clearTimeout(this.debounceTimer);
           if (query.length < 2) {
             this.resetToInitialState();
             return;
           }
-
           this.debounceTimer = setTimeout(() => {
             this.fetchResults(query);
-          }, 260);
+          }, 280);
+        });
+      }
+
+      // 4. Intercept search form submit inside predictive search drawer
+      const drawerForm = this.drawer.querySelector('[data-predictive-search-form]');
+      if (drawerForm) {
+        drawerForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const query = this.input ? this.input.value.trim() : '';
+          if (query) {
+            this.fetchResults(query);
+          }
         });
       }
 
@@ -91,37 +107,72 @@
         }
       });
 
+      // Clear button
+      if (this.clearBtn) {
+        this.clearBtn.addEventListener('click', () => {
+          if (this.input) {
+            this.input.value = '';
+            this.toggleClearBtn();
+            this.resetToInitialState();
+            this.input.focus();
+          }
+        });
+      }
+
       // Suggestion Pill clicks
       this.pills.forEach((pill) => {
         pill.addEventListener('click', () => {
           const query = pill.dataset.searchPill || pill.textContent.trim();
-          if (mainSearchInput) {
-            mainSearchInput.value = query;
+          if (this.input) {
+            this.input.value = query;
+            this.toggleClearBtn();
+            this.fetchResults(query);
+            this.input.focus();
           }
-          this.updateFooterQuery(query);
-          this.fetchResults(query);
         });
       });
+
+      // Input typing event inside drawer
+      if (this.input) {
+        this.input.addEventListener('input', () => {
+          const query = this.input.value.trim();
+          this.toggleClearBtn();
+
+          clearTimeout(this.debounceTimer);
+          if (query.length < 2) {
+            this.resetToInitialState();
+            return;
+          }
+
+          this.debounceTimer = setTimeout(() => {
+            this.fetchResults(query);
+          }, 280);
+        });
+      }
     }
 
     open() {
       this.drawer.classList.add('is-active');
       this.drawer.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        if (this.input) this.input.focus();
+      }, 150);
     }
 
     close() {
       this.drawer.classList.remove('is-active');
       this.drawer.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
     }
 
     isOpen() {
       return this.drawer.classList.contains('is-active');
     }
 
-    updateFooterQuery(query) {
-      if (this.footerQuery) {
-        this.footerQuery.textContent = query || 'search';
-      }
+    toggleClearBtn() {
+      if (!this.clearBtn || !this.input) return;
+      this.clearBtn.style.display = this.input.value.trim().length > 0 ? 'inline-block' : 'none';
     }
 
     resetToInitialState() {
@@ -132,6 +183,7 @@
       }
       if (this.productsContainer) this.productsContainer.innerHTML = this.initialProductsHTML;
       if (this.blogsContainer) this.blogsContainer.innerHTML = this.initialBlogsHTML;
+      if (this.viewAllLink) this.viewAllLink.style.display = 'none';
     }
 
     async fetchResults(query) {
@@ -166,10 +218,11 @@
           this.suggestionList.querySelectorAll('.kb-search-suggestion-item').forEach((li) => {
             li.addEventListener('click', () => {
               const text = li.dataset.suggestionText;
-              const mainInput = document.querySelector('[data-typing-search]');
-              if (mainInput) mainInput.value = text;
-              this.updateFooterQuery(text);
-              this.fetchResults(text);
+              if (this.input) {
+                this.input.value = text;
+                this.toggleClearBtn();
+                this.fetchResults(text);
+              }
             });
           });
         }
@@ -178,36 +231,54 @@
         if (this.suggestionList) this.suggestionList.style.display = 'none';
       }
 
-      // 2. Render Products as Rosier Row Cards
+      // 2. Render Products
       if (this.productsContainer) {
         if (products.length > 0) {
           this.productsContainer.innerHTML = products.map((product) => {
-            const priceFormatted = product.price ? `₹ ${parseFloat(product.price).toFixed(2)}` : '';
+            const priceFormatted = product.price ? `₹${parseFloat(product.price).toFixed(2)}` : '';
             return `
-              <a href="${product.url}" class="kb-search-product-row">
-                <div class="kb-search-product-row__img-wrap">
-                  <img src="${product.featured_image?.url || product.image || ''}" alt="${product.title}" class="kb-search-product-row__img" loading="lazy">
-                </div>
-                <div class="kb-search-product-row__details">
-                  <h4 class="kb-search-product-row__title">${this.highlightText(product.title, query)}</h4>
-                  <div class="kb-search-product-row__meta">
-                    <span class="kb-search-product-row__price">${priceFormatted}</span>
-                    <span class="kb-search-product-row__rating">★ 4.9 <small style="color: #64748b; font-weight: 500;">(1279)</small></span>
+              <div class="kb-search-product-card">
+                <a href="${product.url}" class="kb-search-product-card__link" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                  <div class="kb-search-product-card__img-wrap">
+                    <img src="${product.featured_image?.url || product.image || ''}" alt="${product.title}" class="kb-search-product-thumb" loading="lazy">
                   </div>
-                </div>
-              </a>
+                  <div class="kb-search-product-card__info" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                    <h4 class="kb-search-product-title">${this.highlightText(product.title, query)}</h4>
+                    <div class="kb-search-product-rating" style="margin-top: 4px;">
+                      <span>★ 4.9</span>
+                      <span style="color: #64748b; font-weight: 500;">(1279 reviews)</span>
+                    </div>
+                    <div class="kb-search-product-prices" style="margin-top: 6px;">
+                      <span class="kb-search-product-price">${priceFormatted}</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
             `;
           }).join('');
+
+          if (this.viewAllLink) {
+            this.viewAllLink.href = `/search?q=${encodeURIComponent(query)}`;
+            this.viewAllLink.style.display = 'inline-block';
+          }
         } else {
-          this.productsContainer.innerHTML = `<p style="color: #64748b; font-size: 0.90rem; font-weight: 600; padding: 0.5rem 0;">No products found matching "${query}".</p>`;
+          this.productsContainer.innerHTML = `<p style="color: #64748b; font-size: 0.95rem; font-weight: 600; padding: 0.5rem 0;">No products found matching "${query}".</p>`;
+          if (this.viewAllLink) this.viewAllLink.style.display = 'none';
         }
       }
 
-      // 3. Render Articles / Pages
+      // 3. Render Articles / Blogs
       if (this.blogsContainer) {
         if (articles.length > 0) {
           this.blogsContainer.innerHTML = articles.map((article) => {
-            return `<a href="${article.url}" class="kb-search-article-link">${this.highlightText(article.title, query)}</a>`;
+            return `
+              <a href="${article.url}" class="kb-search-blog-card">
+                <div class="kb-search-blog-card__content">
+                  <h4 class="kb-search-blog-title">${this.highlightText(article.title, query)}</h4>
+                  <p class="kb-search-blog-meta">Read article &rarr;</p>
+                </div>
+              </a>
+            `;
           }).join('');
         } else {
           this.blogsContainer.innerHTML = this.initialBlogsHTML;
@@ -223,8 +294,8 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new PredictiveSearchDropdown());
+    document.addEventListener('DOMContentLoaded', () => new PredictiveSearchDrawer());
   } else {
-    new PredictiveSearchDropdown();
+    new PredictiveSearchDrawer();
   }
 })();
