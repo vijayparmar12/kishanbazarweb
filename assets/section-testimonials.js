@@ -21,10 +21,10 @@
 
     // 1. Specific Judge.me Image Selectors (Product or Review Photo)
     const imgSelect = el.querySelector(
-      '.jdgm-carousel-item__review-image img, .jdgm-carousel-item__product-image img, .jdgm-rev__pic img, .jdgm-rev__product-image img, .jdgm-rev__photo img, .jdgm-temp-picture img, .jdgm-carousel-item__photo img'
+      '.jdgm-carousel-item__review-image img, .jdgm-carousel-item__product-image img, .jdgm-rev__pic img, .jdgm-rev__product-image img, .jdgm-rev__photo img, .jdgm-temp-picture img, .jdgm-carousel-item__photo img, .jdgm-carousel-item__product-image-link img, .jdgm-rev__pic-link img'
     );
     if (imgSelect) {
-      let src = imgSelect.getAttribute('data-src') || imgSelect.getAttribute('src') || imgSelect.getAttribute('data-lazy-src') || '';
+      let src = imgSelect.getAttribute('data-src') || imgSelect.getAttribute('src') || imgSelect.getAttribute('data-lazy-src') || imgSelect.getAttribute('srcset') || '';
       if (src.includes(' ')) src = src.split(' ')[0];
       if (src && !src.includes('star') && !src.includes('badge') && !src.endsWith('.svg')) {
         if (src.startsWith('//')) src = 'https:' + src;
@@ -35,7 +35,7 @@
     // 2. Fallback: Any img element inside the review card
     const imgs = el.querySelectorAll('img');
     for (let img of imgs) {
-      let src = img.getAttribute('data-src') || img.getAttribute('src') || img.getAttribute('data-lazy-src') || '';
+      let src = img.getAttribute('data-src') || img.getAttribute('src') || img.getAttribute('data-lazy-src') || img.getAttribute('srcset') || '';
       if (src.includes(' ')) src = src.split(' ')[0];
       if (src && !src.includes('star') && !src.includes('badge') && !src.includes('icon') && !src.endsWith('.svg')) {
         if (src.startsWith('//')) src = 'https:' + src;
@@ -43,8 +43,8 @@
       }
     }
 
-    // 3. Fallback: Background image style
-    const picWrap = el.querySelector('.jdgm-rev__pic, .jdgm-rev__pic-link, .jdgm-carousel-item__review-image, .jdgm-carousel-item__product-image, .jdgm-temp-picture');
+    // 3. Fallback: Background image style or data attributes
+    const picWrap = el.querySelector('.jdgm-rev__pic, .jdgm-rev__pic-link, .jdgm-carousel-item__review-image, .jdgm-carousel-item__product-image, .jdgm-temp-picture, .jdgm-carousel-item__product-image-link');
     if (picWrap) {
       const bg = picWrap.style.backgroundImage || (window.getComputedStyle ? window.getComputedStyle(picWrap).backgroundImage : '');
       if (bg && bg.includes('url(')) {
