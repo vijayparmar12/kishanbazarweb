@@ -1170,70 +1170,81 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-drawer__progress {
-  padding: 24px 28px 30px;
+  padding: 30px 24px 34px !important;
+  margin: 10px 16px 12px !important;
+  background: linear-gradient(180deg, #f2f9f1 0%, #ffffff 100%) !important;
+  border: 1px solid #d4e5d2 !important;
+  border-radius: 14px !important;
+  box-shadow: 0 2px 8px rgba(22, 101, 52, 0.05) !important;
+  position: relative !important;
+  box-sizing: border-box !important;
 }
 
 .kb-cart-drawer__progress-track {
-  position: relative;
-  height: 6px;
-  background: #e2e0d9;
-  border-radius: 4px;
+  position: relative !important;
+  height: 6px !important;
+  background: #e2e0d9 !important;
+  border-radius: 4px !important;
 }
 
 .kb-cart-drawer__progress-fill {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  background: #0e6438;
-  border-radius: 4px;
-  transition: width 0.3s ease;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  background: #0e6438 !important;
+  border-radius: 4px !important;
+  transition: width 0.3s ease !important;
 }
 
 .kb-cart-drawer__progress-marker {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: absolute !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
 }
 
 .kb-cart-drawer__marker-top {
-  position: absolute;
-  bottom: 18px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #333;
+  position: absolute !important;
+  bottom: 20px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #1e3f23 !important;
+  white-space: nowrap !important;
 }
 
 .kb-cart-drawer__marker-icon {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #0e6438;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 0 3px #ffffff;
-  opacity: 0.35;
-  transition: opacity 0.25s, transform 0.25s;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  border: 2px solid #cbd5e1 !important;
+  color: #64748b !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08) !important;
+  opacity: 1 !important;
+  transition: all 0.25s ease !important;
 }
 
 .kb-cart-drawer__progress-marker.is-active .kb-cart-drawer__marker-icon {
-  opacity: 1;
-  transform: scale(1.1);
+  background: #166534 !important;
+  border-color: #166534 !important;
+  color: #ffffff !important;
+  transform: scale(1.05) !important;
 }
 
 .kb-cart-drawer__marker-bottom {
-  position: absolute;
-  top: 20px;
-  font-size: 10px;
-  font-weight: 700;
-  color: #555;
-  white-space: nowrap;
-  letter-spacing: 0.03em;
+  position: absolute !important;
+  top: 22px !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  color: #166534 !important;
+  white-space: nowrap !important;
+  letter-spacing: 0.03em !important;
 }
 
 .kb-cart-drawer__body {

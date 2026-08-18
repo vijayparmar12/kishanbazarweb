@@ -2,6 +2,14 @@
   Renders the global cart drawer shell.
 {% enddoc %}
 
+{% assign free_ship_val = settings.cart_free_shipping_threshold | default: 1499 | times: 100 %}
+{% assign discount_val = settings.cart_discount_threshold | default: 3000 | times: 100 %}
+{% assign promo_text = settings.cart_promo_bar_text | default: '🎉 Get 10% OFF on orders above ₹3000 | TBOF10' %}
+{% assign coupon_code = settings.cart_coupon_code | default: 'TBOF10' %}
+{% assign savings_label = settings.cart_savings_label | default: 'Save ₹709' %}
+{% assign addons_heading = settings.cart_addons_heading | default: 'Frequently Bought Together' %}
+{% assign checkout_label = settings.cart_checkout_btn_text | default: 'Checkout' %}
+
 <aside class="kb-cart-drawer" id="CartDrawer" hidden data-cart-drawer data-cart-drawer-mode="full" aria-label="{{ 'cart.title' | t }}">
   <div class="kb-cart-drawer__overlay" data-cart-drawer-close></div>
   <div class="kb-cart-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle">
@@ -16,14 +24,14 @@
     </div>
 
     <div class="kb-cart-drawer__promo" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
-      <div class="kb-cart-drawer__promo-bar">🎉 Get 10% OFF on orders above ₹3000 | <strong>TBOF10</strong></div>
+      <div class="kb-cart-drawer__promo-bar">{{ promo_text }}</div>
       <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status>
-        {% if cart.total_price >= 300000 %}
+        {% if cart.total_price >= discount_val %}
           🎉 Hurray! You've unlocked 10% OFF + FREE Shipping
-        {% elsif cart.total_price >= 149900 %}
-          You're {{ 300000 | minus: cart.total_price | money }} Away from 10% OFF
+        {% elsif cart.total_price >= free_ship_val %}
+          🎉 Hurray! You've unlocked FREE Shipping! Add {{ discount_val | minus: cart.total_price | money_without_trailing_zeros }} more for 10% OFF
         {% else %}
-          You're {{ 149900 | minus: cart.total_price | money }} Away from FREE Shipping 🚚
+          You're {{ free_ship_val | minus: cart.total_price | money }} Away from FREE Shipping 🚚
         {% endif %}
       </p>
     </div>
@@ -32,19 +40,20 @@
       <div class="kb-cart-drawer__progress-track">
         {% liquid
           assign fill_pct = 0
-          if cart.total_price >= 300000
+          if cart.total_price >= discount_val
             assign fill_pct = 100
-          elsif cart.total_price >= 149900
-            assign extra = cart.total_price | minus: 149900 | times: 50 | divided_by: 150100
+          elsif cart.total_price >= free_ship_val
+            assign remaining_range = discount_val | minus: free_ship_val
+            assign extra = cart.total_price | minus: free_ship_val | times: 50 | divided_by: remaining_range
             assign fill_pct = 50 | plus: extra
           else
-            assign fill_pct = cart.total_price | times: 50 | divided_by: 149900
+            assign fill_pct = cart.total_price | times: 50 | divided_by: free_ship_val
           endif
         %}
         <span class="kb-cart-drawer__progress-fill" style="width: {{ fill_pct }}%"></span>
         
-        <div class="kb-cart-drawer__progress-marker kb-cart-drawer__progress-marker--1 {% if cart.total_price >= 149900 %}is-active{% endif %}" style="left: 50%">
-          <span class="kb-cart-drawer__marker-top">₹1499</span>
+        <div class="kb-cart-drawer__progress-marker kb-cart-drawer__progress-marker--1 {% if cart.total_price >= free_ship_val %}is-active{% endif %}" style="left: 50%">
+          <span class="kb-cart-drawer__marker-top">₹{{ settings.cart_free_shipping_threshold | default: 1499 }}</span>
           <span class="kb-cart-drawer__marker-icon">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="20 6 9 17 4 12"></polyline>
@@ -53,8 +62,8 @@
           <span class="kb-cart-drawer__marker-bottom">FREE SHIPPING</span>
         </div>
 
-        <div class="kb-cart-drawer__progress-marker kb-cart-drawer__progress-marker--2 {% if cart.total_price >= 300000 %}is-active{% endif %}" style="left: 92%">
-          <span class="kb-cart-drawer__marker-top">₹3000</span>
+        <div class="kb-cart-drawer__progress-marker kb-cart-drawer__progress-marker--2 {% if cart.total_price >= discount_val %}is-active{% endif %}" style="left: 92%">
+          <span class="kb-cart-drawer__marker-top">₹{{ settings.cart_discount_threshold | default: 3000 }}</span>
           <span class="kb-cart-drawer__marker-icon">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="20 6 9 17 4 12"></polyline>
@@ -84,8 +93,8 @@
           <div class="kb-cart-coupon-info">
             <span class="kb-cart-coupon-icon">%</span>
             <div class="kb-cart-coupon-text">
-              <strong data-cart-savings-label>Save ₹709</strong>
-              <span>with '<strong data-applied-coupon>TBOF10</strong>'</span>
+              <strong data-cart-savings-label>{{ savings_label }}</strong>
+              <span>with '<strong data-applied-coupon>{{ coupon_code }}</strong>'</span>
             </div>
           </div>
           <button type="button" class="kb-cart-coupon-apply-btn" data-cart-apply-coupon>Apply</button>
@@ -101,12 +110,13 @@
       <!-- Frequently Bought Together Carousel -->
       <div class="kb-cart-drawer__addons-block" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
         <div class="kb-cart-addons-tabs">
-          <button type="button" class="kb-cart-tab-btn is-active" data-cart-tab="frequently">Frequently Bought Together</button>
+          <button type="button" class="kb-cart-tab-btn is-active" data-cart-tab="frequently">{{ addons_heading }}</button>
         </div>
 
         <div class="kb-cart-tab-panel is-active" data-tab-panel="frequently">
           <div class="kb-cart-addons-track">
-            {% for product in collections.all.products limit: 4 %}
+            {% assign addons_coll = settings.cart_addons_collection.products | default: collections.all.products %}
+            {% for product in addons_coll limit: 6 %}
               <div class="kb-cart-addon-card">
                 <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" class="kb-cart-addon-img" width="60" height="60" loading="lazy">
                 <div class="kb-cart-addon-details">
@@ -128,7 +138,7 @@
 
     <div class="kb-cart-drawer__footer" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
       <button class="kb-cart-drawer__checkout-btn" type="button" data-trigger-express-checkout>
-        <span class="kb-cart-drawer__checkout-label">Checkout</span>
+        <span class="kb-cart-drawer__checkout-label">{{ checkout_label }}</span>
         <span class="kb-cart-drawer__payment-badges">
           <span class="kb-pay-badge kb-pay-badge--paytm">Paytm</span>
           <span class="kb-pay-badge kb-pay-badge--gpay">GPay</span>
