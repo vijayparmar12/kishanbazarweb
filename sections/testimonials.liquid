@@ -94,7 +94,7 @@
   }
 {% endstyle %}
 
-<section id="Testimonials-{{ section.id }}" class="testimonials-carousel-section" data-testimonials-section>
+<section id="Testimonials-{{ section.id }}" class="testimonials-carousel-section" data-testimonials-section style="display: none;">
 
   <div class="testimonials__header">
     {% if section.settings.heading_image_desktop != blank or section.settings.heading_image_mobile != blank %}
@@ -131,58 +131,7 @@
 
   <div class="testimonials__carousel-container" data-testimonials-carousel>
     <div class="testimonials__track" data-testimonials-track>
-      {% for loop_pass in (1..2) %}
-        {% for block in section.blocks %}
-          {% assign full_review = block.settings.review | default: "Wholesome organic products with the kind of authentic flavour you remember from home. Fast delivery and exceptional quality." %}
-          <div class="testimonials__card{% if loop_pass == 2 %} testimonials__card--clone{% endif %}" data-testimonial-card data-full-review="{{ full_review | escape }}" {{ block.shopify_attributes }}>
-            {% comment %} FRONT VIEW: Short Title + Photo + Author + Arrow {% endcomment %}
-            <div class="testimonials__card-front" data-card-front>
-              {% assign card_headline = block.settings.headline %}
-              {% if card_headline == blank %}
-                {% assign card_headline = full_review | truncatewords: 8, '...' %}
-              {% endif %}
-              <h3 class="testimonials__card-headline">"{{ card_headline | remove_first: '"' | remove_last: '"' }}"</h3>
-
-              <div class="testimonials__card-media">
-                {% if block.settings.image != blank %}
-                  {{ block.settings.image | image_url: width: 500 | image_tag: class: 'testimonials__card-img', loading: 'lazy', alt: block.settings.name }}
-                {% else %}
-                  <div class="testimonials__card-avatar-fallback">
-                    <span class="testimonials__avatar-text">{{ block.settings.name | slice: 0, 1 | upcase }}</span>
-                  </div>
-                {% endif %}
-              </div>
-
-              <footer class="testimonials__card-footer">
-                <div class="testimonials__author-info">
-                  <strong class="testimonials__author-name">{{ block.settings.name }}</strong>
-                  <span class="testimonials__author-role">{{ block.settings.role | default: block.settings.location | default: 'Verified Customer' }}</span>
-                </div>
-                <button type="button" class="testimonials__expand-btn" data-card-toggle aria-label="Read full review from {{ block.settings.name }}">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-              </footer>
-            </div>
-
-            {% comment %} BACK VIEW: Full Review Message + Author + Toggle Back {% endcomment %}
-            <div class="testimonials__card-back" data-card-back>
-              <div class="testimonials__card-full-msg">
-                <p class="testimonials__card-full-text">"{{ full_review }}"</p>
-              </div>
-
-              <footer class="testimonials__card-footer">
-                <div class="testimonials__author-info">
-                  <strong class="testimonials__author-name">{{ block.settings.name }}</strong>
-                  <span class="testimonials__author-role">{{ block.settings.role | default: block.settings.location | default: 'Verified Customer' }}</span>
-                </div>
-                <button type="button" class="testimonials__expand-btn testimonials__expand-btn--active" data-card-toggle aria-label="Close full review">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                </button>
-              </footer>
-            </div>
-          </div>
-        {% endfor %}
-      {% endfor %}
+      {% comment %} 100% Dynamic - Rendered exclusively from Judge.me published reviews {% endcomment %}
     </div>
   </div>
 
@@ -228,53 +177,9 @@
     { "type": "color", "id": "card_border_color", "label": "Card Border Color", "default": "#23421F" },
     { "type": "color", "id": "card_bg_color", "label": "Card Background Color", "default": "#FFFFFF" }
   ],
-  "blocks": [
-    {
-      "type": "testimonial",
-      "name": "Testimonial Card",
-      "settings": [
-        { "type": "text", "id": "headline", "label": "Short Title / Headline", "default": "Finally a truly delicious and quality product." },
-        { "type": "textarea", "id": "review", "label": "Full Review Message", "default": "The Whole Truth's chocolate protein powder stands out in multiple ways. First, it's backed by a trustworthy brand known for quality and transparency. The texture is superb with no clumps." },
-        { "type": "image_picker", "id": "image", "label": "Customer Photo / Review Image" },
-        { "type": "text", "id": "name", "label": "Customer Name", "default": "Amaan Bakali" },
-        { "type": "text", "id": "role", "label": "Role / Designation / Location", "default": "Owner and Coach at Crossfit Third Eye" },
-        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 }
-      ]
-    }
-  ],
-  "max_blocks": 16,
   "presets": [
     {
-      "name": "Testimonials Carousel",
-      "blocks": [
-        {
-          "type": "testimonial",
-          "settings": {
-            "headline": "Finally a truly delicious and quality protein powder.",
-            "review": "The Whole Truth's chocolate protein powder stands out in multiple ways. First, it's backed by a trustworthy brand known for quality and transparency. The chocolate flavour is a delightful rich treat making post-workout enjoyable. The texture is superb, with no clumps or grittiness.",
-            "name": "Amaan Bakali",
-            "role": "Owner and Coach at Crossfit Third Eye"
-          }
-        },
-        {
-          "type": "testimonial",
-          "settings": {
-            "headline": "It's so tasty, I didn't even feel like I was having a protein shake",
-            "review": "The natural ingredients and authentic taste exceed all expectations. I drink it every morning before my workout routine and feel energized all day long!",
-            "name": "Prerna Maarvikurne",
-            "role": "Student of Oberoi International"
-          }
-        },
-        {
-          "type": "testimonial",
-          "settings": {
-            "headline": "Best Gir Cow Bilona Ghee I have tried in India",
-            "review": "Natural aroma and golden granular texture! The quality is beautiful and every order feels thoughtfully packed. Kishan Bazar has become a staple in our kitchen.",
-            "name": "Priya Sharma",
-            "role": "Verified Home Chef, Mumbai"
-          }
-        }
-      ]
+      "name": "Testimonials Carousel"
     }
   ]
 }
