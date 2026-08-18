@@ -9,6 +9,10 @@
 
 <section class="product-reviews" id="ProductReviews-{{ section.id }}" aria-label="Customer Reviews">
   <div class="product-reviews__container">
+    <!-- Judge.me Review Widget -->
+    <div class="jdgm-widget jdgm-review-widget" data-id="{{ product.id }}">
+      {{ product.metafields.judgeme.widget }}
+    </div>
     <div class="product-reviews__header-row">
       <div>
         <span class="product-reviews__eyebrow">Real Customer Feedback</span>

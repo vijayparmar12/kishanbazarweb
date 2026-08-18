@@ -38,6 +38,10 @@
 
         {% when 'rating' %}
           <div class="product-info__rating" aria-label="5 star customer rating" {{ block.shopify_attributes }}>
+            <!-- Judge.me Preview Badge -->
+            <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+              {{ product.metafields.judgeme.badge }}
+            </div>
             <div class="product-info__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
             <span class="product-info__rating-score">{{ block.settings.score | default: "4.9" }}</span>
             <a href="#ProductReviews-{{ section.id }}" class="product-info__review-count">({{ block.settings.review_count | default: "128 Verified Ratings" }})</a>
