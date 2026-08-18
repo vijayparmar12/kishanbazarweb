@@ -94,7 +94,7 @@
   }
 {% endstyle %}
 
-<section id="Testimonials-{{ section.id }}" class="testimonials-carousel-section" data-testimonials-section style="display: none;">
+<section id="Testimonials-{{ section.id }}" class="testimonials-carousel-section" data-testimonials-section>
 
   <div class="testimonials__header">
     {% if section.settings.heading_image_desktop != blank or section.settings.heading_image_mobile != blank %}
@@ -131,7 +131,51 @@
 
   <div class="testimonials__carousel-container" data-testimonials-carousel>
     <div class="testimonials__track" data-testimonials-track>
-      {% comment %} 100% Dynamic - Rendered exclusively from Judge.me published reviews {% endcomment %}
+      {% for block in section.blocks %}
+        {% assign full_review = block.settings.review | default: "Wholesome organic products with authentic flavour." %}
+        <div class="testimonials__card" data-testimonial-card data-full-review="{{ full_review | escape }}" {{ block.shopify_attributes }}>
+          <div class="testimonials__card-front" data-card-front>
+            {% assign card_headline = block.settings.headline | default: full_review %}
+            <h3 class="testimonials__card-headline">"{{ card_headline }}"</h3>
+
+            <div class="testimonials__card-media">
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 500 | image_tag: class: 'testimonials__card-img', loading: 'lazy', alt: block.settings.name }}
+              {% else %}
+                <div class="testimonials__card-avatar-fallback">
+                  <span class="testimonials__avatar-text">{{ block.settings.name | slice: 0, 1 | upcase }}</span>
+                </div>
+              {% endif %}
+            </div>
+
+            <footer class="testimonials__card-footer">
+              <div class="testimonials__author-info">
+                <strong class="testimonials__author-name">{{ block.settings.name }}</strong>
+                <span class="testimonials__author-role">{{ block.settings.role | default: 'Verified Customer' }}</span>
+              </div>
+              <button type="button" class="testimonials__expand-btn" data-card-toggle aria-label="Read full review from {{ block.settings.name }}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </footer>
+          </div>
+
+          <div class="testimonials__card-back" data-card-back>
+            <div class="testimonials__card-full-msg">
+              <p class="testimonials__card-full-text">"{{ full_review }}"</p>
+            </div>
+
+            <footer class="testimonials__card-footer">
+              <div class="testimonials__author-info">
+                <strong class="testimonials__author-name">{{ block.settings.name }}</strong>
+                <span class="testimonials__author-role">{{ block.settings.role | default: 'Verified Customer' }}</span>
+              </div>
+              <button type="button" class="testimonials__expand-btn testimonials__expand-btn--active" data-card-toggle aria-label="Close full review">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              </button>
+            </footer>
+          </div>
+        </div>
+      {% endfor %}
     </div>
   </div>
 
@@ -177,6 +221,21 @@
     { "type": "color", "id": "card_border_color", "label": "Card Border Color", "default": "#23421F" },
     { "type": "color", "id": "card_bg_color", "label": "Card Background Color", "default": "#FFFFFF" }
   ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial Card",
+      "settings": [
+        { "type": "text", "id": "headline", "label": "Short Title / Headline", "default": "Finally a truly delicious and quality product." },
+        { "type": "textarea", "id": "review", "label": "Full Review Message", "default": "Wholesome organic products with authentic flavour." },
+        { "type": "image_picker", "id": "image", "label": "Customer Photo / Review Image" },
+        { "type": "text", "id": "name", "label": "Customer Name", "default": "Amaan Bakali" },
+        { "type": "text", "id": "role", "label": "Role / Designation / Location", "default": "Verified Customer" },
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 }
+      ]
+    }
+  ],
+  "max_blocks": 16,
   "presets": [
     {
       "name": "Testimonials Carousel"
