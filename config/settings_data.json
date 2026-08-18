@@ -8,5 +8,103 @@
  * ------------------------------------------------------------
  */
 {
-  "current": {}
+  "current": {
+    "sections": {
+      "customer-login-modal": {
+        "type": "customer-login-modal",
+        "settings": {}
+      },
+      "customer-profile": {
+        "type": "customer-profile",
+        "settings": {}
+      },
+      "wishlist-drawer": {
+        "type": "wishlist-drawer",
+        "settings": {}
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "show_announcement": true,
+          "announcement_text": "Big Savings Alert! Get 10% OFF on orders above Rs.3000 | Use code: TBOF10",
+          "announcement_text_2": "Enjoy free shipping on orders above Rs.1499 | Shop now",
+          "announcement_text_3": "Farm-fresh staples delivered to your doorstep",
+          "announcement_background": "#23421f",
+          "announcement_text_color": "#ffffff",
+          "logo_width": 320,
+          "mobile_logo_width": 240,
+          "enable_sticky_header": true,
+          "header_background": "#ffffff",
+          "background_color": "#ffffff",
+          "nav_text_color": "#23421f",
+          "accent_color": "#23421f",
+          "show_search": true,
+          "search_fallback_placeholder": "Search For Jaggery",
+          "search_placeholders": "Search For Jaggery\nSearch for Ghee\nSearch for Atta\nSearch for Oil\nSearch for Rice",
+          "menu": "main-menu",
+          "mobile_menu": "",
+          "mobile_menu_source": "shopify_menu",
+          "ghee_title": "Ghee",
+          "ghee_url": "",
+          "atta_title": "Atta",
+          "atta_url": "",
+          "category_title": "Shop By Category",
+          "collective_title": "Join Collective",
+          "collective_url": "",
+          "concern_title": "Shop By Concern",
+          "farm_title": "Farm Life",
+          "customers_title": "Customers",
+          "enable_category_mega": true,
+          "enable_concern_mega": true,
+          "enable_farm_mega": true,
+          "enable_customers_mega": true,
+          "category_button_text": "Shop All",
+          "category_button_url": "",
+          "mega_background": "#ffffff",
+          "mega_text_color": "#23421f",
+          "mega_hover_color": "#f1f8ec",
+          "mega_wave_color": "#eaf5e3",
+          "show_account": true,
+          "show_wishlist": true,
+          "wishlist_url": "",
+          "show_cart": true,
+          "feature_row_background": "#faf6ec"
+        }
+      },
+      "membership-hero": {
+        "type": "membership-hero",
+        "settings": {
+          "title": "Become a Kishan Bazar Collective Member",
+          "subtitle": "Exclusive savings, early access to seasonal harvests, premium organic staples, and member-only rewards."
+        }
+      },
+      "membership-plans": {
+        "type": "membership-plans",
+        "settings": {}
+      },
+      "membership-faq": {
+        "type": "membership-faq",
+        "settings": {}
+      },
+      "membership-cta": {
+        "type": "membership-cta",
+        "settings": {}
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      },
+      "13047258039897440615": {
+        "type": "shopify://apps/judge-me-reviews/blocks/cart_drawer_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {
+          "widget_type": "review-widget"
+        }
+      }
+    }
+  }
 }
