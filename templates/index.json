@@ -427,6 +427,7 @@
       "blocks": {
         "review_3": {
           "type": "testimonial",
+          "disabled": true,
           "settings": {
             "headline": "Finally a truly delicious and quality product.",
             "review": "I love knowing where our pantry essentials come from. The range is simple, honest, and delicious.",
