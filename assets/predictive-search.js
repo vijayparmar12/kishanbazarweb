@@ -101,7 +101,7 @@
         });
       }
 
-      // Close handlers
+      // Close handlers (close button x, backdrop, ESC key)
       this.closeBtns.forEach((btn) => btn.addEventListener('click', () => this.close()));
 
       document.addEventListener('keydown', (e) => {
@@ -110,11 +110,16 @@
         }
       });
 
-      // Clear button
+      // Header clear buttons
+      document.querySelectorAll('[data-search-clear]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          this.close();
+        });
+      });
+
+      // Drawer Clear button
       if (this.clearBtn) {
         this.clearBtn.addEventListener('click', () => {
-          this.syncInputs('');
-          this.toggleClearBtn();
           this.close();
         });
       }
@@ -148,6 +153,8 @@
       this.drawer.classList.remove('is-active');
       this.drawer.setAttribute('aria-hidden', 'true');
       if (this.resultsContainer) this.resultsContainer.style.display = 'none';
+      this.syncInputs('');
+      this.toggleClearBtn();
     }
 
     isOpen() {
