@@ -64,41 +64,93 @@
     return '';
   }
 
-  // Dynamic Sync of ALL Judge.me Imported Reviews into Green Testimonial Cards
-  function syncJudgemeToGreenCards() {
-    const jgWrapper = document.querySelector('.jdgm-carousel-wrapper, .jdgm-all-reviews-widget, .jdgm-widget, .jdgm-rev-widg');
-    const sections = document.querySelectorAll('.testimonials-carousel-section, [data-testimonials-section]');
+  // Fetch reviews directly from Judge.me API for instant updates after edits
+  async function fetchJudgemeReviewsApi() {
+    try {
+      const shop = (window.Shopify && window.Shopify.shop) ? window.Shopify.shop : window.location.hostname;
+      const res = await fetch(`https://judge.me/api/v1/reviews?shop_domain=${shop}&platform=shopify&per_page=50`);
+      if (!res.ok) return null;
+      const data = await res.json();
+      if (!data || !data.reviews || data.reviews.length === 0) return null;
 
-    // Find review elements inside Judge.me widget
-    const reviewEls = jgWrapper ? jgWrapper.querySelectorAll('.jdgm-carousel-item, .jdgm-rev, .jdgm-carousel-slide, [data-review-id]') : [];
+      const apiReviews = [];
+      const seenKeys = new Set();
 
-    const extractedReviews = [];
-    const seenKeys = new Set();
+      data.reviews.forEach(r => {
+        let imgSrc = '';
+        if (r.pictures && r.pictures.length > 0 && r.pictures[0].urls) {
+          imgSrc = r.pictures[0].urls.original || r.pictures[0].urls.huge || r.pictures[0].urls.compact || '';
+        }
+        if (!imgSrc && r.featured_image) {
+          imgSrc = typeof r.featured_image === 'string' ? r.featured_image : (r.featured_image.url || '');
+        }
+        if (!imgSrc && r.product_image) {
+          imgSrc = typeof r.product_image === 'string' ? r.product_image : (r.product_image.url || '');
+        }
+        if (imgSrc && imgSrc.startsWith('//')) imgSrc = 'https:' + imgSrc;
 
-    if (reviewEls && reviewEls.length > 0) {
-      reviewEls.forEach(el => {
-        if (el.classList.contains('jdgm--hidden') || el.style.display === 'none') return;
-
-        const titleEl = el.querySelector('.jdgm-carousel-item__review-title, .jdgm-rev__title, .jdgm-carousel-item__title, .jdgm-rev-widg__title');
-        const bodyEl = el.querySelector('.jdgm-carousel-item__review-body, .jdgm-rev__body, .jdgm-carousel-item__body, .jdgm-rev-widg__body');
-        const nameEl = el.querySelector('.jdgm-carousel-item__reviewer-name, .jdgm-rev__author-name, .jdgm-carousel-item__name, .jdgm-rev__author');
-
-        const headline = titleEl ? titleEl.textContent.trim() : '';
-        const fullText = bodyEl ? bodyEl.textContent.trim() : '';
-        const name = nameEl ? nameEl.textContent.trim() : 'Verified Customer';
-        const imgSrc = extractJudgemeImage(el);
+        const headline = r.title || (r.body ? r.body.split('. ')[0] : 'Customer Review');
+        const fullText = r.body || r.title || '';
+        const name = (r.reviewer && r.reviewer.name) ? r.reviewer.name : (r.user && r.user.name ? r.user.name : 'Verified Customer');
 
         const uniqueKey = `${name}_${headline}_${fullText}`;
         if ((headline || fullText) && !seenKeys.has(uniqueKey)) {
           seenKeys.add(uniqueKey);
-          extractedReviews.push({
-            headline: headline || fullText.split('. ')[0],
-            fullText: fullText || headline,
+          apiReviews.push({
+            headline: headline,
+            fullText: fullText,
             name: name,
             imgSrc: imgSrc
           });
         }
       });
+
+      return apiReviews.length > 0 ? apiReviews : null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  // Dynamic Sync of ALL Judge.me Imported Reviews into Green Testimonial Cards
+  async function syncJudgemeToGreenCards() {
+    const sections = document.querySelectorAll('.testimonials-carousel-section, [data-testimonials-section]');
+    let extractedReviews = [];
+
+    // 1. Try direct API fetch for real-time fresh updates after editing
+    const apiData = await fetchJudgemeReviewsApi();
+    if (apiData && apiData.length > 0) {
+      extractedReviews = apiData;
+    } else {
+      // 2. DOM Parsing Fallback
+      const jgWrapper = document.querySelector('.jdgm-carousel-wrapper, .jdgm-all-reviews-widget, .jdgm-widget, .jdgm-rev-widg');
+      const reviewEls = jgWrapper ? jgWrapper.querySelectorAll('.jdgm-carousel-item, .jdgm-rev, .jdgm-carousel-slide, [data-review-id]') : [];
+      const seenKeys = new Set();
+
+      if (reviewEls && reviewEls.length > 0) {
+        reviewEls.forEach(el => {
+          if (el.classList.contains('jdgm--hidden') || el.style.display === 'none') return;
+
+          const titleEl = el.querySelector('.jdgm-carousel-item__review-title, .jdgm-rev__title, .jdgm-carousel-item__title, .jdgm-rev-widg__title');
+          const bodyEl = el.querySelector('.jdgm-carousel-item__review-body, .jdgm-rev__body, .jdgm-carousel-item__body, .jdgm-rev-widg__body');
+          const nameEl = el.querySelector('.jdgm-carousel-item__reviewer-name, .jdgm-rev__author-name, .jdgm-carousel-item__name, .jdgm-rev__author');
+
+          const headline = titleEl ? titleEl.textContent.trim() : '';
+          const fullText = bodyEl ? bodyEl.textContent.trim() : '';
+          const name = nameEl ? nameEl.textContent.trim() : 'Verified Customer';
+          const imgSrc = extractJudgemeImage(el);
+
+          const uniqueKey = `${name}_${headline}_${fullText}`;
+          if ((headline || fullText) && !seenKeys.has(uniqueKey)) {
+            seenKeys.add(uniqueKey);
+            extractedReviews.push({
+              headline: headline || fullText.split('. ')[0],
+              fullText: fullText || headline,
+              name: name,
+              imgSrc: imgSrc
+            });
+          }
+        });
+      }
     }
 
     // Hide top plain default Judge.me widget container safely
@@ -109,8 +161,8 @@
       jgContainer.style.left = '-9999px';
     }
 
-    // If Judge.me is loaded and has ZERO published reviews, clear track
-    if (jgWrapper && extractedReviews.length === 0) {
+    // If ZERO published reviews, clear track and hide section
+    if (extractedReviews.length === 0) {
       const tracks = document.querySelectorAll('[data-testimonials-track]');
       tracks.forEach(track => {
         track.innerHTML = '';
@@ -121,8 +173,6 @@
       hasSyncedJudgeme = true;
       return;
     }
-
-    if (extractedReviews.length === 0) return;
 
     // Show section if reviews exist
     sections.forEach(sec => {
