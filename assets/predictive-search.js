@@ -7,100 +7,77 @@
       this.input = this.drawer.querySelector('[data-predictive-search-input]');
       this.clearBtn = this.drawer.querySelector('[data-search-input-clear]');
       this.closeBtns = this.drawer.querySelectorAll('[data-search-close]');
-      this.pills = this.drawer.querySelectorAll('[data-search-pill]');
       this.resultsContainer = this.drawer.querySelector('[data-predictive-search-results]');
       this.suggestionList = this.drawer.querySelector('[data-suggestion-list-container]');
-      this.pillsContainer = this.drawer.querySelector('.kb-search-drawer__pills');
       this.productsContainer = this.drawer.querySelector('[data-products-container]');
-      this.blogsContainer = this.drawer.querySelector('[data-blogs-container]');
       this.viewAllLink = this.drawer.querySelector('[data-view-all-products]');
       
       this.debounceTimer = null;
-      this.initialProductsHTML = this.productsContainer ? this.productsContainer.innerHTML : '';
-      this.initialBlogsHTML = this.blogsContainer ? this.blogsContainer.innerHTML : '';
-
       this.bindEvents();
     }
 
     bindEvents() {
-      // 1. Intercept all header and page search forms to prevent navigation to /search page
-      document.querySelectorAll('form.kb-header__search, form[action*="/search"]').forEach((form) => {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const formInput = form.querySelector('input[type="search"], input[name="q"]');
-          const query = formInput ? formInput.value.trim() : '';
-          this.open();
-          if (query) {
-            if (this.input) this.input.value = query;
-            this.toggleClearBtn();
-            this.fetchResults(query);
-          }
-        });
-      });
-
-      // 2. Listen for click on header search input or search submit button to open drawer
-      document.addEventListener('click', (e) => {
-        const searchTrigger = e.target.closest('[data-typing-search], .kb-header__search-icon, .kb-header__search-submit');
-        if (searchTrigger) {
-          e.preventDefault();
-          const mainInput = document.querySelector('[data-typing-search]');
-          const query = mainInput ? mainInput.value.trim() : '';
-          this.open();
-          if (query) {
-            if (this.input) this.input.value = query;
-            this.toggleClearBtn();
-            this.fetchResults(query);
-          }
-        }
-      });
-
-      // 3. Listen to focus and input on main header search input
       const mainSearchInput = document.querySelector('[data-typing-search]');
+
       if (mainSearchInput) {
+        // 1. On focus: only open search drawer if query is NOT empty
         mainSearchInput.addEventListener('focus', () => {
           const query = mainSearchInput.value.trim();
-          this.open();
-          if (query && this.input) {
-            this.input.value = query;
+          if (query.length >= 1) {
+            this.open();
+            if (this.input) this.input.value = query;
             this.toggleClearBtn();
             this.fetchResults(query);
+          } else {
+            // Nothing typed -> nothing visible!
+            this.close();
           }
         });
 
+        // 2. On typing in header search:
         mainSearchInput.addEventListener('input', () => {
           const query = mainSearchInput.value.trim();
-          this.open();
           if (this.input) {
             this.input.value = query;
             this.toggleClearBtn();
           }
-          clearTimeout(this.debounceTimer);
-          if (query.length < 2) {
-            this.resetToInitialState();
+          
+          if (query.length < 1) {
+            // Nothing typed -> close search drawer immediately!
+            this.close();
             return;
           }
+
+          this.open();
+          clearTimeout(this.debounceTimer);
           this.debounceTimer = setTimeout(() => {
             this.fetchResults(query);
-          }, 280);
+          }, 250);
         });
       }
 
-      // 4. Intercept search form submit inside predictive search drawer
-      const drawerForm = this.drawer.querySelector('[data-predictive-search-form]');
-      if (drawerForm) {
-        drawerForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const query = this.input ? this.input.value.trim() : '';
-          if (query) {
-            this.fetchResults(query);
+      // 3. On typing in drawer search input:
+      if (this.input) {
+        this.input.addEventListener('input', () => {
+          const query = this.input.value.trim();
+          if (mainSearchInput) mainSearchInput.value = query;
+          this.toggleClearBtn();
+
+          if (query.length < 1) {
+            this.close();
+            return;
           }
+
+          clearTimeout(this.debounceTimer);
+          this.debounceTimer = setTimeout(() => {
+            this.fetchResults(query);
+          }, 250);
         });
       }
 
       // Close handlers
       this.closeBtns.forEach((btn) => btn.addEventListener('click', () => this.close()));
 
-      // Close on Escape key
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && this.isOpen()) {
           this.close();
@@ -110,43 +87,10 @@
       // Clear button
       if (this.clearBtn) {
         this.clearBtn.addEventListener('click', () => {
-          if (this.input) {
-            this.input.value = '';
-            this.toggleClearBtn();
-            this.resetToInitialState();
-            this.input.focus();
-          }
-        });
-      }
-
-      // Suggestion Pill clicks
-      this.pills.forEach((pill) => {
-        pill.addEventListener('click', () => {
-          const query = pill.dataset.searchPill || pill.textContent.trim();
-          if (this.input) {
-            this.input.value = query;
-            this.toggleClearBtn();
-            this.fetchResults(query);
-            this.input.focus();
-          }
-        });
-      });
-
-      // Input typing event inside drawer
-      if (this.input) {
-        this.input.addEventListener('input', () => {
-          const query = this.input.value.trim();
+          if (this.input) this.input.value = '';
+          if (mainSearchInput) mainSearchInput.value = '';
           this.toggleClearBtn();
-
-          clearTimeout(this.debounceTimer);
-          if (query.length < 2) {
-            this.resetToInitialState();
-            return;
-          }
-
-          this.debounceTimer = setTimeout(() => {
-            this.fetchResults(query);
-          }, 280);
+          this.close();
         });
       }
     }
@@ -154,16 +98,13 @@
     open() {
       this.drawer.classList.add('is-active');
       this.drawer.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-      setTimeout(() => {
-        if (this.input) this.input.focus();
-      }, 150);
+      if (this.resultsContainer) this.resultsContainer.style.display = 'grid';
     }
 
     close() {
       this.drawer.classList.remove('is-active');
       this.drawer.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
+      if (this.resultsContainer) this.resultsContainer.style.display = 'none';
     }
 
     isOpen() {
@@ -175,20 +116,9 @@
       this.clearBtn.style.display = this.input.value.trim().length > 0 ? 'inline-block' : 'none';
     }
 
-    resetToInitialState() {
-      if (this.pillsContainer) this.pillsContainer.style.display = 'flex';
-      if (this.suggestionList) {
-        this.suggestionList.style.display = 'none';
-        this.suggestionList.innerHTML = '';
-      }
-      if (this.productsContainer) this.productsContainer.innerHTML = this.initialProductsHTML;
-      if (this.blogsContainer) this.blogsContainer.innerHTML = this.initialBlogsHTML;
-      if (this.viewAllLink) this.viewAllLink.style.display = 'none';
-    }
-
     async fetchResults(query) {
       try {
-        const response = await fetch(`/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product,article,page,queries&resources[limit]=6`);
+        const response = await fetch(`/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product,article,queries&resources[limit]=8`);
         if (!response.ok) return;
 
         const data = await response.json();
@@ -202,55 +132,66 @@
     }
 
     renderResults(query, results) {
-      const { products = [], articles = [], queries = [] } = results;
+      const { products = [], queries = [] } = results;
 
-      // 1. Render Suggestion List with Rosier Yellow Highlight
-      if (queries.length > 0) {
-        if (this.pillsContainer) this.pillsContainer.style.display = 'none';
-        if (this.suggestionList) {
-          this.suggestionList.style.display = 'flex';
-          this.suggestionList.innerHTML = queries.map((item) => {
-            const highlightedText = this.highlightText(item.text, query);
-            return `<li class="kb-search-suggestion-item" data-suggestion-text="${item.text}">${highlightedText}</li>`;
+      // 1. Suggestions List (Left Column)
+      if (this.suggestionList) {
+        let suggestionItems = [];
+        
+        if (queries.length > 0) {
+          suggestionItems = queries.map(q => q.text);
+        } else if (products.length > 0) {
+          const set = new Set();
+          set.add(query);
+          products.forEach(p => {
+            const words = p.title.split(' ');
+            words.forEach(w => {
+              if (w.toLowerCase().includes(query.toLowerCase())) {
+                set.add(w.toLowerCase());
+              }
+            });
+            if (p.product_type) set.add(p.product_type);
+          });
+          suggestionItems = Array.from(set).slice(0, 6);
+        }
+
+        if (suggestionItems.length > 0) {
+          this.suggestionList.innerHTML = suggestionItems.map((item) => {
+            const highlighted = this.highlightText(item, query);
+            return `<li class="kb-search-suggestion-item" data-suggestion-text="${item}">${highlighted}</li>`;
           }).join('');
 
-          // Bind click on suggestions
+          // Click handler for suggestion items
           this.suggestionList.querySelectorAll('.kb-search-suggestion-item').forEach((li) => {
             li.addEventListener('click', () => {
               const text = li.dataset.suggestionText;
-              if (this.input) {
-                this.input.value = text;
-                this.toggleClearBtn();
-                this.fetchResults(text);
-              }
+              const mainSearchInput = document.querySelector('[data-typing-search]');
+              if (this.input) this.input.value = text;
+              if (mainSearchInput) mainSearchInput.value = text;
+              this.toggleClearBtn();
+              this.fetchResults(text);
             });
           });
+        } else {
+          this.suggestionList.innerHTML = `<li class="kb-search-suggestion-item">${this.highlightText(query, query)}</li>`;
         }
-      } else {
-        if (this.pillsContainer) this.pillsContainer.style.display = 'flex';
-        if (this.suggestionList) this.suggestionList.style.display = 'none';
       }
 
-      // 2. Render Products
+      // 2. Products List (Right Column - Rosier Foods Row Layout)
       if (this.productsContainer) {
         if (products.length > 0) {
           this.productsContainer.innerHTML = products.map((product) => {
-            const priceFormatted = product.price ? `₹${parseFloat(product.price).toFixed(2)}` : '';
+            const priceFormatted = product.price ? `₹${parseFloat(product.price).toFixed(2)}` : (product.price_min ? `₹${parseFloat(product.price_min).toFixed(2)}` : '');
+            const imgUrl = product.featured_image?.url || product.image || '';
             return `
-              <div class="kb-search-product-card">
-                <a href="${product.url}" class="kb-search-product-card__link" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
-                  <div class="kb-search-product-card__img-wrap">
-                    <img src="${product.featured_image?.url || product.image || ''}" alt="${product.title}" class="kb-search-product-thumb" loading="lazy">
+              <div class="kb-search-product-row">
+                <a href="${product.url}" class="kb-search-product-row__link">
+                  <div class="kb-search-product-row__img-wrap">
+                    ${imgUrl ? `<img src="${imgUrl}" alt="${product.title}" class="kb-search-product-row__img" loading="lazy">` : `<div class="kb-search-product-row__img-placeholder"></div>`}
                   </div>
-                  <div class="kb-search-product-card__info" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                    <h4 class="kb-search-product-title">${this.highlightText(product.title, query)}</h4>
-                    <div class="kb-search-product-rating" style="margin-top: 4px;">
-                      <span>★ 4.9</span>
-                      <span style="color: #64748b; font-weight: 500;">(1279 reviews)</span>
-                    </div>
-                    <div class="kb-search-product-prices" style="margin-top: 6px;">
-                      <span class="kb-search-product-price">${priceFormatted}</span>
-                    </div>
+                  <div class="kb-search-product-row__info">
+                    <h4 class="kb-search-product-row__title">${this.highlightText(product.title, query)}</h4>
+                    <div class="kb-search-product-row__price">${priceFormatted}</div>
                   </div>
                 </a>
               </div>
@@ -262,26 +203,8 @@
             this.viewAllLink.style.display = 'inline-block';
           }
         } else {
-          this.productsContainer.innerHTML = `<p style="color: #64748b; font-size: 0.95rem; font-weight: 600; padding: 0.5rem 0;">No products found matching "${query}".</p>`;
+          this.productsContainer.innerHTML = `<p style="color: #64748b; font-size: 0.9rem; padding: 0.5rem 0;">No products found for "${query}".</p>`;
           if (this.viewAllLink) this.viewAllLink.style.display = 'none';
-        }
-      }
-
-      // 3. Render Articles / Blogs
-      if (this.blogsContainer) {
-        if (articles.length > 0) {
-          this.blogsContainer.innerHTML = articles.map((article) => {
-            return `
-              <a href="${article.url}" class="kb-search-blog-card">
-                <div class="kb-search-blog-card__content">
-                  <h4 class="kb-search-blog-title">${this.highlightText(article.title, query)}</h4>
-                  <p class="kb-search-blog-meta">Read article &rarr;</p>
-                </div>
-              </a>
-            `;
-          }).join('');
-        } else {
-          this.blogsContainer.innerHTML = this.initialBlogsHTML;
         }
       }
     }

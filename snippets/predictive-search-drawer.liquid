@@ -1,7 +1,7 @@
 {% doc %}
-  Renders the predictive search modal drawer combining Anveshan layout structure
-  (Suggestions tags, Product cards, and Blog posts) with Rosier Foods aesthetics
-  (warm cream backdrop #F8F4EB, serif section titles with divider lines, and clean typography).
+  Renders the predictive search dropdown drawer matching Rosier Foods layout
+  (Split 2-column: Suggestions on Left with yellow match highlight, Products row list on Right).
+  Hidden when input is empty.
 
   @example
   {% render 'predictive-search-drawer' %}
@@ -14,109 +14,45 @@
   <div class="kb-search-drawer__backdrop" data-search-close></div>
 
   <div class="kb-search-drawer__container" role="dialog" aria-modal="true" aria-label="Search store">
-    <!-- Header Row -->
+    <!-- Header Row inside drawer -->
     <div class="kb-search-drawer__header-row">
-      <span class="kb-search-drawer__label">Search our store</span>
+      <form action="{{ routes.search_url }}" method="get" role="search" class="kb-search-drawer__form" data-predictive-search-form>
+        <input
+          type="search"
+          name="q"
+          class="kb-search-drawer__input"
+          placeholder="Search products..."
+          value=""
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          data-predictive-search-input
+        >
+        <button type="button" class="kb-search-drawer__clear" aria-label="Clear search query" data-search-input-clear style="display: none;">&times;</button>
+        <button type="submit" class="kb-search-drawer__submit" aria-label="Submit search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+      </form>
       <button type="button" class="kb-search-drawer__close" aria-label="Close search modal" data-search-close>&times;</button>
     </div>
 
-    <!-- Search Form -->
-    <form action="{{ routes.search_url }}" method="get" role="search" class="kb-search-drawer__form" data-predictive-search-form>
-      <input
-        type="search"
-        name="q"
-        class="kb-search-drawer__input"
-        placeholder="Search for Ghee, Atta, Oil..."
-        value=""
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-        spellcheck="false"
-        data-predictive-search-input
-      >
-      <button type="button" class="kb-search-drawer__clear" aria-label="Clear search query" data-search-input-clear style="display: none;">&times;</button>
-      <button type="submit" class="kb-search-drawer__submit" aria-label="Submit search">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      </button>
-    </form>
-
-    <!-- Scrollable Results Body -->
-    <div class="kb-search-drawer__body" data-predictive-search-results>
-      
-      <!-- Section 1: Suggestions -->
-      <div class="kb-search-drawer__section kb-search-drawer__section--suggestions" data-section-suggestions>
+    <!-- Scrollable Results Body (Split Layout: Suggestions Left | Products Right) -->
+    <div class="kb-search-drawer__body" data-predictive-search-results style="display: none;">
+      <!-- Column 1: Suggestions -->
+      <div class="kb-search-drawer__col kb-search-drawer__col--suggestions" data-section-suggestions>
         <h3 class="kb-search-drawer__title">Suggestions</h3>
-        <div class="kb-search-drawer__pills">
-          <button type="button" class="kb-search-pill" data-search-pill="Ghee">Ghee</button>
-          <button type="button" class="kb-search-pill" data-search-pill="Ghee Combos">Ghee Combos</button>
-          <button type="button" class="kb-search-pill" data-search-pill="Cow Ghee">Cow Ghee</button>
-          <button type="button" class="kb-search-pill" data-search-pill="A2 Gir Cow Ghee">A2 Gir Cow Ghee</button>
-          <button type="button" class="kb-search-pill" data-search-pill="Bilona Ghee">Bilona Ghee</button>
-          <button type="button" class="kb-search-pill" data-search-pill="Khapli Atta">Khapli Atta</button>
-          <button type="button" class="kb-search-pill" data-search-pill="Cold Pressed Oil">Cold Pressed Oil</button>
-        </div>
-        <ul class="kb-search-drawer__suggestion-list" data-suggestion-list-container style="display: none;"></ul>
+        <ul class="kb-search-drawer__suggestion-list" data-suggestion-list-container></ul>
       </div>
 
-      <!-- Section 2: Products -->
-      <div class="kb-search-drawer__section kb-search-drawer__section--products" data-section-products>
+      <!-- Column 2: Products -->
+      <div class="kb-search-drawer__col kb-search-drawer__col--products" data-section-products>
         <h3 class="kb-search-drawer__title">
           <span>Products</span>
           <a href="{{ routes.all_products_collection_url }}" class="kb-search-drawer__view-all" data-view-all-products style="display: none;">View All &rarr;</a>
         </h3>
-        <div class="kb-search-drawer__products-grid" data-products-container>
-          {% assign featured_collection = collections['best-sellers'] | default: collections['all'] %}
-          {% if featured_collection != blank and featured_collection.products_count > 0 %}
-            {% for product in featured_collection.products limit: 4 %}
-              {% assign variant = product.selected_or_first_available_variant %}
-              <div class="kb-search-product-card">
-                <a href="{{ product.url }}" class="kb-search-product-card__link" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
-                  <div class="kb-search-product-card__img-wrap">
-                    {% if product.featured_image != blank %}
-                      {{ product.featured_image | image_url: width: 300 | image_tag: class: 'kb-search-product-thumb', loading: 'lazy', alt: product.title }}
-                    {% else %}
-                      {{ 'product-1' | placeholder_svg_tag: 'kb-search-product-thumb' }}
-                    {% endif %}
-                  </div>
-                  <div class="kb-search-product-card__info" style="margin-top: 0.5rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                    <h4 class="kb-search-product-title">{{ product.title }}</h4>
-                    <div class="kb-search-product-rating" style="margin-top: 4px;">
-                      <span>★ 4.9</span>
-                      <span style="color: #64748b; font-weight: 500;">(1279 reviews)</span>
-                    </div>
-                    <div class="kb-search-product-prices" style="margin-top: 6px;">
-                      <span class="kb-search-product-price">{{ variant.price | money }}</span>
-                      {% if variant.compare_at_price > variant.price %}
-                        <s style="font-size: 0.8rem; color: #94a3b8; margin-left: 4px;">{{ variant.compare_at_price | money }}</s>
-                      {% endif %}
-                    </div>
-                  </div>
-                </a>
-              </div>
-            {% endfor %}
-          {% endif %}
-        </div>
+        <div class="kb-search-drawer__products-list" data-products-container></div>
       </div>
-
-      <!-- Section 3: Blogs & Articles -->
-      <div class="kb-search-drawer__section kb-search-drawer__section--blogs" data-section-blogs>
-        <h3 class="kb-search-drawer__title">Blogs & Articles</h3>
-        <div class="kb-search-drawer__blogs-grid" data-blogs-container>
-          <a href="/blogs/news" class="kb-search-blog-card">
-            <div class="kb-search-blog-card__content">
-              <h4 class="kb-search-blog-title">Pure Cow Ghee vs Desi Ghee Explained</h4>
-              <p class="kb-search-blog-meta">Read full article in Simple Words for Everyday Buyers &rarr;</p>
-            </div>
-          </a>
-          <a href="/blogs/news" class="kb-search-blog-card">
-            <div class="kb-search-blog-card__content">
-              <h4 class="kb-search-blog-title">Difference between Vanaspati Ghee and Desi Ghee</h4>
-              <p class="kb-search-blog-meta">Health benefits and traditional Bilona churning process &rarr;</p>
-            </div>
-          </a>
-        </div>
-      </div>
-
     </div>
   </div>
 </div>
