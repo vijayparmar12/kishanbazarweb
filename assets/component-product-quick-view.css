@@ -1,0 +1,258 @@
+/* ==========================================================================
+   Product Quick View Drawer Modal (Rosier Foods Style UI - Image 2)
+   ========================================================================== */
+.kb-quick-view-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.kb-quick-view-modal[hidden] {
+  display: none !important;
+}
+
+.kb-quick-view__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 16, 0.55);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  animation: kbQvFadeIn 0.25s ease forwards;
+}
+
+.kb-quick-view__card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  background: #ffffff;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.22);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: kbQvSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .kb-quick-view-modal {
+    align-items: center;
+  }
+
+  .kb-quick-view__card {
+    border-radius: 20px;
+    max-height: 88vh;
+  }
+}
+
+.kb-quick-view__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(30, 41, 35, 0.85);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background 0.15s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.kb-quick-view__close:hover {
+  background: #111827;
+  transform: scale(1.08);
+}
+
+.kb-quick-view__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.kb-quick-view__media-box {
+  width: 100%;
+  height: 230px;
+  background: #fafaf8;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px solid #f0eee9;
+  flex-shrink: 0;
+}
+
+.kb-quick-view__image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+.kb-quick-view__info-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kb-quick-view__title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #132d14;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.kb-quick-view__price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.12rem;
+}
+
+.kb-quick-view__price {
+  font-weight: 800;
+  color: #23421f;
+}
+
+.kb-quick-view__compare-price {
+  font-size: 0.92rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.kb-quick-view__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kb-quick-view__label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.kb-quick-view__select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #0f172a;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23334155' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  transition: border-color 0.2s ease;
+}
+
+.kb-quick-view__select:focus {
+  border-color: #23421f;
+}
+
+.kb-quick-view__qty-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 120px;
+  height: 42px;
+  background: #f1f5f0;
+  border-radius: 10px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.kb-quick-view__qty-btn {
+  border: none;
+  background: transparent;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #1e3f23;
+  cursor: pointer;
+  width: 30px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kb-quick-view__qty-count {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #132d14;
+}
+
+.kb-quick-view__desc-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 4px;
+}
+
+.kb-quick-view__desc {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: #475569;
+}
+
+.kb-quick-view__footer {
+  padding: 12px 1.5rem 16px;
+  background: #ffffff;
+  border-top: 1px solid #f0eee9;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.kb-quick-view__submit-btn {
+  width: 100%;
+  min-height: 48px;
+  background: #23421f;
+  color: #ffffff;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 4px 14px rgba(35, 66, 31, 0.25);
+}
+
+.kb-quick-view__submit-btn:hover {
+  background: #142812;
+  transform: translateY(-1px);
+}
+
+@keyframes kbQvFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes kbQvSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}

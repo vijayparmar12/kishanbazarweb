@@ -48,15 +48,6 @@
     const form = event.target.closest('[data-product-card-form]');
     if (!form) return;
 
-    if (form.closest('[data-shoppable-videos], [data-video-modal], .shoppable-videos')) {
-      const productUrl = form.dataset.productUrl || form.closest('[data-shoppable-card]')?.dataset.productUrl || form.querySelector('a')?.href;
-      if (productUrl) {
-        event.preventDefault();
-        window.location.href = productUrl;
-        return;
-      }
-    }
-
     event.preventDefault();
     const addBtn = form.querySelector('[data-card-add-btn]');
     const stepper = form.querySelector('[data-card-inline-stepper]');

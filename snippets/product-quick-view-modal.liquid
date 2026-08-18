@@ -1,0 +1,66 @@
+{% doc %}
+  Renders the global Product Quick View drawer modal (Rosier Foods style UI).
+{% enddoc %}
+
+<div class="kb-quick-view-modal" id="KbQuickViewModal" hidden data-quick-view-modal aria-label="Product Quick View">
+  <div class="kb-quick-view__backdrop" data-quick-view-close></div>
+  
+  <div class="kb-quick-view__card" role="dialog" aria-modal="true">
+    <!-- Close Button Top Right -->
+    <button type="button" class="kb-quick-view__close" aria-label="Close" data-quick-view-close>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <div class="kb-quick-view__content">
+      <!-- Media / Image Box -->
+      <div class="kb-quick-view__media-box">
+        <img src="" alt="" class="kb-quick-view__image" data-qv-image loading="lazy">
+      </div>
+
+      <!-- Title & Price -->
+      <div class="kb-quick-view__info-head">
+        <h3 class="kb-quick-view__title" data-qv-title>Product Title</h3>
+        <div class="kb-quick-view__price-row">
+          <span class="kb-quick-view__price" data-qv-price>₹0</span>
+          <s class="kb-quick-view__compare-price" data-qv-compare style="display: none;">₹0</s>
+        </div>
+      </div>
+
+      <!-- Option Selectors (Variant Size Dropdown) -->
+      <div class="kb-quick-view__options-wrap" data-qv-options>
+        <div class="kb-quick-view__field">
+          <label class="kb-quick-view__label" data-qv-option-label>Size</label>
+          <select class="kb-quick-view__select" data-qv-variant-select></select>
+        </div>
+      </div>
+
+      <!-- Quantity Selector -->
+      <div class="kb-quick-view__field">
+        <label class="kb-quick-view__label">Quantity</label>
+        <div class="kb-quick-view__qty-pill">
+          <button type="button" class="kb-quick-view__qty-btn" data-qv-qty-minus aria-label="Decrease quantity">-</button>
+          <span class="kb-quick-view__qty-count" data-qv-qty-count>1</span>
+          <button type="button" class="kb-quick-view__qty-btn" data-qv-qty-plus aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+
+      <!-- Description Summary -->
+      <div class="kb-quick-view__desc-wrap">
+        <label class="kb-quick-view__label">Description</label>
+        <div class="kb-quick-view__desc" data-qv-desc>
+          Our all-natural cold pressed oil is a perfect addition to your kitchen pantry. Made from high quality ingredients.
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky Bottom Add to Cart Action -->
+    <div class="kb-quick-view__footer">
+      <button type="button" class="kb-quick-view__submit-btn" data-qv-add-btn>
+        Add to cart
+      </button>
+    </div>
+  </div>
+</div>

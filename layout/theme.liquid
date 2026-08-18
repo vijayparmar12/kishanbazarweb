@@ -31,6 +31,7 @@
     {{ 'section-membership.css' | asset_url | stylesheet_tag }}
     {{ 'component-quantity-selector.css' | asset_url | stylesheet_tag }}
     {{ 'cart.css' | asset_url | stylesheet_tag }}
+    {{ 'component-product-quick-view.css' | asset_url | stylesheet_tag }}
     {{ 'customer-auth.css' | asset_url | stylesheet_tag }}
     {{ 'customer-profile.css' | asset_url | stylesheet_tag }}
     {{ 'component-wishlist.css' | asset_url | stylesheet_tag }}
@@ -69,12 +70,14 @@
 
     {% render 'cart-drawer' %}
     {% render 'express-checkout-modal' %}
+    {% render 'product-quick-view-modal' %}
 
     {{ content_for_layout }}
 
     {% sections 'footer-group' %}
     <script src="{{ 'header.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'component-product-quick-view.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'customer-auth.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'customer-profile.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-wishlist.js' | asset_url }}" defer="defer"></script>
