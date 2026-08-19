@@ -12,6 +12,19 @@
   --kb-wishlist-shadow: -18px 0 50px rgba(19, 45, 20, 0.18);
 }
 
+/* Hide external Wishy Wishlist app black floating buttons and badges */
+[class*="wishy-"],
+[id*="wishy-"],
+.wishy-floating-button,
+.wishy-badge,
+.wishy-heart-icon,
+div[class*="wishy_"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 /* ==========================================================================
    Floating Toast Pop-up Notification (Top-Left / Top-Center)
    ========================================================================== */
