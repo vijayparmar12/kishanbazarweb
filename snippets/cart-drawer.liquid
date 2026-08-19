@@ -7,8 +7,15 @@
 {% assign free_ship_val = free_shipping_threshold_num | times: 100 %}
 {% assign discount_val = discount_threshold_num | times: 100 %}
 {% assign promo_text = section.settings.cart_promo_bar_text | default: settings.cart_promo_bar_text %}
-{% assign coupon_code = section.settings.cart_coupon_code | default: settings.cart_coupon_code | default: 'TBOF10' %}
-{% assign savings_label = section.settings.cart_savings_label | default: settings.cart_savings_label | default: 'Save ₹709' %}
+{% assign coupon_code = section.settings.cart_coupon_code | default: settings.cart_coupon_code %}
+{% assign savings_label = section.settings.cart_savings_label | default: settings.cart_savings_label %}
+{% assign coupon_blocks = section.blocks | where: 'type', 'coupon_offer' %}
+
+{% if coupon_code == blank and coupon_blocks.size > 0 %}
+  {% assign coupon_code = coupon_blocks[0].settings.code %}
+  {% assign savings_label = coupon_blocks[0].settings.discount_title %}
+{% endif %}
+
 {% assign addons_heading = section.settings.cart_addons_heading | default: settings.cart_addons_heading | default: 'Frequently Bought Together' %}
 {% assign addons_collection = section.settings.cart_addons_collection | default: settings.cart_addons_collection %}
 {% assign checkout_label = section.settings.cart_checkout_btn_text | default: settings.cart_checkout_btn_text | default: 'Checkout' %}
@@ -28,62 +35,61 @@
 
     {% assign promo_text = settings.cart_promo_bar_text %}
     {% if promo_text != blank and cart.item_count > 0 %}
-      <div class="kb-cart-drawer__promo-top-bar">
-        {{ promo_text }}
+      <div class="kb-cart-drawer__promo" data-cart-drawer-promo>
+        <span>{{ promo_text }}</span>
       </div>
     {% endif %}
 
     <div class="kb-cart-drawer__progress" data-cart-drawer-progress {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
-      <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status>
+      <div class="kb-cart-drawer__progress-title" data-cart-drawer-status>
         {% if cart.total_price >= discount_val %}
           🎉 Hurray! You've unlocked 10% OFF + FREE Shipping
         {% elsif cart.total_price >= free_ship_val %}
-          You're {{ discount_val | minus: cart.total_price | money }} Away from 10% OFF
+          {% assign remaining_disc = discount_val | minus: cart.total_price %}
+          🎉 Hurray! You've unlocked FREE Shipping! Add {{ remaining_disc | money }} more for 10% OFF
         {% else %}
-          You're {{ free_ship_val | minus: cart.total_price | money }} Away from FREE Shipping 🚚
+          {% assign remaining_ship = free_ship_val | minus: cart.total_price %}
+          Add {{ remaining_ship | money }} more for FREE Shipping
         {% endif %}
-      </p>
-
-      <div class="kb-cart-drawer__progress-track-wrap">
-        <div class="kb-cart-drawer__progress-track">
-          {% liquid
-            assign fill_pct = 0
-            if cart.total_price >= discount_val
-              assign fill_pct = 100
-            elsif cart.total_price >= free_ship_val
-              assign remaining_range = discount_val | minus: free_ship_val
-              assign extra = cart.total_price | minus: free_ship_val | times: 50 | divided_by: remaining_range
-              assign fill_pct = 50 | plus: extra
-            else
-              assign fill_pct = cart.total_price | times: 50 | divided_by: free_ship_val
-            endif
-          %}
-          <span class="kb-cart-drawer__progress-fill" style="width: {{ fill_pct }}%"></span>
-          
-          <div class="kb-cart-drawer__marker kb-cart-drawer__marker--1 kb-cart-drawer__progress-marker--1 {% if cart.total_price >= free_ship_val %}is-active{% endif %}" style="left: 50%">
-            <span class="kb-cart-drawer__marker-top">₹{{ free_shipping_threshold_num }}</span>
-            <div class="kb-cart-drawer__marker-box">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
-                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                <circle cx="18.5" cy="18.5" r="2.5"></circle>
-              </svg>
-            </div>
-            <span class="kb-cart-drawer__marker-bottom">FREE SHIPPING</span>
+      </div>
+      
+      <div class="kb-cart-drawer__progress-bar">
+        {% liquid
+          assign remaining_range = discount_val | minus: free_ship_val
+          if cart.total_price >= discount_val
+            assign fill_pct = 100
+          elsif cart.total_price >= free_ship_val
+            assign extra = cart.total_price | minus: free_ship_val | times: 50 | divided_by: remaining_range
+            assign fill_pct = 50 | plus: extra
+          else
+            assign fill_pct = cart.total_price | times: 50 | divided_by: free_ship_val
+          endif
+        %}
+        <span class="kb-cart-drawer__progress-fill" style="width: {{ fill_pct }}%"></span>
+        
+        <div class="kb-cart-drawer__marker kb-cart-drawer__marker--1 kb-cart-drawer__progress-marker--1 {% if cart.total_price >= free_ship_val %}is-active{% endif %}" style="left: 50%">
+          <span class="kb-cart-drawer__marker-top">₹{{ free_shipping_threshold_num }}</span>
+          <div class="kb-cart-drawer__marker-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
           </div>
+          <span class="kb-cart-drawer__marker-bottom">FREE SHIPPING</span>
+        </div>
 
-          <div class="kb-cart-drawer__marker kb-cart-drawer__marker--2 kb-cart-drawer__progress-marker--2 {% if cart.total_price >= discount_val %}is-active{% endif %}" style="left: 92%">
-            <span class="kb-cart-drawer__marker-top">₹{{ discount_threshold_num }}</span>
-            <div class="kb-cart-drawer__marker-box">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="19" y1="5" x2="5" y2="19"></line>
-                <circle cx="6.5" cy="6.5" r="2.5"></circle>
-                <circle cx="17.5" cy="17.5" r="2.5"></circle>
-              </svg>
-            </div>
-            <span class="kb-cart-drawer__marker-bottom">10% OFF</span>
+        <div class="kb-cart-drawer__marker kb-cart-drawer__marker--2 kb-cart-drawer__progress-marker--2 {% if cart.total_price >= discount_val %}is-active{% endif %}" style="left: 92%">
+          <span class="kb-cart-drawer__marker-top">₹{{ discount_threshold_num }}</span>
+          <div class="kb-cart-drawer__marker-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="5" x2="5" y2="19"></line>
+              <circle cx="6.5" cy="6.5" r="2.5"></circle>
+              <circle cx="17.5" cy="17.5" r="2.5"></circle>
+            </svg>
           </div>
+          <span class="kb-cart-drawer__marker-bottom">10% OFF</span>
         </div>
       </div>
     </div>
@@ -91,7 +97,7 @@
     <div class="kb-cart-drawer__body">
       <div class="kb-cart-drawer__items" data-cart-drawer-items>
         {% for item in cart.items %}
-          {% render 'cart-item', item: item, line_index: forloop.index, compact: true %}
+          {% render 'cart-drawer-item', item: item, index: forloop.index %}
         {% else %}
           <div class="kb-cart-drawer__empty" data-cart-drawer-empty>
             <h2 class="kb-cart-drawer__empty-heading">Cart</h2>
@@ -102,24 +108,30 @@
       </div>
 
       <!-- Offers & Discounts Block -->
-      <div class="kb-cart-drawer__offers-block" data-cart-offers-block {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
-        <div class="kb-cart-coupon-box">
-          <div class="kb-cart-coupon-info">
-            <span class="kb-cart-coupon-icon">%</span>
-            <div class="kb-cart-coupon-text">
-              <strong data-cart-savings-label>{{ savings_label }}</strong>
-              <span>with '<strong data-applied-coupon>{{ coupon_code }}</strong>'</span>
+      {% if coupon_code != blank or coupon_blocks.size > 0 %}
+        <div class="kb-cart-drawer__offers-block" data-cart-offers-block {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
+          {% if coupon_code != blank %}
+            <div class="kb-cart-coupon-box">
+              <div class="kb-cart-coupon-info">
+                <span class="kb-cart-coupon-icon">%</span>
+                <div class="kb-cart-coupon-text">
+                  {% if savings_label != blank %}
+                    <strong data-cart-savings-label>{{ savings_label }}</strong>
+                  {% endif %}
+                  <span>with '<strong data-applied-coupon>{{ coupon_code }}</strong>'</span>
+                </div>
+              </div>
+              <button type="button" class="kb-cart-coupon-apply-btn" data-cart-apply-coupon data-coupon-code="{{ coupon_code }}">Apply</button>
             </div>
+          {% endif %}
+          
+          <div class="kb-cart-offers-links">
+            <button type="button" class="kb-cart-offers-link" data-open-coupons-modal>
+              <span class="icon">%</span> More offers <span class="arrow">View all coupons &gt;</span>
+            </button>
           </div>
-          <button type="button" class="kb-cart-coupon-apply-btn" data-cart-apply-coupon>Apply</button>
         </div>
-        
-        <div class="kb-cart-offers-links">
-          <button type="button" class="kb-cart-offers-link" data-open-coupons-modal>
-            <span class="icon">%</span> More offers <span class="arrow">View all coupons &gt;</span>
-          </button>
-        </div>
-      </div>
+      {% endif %}
 
       <!-- Frequently Bought Together Carousel -->
       <div class="kb-cart-drawer__addons-block" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
@@ -129,7 +141,7 @@
 
         <div class="kb-cart-tab-panel is-active" data-tab-panel="frequently">
           <div class="kb-cart-addons-track">
-            {% assign addons_coll = settings.cart_addons_collection.products | default: collections.all.products %}
+            {% assign addons_coll = addons_collection.products | default: collections.all.products %}
             {% for product in addons_coll limit: 6 %}
               <div class="kb-cart-addon-card">
                 <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" class="kb-cart-addon-img" width="60" height="60" loading="lazy">
@@ -161,6 +173,47 @@
         </span>
       </a>
       <div class="kb-cart-drawer__credit">Powered by <strong>Shopflo</strong></div>
+    </div>
+  </div>
+</aside>
+
+<!-- Available Coupons Modal Popup -->
+<aside class="kb-coupons-modal" id="CouponsModal" hidden data-coupons-modal>
+  <div class="kb-coupons-modal__backdrop" data-close-coupons-modal></div>
+  <div class="kb-coupons-modal__container">
+    <div class="kb-coupons-modal__header">
+      <h3 style="margin: 0; font-size: 1.1rem; color: #23421f; font-weight: 800;">Available Coupons & Offers</h3>
+      <button type="button" class="kb-coupons-modal__close" data-close-coupons-modal aria-label="Close modal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+    </div>
+    <div class="kb-coupons-modal__body" style="padding: 1.25rem 1rem; display: flex; flex-direction: column; gap: 0.85rem; max-height: 60vh; overflow-y: auto;">
+      {% if coupon_blocks.size > 0 %}
+        {% for block in coupon_blocks %}
+          <div class="kb-coupon-item" {{ block.shopify_attributes }} style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; border: 1.5px dashed #23421f; border-radius: 12px; background: #fbfdfa;">
+            <div class="kb-coupon-item__info">
+              <div class="kb-coupon-item__code" style="font-weight: 900; color: #23421f; font-size: 1rem;">{{ block.settings.code }}</div>
+              {% if block.settings.discount_title != blank %}
+                <div class="kb-coupon-item__title" style="font-weight: 700; color: #1e293b; font-size: 0.88rem; margin-top: 2px;">{{ block.settings.discount_title }}</div>
+              {% endif %}
+              {% if block.settings.discount_sub != blank %}
+                <div class="kb-coupon-item__sub" style="font-size: 0.80rem; color: #64748b; margin-top: 2px;">{{ block.settings.discount_sub }}</div>
+              {% endif %}
+            </div>
+            <button type="button" class="kb-coupon-item__apply-btn" data-cart-apply-coupon data-coupon-code="{{ block.settings.code }}" style="background: #23421f; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 8px; font-weight: 800; cursor: pointer;">Apply</button>
+          </div>
+        {% endfor %}
+      {% elsif coupon_code != blank %}
+        <div class="kb-coupon-item" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; border: 1.5px dashed #23421f; border-radius: 12px; background: #fbfdfa;">
+          <div class="kb-coupon-item__info">
+            <div class="kb-coupon-item__code" style="font-weight: 900; color: #23421f; font-size: 1rem;">{{ coupon_code }}</div>
+            {% if savings_label != blank %}
+              <div class="kb-coupon-item__title" style="font-weight: 700; color: #1e293b; font-size: 0.88rem; margin-top: 2px;">{{ savings_label }}</div>
+            {% endif %}
+          </div>
+          <button type="button" class="kb-coupon-item__apply-btn" data-cart-apply-coupon data-coupon-code="{{ coupon_code }}" style="background: #23421f; color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 8px; font-weight: 800; cursor: pointer;">Apply</button>
+        </div>
+      {% else %}
+        <p style="text-align: center; color: #64748b; margin: 1rem 0;">No coupons available right now.</p>
+      {% endif %}
     </div>
   </div>
 </aside>

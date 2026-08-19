@@ -400,9 +400,53 @@
       return;
     }
 
+    // 13. Open Coupons Modal
+    const openCouponsBtn = event.target.closest('[data-open-coupons-modal]');
+    if (openCouponsBtn) {
+      const modal = document.querySelector('[data-coupons-modal]');
+      if (modal) {
+        modal.hidden = false;
+        modal.classList.add('is-open');
+      }
+      return;
+    }
+
+    // 14. Close Coupons Modal
+    const closeCouponsBtn = event.target.closest('[data-close-coupons-modal]');
+    if (closeCouponsBtn) {
+      const modal = document.querySelector('[data-coupons-modal]');
+      if (modal) {
+        modal.hidden = true;
+        modal.classList.remove('is-open');
+      }
+      return;
+    }
+
+    // 15. Apply Coupon Click
+    const applyCouponBtn = event.target.closest('[data-cart-apply-coupon]');
+    if (applyCouponBtn) {
+      const code = applyCouponBtn.dataset.couponCode || document.querySelector('[data-applied-coupon]')?.textContent?.trim() || 'TBOF10';
+      sessionStorage.setItem('kb_active_coupon', code);
+      fetch(`${rootUrl}discount/${encodeURIComponent(code)}`).catch(() => {});
+      
+      applyCouponBtn.textContent = 'Applied ✓';
+      applyCouponBtn.style.backgroundColor = '#166534';
+      applyCouponBtn.style.color = '#ffffff';
+
+      setTimeout(() => {
+        const modal = document.querySelector('[data-coupons-modal]');
+        if (modal) {
+          modal.hidden = true;
+          modal.classList.remove('is-open');
+        }
+      }, 500);
+      return;
+    }
+
     // 12. Final Proceed to Pay button click
     if (event.target.closest('[data-final-proceed-to-pay]')) {
       const address = getSavedAddress();
+      const activeCoupon = sessionStorage.getItem('kb_active_coupon') || 'TBOF10';
       let checkoutUrl = `${rootUrl}checkout`;
       if (address) {
         const params = new URLSearchParams({
@@ -413,11 +457,11 @@
           'checkout[shipping_address][province]': address.state || '',
           'checkout[shipping_address][zip]': address.pincode || '',
           'checkout[shipping_address][phone]': address.phone || '',
-          'discount': 'TBOF10'
+          'discount': activeCoupon
         });
         checkoutUrl += `?${params.toString()}`;
       } else {
-        checkoutUrl += `?discount=TBOF10`;
+        checkoutUrl += `?discount=${encodeURIComponent(activeCoupon)}`;
       }
       window.location.href = checkoutUrl;
       return;

@@ -17,8 +17,7 @@
     {
       "type": "text",
       "id": "cart_promo_bar_text",
-      "label": "Top Promo Banner Text (leave blank to hide)",
-      "default": "Rakhi gifting, sorted! 🎁 Get 10% OFF with RAKHI10 💕"
+      "label": "Top Promo Banner Text (leave blank to hide)"
     },
     {
       "type": "number",
@@ -34,19 +33,17 @@
     },
     {
       "type": "header",
-      "content": "Coupon Code Box"
+      "content": "Single Coupon Code (Primary)"
     },
     {
       "type": "text",
       "id": "cart_coupon_code",
-      "label": "Applied Coupon Code",
-      "default": "TBOF10"
+      "label": "Applied Coupon Code (leave blank if using coupon blocks)"
     },
     {
       "type": "text",
       "id": "cart_savings_label",
-      "label": "Savings Label Text",
-      "default": "Save ₹709"
+      "label": "Savings Label Text (e.g. Save ₹709)"
     },
     {
       "type": "header",
@@ -74,9 +71,45 @@
       "default": "Checkout"
     }
   ],
+  "blocks": [
+    {
+      "type": "coupon_offer",
+      "name": "Coupon / Offer Code",
+      "settings": [
+        {
+          "type": "text",
+          "id": "code",
+          "label": "Coupon Code (e.g. TBOF10)",
+          "default": "TBOF10"
+        },
+        {
+          "type": "text",
+          "id": "discount_title",
+          "label": "Savings Title (e.g. Save ₹709)",
+          "default": "Save ₹709"
+        },
+        {
+          "type": "text",
+          "id": "discount_sub",
+          "label": "Offer Details (e.g. 10% OFF on orders above ₹3000)",
+          "default": "10% OFF on orders above ₹3000"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Cart Drawer Settings"
+      "name": "Cart Drawer Settings",
+      "blocks": [
+        {
+          "type": "coupon_offer",
+          "settings": {
+            "code": "TBOF10",
+            "discount_title": "Save ₹709",
+            "discount_sub": "10% OFF on orders above ₹3000"
+          }
+        }
+      ]
     }
   ]
 }

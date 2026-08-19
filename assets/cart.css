@@ -924,6 +924,63 @@ body.kb-cart-drawer-open {
   box-shadow: 0 4px 14px rgba(30, 63, 35, 0.2) !important;
 }
 
+.kb-cart-empty__btn:hover {
+  background: #183015 !important;
+}
+
+/* Coupons Modal Popup Styling */
+.kb-coupons-modal[hidden] {
+  display: none !important;
+}
+
+.kb-coupons-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.kb-coupons-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.kb-coupons-modal__container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.2);
+  overflow: hidden;
+  animation: kbModalSlideUp 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kb-coupons-modal__header {
+  padding: 1.25rem 1.25rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@keyframes kbModalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .kb-cart-drawer__empty-btn:hover {
   background: #122816 !important;
   color: #ffffff !important;
