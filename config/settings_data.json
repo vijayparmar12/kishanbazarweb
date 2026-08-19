@@ -101,6 +101,19 @@
       "membership-cta": {
         "type": "membership-cta",
         "settings": {}
+      },
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "settings": {
+          "cart_promo_bar_text": "cart",
+          "cart_free_shipping_threshold": 1000,
+          "cart_discount_threshold": 3000,
+          "cart_coupon_code": "",
+          "cart_savings_label": "",
+          "cart_addons_heading": "Frequently Bought Together",
+          "cart_addons_collection": "",
+          "cart_checkout_btn_text": "Checkout"
+        }
       }
     },
     "content_for_index": [],
