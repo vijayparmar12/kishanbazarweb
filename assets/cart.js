@@ -244,6 +244,8 @@
     } catch (error) {
       console.error('Error changing cart line:', error);
     }
+  };
+
   const addSingleVariantToCart = async (variantId, quantity = 1) => {
     try {
       const response = await fetch(`${rootUrl}cart/add.js`, {
