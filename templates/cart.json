@@ -11,7 +11,9 @@
   "sections": {
     "main": {
       "type": "main-cart",
-      "settings": {}
+      "settings": {
+        "free_shipping_threshold": 1000
+      }
     }
   },
   "order": [
