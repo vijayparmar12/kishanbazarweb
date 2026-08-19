@@ -17,12 +17,12 @@
         "feature_icon_Q3GXNa": {
           "type": "feature_icon",
           "settings": {
-            "title": "Monsoon Festivals",
-            "badge": "Offers",
+            "title": "All products",
+            "badge": "Popular",
             "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
-            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_31_56_AM.png",
+            "icon_image": "shopify://shop_images/download.svg",
             "link": "",
             "icon_background": "#23421f",
             "icon_color": "#f0d78a"
@@ -31,12 +31,12 @@
         "feature_icon_biPcJz": {
           "type": "feature_icon",
           "settings": {
-            "title": "New Launches",
-            "badge": "New",
+            "title": "Season's Special",
+            "badge": "Monsoon",
             "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
-            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_36_02_AM.png",
+            "icon_image": "shopify://shop_images/gemini-svg_28.svg",
             "link": "",
             "icon_background": "#23421f",
             "icon_color": "#f0d78a"
@@ -45,12 +45,26 @@
         "feature_icon_mzn3UJ": {
           "type": "feature_icon",
           "settings": {
-            "title": "All Products",
+            "title": "Best Breakfast",
             "badge": "Popular",
             "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
-            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_39_04_AM.png",
+            "icon_image": "shopify://shop_images/gemini-svg_37.svg",
+            "link": "",
+            "icon_background": "#23421f",
+            "icon_color": "#f0d78a"
+          }
+        },
+        "feature_icon_RUCD4p": {
+          "type": "feature_icon",
+          "settings": {
+            "title": "Best Breakfast",
+            "badge": "Popular",
+            "badge_background": "#ffffff",
+            "badge_color": "#000000",
+            "icon": "Gift",
+            "icon_image": "shopify://shop_images/gemini-svg_37.svg",
             "link": "",
             "icon_background": "#23421f",
             "icon_color": "#f0d78a"
@@ -203,6 +217,7 @@
         "feature_icon_Q3GXNa",
         "feature_icon_biPcJz",
         "feature_icon_mzn3UJ",
+        "feature_icon_RUCD4p",
         "feature_icon_JhK4rd",
         "mobile_nav_item_g3bfBd",
         "mobile_nav_item_rCkftz",
