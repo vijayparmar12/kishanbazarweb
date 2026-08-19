@@ -2,23 +2,41 @@
   Renders the global cart drawer shell.
 {% enddoc %}
 
-{% assign free_shipping_threshold_num = section.settings.cart_free_shipping_threshold | default: settings.cart_free_shipping_threshold | default: 1499 %}
-{% assign discount_threshold_num = section.settings.cart_discount_threshold | default: settings.cart_discount_threshold | default: 3000 %}
-{% assign free_ship_val = free_shipping_threshold_num | times: 100 %}
-{% assign discount_val = discount_threshold_num | times: 100 %}
-{% assign promo_text = section.settings.cart_promo_bar_text | default: settings.cart_promo_bar_text %}
-{% assign coupon_code = section.settings.cart_coupon_code | default: settings.cart_coupon_code %}
-{% assign savings_label = section.settings.cart_savings_label | default: settings.cart_savings_label %}
-{% assign coupon_blocks = section.blocks | where: 'type', 'coupon_offer' %}
+{% liquid
+  assign free_shipping_threshold_num = section.settings.cart_free_shipping_threshold | default: settings.cart_free_shipping_threshold | default: 1499
+  assign discount_threshold_num = section.settings.cart_discount_threshold | default: settings.cart_discount_threshold | default: 3000
+  assign free_ship_val = free_shipping_threshold_num | times: 100
+  assign discount_val = discount_threshold_num | times: 100
+  assign promo_text = section.settings.cart_promo_bar_text | default: settings.cart_promo_bar_text
+  assign coupon_code = section.settings.cart_coupon_code | default: settings.cart_coupon_code
+  assign savings_label = section.settings.cart_savings_label | default: settings.cart_savings_label
+  assign coupon_blocks = section.blocks | where: 'type', 'coupon_offer'
 
-{% if coupon_code == blank and coupon_blocks.size > 0 %}
-  {% assign coupon_code = coupon_blocks[0].settings.code %}
-  {% assign savings_label = coupon_blocks[0].settings.discount_title %}
-{% endif %}
+  if coupon_code == blank and coupon_blocks.size > 0
+    assign coupon_code = coupon_blocks[0].settings.code
+    assign savings_label = coupon_blocks[0].settings.discount_title
+  endif
 
-{% assign addons_heading = section.settings.cart_addons_heading | default: settings.cart_addons_heading | default: 'Frequently Bought Together' %}
-{% assign addons_collection = section.settings.cart_addons_collection | default: settings.cart_addons_collection %}
-{% assign checkout_label = section.settings.cart_checkout_btn_text | default: settings.cart_checkout_btn_text | default: 'Checkout' %}
+  assign addons_heading = section.settings.cart_addons_heading | default: settings.cart_addons_heading | default: 'Frequently Bought Together'
+  assign addons_collection = section.settings.cart_addons_collection | default: settings.cart_addons_collection
+  assign checkout_label = section.settings.cart_checkout_btn_text | default: settings.cart_checkout_btn_text | default: 'Checkout'
+
+  assign cart_original_price = 0
+  for item in cart.items
+    assign item_compare = item.variant.compare_at_price
+    if item_compare == blank or item_compare <= item.final_price
+      assign item_compare = item.original_line_price | divided_by: item.quantity
+    endif
+    assign line_orig = item_compare | times: item.quantity
+    assign cart_original_price = cart_original_price | plus: line_orig
+  endfor
+
+  if cart_original_price <= cart.total_price
+    assign cart_original_price = cart.original_total_price
+  endif
+
+  assign total_saved = cart_original_price | minus: cart.total_price
+%}
 
 <aside class="kb-cart-drawer" id="CartDrawer" hidden data-cart-drawer data-cart-drawer-mode="full" aria-label="{{ 'cart.title' | t }}">
   <div class="kb-cart-drawer__overlay" data-cart-drawer-close></div>
@@ -174,14 +192,44 @@
     </div>
 
     <div class="kb-cart-drawer__footer" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
-      <a href="/checkout" class="kb-cart-drawer__checkout-btn" style="text-decoration: none; display: flex;">
-        <span class="kb-cart-drawer__checkout-label">{{ checkout_label }}</span>
-        <span class="kb-cart-drawer__payment-badges">
-          <span class="kb-pay-badge kb-pay-badge--paytm">Paytm</span>
-          <span class="kb-pay-badge kb-pay-badge--gpay">GPay</span>
-          <span class="kb-pay-badge kb-pay-badge--phonepe">Pe</span>
-          <span class="kb-pay-badge kb-pay-badge--cards">💳</span>
-        </span>
+      <!-- Rosier Foods Style Dynamic Savings Ribbon & Estimated Total Box -->
+      <div class="kb-cart-drawer__summary-box" data-cart-summary-box style="width: 100%;">
+        <div class="kb-cart-savings-ribbon" data-cart-savings-ribbon {% if total_saved <= 0 %}style="display: none;"{% endif %}>
+          <span><span data-cart-total-saved-amount>{{ total_saved | money }}</span> Saved so far!</span>
+        </div>
+
+        <div class="kb-cart-estimated-total-row">
+          <div class="kb-cart-estimated-label">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#23421f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+              <circle cx="7" cy="7" r="1.5" fill="#23421f"></circle>
+            </svg>
+            <strong>Estimated Total</strong>
+          </div>
+          <div class="kb-cart-estimated-prices">
+            <s class="kb-cart-estimated-original" data-cart-drawer-original-total {% if total_saved <= 0 %}style="display: none;"{% endif %}>{{ cart_original_price | money }}</s>
+            <strong class="kb-cart-estimated-final" data-cart-drawer-subtotal>{{ cart.total_price | money }}</strong>
+            {% if total_saved > 0 and cart_original_price > 0 %}
+              {% assign save_pct = total_saved | times: 100 | divided_by: cart_original_price %}
+              <span class="kb-cart-estimated-badge" data-cart-drawer-save-badge>({{ save_pct }}% OFF)</span>
+            {% else %}
+              <span class="kb-cart-estimated-badge" data-cart-drawer-save-badge style="display: none;"></span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <a href="/checkout" class="kb-cart-drawer__checkout-btn" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 0.65rem 1rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <span class="kb-cart-drawer__checkout-label">{{ checkout_label }}</span>
+          <span class="kb-cart-drawer__payment-badges">
+            <span class="kb-pay-badge kb-pay-badge--paytm">Paytm</span>
+            <span class="kb-pay-badge kb-pay-badge--gpay">GPay</span>
+            <span class="kb-pay-badge kb-pay-badge--phonepe">Pe</span>
+            <span class="kb-pay-badge kb-pay-badge--cards">💳</span>
+          </span>
+        </div>
+        <span class="kb-cart-drawer__checkout-subtext" style="font-size: 0.72rem; font-weight: 600; color: rgba(255, 255, 255, 0.9); margin-top: -2px;">Free Shipping on Orders Above ₹{{ free_shipping_threshold_num }}</span>
       </a>
       <div class="kb-cart-drawer__credit">Powered by <strong>Shopflo</strong></div>
     </div>

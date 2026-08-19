@@ -132,10 +132,57 @@
       if (footer) footer.style.display = 'flex';
       if (promo) promo.style.display = 'grid';
       if (progress) progress.style.display = 'block';
-    }
-
     const subtotal = drawer.querySelector('[data-cart-drawer-subtotal]');
     if (subtotal) subtotal.textContent = formatMoney(cart.total_price);
+
+    // Calculate dynamic savings across all line items (Rosier Foods Style)
+    let totalCompare = 0;
+    if (cart.items && cart.items.length) {
+      cart.items.forEach((item) => {
+        const itemCompare = item.original_line_price > item.final_line_price
+          ? item.original_line_price
+          : (item.variant?.compare_at_price ? item.variant.compare_at_price * item.quantity : item.final_line_price);
+        totalCompare += itemCompare;
+      });
+    }
+
+    if (totalCompare <= cart.total_price && cart.original_total_price > cart.total_price) {
+      totalCompare = cart.original_total_price;
+    }
+
+    const totalSaved = Math.max(0, totalCompare - cart.total_price);
+
+    const ribbon = drawer.querySelector('[data-cart-savings-ribbon]');
+    const savedAmountEl = drawer.querySelector('[data-cart-total-saved-amount]');
+    if (ribbon) {
+      if (totalSaved > 0) {
+        ribbon.style.display = 'block';
+        if (savedAmountEl) savedAmountEl.textContent = formatMoney(totalSaved);
+      } else {
+        ribbon.style.display = 'none';
+      }
+    }
+
+    const origPriceEl = drawer.querySelector('[data-cart-drawer-original-total]');
+    const badgeEl = drawer.querySelector('[data-cart-drawer-save-badge]');
+    if (origPriceEl) {
+      if (totalSaved > 0) {
+        origPriceEl.style.display = 'inline';
+        origPriceEl.textContent = formatMoney(totalCompare);
+      } else {
+        origPriceEl.style.display = 'none';
+      }
+    }
+
+    if (badgeEl) {
+      if (totalSaved > 0 && totalCompare > 0) {
+        const pct = Math.round((totalSaved / totalCompare) * 100);
+        badgeEl.style.display = 'inline';
+        badgeEl.textContent = `(${pct}% OFF)`;
+      } else {
+        badgeEl.style.display = 'none';
+      }
+    }
   };
 
   const getLineDetails = (element) => {
