@@ -2299,4 +2299,261 @@ body.kb-cart-drawer-open {
     padding-right: 14px !important;
   }
 }
+
+/* ==========================================================================
+   Redesigned Premium /cart Page Styling - KisanVeda
+   ========================================================================== */
+.kb-cart-page__header-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kb-cart-page__count-badge {
+  background: #23421f;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.kb-cart-page__subtitle {
+  margin-top: 4px;
+  color: #59705c;
+  font-size: 0.95rem;
+}
+
+.kb-cart-page__breadcrumb-current {
+  font-weight: 600;
+  color: #23421f;
+}
+
+.kb-cart-item__header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 12px;
+}
+
+.kb-cart-item__vendor {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7cb342;
+}
+
+.kb-cart-item__variant-pill {
+  display: inline-block;
+  font-size: 0.78rem;
+  color: #4a634e;
+  background: #eef5eb;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+
+.kb-cart-summary__item-count {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #23421f;
+  background: #eaf5e3;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.kb-cart-summary__progress-card {
+  margin-bottom: 20px !important;
+}
+
+.kb-cart-summary__totals {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 0;
+  border-top: 1px dashed rgba(35, 66, 31, 0.15);
+  border-bottom: 1px dashed rgba(35, 66, 31, 0.15);
+  margin-bottom: 18px;
+}
+
+.kb-cart-summary__line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.92rem;
+  color: #4a634e;
+}
+
+.kb-cart-summary__line dd {
+  margin: 0;
+  font-weight: 600;
+  color: #17311f;
+}
+
+.kb-cart-summary__line--discount dd {
+  color: #d32f2f;
+}
+
+.kb-cart-summary__line--grand {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #23421f;
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(35, 66, 31, 0.1);
+}
+
+.kb-cart-summary__grand-price {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #23421f;
+}
+
+.kb-cart-summary__coupon-box {
+  background: #fbfdf9;
+  border: 1px solid #d4e5ce;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 20px;
+}
+
+.kb-cart-summary__coupon-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #23421f;
+  margin-bottom: 10px;
+}
+
+.kb-cart-summary__coupon-row {
+  display: flex;
+  gap: 8px;
+}
+
+.kb-cart-summary__coupon-input {
+  flex: 1;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #c8dcc3;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  outline: none;
+  background: #ffffff;
+}
+
+.kb-cart-summary__coupon-btn {
+  height: 40px;
+  padding: 0 18px;
+  background: #23421f;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.kb-cart-summary__applied-badge {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: #2e7d32;
+  background: #e8f5e9;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.kb-cart-summary__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.kb-cart-summary__checkout-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 14px 20px;
+  background: #23421f;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 1rem;
+  box-shadow: 0 6px 20px rgba(35, 66, 31, 0.25);
+  transition: background 0.2s ease, transform 0.1s ease;
+  box-sizing: border-box;
+}
+
+.kb-cart-summary__checkout-btn:hover {
+  background: #142812;
+  transform: translateY(-1px);
+}
+
+.kb-cart-summary__continue-btn {
+  display: block;
+  text-align: center;
+  font-size: 0.88rem;
+  color: #59705c !important;
+  text-decoration: none !important;
+  font-weight: 600;
+  padding: 6px;
+}
+
+.kb-cart-summary__continue-btn:hover {
+  color: #23421f !important;
+  text-decoration: underline !important;
+}
+
+.kb-cart-summary__trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid #eef5eb;
+  text-align: center;
+  font-size: 0.72rem;
+  color: #4a634e;
+  font-weight: 600;
+}
+
+.kb-cart-summary__trust-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.kb-cart-summary__trust-icon {
+  font-size: 1.1rem;
+}
+
+.kb-cart-empty__icon-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #eaf5e3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 0 auto 16px;
+}
+
+.kb-cart-empty__btn {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 12px 28px;
+  background: #23421f;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  border-radius: 10px;
+  font-weight: 700;
+}
 

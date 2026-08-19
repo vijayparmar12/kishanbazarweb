@@ -28,69 +28,92 @@
 <aside class="kb-cart-summary" data-cart-summary>
   <div class="kb-cart-summary__card">
     <div class="kb-cart-summary__header">
-      <h2 class="kb-cart-summary__title">{{ 'cart.title' | t }}</h2>
-      <p class="kb-cart-summary__subtitle">{{ cart.item_count }} {{ 'cart.title' | t | downcase }}</p>
+      <h2 class="kb-cart-summary__title">Order Summary</h2>
+      <span class="kb-cart-summary__item-count">{{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %}</span>
     </div>
 
     {% if threshold_cents > 0 %}
-      <div class="kb-cart-summary__shipping-progress">
-        <div class="kb-cart-summary__shipping-copy">
-          {% if has_free_shipping %}
-            {{ 'cart.free_shipping_achieved' | t }}
-          {% else %}
-            {% assign remaining_amount = threshold_cents | minus: total | money %}
-            {{ 'cart.add_more_for_free_shipping' | t: amount: remaining_amount }}
-          {% endif %}
+      <div class="kb-cart-drawer__progress kb-cart-summary__progress-card">
+        {% if has_free_shipping %}
+          <div class="kb-cart-drawer__progress-title">
+            <span>🎉 You have unlocked <strong>FREE Shipping!</strong></span>
+          </div>
+        {% else %}
+          {% assign remaining_amount = threshold_cents | minus: total | money %}
+          <div class="kb-cart-drawer__progress-title">
+            <span>Add <strong>{{ remaining_amount }}</strong> more for <strong>FREE Shipping</strong> 🚚</span>
+          </div>
+        {% endif %}
+        <div class="kb-cart-drawer__progress-bar-wrap">
+          <div class="kb-cart-drawer__progress-fill" style="width: {{ progress_value }}%;"></div>
+          <div class="kb-cart-drawer__progress-truck" style="left: {{ progress_value }}%;" aria-hidden="true">🚚</div>
+          <div class="kb-cart-drawer__progress-badge" style="left: {{ progress_value }}%;">{{ progress_value }}%</div>
         </div>
-        <progress class="kb-cart-summary__progress" value="{{ progress_value }}" max="100">{{ progress_value }}%</progress>
       </div>
     {% endif %}
 
     <dl class="kb-cart-summary__totals">
-      <div>
-        <dt>{{ 'cart.subtotal' | t }}</dt>
+      <div class="kb-cart-summary__line">
+        <dt>Subtotal</dt>
         <dd>{{ subtotal | money }}</dd>
       </div>
-      <div>
-        <dt>{{ 'cart.discount' | t }}</dt>
-        <dd>{% if discount_total > 0 %}-{{ discount_total | money }}{% else %}{{ 0 | money }}{% endif %}</dd>
+      {% if discount_total > 0 %}
+        <div class="kb-cart-summary__line kb-cart-summary__line--discount">
+          <dt>Discount Savings</dt>
+          <dd>-{{ discount_total | money }}</dd>
+        </div>
+      {% endif %}
+      <div class="kb-cart-summary__line">
+        <dt>Shipping</dt>
+        <dd>{% if has_free_shipping or total >= 149900 %}<strong class="kb-text-green">FREE</strong>{% else %}Calculated at checkout{% endif %}</dd>
       </div>
-      <div>
-        <dt>{{ 'cart.shipping' | t }}</dt>
-        <dd>{{ 'cart.calculated_at_checkout' | t }}</dd>
-      </div>
-      <div>
-        <dt>{{ 'cart.taxes' | t }}</dt>
-        <dd>{{ 'cart.calculated_at_checkout' | t }}</dd>
-      </div>
-      <div class="kb-cart-summary__totals--grand">
-        <dt>{{ 'cart.estimated_total' | t }}</dt>
-        <dd>{{ total | money }}</dd>
+      <div class="kb-cart-summary__line kb-cart-summary__line--grand">
+        <dt>Estimated Total</dt>
+        <dd class="kb-cart-summary__grand-price">{{ total | money }}</dd>
       </div>
     </dl>
 
-    <div class="kb-cart-summary__coupon">
-      <label class="kb-cart-summary__label" for="CartDiscountCode-{{ section.id }}">{{ 'cart.coupon_code' | t }}</label>
-      <div class="kb-cart-summary__coupon-row">
-        <input class="kb-cart-summary__input" id="CartDiscountCode-{{ section.id }}" type="text" autocomplete="off" placeholder="{{ 'cart.coupon_code' | t }}" data-discount-code>
-        <button class="kb-cart-summary__coupon-button" type="button" data-apply-discount>{{ 'cart.apply_coupon' | t }}</button>
+    <div class="kb-cart-summary__coupon-box">
+      <div class="kb-cart-summary__coupon-header">
+        <span class="kb-cart-summary__coupon-icon">🏷️</span>
+        <span class="kb-cart-summary__coupon-label">Apply Discount Code</span>
       </div>
-      <p class="kb-cart-summary__hint">{{ 'cart.calculated_at_checkout' | t }}</p>
-    </div>
-
-    <div class="kb-cart-summary__notes">
-      <label class="kb-cart-summary__label" for="CartNote-{{ section.id }}">{{ 'cart.notes' | t }}</label>
-      <textarea class="kb-cart-summary__textarea" id="CartNote-{{ section.id }}" rows="4" placeholder="{{ 'cart.notes' | t }}" data-cart-note>{{ cart.note }}</textarea>
-      <label class="kb-cart-summary__checkbox">
-        <input type="checkbox" data-gift-wrap-toggle>
-        <span>{{ 'cart.gift_wrap' | t }}</span>
-      </label>
-      <p class="kb-cart-summary__hint">{{ 'cart.gift_wrap_hint' | t }}</p>
+      <div class="kb-cart-summary__coupon-row">
+        <input class="kb-cart-summary__coupon-input" id="CartDiscountCode-{{ section.id }}" type="text" autocomplete="off" placeholder="Enter coupon code (e.g. TBOF10)" value="TBOF10" data-discount-code>
+        <button class="kb-cart-summary__coupon-btn" type="button" data-apply-discount>Apply</button>
+      </div>
+      <div class="kb-cart-summary__applied-badge">
+        <span>✓ Code <strong>TBOF10</strong> applied (10% OFF above ₹3000)</span>
+      </div>
     </div>
 
     <div class="kb-cart-summary__actions">
-      <a class="kb-cart-summary__checkout button" href="{{ checkout_url }}" data-checkout-link>{{ 'cart.proceed_to_checkout' | t }}</a>
-      <a class="kb-cart-summary__continue" href="{{ routes.collections_url }}">{{ 'cart.continue_shopping' | t }}</a>
+      <a class="kb-cart-summary__checkout-btn" href="{{ checkout_url }}" data-checkout-link>
+        <span class="kb-cart-summary__checkout-btn-text">Proceed to Checkout →</span>
+        <span class="kb-cart-summary__payment-badges">
+          <span class="kb-pay-badge kb-pay-badge--paytm">Paytm</span>
+          <span class="kb-pay-badge kb-pay-badge--gpay">GPay</span>
+          <span class="kb-pay-badge kb-pay-badge--phonepe">Pe</span>
+          <span class="kb-pay-badge kb-pay-badge--cards">💳</span>
+        </span>
+      </a>
+      <a class="kb-cart-summary__continue-btn" href="{{ routes.collections_url }}">← Continue Shopping</a>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="kb-cart-summary__trust-grid">
+      <div class="kb-cart-summary__trust-item">
+        <span class="kb-cart-summary__trust-icon">🌿</span>
+        <span>100% Certified Organic</span>
+      </div>
+      <div class="kb-cart-summary__trust-item">
+        <span class="kb-cart-summary__trust-icon">🚚</span>
+        <span>Express Delivery</span>
+      </div>
+      <div class="kb-cart-summary__trust-item">
+        <span class="kb-cart-summary__trust-icon">🔒</span>
+        <span>Secure Checkout</span>
+      </div>
     </div>
   </div>
 </aside>

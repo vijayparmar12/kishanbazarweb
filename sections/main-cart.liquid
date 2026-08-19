@@ -3,15 +3,17 @@
 
 <section class="kb-cart-page" data-main-cart data-cart-section-id="{{ section.id }}">
   <nav class="kb-cart-page__breadcrumbs" aria-label="Breadcrumb">
-    <a href="{{ routes.root_url }}">{{ 'sections.main_cart.breadcrumb_home' | t }}</a>
+    <a href="{{ routes.root_url }}">Home</a>
     <span aria-hidden="true">/</span>
-    <span>{{ 'sections.main_cart.breadcrumb_cart' | t }}</span>
+    <span class="kb-cart-page__breadcrumb-current">Shopping Cart</span>
   </nav>
 
   <header class="kb-cart-page__header">
-    <p class="kb-cart-page__eyebrow">{{ 'cart.title' | t }}</p>
-    <h1 class="kb-cart-page__title">{{ 'sections.main_cart.title' | t }}</h1>
-    <p class="kb-cart-page__text">{{ cart.item_count }} {{ 'cart.title' | t | downcase }}</p>
+    <div class="kb-cart-page__header-title-wrap">
+      <h1 class="kb-cart-page__title">Shopping Cart</h1>
+      <span class="kb-cart-page__count-badge">{{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %}</span>
+    </div>
+    <p class="kb-cart-page__subtitle">Pure, farm-fresh organic staples delivered directly to your doorstep.</p>
   </header>
 
   {% if cart.item_count > 0 %}
@@ -23,15 +25,17 @@
       </div>
 
       <div class="kb-cart-page__summary">
-        {% render 'cart-summary', cart: cart, free_shipping_threshold: section.settings.free_shipping_threshold, checkout_url: routes.checkout_url %}
+        {% assign free_thresh = settings.cart_free_shipping_threshold | default: section.settings.free_shipping_threshold | default: 1499 %}
+        {% render 'cart-summary', cart: cart, free_shipping_threshold: free_thresh, checkout_url: routes.checkout_url %}
       </div>
     </div>
   {% else %}
     <div class="kb-cart-page__empty">
       <div class="kb-cart-page__empty-card">
-        <h2>{{ 'sections.main_cart.empty_title' | t }}</h2>
-        <p>{{ 'sections.main_cart.empty_text' | t }}</p>
-        <a class="button" href="{{ routes.collections_url }}">{{ 'sections.main_cart.empty_cta' | t }}</a>
+        <div class="kb-cart-empty__icon-circle">🛒</div>
+        <h2>Your Cart is Empty</h2>
+        <p>Discover pure, unadulterated organic staples handcrafted with traditional care.</p>
+        <a class="kb-cart-empty__btn" href="{{ routes.collections_url }}">Start Shopping</a>
       </div>
     </div>
   {% endif %}
