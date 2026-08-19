@@ -1,0 +1,83 @@
+{% doc %}
+  Renders the global cart drawer section exposed directly in Theme Editor sidebar.
+{% enddoc %}
+
+{% render 'cart-drawer', section: section %}
+
+{% schema %}
+{
+  "name": "Cart Drawer Settings",
+  "tag": "section",
+  "class": "section-cart-drawer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Free Shipping & Offer Bar"
+    },
+    {
+      "type": "text",
+      "id": "cart_promo_bar_text",
+      "label": "Top Promo Banner Text (leave blank to hide)",
+      "default": "Rakhi gifting, sorted! 🎁 Get 10% OFF with RAKHI10 💕"
+    },
+    {
+      "type": "number",
+      "id": "cart_free_shipping_threshold",
+      "label": "Free Shipping Threshold (in ₹)",
+      "default": 1499
+    },
+    {
+      "type": "number",
+      "id": "cart_discount_threshold",
+      "label": "10% Discount Threshold (in ₹)",
+      "default": 3000
+    },
+    {
+      "type": "header",
+      "content": "Coupon Code Box"
+    },
+    {
+      "type": "text",
+      "id": "cart_coupon_code",
+      "label": "Applied Coupon Code",
+      "default": "TBOF10"
+    },
+    {
+      "type": "text",
+      "id": "cart_savings_label",
+      "label": "Savings Label Text",
+      "default": "Save ₹709"
+    },
+    {
+      "type": "header",
+      "content": "Frequently Bought Together Addons"
+    },
+    {
+      "type": "text",
+      "id": "cart_addons_heading",
+      "label": "Addons Section Heading",
+      "default": "Frequently Bought Together"
+    },
+    {
+      "type": "collection",
+      "id": "cart_addons_collection",
+      "label": "Addons Collection"
+    },
+    {
+      "type": "header",
+      "content": "Checkout Button & Branding"
+    },
+    {
+      "type": "text",
+      "id": "cart_checkout_btn_text",
+      "label": "Checkout Button Text",
+      "default": "Checkout"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cart Drawer Settings"
+    }
+  ]
+}
+{% endschema %}

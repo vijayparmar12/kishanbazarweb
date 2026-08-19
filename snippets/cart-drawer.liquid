@@ -2,13 +2,16 @@
   Renders the global cart drawer shell.
 {% enddoc %}
 
-{% assign free_ship_val = settings.cart_free_shipping_threshold | default: 1499 | times: 100 %}
-{% assign discount_val = settings.cart_discount_threshold | default: 3000 | times: 100 %}
-{% assign promo_text = settings.cart_promo_bar_text | default: '🎉 Get 10% OFF on orders above ₹3000 | TBOF10' %}
-{% assign coupon_code = settings.cart_coupon_code | default: 'TBOF10' %}
-{% assign savings_label = settings.cart_savings_label | default: 'Save ₹709' %}
-{% assign addons_heading = settings.cart_addons_heading | default: 'Frequently Bought Together' %}
-{% assign checkout_label = settings.cart_checkout_btn_text | default: 'Checkout' %}
+{% assign free_shipping_threshold_num = section.settings.cart_free_shipping_threshold | default: settings.cart_free_shipping_threshold | default: 1499 %}
+{% assign discount_threshold_num = section.settings.cart_discount_threshold | default: settings.cart_discount_threshold | default: 3000 %}
+{% assign free_ship_val = free_shipping_threshold_num | times: 100 %}
+{% assign discount_val = discount_threshold_num | times: 100 %}
+{% assign promo_text = section.settings.cart_promo_bar_text | default: settings.cart_promo_bar_text %}
+{% assign coupon_code = section.settings.cart_coupon_code | default: settings.cart_coupon_code | default: 'TBOF10' %}
+{% assign savings_label = section.settings.cart_savings_label | default: settings.cart_savings_label | default: 'Save ₹709' %}
+{% assign addons_heading = section.settings.cart_addons_heading | default: settings.cart_addons_heading | default: 'Frequently Bought Together' %}
+{% assign addons_collection = section.settings.cart_addons_collection | default: settings.cart_addons_collection %}
+{% assign checkout_label = section.settings.cart_checkout_btn_text | default: settings.cart_checkout_btn_text | default: 'Checkout' %}
 
 <aside class="kb-cart-drawer" id="CartDrawer" hidden data-cart-drawer data-cart-drawer-mode="full" aria-label="{{ 'cart.title' | t }}">
   <div class="kb-cart-drawer__overlay" data-cart-drawer-close></div>
@@ -58,7 +61,7 @@
           <span class="kb-cart-drawer__progress-fill" style="width: {{ fill_pct }}%"></span>
           
           <div class="kb-cart-drawer__marker kb-cart-drawer__marker--1 kb-cart-drawer__progress-marker--1 {% if cart.total_price >= free_ship_val %}is-active{% endif %}" style="left: 50%">
-            <span class="kb-cart-drawer__marker-top">₹{{ settings.cart_free_shipping_threshold | default: 1499 }}</span>
+            <span class="kb-cart-drawer__marker-top">₹{{ free_shipping_threshold_num }}</span>
             <div class="kb-cart-drawer__marker-box">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
@@ -71,7 +74,7 @@
           </div>
 
           <div class="kb-cart-drawer__marker kb-cart-drawer__marker--2 kb-cart-drawer__progress-marker--2 {% if cart.total_price >= discount_val %}is-active{% endif %}" style="left: 92%">
-            <span class="kb-cart-drawer__marker-top">₹{{ settings.cart_discount_threshold | default: 3000 }}</span>
+            <span class="kb-cart-drawer__marker-top">₹{{ discount_threshold_num }}</span>
             <div class="kb-cart-drawer__marker-box">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="5" x2="5" y2="19"></line>
