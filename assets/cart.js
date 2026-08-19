@@ -329,7 +329,7 @@
     }
 
     // 4. Cart drawer trigger (open cart)
-    const trigger = event.target.closest('[data-cart-drawer-trigger]');
+    const trigger = event.target.closest('[data-cart-drawer-trigger], a[href$="/cart"], a[href*="/cart?"]');
     if (trigger) {
       event.preventDefault();
       openDrawer();
@@ -581,9 +581,18 @@
     });
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAddToCartForms);
-  } else {
+  const autoOpenCart = () => {
     initAddToCartForms();
+    if (window.location.pathname.endsWith('/cart') || window.location.search.includes('open_cart')) {
+      window.setTimeout(() => {
+        openDrawer();
+      }, 200);
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', autoOpenCart);
+  } else {
+    autoOpenCart();
   }
 })();
