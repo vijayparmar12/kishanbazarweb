@@ -278,9 +278,24 @@
         "show_cart": true,
         "feature_row_background": "#faf6ec"
       }
+    },
+    "cart_drawer_FntjdX": {
+      "type": "cart-drawer",
+      "name": "Cart Drawer Settings",
+      "settings": {
+        "cart_promo_bar_text": "Rakhi gifting, sorted! 🎁 Get 10% OFF with RAKHI10 💕",
+        "cart_free_shipping_threshold": 1499,
+        "cart_discount_threshold": 3000,
+        "cart_coupon_code": "",
+        "cart_savings_label": "",
+        "cart_addons_heading": "Frequently Bought Together",
+        "cart_addons_collection": "",
+        "cart_checkout_btn_text": "Checkout"
+      }
     }
   },
   "order": [
-    "header"
+    "header",
+    "cart_drawer_FntjdX"
   ]
 }
