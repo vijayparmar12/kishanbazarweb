@@ -59,8 +59,8 @@
         "feature_icon_RUCD4p": {
           "type": "feature_icon",
           "settings": {
-            "title": "Best Breakfast",
-            "badge": "Popular",
+            "title": "Daily Essential",
+            "badge": "New",
             "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
@@ -73,7 +73,7 @@
         "feature_icon_JhK4rd": {
           "type": "feature_icon",
           "settings": {
-            "title": "Under 999",
+            "title": "Top Under 1299",
             "badge": "Value",
             "badge_background": "#ffffff",
             "badge_color": "#000000",
