@@ -118,7 +118,7 @@
             "badge": "",
             "badge_background": "#e53935",
             "badge_color": "#ffffff",
-            "mega_menu": "farm",
+            "mega_menu": "custom",
             "icon": "",
             "icon_image": "shopify://shop_images/farm_life_icon_1.svg"
           }
@@ -178,7 +178,7 @@
         "desktop_nav_item_FPeGPX": {
           "type": "desktop_nav_item",
           "settings": {
-            "title": "Atta",
+            "title": "Aatta",
             "url": "shopify://collections/frontpage",
             "badge": "",
             "badge_background": "#e53935",
@@ -203,7 +203,7 @@
         "desktop_nav_item_Fp679N": {
           "type": "desktop_nav_item",
           "settings": {
-            "title": "Farm Life",
+            "title": "Fram Life",
             "url": "",
             "badge": "",
             "badge_background": "#e53935",
