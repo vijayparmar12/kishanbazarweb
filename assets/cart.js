@@ -105,8 +105,9 @@
                 </div>
               </div>
             </div>
-          </article>`;
-          }).join('')
+          </article>
+        `;
+      }).join('')
         : `<div class="kb-cart-drawer__empty" data-cart-drawer-empty>
              <h2 class="kb-cart-drawer__empty-heading">Cart</h2>
              <p class="kb-cart-drawer__empty-text">Your cart is empty</p>
@@ -132,6 +133,7 @@
       if (footer) footer.style.display = 'flex';
       if (promo) promo.style.display = 'grid';
       if (progress) progress.style.display = 'block';
+    }
     const subtotal = drawer.querySelector('[data-cart-drawer-subtotal]');
     if (subtotal) subtotal.textContent = formatMoney(cart.total_price);
 
