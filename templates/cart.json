@@ -10,10 +10,8 @@
 {
   "sections": {
     "main": {
-      "type": "main-cart",
-      "settings": {
-        "free_shipping_threshold": 1000
-      }
+      "type": "cart-redirect",
+      "settings": {}
     }
   },
   "order": [

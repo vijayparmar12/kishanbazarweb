@@ -583,10 +583,14 @@
 
   const autoOpenCart = () => {
     initAddToCartForms();
-    if (window.location.pathname.endsWith('/cart') || window.location.search.includes('open_cart')) {
+    if (window.location.search.includes('open_cart')) {
       window.setTimeout(() => {
         openDrawer();
-      }, 200);
+        if (window.history && window.history.replaceState) {
+          const cleanUrl = window.location.href.replace(/[\?&]open_cart=true/, '');
+          window.history.replaceState({}, document.title, cleanUrl);
+        }
+      }, 150);
     }
   };
 

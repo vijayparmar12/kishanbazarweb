@@ -3,11 +3,11 @@
 {% enddoc %}
 
 <noscript>
-  <meta http-equiv="refresh" content="0; url={{ routes.root_url }}">
+  <meta http-equiv="refresh" content="0; url={{ routes.root_url }}?open_cart=true">
 </noscript>
 
 <script>
-  window.location.replace({{ routes.root_url | json }});
+  window.location.replace({{ routes.root_url | append: '?open_cart=true' | json }});
 </script>
 
 {% schema %}
