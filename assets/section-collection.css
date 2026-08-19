@@ -343,16 +343,13 @@
     grid-template-columns: minmax(13rem, 16rem) 1fr;
   }
 
-  .main-collection__grid--3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
+  .main-collection__grid--3,
   .main-collection__grid--4 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 75rem) {
+@media (min-width: 85rem) {
   .main-collection__grid--4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
