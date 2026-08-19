@@ -118,10 +118,9 @@
         </div>
       </div>
 
-      <!-- Frequently Bought Together Carousel (Matching Two Brothers Screenshot Green Box 2) -->
+      <!-- Frequently Bought Together Carousel -->
       <div class="kb-cart-drawer__addons-block" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
         <div class="kb-cart-addons-tabs">
-          <button type="button" class="kb-cart-tab-btn" data-cart-tab="membership">{{ settings.cart_membership_heading | default: 'Membership' }}</button>
           <button type="button" class="kb-cart-tab-btn is-active" data-cart-tab="frequently">{{ addons_heading }}</button>
         </div>
 
