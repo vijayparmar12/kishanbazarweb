@@ -236,14 +236,60 @@
       {
         "type": "image_picker",
         "id": "checkout_logo",
-        "label": "Checkout Logo",
+        "label": "Checkout Logo Image",
         "info": "Upload KisanVeda logo to display at the top of the Checkout page"
       },
       {
+        "type": "range",
+        "id": "checkout_logo_width",
+        "label": "Checkout Logo Width",
+        "min": 100,
+        "max": 350,
+        "step": 10,
+        "unit": "px",
+        "default": 180
+      },
+      {
         "type": "text",
-        "id": "checkout_trust_badge_text",
-        "label": "Checkout Trust Badge Text",
-        "default": "🌿 100% Certified Organic | 🚚 Free Express Shipping | 🔒 100% Secure Checkout"
+        "id": "checkout_banner_text",
+        "label": "Checkout Top Offer Banner Text",
+        "default": "🎉 Big Savings Alert! 10% OFF on orders above ₹3000 | Code: TBOF10"
+      },
+      {
+        "type": "text",
+        "id": "checkout_trust_badge_1",
+        "label": "Trust Badge 1",
+        "default": "🌿 100% Certified Organic & Chemical-Free"
+      },
+      {
+        "type": "text",
+        "id": "checkout_trust_badge_2",
+        "label": "Trust Badge 2",
+        "default": "🚚 Free Shipping on orders above ₹1499"
+      },
+      {
+        "type": "text",
+        "id": "checkout_trust_badge_3",
+        "label": "Trust Badge 3",
+        "default": "🔒 100% Secure Payments & COD Available"
+      },
+      {
+        "type": "color",
+        "id": "checkout_primary_color",
+        "label": "Primary Accent & Button Color",
+        "default": "#23421F"
+      },
+      {
+        "type": "color",
+        "id": "checkout_bg_color",
+        "label": "Checkout Background Color",
+        "default": "#FAF6EC"
+      },
+      {
+        "type": "color",
+        "id": "checkout_card_bg_color",
+        "label": "Order Summary & Card Background",
+        "default": "#F1F8EC"
       }
     ]
   }
