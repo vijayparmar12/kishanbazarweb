@@ -197,6 +197,27 @@
     } catch (error) {
       console.error('Error changing cart line:', error);
     }
+  const addSingleVariantToCart = async (variantId, quantity = 1) => {
+    try {
+      const response = await fetch(`${rootUrl}cart/add.js`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          id: Number(variantId),
+          quantity: Number(quantity)
+        })
+      });
+      if (response.ok) {
+        const cart = await updateDrawerFromServer();
+        if (cart) showCartToast(cart);
+        openDrawer();
+      }
+    } catch (err) {
+      console.error('Error adding variant to cart:', err);
+    }
   };
 
   const openDrawer = () => {
@@ -440,6 +461,94 @@
           modal.classList.remove('is-open');
         }
       }, 500);
+      return;
+    }
+
+    // 16. Add-on "+ ADD" button click (Choose Option Modal for multi-variant products)
+    const addonAddBtn = event.target.closest('.kb-cart-addon-add-btn');
+    if (addonAddBtn) {
+      event.preventDefault();
+      const variantsCount = Number(addonAddBtn.dataset.variantsCount || 1);
+      const handle = addonAddBtn.dataset.productHandle;
+      const defaultVariantId = addonAddBtn.dataset.addVariantId;
+      const productTitle = addonAddBtn.dataset.productTitle || 'Product';
+
+      if (variantsCount > 1 && handle) {
+        // Multi-variant product: fetch variants and open Choose Option modal
+        fetch(`${rootUrl}products/${handle}.js`)
+          .then((res) => res.json())
+          .then((product) => {
+            const modal = document.querySelector('[data-choose-option-modal]');
+            const titleEl = modal?.querySelector('[data-choose-product-title]');
+            const listEl = modal?.querySelector('[data-choose-options-list]');
+            if (!modal || !listEl) return;
+
+            if (titleEl) titleEl.textContent = product.title;
+            window._activeChooseVariantId = product.variants[0].id;
+
+            listEl.innerHTML = product.variants.map((v, idx) => `
+              <div class="kb-variant-option-card ${idx === 0 ? 'is-selected' : ''}" data-choose-variant-card data-variant-id="${v.id}">
+                <img src="${v.featured_image?.src || product.featured_image || ''}" alt="${v.title}" class="kb-variant-option-card__media">
+                <div class="kb-variant-option-card__info">
+                  <div class="kb-variant-option-card__title">${product.title}</div>
+                  <div class="kb-variant-option-card__weight">${v.title}</div>
+                  <div class="kb-variant-option-card__price">${formatMoney(v.price)}</div>
+                </div>
+                <button type="button" class="kb-variant-option-card__add-btn" data-choose-select-variant="${v.id}">
+                  ${idx === 0 ? 'Add' : 'Add'}
+                </button>
+              </div>
+            `).join('');
+
+            modal.hidden = false;
+            modal.classList.add('is-open');
+          })
+          .catch((err) => {
+            console.error('Error fetching product variants:', err);
+            if (defaultVariantId) addSingleVariantToCart(defaultVariantId);
+          });
+      } else if (defaultVariantId) {
+        // Single variant product: add directly to cart
+        addSingleVariantToCart(defaultVariantId);
+      }
+      return;
+    }
+
+    // 17. Close Choose Option Modal
+    if (event.target.closest('[data-close-choose-option]')) {
+      const modal = document.querySelector('[data-choose-option-modal]');
+      if (modal) {
+        modal.hidden = true;
+        modal.classList.remove('is-open');
+      }
+      return;
+    }
+
+    // 18. Pick variant inside Choose Option Modal
+    const pickVariantCard = event.target.closest('[data-choose-variant-card], [data-choose-select-variant]');
+    if (pickVariantCard) {
+      const variantId = pickVariantCard.dataset.variantId || pickVariantCard.dataset.chooseSelectVariant;
+      if (variantId) {
+        window._activeChooseVariantId = variantId;
+        const modal = document.querySelector('[data-choose-option-modal]');
+        modal?.querySelectorAll('[data-choose-variant-card]').forEach((card) => {
+          card.classList.toggle('is-selected', card.dataset.variantId === String(variantId));
+        });
+      }
+      return;
+    }
+
+    // 19. Confirm Choose Option Modal selection
+    if (event.target.closest('[data-confirm-choose-option]')) {
+      const variantId = window._activeChooseVariantId;
+      if (variantId) {
+        addSingleVariantToCart(variantId);
+        const modal = document.querySelector('[data-choose-option-modal]');
+        if (modal) {
+          modal.hidden = true;
+          modal.classList.remove('is-open');
+        }
+      }
       return;
     }
 
