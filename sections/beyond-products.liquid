@@ -94,44 +94,39 @@
       <div class="beyond-products__track" data-beyond-track>
         {% for block in section.blocks %}
           {% if block.type == 'story_card' %}
+            {% assign card_link = block.settings.link | default: routes.collections_url %}
             <div class="beyond-products__slide" data-beyond-slide {{ block.shopify_attributes }}>
               <div class="beyond-products__card beyond-products__card--pos-{{ block.settings.text_position | default: 'top' }}">
-                {% if block.settings.link != blank %}
-                  <a href="{{ block.settings.link }}" class="beyond-products__card-link" aria-label="{{ block.settings.title | default: 'Story Card' }}">
-                {% endif %}
-
-                <div class="beyond-products__media">
-                  {% if block.settings.image != blank %}
-                    {{
-                      block.settings.image
-                      | image_url: width: 800
-                      | image_tag:
-                        class: 'beyond-products__img',
-                        loading: 'lazy',
-                        widths: '360, 480, 600, 800',
-                        alt: block.settings.title | default: 'Beyond Our Products'
-                    }}
-                  {% else %}
-                    <div class="beyond-products__placeholder">
-                      {{ 'lifestyle-1' | placeholder_svg_tag: 'beyond-products__placeholder-svg' }}
-                    </div>
-                  {% endif %}
-                </div>
-
-                {% if block.settings.title != blank or block.settings.description != blank %}
-                  <div class="beyond-products__content" style="color: {{ block.settings.text_color | default: '#166534' }};">
-                    {% if block.settings.title != blank %}
-                      <h3 class="beyond-products__card-title">{{ block.settings.title }}</h3>
-                    {% endif %}
-                    {% if block.settings.description != blank %}
-                      <p class="beyond-products__card-desc">{{ block.settings.description }}</p>
+                <a href="{{ card_link }}" class="beyond-products__card-link" aria-label="{{ block.settings.title | default: 'Story Card' }}">
+                  <div class="beyond-products__media">
+                    {% if block.settings.image != blank %}
+                      {{
+                        block.settings.image
+                        | image_url: width: 800
+                        | image_tag:
+                          class: 'beyond-products__img',
+                          loading: 'lazy',
+                          widths: '360, 480, 600, 800',
+                          alt: block.settings.title | default: 'Beyond Our Products'
+                      }}
+                    {% else %}
+                      <div class="beyond-products__placeholder">
+                        {{ 'lifestyle-1' | placeholder_svg_tag: 'beyond-products__placeholder-svg' }}
+                      </div>
                     {% endif %}
                   </div>
-                {% endif %}
 
-                {% if block.settings.link != blank %}
-                  </a>
-                {% endif %}
+                  {% if block.settings.title != blank or block.settings.description != blank %}
+                    <div class="beyond-products__content" style="color: {{ block.settings.text_color | default: '#166534' }};">
+                      {% if block.settings.title != blank %}
+                        <h3 class="beyond-products__card-title">{{ block.settings.title }}</h3>
+                      {% endif %}
+                      {% if block.settings.description != blank %}
+                        <p class="beyond-products__card-desc">{{ block.settings.description }}</p>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                </a>
               </div>
             </div>
           {% endif %}
