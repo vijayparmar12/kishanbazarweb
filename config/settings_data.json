@@ -20,7 +20,19 @@
       },
       "wishlist-drawer": {
         "type": "wishlist-drawer",
-        "settings": {}
+        "settings": {
+          "drawer_title": "My Wishlist",
+          "search_placeholder": "Search saved products...",
+          "enable_toast": true,
+          "toast_added_text": "Item has been successfully added to your wishlist",
+          "toast_removed_text": "Item has been successfully removed from your wishlist",
+          "empty_heading": "Your Wishlist is Empty",
+          "empty_text": "Discover pure, farm-fresh organic staples you love and save them here for later.",
+          "empty_btn_text": "Continue Shopping",
+          "empty_btn_url": "shopify://collections/all",
+          "move_all_btn_text": "Move All to Cart",
+          "continue_shopping_text": "Continue Shopping"
+        }
       },
       "header": {
         "type": "header",
@@ -214,6 +226,18 @@
           "clear_button_style": "inherit",
           "remove_from_wishlist": true,
           "remove_product_from_wishlist_on_add": false
+        }
+      },
+      "7079518687644006178": {
+        "type": "shopify://apps/checkout-blocks/blocks/app-embed/b0024ca5-9de8-4bf0-a92f-cd0783877ae2",
+        "disabled": false,
+        "settings": {
+          "utm_id": true,
+          "utm_source": true,
+          "utm_medium": true,
+          "utm_campaign": true,
+          "utm_term": true,
+          "ref": true
         }
       }
     }
