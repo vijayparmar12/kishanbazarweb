@@ -99,7 +99,7 @@
     <div class="kb-cart-drawer__body">
       <div class="kb-cart-drawer__items" data-cart-drawer-items>
         {% for item in cart.items %}
-          {% render 'cart-drawer-item', item: item, index: forloop.index %}
+          {% render 'cart-item', item: item, line_index: forloop.index, compact: true %}
         {% else %}
           <div class="kb-cart-drawer__empty" data-cart-drawer-empty>
             <h2 class="kb-cart-drawer__empty-heading">Cart</h2>
