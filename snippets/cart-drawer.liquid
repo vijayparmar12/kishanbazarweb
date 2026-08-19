@@ -163,7 +163,15 @@
           <div class="kb-cart-addons-track">
             {% assign addons_coll = addons_collection.products | default: collections.all.products %}
             {% for product in addons_coll limit: 6 %}
-              <div class="kb-cart-addon-card">
+              <div
+                class="kb-cart-addon-card"
+                data-fbt-card
+                data-product-handle="{{ product.handle }}"
+                data-variants-count="{{ product.variants.size }}"
+                data-add-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                data-product-title="{{ product.title | escape }}"
+                style="cursor: pointer;"
+              >
                 <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" class="kb-cart-addon-img" width="60" height="60" loading="lazy">
                 <div class="kb-cart-addon-details">
                   <div class="kb-cart-addon-title">{{ product.title }}</div>

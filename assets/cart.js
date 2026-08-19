@@ -511,17 +511,20 @@
       return;
     }
 
-    // 16. Add-on "+ ADD" button click (Choose Option Modal for multi-variant products)
-    const addonAddBtn = event.target.closest('.kb-cart-addon-add-btn');
-    if (addonAddBtn) {
+    // 16. FBT Card / "+ ADD" button click (Choose Option Modal or Quick View Modal)
+    const fbtCard = event.target.closest('[data-fbt-card], .kb-cart-addon-add-btn');
+    if (fbtCard) {
       event.preventDefault();
-      const variantsCount = Number(addonAddBtn.dataset.variantsCount || 1);
-      const handle = addonAddBtn.dataset.productHandle;
-      const defaultVariantId = addonAddBtn.dataset.addVariantId;
-      const productTitle = addonAddBtn.dataset.productTitle || 'Product';
+      event.stopPropagation();
+
+      const btn = fbtCard.querySelector('.kb-cart-addon-add-btn') || fbtCard;
+      const variantsCount = Number(btn.dataset.variantsCount || fbtCard.dataset.variantsCount || 1);
+      const handle = btn.dataset.productHandle || fbtCard.dataset.productHandle;
+      const defaultVariantId = btn.dataset.addVariantId || fbtCard.dataset.addVariantId;
+      const productTitle = btn.dataset.productTitle || fbtCard.dataset.productTitle || 'Product';
 
       if (variantsCount > 1 && handle) {
-        // Multi-variant product: fetch variants and open Choose Option modal
+        // Multi-variant product: fetch variants and open Choose Option modal (Images 2 & 3)
         fetch(`${rootUrl}products/${handle}.js`)
           .then((res) => res.json())
           .then((product) => {
@@ -542,7 +545,7 @@
                   <div class="kb-variant-option-card__price">${formatMoney(v.price)}</div>
                 </div>
                 <button type="button" class="kb-variant-option-card__add-btn" data-choose-select-variant="${v.id}">
-                  ${idx === 0 ? 'Add' : 'Add'}
+                  Add
                 </button>
               </div>
             `).join('');
@@ -554,9 +557,15 @@
             console.error('Error fetching product variants:', err);
             if (defaultVariantId) addSingleVariantToCart(defaultVariantId);
           });
-      } else if (defaultVariantId) {
-        // Single variant product: add directly to cart
-        addSingleVariantToCart(defaultVariantId);
+      } else {
+        // Single-variant product: open Product Quick View Modal (Image 1)
+        document.dispatchEvent(new CustomEvent('greenbasket:quick-view', {
+          detail: {
+            handle: handle,
+            variantId: defaultVariantId,
+            title: productTitle
+          }
+        }));
       }
       return;
     }
