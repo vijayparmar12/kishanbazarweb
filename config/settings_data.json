@@ -119,7 +119,7 @@
       },
       "12370671433297797528": {
         "type": "shopify://apps/wishy-wishlist-app/blocks/floating_wishlist/019df288-b721-7af8-8bd1-1c399b90c956",
-        "disabled": false,
+        "disabled": true,
         "settings": {
           "wishlist_url": "/apps/wishlist",
           "style_preset": "solid_accent_2",
@@ -146,7 +146,7 @@
       },
       "5201229448157027715": {
         "type": "shopify://apps/wishy-wishlist-app/blocks/collection_wishlist/019df288-b721-7af8-8bd1-1c399b90c956",
-        "disabled": false,
+        "disabled": true,
         "settings": {
           "style_preset": "solid_accent_2",
           "show_sparkles": true,

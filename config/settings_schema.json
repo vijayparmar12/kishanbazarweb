@@ -79,5 +79,172 @@
         "default": 4
       }
     ]
+  },
+  {
+    "name": "Wishlist Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Wishlist Drawer Settings"
+      },
+      {
+        "type": "text",
+        "id": "wishlist_drawer_title",
+        "label": "Drawer Title",
+        "default": "My Wishlist"
+      },
+      {
+        "type": "text",
+        "id": "wishlist_search_placeholder",
+        "label": "Search Input Placeholder",
+        "default": "Search saved products..."
+      },
+      {
+        "type": "header",
+        "content": "Pop-up Notification (Toast)"
+      },
+      {
+        "type": "checkbox",
+        "id": "wishlist_enable_toast",
+        "label": "Enable Toast Notifications",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "wishlist_toast_added_text",
+        "label": "Item Added Toast Message",
+        "default": "Item has been successfully added to your wishlist ❤️"
+      },
+      {
+        "type": "text",
+        "id": "wishlist_toast_removed_text",
+        "label": "Item Removed Toast Message",
+        "default": "Item has been successfully removed from your wishlist"
+      },
+      {
+        "type": "header",
+        "content": "Empty State Settings"
+      },
+      {
+        "type": "text",
+        "id": "wishlist_empty_heading",
+        "label": "Empty State Heading",
+        "default": "Your Wishlist is Empty"
+      },
+      {
+        "type": "textarea",
+        "id": "wishlist_empty_text",
+        "label": "Empty State Description",
+        "default": "Discover pure, farm-fresh organic staples you love and save them here for later."
+      },
+      {
+        "type": "text",
+        "id": "wishlist_empty_btn_text",
+        "label": "Empty State Button Text",
+        "default": "Continue Shopping"
+      },
+      {
+        "type": "url",
+        "id": "wishlist_empty_btn_url",
+        "label": "Empty State Button Link",
+        "default": "/collections/all"
+      },
+      {
+        "type": "header",
+        "content": "Footer Buttons"
+      },
+      {
+        "type": "text",
+        "id": "wishlist_move_all_btn_text",
+        "label": "Move All to Cart Button Text",
+        "default": "🛒 Move All to Cart"
+      },
+      {
+        "type": "text",
+        "id": "wishlist_continue_shopping_text",
+        "label": "Continue Shopping Button Text",
+        "default": "Continue Shopping"
+      }
+    ]
+  },
+  {
+    "name": "Cart Drawer & Checkout Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Free Shipping & Offer Bar"
+      },
+      {
+        "type": "text",
+        "id": "cart_promo_bar_text",
+        "label": "Top Promo Banner Text",
+        "default": "🎉 Get 10% OFF on orders above ₹3000 | TBOF10"
+      },
+      {
+        "type": "number",
+        "id": "cart_free_shipping_threshold",
+        "label": "Free Shipping Threshold (in ₹)",
+        "default": 1499
+      },
+      {
+        "type": "number",
+        "id": "cart_discount_threshold",
+        "label": "10% Discount Threshold (in ₹)",
+        "default": 3000
+      },
+      {
+        "type": "header",
+        "content": "Coupon Code Box"
+      },
+      {
+        "type": "text",
+        "id": "cart_coupon_code",
+        "label": "Applied Coupon Code",
+        "default": "TBOF10"
+      },
+      {
+        "type": "text",
+        "id": "cart_savings_label",
+        "label": "Savings Label Text",
+        "default": "Save ₹709"
+      },
+      {
+        "type": "header",
+        "content": "Frequently Bought Together Addons"
+      },
+      {
+        "type": "text",
+        "id": "cart_addons_heading",
+        "label": "Addons Section Heading",
+        "default": "Frequently Bought Together"
+      },
+      {
+        "type": "collection",
+        "id": "cart_addons_collection",
+        "label": "Addons Collection"
+      },
+      {
+        "type": "header",
+        "content": "Checkout Button & Branding"
+      },
+      {
+        "type": "text",
+        "id": "cart_checkout_btn_text",
+        "label": "Checkout Button Text",
+        "default": "Checkout"
+      },
+      {
+        "type": "image_picker",
+        "id": "checkout_logo",
+        "label": "Checkout Logo",
+        "info": "Upload KisanVeda logo to display at the top of the Checkout page"
+      },
+      {
+        "type": "text",
+        "id": "checkout_trust_badge_text",
+        "label": "Checkout Trust Badge Text",
+        "default": "🌿 100% Certified Organic | 🚚 Free Express Shipping | 🔒 100% Secure Checkout"
+      }
+    ]
   }
 ]
