@@ -1,6 +1,10 @@
 {{ 'cart.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 
+{% assign free_ship_val = settings.cart_free_shipping_threshold | default: 1499 | times: 100 %}
+{% assign discount_val = settings.cart_discount_threshold | default: 3000 | times: 100 %}
+{% assign promo_text = settings.cart_promo_bar_text | default: '🎉 Get 10% OFF on orders above ₹3000 | TBOF10' %}
+
 <section class="kb-cart-page" data-main-cart data-cart-section-id="{{ section.id }}">
   <nav class="kb-cart-page__breadcrumbs" aria-label="Breadcrumb">
     <a href="{{ routes.root_url }}">Home</a>
@@ -17,16 +21,76 @@
   </header>
 
   {% if cart.item_count > 0 %}
+    <!-- Promo Bar matching Cart Drawer (Image 2) -->
+    <div class="kb-cart-drawer__promo-top-bar" style="border-radius: 12px; margin-bottom: 16px;">
+      {{ promo_text }}
+    </div>
+
+    <!-- Free Shipping & Discount Progress Bar matching Cart Drawer (Image 2) -->
+    <div class="kb-cart-drawer__progress" data-cart-drawer-progress style="margin-bottom: 24px;">
+      <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status>
+        {% if cart.total_price >= discount_val %}
+          🎉 Hurray! You've unlocked 10% OFF + FREE Shipping
+        {% elsif cart.total_price >= free_ship_val %}
+          You're {{ discount_val | minus: cart.total_price | money }} Away from 10% OFF
+        {% else %}
+          You're {{ free_ship_val | minus: cart.total_price | money }} Away from FREE Shipping 🚚
+        {% endif %}
+      </p>
+
+      <div class="kb-cart-drawer__progress-track-wrap">
+        <div class="kb-cart-drawer__progress-track">
+          {% liquid
+            assign fill_pct = 0
+            if cart.total_price >= discount_val
+              assign fill_pct = 100
+            elsif cart.total_price >= free_ship_val
+              assign remaining_range = discount_val | minus: free_ship_val
+              assign extra = cart.total_price | minus: free_ship_val | times: 50 | divided_by: remaining_range
+              assign fill_pct = 50 | plus: extra
+            else
+              assign fill_pct = cart.total_price | times: 50 | divided_by: free_ship_val
+            endif
+          %}
+          <span class="kb-cart-drawer__progress-fill" style="width: {{ fill_pct }}%"></span>
+          
+          <div class="kb-cart-drawer__marker kb-cart-drawer__marker--1 kb-cart-drawer__progress-marker--1 {% if cart.total_price >= free_ship_val %}is-active{% endif %}" style="left: 50%">
+            <span class="kb-cart-drawer__marker-top">₹{{ settings.cart_free_shipping_threshold | default: 1499 }}</span>
+            <div class="kb-cart-drawer__marker-box">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              </svg>
+            </div>
+            <span class="kb-cart-drawer__marker-bottom">FREE SHIPPING</span>
+          </div>
+
+          <div class="kb-cart-drawer__marker kb-cart-drawer__marker--2 kb-cart-drawer__progress-marker--2 {% if cart.total_price >= discount_val %}is-active{% endif %}" style="left: 92%">
+            <span class="kb-cart-drawer__marker-top">₹{{ settings.cart_discount_threshold | default: 3000 }}</span>
+            <div class="kb-cart-drawer__marker-box">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="5" x2="5" y2="19"></line>
+                <circle cx="6.5" cy="6.5" r="2.5"></circle>
+                <circle cx="17.5" cy="17.5" r="2.5"></circle>
+              </svg>
+            </div>
+            <span class="kb-cart-drawer__marker-bottom">10% OFF</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="kb-cart-page__layout">
       <div class="kb-cart-page__items">
         {% for item in cart.items %}
-          {% render 'cart-item', item: item, line_index: forloop.index %}
+          {% render 'cart-item', item: item, line_index: forloop.index, compact: true %}
         {% endfor %}
       </div>
 
       <div class="kb-cart-page__summary">
-        {% assign free_thresh = settings.cart_free_shipping_threshold | default: section.settings.free_shipping_threshold | default: 1499 %}
-        {% render 'cart-summary', cart: cart, free_shipping_threshold: free_thresh, checkout_url: routes.checkout_url %}
+        {% render 'cart-summary', cart: cart, checkout_url: routes.checkout_url %}
       </div>
     </div>
   {% else %}

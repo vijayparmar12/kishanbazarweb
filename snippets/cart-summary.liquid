@@ -25,6 +25,13 @@
   {% endif %}
 {% endif %}
 
+{% assign free_ship_val = settings.cart_free_shipping_threshold | default: 1499 | times: 100 %}
+{% assign discount_val = settings.cart_discount_threshold | default: 3000 | times: 100 %}
+{% assign coupon_code = settings.cart_coupon_code | default: 'TBOF10' %}
+{% assign savings_label = settings.cart_savings_label | default: 'Save ₹709' %}
+{% assign addons_heading = settings.cart_addons_heading | default: 'Frequently Bought Together' %}
+{% assign checkout_label = settings.cart_checkout_btn_text | default: 'Checkout' %}
+
 <aside class="kb-cart-summary" data-cart-summary>
   <div class="kb-cart-summary__card">
     <div class="kb-cart-summary__header">
@@ -32,88 +39,83 @@
       <span class="kb-cart-summary__item-count">{{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %}</span>
     </div>
 
-    {% if threshold_cents > 0 %}
-      <div class="kb-cart-drawer__progress kb-cart-summary__progress-card">
-        {% if has_free_shipping %}
-          <div class="kb-cart-drawer__progress-title">
-            <span>🎉 You have unlocked <strong>FREE Shipping!</strong></span>
+    <!-- Offers & Discounts Block (Matching Cart Drawer Image 2) -->
+    <div class="kb-cart-drawer__offers-block" data-cart-offers-block style="margin-bottom: 20px;">
+      <div class="kb-cart-coupon-box">
+        <div class="kb-cart-coupon-info">
+          <span class="kb-cart-coupon-icon">%</span>
+          <div class="kb-cart-coupon-text">
+            <strong data-cart-savings-label>{{ savings_label }}</strong>
+            <span>with '<strong data-applied-coupon>{{ coupon_code }}</strong>'</span>
           </div>
-        {% else %}
-          {% assign remaining_amount = threshold_cents | minus: total | money %}
-          <div class="kb-cart-drawer__progress-title">
-            <span>Add <strong>{{ remaining_amount }}</strong> more for <strong>FREE Shipping</strong> 🚚</span>
-          </div>
-        {% endif %}
-        <div class="kb-cart-drawer__progress-bar-wrap">
-          <div class="kb-cart-drawer__progress-fill" style="width: {{ progress_value }}%;"></div>
-          <div class="kb-cart-drawer__progress-truck" style="left: {{ progress_value }}%;" aria-hidden="true">🚚</div>
-          <div class="kb-cart-drawer__progress-badge" style="left: {{ progress_value }}%;">{{ progress_value }}%</div>
+        </div>
+        <button type="button" class="kb-cart-coupon-apply-btn" data-cart-apply-coupon>Apply</button>
+      </div>
+      
+      <div class="kb-cart-offers-links">
+        <button type="button" class="kb-cart-offers-link" data-open-coupons-modal>
+          <span class="icon">%</span> More offers <span class="arrow">View all coupons &gt;</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Frequently Bought Together Carousel -->
+    <div class="kb-cart-drawer__addons-block" style="margin-bottom: 20px;">
+      <div class="kb-cart-addons-tabs">
+        <button type="button" class="kb-cart-tab-btn is-active" data-cart-tab="frequently">{{ addons_heading }}</button>
+      </div>
+
+      <div class="kb-cart-tab-panel is-active" data-tab-panel="frequently">
+        <div class="kb-cart-addons-track">
+          {% assign addons_coll = settings.cart_addons_collection.products | default: collections.all.products %}
+          {% for product in addons_coll limit: 6 %}
+            <div class="kb-cart-addon-card">
+              <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" class="kb-cart-addon-img" width="60" height="60" loading="lazy">
+              <div class="kb-cart-addon-details">
+                <div class="kb-cart-addon-title">{{ product.title }}</div>
+                <div class="kb-cart-addon-price">
+                  {% if product.compare_at_price > product.price %}
+                    <s class="kb-cart-addon-compare">{{ product.compare_at_price | money }}</s>
+                  {% endif %}
+                  <span>{{ product.price | money }}</span>
+                </div>
+              </div>
+              <button type="button" class="kb-cart-addon-add-btn" data-add-variant-id="{{ product.selected_or_first_available_variant.id }}">+ ADD</button>
+            </div>
+          {% endfor %}
         </div>
       </div>
-    {% endif %}
+    </div>
 
     <dl class="kb-cart-summary__totals">
       <div class="kb-cart-summary__line">
         <dt>Subtotal</dt>
-        <dd>{{ subtotal | money }}</dd>
+        <dd>{{ cart.original_total_price | default: cart.total_price | money }}</dd>
       </div>
-      {% if discount_total > 0 %}
+      {% if cart.total_discount > 0 %}
         <div class="kb-cart-summary__line kb-cart-summary__line--discount">
           <dt>Discount Savings</dt>
-          <dd>-{{ discount_total | money }}</dd>
+          <dd>-{{ cart.total_discount | money }}</dd>
         </div>
       {% endif %}
-      <div class="kb-cart-summary__line">
-        <dt>Shipping</dt>
-        <dd>{% if has_free_shipping or total >= 149900 %}<strong class="kb-text-green">FREE</strong>{% else %}Calculated at checkout{% endif %}</dd>
-      </div>
       <div class="kb-cart-summary__line kb-cart-summary__line--grand">
         <dt>Estimated Total</dt>
-        <dd class="kb-cart-summary__grand-price">{{ total | money }}</dd>
+        <dd class="kb-cart-summary__grand-price">{{ cart.total_price | money }}</dd>
       </div>
     </dl>
 
-    <div class="kb-cart-summary__coupon-box">
-      <div class="kb-cart-summary__coupon-header">
-        <span class="kb-cart-summary__coupon-icon">🏷️</span>
-        <span class="kb-cart-summary__coupon-label">Apply Discount Code</span>
-      </div>
-      <div class="kb-cart-summary__coupon-row">
-        <input class="kb-cart-summary__coupon-input" id="CartDiscountCode-{{ section.id }}" type="text" autocomplete="off" placeholder="Enter coupon code (e.g. TBOF10)" value="TBOF10" data-discount-code>
-        <button class="kb-cart-summary__coupon-btn" type="button" data-apply-discount>Apply</button>
-      </div>
-      <div class="kb-cart-summary__applied-badge">
-        <span>✓ Code <strong>TBOF10</strong> applied (10% OFF above ₹3000)</span>
-      </div>
-    </div>
-
-    <div class="kb-cart-summary__actions">
-      <a class="kb-cart-summary__checkout-btn" href="{{ checkout_url }}" data-checkout-link>
-        <span class="kb-cart-summary__checkout-btn-text">Proceed to Checkout →</span>
-        <span class="kb-cart-summary__payment-badges">
+    <!-- Sticky Checkout Footer (Matching Cart Drawer Image 2) -->
+    <div class="kb-cart-drawer__footer" style="padding: 0; background: transparent; border: none; box-shadow: none; margin-top: 16px;">
+      <a href="/checkout" class="kb-cart-drawer__checkout-btn" style="text-decoration: none; display: flex;">
+        <span class="kb-cart-drawer__checkout-label">{{ checkout_label }}</span>
+        <span class="kb-cart-drawer__payment-badges">
           <span class="kb-pay-badge kb-pay-badge--paytm">Paytm</span>
           <span class="kb-pay-badge kb-pay-badge--gpay">GPay</span>
           <span class="kb-pay-badge kb-pay-badge--phonepe">Pe</span>
           <span class="kb-pay-badge kb-pay-badge--cards">💳</span>
         </span>
       </a>
-      <a class="kb-cart-summary__continue-btn" href="{{ routes.collections_url }}">← Continue Shopping</a>
-    </div>
-
-    <!-- Trust Badges -->
-    <div class="kb-cart-summary__trust-grid">
-      <div class="kb-cart-summary__trust-item">
-        <span class="kb-cart-summary__trust-icon">🌿</span>
-        <span>100% Certified Organic</span>
-      </div>
-      <div class="kb-cart-summary__trust-item">
-        <span class="kb-cart-summary__trust-icon">🚚</span>
-        <span>Express Delivery</span>
-      </div>
-      <div class="kb-cart-summary__trust-item">
-        <span class="kb-cart-summary__trust-icon">🔒</span>
-        <span>Secure Checkout</span>
-      </div>
+      <div class="kb-cart-drawer__credit">Powered by <strong>Shopflo</strong></div>
     </div>
   </div>
 </aside>
