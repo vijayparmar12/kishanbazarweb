@@ -345,8 +345,7 @@
     // 6. Trigger Express Checkout
     const expressBtn = event.target.closest('[data-trigger-express-checkout]');
     if (expressBtn) {
-      event.preventDefault();
-      openExpressCheckout('auto');
+      window.location.href = '/checkout';
       return;
     }
 

@@ -145,7 +145,7 @@
     </div>
 
     <div class="kb-cart-drawer__footer" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
-      <button class="kb-cart-drawer__checkout-btn" type="button" data-trigger-express-checkout>
+      <a href="/checkout" class="kb-cart-drawer__checkout-btn" style="text-decoration: none; display: flex;">
         <span class="kb-cart-drawer__checkout-label">{{ checkout_label }}</span>
         <span class="kb-cart-drawer__payment-badges">
           <span class="kb-pay-badge kb-pay-badge--paytm">Paytm</span>
@@ -153,7 +153,7 @@
           <span class="kb-pay-badge kb-pay-badge--phonepe">Pe</span>
           <span class="kb-pay-badge kb-pay-badge--cards">💳</span>
         </span>
-      </button>
+      </a>
       <div class="kb-cart-drawer__credit">Powered by <strong>Shopflo</strong></div>
     </div>
   </div>
