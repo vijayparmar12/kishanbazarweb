@@ -133,6 +133,18 @@
     },
     {
       "type": "checkbox",
+      "id": "show_tabs",
+      "label": "Show product details accordions section",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show customer reviews section",
+      "default": true
+    },
+    {
+      "type": "checkbox",
       "id": "show_recommendations",
       "label": "Show recommended products slider",
       "default": true
@@ -145,6 +157,22 @@
       "max": 10,
       "step": 1,
       "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Mobile Sticky Bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sticky_mobile_bar",
+      "label": "Show sticky Add to Cart bar on mobile",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sticky_bar_btn_text",
+      "label": "Mobile sticky button text",
+      "default": "ADD TO CART"
     }
   ],
   "blocks": [
@@ -288,6 +316,43 @@
       ]
     },
     {
+      "type": "collapsible_tab",
+      "name": "Collapsible Tab Accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Tab Heading",
+          "default": "Shipping & Return Policy"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Tab Content",
+          "default": "<p>Free shipping on orders above ₹499. Dispatched within 24 hours.</p>"
+        }
+      ]
+    },
+    {
+      "type": "trust_badges",
+      "name": "Trust Badges Box",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge_1",
+          "label": "Trust Badge 1 Text",
+          "default": "100% Certified Organic"
+        },
+        {
+          "type": "text",
+          "id": "badge_2",
+          "label": "Trust Badge 2 Text",
+          "default": "Fast Express Delivery"
+        }
+      ]
+    },
+    {
       "type": "description",
       "name": "Product Description",
       "limit": 1
@@ -303,7 +368,8 @@
         { "type": "price" },
         { "type": "stock_status" },
         { "type": "variant_picker" },
-        { "type": "buy_buttons" }
+        { "type": "buy_buttons" },
+        { "type": "trust_badges" }
       ]
     }
   ]

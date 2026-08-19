@@ -196,6 +196,27 @@
             {{ product.description }}
           </div>
 
+        {% when 'collapsible_tab' %}
+          <details class="product-info__collapsible-tab" {{ block.shopify_attributes }} style="margin-top: 0.75rem; border: 1px solid #d4e5d2; border-radius: 12px; padding: 12px 14px; background: #ffffff;">
+            <summary style="font-weight: 800; color: #23421f; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.92rem;">
+              <span>{{ block.settings.heading | default: "Tab Heading" }}</span>
+              <span style="font-size: 1.1rem;">+</span>
+            </summary>
+            <div style="margin-top: 8px; font-size: 0.88rem; color: #475569; line-height: 1.5;">
+              {{ block.settings.content }}
+            </div>
+          </details>
+
+        {% when 'trust_badges' %}
+          <div class="product-info__trust-badges" {{ block.shopify_attributes }} style="display: flex; gap: 12px; margin-top: 1rem; padding: 12px; background: #fbfdfa; border: 1px solid #e2eee0; border-radius: 12px;">
+            <div style="font-size: 0.78rem; font-weight: 700; color: #23421f; display: flex; align-items: center; gap: 6px;">
+              <span>🌿</span> <span>{{ block.settings.badge_1 | default: "100% Certified Organic" }}</span>
+            </div>
+            <div style="font-size: 0.78rem; font-weight: 700; color: #23421f; display: flex; align-items: center; gap: 6px;">
+              <span>🚚</span> <span>{{ block.settings.badge_2 | default: "Fast Express Shipping" }}</span>
+            </div>
+          </div>
+
       {% endcase %}
     {% endfor %}
   {% else %}
