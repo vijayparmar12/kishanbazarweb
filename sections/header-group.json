@@ -18,6 +18,15 @@
           "type": "mega_link",
           "settings": {
             "menu_group": "custom",
+            "title": "The Farmers",
+            "link": "",
+            "icon": ""
+          }
+        },
+        "mega_link_D4TtRC": {
+          "type": "mega_link",
+          "settings": {
+            "menu_group": "custom",
             "title": "The Gaushala",
             "link": "",
             "icon": ""
@@ -146,7 +155,8 @@
             "badge_background": "#e53935",
             "badge_color": "#ffffff",
             "mega_menu": "custom",
-            "icon": ""
+            "icon": "",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_20_2026_12_45_02_PM.png"
           }
         },
         "mobile_nav_item_zP48rj": {
@@ -241,6 +251,7 @@
       },
       "block_order": [
         "mega_link_fUDNM6",
+        "mega_link_D4TtRC",
         "mega_link_3VXJt4",
         "mega_link_byGQaL",
         "feature_icon_Q3GXNa",
