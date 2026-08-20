@@ -8,17 +8,26 @@
 
 {% liquid
   assign variant = item.variant
-  assign compare_price = 0
-  if item.original_line_price > item.final_line_price
-    assign compare_price = item.original_line_price
-  elsif variant.compare_at_price > variant.price
-    assign compare_price = variant.compare_at_price | times: item.quantity
+  assign compare_unit = variant.compare_at_price | default: variant.price
+  if compare_unit <= variant.price and item.original_price > item.final_price
+    assign compare_unit = item.original_price
   endif
+
+  assign compare_price = compare_unit | times: item.quantity
+  if compare_price <= item.final_line_price and item.original_line_price > item.final_line_price
+    assign compare_price = item.original_line_price
+  endif
+
   assign line_key = item.key | default: item.id
   assign product_handle = item.url | split: '/products/' | last | split: '?' | first
 %}
 
-<article class="kb-cart-item{% if compact %} kb-cart-item--compact{% endif %}" data-cart-line-item data-cart-line-key="{{ line_key }}" data-cart-line-index="{{ line_index }}" data-cart-product-handle="{{ product_handle }}">
+<script>
+  window._variantComparePrices = window._variantComparePrices || {};
+  window._variantComparePrices[{{ variant.id }}] = {{ compare_unit }};
+</script>
+
+<article class="kb-cart-item{% if compact %} kb-cart-item--compact{% endif %}" data-cart-line-item data-cart-line-key="{{ line_key }}" data-cart-line-index="{{ line_index }}" data-cart-product-handle="{{ product_handle }}" data-variant-id="{{ variant.id }}" data-compare-unit-price="{{ compare_unit }}" data-compare-line-price="{{ compare_price }}">
   <a class="kb-cart-item__media" href="{{ item.url }}" aria-label="{{ item.product.title | escape }}">
     {% if item.image != blank %}
       {{ item.image | image_url: width: 180 | image_tag: class: 'kb-cart-item__image', loading: 'lazy', widths: '80, 120, 180' }}

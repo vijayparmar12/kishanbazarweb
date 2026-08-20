@@ -172,11 +172,14 @@
 
     // Calculate dynamic savings across all line items (Rosier Foods Style)
     let totalCompare = 0;
+    window._variantComparePrices = window._variantComparePrices || {};
+
     if (cart.items && cart.items.length) {
       cart.items.forEach((item) => {
+        const cachedCompareUnit = window._variantComparePrices[item.variant_id] || item.variant?.compare_at_price;
         let itemCompare = 0;
-        if (item.variant && item.variant.compare_at_price > item.variant.price) {
-          itemCompare = item.variant.compare_at_price * item.quantity;
+        if (cachedCompareUnit && cachedCompareUnit > item.price) {
+          itemCompare = cachedCompareUnit * item.quantity;
         } else if (item.original_line_price > item.final_line_price) {
           itemCompare = item.original_line_price;
         } else {
@@ -184,6 +187,18 @@
         }
         totalCompare += itemCompare;
       });
+    }
+
+    // Also check DOM elements for rendered data-compare-line-price
+    if (totalCompare <= cart.total_price && drawer) {
+      let domCompareSum = 0;
+      drawer.querySelectorAll('[data-cart-line-item]').forEach((el) => {
+        const cPrice = Number(el.dataset.compareLinePrice || 0);
+        if (cPrice > 0) domCompareSum += cPrice;
+      });
+      if (domCompareSum > totalCompare) {
+        totalCompare = domCompareSum;
+      }
     }
 
     if (totalCompare <= cart.total_price && cart.original_total_price > cart.total_price) {
@@ -568,6 +583,13 @@
         fetch(`${cleanRoot}/products/${handle}.js`)
           .then((res) => res.json())
           .then((product) => {
+            window._variantComparePrices = window._variantComparePrices || {};
+            if (product && product.variants) {
+              product.variants.forEach((v) => {
+                window._variantComparePrices[v.id] = v.compare_at_price || v.price;
+              });
+            }
+
             const modal = document.querySelector('[data-choose-option-modal]');
             const titleEl = modal?.querySelector('[data-choose-product-title]');
             const listEl = modal?.querySelector('[data-choose-options-list]');
