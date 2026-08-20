@@ -66,7 +66,7 @@
   elsif m_badge_4 != blank
     assign img_url_4 = m_badge_4 | image_url: width: 300
   endif
-%}
+
   assign max_icons = limit | default: max_icons | default: block.settings.max_icons | default: 4
 
   assign uploaded_count = 0
