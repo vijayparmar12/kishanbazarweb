@@ -12,6 +12,10 @@
     "main": {
       "type": "product",
       "blocks": {
+        "trust_badges_V7nWne": {
+          "type": "trust_badges",
+          "settings": {}
+        },
         "title_zwNBWV": {
           "type": "title",
           "settings": {
@@ -65,13 +69,6 @@
             "cart_btn_color": "#ffffff"
           }
         },
-        "trust_badges_cGE6CU": {
-          "type": "trust_badges",
-          "settings": {
-            "badge_1": "100% Certified Organic",
-            "badge_2": "Fast Express Delivery"
-          }
-        },
         "product_banner_F8tDeF": {
           "type": "product_banner",
           "settings": {
@@ -84,6 +81,7 @@
         }
       },
       "block_order": [
+        "trust_badges_V7nWne",
         "title_zwNBWV",
         "rating_QizByz",
         "description_WMpDyn",
@@ -92,7 +90,6 @@
         "variant_picker_fTExdk",
         "stock_status_qfnGpK",
         "buy_buttons_jrQJdY",
-        "trust_badges_cGE6CU",
         "product_banner_F8tDeF"
       ],
       "settings": {
