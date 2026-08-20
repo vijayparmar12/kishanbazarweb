@@ -23,6 +23,15 @@
             "icon": ""
           }
         },
+        "mega_link_3VXJt4": {
+          "type": "mega_link",
+          "settings": {
+            "menu_group": "custom",
+            "title": "The Farmers",
+            "link": "",
+            "icon": ""
+          }
+        },
         "feature_icon_Q3GXNa": {
           "type": "feature_icon",
           "settings": {
@@ -223,6 +232,7 @@
       },
       "block_order": [
         "mega_link_byGQaL",
+        "mega_link_3VXJt4",
         "feature_icon_Q3GXNa",
         "feature_icon_biPcJz",
         "feature_icon_mzn3UJ",
