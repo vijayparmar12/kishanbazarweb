@@ -154,14 +154,21 @@
     display: none !important;
   }
 
-  /* 5. 4 Circle Benefit Badges FIFTH */
+  /* 5. Product Description FIFTH (Placed ABOVE Icons on Mobile View) */
+  .product-info__description,
+  .product-info__collapsible {
+    order: 5 !important;
+    margin-bottom: 0.85rem;
+  }
+
+  /* 6. 4 Circle Benefit Badges SIXTH */
   .product-circle-features:not(.product-circle-features--trust),
   .product-info__benefits-block {
-    order: 5 !important;
+    order: 6 !important;
     margin-bottom: 0.75rem;
   }
 
-  /* 6. Variants Grams Box SIXTH */
+  /* 7. Variants Grams Box SEVENTH */
   .product-info__variants-container,
   .product-info__variant-cards,
   .product-info__variants,
@@ -169,33 +176,26 @@
   .variant-picker,
   variant-radios,
   variant-selects {
-    order: 6 !important;
+    order: 7 !important;
     margin-bottom: 0.75rem;
   }
 
-  /* 7. ALL 4 TRUST BADGE ICONS SEVENTH (Displayed DIRECTLY BELOW Variants Grams Box on Mobile) */
+  /* 8. ALL 4 TRUST BADGE ICONS EIGHTH (Below Variants Grams Box) */
   .product-info__trust-badges,
   .product-circle-features--trust,
   [data-product-trust-badges] {
-    order: 7 !important;
+    order: 8 !important;
     display: block !important;
     margin-top: 0.35rem;
     margin-bottom: 0.85rem;
     width: 100%;
   }
 
-  /* 8. Stock & Availability Status EIGHTH */
+  /* 9. Stock & Availability Status NINTH */
   .product-info__availability,
   .product-info__stock-status {
-    order: 8 !important;
-    margin-bottom: 0.75rem;
-  }
-
-  /* 9. Product Description & Accordions NINTH */
-  .product-info__description,
-  .product-info__collapsible {
     order: 9 !important;
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.75rem;
   }
 }
 
