@@ -29,6 +29,39 @@
       console.error(e);
     }
   };
+  window._chooseOptionQuantities = {};
+
+  const renderChooseOptionList = (product, listEl) => {
+    if (!product || !product.variants || !listEl) return;
+
+    listEl.innerHTML = product.variants.map((v) => {
+      const qty = window._chooseOptionQuantities[v.id] || 0;
+      const variantTitle = v.title !== 'Default Title' ? v.title : '';
+      const displayTitle = variantTitle ? `${product.title}` : product.title;
+
+      const actionBtnHtml = qty > 0
+        ? `<div class="kb-variant-qty-pill" style="display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #0d6840; border-radius: 8px; width: 90px; height: 36px; padding: 0 6px; box-sizing: border-box; background: #ffffff;">
+             <button type="button" data-choose-qty-minus="${v.id}" style="border: none; background: transparent; font-weight: 800; font-size: 1.1rem; color: #0d6840; cursor: pointer; padding: 0 4px;">-</button>
+             <span style="font-weight: 800; font-size: 0.95rem; color: #0d6840;">${qty}</span>
+             <button type="button" data-choose-qty-plus="${v.id}" style="border: none; background: transparent; font-weight: 800; font-size: 1.1rem; color: #0d6840; cursor: pointer; padding: 0 4px;">+</button>
+           </div>`
+        : `<button type="button" class="kb-variant-option-card__add-btn" data-choose-add-variant="${v.id}" style="background: #0d6840; color: #ffffff; border: none; padding: 8px 18px; border-radius: 8px; font-weight: 800; font-size: 0.9rem; cursor: pointer;">
+             Add
+           </button>`;
+
+      return `
+        <div class="kb-variant-option-card ${qty > 0 ? 'is-selected' : ''}" data-choose-variant-card data-variant-id="${v.id}">
+          <img src="${v.featured_image?.src || product.featured_image || ''}" alt="${v.title}" class="kb-variant-option-card__media">
+          <div class="kb-variant-option-card__info">
+            <div class="kb-variant-option-card__title" style="font-weight: 700; font-size: 0.88rem; color: #1e293b; line-height: 1.3;">${displayTitle}</div>
+            ${variantTitle ? `<div class="kb-variant-option-card__weight" style="font-size: 0.82rem; color: #64748b; margin-top: 2px;">${variantTitle}</div>` : ''}
+            <div class="kb-variant-option-card__price" style="font-weight: 800; font-size: 0.95rem; color: #1e293b; margin-top: 4px;">${formatMoney(v.price)}</div>
+          </div>
+          ${actionBtnHtml}
+        </div>
+      `;
+    }).join('');
+  };
 
   const updateDrawer = (cart) => {
     const drawer = document.querySelector('[data-cart-drawer]');
@@ -515,21 +548,19 @@
       return;
     }
 
-    // 16. FBT Card / "+ ADD" button click (Choose Option Modal or Quick View Modal)
+    // 16. FBT Card / "+ ADD" button click (Always open Choose Option Modal with variants & quantities)
     const fbtCard = event.target.closest('[data-fbt-card], .kb-cart-addon-add-btn');
     if (fbtCard) {
       event.preventDefault();
       event.stopPropagation();
 
       const btn = fbtCard.querySelector('.kb-cart-addon-add-btn') || fbtCard;
-      const variantsCount = Number(btn.dataset.variantsCount || fbtCard.dataset.variantsCount || 1);
       const handle = btn.dataset.productHandle || fbtCard.dataset.productHandle;
       const defaultVariantId = btn.dataset.addVariantId || fbtCard.dataset.addVariantId;
-      const productTitle = btn.dataset.productTitle || fbtCard.dataset.productTitle || 'Product';
 
-      if (variantsCount > 1 && handle) {
-        // Multi-variant product: fetch variants and open Choose Option modal (Images 2 & 3)
-        fetch(`${rootUrl}products/${handle}.js`)
+      if (handle) {
+        const cleanRoot = rootUrl.replace(/\/$/, '');
+        fetch(`${cleanRoot}/products/${handle}.js`)
           .then((res) => res.json())
           .then((product) => {
             const modal = document.querySelector('[data-choose-option-modal]');
@@ -538,21 +569,14 @@
             if (!modal || !listEl) return;
 
             if (titleEl) titleEl.textContent = product.title;
-            window._activeChooseVariantId = product.variants[0].id;
+            window._chooseOptionCurrentProduct = product;
+            window._chooseOptionQuantities = {};
 
-            listEl.innerHTML = product.variants.map((v, idx) => `
-              <div class="kb-variant-option-card ${idx === 0 ? 'is-selected' : ''}" data-choose-variant-card data-variant-id="${v.id}">
-                <img src="${v.featured_image?.src || product.featured_image || ''}" alt="${v.title}" class="kb-variant-option-card__media">
-                <div class="kb-variant-option-card__info">
-                  <div class="kb-variant-option-card__title">${product.title}</div>
-                  <div class="kb-variant-option-card__weight">${v.title}</div>
-                  <div class="kb-variant-option-card__price">${formatMoney(v.price)}</div>
-                </div>
-                <button type="button" class="kb-variant-option-card__add-btn" data-choose-select-variant="${v.id}">
-                  Add
-                </button>
-              </div>
-            `).join('');
+            if (product.variants && product.variants.length) {
+              window._chooseOptionQuantities[product.variants[0].id] = 1;
+            }
+
+            renderChooseOptionList(product, listEl);
 
             modal.hidden = false;
             modal.classList.add('is-open');
@@ -561,15 +585,8 @@
             console.error('Error fetching product variants:', err);
             if (defaultVariantId) addSingleVariantToCart(defaultVariantId);
           });
-      } else {
-        // Single-variant product: open Product Quick View Modal (Image 1)
-        document.dispatchEvent(new CustomEvent('greenbasket:quick-view', {
-          detail: {
-            handle: handle,
-            variantId: defaultVariantId,
-            title: productTitle
-          }
-        }));
+      } else if (defaultVariantId) {
+        addSingleVariantToCart(defaultVariantId);
       }
       return;
     }
@@ -584,25 +601,80 @@
       return;
     }
 
-    // 18. Pick variant inside Choose Option Modal
-    const pickVariantCard = event.target.closest('[data-choose-variant-card], [data-choose-select-variant]');
-    if (pickVariantCard) {
-      const variantId = pickVariantCard.dataset.variantId || pickVariantCard.dataset.chooseSelectVariant;
-      if (variantId) {
-        window._activeChooseVariantId = variantId;
-        const modal = document.querySelector('[data-choose-option-modal]');
-        modal?.querySelectorAll('[data-choose-variant-card]').forEach((card) => {
-          card.classList.toggle('is-selected', card.dataset.variantId === String(variantId));
-        });
+    // 18. Add variant in Choose Option Modal
+    const addVariantBtn = event.target.closest('[data-choose-add-variant]');
+    if (addVariantBtn) {
+      const varId = Number(addVariantBtn.dataset.chooseAddVariant);
+      window._chooseOptionQuantities[varId] = 1;
+      const modal = document.querySelector('[data-choose-option-modal]');
+      const listEl = modal?.querySelector('[data-choose-options-list]');
+      if (window._chooseOptionCurrentProduct && listEl) {
+        renderChooseOptionList(window._chooseOptionCurrentProduct, listEl);
       }
       return;
     }
 
-    // 19. Confirm Choose Option Modal selection
+    // 19. Minus qty in Choose Option Modal
+    const minusVariantBtn = event.target.closest('[data-choose-qty-minus]');
+    if (minusVariantBtn) {
+      const varId = Number(minusVariantBtn.dataset.chooseQtyMinus);
+      const currentQty = window._chooseOptionQuantities[varId] || 0;
+      window._chooseOptionQuantities[varId] = Math.max(0, currentQty - 1);
+      const modal = document.querySelector('[data-choose-option-modal]');
+      const listEl = modal?.querySelector('[data-choose-options-list]');
+      if (window._chooseOptionCurrentProduct && listEl) {
+        renderChooseOptionList(window._chooseOptionCurrentProduct, listEl);
+      }
+      return;
+    }
+
+    // 20. Plus qty in Choose Option Modal
+    const plusVariantBtn = event.target.closest('[data-choose-qty-plus]');
+    if (plusVariantBtn) {
+      const varId = Number(plusVariantBtn.dataset.chooseQtyPlus);
+      const currentQty = window._chooseOptionQuantities[varId] || 0;
+      window._chooseOptionQuantities[varId] = currentQty + 1;
+      const modal = document.querySelector('[data-choose-option-modal]');
+      const listEl = modal?.querySelector('[data-choose-options-list]');
+      if (window._chooseOptionCurrentProduct && listEl) {
+        renderChooseOptionList(window._chooseOptionCurrentProduct, listEl);
+      }
+      return;
+    }
+
+    // 21. Confirm Choose Option Modal selection
     if (event.target.closest('[data-confirm-choose-option]')) {
-      const variantId = window._activeChooseVariantId;
-      if (variantId) {
-        addSingleVariantToCart(variantId);
+      const itemsToAdd = [];
+      Object.keys(window._chooseOptionQuantities || {}).forEach((varId) => {
+        const q = window._chooseOptionQuantities[varId];
+        if (q > 0) {
+          itemsToAdd.push({ id: Number(varId), quantity: q });
+        }
+      });
+
+      if (itemsToAdd.length > 0) {
+        const cleanRoot = rootUrl.replace(/\/$/, '');
+        fetch(`${cleanRoot}/cart/add.js`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          body: JSON.stringify({ items: itemsToAdd })
+        })
+          .then((res) => res.json())
+          .then(async () => {
+            const modal = document.querySelector('[data-choose-option-modal]');
+            if (modal) {
+              modal.hidden = true;
+              modal.classList.remove('is-open');
+            }
+            const updatedCart = await updateDrawerFromServer();
+            if (updatedCart) showCartToast(updatedCart);
+            openDrawer();
+          })
+          .catch((err) => console.error('Error adding selected variants to cart:', err));
+      } else {
         const modal = document.querySelector('[data-choose-option-modal]');
         if (modal) {
           modal.hidden = true;
