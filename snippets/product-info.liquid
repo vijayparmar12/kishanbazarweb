@@ -130,10 +130,6 @@
             </fieldset>
           {% endif %}
 
-          <div class="product-info__trust-badges" data-product-trust-badges>
-            {% render 'product-highlights', product: product %}
-          </div>
-
         {% when 'buy_buttons' %}
           {% form 'product', product, class: 'product-info__form', data-product-main-form: '' %}
             <input type="hidden" name="id" value="{{ current_variant.id }}" data-product-selected-variant-id>
