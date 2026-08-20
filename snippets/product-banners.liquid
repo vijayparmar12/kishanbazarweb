@@ -14,12 +14,12 @@
 {% liquid
   assign c_meta = product.metafields.custom
 
-  assign m_banner_1 = c_meta.banner_1.value | default: c_meta.banner_1 | default: c_meta.Banner_1
-  assign m_banner_2 = c_meta.banner_2.value | default: c_meta.banner_2 | default: c_meta.Banner_2
-  assign m_banner_3 = c_meta.banner_3.value | default: c_meta.banner_3 | default: c_meta.Banner_3
-  assign m_banner_4 = c_meta.banner_4.value | default: c_meta.banner_4 | default: c_meta.Banner_4
-  assign m_banner_5 = c_meta.banner_5.value | default: c_meta.banner_5 | default: c_meta.Banner_5
-  assign m_banner_6 = c_meta.banner_6.value | default: c_meta.banner_6 | default: c_meta.Banner_6
+  assign m_banner_1 = c_meta.banner_1.value | default: c_meta.banner_1 | default: c_meta.Banner_1.value | default: c_meta.Banner_1
+  assign m_banner_2 = c_meta.banner_2.value | default: c_meta.banner_2 | default: c_meta.Banner_2.value | default: c_meta.Banner_2
+  assign m_banner_3 = c_meta.banner_3.value | default: c_meta.banner_3 | default: c_meta.Banner_3.value | default: c_meta.Banner_3
+  assign m_banner_4 = c_meta.banner_4.value | default: c_meta.banner_4 | default: c_meta.Banner_4.value | default: c_meta.Banner_4
+  assign m_banner_5 = c_meta.banner_5.value | default: c_meta.banner_5 | default: c_meta.Banner_5.value | default: c_meta.Banner_5
+  assign m_banner_6 = c_meta.banner_6.value | default: c_meta.banner_6 | default: c_meta.Banner_6.value | default: c_meta.Banner_6
 
   assign m_banner_list = c_meta.product_banners.value | default: c_meta.product_banners | default: c_meta.banner_images.value | default: c_meta.banner_images
 

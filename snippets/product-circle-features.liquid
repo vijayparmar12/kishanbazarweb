@@ -15,7 +15,8 @@
 {% liquid
   assign c_meta = product.metafields.custom
 
-  # Image 1 (Theme Setting / Block Setting override -> Metafield)
+  # Image 1
+  assign m_badge_1 = c_meta.badge_image_1.value | default: c_meta.badge_image_1 | default: c_meta.feature_icon_1.value | default: c_meta.feature_icon_1
   assign img_url_1 = blank
   if benefit_image_1 != blank
     assign img_url_1 = benefit_image_1 | image_url: width: 300
@@ -23,13 +24,12 @@
     assign img_url_1 = block.settings.benefit_image_1 | image_url: width: 300
   elsif section.settings.benefit_image_1 != blank
     assign img_url_1 = section.settings.benefit_image_1 | image_url: width: 300
-  elsif c_meta.badge_image_1 != blank
-    assign img_url_1 = c_meta.badge_image_1 | image_url: width: 300
-  elsif c_meta.feature_icon_1 != blank
-    assign img_url_1 = c_meta.feature_icon_1 | image_url: width: 300
+  elsif m_badge_1 != blank
+    assign img_url_1 = m_badge_1 | image_url: width: 300
   endif
 
   # Image 2
+  assign m_badge_2 = c_meta.badge_image_2.value | default: c_meta.badge_image_2 | default: c_meta.feature_icon_2.value | default: c_meta.feature_icon_2
   assign img_url_2 = blank
   if benefit_image_2 != blank
     assign img_url_2 = benefit_image_2 | image_url: width: 300
@@ -37,13 +37,12 @@
     assign img_url_2 = block.settings.benefit_image_2 | image_url: width: 300
   elsif section.settings.benefit_image_2 != blank
     assign img_url_2 = section.settings.benefit_image_2 | image_url: width: 300
-  elsif c_meta.badge_image_2 != blank
-    assign img_url_2 = c_meta.badge_image_2 | image_url: width: 300
-  elsif c_meta.feature_icon_2 != blank
-    assign img_url_2 = c_meta.feature_icon_2 | image_url: width: 300
+  elsif m_badge_2 != blank
+    assign img_url_2 = m_badge_2 | image_url: width: 300
   endif
 
   # Image 3
+  assign m_badge_3 = c_meta.badge_image_3.value | default: c_meta.badge_image_3 | default: c_meta.feature_icon_3.value | default: c_meta.feature_icon_3
   assign img_url_3 = blank
   if benefit_image_3 != blank
     assign img_url_3 = benefit_image_3 | image_url: width: 300
@@ -51,13 +50,12 @@
     assign img_url_3 = block.settings.benefit_image_3 | image_url: width: 300
   elsif section.settings.benefit_image_3 != blank
     assign img_url_3 = section.settings.benefit_image_3 | image_url: width: 300
-  elsif c_meta.badge_image_3 != blank
-    assign img_url_3 = c_meta.badge_image_3 | image_url: width: 300
-  elsif c_meta.feature_icon_3 != blank
-    assign img_url_3 = c_meta.feature_icon_3 | image_url: width: 300
+  elsif m_badge_3 != blank
+    assign img_url_3 = m_badge_3 | image_url: width: 300
   endif
 
   # Image 4
+  assign m_badge_4 = c_meta.badge_image_4.value | default: c_meta.badge_image_4 | default: c_meta.feature_icon_4.value | default: c_meta.feature_icon_4
   assign img_url_4 = blank
   if benefit_image_4 != blank
     assign img_url_4 = benefit_image_4 | image_url: width: 300
@@ -65,12 +63,10 @@
     assign img_url_4 = block.settings.benefit_image_4 | image_url: width: 300
   elsif section.settings.benefit_image_4 != blank
     assign img_url_4 = section.settings.benefit_image_4 | image_url: width: 300
-  elsif c_meta.badge_image_4 != blank
-    assign img_url_4 = c_meta.badge_image_4 | image_url: width: 300
-  elsif c_meta.feature_icon_4 != blank
-    assign img_url_4 = c_meta.feature_icon_4 | image_url: width: 300
+  elsif m_badge_4 != blank
+    assign img_url_4 = m_badge_4 | image_url: width: 300
   endif
-
+%}
   assign max_icons = limit | default: max_icons | default: block.settings.max_icons | default: 4
 
   assign uploaded_count = 0
