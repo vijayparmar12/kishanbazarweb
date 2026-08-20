@@ -28,7 +28,9 @@
         "benefit_icons_TeMKQk": {
           "type": "benefit_icons",
           "settings": {
-            "icon_size": 72
+            "icon_size": 72,
+            "benefit_image_1": "shopify://shop_images/ChatGPT_Image_Aug_13_2026_10_51_53_AM.png",
+            "benefit_image_2": "shopify://shop_images/1_1_555885c8-1f8f-4a33-a480-1e451151a50b.png"
           }
         },
         "price_cXRV6V": {
