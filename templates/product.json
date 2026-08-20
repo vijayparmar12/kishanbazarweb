@@ -65,6 +65,7 @@
           "type": "product_banner",
           "settings": {
             "image": "{{ product.metafields.custom.custom_banner_1.value }}",
+            "image_mobile": "{{ product.metafields.custom.custom_banner_1.value }}",
             "heading": "",
             "subtitle": "",
             "link": ""
