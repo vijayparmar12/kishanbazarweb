@@ -146,13 +146,12 @@
     margin-bottom: 0.75rem;
   }
 
-  /* 5. Buy Buttons Form & Add to Cart FIFTH */
+  /* Hide duplicate inline buy buttons form below price on mobile (since sticky bottom bar handles ADD TO CART & Quantity) */
   .product-info__form,
   .product-info__purchase-row,
   .product-info__secondary-actions,
   .product-info__buy-box {
-    order: 5 !important;
-    margin-bottom: 0.75rem;
+    display: none !important;
   }
 
   /* 6. Variant Selector SIXTH */
