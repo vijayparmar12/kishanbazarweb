@@ -1250,7 +1250,7 @@ body.kb-cart-drawer-open {
 .kb-cart-drawer__progress-track-wrap {
   position: relative !important;
   width: 100% !important;
-  padding: 0 12px !important;
+  padding: 0 32px !important;
   box-sizing: border-box !important;
   overflow: visible !important;
 }
@@ -2271,9 +2271,15 @@ body.kb-cart-drawer-open {
   }
 
   .kb-cart-drawer__progress {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-    width: 100% !important;
+    margin: 12px 14px 16px !important;
+    padding: 14px 14px 44px !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+  }
+
+  .kb-cart-drawer__progress-track-wrap {
+    padding: 0 32px !important;
     box-sizing: border-box !important;
   }
 
