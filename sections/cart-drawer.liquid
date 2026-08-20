@@ -12,12 +12,22 @@
   "settings": [
     {
       "type": "header",
-      "content": "Free Shipping & Offer Bar"
+      "content": "Cart Drawer Header & Announcement"
+    },
+    {
+      "type": "text",
+      "id": "cart_title_text",
+      "label": "Cart Drawer Title",
+      "default": "YOUR CART"
     },
     {
       "type": "text",
       "id": "cart_promo_bar_text",
       "label": "Top Promo Banner Text (leave blank to hide)"
+    },
+    {
+      "type": "header",
+      "content": "Free Shipping & Offer Progress Bar"
     },
     {
       "type": "number",
@@ -33,17 +43,39 @@
     },
     {
       "type": "header",
-      "content": "Single Coupon Code (Primary)"
+      "content": "Coupons & Offers"
+    },
+    {
+      "type": "text",
+      "id": "cart_coupons_modal_title",
+      "label": "Coupons Modal Title",
+      "default": "Available Coupons & Offers"
     },
     {
       "type": "text",
       "id": "cart_coupon_code",
-      "label": "Applied Coupon Code (leave blank if using coupon blocks)"
+      "label": "Primary Coupon Code (leave blank if using coupon blocks)"
     },
     {
       "type": "text",
       "id": "cart_savings_label",
-      "label": "Savings Label Text (e.g. Save ₹709)"
+      "label": "Primary Coupon Savings Label (e.g. Save ₹709)"
+    },
+    {
+      "type": "header",
+      "content": "Dynamic Savings Ribbon & Total Box"
+    },
+    {
+      "type": "text",
+      "id": "cart_savings_ribbon_suffix",
+      "label": "Savings Ribbon Suffix Text",
+      "default": "Saved so far!"
+    },
+    {
+      "type": "text",
+      "id": "cart_estimated_total_label",
+      "label": "Estimated Total Label",
+      "default": "Estimated Total"
     },
     {
       "type": "header",
@@ -62,13 +94,41 @@
     },
     {
       "type": "header",
-      "content": "Checkout Button & Branding"
+      "content": "Checkout Button & Footer Branding"
     },
     {
       "type": "text",
       "id": "cart_checkout_btn_text",
       "label": "Checkout Button Text",
       "default": "Checkout"
+    },
+    {
+      "type": "checkbox",
+      "id": "cart_show_payment_badges",
+      "label": "Show Payment Method Badges (Paytm, GPay, etc.)",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cart_credit_branding_text",
+      "label": "Bottom Branding Credit Text",
+      "default": "Powered by Shopflo"
+    },
+    {
+      "type": "header",
+      "content": "Choose Option Drawer Modal"
+    },
+    {
+      "type": "text",
+      "id": "cart_choose_option_title",
+      "label": "Choose Option Modal Title",
+      "default": "Choose Option"
+    },
+    {
+      "type": "text",
+      "id": "cart_choose_option_confirm_btn",
+      "label": "Choose Option Confirm Button Text",
+      "default": "Confirm"
     }
   ],
   "blocks": [

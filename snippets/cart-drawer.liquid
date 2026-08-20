@@ -3,6 +3,7 @@
 {% enddoc %}
 
 {% liquid
+  assign cart_title_text = section.settings.cart_title_text | default: settings.cart_title_text | default: 'YOUR CART'
   assign free_shipping_threshold_num = section.settings.cart_free_shipping_threshold | default: settings.cart_free_shipping_threshold | default: 1499
   assign discount_threshold_num = section.settings.cart_discount_threshold | default: settings.cart_discount_threshold | default: 3000
   assign free_ship_val = free_shipping_threshold_num | times: 100
@@ -11,6 +12,16 @@
   assign coupon_code = section.settings.cart_coupon_code | default: settings.cart_coupon_code
   assign savings_label = section.settings.cart_savings_label | default: settings.cart_savings_label
   assign coupon_blocks = section.blocks | where: 'type', 'coupon_offer'
+  assign coupons_modal_title = section.settings.cart_coupons_modal_title | default: 'Available Coupons & Offers'
+  assign savings_ribbon_suffix = section.settings.cart_savings_ribbon_suffix | default: 'Saved so far!'
+  assign estimated_total_label = section.settings.cart_estimated_total_label | default: 'Estimated Total'
+  assign show_payment_badges = section.settings.cart_show_payment_badges
+  if show_payment_badges == nil
+    assign show_payment_badges = true
+  endif
+  assign credit_branding_text = section.settings.cart_credit_branding_text | default: 'Powered by Shopflo'
+  assign choose_option_title = section.settings.cart_choose_option_title | default: 'Choose Option'
+  assign choose_option_confirm_btn = section.settings.cart_choose_option_confirm_btn | default: 'Confirm'
 
   if coupon_code == blank and coupon_blocks.size > 0
     assign coupon_code = coupon_blocks[0].settings.code
@@ -48,7 +59,7 @@
   <div class="kb-cart-drawer__overlay" data-cart-drawer-close></div>
   <div class="kb-cart-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle">
     <div class="kb-cart-drawer__header">
-      <h2 class="kb-cart-drawer__title" id="CartDrawerTitle">YOUR CART ({{ cart.item_count }})</h2>
+      <h2 class="kb-cart-drawer__title" id="CartDrawerTitle">{{ cart_title_text }} ({{ cart.item_count }})</h2>
       <button class="kb-cart-drawer__close" type="button" aria-label="{{ 'cart.close' | t }}" data-cart-drawer-close>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -210,14 +221,14 @@
       <div class="kb-cart-drawer__summary-box" data-cart-summary-box style="width: 100%;">
         <div class="kb-cart-savings-ribbon-wrap">
           <div class="kb-cart-savings-ribbon" data-cart-savings-ribbon {% if total_saved <= 0 %}style="display: none;"{% endif %}>
-            <span data-cart-total-saved-amount>{{ total_saved | money }}</span> Saved so far!
+            <span data-cart-total-saved-amount>{{ total_saved | money }}</span> {{ savings_ribbon_suffix }}
           </div>
         </div>
 
         <div class="kb-cart-estimated-total-row">
           <div class="kb-cart-estimated-label">
             <span class="kb-cart-estimated-tag-icon">₹</span>
-            <strong>Estimated Total</strong>
+            <strong>{{ estimated_total_label }}</strong>
           </div>
           <div class="kb-cart-estimated-prices">
             <s class="kb-cart-estimated-original" data-cart-drawer-original-total {% if total_saved <= 0 %}style="display: none;"{% endif %}>{{ cart_original_price | money }}</s>
@@ -235,16 +246,20 @@
       <a href="/checkout" class="kb-cart-drawer__checkout-btn" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 0.65rem 1rem;">
         <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
           <span class="kb-cart-drawer__checkout-label">{{ checkout_label }}</span>
-          <span class="kb-cart-drawer__payment-badges">
-            <span class="kb-pay-badge kb-pay-badge--paytm">Paytm</span>
-            <span class="kb-pay-badge kb-pay-badge--gpay">GPay</span>
-            <span class="kb-pay-badge kb-pay-badge--phonepe">Pe</span>
-            <span class="kb-pay-badge kb-pay-badge--cards">💳</span>
-          </span>
+          {% if show_payment_badges %}
+            <span class="kb-cart-drawer__payment-badges">
+              <span class="kb-pay-badge kb-pay-badge--paytm">Paytm</span>
+              <span class="kb-pay-badge kb-pay-badge--gpay">GPay</span>
+              <span class="kb-pay-badge kb-pay-badge--phonepe">Pe</span>
+              <span class="kb-pay-badge kb-pay-badge--cards">💳</span>
+            </span>
+          {% endif %}
         </div>
         <span class="kb-cart-drawer__checkout-subtext" style="font-size: 0.72rem; font-weight: 600; color: rgba(255, 255, 255, 0.9); margin-top: -2px;">Free Shipping on Orders Above ₹{{ free_shipping_threshold_num }}</span>
       </a>
-      <div class="kb-cart-drawer__credit">Powered by <strong>Shopflo</strong></div>
+      {% if credit_branding_text != blank %}
+        <div class="kb-cart-drawer__credit">{{ credit_branding_text }}</div>
+      {% endif %}
     </div>
 
     <!-- Choose Option Variant Drawer Modal Popup (Overlaying Directly On Top Of Cart Drawer) -->
@@ -256,7 +271,7 @@
             <button type="button" class="kb-choose-option-modal__back" data-close-choose-option aria-label="Back" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #1e293b;">&larr;</button>
             <div>
               <div class="kb-choose-option-modal__product-title" data-choose-product-title style="font-size: 0.78rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 240px;">Product</div>
-              <h3 style="margin: 0; font-size: 1.15rem; color: #1e293b; font-weight: 800;">Choose Option</h3>
+              <h3 style="margin: 0; font-size: 1.15rem; color: #1e293b; font-weight: 800;">{{ choose_option_title }}</h3>
             </div>
           </div>
           <button type="button" class="kb-choose-option-modal__close" data-close-choose-option aria-label="Close modal" style="background: none; border: none; font-size: 1.6rem; cursor: pointer; color: #64748b;">&times;</button>
@@ -267,7 +282,7 @@
         </div>
 
         <div class="kb-choose-option-modal__footer" style="padding: 0.75rem 1rem 1.25rem;">
-          <button type="button" class="kb-choose-option-modal__confirm-btn" data-confirm-choose-option style="width: 100%; height: 50px; background: #23421f; color: #ffffff; border: none; border-radius: 12px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">Confirm</button>
+          <button type="button" class="kb-choose-option-modal__confirm-btn" data-confirm-choose-option style="width: 100%; height: 50px; background: #23421f; color: #ffffff; border: none; border-radius: 12px; font-weight: 800; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">{{ choose_option_confirm_btn }}</button>
         </div>
       </div>
     </aside>
@@ -279,7 +294,7 @@
   <div class="kb-coupons-modal__backdrop" data-close-coupons-modal></div>
   <div class="kb-coupons-modal__container">
     <div class="kb-coupons-modal__header">
-      <h3 style="margin: 0; font-size: 1.1rem; color: #23421f; font-weight: 800;">Available Coupons & Offers</h3>
+      <h3 style="margin: 0; font-size: 1.1rem; color: #23421f; font-weight: 800;">{{ coupons_modal_title }}</h3>
       <button type="button" class="kb-coupons-modal__close" data-close-coupons-modal aria-label="Close modal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
     </div>
     <div class="kb-coupons-modal__body" style="padding: 1.25rem 1rem; display: flex; flex-direction: column; gap: 0.85rem; max-height: 60vh; overflow-y: auto;">
