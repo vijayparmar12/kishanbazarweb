@@ -358,18 +358,11 @@
       "name": "Trust Badges Box",
       "limit": 1,
       "settings": [
-        {
-          "type": "text",
-          "id": "badge_1",
-          "label": "Trust Badge 1 Text",
-          "default": "100% Certified Organic"
-        },
-        {
-          "type": "text",
-          "id": "badge_2",
-          "label": "Trust Badge 2 Text",
-          "default": "Fast Express Delivery"
-        }
+        { "type": "range", "id": "icon_size", "label": "Trust Icon Size (px)", "min": 40, "max": 96, "step": 2, "default": 70, "unit": "px" },
+        { "type": "image_picker", "id": "trust_image_1", "label": "Trust Badge 1 Image" },
+        { "type": "image_picker", "id": "trust_image_2", "label": "Trust Badge 2 Image" },
+        { "type": "image_picker", "id": "trust_image_3", "label": "Trust Badge 3 Image" },
+        { "type": "image_picker", "id": "trust_image_4", "label": "Trust Badge 4 Image" }
       ]
     },
     {
