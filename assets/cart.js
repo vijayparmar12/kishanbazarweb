@@ -209,12 +209,11 @@
 
     const ribbon = drawer.querySelector('[data-cart-savings-ribbon]');
     if (ribbon) {
-      ribbon.style.display = 'flex';
-      const activeCode = sessionStorage.getItem('kb_active_coupon') || 'TBOF10';
       if (totalSaved > 0) {
+        ribbon.style.display = 'flex';
         ribbon.innerHTML = `<span><strong>${formatMoney(totalSaved)}</strong> Saved so far!</span>`;
       } else {
-        ribbon.innerHTML = `<span>🎉 Use Coupon '<strong>${activeCode}</strong>' for Extra Savings!</span>`;
+        ribbon.style.display = 'none';
       }
     }
 
