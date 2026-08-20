@@ -23,19 +23,25 @@
 
   assign cart_original_price = 0
   for item in cart.items
-    assign item_compare = item.variant.compare_at_price
-    if item_compare == blank or item_compare <= item.final_price
-      assign item_compare = item.original_line_price | divided_by: item.quantity
+    if item.variant.compare_at_price > item.variant.price
+      assign item_unit_compare = item.variant.compare_at_price
+    elsif item.original_line_price > item.final_line_price
+      assign item_unit_compare = item.original_line_price | divided_by: item.quantity
+    else
+      assign item_unit_compare = item.final_price
     endif
-    assign line_orig = item_compare | times: item.quantity
+    assign line_orig = item_unit_compare | times: item.quantity
     assign cart_original_price = cart_original_price | plus: line_orig
   endfor
 
-  if cart_original_price <= cart.total_price
+  if cart_original_price <= cart.total_price and cart.original_total_price > cart.total_price
     assign cart_original_price = cart.original_total_price
   endif
 
   assign total_saved = cart_original_price | minus: cart.total_price
+  if total_saved < 0
+    assign total_saved = 0
+  endif
 %}
 
 <aside class="kb-cart-drawer" id="CartDrawer" hidden data-cart-drawer data-cart-drawer-mode="full" aria-label="{{ 'cart.title' | t }}">

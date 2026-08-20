@@ -174,9 +174,14 @@
     let totalCompare = 0;
     if (cart.items && cart.items.length) {
       cart.items.forEach((item) => {
-        const itemCompare = item.original_line_price > item.final_line_price
-          ? item.original_line_price
-          : (item.variant?.compare_at_price ? item.variant.compare_at_price * item.quantity : item.final_line_price);
+        let itemCompare = 0;
+        if (item.variant && item.variant.compare_at_price > item.variant.price) {
+          itemCompare = item.variant.compare_at_price * item.quantity;
+        } else if (item.original_line_price > item.final_line_price) {
+          itemCompare = item.original_line_price;
+        } else {
+          itemCompare = item.final_line_price;
+        }
         totalCompare += itemCompare;
       });
     }
