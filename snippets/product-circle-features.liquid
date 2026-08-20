@@ -1,5 +1,6 @@
 {% doc %}
   Renders feature badge icons dynamically purely from Shopify CSV / Product Metafields.
+  Prioritizes individual product custom metafields (badge_image_1..4) over theme block defaults.
   Metafield keys supported:
   - product.metafields.custom.badge_image_1
   - product.metafields.custom.badge_image_2
@@ -17,61 +18,61 @@
   assign alt_meta = product.metafields['product.metafields.custom']
 
   # Extract ONLY the .value file drops to avoid Metafield Drop object truthiness
-  assign m_b1_val = c_meta.badge_image_1.value | default: alt_meta.badge_image_1.value | default: c_meta.feature_icon_1.value
-  assign m_b2_val = c_meta.badge_image_2.value | default: alt_meta.badge_image_2.value | default: c_meta.feature_icon_2.value
-  assign m_b3_val = c_meta.badge_image_3.value | default: alt_meta.badge_image_3.value | default: c_meta.feature_icon_3.value
-  assign m_b4_val = c_meta.badge_image_4.value | default: alt_meta.badge_image_4.value | default: c_meta.feature_icon_4.value
+  assign m_b1_val = c_meta.badge_image_1.value | default: alt_meta.badge_image_1.value | default: c_meta.feature_icon_1.value | default: c_meta.custom_badge_image_1.value
+  assign m_b2_val = c_meta.badge_image_2.value | default: alt_meta.badge_image_2.value | default: c_meta.feature_icon_2.value | default: c_meta.custom_badge_image_2.value
+  assign m_b3_val = c_meta.badge_image_3.value | default: alt_meta.badge_image_3.value | default: c_meta.feature_icon_3.value | default: c_meta.custom_badge_image_3.value
+  assign m_b4_val = c_meta.badge_image_4.value | default: alt_meta.badge_image_4.value | default: c_meta.feature_icon_4.value | default: c_meta.custom_badge_image_4.value
 
-  # Image 1
+  # Image 1 (Product Custom Metafield FIRST, then block / section settings)
   assign img_url_1 = blank
-  if benefit_image_1 != blank
+  if m_b1_val != blank
+    assign b1_img = m_b1_val.preview_image | default: m_b1_val
+    assign img_url_1 = b1_img | image_url: width: 300
+  elsif benefit_image_1 != blank
     assign img_url_1 = benefit_image_1 | image_url: width: 300
   elsif block.settings.benefit_image_1 != blank
     assign img_url_1 = block.settings.benefit_image_1 | image_url: width: 300
   elsif section.settings.benefit_image_1 != blank
     assign img_url_1 = section.settings.benefit_image_1 | image_url: width: 300
-  elsif m_b1_val != blank
-    assign b1_img = m_b1_val.preview_image | default: m_b1_val
-    assign img_url_1 = b1_img | image_url: width: 300
   endif
 
   # Image 2
   assign img_url_2 = blank
-  if benefit_image_2 != blank
+  if m_b2_val != blank
+    assign b2_img = m_b2_val.preview_image | default: m_b2_val
+    assign img_url_2 = b2_img | image_url: width: 300
+  elsif benefit_image_2 != blank
     assign img_url_2 = benefit_image_2 | image_url: width: 300
   elsif block.settings.benefit_image_2 != blank
     assign img_url_2 = block.settings.benefit_image_2 | image_url: width: 300
   elsif section.settings.benefit_image_2 != blank
     assign img_url_2 = section.settings.benefit_image_2 | image_url: width: 300
-  elsif m_b2_val != blank
-    assign b2_img = m_b2_val.preview_image | default: m_b2_val
-    assign img_url_2 = b2_img | image_url: width: 300
   endif
 
   # Image 3
   assign img_url_3 = blank
-  if benefit_image_3 != blank
+  if m_b3_val != blank
+    assign b3_img = m_b3_val.preview_image | default: m_b3_val
+    assign img_url_3 = b3_img | image_url: width: 300
+  elsif benefit_image_3 != blank
     assign img_url_3 = benefit_image_3 | image_url: width: 300
   elsif block.settings.benefit_image_3 != blank
     assign img_url_3 = block.settings.benefit_image_3 | image_url: width: 300
   elsif section.settings.benefit_image_3 != blank
     assign img_url_3 = section.settings.benefit_image_3 | image_url: width: 300
-  elsif m_b3_val != blank
-    assign b3_img = m_b3_val.preview_image | default: m_b3_val
-    assign img_url_3 = b3_img | image_url: width: 300
   endif
 
   # Image 4
   assign img_url_4 = blank
-  if benefit_image_4 != blank
+  if m_b4_val != blank
+    assign b4_img = m_b4_val.preview_image | default: m_b4_val
+    assign img_url_4 = b4_img | image_url: width: 300
+  elsif benefit_image_4 != blank
     assign img_url_4 = benefit_image_4 | image_url: width: 300
   elsif block.settings.benefit_image_4 != blank
     assign img_url_4 = block.settings.benefit_image_4 | image_url: width: 300
   elsif section.settings.benefit_image_4 != blank
     assign img_url_4 = section.settings.benefit_image_4 | image_url: width: 300
-  elsif m_b4_val != blank
-    assign b4_img = m_b4_val.preview_image | default: m_b4_val
-    assign img_url_4 = b4_img | image_url: width: 300
   endif
 
   assign max_icons = limit | default: max_icons | default: block.settings.max_icons | default: 4
@@ -90,12 +91,12 @@
     assign uploaded_count = uploaded_count | plus: 1
   endif
 
-  assign current_icon_size = block.settings.icon_size | default: section.settings.icon_size | default: icon_size | default: 72
+  assign current_icon_size = block.settings.icon_size | default: section.settings.icon_size | default: icon_size | default: 56
 %}
 
 {% if uploaded_count > 0 %}
-  <div class="product-circle-features" aria-label="Product Key Benefits" style="margin: 0.6rem 0; width: 100%; --kb-benefit-icon-size: {{ current_icon_size }}px;">
-    <div class="product-circle-features__grid" style="display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 0.75rem; width: 100%;">
+  <div class="product-circle-features" aria-label="Product Key Benefits" style="margin: 0.5rem 0; width: 100%; --kb-benefit-icon-size: {{ current_icon_size }}px;">
+    <div class="product-circle-features__grid" style="display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 0.5rem; width: 100%;">
       
       {% if img_url_1 != blank and max_icons >= 1 %}
         <div class="product-circle-features__item">
