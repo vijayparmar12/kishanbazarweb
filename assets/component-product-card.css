@@ -74,20 +74,20 @@
 
 .product-card__badge {
   align-items: center;
-  background: linear-gradient(135deg, #ffc400 0%, #ff9800 100%);
-  border-radius: 6px !important;
-  box-shadow: 0 4px 12px rgba(255, 196, 0, 0.35);
+  background: linear-gradient(135deg, #1b4317 0%, #23421f 100%) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 4px 12px rgba(27, 67, 23, 0.25) !important;
   box-sizing: border-box;
-  color: #352600;
+  color: #ffffff !important;
   display: inline-flex !important;
   font-size: 0.68rem !important;
   font-weight: 800;
-  height: 32px !important;
+  height: 30px !important;
   justify-content: center;
   left: 12px !important;
   letter-spacing: 0.04em;
   line-height: 1;
-  padding: 0 0.65rem !important;
+  padding: 0 0.75rem !important;
   position: absolute;
   top: 12px !important;
   text-transform: uppercase;

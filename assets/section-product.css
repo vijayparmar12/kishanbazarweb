@@ -183,28 +183,28 @@
   position: relative;
 }
 
-/* Gallery Badges matching Logo Colors */
+/* Gallery Badges matching Logo Green Color Palette */
 .product-gallery__badge {
+  background: linear-gradient(135deg, #1b4317 0%, #23421f 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(27, 67, 23, 0.3);
+  color: #ffffff;
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 800;
   left: 1rem;
-  letter-spacing: 0.03em;
-  padding: 0.4rem 0.9rem;
+  letter-spacing: 0.04em;
+  padding: 0.45rem 1rem;
   position: absolute;
   top: 1rem;
   text-transform: uppercase;
   z-index: 5;
 }
 
-.product-gallery__badge--organic {
-  background-color: #1b4317;
-  color: #ffffff;
-}
-
+.product-gallery__badge--organic,
 .product-gallery__badge--sale {
-  background-color: #d97706;
-  color: #ffffff;
+  background: linear-gradient(135deg, #1b4317 0%, #23421f 100%) !important;
+  color: #ffffff !important;
 }
 
 /* Gallery Quick Action Buttons */
