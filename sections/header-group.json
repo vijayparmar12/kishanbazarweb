@@ -14,11 +14,11 @@
     "header": {
       "type": "header",
       "blocks": {
-        "mega_link_byGQaL": {
+        "mega_link_fUDNM6": {
           "type": "mega_link",
           "settings": {
             "menu_group": "custom",
-            "title": "The Farmers",
+            "title": "The Gaushala",
             "link": "",
             "icon": ""
           }
@@ -27,7 +27,16 @@
           "type": "mega_link",
           "settings": {
             "menu_group": "custom",
-            "title": "The Farmers",
+            "title": "Ancient Kitchen & Recipes",
+            "link": "",
+            "icon": ""
+          }
+        },
+        "mega_link_byGQaL": {
+          "type": "mega_link",
+          "settings": {
+            "menu_group": "custom",
+            "title": "Vedic Food Wisdom",
             "link": "",
             "icon": ""
           }
@@ -231,8 +240,9 @@
         }
       },
       "block_order": [
-        "mega_link_byGQaL",
+        "mega_link_fUDNM6",
         "mega_link_3VXJt4",
+        "mega_link_byGQaL",
         "feature_icon_Q3GXNa",
         "feature_icon_biPcJz",
         "feature_icon_mzn3UJ",
