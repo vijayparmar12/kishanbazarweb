@@ -2745,42 +2745,93 @@ body.kb-cart-drawer-open {
 /* Rosier Foods Style Dynamic Savings Ribbon & Estimated Total Box */
 .kb-cart-drawer__summary-box {
   width: 100% !important;
-  border: 1.5px solid #d4e5d2 !important;
-  border-radius: 16px !important;
-  background: #ffffff !important;
-  overflow: hidden !important;
+  position: relative !important;
+  margin-top: 10px !important;
   margin-bottom: 8px !important;
-  box-shadow: 0 4px 12px rgba(22, 101, 52, 0.04) !important;
   box-sizing: border-box !important;
 }
 
+.kb-cart-savings-ribbon-wrap {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  position: relative !important;
+  z-index: 3 !important;
+  margin-bottom: -6px !important;
+}
+
 .kb-cart-savings-ribbon {
-  background: #0d9488 !important;
+  position: relative !important;
+  background: #00a896 !important; /* Rosier Foods Teal Green */
   color: #ffffff !important;
   text-align: center !important;
-  padding: 6px 12px !important;
+  padding: 6px 20px !important;
   font-weight: 800 !important;
-  font-size: 0.85rem !important;
+  font-size: 0.88rem !important;
   letter-spacing: 0.02em !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 6px 6px 0 0 !important;
+  box-shadow: 0 4px 12px rgba(0, 168, 150, 0.22) !important;
+  width: calc(100% - 32px) !important;
+  box-sizing: border-box !important;
+}
+
+.kb-cart-savings-ribbon::before {
+  content: '' !important;
+  position: absolute !important;
+  left: -8px !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 8px !important;
+  background: #008779 !important;
+  clip-path: polygon(100% 0, 0 50%, 100% 100%) !important;
+}
+
+.kb-cart-savings-ribbon::after {
+  content: '' !important;
+  position: absolute !important;
+  right: -8px !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 8px !important;
+  background: #008779 !important;
+  clip-path: polygon(0 0, 100% 50%, 0 100%) !important;
 }
 
 .kb-cart-estimated-total-row {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  padding: 12px 14px !important;
+  padding: 14px 16px !important;
   background: #ffffff !important;
+  border: 1.5px solid #d4e5d2 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 14px rgba(22, 101, 52, 0.04) !important;
   box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 .kb-cart-estimated-label {
   display: flex !important;
   align-items: center !important;
-  gap: 8px !important;
+  gap: 10px !important;
   font-weight: 800 !important;
-  font-size: 0.95rem !important;
+  font-size: 0.98rem !important;
   color: #1e293b !important;
+}
+
+.kb-cart-estimated-tag-icon {
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 6px !important;
+  background: #1e293b !important;
+  color: #ffffff !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.85rem !important;
+  font-weight: 900 !important;
+  flex-shrink: 0 !important;
 }
 
 .kb-cart-estimated-prices {

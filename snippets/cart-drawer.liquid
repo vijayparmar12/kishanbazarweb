@@ -202,16 +202,15 @@
     <div class="kb-cart-drawer__footer" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
       <!-- Rosier Foods Style Dynamic Savings Ribbon & Estimated Total Box -->
       <div class="kb-cart-drawer__summary-box" data-cart-summary-box style="width: 100%;">
-        <div class="kb-cart-savings-ribbon" data-cart-savings-ribbon {% if total_saved <= 0 %}style="display: none;"{% endif %}>
-          <span><span data-cart-total-saved-amount>{{ total_saved | money }}</span> Saved so far!</span>
+        <div class="kb-cart-savings-ribbon-wrap">
+          <div class="kb-cart-savings-ribbon" data-cart-savings-ribbon {% if total_saved <= 0 %}style="display: none;"{% endif %}>
+            <span data-cart-total-saved-amount>{{ total_saved | money }}</span> Saved so far!
+          </div>
         </div>
 
         <div class="kb-cart-estimated-total-row">
           <div class="kb-cart-estimated-label">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#23421f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
-              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-              <circle cx="7" cy="7" r="1.5" fill="#23421f"></circle>
-            </svg>
+            <span class="kb-cart-estimated-tag-icon">₹</span>
             <strong>Estimated Total</strong>
           </div>
           <div class="kb-cart-estimated-prices">
