@@ -89,7 +89,13 @@
         "show_recommendations": true,
         "recommendations_limit": 6,
         "show_sticky_mobile_bar": true,
-        "sticky_bar_btn_text": "ADD TO CART"
+        "sticky_bar_btn_text": "ADD TO CART",
+        "banner_image_1": "{{ product.metafields.custom.custom_banner_1.value }}",
+        "banner_image_2": "{{ product.metafields.custom.custom_banner_2.value }}",
+        "banner_image_3": "{{ product.metafields.custom.custom_banner_3.value }}",
+        "banner_image_4": "{{ product.metafields.custom.custom_banner_4.value }}",
+        "banner_image_5": "{{ product.metafields.custom.custom_banner_5.value }}",
+        "banner_image_6": "{{ product.metafields.custom.custom_banner_6.value }}"
       }
     }
   },
