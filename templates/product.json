@@ -62,6 +62,7 @@
         "product_banner_F8tDeF": {
           "type": "product_banner",
           "settings": {
+            "image": "shopify://shop_images/7173417e-956b-4250-a30f-3fc5e2e614ab.jpg",
             "heading": "",
             "subtitle": "",
             "link": ""
