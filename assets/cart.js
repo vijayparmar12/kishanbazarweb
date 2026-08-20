@@ -208,13 +208,13 @@
     const totalSaved = Math.max(0, totalCompare - cart.total_price);
 
     const ribbon = drawer.querySelector('[data-cart-savings-ribbon]');
-    const savedAmountEl = drawer.querySelector('[data-cart-total-saved-amount]');
     if (ribbon) {
+      ribbon.style.display = 'flex';
+      const activeCode = sessionStorage.getItem('kb_active_coupon') || 'TBOF10';
       if (totalSaved > 0) {
-        ribbon.style.display = 'block';
-        if (savedAmountEl) savedAmountEl.textContent = formatMoney(totalSaved);
+        ribbon.innerHTML = `<span><strong>${formatMoney(totalSaved)}</strong> Saved so far!</span>`;
       } else {
-        ribbon.style.display = 'none';
+        ribbon.innerHTML = `<span>🎉 Use Coupon '<strong>${activeCode}</strong>' for Extra Savings!</span>`;
       }
     }
 

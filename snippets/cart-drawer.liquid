@@ -220,8 +220,12 @@
       <!-- Rosier Foods Style Dynamic Savings Ribbon & Estimated Total Box -->
       <div class="kb-cart-drawer__summary-box" data-cart-summary-box style="width: 100%;">
         <div class="kb-cart-savings-ribbon-wrap">
-          <div class="kb-cart-savings-ribbon" data-cart-savings-ribbon {% if total_saved <= 0 %}style="display: none;"{% endif %}>
-            <span data-cart-total-saved-amount>{{ total_saved | money }}</span> {{ savings_ribbon_suffix }}
+          <div class="kb-cart-savings-ribbon" data-cart-savings-ribbon style="display: flex;">
+            {% if total_saved > 0 %}
+              <span><strong data-cart-total-saved-amount>{{ total_saved | money }}</strong> {{ savings_ribbon_suffix }}</span>
+            {% else %}
+              <span>🎉 Use Coupon '<strong>{{ coupon_code | default: 'TBOF10' }}</strong>' for Extra Savings!</span>
+            {% endif %}
           </div>
         </div>
 
