@@ -86,7 +86,7 @@
   }
 }
 
-/* Mobile View Reordering: Title -> Subtitle -> Gallery Images -> Rating -> Circle Badges -> Price -> Buy Box -> Variants -> Stock */
+/* Mobile View Reordering (Two Brothers Style): Title -> Subtitle -> Rating -> Gallery Images -> Circle Badges -> Price -> Buy Box -> Variants -> Stock */
 @media screen and (max-width: 48rem) {
   .main-product {
     display: flex !important;
@@ -111,18 +111,19 @@
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
   }
 
-  /* 2. Product Gallery Images SECOND */
-  .main-product__left {
+  /* 2. Star Rating & Reviews SECOND (Directly under Subtitle, Above Image) */
+  .product-info__rating {
     order: 2 !important;
     margin-bottom: 0.75rem;
   }
 
-  /* 3. Star Rating & Reviews THIRD */
-  .product-info__rating {
+  /* 3. Product Gallery Images THIRD */
+  .main-product__left {
     order: 3 !important;
+    margin-bottom: 0.85rem;
   }
 
   /* 4. Circle Benefit Badges FOURTH */
