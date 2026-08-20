@@ -455,6 +455,10 @@
 }
 
 .product-gallery__lightbox-arrow {
+  display: none !important;
+}
+
+.product-gallery__lightbox-arrow {
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(4px);
   border: 1px solid rgba(255, 255, 255, 0.3);
