@@ -86,7 +86,7 @@
   }
 }
 
-/* Mobile View Reordering (Two Brothers Style): Title -> Subtitle -> Rating -> Gallery Images -> Circle Badges -> Price -> Buy Box -> Variants -> Stock */
+/* Mobile View Reordering: Title -> Subtitle -> Rating -> Product Images -> Price -> Cart -> Variants -> Description -> 4 Icon Badges */
 @media screen and (max-width: 48rem) {
   .main-product {
     display: flex !important;
@@ -99,10 +99,10 @@
     display: contents !important;
   }
 
-  /* Default order 10 for all children so nothing jumps to top order 0 */
+  /* Default order 15 for all children so nothing jumps */
   .main-product > *,
   .product-info > * {
-    order: 10;
+    order: 15;
   }
 
   /* 1. Title & Subtitle FIRST on mobile */
@@ -124,7 +124,7 @@
     margin-bottom: 0.15rem !important;
   }
 
-  /* 2. Star Rating & Reviews SECOND (Tight spacing above & below, directly under Subtitle) */
+  /* 2. Star Rating & Reviews SECOND (Directly under Subtitle, Above Image) */
   .product-info__rating {
     order: 2 !important;
     margin-top: 0 !important;
@@ -140,42 +140,53 @@
     margin-bottom: 0.75rem;
   }
 
-  /* 4. Circle Benefit Badges FOURTH */
-  .product-circle-features,
-  .product-info__benefits-block {
-    order: 4 !important;
-  }
-
-  /* 5. Price & Discount FIFTH */
+  /* 4. Price & Discount FOURTH (Directly after Product Images) */
   .product-info__price-box {
-    order: 5 !important;
+    order: 4 !important;
+    margin-bottom: 0.75rem;
   }
 
-  /* 6. Buy Buttons Form & Add to Cart SIXTH */
+  /* 5. Buy Buttons Form & Add to Cart FIFTH */
   .product-info__form,
   .product-info__purchase-row,
   .product-info__secondary-actions,
   .product-info__buy-box {
-    order: 6 !important;
+    order: 5 !important;
+    margin-bottom: 0.75rem;
   }
 
-  /* 7. Variant Selector SEVENTH */
+  /* 6. Variant Selector SIXTH */
   .product-info__variants-container,
   .product-info__variant-cards,
   .product-info__variants,
   .product-info__variant-picker {
-    order: 7 !important;
+    order: 6 !important;
+    margin-bottom: 0.75rem;
   }
 
-  /* 8. Stock & Availability Status EIGHTH */
+  /* 7. Product Description SEVENTH */
+  .product-info__description,
+  .product-info__collapsible {
+    order: 7 !important;
+    margin-bottom: 0.85rem;
+  }
+
+  /* 8. 4 Circle Icon Badges EIGHTH */
+  .product-circle-features,
+  .product-info__benefits-block {
+    order: 8 !important;
+    margin-bottom: 0.85rem;
+  }
+
+  /* 9. Stock & Availability Status NINTH */
   .product-info__availability,
   .product-info__stock-status {
-    order: 8 !important;
+    order: 9 !important;
   }
 
-  /* 9. Trust Badges NINTH */
+  /* 10. Trust Badges TENTH */
   .product-info__trust-badges {
-    order: 9 !important;
+    order: 10 !important;
   }
 }
 
