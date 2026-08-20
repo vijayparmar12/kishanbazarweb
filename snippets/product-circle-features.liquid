@@ -93,10 +93,10 @@
   assign current_icon_size = block.settings.icon_size | default: section.settings.icon_size | default: icon_size | default: 72
 %}
 
-<div class="product-circle-features" aria-label="Product Key Benefits" style="margin: 0.6rem 0; width: 100%; --kb-benefit-icon-size: {{ current_icon_size }}px;">
-  <div class="product-circle-features__grid" style="display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 0.75rem; width: 100%;">
-    
-    {% if uploaded_count > 0 %}
+{% if uploaded_count > 0 %}
+  <div class="product-circle-features" aria-label="Product Key Benefits" style="margin: 0.6rem 0; width: 100%; --kb-benefit-icon-size: {{ current_icon_size }}px;">
+    <div class="product-circle-features__grid" style="display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 0.75rem; width: 100%;">
+      
       {% if img_url_1 != blank and max_icons >= 1 %}
         <div class="product-circle-features__item">
           <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px;">
@@ -129,24 +129,6 @@
         </div>
       {% endif %}
 
-    {% else %}
-      <!-- Fallback Default Organic Benefit Badges -->
-      <div class="product-circle-features__item" title="100% Organic">
-        <div class="product-circle-features__circle" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; border-radius: 50%; background-color: #f0fdf4; border: 1.5px solid #23421f; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; color: #23421f; text-align: center; line-height: 1.1; padding: 4px;">
-          <span>NO<br>MAIDA</span>
-        </div>
-      </div>
-      <div class="product-circle-features__item" title="High Fiber">
-        <div class="product-circle-features__circle" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; border-radius: 50%; background-color: #f0fdf4; border: 1.5px solid #23421f; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; color: #23421f; text-align: center; line-height: 1.1; padding: 4px;">
-          <span>HIGH<br>FIBER</span>
-        </div>
-      </div>
-      <div class="product-circle-features__item" title="High Protein">
-        <div class="product-circle-features__circle" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; border-radius: 50%; background-color: #f0fdf4; border: 1.5px solid #23421f; display: flex; align-items: center; justify-content: center; font-size: 0.70rem; font-weight: 800; color: #23421f; text-align: center; line-height: 1.1; padding: 4px;">
-          <span>HIGH<br>PROTEIN</span>
-        </div>
-      </div>
-    {% endif %}
-
+    </div>
   </div>
-</div>
+{% endif %}

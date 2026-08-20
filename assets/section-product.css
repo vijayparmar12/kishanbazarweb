@@ -87,6 +87,7 @@
 }
 
 /* Mobile View Reordering: Title -> Subtitle -> Reviews -> Images -> Badges & Price */
+/* Mobile View Reordering: Title -> Subtitle -> Gallery Images -> Rating -> Price -> Variants -> Buy Box -> Benefits -> Stock */
 @media screen and (max-width: 48rem) {
   .main-product {
     display: flex;
@@ -94,16 +95,17 @@
     padding-top: 0.5rem;
   }
 
-  .main-product__right {
-    display: contents !important;
-  }
-
+  .main-product__right,
   .product-info {
     display: contents !important;
   }
 
+  .product-info__custom-badge-wrap {
+    order: 0 !important;
+  }
+
   .product-info__header-block {
-    order: 1;
+    order: 1 !important;
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
@@ -111,15 +113,38 @@
   }
 
   .main-product__left {
-    order: 2;
+    order: 2 !important;
     margin-bottom: 0.75rem;
   }
 
-  .product-info__body-block {
-    order: 3;
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
+  .product-info__rating {
+    order: 3 !important;
+  }
+
+  .product-info__price-box {
+    order: 4 !important;
+  }
+
+  .product-info__variants,
+  .product-info__variant-picker {
+    order: 5 !important;
+  }
+
+  .product-info__buy-box {
+    order: 6 !important;
+  }
+
+  .product-circle-features,
+  .product-info__benefits-block {
+    order: 7 !important;
+  }
+
+  .product-info__stock-status {
+    order: 8 !important;
+  }
+
+  .product-info__trust-badges {
+    order: 9 !important;
   }
 }
 
