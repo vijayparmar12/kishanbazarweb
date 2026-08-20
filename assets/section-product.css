@@ -180,15 +180,25 @@
     margin-bottom: 0.75rem;
   }
 
+  /* 8. 4 Trust Badges EIGHTH (Display DIRECTLY AFTER VARIANTS on Mobile) */
+  .product-info__trust-badges {
+    order: 8 !important;
+    display: block !important;
+    margin-top: 0.5rem;
+    margin-bottom: 0.85rem;
+    width: 100%;
+  }
+
+  .product-info__trust-badges .product-highlights-row {
+    margin: 0;
+    padding: 0.5rem 0;
+    width: 100%;
+  }
+
   /* 9. Stock & Availability Status NINTH */
   .product-info__availability,
   .product-info__stock-status {
     order: 9 !important;
-  }
-
-  /* 10. Trust Badges TENTH */
-  .product-info__trust-badges {
-    order: 10 !important;
   }
 }
 

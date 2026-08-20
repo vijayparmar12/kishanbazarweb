@@ -209,13 +209,8 @@
           </details>
 
         {% when 'trust_badges' %}
-          <div class="product-info__trust-badges" {{ block.shopify_attributes }} style="display: flex; gap: 12px; margin-top: 1rem; padding: 12px; background: #fbfdfa; border: 1px solid #e2eee0; border-radius: 12px;">
-            <div style="font-size: 0.78rem; font-weight: 700; color: #23421f; display: flex; align-items: center; gap: 6px;">
-              <span>🌿</span> <span>{{ block.settings.badge_1 | default: "100% Certified Organic" }}</span>
-            </div>
-            <div style="font-size: 0.78rem; font-weight: 700; color: #23421f; display: flex; align-items: center; gap: 6px;">
-              <span>🚚</span> <span>{{ block.settings.badge_2 | default: "Fast Express Shipping" }}</span>
-            </div>
+          <div class="product-info__trust-badges" {{ block.shopify_attributes }}>
+            {% render 'product-highlights', product: product, block: block %}
           </div>
 
       {% endcase %}

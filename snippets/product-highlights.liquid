@@ -1,69 +1,109 @@
 {% doc %}
   Renders 4 trust & highlight feature badges in a clean icon row (inspired by Two Brothers Screenshot 2).
+  Supports dynamic per-product custom metafields (trust_icon_1..4, trust_title_1..4) with default fallback icons.
 
+  @param {object} [product] - The Shopify product object
   @param {object} [section] - The Shopify section object with settings
+  @param {object} [block] - The Shopify block object with settings
 
   @example
-  {% render 'product-highlights', section: section %}
+  {% render 'product-highlights', product: product %}
 {% enddoc %}
+
+{% liquid
+  assign c_meta = product.metafields.custom
+  assign alt_meta = product.metafields['product.metafields.custom']
+
+  assign t1_val = c_meta.trust_icon_1.value | default: alt_meta.trust_icon_1.value
+  assign t1_title = c_meta.trust_title_1.value | default: alt_meta.trust_title_1.value | default: "Free shipping<br>above ₹499"
+
+  assign t2_val = c_meta.trust_icon_2.value | default: alt_meta.trust_icon_2.value
+  assign t2_title = c_meta.trust_title_2.value | default: alt_meta.trust_title_2.value | default: "Secure<br>Payments"
+
+  assign t3_val = c_meta.trust_icon_3.value | default: alt_meta.trust_icon_3.value
+  assign t3_title = c_meta.trust_title_3.value | default: alt_meta.trust_title_3.value | default: "Farmers<br>Empowerment"
+
+  assign t4_val = c_meta.trust_icon_4.value | default: alt_meta.trust_icon_4.value
+  assign t4_title = c_meta.trust_title_4.value | default: alt_meta.trust_title_4.value | default: "COD<br>available"
+%}
 
 <section class="product-highlights-row" aria-label="Store Trust Highlights">
   <div class="product-highlights-row__grid">
-    <!-- Item 1: Free Shipping -->
+    <!-- Item 1: Free Shipping / Custom 1 -->
     <div class="product-highlights-row__item">
       <div class="product-highlights-row__icon-wrap">
-        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="1" y="3" width="15" height="13" rx="1"></rect>
-          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-          <circle cx="5.5" cy="18.5" r="2.5"></circle>
-          <circle cx="18.5" cy="18.5" r="2.5"></circle>
-        </svg>
+        {% if t1_val != blank %}
+          {% assign t1_img = t1_val.preview_image | default: t1_val %}
+          <img src="{{ t1_img | image_url: width: 100 }}" alt="Trust Icon 1" loading="lazy" width="44" height="44" style="width: 44px; height: 44px; object-fit: contain;">
+        {% else %}
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13" rx="1"></rect>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+        {% endif %}
       </div>
       <span class="product-highlights-row__label">
-        Free shipping<br>above ₹499
+        {{ t1_title }}
       </span>
     </div>
 
-    <!-- Item 2: Secure Payments -->
+    <!-- Item 2: Secure Payments / Custom 2 -->
     <div class="product-highlights-row__item">
       <div class="product-highlights-row__icon-wrap">
-        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-          <line x1="2" y1="10" x2="22" y2="10"></line>
-          <path d="M12 14v2"></path>
-          <circle cx="16" cy="15" r="1"></circle>
-        </svg>
+        {% if t2_val != blank %}
+          {% assign t2_img = t2_val.preview_image | default: t2_val %}
+          <img src="{{ t2_img | image_url: width: 100 }}" alt="Trust Icon 2" loading="lazy" width="44" height="44" style="width: 44px; height: 44px; object-fit: contain;">
+        {% else %}
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+            <line x1="2" y1="10" x2="22" y2="10"></line>
+            <path d="M12 14v2"></path>
+            <circle cx="16" cy="15" r="1"></circle>
+          </svg>
+        {% endif %}
       </div>
       <span class="product-highlights-row__label">
-        Secure<br>Payments
+        {{ t2_title }}
       </span>
     </div>
 
-    <!-- Item 3: Farmers Empowerment -->
+    <!-- Item 3: Farmers Empowerment / Custom 3 -->
     <div class="product-highlights-row__item">
       <div class="product-highlights-row__icon-wrap">
-        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2a5 5 0 0 0-5 5v3a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"></path>
-          <path d="M19 11v2a7 7 0 0 1-14 0v-2"></path>
-          <path d="M12 18v4"></path>
-          <path d="M8 22h8"></path>
-        </svg>
+        {% if t3_val != blank %}
+          {% assign t3_img = t3_val.preview_image | default: t3_val %}
+          <img src="{{ t3_img | image_url: width: 100 }}" alt="Trust Icon 3" loading="lazy" width="44" height="44" style="width: 44px; height: 44px; object-fit: contain;">
+        {% else %}
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a5 5 0 0 0-5 5v3a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5z"></path>
+            <path d="M19 11v2a7 7 0 0 1-14 0v-2"></path>
+            <path d="M12 18v4"></path>
+            <path d="M8 22h8"></path>
+          </svg>
+        {% endif %}
       </div>
       <span class="product-highlights-row__label">
-        Farmers<br>Empowerment
+        {{ t3_title }}
       </span>
     </div>
 
-    <!-- Item 4: COD Available -->
+    <!-- Item 4: COD Available / Custom 4 -->
     <div class="product-highlights-row__item">
       <div class="product-highlights-row__icon-wrap">
-        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-        </svg>
+        {% if t4_val != blank %}
+          {% assign t4_img = t4_val.preview_image | default: t4_val %}
+          <img src="{{ t4_img | image_url: width: 100 }}" alt="Trust Icon 4" loading="lazy" width="44" height="44" style="width: 44px; height: 44px; object-fit: contain;">
+        {% else %}
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+        {% endif %}
       </div>
       <span class="product-highlights-row__label">
-        COD<br>available
+        {{ t4_title }}
       </span>
     </div>
   </div>
