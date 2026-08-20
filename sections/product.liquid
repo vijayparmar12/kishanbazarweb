@@ -57,6 +57,13 @@
     </div>
   </section>
 
+  <!-- Section 4.5: Dynamic Product Page Banners Slider (Up to 6 Banners) -->
+  <div class="product-page-section product-page-section--banners">
+    <div class="product-page-container">
+      {% render 'product-banners', product: product, section: section %}
+    </div>
+  </div>
+
   <!-- Section 5: Product Details Tabs (Description, Ingredients, Usage, Benefits, Storage, Mfr, Origin, Shelf Life, FAQ) -->
   <div class="product-page-section product-page-section--tabs">
     <div class="product-page-container">
@@ -173,9 +180,31 @@
       "id": "sticky_bar_btn_text",
       "label": "Mobile sticky button text",
       "default": "ADD TO CART"
-    }
+    },
+    {
+      "type": "header",
+      "content": "Product Page Banners (Up to 6 Banners)"
+    },
+    { "type": "image_picker", "id": "banner_image_1", "label": "Default Banner 1 Image" },
+    { "type": "image_picker", "id": "banner_image_2", "label": "Default Banner 2 Image" },
+    { "type": "image_picker", "id": "banner_image_3", "label": "Default Banner 3 Image" },
+    { "type": "image_picker", "id": "banner_image_4", "label": "Default Banner 4 Image" },
+    { "type": "image_picker", "id": "banner_image_5", "label": "Default Banner 5 Image" },
+    { "type": "image_picker", "id": "banner_image_6", "label": "Default Banner 6 Image" }
   ],
   "blocks": [
+    {
+      "type": "product_banner",
+      "name": "Product Banner (Up to 6)",
+      "limit": 6,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Banner Image (Desktop)" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Banner Image (Mobile Optional)" },
+        { "type": "text", "id": "heading", "label": "Banner Heading (Optional)" },
+        { "type": "text", "id": "subtitle", "label": "Banner Subtitle (Optional)" },
+        { "type": "url", "id": "link", "label": "Banner Link URL (Optional)" }
+      ]
+    },
     {
       "type": "@app"
     },
