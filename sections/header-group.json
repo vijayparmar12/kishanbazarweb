@@ -14,33 +14,12 @@
     "header": {
       "type": "header",
       "blocks": {
-        "mega_link_gwxiA3": {
-          "type": "mega_link",
-          "settings": {
-            "menu_group": "custom",
-            "title": "The Farmers",
-            "link": "",
-            "icon": ""
-          }
-        },
         "mega_link_byGQaL": {
           "type": "mega_link",
           "settings": {
             "menu_group": "custom",
             "title": "The Farmers",
             "link": "",
-            "icon": ""
-          }
-        },
-        "mobile_nav_item_k9RhyN": {
-          "type": "mobile_nav_item",
-          "settings": {
-            "title": "THE VEDIC WAY",
-            "url": "",
-            "badge": "",
-            "badge_background": "#e53935",
-            "badge_color": "#ffffff",
-            "mega_menu": "custom",
             "icon": ""
           }
         },
@@ -140,7 +119,7 @@
             "icon_image": "shopify://shop_images/shop_by_category_icon_1.svg"
           }
         },
-        "mobile_nav_item_kxc96p": {
+        "mobile_nav_item_k9RhyN": {
           "type": "mobile_nav_item",
           "settings": {
             "title": "THE VEDIC WAY",
@@ -149,8 +128,7 @@
             "badge_background": "#e53935",
             "badge_color": "#ffffff",
             "mega_menu": "custom",
-            "icon": "",
-            "icon_image": "shopify://shop_images/farm_life_icon_1.svg"
+            "icon": ""
           }
         },
         "mobile_nav_item_zP48rj": {
@@ -244,9 +222,7 @@
         }
       },
       "block_order": [
-        "mega_link_gwxiA3",
         "mega_link_byGQaL",
-        "mobile_nav_item_k9RhyN",
         "feature_icon_Q3GXNa",
         "feature_icon_biPcJz",
         "feature_icon_mzn3UJ",
@@ -254,7 +230,7 @@
         "feature_icon_JhK4rd",
         "mobile_nav_item_g3bfBd",
         "mobile_nav_item_rCkftz",
-        "mobile_nav_item_kxc96p",
+        "mobile_nav_item_k9RhyN",
         "mobile_nav_item_zP48rj",
         "mobile_nav_item_zP7qcP",
         "mobile_nav_item_H8TFFh",
