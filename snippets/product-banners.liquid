@@ -13,14 +13,15 @@
 
 {% liquid
   assign c_meta = product.metafields.custom
+  assign alt_meta = product.metafields['product.metafields.custom']
 
   # Extract ONLY the .value file drops to avoid Metafield Drop object truthiness
-  assign m_b1_val = c_meta.banner_1.value | default: c_meta.banner_image_1.value | default: c_meta.banner1.value | default: c_meta.product_banner_1.value | default: c_meta.banner.value
-  assign m_b2_val = c_meta.banner_2.value | default: c_meta.banner_image_2.value | default: c_meta.banner2.value | default: c_meta.product_banner_2.value
-  assign m_b3_val = c_meta.banner_3.value | default: c_meta.banner_image_3.value | default: c_meta.banner3.value | default: c_meta.product_banner_3.value
-  assign m_b4_val = c_meta.banner_4.value | default: c_meta.banner_image_4.value | default: c_meta.banner4.value | default: c_meta.product_banner_4.value
-  assign m_b5_val = c_meta.banner_5.value | default: c_meta.banner_image_5.value | default: c_meta.banner5.value | default: c_meta.product_banner_5.value
-  assign m_b6_val = c_meta.banner_6.value | default: c_meta.banner_6_image.value | default: c_meta.banner6.value | default: c_meta.product_banner_6.value
+  assign m_b1_val = c_meta.banner_1.value | default: alt_meta.banner_1.value | default: c_meta.banner_image_1.value | default: c_meta.banner1.value | default: c_meta.product_banner_1.value | default: c_meta.banner.value
+  assign m_b2_val = c_meta.banner_2.value | default: alt_meta.banner_2.value | default: c_meta.banner_image_2.value | default: c_meta.banner2.value | default: c_meta.product_banner_2.value
+  assign m_b3_val = c_meta.banner_3.value | default: alt_meta.banner_3.value | default: c_meta.banner_image_3.value | default: c_meta.banner3.value | default: c_meta.product_banner_3.value
+  assign m_b4_val = c_meta.banner_4.value | default: alt_meta.banner_4.value | default: c_meta.banner_image_4.value | default: c_meta.banner4.value | default: c_meta.product_banner_4.value
+  assign m_b5_val = c_meta.banner_5.value | default: alt_meta.banner_5.value | default: c_meta.banner_image_5.value | default: c_meta.banner5.value | default: c_meta.product_banner_5.value
+  assign m_b6_val = c_meta.banner_6.value | default: alt_meta.banner_6.value | default: c_meta.banner_6_image.value | default: c_meta.banner6.value | default: c_meta.product_banner_6.value
 
   assign img_url_1 = blank
   if m_b1_val != blank
@@ -58,7 +59,7 @@
     assign img_url_6 = b6_img | image_url: width: 1400
   endif
 
-  assign m_banner_list = c_meta.product_banners.value | default: c_meta.banner_images.value | default: c_meta.banners.value
+  assign m_banner_list = c_meta.product_banners.value | default: alt_meta.product_banners.value | default: c_meta.banner_images.value | default: c_meta.banners.value
   assign block_banners = section.blocks | where: 'type', 'product_banner'
 %}
 
