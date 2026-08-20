@@ -46,6 +46,7 @@
             <span class="product-info__rating-score">{{ block.settings.score | default: "4.9" }}</span>
             <a href="#ProductReviews-{{ section.id }}" class="product-info__review-count">({{ block.settings.review_count | default: "128 Verified Ratings" }})</a>
           </div>
+          {% render 'product-circle-features', product: product, limit: 4 %}
 
         {% when 'benefit_icons' %}
           <div class="product-info__benefits-block" {{ block.shopify_attributes }}>
