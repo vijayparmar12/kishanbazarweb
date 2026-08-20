@@ -11,7 +11,80 @@
   "sections": {
     "main": {
       "type": "product",
-      "settings": {}
+      "blocks": {
+        "title_zwNBWV": {
+          "type": "title",
+          "settings": {
+            "show_subtitle": true
+          }
+        },
+        "rating_QizByz": {
+          "type": "rating",
+          "settings": {
+            "score": "4.9",
+            "review_count": "128 Verified Ratings"
+          }
+        },
+        "benefit_icons_TeMKQk": {
+          "type": "benefit_icons",
+          "settings": {
+            "icon_size": 72
+          }
+        },
+        "price_cXRV6V": {
+          "type": "price",
+          "settings": {
+            "show_tax_note": true
+          }
+        },
+        "buy_buttons_jrQJdY": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity": true,
+            "show_buy_now": true,
+            "cart_btn_text": "ADD TO CART",
+            "cart_btn_bg": "#23421f",
+            "cart_btn_color": "#ffffff"
+          }
+        },
+        "variant_picker_fTExdk": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "stock_status_qfnGpK": {
+          "type": "stock_status",
+          "settings": {
+            "stock_text": "In Stock • Ready to Dispatch in 24 Hours"
+          }
+        },
+        "product_banner_F8tDeF": {
+          "type": "product_banner",
+          "settings": {
+            "heading": "",
+            "subtitle": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "title_zwNBWV",
+        "rating_QizByz",
+        "benefit_icons_TeMKQk",
+        "price_cXRV6V",
+        "buy_buttons_jrQJdY",
+        "variant_picker_fTExdk",
+        "stock_status_qfnGpK",
+        "product_banner_F8tDeF"
+      ],
+      "settings": {
+        "desktop_media_width": "large",
+        "show_tabs": true,
+        "show_reviews": true,
+        "show_recommendations": true,
+        "recommendations_limit": 6,
+        "show_sticky_mobile_bar": true,
+        "sticky_bar_btn_text": "ADD TO CART"
+      }
     }
   },
   "order": [
