@@ -25,6 +25,10 @@
             "review_count": "128 Verified Ratings"
           }
         },
+        "description_WMpDyn": {
+          "type": "description",
+          "settings": {}
+        },
         "benefit_icons_TeMKQk": {
           "type": "benefit_icons",
           "settings": {
@@ -75,6 +79,7 @@
       "block_order": [
         "title_zwNBWV",
         "rating_QizByz",
+        "description_WMpDyn",
         "benefit_icons_TeMKQk",
         "price_cXRV6V",
         "variant_picker_fTExdk",
