@@ -154,27 +154,30 @@
     display: none !important;
   }
 
-  /* 6. Variant Selector SIXTH */
+  /* 5. Product Description FIFTH */
+  .product-info__description,
+  .product-info__collapsible {
+    order: 5 !important;
+    margin-bottom: 0.85rem;
+  }
+
+  /* 6. 4 Circle Icon Badges SIXTH */
+  .product-circle-features,
+  .product-info__benefits-block {
+    order: 6 !important;
+    margin-bottom: 0.85rem;
+  }
+
+  /* 7. All Variant Selector SEVENTH (Display After 4 Icon Badges) */
   .product-info__variants-container,
   .product-info__variant-cards,
   .product-info__variants,
-  .product-info__variant-picker {
-    order: 6 !important;
-    margin-bottom: 0.75rem;
-  }
-
-  /* 7. Product Description SEVENTH */
-  .product-info__description,
-  .product-info__collapsible {
+  .product-info__variant-picker,
+  .variant-picker,
+  variant-radios,
+  variant-selects {
     order: 7 !important;
-    margin-bottom: 0.85rem;
-  }
-
-  /* 8. 4 Circle Icon Badges EIGHTH */
-  .product-circle-features,
-  .product-info__benefits-block {
-    order: 8 !important;
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.75rem;
   }
 
   /* 9. Stock & Availability Status NINTH */
