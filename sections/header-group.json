@@ -20,7 +20,16 @@
             "menu_group": "custom",
             "title": "The Farmers",
             "link": "",
-            "icon": "Oil"
+            "icon": ""
+          }
+        },
+        "mega_link_byGQaL": {
+          "type": "mega_link",
+          "settings": {
+            "menu_group": "custom",
+            "title": "The Farmers",
+            "link": "",
+            "icon": ""
           }
         },
         "mobile_nav_item_k9RhyN": {
@@ -236,6 +245,7 @@
       },
       "block_order": [
         "mega_link_gwxiA3",
+        "mega_link_byGQaL",
         "mobile_nav_item_k9RhyN",
         "feature_icon_Q3GXNa",
         "feature_icon_biPcJz",
