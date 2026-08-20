@@ -55,10 +55,7 @@
           "type": "card_benefit_icons",
           "settings": {
             "show_benefit_icons": true,
-            "icon_size": 72,
-            "benefit_image_1": "shopify://shop_images/2_6d0f5203-c03b-471d-97b5-109576d4357e.png",
-            "benefit_image_2": "shopify://shop_images/3_1_f0acb653-cc5e-4071-96ff-8b1d50010d43.png",
-            "benefit_image_3": "shopify://shop_images/1_1_555885c8-1f8f-4a33-a480-1e451151a50b.png"
+            "icon_size": 72
           }
         },
         "card_variant_selector_LXjbbe": {

@@ -65,6 +65,13 @@
             "cart_btn_color": "#ffffff"
           }
         },
+        "trust_badges_cGE6CU": {
+          "type": "trust_badges",
+          "settings": {
+            "badge_1": "100% Certified Organic",
+            "badge_2": "Fast Express Delivery"
+          }
+        },
         "product_banner_F8tDeF": {
           "type": "product_banner",
           "settings": {
@@ -85,6 +92,7 @@
         "variant_picker_fTExdk",
         "stock_status_qfnGpK",
         "buy_buttons_jrQJdY",
+        "trust_badges_cGE6CU",
         "product_banner_F8tDeF"
       ],
       "settings": {
