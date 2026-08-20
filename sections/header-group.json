@@ -14,6 +14,27 @@
     "header": {
       "type": "header",
       "blocks": {
+        "mega_link_gwxiA3": {
+          "type": "mega_link",
+          "settings": {
+            "menu_group": "custom",
+            "title": "The Farmers",
+            "link": "",
+            "icon": "Oil"
+          }
+        },
+        "mobile_nav_item_k9RhyN": {
+          "type": "mobile_nav_item",
+          "settings": {
+            "title": "THE VEDIC WAY",
+            "url": "",
+            "badge": "",
+            "badge_background": "#e53935",
+            "badge_color": "#ffffff",
+            "mega_menu": "custom",
+            "icon": ""
+          }
+        },
         "feature_icon_Q3GXNa": {
           "type": "feature_icon",
           "settings": {
@@ -113,7 +134,7 @@
         "mobile_nav_item_kxc96p": {
           "type": "mobile_nav_item",
           "settings": {
-            "title": "Fram Life",
+            "title": "THE VEDIC WAY",
             "url": "",
             "badge": "",
             "badge_background": "#e53935",
@@ -214,6 +235,8 @@
         }
       },
       "block_order": [
+        "mega_link_gwxiA3",
+        "mobile_nav_item_k9RhyN",
         "feature_icon_Q3GXNa",
         "feature_icon_biPcJz",
         "feature_icon_mzn3UJ",
