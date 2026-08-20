@@ -1,6 +1,6 @@
 {% doc %}
   Renders trust badge icons dynamically purely from Shopify CSV / Product Metafields or Theme Editor Block Settings.
-  Identical schema & logic to Circle Benefit Badges.
+  Supports trust_badge_image_1..4, trust_icon_1..4, and badge_image_1..4 keys.
 
   @param {object} [product] - The Shopify product object
   @param {object} [block] - The Shopify block object with settings
@@ -14,10 +14,10 @@
   assign alt_meta = product.metafields['product.metafields.custom']
 
   # Extract ONLY the .value file drops from custom metafields per product
-  assign m_t1_val = c_meta.trust_badge_image_1.value | default: alt_meta.trust_badge_image_1.value | default: c_meta.trust_icon_1.value | default: alt_meta.trust_icon_1.value
-  assign m_t2_val = c_meta.trust_badge_image_2.value | default: alt_meta.trust_badge_image_2.value | default: c_meta.trust_icon_2.value | default: alt_meta.trust_icon_2.value
-  assign m_t3_val = c_meta.trust_badge_image_3.value | default: alt_meta.trust_badge_image_3.value | default: c_meta.trust_icon_3.value | default: alt_meta.trust_icon_3.value
-  assign m_t4_val = c_meta.trust_badge_image_4.value | default: alt_meta.trust_badge_image_4.value | default: c_meta.trust_icon_4.value | default: alt_meta.trust_icon_4.value
+  assign m_t1_val = c_meta.trust_badge_image_1.value | default: alt_meta.trust_badge_image_1.value | default: c_meta.trust_icon_1.value | default: alt_meta.trust_icon_1.value | default: c_meta.badge_image_1.value | default: alt_meta.badge_image_1.value
+  assign m_t2_val = c_meta.trust_badge_image_2.value | default: alt_meta.trust_badge_image_2.value | default: c_meta.trust_icon_2.value | default: alt_meta.trust_icon_2.value | default: c_meta.badge_image_2.value | default: alt_meta.badge_image_2.value
+  assign m_t3_val = c_meta.trust_badge_image_3.value | default: alt_meta.trust_badge_image_3.value | default: c_meta.trust_icon_3.value | default: alt_meta.trust_icon_3.value | default: c_meta.badge_image_3.value | default: alt_meta.badge_image_3.value
+  assign m_t4_val = c_meta.trust_badge_image_4.value | default: alt_meta.trust_badge_image_4.value | default: c_meta.trust_icon_4.value | default: alt_meta.trust_icon_4.value | default: c_meta.badge_image_4.value | default: alt_meta.badge_image_4.value
 
   # Image 1 (Product Custom Metafield FIRST, then block / section settings)
   assign img_url_1 = blank
@@ -79,11 +79,11 @@
     assign uploaded_count = uploaded_count | plus: 1
   endif
 
-  assign current_icon_size = block.settings.icon_size | default: section.settings.icon_size | default: 70
+  assign current_icon_size = block.settings.icon_size | default: section.settings.icon_size | default: 64
 %}
 
 {% if uploaded_count > 0 %}
-  <div class="product-circle-features product-circle-features--trust" aria-label="Product Trust Badges" style="margin: 0.6rem 0; width: 100%; --kb-benefit-icon-size: {{ current_icon_size }}px;">
+  <div class="product-circle-features product-circle-features--trust" aria-label="Product Trust Badges" style="margin: 0.5rem 0; width: 100%; --kb-benefit-icon-size: {{ current_icon_size }}px;">
     <div class="product-circle-features__grid" style="display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 0.75rem; width: 100%;">
       
       {% if img_url_1 != blank and max_icons >= 1 %}
