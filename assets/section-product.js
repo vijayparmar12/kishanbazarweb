@@ -588,36 +588,60 @@ function initShareAndWishlist(container) {
 }
 
 /* ==========================================================================
-   9. STICKY MOBILE ADD TO CART BAR
+   9. STICKY MOBILE BUY BAR (TWO BROTHERS STYLE: ADD TO CART + QUANTITY STEPPER)
    ========================================================================== */
 function initStickyMobileBar(container) {
   const stickyBar = container.querySelector('[data-sticky-mobile-bar]');
-  const mainAddBtn = container.querySelector('[data-add-to-cart-button]');
   const stickyAddBtn = container.querySelector('[data-sticky-add-to-cart-btn]');
+  const stickyMinusBtn = container.querySelector('[data-sticky-quantity-minus]');
+  const stickyPlusBtn = container.querySelector('[data-sticky-quantity-plus]');
+  const stickyQtyVal = container.querySelector('[data-sticky-quantity-val]');
+
   const mainForm = container.querySelector('[data-product-main-form]');
+  const mainQtyInput = container.querySelector('[data-quantity-input]');
+  const mainAddBtn = container.querySelector('[data-add-to-cart-button]');
 
-  if (!stickyBar || !mainAddBtn) return;
+  if (!stickyBar || !mainForm) return;
 
-  window.addEventListener('scroll', () => {
-    if (window.innerWidth >= 1024) {
-      stickyBar.classList.remove('is-visible');
-      stickyBar.setAttribute('aria-hidden', 'true');
-      return;
+  function updateQuantity(newQty) {
+    if (newQty < 1) newQty = 1;
+    if (newQty > 20) newQty = 20;
+
+    if (stickyQtyVal) stickyQtyVal.textContent = newQty;
+    if (mainQtyInput) {
+      mainQtyInput.value = newQty;
+      mainQtyInput.dispatchEvent(new Event('change', { bubbles: true }));
     }
+  }
 
-    const rect = mainAddBtn.getBoundingClientRect();
-    if (rect.bottom < 0) {
-      stickyBar.classList.add('is-visible');
-      stickyBar.setAttribute('aria-hidden', 'false');
-    } else {
-      stickyBar.classList.remove('is-visible');
-      stickyBar.setAttribute('aria-hidden', 'true');
-    }
-  });
+  if (stickyMinusBtn) {
+    stickyMinusBtn.addEventListener('click', () => {
+      const currentQty = parseInt(mainQtyInput ? mainQtyInput.value : stickyQtyVal ? stickyQtyVal.textContent : 1) || 1;
+      updateQuantity(currentQty - 1);
+    });
+  }
 
-  if (stickyAddBtn && mainForm) {
-    stickyAddBtn.addEventListener('click', () => {
-      mainForm.requestSubmit ? mainForm.requestSubmit() : mainForm.submit();
+  if (stickyPlusBtn) {
+    stickyPlusBtn.addEventListener('click', () => {
+      const currentQty = parseInt(mainQtyInput ? mainQtyInput.value : stickyQtyVal ? stickyQtyVal.textContent : 1) || 1;
+      updateQuantity(currentQty + 1);
+    });
+  }
+
+  if (mainQtyInput) {
+    mainQtyInput.addEventListener('change', () => {
+      if (stickyQtyVal) stickyQtyVal.textContent = mainQtyInput.value;
+    });
+  }
+
+  if (stickyAddBtn) {
+    stickyAddBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (mainAddBtn) {
+        mainAddBtn.click();
+      } else {
+        mainForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+      }
     });
   }
 }

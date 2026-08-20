@@ -87,27 +87,18 @@
     </div>
   {% endif %}
 
-  <!-- Sticky Add to Cart Bar on Mobile -->
-  <div class="sticky-mobile-bar" data-sticky-mobile-bar aria-hidden="true">
+  <!-- Sticky Bottom Buy Bar on Mobile (Two Brothers Style: Add To Cart + Quantity Stepper) -->
+  <div class="sticky-mobile-bar" data-sticky-mobile-bar aria-hidden="false">
     <div class="sticky-mobile-bar__content">
-      <div class="sticky-mobile-bar__info">
-        <img
-          src="{{ current_variant.featured_media | default: product.featured_media | image_url: width: 120 }}"
-          alt="{{ product.title | escape }}"
-          class="sticky-mobile-bar__img"
-          data-sticky-bar-img
-        >
-        <div class="sticky-mobile-bar__text">
-          <span class="sticky-mobile-bar__title">{{ product.title }}</span>
-          <div class="sticky-mobile-bar__prices">
-            <strong data-sticky-bar-price>{{ current_variant.price | money }}</strong>
-            <span class="sticky-mobile-bar__variant" data-sticky-bar-variant>{{ current_variant.title }}</span>
-          </div>
-        </div>
-      </div>
       <button type="button" class="sticky-mobile-bar__btn" data-sticky-add-to-cart-btn>
         ADD TO CART
       </button>
+
+      <div class="sticky-mobile-bar__quantity-stepper">
+        <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-minus aria-label="Decrease quantity">-</button>
+        <span class="sticky-mobile-bar__qval" data-sticky-quantity-val>1</span>
+        <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-plus aria-label="Increase quantity">+</button>
+      </div>
     </div>
   </div>
 </div>

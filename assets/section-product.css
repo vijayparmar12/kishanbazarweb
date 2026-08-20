@@ -1723,94 +1723,88 @@
 
 /* ==========================================================================
    STICKY MOBILE ADD TO CART BAR
-   ========================================================================== */
+   ==========================================================================/* Sticky Add to Cart Bar on Mobile (Two Brothers Style: Add To Cart + Quantity Stepper) */
 .sticky-mobile-bar {
   background-color: #ffffff;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid #efe8da;
   bottom: 0;
-  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.12);
   left: 0;
-  padding: 0.75rem 1rem;
+  padding: 0.65rem 1rem;
   position: fixed;
   right: 0;
-  transform: translateY(100%);
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   z-index: 9999;
-}
-
-.sticky-mobile-bar.is-visible {
-  transform: translateY(0);
+  display: block;
 }
 
 .sticky-mobile-bar__content {
   align-items: center;
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   justify-content: space-between;
   margin: 0 auto;
-  max-width: 1280px;
-}
-
-.sticky-mobile-bar__info {
-  align-items: center;
-  display: flex;
-  gap: 0.75rem;
-  min-width: 0;
-}
-
-.sticky-mobile-bar__img {
-  border-radius: 8px;
-  flex-shrink: 0;
-  height: 44px;
-  object-fit: cover;
-  width: 44px;
-}
-
-.sticky-mobile-bar__text {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.sticky-mobile-bar__title {
-  color: #111827;
-  font-size: 0.85rem;
-  font-weight: 700;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.sticky-mobile-bar__prices {
-  align-items: center;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.sticky-mobile-bar__prices strong {
-  color: #1b4317;
-  font-size: 0.95rem;
-  font-weight: 800;
-}
-
-.sticky-mobile-bar__variant {
-  color: #6b7280;
-  font-size: 0.75rem;
+  max-width: 600px;
 }
 
 .sticky-mobile-bar__btn {
   background-color: #1b4317;
   border: none;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(27, 67, 23, 0.25);
+  box-shadow: 0 4px 14px rgba(27, 67, 23, 0.28);
   color: #ffffff;
   cursor: pointer;
-  flex-shrink: 0;
-  font-size: 0.85rem;
-  font-weight: 700;
+  flex: 1 1 60%;
+  font-size: 0.92rem;
+  font-weight: 800;
   letter-spacing: 0.04em;
-  padding: 0.75rem 1.25rem;
-  white-space: nowrap;
+  padding: 0.85rem 1rem;
+  text-align: center;
+  text-transform: uppercase;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.sticky-mobile-bar__btn:active {
+  transform: scale(0.98);
+  background-color: #143511;
+}
+
+.sticky-mobile-bar__quantity-stepper {
+  align-items: center;
+  background-color: #faf7f2;
+  border: 1.5px solid #23421f;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 38%;
+  height: 46px;
+  justify-content: space-between;
+  padding: 0 0.5rem;
+}
+
+.sticky-mobile-bar__qbtn {
+  align-items: center;
+  background: none;
+  border: none;
+  color: #23421f;
+  cursor: pointer;
+  display: flex;
+  font-size: 1.3rem;
+  font-weight: 800;
+  justify-content: center;
+  line-height: 1;
+  padding: 0 0.5rem;
+}
+
+.sticky-mobile-bar__qval {
+  color: #111827;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+@media screen and (min-width: 48.01rem) {
+  .sticky-mobile-bar {
+    display: none !important;
+  }
 }
 
 /* ==========================================================================
