@@ -80,15 +80,7 @@
           "show_wishlist": true,
           "wishlist_url": "",
           "show_cart": true,
-          "feature_row_background": "#faf6ec",
-          "checkout_logo_position": "left",
-          "checkout_logo_size": "medium",
-          "checkout_body_background_color": "#FAF6EC",
-          "checkout_input_background_color": "#FFFFFF",
-          "checkout_sidebar_background_color": "#F1F8EC",
-          "checkout_accent_color": "#23421F",
-          "checkout_button_color": "#23421F",
-          "checkout_error_color": "#D32F2F"
+          "feature_row_background": "#faf6ec"
         }
       },
       "membership-hero": {

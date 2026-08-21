@@ -88,28 +88,6 @@
             "subtitle": "",
             "link": ""
           }
-        },
-        "trust_badges_Kj8xLm": {
-          "type": "trust_badges",
-          "settings": {
-            "icon_size": 70,
-            "trust_image_1": "{{ product.metafields.custom.trust_badge_image_1.value }}",
-            "trust_image_2": "{{ product.metafields.custom.trust_badge_image_2.value }}",
-            "trust_image_3": "{{ product.metafields.custom.trust_badge_image_3.value }}",
-            "trust_image_4": "{{ product.metafields.custom.trust_badge_image_4.value }}"
-          }
-        },
-        "product_video_card_H9xK2m": {
-          "type": "product_video",
-          "settings": {
-            "heading": "Made with care, from source to finish"
-          }
-        },
-        "product_faq_J8k2Lp": {
-          "type": "product_faq",
-          "settings": {
-            "heading": "FAQ"
-          }
         }
       },
       "block_order": [
@@ -121,9 +99,6 @@
         "price_cXRV6V",
         "variant_picker_fTExdk",
         "stock_status_qfnGpK",
-        "trust_badges_Kj8xLm",
-        "product_video_card_H9xK2m",
-        "product_faq_J8k2Lp",
         "buy_buttons_jrQJdY",
         "product_video_g8Vgf7",
         "product_banner_F8tDeF"
@@ -136,25 +111,25 @@
         "recommendations_limit": 6,
         "show_sticky_mobile_bar": true,
         "sticky_bar_btn_text": "ADD TO CART",
-        "tab_description": "{{ product.metafields.custom.description.value }}",
-        "tab_ingredients": "{{ product.metafields.custom.ingredients.value }}",
-        "tab_usage": "{{ product.metafields.custom.usage.value }}",
-        "tab_benefits": "{{ product.metafields.custom.benefits.value }}",
-        "tab_storage": "{{ product.metafields.custom.storage_info.value }}",
-        "tab_manufacturer": "{{ product.metafields.custom.manufacturer.value }}",
-        "tab_origin": "{{ product.metafields.custom.origin.value }}",
-        "tab_shelflife": "{{ product.metafields.custom.shelf_life.value }}",
+        "tab_description": "",
+        "tab_ingredients": "",
+        "tab_usage": "",
+        "tab_benefits": "",
+        "tab_storage": "",
+        "tab_manufacturer": "",
+        "tab_origin": "",
+        "tab_shelflife": "",
         "faq_heading": "FAQ",
-        "faq_1_q": "{{ product.metafields.custom.faq_1_question.value }}",
-        "faq_1_a": "{{ product.metafields.custom.faq_1_answer.value }}",
-        "faq_2_q": "{{ product.metafields.custom.faq_2_question.value }}",
-        "faq_2_a": "{{ product.metafields.custom.faq_2_answer.value }}",
-        "faq_3_q": "{{ product.metafields.custom.faq_3_question.value }}",
-        "faq_3_a": "{{ product.metafields.custom.faq_3_answer.value }}",
-        "faq_4_q": "{{ product.metafields.custom.faq_4_question.value }}",
-        "faq_4_a": "{{ product.metafields.custom.faq_4_answer.value }}",
-        "faq_5_q": "{{ product.metafields.custom.faq_5_question.value }}",
-        "faq_5_a": "{{ product.metafields.custom.faq_5_answer.value }}",
+        "faq_1_q": "",
+        "faq_1_a": "",
+        "faq_2_q": "",
+        "faq_2_a": "",
+        "faq_3_q": "",
+        "faq_3_a": "",
+        "faq_4_q": "",
+        "faq_4_a": "",
+        "faq_5_q": "",
+        "faq_5_a": "",
         "banner_image_1": "{{ product.metafields.custom.custom_banner_1.value }}",
         "banner_image_2": "{{ product.metafields.custom.custom_banner_2.value }}",
         "banner_image_3": "{{ product.metafields.custom.custom_banner_3.value }}",
