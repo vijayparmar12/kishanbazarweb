@@ -122,7 +122,7 @@
       "settings": {
         "desktop_media_width": "large",
         "show_tabs": true,
-        "show_reviews": true,
+        "show_reviews": false,
         "show_recommendations": true,
         "recommendations_limit": 6,
         "show_sticky_mobile_bar": true,
