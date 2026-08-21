@@ -1,67 +1,85 @@
 {% doc %}
   Renders GirOrganic-style FAQ section.
-  Editable via Shopify Theme Editor section settings.
-  Pulls dynamic per-product Q&A pairs from Product Custom Metafields:
-  - product.metafields.custom.faq_1_question & faq_1_answer
-  - product.metafields.custom.faq_2_question & faq_2_answer
-  - product.metafields.custom.faq_3_question & faq_3_answer
-  - product.metafields.custom.faq_4_question & faq_4_answer
-  - product.metafields.custom.faq_5_question & faq_5_answer
+  Prioritizes per-product custom metafields (faq_1_question / faq_1_answer, etc.).
+  Fully editable via Shopify Theme Editor block and section settings.
 
   @param {object} product - The Shopify product object
-  @param {object} [section] - The section object from theme settings
+  @param {object} [block] - The section block object
+  @param {object} [section] - The section object
 
   @example
-  {% render 'product-faq', product: product, section: section %}
+  {% render 'product-faq', product: product, block: block, section: section %}
 {% enddoc %}
 
 {% liquid
   assign c_meta = product.metafields.custom
   assign alt_meta = product.metafields['product.metafields.custom']
 
-  # Extract up to 5 Q&A pairs from product custom metafields
-  assign q1 = section.settings.faq_1_q | default: c_meta.faq_1_question.value | default: alt_meta.faq_1_question.value | default: c_meta.faq_1_question
-  assign a1 = section.settings.faq_1_a | default: c_meta.faq_1_answer.value | default: alt_meta.faq_1_answer.value | default: c_meta.faq_1_answer
+  # Extract product custom metafields FIRST (unwrapping Liquid drop .value)
+  assign m_q1 = c_meta.faq_1_question.value | default: c_meta.faq_1_question | default: alt_meta.faq_1_question.value | default: alt_meta.faq_1_question
+  assign m_a1 = c_meta.faq_1_answer.value | default: c_meta.faq_1_answer | default: alt_meta.faq_1_answer.value | default: alt_meta.faq_1_answer
 
-  assign q2 = section.settings.faq_2_q | default: c_meta.faq_2_question.value | default: alt_meta.faq_2_question.value | default: c_meta.faq_2_question
-  assign a2 = section.settings.faq_2_a | default: c_meta.faq_2_answer.value | default: alt_meta.faq_2_answer.value | default: c_meta.faq_2_answer
+  assign m_q2 = c_meta.faq_2_question.value | default: c_meta.faq_2_question | default: alt_meta.faq_2_question.value | default: alt_meta.faq_2_question
+  assign m_a2 = c_meta.faq_2_answer.value | default: c_meta.faq_2_answer | default: alt_meta.faq_2_answer.value | default: alt_meta.faq_2_answer
 
-  assign q3 = section.settings.faq_3_q | default: c_meta.faq_3_question.value | default: alt_meta.faq_3_question.value | default: c_meta.faq_3_question
-  assign a3 = section.settings.faq_3_a | default: c_meta.faq_3_answer.value | default: alt_meta.faq_3_answer.value | default: c_meta.faq_3_answer
+  assign m_q3 = c_meta.faq_3_question.value | default: c_meta.faq_3_question | default: alt_meta.faq_3_question.value | default: alt_meta.faq_3_question
+  assign m_a3 = c_meta.faq_3_answer.value | default: c_meta.faq_3_answer | default: alt_meta.faq_3_answer.value | default: alt_meta.faq_3_answer
 
-  assign q4 = section.settings.faq_4_q | default: c_meta.faq_4_question.value | default: alt_meta.faq_4_question.value | default: c_meta.faq_4_question
-  assign a4 = section.settings.faq_4_a | default: c_meta.faq_4_answer.value | default: alt_meta.faq_4_answer.value | default: c_meta.faq_4_answer
+  assign m_q4 = c_meta.faq_4_question.value | default: c_meta.faq_4_question | default: alt_meta.faq_4_question.value | default: alt_meta.faq_4_question
+  assign m_a4 = c_meta.faq_4_answer.value | default: c_meta.faq_4_answer | default: alt_meta.faq_4_answer.value | default: alt_meta.faq_4_answer
 
-  assign q5 = section.settings.faq_5_q | default: c_meta.faq_5_question.value | default: alt_meta.faq_5_question.value | default: c_meta.faq_5_question
-  assign a5 = section.settings.faq_5_a | default: c_meta.faq_5_answer.value | default: alt_meta.faq_5_answer.value | default: c_meta.faq_5_answer
+  assign m_q5 = c_meta.faq_5_question.value | default: c_meta.faq_5_question | default: alt_meta.faq_5_question.value | default: alt_meta.faq_5_question
+  assign m_a5 = c_meta.faq_5_answer.value | default: c_meta.faq_5_answer | default: alt_meta.faq_5_answer.value | default: alt_meta.faq_5_answer
 
-  # Fallbacks from Section Settings (Theme Editor)
-  if q1 == blank
-    assign q1 = section.settings.faq_1_q | default: "What makes KishanVeda products unique?"
-    assign a1 = section.settings.faq_1_a | default: "All our products are 100% natural, unrefined, and sourced directly from organic Indian farms without synthetic chemicals or bleaches."
+  # Q1 & A1
+  assign q1 = m_q1 | default: block.settings.faq_1_q | default: section.settings.faq_1_q
+  assign a1 = m_a1 | default: block.settings.faq_1_a | default: section.settings.faq_1_a
+
+  # Q2 & A2
+  assign q2 = m_q2 | default: block.settings.faq_2_q | default: section.settings.faq_2_q
+  assign a2 = m_a2 | default: block.settings.faq_2_a | default: section.settings.faq_2_a
+
+  # Q3 & A3
+  assign q3 = m_q3 | default: block.settings.faq_3_q | default: section.settings.faq_3_q
+  assign a3 = m_a3 | default: block.settings.faq_3_a | default: section.settings.faq_3_a
+
+  # Q4 & A4
+  assign q4 = m_q4 | default: block.settings.faq_4_q | default: section.settings.faq_4_q
+  assign a4 = m_a4 | default: block.settings.faq_4_a | default: section.settings.faq_4_a
+
+  # Q5 & A5
+  assign q5 = m_q5 | default: block.settings.faq_5_q | default: section.settings.faq_5_q
+  assign a5 = m_a5 | default: block.settings.faq_5_a | default: section.settings.faq_5_a
+
+  # Fallback default text if product has no metafield and block has no text
+  if q1 == blank and a1 == blank
+    assign q1 = "What makes KishanVeda products unique?"
+    assign a1 = "All our products are 100% natural, unrefined, and sourced directly from organic Indian farms without synthetic chemicals or bleaches."
   endif
 
-  if q2 == blank
-    assign q2 = section.settings.faq_2_q | default: "How is this product prepared and processed?"
-    assign a2 = section.settings.faq_2_a | default: "Prepared using traditional methods to preserve original nutrients, natural aroma, and rich authentic taste."
+  if q2 == blank and a2 == blank
+    assign q2 = "How is this product prepared and processed?"
+    assign a2 = "Prepared using traditional methods to preserve original nutrients, natural aroma, and rich authentic taste."
   endif
 
-  if q3 == blank
-    assign q3 = section.settings.faq_3_q | default: "What is the shelf life & storage instructions?"
-    assign a3 = section.settings.faq_3_a | default: "Store in a cool, dry place away from moisture. Best consumed within 4 to 6 months of packaging."
+  if q3 == blank and a3 == blank
+    assign q3 = "What is the shelf life & storage instructions?"
+    assign a3 = "Store in a cool, dry place away from moisture. Best consumed within 4 to 6 months of packaging."
   endif
 
-  if q4 == blank
-    assign q4 = section.settings.faq_4_q | default: "Do you ship orders across India with Cash on Delivery?"
-    assign a4 = section.settings.faq_4_a | default: "Yes, we offer fast express shipping across India with Cash on Delivery (COD) available for all orders."
+  if q4 == blank and a4 == blank
+    assign q4 = "Do you ship orders across India with Cash on Delivery?"
+    assign a4 = "Yes, we offer fast express shipping across India with Cash on Delivery (COD) available for all orders."
   endif
 
-  assign heading = section.settings.faq_heading | default: "FAQ"
+  assign heading = block.settings.heading | default: section.settings.faq_heading | default: "FAQ"
 %}
 
 <section class="product-faq-section" aria-label="Frequently Asked Questions">
   <div class="product-faq-section__container">
-    <h2 class="product-faq-section__heading">{{ heading }}</h2>
+    {% if heading != blank %}
+      <h2 class="product-faq-section__heading">{{ heading }}</h2>
+    {% endif %}
 
     <div class="product-faq-section__list">
       {% if q1 != blank and a1 != blank %}
@@ -79,7 +97,7 @@
             </span>
           </summary>
           <div class="product-faq-card__answer">
-            <p>{{ a1 }}</p>
+            <div class="rte">{{ a1 }}</div>
           </div>
         </details>
       {% endif %}
@@ -99,7 +117,7 @@
             </span>
           </summary>
           <div class="product-faq-card__answer">
-            <p>{{ a2 }}</p>
+            <div class="rte">{{ a2 }}</div>
           </div>
         </details>
       {% endif %}
@@ -119,7 +137,7 @@
             </span>
           </summary>
           <div class="product-faq-card__answer">
-            <p>{{ a3 }}</p>
+            <div class="rte">{{ a3 }}</div>
           </div>
         </details>
       {% endif %}
@@ -139,7 +157,7 @@
             </span>
           </summary>
           <div class="product-faq-card__answer">
-            <p>{{ a4 }}</p>
+            <div class="rte">{{ a4 }}</div>
           </div>
         </details>
       {% endif %}
@@ -159,7 +177,7 @@
             </span>
           </summary>
           <div class="product-faq-card__answer">
-            <p>{{ a5 }}</p>
+            <div class="rte">{{ a5 }}</div>
           </div>
         </details>
       {% endif %}
