@@ -177,8 +177,8 @@
       {
         "type": "text",
         "id": "cart_promo_bar_text",
-        "label": "Top Promo Banner Text",
-        "default": "🎉 Get 10% OFF on orders above ₹3000 | TBOF10"
+        "label": "Top Promo Banner Text (leave blank to hide)",
+        "default": "Rakhi gifting, sorted! 🎁 Get 10% OFF with RAKHI10 💕"
       },
       {
         "type": "number",
@@ -211,6 +211,12 @@
       {
         "type": "header",
         "content": "Frequently Bought Together Addons"
+      },
+      {
+        "type": "text",
+        "id": "cart_membership_heading",
+        "label": "Membership Tab Label",
+        "default": "Membership"
       },
       {
         "type": "text",
