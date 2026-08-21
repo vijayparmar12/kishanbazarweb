@@ -1150,37 +1150,25 @@
 
 .product-accordion-item__icon {
   position: relative;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.product-accordion-item__icon::before,
-.product-accordion-item__icon::after {
-  content: '';
-  position: absolute;
-  background-color: #1b4317;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+.product-accordion-item__arrow {
+  width: 20px;
+  height: 20px;
+  stroke: #1b4317;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
 }
 
-/* Horizontal line of plus */
-.product-accordion-item__icon::before {
-  width: 14px;
-  height: 2px;
-}
-
-/* Vertical line of plus */
-.product-accordion-item__icon::after {
-  width: 2px;
-  height: 14px;
-}
-
-/* When accordion is open: fade out vertical line to form minus sign */
-.product-accordion-item[open] .product-accordion-item__icon::after {
-  opacity: 0;
-  transform: scaleY(0);
+/* When accordion is open: rotate chevron arrow 180 degrees upwards! */
+.product-accordion-item[open] .product-accordion-item__arrow,
+.product-info__collapsible-tab[open] .product-accordion-item__arrow {
+  transform: rotate(180deg);
 }
 
 .product-accordion-item__content {
