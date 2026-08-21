@@ -1,15 +1,76 @@
 {% doc %}
   Renders the live Judge.me Reviews plugin widget for KishanVeda / Kishan Bazar.
-  Static manual review fallback removed as requested.
+  Fully editable via Shopify Theme Editor (Section Settings for Button Colors, Star Colors, Progress Bar Colors, Corner Radius & Headings).
 
   @param {object} product - The Shopify product object
+  @param {object} [section] - The section object containing theme editor settings
 
   @example
-  {% render 'product-reviews-section', product: product %}
+  {% render 'product-reviews-section', product: product, section: section %}
 {% enddoc %}
+
+{% liquid
+  assign heading = section.settings.reviews_heading | default: "Customer Reviews"
+  assign btn_bg = section.settings.reviews_btn_bg | default: "#1B4317"
+  assign btn_text = section.settings.reviews_btn_text | default: "#FFFFFF"
+  assign btn_hover = section.settings.reviews_btn_hover_bg | default: "#143511"
+  assign star_col = section.settings.reviews_star_color | default: "#F59E0B"
+  assign bar_col = section.settings.reviews_bar_fill | default: "#1B4317"
+  assign border_rad = section.settings.reviews_border_radius | default: 16
+%}
+
+<style>
+  #ProductReviews-{{ section.id }} {
+    --jdgm-btn-bg: {{ btn_bg }};
+    --jdgm-btn-text: {{ btn_text }};
+    --jdgm-btn-hover: {{ btn_hover }};
+    --jdgm-star-color: {{ star_col }};
+    --jdgm-bar-fill: {{ bar_col }};
+    --jdgm-radius: {{ border_rad }}px;
+  }
+
+  /* Theme Editor Dynamic Button Color Override */
+  #ProductReviews-{{ section.id }} .jdgm-write-rev-btn,
+  #ProductReviews-{{ section.id }} .jdgm-btn,
+  #ProductReviews-{{ section.id }} .jdgm-submit-rev,
+  #ProductReviews-{{ section.id }} .jdgm-all-reviews-rating-actions__write-btn {
+    background-color: var(--jdgm-btn-bg) !important;
+    color: var(--jdgm-btn-text) !important;
+    border-color: var(--jdgm-btn-bg) !important;
+    border-radius: var(--jdgm-radius) !important;
+  }
+
+  #ProductReviews-{{ section.id }} .jdgm-write-rev-btn:hover,
+  #ProductReviews-{{ section.id }} .jdgm-btn:hover,
+  #ProductReviews-{{ section.id }} .jdgm-submit-rev:hover {
+    background-color: var(--jdgm-btn-hover) !important;
+    border-color: var(--jdgm-btn-hover) !important;
+  }
+
+  /* Theme Editor Dynamic Progress Bar Fill Color Override */
+  #ProductReviews-{{ section.id }} .jdgm-rev-widg__summary-bar-fill {
+    background-color: var(--jdgm-bar-fill) !important;
+  }
+
+  /* Theme Editor Dynamic Star Color Override */
+  #ProductReviews-{{ section.id }} .jdgm-star {
+    color: var(--jdgm-star-color) !important;
+  }
+
+  /* Theme Editor Dynamic Card Side Curves Override */
+  #ProductReviews-{{ section.id }} .jdgm-rev-widg,
+  #ProductReviews-{{ section.id }} .jdgm-rev,
+  #ProductReviews-{{ section.id }} .jdgm-form-wrapper {
+    border-radius: var(--jdgm-radius) !important;
+  }
+</style>
 
 <section class="product-reviews" id="ProductReviews-{{ section.id }}" aria-label="Customer Reviews">
   <div class="product-reviews__container">
+    {% if heading != blank %}
+      <h2 class="product-reviews__main-title" style="text-align: center; font-size: 1.85rem; font-weight: 800; margin-bottom: 1.5rem; color: #111827;">{{ heading }}</h2>
+    {% endif %}
+
     <!-- Live Judge.me App Review Widget -->
     <div class="jdgm-widget jdgm-review-widget" data-id="{{ product.id }}">
       {{ product.metafields.judgeme.widget }}

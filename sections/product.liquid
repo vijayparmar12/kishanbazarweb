@@ -90,7 +90,7 @@
   <!-- Section 6: Customer Reviews & Ratings (Placed Above Recommended Products) -->
   <div class="product-page-section product-page-section--reviews">
     <div class="product-page-container">
-      {% render 'product-reviews-section', product: product %}
+      {% render 'product-reviews-section', product: product, section: section %}
     </div>
   </div>
 
@@ -215,6 +215,56 @@
     { "type": "richtext", "id": "faq_4_a", "label": "FAQ 4 Answer" },
     { "type": "richtext", "id": "faq_5_q", "label": "FAQ 5 Question" },
     { "type": "richtext", "id": "faq_5_a", "label": "FAQ 5 Answer" },
+    {
+      "type": "header",
+      "content": "Product Reviews Customization (Judge.me)"
+    },
+    {
+      "type": "text",
+      "id": "reviews_heading",
+      "label": "Review Section Heading",
+      "default": "Customer Reviews"
+    },
+    {
+      "type": "color",
+      "id": "reviews_btn_bg",
+      "label": "Review Button Background Color",
+      "default": "#1B4317"
+    },
+    {
+      "type": "color",
+      "id": "reviews_btn_text",
+      "label": "Review Button Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "reviews_btn_hover_bg",
+      "label": "Review Button Hover Background Color",
+      "default": "#143511"
+    },
+    {
+      "type": "color",
+      "id": "reviews_star_color",
+      "label": "Star Rating Color",
+      "default": "#F59E0B"
+    },
+    {
+      "type": "color",
+      "id": "reviews_bar_fill",
+      "label": "Rating Progress Bar Color",
+      "default": "#1B4317"
+    },
+    {
+      "type": "range",
+      "id": "reviews_border_radius",
+      "label": "Box Side Curve Radius (px)",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
     {
       "type": "header",
       "content": "Product Page Banners (Up to 6 Banners)"
