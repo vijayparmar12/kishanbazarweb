@@ -32,24 +32,24 @@
   assign m_a5 = c_meta.faq_5_answer.value | default: c_meta.faq_5_answer | default: alt_meta.faq_5_answer.value | default: alt_meta.faq_5_answer
 
   # Q1 & A1
-  assign q1 = m_q1 | default: block.settings.faq_1_q | default: section.settings.faq_1_q
-  assign a1 = m_a1 | default: block.settings.faq_1_a | default: section.settings.faq_1_a
+  assign q1 = block.settings.faq_1_q | default: section.settings.faq_1_q | default: m_q1
+  assign a1 = block.settings.faq_1_a | default: section.settings.faq_1_a | default: m_a1
 
   # Q2 & A2
-  assign q2 = m_q2 | default: block.settings.faq_2_q | default: section.settings.faq_2_q
-  assign a2 = m_a2 | default: block.settings.faq_2_a | default: section.settings.faq_2_a
+  assign q2 = block.settings.faq_2_q | default: section.settings.faq_2_q | default: m_q2
+  assign a2 = block.settings.faq_2_a | default: section.settings.faq_2_a | default: m_a2
 
   # Q3 & A3
-  assign q3 = m_q3 | default: block.settings.faq_3_q | default: section.settings.faq_3_q
-  assign a3 = m_a3 | default: block.settings.faq_3_a | default: section.settings.faq_3_a
+  assign q3 = block.settings.faq_3_q | default: section.settings.faq_3_q | default: m_q3
+  assign a3 = block.settings.faq_3_a | default: section.settings.faq_3_a | default: m_a3
 
   # Q4 & A4
-  assign q4 = m_q4 | default: block.settings.faq_4_q | default: section.settings.faq_4_q
-  assign a4 = m_a4 | default: block.settings.faq_4_a | default: section.settings.faq_4_a
+  assign q4 = block.settings.faq_4_q | default: section.settings.faq_4_q | default: m_q4
+  assign a4 = block.settings.faq_4_a | default: section.settings.faq_4_a | default: m_a4
 
   # Q5 & A5
-  assign q5 = m_q5 | default: block.settings.faq_5_q | default: section.settings.faq_5_q
-  assign a5 = m_a5 | default: block.settings.faq_5_a | default: section.settings.faq_5_a
+  assign q5 = block.settings.faq_5_q | default: section.settings.faq_5_q | default: m_q5
+  assign a5 = block.settings.faq_5_a | default: section.settings.faq_5_a | default: m_a5
 
   # Fallback default text if product has no metafield and block has no text
   if q1 == blank and a1 == blank
