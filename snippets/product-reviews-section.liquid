@@ -1,6 +1,6 @@
 {% doc %}
   Renders the live Judge.me Reviews plugin widget for KishanVeda / Kishan Bazar.
-  Fully editable via Shopify Theme Editor (Section Settings for Button Colors, Star Colors, Progress Bar Colors, Corner Radius & Headings).
+  Outer duplicate heading removed so Judge.me's own Customer Reviews header is displayed cleanly.
 
   @param {object} product - The Shopify product object
   @param {object} [section] - The section object containing theme editor settings
@@ -10,7 +10,6 @@
 {% enddoc %}
 
 {% liquid
-  assign heading = section.settings.reviews_heading | default: "Customer Reviews"
   assign btn_bg = section.settings.reviews_btn_bg | default: "#1B4317"
   assign btn_text = section.settings.reviews_btn_text | default: "#FFFFFF"
   assign btn_hover = section.settings.reviews_btn_hover_bg | default: "#143511"
@@ -75,10 +74,6 @@
 
 <section class="product-reviews" id="ProductReviews-{{ section.id }}" aria-label="Customer Reviews">
   <div class="product-reviews__container">
-    {% if heading != blank %}
-      <h2 class="product-reviews__main-title" style="text-align: center; font-size: 1.85rem; font-weight: 800; margin-bottom: 1.5rem; color: #111827;">{{ heading }}</h2>
-    {% endif %}
-
     <!-- Live Judge.me App Review Widget -->
     <div class="jdgm-widget jdgm-review-widget" data-id="{{ product.id }}">
       {{ product.metafields.judgeme.widget }}
