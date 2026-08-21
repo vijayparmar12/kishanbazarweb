@@ -65,10 +65,6 @@
             "show_tax_note": true
           }
         },
-        "variant_picker_fTExdk": {
-          "type": "variant_picker",
-          "settings": {}
-        },
         "stock_status_qfnGpK": {
           "type": "stock_status",
           "settings": {
@@ -84,6 +80,10 @@
             "cart_btn_bg": "#23421f",
             "cart_btn_color": "#ffffff"
           }
+        },
+        "variant_picker_fTExdk": {
+          "type": "variant_picker",
+          "settings": {}
         },
         "product_video_g8Vgf7": {
           "type": "product_video",
@@ -112,9 +112,9 @@
         "description_WMpDyn",
         "benefit_icons_TeMKQk",
         "price_cXRV6V",
-        "variant_picker_fTExdk",
         "stock_status_qfnGpK",
         "buy_buttons_jrQJdY",
+        "variant_picker_fTExdk",
         "product_video_g8Vgf7",
         "product_banner_F8tDeF"
       ],
@@ -152,29 +152,9 @@
         "banner_image_5": "{{ product.metafields.custom.custom_banner_5.value }}",
         "banner_image_6": "{{ product.metafields.custom.custom_banner_6.value }}"
       }
-    },
-    "17873019617eff62b9": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_qx4RwR": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "review_data": "real_data",
-            "max_width": 1200,
-            "show_shop_reviews": false,
-            "empty_state": "empty_widget"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_qx4RwR"
-      ],
-      "disabled": true,
-      "settings": {}
     }
   },
   "order": [
-    "main",
-    "17873019617eff62b9"
+    "main"
   ]
 }
