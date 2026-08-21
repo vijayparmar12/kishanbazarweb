@@ -1269,27 +1269,6 @@
   scroll-margin-top: 140px !important;
 }
 
-.product-reviews {
-  width: 100% !important;
-  box-sizing: border-box !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-}
-
-.product-reviews__container {
-  width: 100% !important;
-  max-width: 1200px !important;
-  margin: 0 auto !important;
-  box-sizing: border-box !important;
-  padding: 0 1rem !important;
-}
-
-@media (min-width: 750px) {
-  .product-reviews__container {
-    padding: 0 1.5rem !important;
-  }
-}
-
 @media (max-width: 749px) {
   .product-reviews,
   [id^="ProductReviews"] {
@@ -1297,52 +1276,26 @@
   }
 }
 
-/* Judge.me Live Plugin Review Widget Responsive Custom Styling */
+/* Judge.me Live Plugin Review Widget Custom Color (#23421F) & Side Curve Styling */
 .jdgm-rev-widg,
 .jdgm-widget,
 .jdgm-review-widget {
   font-family: inherit !important;
-  box-sizing: border-box !important;
-  max-width: 100% !important;
 }
 
 /* Overall Widget Container Card Curved Sides */
 .jdgm-rev-widg {
-  border-radius: 18px !important;
+  border-radius: 20px !important;
   border: 1px solid #efe8da !important;
   background-color: #fcfbf9 !important;
-  padding: 1rem !important;
+  padding: 1.5rem !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02) !important;
-  margin: 0 auto !important;
-  box-sizing: border-box !important;
 }
 
-@media (min-width: 750px) {
-  .jdgm-rev-widg {
-    border-radius: 22px !important;
-    padding: 1.75rem !important;
-  }
-}
-
-/* Summary Box Curved Corners & Mobile Spacing */
+/* Summary Box Curved Corners */
 .jdgm-rev-widg__summary {
-  border-radius: 14px !important;
-  padding: 1rem !important;
-  box-sizing: border-box !important;
-}
-
-@media (max-width: 749px) {
-  .jdgm-rev-widg__summary {
-    padding: 0.75rem 0.5rem !important;
-  }
-
-  .jdgm-write-rev-btn {
-    width: 100% !important;
-    display: block !important;
-    text-align: center !important;
-    padding: 14px 20px !important;
-    box-sizing: border-box !important;
-  }
+  border-radius: 16px !important;
+  padding: 1.25rem !important;
 }
 
 /* Write a Review Button: #1B4317 + Curved Pill/Side Curves */
@@ -1357,7 +1310,7 @@ input[type="submit"].jdgm-btn,
   background-color: #1B4317 !important;
   color: #ffffff !important;
   border-color: #1B4317 !important;
-  border-radius: 12px !important;
+  border-radius: 14px !important;
   font-weight: 700 !important;
   font-size: 0.95rem !important;
   padding: 12px 26px !important;
