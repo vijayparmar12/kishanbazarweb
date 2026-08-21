@@ -1276,15 +1276,6 @@
   }
 }
 
-/* Hide any duplicate Judge.me Review Widgets so ONLY 1 single widget is visible */
-.jdgm-review-widget ~ .jdgm-review-widget,
-.jdgm-rev-widg ~ .jdgm-rev-widg,
-.product-reviews ~ .product-reviews,
-.jdgm-review-widget + .jdgm-review-widget,
-.jdgm-rev-widg + .jdgm-rev-widg {
-  display: none !important;
-}
-
 /* Judge.me Live Plugin Review Widget Custom Color Styling */
 .jdgm-rev-widg,
 .jdgm-widget {
