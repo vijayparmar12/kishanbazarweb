@@ -87,7 +87,14 @@
     </div>
   </div>
 
-  <!-- Section 6: Recommended Organic Products Slider -->
+  <!-- Section 6: Customer Reviews & Ratings (Placed Above Recommended Products) -->
+  <div class="product-page-section product-page-section--reviews">
+    <div class="product-page-container">
+      {% render 'product-reviews-section', product: product %}
+    </div>
+  </div>
+
+  <!-- Section 7: Recommended Organic Products Slider -->
   {% if section.settings.show_recommendations %}
     <div class="product-page-section product-page-section--recommendations">
       <div class="product-page-container">
@@ -95,13 +102,6 @@
       </div>
     </div>
   {% endif %}
-
-  <!-- Section 7: Customer Reviews & Ratings (Placed After Recommended Products) -->
-  <div class="product-page-section product-page-section--reviews">
-    <div class="product-page-container">
-      {% render 'product-reviews-section', product: product %}
-    </div>
-  </div>
 
   <!-- Sticky Bottom Buy Bar on Mobile (Two Brothers Style: Add To Cart + Quantity Stepper) -->
   <div class="sticky-mobile-bar" data-sticky-mobile-bar aria-hidden="false">
