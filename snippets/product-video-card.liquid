@@ -1,0 +1,91 @@
+{% doc %}
+  Renders GirOrganic-style Product Video Card directly after trust badges.
+  Editable via Shopify Theme Editor section settings/blocks.
+  Dynamically pulls per-product video from product custom metafields:
+  - product.metafields.custom.product_video
+  - product.metafields.custom.video
+  - product.metafields.custom.custom_video
+
+  @param {object} product - The Shopify product object
+  @param {object} [block] - The section block object from section settings
+
+  @example
+  {% render 'product-video-card', product: product, block: block %}
+{% enddoc %}
+
+{% liquid
+  assign c_meta = product.metafields.custom
+  assign alt_meta = product.metafields['product.metafields.custom']
+
+  # 1. Check product custom video metafields (Shopify Video File drop or URL drop)
+  assign p_video_val = c_meta.product_video.value | default: alt_meta.product_video.value | default: c_meta.video.value | default: alt_meta.video.value | default: c_meta.custom_video.value | default: alt_meta.custom_video.value
+
+  assign video_sources = blank
+  assign video_url_str = blank
+  assign poster_img_url = blank
+
+  if p_video_val != blank
+    if p_video_val.sources != blank
+      assign video_sources = p_video_val.sources
+      assign poster_img_url = p_video_val.preview_image | image_url: width: 900
+    elsif p_video_val.url != blank
+      assign video_url_str = p_video_val.url
+    else
+      assign video_url_str = p_video_val | to_s
+    endif
+  elsif block.settings.video != blank
+    assign video_sources = block.settings.video.sources
+    assign poster_img_url = block.settings.video.preview_image | image_url: width: 900
+  elsif block.settings.video_url != blank
+    assign video_url_str = block.settings.video_url
+  endif
+
+  assign heading_text = block.settings.heading | default: "Made with care, from source to finish"
+%}
+
+{% if video_sources != blank or video_url_str != blank %}
+  <div class="product-video-card" {{ block.shopify_attributes }}>
+    {% if heading_text != blank %}
+      <h3 class="product-video-card__heading">{{ heading_text }}</h3>
+    {% endif %}
+
+    <div class="product-video-card__media-wrap">
+      {% if video_sources != blank %}
+        <video
+          class="product-video-card__video"
+          controls
+          playsinline
+          preload="metadata"
+          {% if poster_img_url != blank %}poster="{{ poster_img_url }}"{% endif %}
+        >
+          {% for source in video_sources %}
+            <source src="{{ source.url }}" type="{{ source.mime_type }}">
+          {% endfor %}
+          Your browser does not support the video tag.
+        </video>
+      {% elsif video_url_str contains 'youtube.com' or video_url_str contains 'youtu.be' %}
+        {% assign yt_id = video_url_str | split: 'v=' | last | split: '&' | first | split: '/' | last %}
+        <iframe
+          class="product-video-card__iframe"
+          src="https://www.youtube.com/embed/{{ yt_id }}?rel=0"
+          title="{{ heading_text | escape }}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      {% elsif video_url_str contains 'vimeo.com' %}
+        {% assign vimeo_id = video_url_str | split: '/' | last %}
+        <iframe
+          class="product-video-card__iframe"
+          src="https://player.vimeo.com/video/{{ vimeo_id }}"
+          title="{{ heading_text | escape }}"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      {% elsif video_url_str != blank %}
+        <video class="product-video-card__video" controls playsinline preload="metadata" src="{{ video_url_str }}"></video>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

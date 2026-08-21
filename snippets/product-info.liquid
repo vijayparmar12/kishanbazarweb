@@ -213,6 +213,11 @@
             {% render 'product-highlights', product: product, block: block %}
           </div>
 
+        {% when 'product_video' %}
+          <div class="product-info__video-block" {{ block.shopify_attributes }}>
+            {% render 'product-video-card', product: product, block: block %}
+          </div>
+
       {% endcase %}
     {% endfor %}
   {% else %}
