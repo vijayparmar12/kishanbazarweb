@@ -12,7 +12,7 @@
     "main": {
       "type": "product",
       "blocks": {
-        "product_faq_haEUVh": {
+        "product_faq_e3HmDH": {
           "type": "product_faq",
           "settings": {
             "heading": "FAQ",
@@ -105,7 +105,7 @@
         }
       },
       "block_order": [
-        "product_faq_haEUVh",
+        "product_faq_e3HmDH",
         "trust_badges_V7nWne",
         "title_zwNBWV",
         "rating_QizByz",
