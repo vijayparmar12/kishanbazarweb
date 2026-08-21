@@ -1,194 +1,154 @@
 {% doc %}
-  Renders product details accordions in Two Brothers India Shop style matching user's CSV Metafield Keys:
-  - DESCRIPTION: raw_desc
-  - INGREDIENTS: raw_ingredients
-  - USAGE INFO: raw_usage
-  - BENEFITS: raw_benefits
-  - STORAGE INFO: raw_storage
-  - MANUFACTURER & PACKER DETAILS: raw_mfr
-  - COUNTRY OF ORIGIN: raw_origin
-  - SHELF LIFE: raw_shelflife
-  - FREQUENTLY ASKED QUESTIONS (FAQ): raw_faq1..5
+  Renders Product Accordions section dynamically pulling product custom metafields:
+  - Ingredients (c_meta.Ingredients / c_meta.ingredients)
+  - Description (c_meta.description / product.description)
+  - Usage (c_meta.usage)
+  - Benefits (c_meta.benefits)
+  - Storage Info (c_meta.storage_info)
+  - Manufacturer & Packer Details (c_meta.manufacturer)
+  - Country of Origin (c_meta.origin)
+  - Shelf Life (c_meta.shelf_life)
 
   @param {object} product - The Shopify product object
+  @param {object} [section] - The section object
 
   @example
-  {% render 'product-tabs', product: product %}
+  {% render 'product-tabs', product: product, section: section %}
 {% enddoc %}
 
 {% liquid
   assign c_meta = product.metafields.custom
+  assign alt_meta = product.metafields['product.metafields.custom']
 
-  assign raw_desc = section.settings.tab_description | default: c_meta.description.value | default: c_meta.description | default: c_meta.Description.value | default: c_meta.Description | default: product.description
-  assign raw_ingredients = section.settings.tab_ingredients | default: c_meta.ingredients.value | default: c_meta.ingredients | default: c_meta.Ingredients.value | default: c_meta.Ingredients
-  assign raw_usage = section.settings.tab_usage | default: c_meta.usage.value | default: c_meta.usage | default: c_meta.Usage.value | default: c_meta.Usage
-  assign raw_benefits = section.settings.tab_benefits | default: c_meta.benefits.value | default: c_meta.benefits | default: c_meta.Benefits.value | default: c_meta.Benefits
-  assign raw_storage = section.settings.tab_storage | default: c_meta.storage_info.value | default: c_meta.storage_info | default: c_meta.Storage_info.value | default: c_meta.Storage_info | default: c_meta.storage
-  assign raw_mfr = section.settings.tab_manufacturer | default: c_meta.manufacturer.value | default: c_meta.manufacturer | default: c_meta.Manufacturer.value | default: c_meta.Manufacturer
-  assign raw_origin = section.settings.tab_origin | default: c_meta.origin.value | default: c_meta.origin | default: c_meta.Origin.value | default: c_meta.Origin
-  assign raw_shelflife = section.settings.tab_shelflife | default: c_meta.shelf_life.value | default: c_meta.shelf_life | default: c_meta.Shelf_life.value | default: c_meta.Shelf_life
+  # 1. DESCRIPTION
+  assign raw_desc = c_meta.description.value | default: c_meta.description | default: alt_meta.description.value | default: alt_meta.description | default: section.settings.tab_description | default: product.description
 
-  assign raw_faq1_q = c_meta.faq_1_question.value | default: c_meta.faq_1_question
-  assign raw_faq1_a = c_meta.faq_1_answer.value | default: c_meta.faq_1_answer
-  assign raw_faq2_q = c_meta.faq_2_question.value | default: c_meta.faq_2_question
-  assign raw_faq2_a = c_meta.faq_2_answer.value | default: c_meta.faq_2_answer
-  assign raw_faq3_q = c_meta.faq_3_question.value | default: c_meta.faq_3_question
-  assign raw_faq3_a = c_meta.faq_3_answer.value | default: c_meta.faq_3_answer
-  assign raw_faq4_q = c_meta.faq_4_question.value | default: c_meta.faq_4_question
-  assign raw_faq4_a = c_meta.faq_4_answer.value | default: c_meta.faq_4_answer
-  assign raw_faq5_q = c_meta.faq_5_question.value | default: c_meta.faq_5_question
-  assign raw_faq5_a = c_meta.faq_5_answer.value | default: c_meta.faq_5_answer
+  # 2. INGREDIENTS
+  assign raw_ingredients = c_meta.Ingredients.value | default: c_meta.Ingredients | default: c_meta.ingredients.value | default: c_meta.ingredients | default: alt_meta.Ingredients.value | default: alt_meta.ingredients.value | default: section.settings.tab_ingredients
+
+  # 3. USAGE INFO
+  assign raw_usage = c_meta.usage.value | default: c_meta.usage | default: alt_meta.usage.value | default: alt_meta.usage | default: section.settings.tab_usage
+
+  # 4. BENEFITS
+  assign raw_benefits = c_meta.benefits.value | default: c_meta.benefits | default: alt_meta.benefits.value | default: alt_meta.benefits | default: section.settings.tab_benefits
+
+  # 5. STORAGE INFO
+  assign raw_storage = c_meta.storage_info.value | default: c_meta.storage_info | default: alt_meta.storage_info.value | default: alt_meta.storage_info | default: c_meta.storage | default: section.settings.tab_storage
+
+  # 6. MANUFACTURER & PACKER DETAILS
+  assign raw_mfr = c_meta.manufacturer.value | default: c_meta.manufacturer | default: alt_meta.manufacturer.value | default: alt_meta.manufacturer | default: section.settings.tab_manufacturer
+
+  # 7. COUNTRY OF ORIGIN
+  assign raw_origin = c_meta.origin.value | default: c_meta.origin | default: alt_meta.origin.value | default: alt_meta.origin | default: section.settings.tab_origin
+
+  # 8. SHELF LIFE
+  assign raw_shelflife = c_meta.shelf_life.value | default: c_meta.shelf_life | default: alt_meta.shelf_life.value | default: alt_meta.shelf_life | default: section.settings.tab_shelflife
 %}
 
-<section class="product-accordions" data-product-accordions-component>
-  <div class="product-accordions__list">
-
+<section class="product-tabs-section" aria-label="Product Details">
+  <div class="product-accordion">
+    
     <!-- 1. DESCRIPTION -->
-    <details class="product-accordion-item" open>
-      <summary class="product-accordion-item__header">
-        <span class="product-accordion-item__title">DESCRIPTION</span>
-        <span class="product-accordion-item__icon" aria-hidden="true">
-          <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </span>
-      </summary>
-      <div class="product-accordion-item__content rte">
-        {% if raw_desc != blank %}
+    {% if raw_desc != blank %}
+      <details class="product-accordion-item" open>
+        <summary class="product-accordion-item__header">
+          <span class="product-accordion-item__title">DESCRIPTION</span>
+          <span class="product-accordion-item__icon" aria-hidden="true">
+            <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="product-accordion-item__content rte">
           {{ raw_desc }}
-        {% else %}
-          <p>100% natural, unrefined organic {{ product.title }} sourced straight from native Indian farms.</p>
-        {% endif %}
-      </div>
-    </details>
+        </div>
+      </details>
+    {% endif %}
 
     <!-- 2. INGREDIENTS -->
-    <details class="product-accordion-item">
-      <summary class="product-accordion-item__header">
-        <span class="product-accordion-item__title">INGREDIENTS</span>
-        <span class="product-accordion-item__icon" aria-hidden="true">
-          <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </span>
-      </summary>
-      <div class="product-accordion-item__content">
-        {% if raw_ingredients != blank %}
-          <div class="product-tabs__ingredients-box">
-            {{ raw_ingredients | newline_to_br }}
-          </div>
-        {% else %}
-          <div class="product-tabs__highlight-box">
-            <span class="product-tabs__badge-icon">🌿</span>
-            <p><strong>100% Raw & Organic {{ product.title }}</strong></p>
-          </div>
-          <p>Pure ingredients sourced directly from organic farms. Free from chemical bleaches, synthetic anti-caking agents, and artificial preservatives.</p>
-        {% endif %}
-      </div>
-    </details>
+    {% if raw_ingredients != blank %}
+      <details class="product-accordion-item">
+        <summary class="product-accordion-item__header">
+          <span class="product-accordion-item__title">INGREDIENTS</span>
+          <span class="product-accordion-item__icon" aria-hidden="true">
+            <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="product-accordion-item__content rte">
+          {{ raw_ingredients }}
+        </div>
+      </details>
+    {% endif %}
 
     <!-- 3. USAGE INFO -->
-    <details class="product-accordion-item">
-      <summary class="product-accordion-item__header">
-        <span class="product-accordion-item__title">USAGE INFO</span>
-        <span class="product-accordion-item__icon" aria-hidden="true">
-          <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </span>
-      </summary>
-      <div class="product-accordion-item__content">
-        {% if raw_usage != blank %}
-          <p>{{ raw_usage | newline_to_br }}</p>
-        {% else %}
-          <p>Ideal for daily home cooking, preparing traditional Indian recipes, and healthy meals with authentic flavor and aroma.</p>
-        {% endif %}
-      </div>
-    </details>
+    {% if raw_usage != blank %}
+      <details class="product-accordion-item">
+        <summary class="product-accordion-item__header">
+          <span class="product-accordion-item__title">USAGE INFO</span>
+          <span class="product-accordion-item__icon" aria-hidden="true">
+            <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="product-accordion-item__content rte">
+          {{ raw_usage }}
+        </div>
+      </details>
+    {% endif %}
 
     <!-- 4. BENEFITS -->
-    <details class="product-accordion-item">
-      <summary class="product-accordion-item__header">
-        <span class="product-accordion-item__title">BENEFITS</span>
-        <span class="product-accordion-item__icon" aria-hidden="true">
-          <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </span>
-      </summary>
-      <div class="product-accordion-item__content">
-        {% if raw_benefits != blank %}
-          <div class="product-tabs__benefits-list">
-            {{ raw_benefits | newline_to_br }}
-          </div>
-        {% else %}
-          <div class="product-tabs__grid-2col">
-            <div class="product-tabs__benefit-item">
-              <h4>🌾 100% Pure & Natural</h4>
-              <p>Sourced from unpolluted organic soils to deliver essential natural nutrients.</p>
-            </div>
-            <div class="product-tabs__benefit-item">
-              <h4>🛡️ Chemical Free</h4>
-              <p>Zero pesticides, insecticides, synthetic additives, or heavy metals.</p>
-            </div>
-            <div class="product-tabs__benefit-item">
-              <h4>💪 Rich in Micronutrients</h4>
-              <p>Packed with natural vitamins, minerals, and antioxidants for overall well-being.</p>
-            </div>
-            <div class="product-tabs__benefit-item">
-              <h4>❤️ Heart & Gut Healthy</h4>
-              <p>Supports digestion, immunity, and healthy lifestyle choices for your family.</p>
-            </div>
-          </div>
-        {% endif %}
-      </div>
-    </details>
+    {% if raw_benefits != blank %}
+      <details class="product-accordion-item">
+        <summary class="product-accordion-item__header">
+          <span class="product-accordion-item__title">BENEFITS</span>
+          <span class="product-accordion-item__icon" aria-hidden="true">
+            <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="product-accordion-item__content rte">
+          {{ raw_benefits }}
+        </div>
+      </details>
+    {% endif %}
 
     <!-- 5. STORAGE INFO -->
-    <details class="product-accordion-item">
-      <summary class="product-accordion-item__header">
-        <span class="product-accordion-item__title">STORAGE INFO</span>
-        <span class="product-accordion-item__icon" aria-hidden="true">
-          <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </span>
-      </summary>
-      <div class="product-accordion-item__content">
-        {% if raw_storage != blank %}
-          <p>{{ raw_storage | newline_to_br }}</p>
-        {% else %}
-          <ul>
-            <li>Store in a cool, dry place away from direct sunlight and moisture.</li>
-            <li>Once opened, transfer into an airtight container.</li>
-            <li>Always use a clean, dry spoon to handle the product.</li>
-          </ul>
-        {% endif %}
-      </div>
-    </details>
+    {% if raw_storage != blank %}
+      <details class="product-accordion-item">
+        <summary class="product-accordion-item__header">
+          <span class="product-accordion-item__title">STORAGE INFO</span>
+          <span class="product-accordion-item__icon" aria-hidden="true">
+            <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="product-accordion-item__content rte">
+          {{ raw_storage }}
+        </div>
+      </details>
+    {% endif %}
 
     <!-- 6. MANUFACTURER & PACKER DETAILS -->
-    <details class="product-accordion-item">
-      <summary class="product-accordion-item__header">
-        <span class="product-accordion-item__title">MANUFACTURER & PACKER DETAILS</span>
-        <span class="product-accordion-item__icon" aria-hidden="true">
-          <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </span>
-      </summary>
-      <div class="product-accordion-item__content">
-        {% if raw_mfr != blank %}
-          <p><strong>Manufacturer:</strong> {{ raw_mfr }}</p>
-          <p><strong>Brand / Vendor:</strong> {{ product.vendor | default: 'Kishan Bazar' }}</p>
-        {% else %}
-          <p><strong>Brand / Vendor:</strong> {{ product.vendor | default: 'Kishan Bazar' }}</p>
-          <p><strong>Manufacturer:</strong> Kishan Bazar Organic Foods Pvt. Ltd.</p>
-          <p><strong>Address:</strong> Plot No. 42-45, Green Agro Industrial Park, Surat - 395006, Gujarat, India.</p>
-          <p><strong>FSSAI License No:</strong> 10721999000341</p>
-        {% endif %}
-      </div>
-    </details>
+    {% if raw_mfr != blank %}
+      <details class="product-accordion-item">
+        <summary class="product-accordion-item__header">
+          <span class="product-accordion-item__title">MANUFACTURER &amp; PACKER DETAILS</span>
+          <span class="product-accordion-item__icon" aria-hidden="true">
+            <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="product-accordion-item__content rte">
+          {{ raw_mfr }}
+        </div>
+      </details>
+    {% endif %}
 
     <!-- 7. COUNTRY OF ORIGIN -->
     <details class="product-accordion-item">
@@ -205,8 +165,7 @@
           <div class="product-tabs__origin-flag">
             <span class="flag-icon">🇮🇳</span>
             <div>
-              <strong>{{ raw_origin }}</strong>
-              <p>Sourced directly from certified organic farmer co-operatives across India.</p>
+              <div class="rte">{{ raw_origin }}</div>
             </div>
           </div>
         {% else %}
@@ -233,7 +192,7 @@
       </summary>
       <div class="product-accordion-item__content">
         {% if raw_shelflife != blank %}
-          <p><strong>{{ raw_shelflife }}</strong></p>
+          <div class="rte">{{ raw_shelflife }}</div>
         {% else %}
           <p><strong>4 Months (120 Days)</strong> from date of packaging.</p>
         {% endif %}
