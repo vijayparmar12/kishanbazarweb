@@ -72,10 +72,17 @@
     </div>
   </div>
 
-  <!-- Section 5: Product Details Tabs (Description, Ingredients, Usage, Benefits, Storage, Mfr, Origin, Shelf Life, FAQ) -->
+  <!-- Section 5: Product Details Tabs (Description, Ingredients, Usage, Benefits, Storage, Mfr, Origin, Shelf Life) -->
   <div class="product-page-section product-page-section--tabs">
     <div class="product-page-container">
       {% render 'product-tabs', product: product %}
+    </div>
+  </div>
+
+  <!-- Section 5.5: GirOrganic Style Dedicated FAQ Section -->
+  <div class="product-page-section product-page-section--faq">
+    <div class="product-page-container">
+      {% render 'product-faq', product: product, section: section %}
     </div>
   </div>
 
@@ -179,6 +186,64 @@
       "id": "sticky_bar_btn_text",
       "label": "Mobile sticky button text",
       "default": "ADD TO CART"
+    },
+    {
+      "type": "header",
+      "content": "Product Page FAQ Settings"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "FAQ Section Heading",
+      "default": "FAQ"
+    },
+    {
+      "type": "text",
+      "id": "faq_1_q",
+      "label": "Default Question 1",
+      "default": "What makes KishanVeda products unique?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_1_a",
+      "label": "Default Answer 1",
+      "default": "All our products are 100% natural, unrefined, and sourced directly from organic Indian farms without synthetic chemicals or bleaches."
+    },
+    {
+      "type": "text",
+      "id": "faq_2_q",
+      "label": "Default Question 2",
+      "default": "How is this product prepared and processed?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_2_a",
+      "label": "Default Answer 2",
+      "default": "Prepared using traditional methods to preserve original nutrients, natural aroma, and rich authentic taste."
+    },
+    {
+      "type": "text",
+      "id": "faq_3_q",
+      "label": "Default Question 3",
+      "default": "What is the shelf life & storage instructions?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_3_a",
+      "label": "Default Answer 3",
+      "default": "Store in a cool, dry place away from moisture. Best consumed within 4 to 6 months of packaging."
+    },
+    {
+      "type": "text",
+      "id": "faq_4_q",
+      "label": "Default Question 4",
+      "default": "Do you ship orders across India with Cash on Delivery?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_4_a",
+      "label": "Default Answer 4",
+      "default": "Yes, we offer fast express shipping across India with Cash on Delivery (COD) available for all orders."
     },
     {
       "type": "header",

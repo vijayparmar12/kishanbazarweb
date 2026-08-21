@@ -1,0 +1,168 @@
+{% doc %}
+  Renders GirOrganic-style FAQ section.
+  Editable via Shopify Theme Editor section settings.
+  Pulls dynamic per-product Q&A pairs from Product Custom Metafields:
+  - product.metafields.custom.faq_1_question & faq_1_answer
+  - product.metafields.custom.faq_2_question & faq_2_answer
+  - product.metafields.custom.faq_3_question & faq_3_answer
+  - product.metafields.custom.faq_4_question & faq_4_answer
+  - product.metafields.custom.faq_5_question & faq_5_answer
+
+  @param {object} product - The Shopify product object
+  @param {object} [section] - The section object from theme settings
+
+  @example
+  {% render 'product-faq', product: product, section: section %}
+{% enddoc %}
+
+{% liquid
+  assign c_meta = product.metafields.custom
+  assign alt_meta = product.metafields['product.metafields.custom']
+
+  # Extract up to 5 Q&A pairs from product custom metafields
+  assign q1 = c_meta.faq_1_question.value | default: alt_meta.faq_1_question.value | default: c_meta.faq_1_question
+  assign a1 = c_meta.faq_1_answer.value | default: alt_meta.faq_1_answer.value | default: c_meta.faq_1_answer
+
+  assign q2 = c_meta.faq_2_question.value | default: alt_meta.faq_2_question.value | default: c_meta.faq_2_question
+  assign a2 = c_meta.faq_2_answer.value | default: alt_meta.faq_2_answer.value | default: c_meta.faq_2_answer
+
+  assign q3 = c_meta.faq_3_question.value | default: alt_meta.faq_3_question.value | default: c_meta.faq_3_question
+  assign a3 = c_meta.faq_3_answer.value | default: alt_meta.faq_3_answer.value | default: c_meta.faq_3_answer
+
+  assign q4 = c_meta.faq_4_question.value | default: alt_meta.faq_4_question.value | default: c_meta.faq_4_question
+  assign a4 = c_meta.faq_4_answer.value | default: alt_meta.faq_4_answer.value | default: c_meta.faq_4_answer
+
+  assign q5 = c_meta.faq_5_question.value | default: alt_meta.faq_5_question.value | default: c_meta.faq_5_question
+  assign a5 = c_meta.faq_5_answer.value | default: alt_meta.faq_5_answer.value | default: c_meta.faq_5_answer
+
+  # Fallbacks from Section Settings (Theme Editor)
+  if q1 == blank
+    assign q1 = section.settings.faq_1_q | default: "What makes KishanVeda products unique?"
+    assign a1 = section.settings.faq_1_a | default: "All our products are 100% natural, unrefined, and sourced directly from organic Indian farms without synthetic chemicals or bleaches."
+  endif
+
+  if q2 == blank
+    assign q2 = section.settings.faq_2_q | default: "How is this product prepared and processed?"
+    assign a2 = section.settings.faq_2_a | default: "Prepared using traditional methods to preserve original nutrients, natural aroma, and rich authentic taste."
+  endif
+
+  if q3 == blank
+    assign q3 = section.settings.faq_3_q | default: "What is the shelf life & storage instructions?"
+    assign a3 = section.settings.faq_3_a | default: "Store in a cool, dry place away from moisture. Best consumed within 4 to 6 months of packaging."
+  endif
+
+  if q4 == blank
+    assign q4 = section.settings.faq_4_q | default: "Do you ship orders across India with Cash on Delivery?"
+    assign a4 = section.settings.faq_4_a | default: "Yes, we offer fast express shipping across India with Cash on Delivery (COD) available for all orders."
+  endif
+
+  assign heading = section.settings.faq_heading | default: "FAQ"
+%}
+
+<section class="product-faq-section" aria-label="Frequently Asked Questions">
+  <div class="product-faq-section__container">
+    <h2 class="product-faq-section__heading">{{ heading }}</h2>
+
+    <div class="product-faq-section__list">
+      {% if q1 != blank and a1 != blank %}
+        <details class="product-faq-card">
+          <summary class="product-faq-card__header">
+            <span class="product-faq-card__question-wrap">
+              <span class="product-faq-card__prefix">Q.</span>
+              <span class="product-faq-card__title">{{ q1 }}</span>
+            </span>
+            <span class="product-faq-card__icon" aria-hidden="true">
+              <svg class="product-faq-card__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </span>
+          </summary>
+          <div class="product-faq-card__answer">
+            <p>{{ a1 }}</p>
+          </div>
+        </details>
+      {% endif %}
+
+      {% if q2 != blank and a2 != blank %}
+        <details class="product-faq-card">
+          <summary class="product-faq-card__header">
+            <span class="product-faq-card__question-wrap">
+              <span class="product-faq-card__prefix">Q.</span>
+              <span class="product-faq-card__title">{{ q2 }}</span>
+            </span>
+            <span class="product-faq-card__icon" aria-hidden="true">
+              <svg class="product-faq-card__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </span>
+          </summary>
+          <div class="product-faq-card__answer">
+            <p>{{ a2 }}</p>
+          </div>
+        </details>
+      {% endif %}
+
+      {% if q3 != blank and a3 != blank %}
+        <details class="product-faq-card">
+          <summary class="product-faq-card__header">
+            <span class="product-faq-card__question-wrap">
+              <span class="product-faq-card__prefix">Q.</span>
+              <span class="product-faq-card__title">{{ q3 }}</span>
+            </span>
+            <span class="product-faq-card__icon" aria-hidden="true">
+              <svg class="product-faq-card__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </span>
+          </summary>
+          <div class="product-faq-card__answer">
+            <p>{{ a3 }}</p>
+          </div>
+        </details>
+      {% endif %}
+
+      {% if q4 != blank and a4 != blank %}
+        <details class="product-faq-card">
+          <summary class="product-faq-card__header">
+            <span class="product-faq-card__question-wrap">
+              <span class="product-faq-card__prefix">Q.</span>
+              <span class="product-faq-card__title">{{ q4 }}</span>
+            </span>
+            <span class="product-faq-card__icon" aria-hidden="true">
+              <svg class="product-faq-card__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </span>
+          </summary>
+          <div class="product-faq-card__answer">
+            <p>{{ a4 }}</p>
+          </div>
+        </details>
+      {% endif %}
+
+      {% if q5 != blank and a5 != blank %}
+        <details class="product-faq-card">
+          <summary class="product-faq-card__header">
+            <span class="product-faq-card__question-wrap">
+              <span class="product-faq-card__prefix">Q.</span>
+              <span class="product-faq-card__title">{{ q5 }}</span>
+            </span>
+            <span class="product-faq-card__icon" aria-hidden="true">
+              <svg class="product-faq-card__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </span>
+          </summary>
+          <div class="product-faq-card__answer">
+            <p>{{ a5 }}</p>
+          </div>
+        </details>
+      {% endif %}
+    </div>
+  </div>
+</section>
