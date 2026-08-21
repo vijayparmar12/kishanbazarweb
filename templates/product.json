@@ -152,9 +152,28 @@
         "banner_image_5": "{{ product.metafields.custom.custom_banner_5.value }}",
         "banner_image_6": "{{ product.metafields.custom.custom_banner_6.value }}"
       }
+    },
+    "17873019617eff62b9": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_qx4RwR": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_qx4RwR"
+      ],
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "17873019617eff62b9"
   ]
 }
