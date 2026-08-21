@@ -118,9 +118,7 @@
         "product_video_g8Vgf7",
         "product_banner_F8tDeF"
       ],
-      "custom_css": [
-        "/* Review Button Color */.jdgm-write-rev-btn, .jdgm-btn, .jdgm-submit-rev {background-color: #1B4317 !important; border-color: #1B4317 !important; color: #ffffff !important;}"
-      ],
+      "custom_css": [],
       "settings": {
         "desktop_media_width": "large",
         "show_tabs": true,
