@@ -1276,44 +1276,127 @@
   }
 }
 
-/* Judge.me Live Plugin Review Widget Custom Color Styling */
+/* Judge.me Live Plugin Review Widget Custom Color (#23421F) & Side Curve Styling */
 .jdgm-rev-widg,
-.jdgm-widget {
+.jdgm-widget,
+.jdgm-review-widget {
   font-family: inherit !important;
 }
 
-/* Judge.me Write a Review Button Color Override */
+/* Overall Widget Container Card Curved Sides */
+.jdgm-rev-widg {
+  border-radius: 20px !important;
+  border: 1px solid #efe8da !important;
+  background-color: #fcfbf9 !important;
+  padding: 1.5rem !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Summary Box Curved Corners */
+.jdgm-rev-widg__summary {
+  border-radius: 16px !important;
+  padding: 1.25rem !important;
+}
+
+/* Write a Review Button: #23421F + Curved Pill/Side Curves */
 .jdgm-write-rev-btn,
 .jdgm-btn,
-.jdgm-submit-rev {
-  background-color: #1b4317 !important;
+.jdgm-submit-rev,
+.jdgm-all-reviews-rating-actions__write-btn {
+  background-color: #23421f !important;
   color: #ffffff !important;
-  border-color: #1b4317 !important;
-  border-radius: 8px !important;
+  border-color: #23421f !important;
+  border-radius: 14px !important;
   font-weight: 700 !important;
-  padding: 10px 22px !important;
-  transition: all 0.2s ease !important;
+  font-size: 0.95rem !important;
+  padding: 12px 26px !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 4px 14px rgba(35, 66, 31, 0.2) !important;
 }
 
 .jdgm-write-rev-btn:hover,
 .jdgm-btn:hover,
 .jdgm-submit-rev:hover {
-  background-color: #143511 !important;
-  border-color: #143511 !important;
+  background-color: #183015 !important;
+  border-color: #183015 !important;
+  transform: translateY(-1px) !important;
 }
 
-/* Judge.me Rating Bar Fill Color Override */
+/* Progress Rating Bar Track & Fill in #23421F */
+.jdgm-rev-widg__summary-bar {
+  background-color: #e5e7eb !important;
+  border-radius: 999px !important;
+  height: 8px !important;
+}
+
 .jdgm-rev-widg__summary-bar-fill {
-  background-color: #1b4317 !important;
+  background-color: #23421f !important;
+  border-radius: 999px !important;
 }
 
-/* Judge.me Star Color Override (Gold/Yellow) */
+/* Star Color (Gold Stars) */
 .jdgm-star {
   color: #f59e0b !important;
 }
 
 .jdgm-star.jdgm--off {
   color: #e5e7eb !important;
+}
+
+/* Individual Review Cards: Side Curves & Clean Border */
+.jdgm-rev {
+  border-radius: 16px !important;
+  border: 1px solid #e5e7eb !important;
+  background-color: #ffffff !important;
+  padding: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Verified Buyer Badge & Icons in #23421F */
+.jdgm-rev__buyer-badge {
+  background-color: #eaf4e9 !important;
+  color: #23421f !important;
+  border-radius: 999px !important;
+  padding: 0.2rem 0.6rem !important;
+  font-weight: 600 !important;
+}
+
+.jdgm-rev__icon,
+.jdgm-verified-badge {
+  color: #23421f !important;
+}
+
+/* Customer Photos & Videos Gallery Thumbnails Curves */
+.jdgm-rev__pic-img,
+.jdgm-media-item,
+.jdgm-gallery-item img {
+  border-radius: 12px !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+/* Filter & Sort Dropdowns Side Curves */
+.jdgm-sort-dropdown,
+.jdgm-filter-dropdown select,
+.jdgm-btn--sort {
+  border-radius: 10px !important;
+  border-color: #d1d5db !important;
+  font-weight: 600 !important;
+}
+
+/* Review Form Popup / Modal Curved Corners */
+.jdgm-form,
+.jdgm-form-wrapper {
+  border-radius: 20px !important;
+  border: 1px solid #efe8da !important;
+  padding: 1.5rem !important;
+}
+
+.jdgm-form input[type="text"],
+.jdgm-form input[type="email"],
+.jdgm-form textarea {
+  border-radius: 10px !important;
+  border: 1px solid #d1d5db !important;
 }
 
 /* Review Modal Form */
