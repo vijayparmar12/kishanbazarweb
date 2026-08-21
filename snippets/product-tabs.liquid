@@ -1,13 +1,7 @@
 {% doc %}
-  Renders Product Accordions section dynamically pulling product custom metafields:
-  - Ingredients (c_meta.Ingredients / c_meta.ingredients)
-  - Description (c_meta.description / product.description)
-  - Usage (c_meta.usage)
-  - Benefits (c_meta.benefits)
-  - Storage Info (c_meta.storage_info)
-  - Manufacturer & Packer Details (c_meta.manufacturer)
-  - Country of Origin (c_meta.origin)
-  - Shelf Life (c_meta.shelf_life)
+  Renders Product Details Accordions.
+  Evaluates Theme Editor section settings FIRST (allowing merchants to connect dynamic metafield sources via Theme Editor UI),
+  with fallback to product custom metafields and default product properties.
 
   @param {object} product - The Shopify product object
   @param {object} [section] - The section object
@@ -20,29 +14,29 @@
   assign c_meta = product.metafields.custom
   assign alt_meta = product.metafields['product.metafields.custom']
 
-  # 1. DESCRIPTION
-  assign raw_desc = c_meta.description.value | default: c_meta.description | default: alt_meta.description.value | default: alt_meta.description | default: section.settings.tab_description | default: product.description
+  # 1. DESCRIPTION (Theme Editor Setting -> Metafield -> Product Description)
+  assign raw_desc = section.settings.tab_description | default: c_meta.description.value | default: c_meta.description | default: alt_meta.description.value | default: alt_meta.description | default: product.description
 
   # 2. INGREDIENTS
-  assign raw_ingredients = c_meta.Ingredients.value | default: c_meta.Ingredients | default: c_meta.ingredients.value | default: c_meta.ingredients | default: alt_meta.Ingredients.value | default: alt_meta.ingredients.value | default: section.settings.tab_ingredients
+  assign raw_ingredients = section.settings.tab_ingredients | default: c_meta.Ingredients.value | default: c_meta.Ingredients | default: c_meta.ingredients.value | default: c_meta.ingredients | default: alt_meta.Ingredients.value | default: alt_meta.ingredients.value
 
   # 3. USAGE INFO
-  assign raw_usage = c_meta.usage.value | default: c_meta.usage | default: alt_meta.usage.value | default: alt_meta.usage | default: section.settings.tab_usage
+  assign raw_usage = section.settings.tab_usage | default: c_meta.usage.value | default: c_meta.usage | default: alt_meta.usage.value | default: alt_meta.usage
 
   # 4. BENEFITS
-  assign raw_benefits = c_meta.benefits.value | default: c_meta.benefits | default: alt_meta.benefits.value | default: alt_meta.benefits | default: section.settings.tab_benefits
+  assign raw_benefits = section.settings.tab_benefits | default: c_meta.benefits.value | default: c_meta.benefits | default: alt_meta.benefits.value | default: alt_meta.benefits
 
   # 5. STORAGE INFO
-  assign raw_storage = c_meta.storage_info.value | default: c_meta.storage_info | default: alt_meta.storage_info.value | default: alt_meta.storage_info | default: c_meta.storage | default: section.settings.tab_storage
+  assign raw_storage = section.settings.tab_storage | default: c_meta.storage_info.value | default: c_meta.storage_info | default: alt_meta.storage_info.value | default: alt_meta.storage_info | default: c_meta.storage
 
   # 6. MANUFACTURER & PACKER DETAILS
-  assign raw_mfr = c_meta.manufacturer.value | default: c_meta.manufacturer | default: alt_meta.manufacturer.value | default: alt_meta.manufacturer | default: section.settings.tab_manufacturer
+  assign raw_mfr = section.settings.tab_manufacturer | default: c_meta.manufacturer.value | default: c_meta.manufacturer | default: alt_meta.manufacturer.value | default: alt_meta.manufacturer
 
   # 7. COUNTRY OF ORIGIN
-  assign raw_origin = c_meta.origin.value | default: c_meta.origin | default: alt_meta.origin.value | default: alt_meta.origin | default: section.settings.tab_origin
+  assign raw_origin = section.settings.tab_origin | default: c_meta.origin.value | default: c_meta.origin | default: alt_meta.origin.value | default: alt_meta.origin
 
   # 8. SHELF LIFE
-  assign raw_shelflife = c_meta.shelf_life.value | default: c_meta.shelf_life | default: alt_meta.shelf_life.value | default: alt_meta.shelf_life | default: section.settings.tab_shelflife
+  assign raw_shelflife = section.settings.tab_shelflife | default: c_meta.shelf_life.value | default: c_meta.shelf_life | default: alt_meta.shelf_life.value | default: alt_meta.shelf_life
 %}
 
 <section class="product-tabs-section" aria-label="Product Details">
@@ -151,53 +145,43 @@
     {% endif %}
 
     <!-- 7. COUNTRY OF ORIGIN -->
-    <details class="product-accordion-item">
-      <summary class="product-accordion-item__header">
-        <span class="product-accordion-item__title">COUNTRY OF ORIGIN</span>
-        <span class="product-accordion-item__icon" aria-hidden="true">
-          <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </span>
-      </summary>
-      <div class="product-accordion-item__content">
-        {% if raw_origin != blank %}
+    {% if raw_origin != blank %}
+      <details class="product-accordion-item">
+        <summary class="product-accordion-item__header">
+          <span class="product-accordion-item__title">COUNTRY OF ORIGIN</span>
+          <span class="product-accordion-item__icon" aria-hidden="true">
+            <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="product-accordion-item__content">
           <div class="product-tabs__origin-flag">
             <span class="flag-icon">🇮🇳</span>
             <div>
               <div class="rte">{{ raw_origin }}</div>
             </div>
           </div>
-        {% else %}
-          <div class="product-tabs__origin-flag">
-            <span class="flag-icon">🇮🇳</span>
-            <div>
-              <strong>Made in India</strong>
-              <p>Sourced directly from certified organic farmer co-operatives across India.</p>
-            </div>
-          </div>
-        {% endif %}
-      </div>
-    </details>
+        </div>
+      </details>
+    {% endif %}
 
     <!-- 8. SHELF LIFE -->
-    <details class="product-accordion-item">
-      <summary class="product-accordion-item__header">
-        <span class="product-accordion-item__title">SHELF LIFE</span>
-        <span class="product-accordion-item__icon" aria-hidden="true">
-          <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </span>
-      </summary>
-      <div class="product-accordion-item__content">
-        {% if raw_shelflife != blank %}
+    {% if raw_shelflife != blank %}
+      <details class="product-accordion-item">
+        <summary class="product-accordion-item__header">
+          <span class="product-accordion-item__title">SHELF LIFE</span>
+          <span class="product-accordion-item__icon" aria-hidden="true">
+            <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="product-accordion-item__content">
           <div class="rte">{{ raw_shelflife }}</div>
-        {% else %}
-          <p><strong>4 Months (120 Days)</strong> from date of packaging.</p>
-        {% endif %}
-      </div>
-    </details>
+        </div>
+      </details>
+    {% endif %}
 
   </div>
 </section>
