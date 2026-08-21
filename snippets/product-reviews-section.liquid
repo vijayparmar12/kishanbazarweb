@@ -29,10 +29,14 @@
     --jdgm-radius: {{ border_rad }}px;
   }
 
-  /* Theme Editor Dynamic Button Color Override */
+  /* Comprehensive Judge.me Button Color Overrides */
   #ProductReviews-{{ section.id }} .jdgm-write-rev-btn,
   #ProductReviews-{{ section.id }} .jdgm-btn,
   #ProductReviews-{{ section.id }} .jdgm-submit-rev,
+  #ProductReviews-{{ section.id }} .jdgm-btn--primary,
+  #ProductReviews-{{ section.id }} a.jdgm-btn,
+  #ProductReviews-{{ section.id }} button.jdgm-btn,
+  #ProductReviews-{{ section.id }} input[type="submit"].jdgm-btn,
   #ProductReviews-{{ section.id }} .jdgm-all-reviews-rating-actions__write-btn {
     background-color: var(--jdgm-btn-bg) !important;
     color: var(--jdgm-btn-text) !important;
@@ -42,22 +46,26 @@
 
   #ProductReviews-{{ section.id }} .jdgm-write-rev-btn:hover,
   #ProductReviews-{{ section.id }} .jdgm-btn:hover,
-  #ProductReviews-{{ section.id }} .jdgm-submit-rev:hover {
+  #ProductReviews-{{ section.id }} .jdgm-submit-rev:hover,
+  #ProductReviews-{{ section.id }} .jdgm-btn--primary:hover,
+  #ProductReviews-{{ section.id }} a.jdgm-btn:hover,
+  #ProductReviews-{{ section.id }} button.jdgm-btn:hover,
+  #ProductReviews-{{ section.id }} input[type="submit"].jdgm-btn:hover {
     background-color: var(--jdgm-btn-hover) !important;
     border-color: var(--jdgm-btn-hover) !important;
   }
 
-  /* Theme Editor Dynamic Progress Bar Fill Color Override */
+  /* Progress Bar Fill Color Override */
   #ProductReviews-{{ section.id }} .jdgm-rev-widg__summary-bar-fill {
     background-color: var(--jdgm-bar-fill) !important;
   }
 
-  /* Theme Editor Dynamic Star Color Override */
+  /* Star Color Override */
   #ProductReviews-{{ section.id }} .jdgm-star {
     color: var(--jdgm-star-color) !important;
   }
 
-  /* Theme Editor Dynamic Card Side Curves Override */
+  /* Card Side Curves Override */
   #ProductReviews-{{ section.id }} .jdgm-rev-widg,
   #ProductReviews-{{ section.id }} .jdgm-rev,
   #ProductReviews-{{ section.id }} .jdgm-form-wrapper {

@@ -1298,10 +1298,14 @@
   padding: 1.25rem !important;
 }
 
-/* Write a Review Button: #23421F + Curved Pill/Side Curves */
+/* Write a Review Button: #1B4317 + Curved Pill/Side Curves */
 .jdgm-write-rev-btn,
 .jdgm-btn,
 .jdgm-submit-rev,
+.jdgm-btn--primary,
+a.jdgm-btn,
+button.jdgm-btn,
+input[type="submit"].jdgm-btn,
 .jdgm-all-reviews-rating-actions__write-btn {
   background-color: #1B4317 !important;
   color: #ffffff !important;
@@ -1311,14 +1315,18 @@
   font-size: 0.95rem !important;
   padding: 12px 26px !important;
   transition: all 0.25s ease !important;
-  box-shadow: 0 4px 14px rgba(35, 66, 31, 0.2) !important;
+  box-shadow: 0 4px 14px rgba(27, 67, 23, 0.2) !important;
 }
 
 .jdgm-write-rev-btn:hover,
 .jdgm-btn:hover,
-.jdgm-submit-rev:hover {
-  background-color: #183015 !important;
-  border-color: #183015 !important;
+.jdgm-submit-rev:hover,
+.jdgm-btn--primary:hover,
+a.jdgm-btn:hover,
+button.jdgm-btn:hover,
+input[type="submit"].jdgm-btn:hover {
+  background-color: #143511 !important;
+  border-color: #143511 !important;
   transform: translateY(-1px) !important;
 }
 
