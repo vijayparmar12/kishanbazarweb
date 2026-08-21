@@ -180,22 +180,23 @@
     margin-bottom: 0.75rem;
   }
 
-  /* 8. ALL 4 TRUST BADGE ICONS EIGHTH (Below Variants Grams Box) */
+  /* 8. Stock & Availability Status EIGHTH (Placed ABOVE Trust Badges on Mobile) */
+  .product-info__availability,
+  .product-info__stock-status {
+    order: 8 !important;
+    margin-top: 0.35rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* 9. ALL 4 TRUST BADGE ICONS NINTH (Placed BELOW In Stock Line) */
   .product-info__trust-badges,
   .product-circle-features--trust,
   [data-product-trust-badges] {
-    order: 8 !important;
+    order: 9 !important;
     display: block !important;
     margin-top: 0.35rem;
     margin-bottom: 0.85rem;
     width: 100%;
-  }
-
-  /* 9. Stock & Availability Status NINTH */
-  .product-info__availability,
-  .product-info__stock-status {
-    order: 9 !important;
-    margin-bottom: 0.75rem;
   }
 }
 
