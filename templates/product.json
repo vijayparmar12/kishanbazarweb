@@ -111,7 +111,7 @@
         "recommendations_limit": 6,
         "show_sticky_mobile_bar": true,
         "sticky_bar_btn_text": "ADD TO CART",
-        "tab_description": "",
+        "tab_description": "{{ product.metafields.custom.description | metafield_tag }}",
         "tab_ingredients": "",
         "tab_usage": "",
         "tab_benefits": "",
