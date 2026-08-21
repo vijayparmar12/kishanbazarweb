@@ -19,14 +19,14 @@
 {% liquid
   assign c_meta = product.metafields.custom
 
-  assign raw_desc = c_meta.description.value | default: c_meta.description | default: c_meta.Description.value | default: c_meta.Description | default: product.description
-  assign raw_ingredients = c_meta.ingredients.value | default: c_meta.ingredients | default: c_meta.Ingredients.value | default: c_meta.Ingredients
-  assign raw_usage = c_meta.usage.value | default: c_meta.usage | default: c_meta.Usage.value | default: c_meta.Usage
-  assign raw_benefits = c_meta.benefits.value | default: c_meta.benefits | default: c_meta.Benefits.value | default: c_meta.Benefits
-  assign raw_storage = c_meta.storage_info.value | default: c_meta.storage_info | default: c_meta.Storage_info.value | default: c_meta.Storage_info | default: c_meta.storage
-  assign raw_mfr = c_meta.manufacturer.value | default: c_meta.manufacturer | default: c_meta.Manufacturer.value | default: c_meta.Manufacturer
-  assign raw_origin = c_meta.origin.value | default: c_meta.origin | default: c_meta.Origin.value | default: c_meta.Origin
-  assign raw_shelflife = c_meta.shelf_life.value | default: c_meta.shelf_life | default: c_meta.Shelf_life.value | default: c_meta.Shelf_life
+  assign raw_desc = section.settings.tab_description | default: c_meta.description.value | default: c_meta.description | default: c_meta.Description.value | default: c_meta.Description | default: product.description
+  assign raw_ingredients = section.settings.tab_ingredients | default: c_meta.ingredients.value | default: c_meta.ingredients | default: c_meta.Ingredients.value | default: c_meta.Ingredients
+  assign raw_usage = section.settings.tab_usage | default: c_meta.usage.value | default: c_meta.usage | default: c_meta.Usage.value | default: c_meta.Usage
+  assign raw_benefits = section.settings.tab_benefits | default: c_meta.benefits.value | default: c_meta.benefits | default: c_meta.Benefits.value | default: c_meta.Benefits
+  assign raw_storage = section.settings.tab_storage | default: c_meta.storage_info.value | default: c_meta.storage_info | default: c_meta.Storage_info.value | default: c_meta.Storage_info | default: c_meta.storage
+  assign raw_mfr = section.settings.tab_manufacturer | default: c_meta.manufacturer.value | default: c_meta.manufacturer | default: c_meta.Manufacturer.value | default: c_meta.Manufacturer
+  assign raw_origin = section.settings.tab_origin | default: c_meta.origin.value | default: c_meta.origin | default: c_meta.Origin.value | default: c_meta.Origin
+  assign raw_shelflife = section.settings.tab_shelflife | default: c_meta.shelf_life.value | default: c_meta.shelf_life | default: c_meta.Shelf_life.value | default: c_meta.Shelf_life
 
   assign raw_faq1_q = c_meta.faq_1_question.value | default: c_meta.faq_1_question
   assign raw_faq1_a = c_meta.faq_1_answer.value | default: c_meta.faq_1_answer

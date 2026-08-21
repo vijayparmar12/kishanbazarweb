@@ -20,20 +20,20 @@
   assign alt_meta = product.metafields['product.metafields.custom']
 
   # Extract up to 5 Q&A pairs from product custom metafields
-  assign q1 = c_meta.faq_1_question.value | default: alt_meta.faq_1_question.value | default: c_meta.faq_1_question
-  assign a1 = c_meta.faq_1_answer.value | default: alt_meta.faq_1_answer.value | default: c_meta.faq_1_answer
+  assign q1 = section.settings.faq_1_q | default: c_meta.faq_1_question.value | default: alt_meta.faq_1_question.value | default: c_meta.faq_1_question
+  assign a1 = section.settings.faq_1_a | default: c_meta.faq_1_answer.value | default: alt_meta.faq_1_answer.value | default: c_meta.faq_1_answer
 
-  assign q2 = c_meta.faq_2_question.value | default: alt_meta.faq_2_question.value | default: c_meta.faq_2_question
-  assign a2 = c_meta.faq_2_answer.value | default: alt_meta.faq_2_answer.value | default: c_meta.faq_2_answer
+  assign q2 = section.settings.faq_2_q | default: c_meta.faq_2_question.value | default: alt_meta.faq_2_question.value | default: c_meta.faq_2_question
+  assign a2 = section.settings.faq_2_a | default: c_meta.faq_2_answer.value | default: alt_meta.faq_2_answer.value | default: c_meta.faq_2_answer
 
-  assign q3 = c_meta.faq_3_question.value | default: alt_meta.faq_3_question.value | default: c_meta.faq_3_question
-  assign a3 = c_meta.faq_3_answer.value | default: alt_meta.faq_3_answer.value | default: c_meta.faq_3_answer
+  assign q3 = section.settings.faq_3_q | default: c_meta.faq_3_question.value | default: alt_meta.faq_3_question.value | default: c_meta.faq_3_question
+  assign a3 = section.settings.faq_3_a | default: c_meta.faq_3_answer.value | default: alt_meta.faq_3_answer.value | default: c_meta.faq_3_answer
 
-  assign q4 = c_meta.faq_4_question.value | default: alt_meta.faq_4_question.value | default: c_meta.faq_4_question
-  assign a4 = c_meta.faq_4_answer.value | default: alt_meta.faq_4_answer.value | default: c_meta.faq_4_answer
+  assign q4 = section.settings.faq_4_q | default: c_meta.faq_4_question.value | default: alt_meta.faq_4_question.value | default: c_meta.faq_4_question
+  assign a4 = section.settings.faq_4_a | default: c_meta.faq_4_answer.value | default: alt_meta.faq_4_answer.value | default: c_meta.faq_4_answer
 
-  assign q5 = c_meta.faq_5_question.value | default: alt_meta.faq_5_question.value | default: c_meta.faq_5_question
-  assign a5 = c_meta.faq_5_answer.value | default: alt_meta.faq_5_answer.value | default: c_meta.faq_5_answer
+  assign q5 = section.settings.faq_5_q | default: c_meta.faq_5_question.value | default: alt_meta.faq_5_question.value | default: c_meta.faq_5_question
+  assign a5 = section.settings.faq_5_a | default: c_meta.faq_5_answer.value | default: alt_meta.faq_5_answer.value | default: c_meta.faq_5_answer
 
   # Fallbacks from Section Settings (Theme Editor)
   if q1 == blank
