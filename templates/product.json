@@ -14,7 +14,9 @@
       "blocks": {
         "trust_badges_V7nWne": {
           "type": "trust_badges",
-          "settings": {}
+          "settings": {
+            "icon_size": 70
+          }
         },
         "title_zwNBWV": {
           "type": "title",
@@ -69,6 +71,14 @@
             "cart_btn_color": "#ffffff"
           }
         },
+        "product_video_g8Vgf7": {
+          "type": "product_video",
+          "settings": {
+            "heading": "Made with care, from source to finish",
+            "video": "{{ product.metafields.custom.product_metafields_custom_product_video.value }}",
+            "video_url": ""
+          }
+        },
         "product_banner_F8tDeF": {
           "type": "product_banner",
           "settings": {
@@ -90,6 +100,7 @@
         "variant_picker_fTExdk",
         "stock_status_qfnGpK",
         "buy_buttons_jrQJdY",
+        "product_video_g8Vgf7",
         "product_banner_F8tDeF"
       ],
       "settings": {
