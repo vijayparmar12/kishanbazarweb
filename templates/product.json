@@ -12,17 +12,15 @@
     "main": {
       "type": "product",
       "blocks": {
-        "trust_badges_V7nWne": {
-          "type": "trust_badges",
-          "settings": {
-            "icon_size": 70
-          }
-        },
         "title_zwNBWV": {
           "type": "title",
           "settings": {
             "show_subtitle": true
           }
+        },
+        "judge_me_reviews_preview_badge_PXhHFt": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
         },
         "rating_QizByz": {
           "type": "rating",
@@ -71,6 +69,12 @@
           "type": "variant_picker",
           "settings": {}
         },
+        "trust_badges_V7nWne": {
+          "type": "trust_badges",
+          "settings": {
+            "icon_size": 70
+          }
+        },
         "product_video_g8Vgf7": {
           "type": "product_video",
           "settings": {
@@ -105,8 +109,8 @@
         }
       },
       "block_order": [
-        "trust_badges_V7nWne",
         "title_zwNBWV",
+        "judge_me_reviews_preview_badge_PXhHFt",
         "rating_QizByz",
         "description_WMpDyn",
         "benefit_icons_TeMKQk",
@@ -114,6 +118,7 @@
         "stock_status_qfnGpK",
         "buy_buttons_jrQJdY",
         "variant_picker_fTExdk",
+        "trust_badges_V7nWne",
         "product_video_g8Vgf7",
         "product_banner_F8tDeF",
         "product_faq_X8pL9P"
