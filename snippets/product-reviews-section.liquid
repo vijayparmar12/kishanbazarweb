@@ -1,6 +1,7 @@
 {% doc %}
   Renders the live Judge.me Reviews plugin widget for KishanVeda / Kishan Bazar.
   Static manual review fallback removed as requested.
+  Deduplication script included to ensure ONLY 1 review widget renders on the page.
 
   @param {object} product - The Shopify product object
 
@@ -16,3 +17,23 @@
     </div>
   </div>
 </section>
+
+<script>
+  (function() {
+    function cleanupDuplicateWidgets() {
+      const reviewWidgets = document.querySelectorAll('.jdgm-review-widget, .jdgm-rev-widg');
+      if (reviewWidgets.length > 1) {
+        for (let i = 1; i < reviewWidgets.length; i++) {
+          reviewWidgets[i].style.display = 'none';
+        }
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', cleanupDuplicateWidgets);
+    } else {
+      cleanupDuplicateWidgets();
+    }
+    window.addEventListener('load', cleanupDuplicateWidgets);
+    setTimeout(cleanupDuplicateWidgets, 1200);
+  })();
+</script>
