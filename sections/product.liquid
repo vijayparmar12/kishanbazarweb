@@ -57,6 +57,14 @@
     </div>
   </section>
 
+  <!-- Section 4: Desktop Product Video Card (Placed Above Banners) -->
+  {% assign video_block = section.blocks | where: 'type', 'product_video' | first %}
+  <div class="product-page-section product-page-section--video-desktop">
+    <div class="product-page-container">
+      {% render 'product-video-card', product: product, block: video_block %}
+    </div>
+  </div>
+
   <!-- Section 4.5: Dynamic Product Page Banners Slider (Up to 6 Banners) -->
   <div class="product-page-section product-page-section--banners">
     <div class="product-page-container">
