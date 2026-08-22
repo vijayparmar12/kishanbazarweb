@@ -21,7 +21,7 @@
         "rating_QizByz": {
           "type": "rating",
           "settings": {
-            "score": "4.9",
+            "score": "4.9{{ product.metafields.custom.custom_review_count.value }}",
             "review_count": "128 Verified Ratings"
           }
         },
