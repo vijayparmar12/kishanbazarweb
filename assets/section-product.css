@@ -1551,12 +1551,46 @@ i.jdgm-star,
   color: #1B4317 !important;
 }
 
-/* Customer Photos & Videos Gallery Thumbnails Curves */
-.jdgm-rev__pic-img,
-.jdgm-media-item,
-.jdgm-gallery-item img {
+/* Customer Photos & Videos Gallery Thumbnails (4 images side-by-side in 1 row) */
+.jdgm-pictures-wrapper,
+.jdgm-carousel-wrapper,
+.jdgm-gallery-wrapper,
+.jdgm-rev-widg__pictures {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding: 0.75rem 0 !important;
+  margin: 0.75rem 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.jdgm-pictures-wrapper .jdgm-gallery-item,
+.jdgm-carousel-wrapper .jdgm-carousel-item,
+.jdgm-rev-widg__pictures .jdgm-picture-item,
+.jdgm-rev__pic-img {
+  flex: 0 0 calc(25% - 8px) !important;
+  min-width: 75px !important;
+  max-width: 110px !important;
+  aspect-ratio: 1 / 1 !important;
   border-radius: 12px !important;
+  overflow: hidden !important;
   border: 1px solid #e5e7eb !important;
+}
+
+.jdgm-pictures-wrapper img,
+.jdgm-carousel-wrapper img,
+.jdgm-gallery-wrapper img,
+.jdgm-rev__pic-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
 }
 
 /* Filter & Sort Dropdowns Side Curves */

@@ -27,10 +27,6 @@
     --jdgm-star-color: {{ star_col }};
     --jdgm-bar-fill: {{ bar_col }};
     --jdgm-radius: {{ border_rad }}px;
-  }
-
-  /* Judge.me Section & Container Padding Fix (Eliminate Double/Triple Padding) */
-  #ProductReviews-{{ section.id }} {
     padding: 0.5rem 0 !important;
     width: 100% !important;
     box-sizing: border-box !important;
@@ -80,42 +76,53 @@
   #ProductReviews-{{ section.id }} a.jdgm-btn,
   #ProductReviews-{{ section.id }} button.jdgm-btn,
   #ProductReviews-{{ section.id }} input[type="submit"].jdgm-btn,
-  #ProductReviews-{{ section.id }} .jdgm-all-reviews-rating-actions__write-btn {
-    background-color: var(--jdgm-btn-bg) !important;
-    color: var(--jdgm-btn-text) !important;
-    border-color: var(--jdgm-btn-bg) !important;
-    border-radius: var(--jdgm-radius) !important;
+  #ProductReviews-{{ section.id }} .jdgm-all-reviews-rating-actions__write-btn,
+  .jdgm-write-rev-btn,
+  .jdgm-all-reviews-rating-actions__write-btn {
+    background-color: var(--jdgm-btn-bg, #1B4317) !important;
+    color: var(--jdgm-btn-text, #ffffff) !important;
+    border-color: var(--jdgm-btn-bg, #1B4317) !important;
+    border-radius: var(--jdgm-radius, 12px) !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    max-width: 380px !important;
+    padding: 12px 24px !important;
+    margin: 10px auto !important;
+    text-align: center !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 4px 14px rgba(27, 67, 23, 0.2) !important;
   }
 
   #ProductReviews-{{ section.id }} .jdgm-write-rev-btn:hover,
   #ProductReviews-{{ section.id }} .jdgm-btn:hover,
-  #ProductReviews-{{ section.id }} .jdgm-submit-rev:hover,
-  #ProductReviews-{{ section.id }} .jdgm-btn--primary:hover,
-  #ProductReviews-{{ section.id }} a.jdgm-btn:hover,
-  #ProductReviews-{{ section.id }} button.jdgm-btn:hover,
-  #ProductReviews-{{ section.id }} input[type="submit"].jdgm-btn:hover {
-    background-color: var(--jdgm-btn-hover) !important;
-    border-color: var(--jdgm-btn-hover) !important;
+  .jdgm-write-rev-btn:hover {
+    background-color: var(--jdgm-btn-hover, #143511) !important;
+    border-color: var(--jdgm-btn-hover, #143511) !important;
   }
 
   /* Star Color Override */
-  #ProductReviews-{{ section.id }} .jdgm-star {
-    color: var(--jdgm-star-color) !important;
+  #ProductReviews-{{ section.id }} .jdgm-star,
+  .jdgm-star {
+    color: var(--jdgm-star-color, #F59E0B) !important;
   }
 
-  /* Prevent title word-break issues like "Custome r Reviews" */
+  /* Title Word Wrapping Fix ("Customer Reviews") */
   .jdgm-rev-widg__title,
   .jdgm-widget-title,
   .jdgm-rev-widg__header,
   .jdgm-rev-widg__summary-text,
   h2.jdgm-rev-widg__title,
   h2.jdgm-widget-title {
-    font-size: 1.35rem !important;
+    font-size: 1.4rem !important;
     font-weight: 800 !important;
     word-break: keep-all !important;
     word-wrap: normal !important;
     overflow-wrap: normal !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
     hyphens: manual !important;
     text-align: center !important;
     display: block !important;
@@ -123,7 +130,7 @@
     margin-bottom: 0.5rem !important;
   }
 
-  /* Force Stars to remain horizontal inline row */
+  /* Force Rating Stars to remain horizontal inline row */
   .jdgm-star,
   .jdgm-star.jdgm--on,
   .jdgm-star.jdgm--off,
@@ -148,7 +155,7 @@
     gap: 2px !important;
   }
 
-  /* Histogram Rating Rows (5★, 4★, 3★, 2★, 1★) Horizontal Flex Layout matching Judge.me Preview */
+  /* Histogram Rating Rows (5★, 4★, 3★, 2★, 1★) Horizontal Flex Layout */
   .jdgm-histogram {
     width: 100% !important;
     max-width: 480px !important;
@@ -207,18 +214,46 @@
     color: #6b7280 !important;
   }
 
-  /* Write a Review Button Fix */
-  .jdgm-write-rev-btn,
-  .jdgm-all-reviews-rating-actions__write-btn {
-    white-space: nowrap !important;
-    display: inline-flex !important;
+  /* Customer Review Photos Grid / Carousel (4 images side-by-side in 1 row) */
+  .jdgm-pictures-wrapper,
+  .jdgm-carousel-wrapper,
+  .jdgm-gallery-wrapper,
+  .jdgm-rev-widg__pictures {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
     align-items: center !important;
-    justify-content: center !important;
-    width: auto !important;
-    min-width: 140px !important;
-    padding: 10px 22px !important;
-    margin: 8px auto !important;
-    text-align: center !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 0.75rem 0 !important;
+    margin: 0.75rem 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .jdgm-pictures-wrapper .jdgm-gallery-item,
+  .jdgm-carousel-wrapper .jdgm-carousel-item,
+  .jdgm-rev-widg__pictures .jdgm-picture-item,
+  .jdgm-rev__pic-img {
+    flex: 0 0 calc(25% - 8px) !important;
+    min-width: 75px !important;
+    max-width: 110px !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    border: 1px solid #e5e7eb !important;
+  }
+
+  .jdgm-pictures-wrapper img,
+  .jdgm-carousel-wrapper img,
+  .jdgm-gallery-wrapper img,
+  .jdgm-rev__pic-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 12px !important;
   }
 
   /* Filter & Sort Dropdowns Layout */
@@ -232,31 +267,6 @@
     justify-content: center !important;
     flex-wrap: wrap !important;
     gap: 8px !important;
-  }
-
-  /* Customer Photo Review Thumbnails / 4 Images Row Grid */
-  .jdgm-rev__pics,
-  .jdgm-pictures-wrapper,
-  .jdgm-carousel-wrapper {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    align-items: center !important;
-    gap: 8px !important;
-    margin: 10px 0 !important;
-    width: 100% !important;
-  }
-
-  .jdgm-rev__pic-link,
-  .jdgm-rev__pic-img,
-  .jdgm-gallery-item img,
-  .jdgm-carousel-item img {
-    width: 75px !important;
-    height: 75px !important;
-    border-radius: 12px !important;
-    object-fit: cover !important;
-    border: 1px solid #e5e7eb !important;
-    display: inline-block !important;
   }
 </style>
 
