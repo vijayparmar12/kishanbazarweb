@@ -95,8 +95,15 @@
       (function() {
         function replaceRupeeText(node) {
           if (node.nodeType === 3) {
-            if (node.nodeValue && /\bRs\.?\s*/i.test(node.nodeValue)) {
-              node.nodeValue = node.nodeValue.replace(/\bRs\.?\s*/gi, '₹');
+            if (node.nodeValue) {
+              var text = node.nodeValue;
+              if (/\bRs\.?\s*/i.test(text)) {
+                text = text.replace(/\bRs\.?\s*/gi, '₹');
+              }
+              if (/(\d+)\.00\b/.test(text)) {
+                text = text.replace(/(\d+)\.00\b/g, '$1');
+              }
+              node.nodeValue = text;
             }
           } else if (node.nodeType === 1 && !['SCRIPT', 'STYLE', 'INPUT', 'TEXTAREA', 'OPTION'].includes(node.tagName)) {
             for (var i = 0; i < node.childNodes.length; i++) {

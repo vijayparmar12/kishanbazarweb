@@ -89,11 +89,11 @@
           <div class="product-info__price-box" {{ block.shopify_attributes }}>
             <div class="product-info__prices">
               <span class="product-info__price-selling" data-product-price-selling>
-                {{ current_variant.price | money }}
+                {{ current_variant.price | money_without_trailing_zeros }}
               </span>
               {% if sale %}
                 <s class="product-info__price-mrp" data-product-price-mrp>
-                  {{ current_variant.compare_at_price | money }}
+                  {{ current_variant.compare_at_price | money_without_trailing_zeros }}
                 </s>
                 <span class="product-info__discount-badge" data-product-discount-badge>
                   Save {{ current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price }}% OFF
@@ -141,8 +141,8 @@
                       data-variant-radio
                       data-variant-id="{{ variant.id }}"
                       data-variant-title="{{ variant.title | escape }}"
-                      data-price="{{ variant.price | money | escape }}"
-                      data-compare="{% if variant_sale %}{{ variant.compare_at_price | money | escape }}{% endif %}"
+                      data-price="{{ variant.price | money_without_trailing_zeros | escape }}"
+                      data-compare="{% if variant_sale %}{{ variant.compare_at_price | money_without_trailing_zeros | escape }}{% endif %}"
                       data-discount="{% if variant_sale %}{{ variant_disc }}{% endif %}"
                       data-sku="{{ variant.sku | escape }}"
                       data-available="{% if variant.available %}true{% else %}false{% endif %}"
@@ -151,7 +151,7 @@
                     >
                     <span class="product-info__variant-card-inner">
                       <span class="product-info__variant-title">{{ variant.title }}</span>
-                      <span class="product-info__variant-price">{{ variant.price | money }}</span>
+                      <span class="product-info__variant-price">{{ variant.price | money_without_trailing_zeros }}</span>
                       {% if variant_sale %}
                         <span class="product-info__variant-save">{{ variant_disc }}% OFF</span>
                       {% endif %}
@@ -273,9 +273,9 @@
       {% render 'product-circle-features', product: product, limit: 4 %}
       <div class="product-info__price-box">
         <div class="product-info__prices">
-          <span class="product-info__price-selling" data-product-price-selling>{{ current_variant.price | money }}</span>
+          <span class="product-info__price-selling" data-product-price-selling>{{ current_variant.price | money_without_trailing_zeros }}</span>
           {% if sale %}
-            <s class="product-info__price-mrp" data-product-price-mrp>{{ current_variant.compare_at_price | money }}</s>
+            <s class="product-info__price-mrp" data-product-price-mrp>{{ current_variant.compare_at_price | money_without_trailing_zeros }}</s>
             <span class="product-info__discount-badge" data-product-discount-badge>Save {{ current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price }}% OFF</span>
           {% endif %}
         </div>
@@ -308,10 +308,10 @@
                   {% assign variant_disc = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price %}
                 {% endif %}
                 <label class="product-info__variant-pill {% if variant == current_variant %}is-selected{% endif %}">
-                  <input type="radio" name="variant_id_option" value="{{ variant.id }}" data-variant-radio data-variant-id="{{ variant.id }}" data-variant-title="{{ variant.title | escape }}" data-price="{{ variant.price | money | escape }}" data-compare="{% if variant_sale %}{{ variant.compare_at_price | money | escape }}{% endif %}" data-discount="{% if variant_sale %}{{ variant_disc }}{% endif %}" data-sku="{{ variant.sku | escape }}" data-available="{% if variant.available %}true{% else %}false{% endif %}" {% if variant.featured_media != blank %}data-image="{{ variant.featured_media | image_url: width: 1200 }}"{% endif %} {% if variant == current_variant %}checked{% endif %}>
+                  <input type="radio" name="variant_id_option" value="{{ variant.id }}" data-variant-radio data-variant-id="{{ variant.id }}" data-variant-title="{{ variant.title | escape }}" data-price="{{ variant.price | money_without_trailing_zeros | escape }}" data-compare="{% if variant_sale %}{{ variant.compare_at_price | money_without_trailing_zeros | escape }}{% endif %}" data-discount="{% if variant_sale %}{{ variant_disc }}{% endif %}" data-sku="{{ variant.sku | escape }}" data-available="{% if variant.available %}true{% else %}false{% endif %}" {% if variant.featured_media != blank %}data-image="{{ variant.featured_media | image_url: width: 1200 }}"{% endif %} {% if variant == current_variant %}checked{% endif %}>
                   <span class="product-info__variant-card-inner">
                     <span class="product-info__variant-title">{{ variant.title }}</span>
-                    <span class="product-info__variant-price">{{ variant.price | money }}</span>
+                    <span class="product-info__variant-price">{{ variant.price | money_without_trailing_zeros }}</span>
                     {% if variant_sale %}<span class="product-info__variant-save">{{ variant_disc }}% OFF</span>{% endif %}
                   </span>
                 </label>
