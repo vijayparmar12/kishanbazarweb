@@ -21,6 +21,9 @@ body {
   max-width: 100% !important;
   width: 100% !important;
   position: relative;
+  font-family: var(--font-primary--family);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
 }
 
 html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
@@ -56,7 +59,10 @@ dialog {
 
 p {
   text-wrap: pretty;
+  text-align: justify;
+  text-justify: inter-word;
 }
+
 p,
 h1,
 h2,
@@ -81,26 +87,13 @@ p:empty {
   margin-block-end: 0;
 }
 
-/** Theme styles below */
-body {
-  font-family: var(--font-primary--family);
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+/* Global text justification across website */
+p, .rte, .product-details-card, .product-tabs__content, .product-info__description, .product-faq-card__answer {
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 /** Section layout utilities */
-
-/**
- * Setup a grid that enables both full-width and constrained layouts
- * depending on the class of the child elements.
- *
- * By default, a minimum content margin is set on the left and right
- * sides of the section and the content is centered in the viewport to
- * not exceed the maximum page width.
- *
- * When a child element is given the `full-width` class, it will span
- * the entire viewport.
- */
 .shopify-section {
   --content-width: min(
     calc(var(--page-width) - var(--page-margin) * 2),
@@ -109,22 +102,18 @@ body {
   --content-margin: minmax(var(--page-margin), 1fr);
   --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
 
-  /* This is required to make <img> elements work as background images */
   position: relative;
   grid-template-columns: var(--content-grid);
   display: grid;
   width: 100%;
 }
 
-/* Child elements, by default, are constrained to the central column of the grid. */
 .shopify-section > * {
   grid-column: 2;
 }
 
-/* Child elements that use the full-width utility class span the entire viewport. */
 .shopify-section > .full-width {
   grid-column: 1 / -1;
 }
 
-/* Storefront fills the viewport edge-to-edge; inner components control their own readable width. */
 .shopify-section { --page-margin: 0px; }
