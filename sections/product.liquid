@@ -1,6 +1,33 @@
 <link rel="stylesheet" href="{{ 'section-product.css' | asset_url }}">
 <script src="{{ 'section-product.js' | asset_url }}" defer="defer"></script>
 
+{% style %}
+  @media screen and (max-width: 749px) {
+    .kishanbazar-product-page {
+      max-width: {{ section.settings.mobile_max_width | default: 100 }}% !important;
+      padding-left: {{ section.settings.mobile_side_padding | default: 0 }}px !important;
+      padding-right: {{ section.settings.mobile_side_padding | default: 0 }}px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      box-sizing: border-box !important;
+    }
+
+    .kishanbazar-product-page .product-page-section {
+      padding-top: {{ section.settings.mobile_vertical_gap | default: 4 }}px !important;
+      padding-bottom: {{ section.settings.mobile_vertical_gap | default: 4 }}px !important;
+    }
+
+    .kishanbazar-product-page .product-page-section--reviews,
+    .kishanbazar-product-page .product-reviews,
+    .kishanbazar-product-page .jdgm-widget,
+    .kishanbazar-product-page .jdgm-rev-widg {
+      max-width: {{ section.settings.mobile_reviews_width | default: 100 }}% !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+  }
+{% endstyle %}
+
 {% liquid
   assign current_variant = product.selected_or_first_available_variant
   assign sale = false
@@ -266,6 +293,50 @@
       "step": 2,
       "unit": "px",
       "default": 16
+    },
+    {
+      "type": "header",
+      "content": "📱 Mobile View Customization (Mobile Only)"
+    },
+    {
+      "type": "range",
+      "id": "mobile_max_width",
+      "label": "Mobile Page Max Width (%)",
+      "min": 85,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "mobile_side_padding",
+      "label": "Mobile Side Padding (px)",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_vertical_gap",
+      "label": "Mobile Vertical Section Gap (px)",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "mobile_reviews_width",
+      "label": "Mobile Reviews Section Width (%)",
+      "min": 80,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "default": 100
     },
     {
       "type": "header",
