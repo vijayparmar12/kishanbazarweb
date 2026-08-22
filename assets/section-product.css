@@ -1401,63 +1401,129 @@
   width: auto !important;
 }
 
-/* Summary Box Curved Corners */
-.jdgm-rev-widg__summary {
+/* Summary Box Curved Corners & Layout */
+.jdgm-rev-widg__summary,
+.jdgm-summary {
   border-radius: 16px !important;
   padding: 1.25rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
-/* Write a Review Button: #1B4317 + Curved Pill/Side Curves */
-.jdgm-write-rev-btn,
-.jdgm-btn,
-.jdgm-submit-rev,
-.jdgm-btn--primary,
-a.jdgm-btn,
-button.jdgm-btn,
-input[type="submit"].jdgm-btn,
-.jdgm-all-reviews-rating-actions__write-btn {
-  background-color: #1B4317 !important;
-  color: #ffffff !important;
-  border-color: #1B4317 !important;
-  border-radius: 14px !important;
-  font-weight: 700 !important;
-  font-size: 0.95rem !important;
-  padding: 12px 26px !important;
-  transition: all 0.25s ease !important;
-  box-shadow: 0 4px 14px rgba(27, 67, 23, 0.2) !important;
+/* Prevent title word-break issues like "Custome r Reviews" */
+.jdgm-rev-widg__title,
+.jdgm-widget-title,
+.jdgm-rev-widg__header,
+.jdgm-rev-widg__summary-text,
+h2.jdgm-rev-widg__title,
+h2.jdgm-widget-title,
+div.jdgm-rev-widg__title {
+  font-size: 1.35rem !important;
+  font-weight: 800 !important;
+  word-break: keep-all !important;
+  word-wrap: normal !important;
+  overflow-wrap: normal !important;
+  white-space: normal !important;
+  hyphens: manual !important;
+  text-align: center !important;
+  display: block !important;
+  width: 100% !important;
+  margin-bottom: 0.5rem !important;
 }
 
-.jdgm-write-rev-btn:hover,
-.jdgm-btn:hover,
-.jdgm-submit-rev:hover,
-.jdgm-btn--primary:hover,
-a.jdgm-btn:hover,
-button.jdgm-btn:hover,
-input[type="submit"].jdgm-btn:hover {
-  background-color: #143511 !important;
-  border-color: #143511 !important;
-  transform: translateY(-1px) !important;
-}
-
-/* Progress Rating Bar Track & Fill in #23421F */
-.jdgm-rev-widg__summary-bar {
-  background-color: #e5e7eb !important;
-  border-radius: 999px !important;
-  height: 8px !important;
-}
-
-.jdgm-rev-widg__summary-bar-fill {
-  background-color: #1B4317 !important;
-  border-radius: 999px !important;
-}
-
-/* Star Color (Gold Stars) */
-.jdgm-star {
+/* Star Color & Line Alignment */
+.jdgm-star,
+span.jdgm-star,
+i.jdgm-star,
+.jdgm-star.jdgm--on,
+.jdgm-star.jdgm--off,
+.jdgm-star.jdgm--half {
   color: #f59e0b !important;
+  display: inline-block !important;
+  float: none !important;
+  font-family: JudgemeStar, sans-serif !important;
+  line-height: 1 !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 1px !important;
 }
 
 .jdgm-star.jdgm--off {
   color: #e5e7eb !important;
+}
+
+.jdgm-rev__rating,
+.jdgm-rev-widg__summary-stars,
+.jdgm-prev-badge__stars {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
+  gap: 2px !important;
+}
+
+/* Histogram Rating Rows (5★, 4★, 3★, 2★, 1★) Horizontal Row Layout */
+.jdgm-histogram {
+  width: 100% !important;
+  max-width: 480px !important;
+  margin: 12px auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.jdgm-histogram__row {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  gap: 10px !important;
+  box-sizing: border-box !important;
+}
+
+.jdgm-histogram__star {
+  min-width: 50px !important;
+  flex: 0 0 50px !important;
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  font-size: 0.85rem !important;
+  white-space: nowrap !important;
+}
+
+.jdgm-histogram__bar {
+  flex: 1 1 auto !important;
+  height: 8px !important;
+  background-color: #e5e7eb !important;
+  border-radius: 999px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  min-width: 80px !important;
+  margin: 0 !important;
+}
+
+.jdgm-histogram__bar-content,
+.jdgm-rev-widg__summary-bar-fill {
+  background-color: #1B4317 !important;
+  height: 100% !important;
+  border-radius: 999px !important;
+}
+
+.jdgm-histogram__count,
+.jdgm-histogram__percentage {
+  min-width: 30px !important;
+  flex: 0 0 30px !important;
+  text-align: right !important;
+  font-size: 0.85rem !important;
+  color: #6b7280 !important;
 }
 
 /* Individual Review Cards: Side Curves & Clean Border */
