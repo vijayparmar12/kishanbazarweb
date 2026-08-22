@@ -807,6 +807,25 @@
   position: relative;
 }
 
+.product-info__variant-badge {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1b4317;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+  pointer-events: none;
+}
+
 .product-info__variant-pill input {
   opacity: 0;
   position: absolute;
