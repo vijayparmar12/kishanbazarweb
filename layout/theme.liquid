@@ -90,20 +90,25 @@
     <script src="{{ 'section-membership.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'section-our-story.js' | asset_url }}" defer="defer"></script>
 
-    <!-- Global Rupee Symbol (₹) Site-wide Converter -->
     <script>
       (function() {
+        var isReplacing = false;
+
         function replaceRupeeText(node) {
+          if (!node) return;
           if (node.nodeType === 3) {
-            if (node.nodeValue) {
-              var text = node.nodeValue;
-              if (/\bRs\.?\s*/i.test(text)) {
-                text = text.replace(/\bRs\.?\s*/gi, '₹');
+            var text = node.nodeValue;
+            if (text) {
+              var newText = text;
+              if (/\bRs\.?\s*/i.test(newText)) {
+                newText = newText.replace(/\bRs\.?\s*/gi, '₹');
               }
-              if (/(\d+)\.00\b/.test(text)) {
-                text = text.replace(/(\d+)\.00\b/g, '$1');
+              if (/(\d+)\.00\b/.test(newText)) {
+                newText = newText.replace(/(\d+)\.00\b/g, '$1');
               }
-              node.nodeValue = text;
+              if (newText !== text) {
+                node.nodeValue = newText;
+              }
             }
           } else if (node.nodeType === 1 && !['SCRIPT', 'STYLE', 'INPUT', 'TEXTAREA', 'OPTION'].includes(node.tagName)) {
             for (var i = 0; i < node.childNodes.length; i++) {
@@ -113,8 +118,10 @@
         }
 
         function runReplace() {
-          if (document.body) {
+          if (document.body && !isReplacing) {
+            isReplacing = true;
             replaceRupeeText(document.body);
+            isReplacing = false;
           }
         }
 
@@ -125,20 +132,21 @@
         }
 
         var observer = new MutationObserver(function(mutations) {
+          if (isReplacing) return;
+          isReplacing = true;
           mutations.forEach(function(mutation) {
-            if (mutation.type === 'characterData') {
-              replaceRupeeText(mutation.target);
-            } else if (mutation.addedNodes) {
+            if (mutation.addedNodes) {
               mutation.addedNodes.forEach(function(node) {
                 replaceRupeeText(node);
               });
             }
           });
+          isReplacing = false;
         });
 
         document.addEventListener('DOMContentLoaded', function() {
           if (document.body) {
-            observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+            observer.observe(document.body, { childList: true, subtree: true });
           }
         });
       })();
