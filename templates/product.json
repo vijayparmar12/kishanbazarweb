@@ -80,11 +80,31 @@
         "product_banner_F8tDeF": {
           "type": "product_banner",
           "settings": {
-            "image": "{{ product.metafields.custom.custom_banner_1.value }}",
-            "image_mobile": "{{ product.metafields.custom.custom_banner_1.value }}",
+            "image_1": "{{ product.metafields.custom.custom_banner_1.value }}",
+            "image_1_mobile": "{{ product.metafields.custom.custom_banner_1.value }}",
+            "heading_1": "",
+            "subtitle_1": "",
+            "link_1": "",
             "heading": "",
             "subtitle": "",
-            "link": ""
+            "link": "",
+            "image_2": "{{ product.metafields.custom.custom_banner_2.value }}",
+            "image_2_mobile": "{{ product.metafields.custom.custom_banner_2.value }}",
+            "heading_2": "",
+            "subtitle_2": "",
+            "link_2": "",
+            "heading_3": "",
+            "subtitle_3": "",
+            "link_3": "",
+            "heading_4": "",
+            "subtitle_4": "",
+            "link_4": "",
+            "heading_5": "",
+            "subtitle_5": "",
+            "link_5": "",
+            "heading_6": "",
+            "subtitle_6": "",
+            "link_6": ""
           }
         },
         "product_faq_X8pL9P": {
