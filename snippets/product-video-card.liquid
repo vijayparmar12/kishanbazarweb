@@ -31,7 +31,7 @@
     elsif p_video_val.url != blank
       assign video_url_str = p_video_val.url
     else
-      assign video_url_str = p_video_val | to_s
+      assign video_url_str = '' | append: p_video_val
     endif
   elsif block.settings.video != blank
     assign video_sources = block.settings.video.sources
