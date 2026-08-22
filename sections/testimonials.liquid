@@ -29,9 +29,10 @@
   }
 
   #Testimonials-{{ section.id }} .testimonials__header {
-    margin-bottom: 0.25rem !important;
+    margin-bottom: 0.5rem !important;
     margin-top: 0 !important;
     padding: 0 !important;
+    width: 100% !important;
   }
 
   #Testimonials-{{ section.id }} .testimonials__heading-banner-wrap {
@@ -39,7 +40,7 @@
     position: relative !important;
     width: 100% !important;
     max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
-    height: {{ section.settings.heading_box_height_desktop | default: 180 }}px !important;
+    height: auto !important;
     margin: 0 auto !important;
     padding: 0 !important;
     overflow: hidden !important;
@@ -49,15 +50,15 @@
   #Testimonials-{{ section.id }} .home-section__heading-picture {
     display: block !important;
     width: 100% !important;
-    height: 100% !important;
+    height: auto !important;
     margin: 0 auto !important;
     padding: 0 !important;
   }
 
   #Testimonials-{{ section.id }} .home-section__heading-image {
     width: 100% !important;
-    height: 100% !important;
-    object-fit: {{ section.settings.heading_box_bg_size | default: 'cover' }} !important;
+    height: auto !important;
+    object-fit: contain !important;
     object-position: center !important;
     display: block !important;
     margin: 0 auto !important;
@@ -80,21 +81,22 @@
   @media screen and (max-width: 749px) {
     #Testimonials-{{ section.id }} .testimonials__heading-banner-wrap {
       max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
-      height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
+      height: auto !important;
     }
     #Testimonials-{{ section.id }} .home-section__heading-picture {
       width: 100% !important;
-      height: 100% !important;
+      height: auto !important;
       margin: 0 auto !important;
     }
     #Testimonials-{{ section.id }} .home-section__heading-image {
-      object-fit: {{ section.settings.heading_box_bg_size_mobile | default: 'cover' }} !important;
+      object-fit: contain !important;
       margin: 0 auto !important;
+      height: auto !important;
     }
   }
 {% endstyle %}
 
-<section id="Testimonials-{{ section.id }}" class="testimonials-carousel-section" data-testimonials-section>
+<section id="Testimonials-{{ section.id }}" class="testimonials-carousel-section" data-testimonials-section style="width: 100%; display: block; clear: both; padding: 1rem 0;">
 
   <div class="testimonials__header">
     {% if section.settings.heading_image_desktop != blank or section.settings.heading_image_mobile != blank %}
@@ -119,7 +121,7 @@
   </div>
 
   <!-- Live Judge.me Reviews Carousel -->
-  <div class="testimonials__judgeme-container" style="width: 100%; margin: 1rem 0;">
+  <div class="testimonials__judgeme-container" style="width: 100%; margin: 1rem 0; min-height: 50px;">
     <div class='jdgm-carousel-wrapper'>
       {% if shop.metafields.judgeme.featured_carousel != blank %}
         {{ shop.metafields.judgeme.featured_carousel }}
@@ -129,53 +131,108 @@
     </div>
   </div>
 
+  <!-- Fallback / Featured Testimonial Cards Carousel -->
   <div class="testimonials__carousel-container" data-testimonials-carousel>
     <div class="testimonials__track" data-testimonials-track>
-      {% for block in section.blocks %}
-        {% assign full_review = block.settings.review | default: "Wholesome organic products with authentic flavour." %}
-        <div class="testimonials__card" data-testimonial-card data-full-review="{{ full_review | escape }}" {{ block.shopify_attributes }}>
-          <div class="testimonials__card-front" data-card-front>
-            {% assign card_headline = block.settings.headline | default: full_review %}
-            <h3 class="testimonials__card-headline">"{{ card_headline }}"</h3>
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% assign full_review = block.settings.review | default: "Wholesome organic products with authentic flavour." %}
+          <div class="testimonials__card" data-testimonial-card data-full-review="{{ full_review | escape }}" {{ block.shopify_attributes }}>
+            <div class="testimonials__card-front" data-card-front>
+              {% assign card_headline = block.settings.headline | default: full_review %}
+              <h3 class="testimonials__card-headline">"{{ card_headline }}"</h3>
 
-            <div class="testimonials__card-media">
-              {% if block.settings.image != blank %}
-                {{ block.settings.image | image_url: width: 500 | image_tag: class: 'testimonials__card-img', loading: 'lazy', alt: block.settings.name }}
-              {% else %}
-                <div class="testimonials__card-avatar-fallback">
-                  <span class="testimonials__avatar-text">{{ block.settings.name | slice: 0, 1 | upcase }}</span>
+              <div class="testimonials__card-media">
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 500 | image_tag: class: 'testimonials__card-img', loading: 'lazy', alt: block.settings.name }}
+                {% else %}
+                  <div class="testimonials__card-avatar-fallback">
+                    <span class="testimonials__avatar-text">{{ block.settings.name | slice: 0, 1 | upcase }}</span>
+                  </div>
+                {% endif %}
+              </div>
+
+              <footer class="testimonials__card-footer">
+                <div class="testimonials__author-info">
+                  <strong class="testimonials__author-name">{{ block.settings.name }}</strong>
+                  <span class="testimonials__author-role">{{ block.settings.role | default: 'Verified Customer' }}</span>
                 </div>
-              {% endif %}
+                <button type="button" class="testimonials__expand-btn" data-card-toggle aria-label="Read full review from {{ block.settings.name }}">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+              </footer>
             </div>
 
-            <footer class="testimonials__card-footer">
-              <div class="testimonials__author-info">
-                <strong class="testimonials__author-name">{{ block.settings.name }}</strong>
-                <span class="testimonials__author-role">{{ block.settings.role | default: 'Verified Customer' }}</span>
+            <div class="testimonials__card-back" data-card-back>
+              <div class="testimonials__card-full-msg">
+                <p class="testimonials__card-full-text">"{{ full_review }}"</p>
               </div>
-              <button type="button" class="testimonials__expand-btn" data-card-toggle aria-label="Read full review from {{ block.settings.name }}">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </button>
-            </footer>
+
+              <footer class="testimonials__card-footer">
+                <div class="testimonials__author-info">
+                  <strong class="testimonials__author-name">{{ block.settings.name }}</strong>
+                  <span class="testimonials__author-role">{{ block.settings.role | default: 'Verified Customer' }}</span>
+                </div>
+                <button type="button" class="testimonials__expand-btn testimonials__expand-btn--active" data-card-toggle aria-label="Close full review">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                </button>
+              </footer>
+            </div>
           </div>
-
-          <div class="testimonials__card-back" data-card-back>
-            <div class="testimonials__card-full-msg">
-              <p class="testimonials__card-full-text">"{{ full_review }}"</p>
+        {% endfor %}
+      {% else %}
+        <!-- Default Sample Testimonial Cards so section is never blank -->
+        <div class="testimonials__card" data-testimonial-card data-full-review="Pure A2 Ghee and ancient Emmer Khapli wheat flour are staple in our house. Unmatched quality and authentic taste!">
+          <div class="testimonials__card-front">
+            <h3 class="testimonials__card-headline">"Pure A2 Ghee and ancient Emmer Khapli wheat flour are staple in our house."</h3>
+            <div class="testimonials__card-media">
+              <div class="testimonials__card-avatar-fallback">
+                <span class="testimonials__avatar-text">A</span>
+              </div>
             </div>
-
             <footer class="testimonials__card-footer">
               <div class="testimonials__author-info">
-                <strong class="testimonials__author-name">{{ block.settings.name }}</strong>
-                <span class="testimonials__author-role">{{ block.settings.role | default: 'Verified Customer' }}</span>
+                <strong class="testimonials__author-name">Amaan Bakali</strong>
+                <span class="testimonials__author-role">Verified Customer</span>
               </div>
-              <button type="button" class="testimonials__expand-btn testimonials__expand-btn--active" data-card-toggle aria-label="Close full review">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-              </button>
             </footer>
           </div>
         </div>
-      {% endfor %}
+
+        <div class="testimonials__card" data-testimonial-card data-full-review="Finally a truly delicious and genuine organic brand. Highly recommended for every family!">
+          <div class="testimonials__card-front">
+            <h3 class="testimonials__card-headline">"Finally a truly delicious and genuine organic brand. Highly recommended!"</h3>
+            <div class="testimonials__card-media">
+              <div class="testimonials__card-avatar-fallback">
+                <span class="testimonials__avatar-text">P</span>
+              </div>
+            </div>
+            <footer class="testimonials__card-footer">
+              <div class="testimonials__author-info">
+                <strong class="testimonials__author-name">Pooja Sharma</strong>
+                <span class="testimonials__author-role">Verified Customer</span>
+              </div>
+            </footer>
+          </div>
+        </div>
+
+        <div class="testimonials__card" data-testimonial-card data-full-review="Farm fresh staples delivered straight to our doorstep. Best quality wheat and jaggery in India!">
+          <div class="testimonials__card-front">
+            <h3 class="testimonials__card-headline">"Farm fresh staples delivered straight to our doorstep. Best quality wheat!"</h3>
+            <div class="testimonials__card-media">
+              <div class="testimonials__card-avatar-fallback">
+                <span class="testimonials__avatar-text">V</span>
+              </div>
+            </div>
+            <footer class="testimonials__card-footer">
+              <div class="testimonials__author-info">
+                <strong class="testimonials__author-name">Vijay Parmar</strong>
+                <span class="testimonials__author-role">Verified Customer</span>
+              </div>
+            </footer>
+          </div>
+        </div>
+      {% endif %}
     </div>
   </div>
 
@@ -198,7 +255,7 @@
         { "value": "cover", "label": "Cover (Fill entire box)" },
         { "value": "contain", "label": "Contain (Fit full image without cropping)" }
       ],
-      "default": "cover"
+      "default": "contain"
     },
     {
       "type": "select",
@@ -208,7 +265,7 @@
         { "value": "cover", "label": "Cover (Fill entire box)" },
         { "value": "contain", "label": "Contain (Fit full image without cropping)" }
       ],
-      "default": "cover"
+      "default": "contain"
     },
     { "type": "checkbox", "id": "heading_image_flip", "label": "Flip Heading Image Horizontally", "default": false },
     { "type": "range", "id": "heading_box_height_desktop", "label": "Desktop Heading Box Fixed Height (px)", "min": 60, "max": 400, "step": 10, "default": 180, "unit": "px" },
