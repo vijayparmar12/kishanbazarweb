@@ -1322,9 +1322,9 @@
     padding-right: 0 !important;
     box-sizing: border-box !important;
   }
-  .jdgm-rev-widg,
-  .jdgm-widget,
-  .jdgm-review-widget {
+  .product-reviews .jdgm-rev-widg,
+  #ProductReviews-main .jdgm-rev-widg,
+  .jdgm-rev-widg {
     padding: 1.25rem 1rem !important;
     border-radius: 16px !important;
     background-color: #ffffff !important;
@@ -1333,6 +1333,27 @@
     box-sizing: border-box !important;
     width: 100% !important;
   }
+}
+
+/* Remove card box style from star rating under title */
+.product-info .jdgm-widget,
+.product-info .jdgm-preview-badge,
+.product-info .product-info__rating-block,
+.product-info .product-info__rating,
+.product-info__rating,
+.product-info__rating-block,
+.jdgm-preview-badge,
+.jdgm-widget.jdgm-preview-badge,
+.shopify-block:has(.jdgm-preview-badge),
+.shopify-block:has(.jdgm-widget) {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  width: auto !important;
 }
 
 /* Summary Box Curved Corners */
