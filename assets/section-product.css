@@ -182,6 +182,16 @@
     margin-bottom: 0.4rem !important;
   }
 
+  /* Ensure only 1 star rating widget is visible under product info if multiple blocks exist in DOM */
+  .product-info .product-info__rating ~ .product-info__rating,
+  .product-info .product-info__rating-block ~ .product-info__rating-block,
+  .product-info .shopify-block:has(.jdgm-widget) ~ .shopify-block:has(.jdgm-widget),
+  .product-info .shopify-block:has(.jdgm-preview-badge) ~ .shopify-block:has(.jdgm-preview-badge),
+  .product-info .product-info__rating-block ~ .shopify-block:has(.jdgm-widget),
+  .product-info .shopify-block:has(.jdgm-widget) ~ .product-info__rating-block {
+    display: none !important;
+  }
+
   /* Hide duplicate inline buy buttons form below price on mobile (since sticky bottom bar handles ADD TO CART & Quantity) */
   .product-info__form,
   .product-info__purchase-row,
