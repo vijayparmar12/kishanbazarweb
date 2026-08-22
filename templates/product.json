@@ -18,10 +18,10 @@
             "show_subtitle": true
           }
         },
-        "rating_QizByz": {
+        "rating_Gk9zN6": {
           "type": "rating",
           "settings": {
-            "score": "4.9{{ product.metafields.custom.custom_review_count.value }}",
+            "score": "4.9{{ product.metafields.custom.custom_rating.value }}{{ product.metafields.custom.custom_review_count.value }}",
             "review_count": "128 Verified Ratings"
           }
         },
@@ -106,7 +106,7 @@
       },
       "block_order": [
         "title_zwNBWV",
-        "rating_QizByz",
+        "rating_Gk9zN6",
         "description_WMpDyn",
         "benefit_icons_TeMKQk",
         "price_cXRV6V",
