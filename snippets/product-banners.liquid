@@ -15,47 +15,47 @@
   assign c_meta = product.metafields.custom
   assign alt_meta = product.metafields['product.metafields.custom']
 
-  # Extract ONLY the .value file drops to avoid Metafield Drop object truthiness
-  assign m_b1_val = c_meta.banner_1.value | default: alt_meta.banner_1.value | default: c_meta.banner_image_1.value | default: c_meta.banner1.value | default: c_meta.product_banner_1.value | default: c_meta.banner.value
-  assign m_b2_val = c_meta.banner_2.value | default: alt_meta.banner_2.value | default: c_meta.banner_image_2.value | default: c_meta.banner2.value | default: c_meta.product_banner_2.value
-  assign m_b3_val = c_meta.banner_3.value | default: alt_meta.banner_3.value | default: c_meta.banner_image_3.value | default: c_meta.banner3.value | default: c_meta.product_banner_3.value
-  assign m_b4_val = c_meta.banner_4.value | default: alt_meta.banner_4.value | default: c_meta.banner_image_4.value | default: c_meta.banner4.value | default: c_meta.product_banner_4.value
-  assign m_b5_val = c_meta.banner_5.value | default: alt_meta.banner_5.value | default: c_meta.banner_image_5.value | default: c_meta.banner5.value | default: c_meta.product_banner_5.value
-  assign m_b6_val = c_meta.banner_6.value | default: alt_meta.banner_6.value | default: c_meta.banner_6_image.value | default: c_meta.banner6.value | default: c_meta.product_banner_6.value
+  # Extract ALL 6 custom metafield banner drops (file drop or MediaImage)
+  assign b1_raw = c_meta.banner_1.value | default: c_meta.banner_1 | default: alt_meta.banner_1.value | default: alt_meta.banner_1 | default: c_meta.banner_image_1.value | default: c_meta.banner_image_1 | default: c_meta.banner1.value | default: c_meta.banner1
+  assign b2_raw = c_meta.banner_2.value | default: c_meta.banner_2 | default: alt_meta.banner_2.value | default: alt_meta.banner_2 | default: c_meta.banner_image_2.value | default: c_meta.banner_image_2 | default: c_meta.banner2.value | default: c_meta.banner2
+  assign b3_raw = c_meta.banner_3.value | default: c_meta.banner_3 | default: alt_meta.banner_3.value | default: alt_meta.banner_3 | default: c_meta.banner_image_3.value | default: c_meta.banner_image_3 | default: c_meta.banner3.value | default: c_meta.banner3
+  assign b4_raw = c_meta.banner_4.value | default: c_meta.banner_4 | default: alt_meta.banner_4.value | default: alt_meta.banner_4 | default: c_meta.banner_image_4.value | default: c_meta.banner_image_4 | default: c_meta.banner4.value | default: c_meta.banner4
+  assign b5_raw = c_meta.banner_5.value | default: c_meta.banner_5 | default: alt_meta.banner_5.value | default: alt_meta.banner_5 | default: c_meta.banner_image_5.value | default: c_meta.banner_image_5 | default: c_meta.banner5.value | default: c_meta.banner5
+  assign b6_raw = c_meta.banner_6.value | default: c_meta.banner_6 | default: alt_meta.banner_6.value | default: alt_meta.banner_6 | default: c_meta.banner_image_6.value | default: c_meta.banner_image_6 | default: c_meta.banner6.value | default: c_meta.banner6
 
   assign img_url_1 = blank
-  if m_b1_val != blank
-    assign b1_img = m_b1_val.preview_image | default: m_b1_val
+  if b1_raw != blank
+    assign b1_img = b1_raw.preview_image | default: b1_raw
     assign img_url_1 = b1_img | image_url: width: 1400
   endif
 
   assign img_url_2 = blank
-  if m_b2_val != blank
-    assign b2_img = m_b2_val.preview_image | default: m_b2_val
+  if b2_raw != blank
+    assign b2_img = b2_raw.preview_image | default: b2_raw
     assign img_url_2 = b2_img | image_url: width: 1400
   endif
 
   assign img_url_3 = blank
-  if m_b3_val != blank
-    assign b3_img = m_b3_val.preview_image | default: m_b3_val
+  if b3_raw != blank
+    assign b3_img = b3_raw.preview_image | default: b3_raw
     assign img_url_3 = b3_img | image_url: width: 1400
   endif
 
   assign img_url_4 = blank
-  if m_b4_val != blank
-    assign b4_img = m_b4_val.preview_image | default: m_b4_val
+  if b4_raw != blank
+    assign b4_img = b4_raw.preview_image | default: b4_raw
     assign img_url_4 = b4_img | image_url: width: 1400
   endif
 
   assign img_url_5 = blank
-  if m_b5_val != blank
-    assign b5_img = m_b5_val.preview_image | default: m_b5_val
+  if b5_raw != blank
+    assign b5_img = b5_raw.preview_image | default: b5_raw
     assign img_url_5 = b5_img | image_url: width: 1400
   endif
 
   assign img_url_6 = blank
-  if m_b6_val != blank
-    assign b6_img = m_b6_val.preview_image | default: m_b6_val
+  if b6_raw != blank
+    assign b6_img = b6_raw.preview_image | default: b6_raw
     assign img_url_6 = b6_img | image_url: width: 1400
   endif
 
@@ -66,63 +66,64 @@
 <div class="product-banners-wrapper" data-product-banners-wrapper style="margin: 1.25rem 0 1.75rem; width: 100%;">
   <div class="product-banners-container" style="position: relative; width: 100%;">
 
-    <!-- 1. Render Product Metafield Banners if set on Product Listing -->
+    <!-- 1. Render Product Metafield File List if present -->
     {% if m_banner_list != blank and m_banner_list.size > 0 %}
-      <div class="product-banners-grid product-banners-grid--{{ m_banner_list.size | at_most: 6 }}">
+      <div class="product-banners-grid" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
         {% for b_img in m_banner_list limit: 6 %}
           {% assign b_src = b_img.preview_image | default: b_img | image_url: width: 1400 %}
-          <div class="product-banner-card">
-            <img src="{{ b_src }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}">
+          <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+            <img src="{{ b_src }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}" style="width: 100%; height: auto; display: block; border-radius: 20px;">
           </div>
         {% endfor %}
       </div>
 
+    <!-- 2. Render Product Custom Metafields 1 to 6 (banner_1 ... banner_6) -->
     {% elsif img_url_1 != blank or img_url_2 != blank or img_url_3 != blank or img_url_4 != blank or img_url_5 != blank or img_url_6 != blank %}
-      <div class="product-banners-grid">
+      <div class="product-banners-grid" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
         {% if img_url_1 != blank %}
-          <div class="product-banner-card">
-            <img src="{{ img_url_1 }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}">
+          <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+            <img src="{{ img_url_1 }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}" style="width: 100%; height: auto; display: block; border-radius: 20px;">
           </div>
         {% endif %}
         {% if img_url_2 != blank %}
-          <div class="product-banner-card">
-            <img src="{{ img_url_2 }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}">
+          <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+            <img src="{{ img_url_2 }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}" style="width: 100%; height: auto; display: block; border-radius: 20px;">
           </div>
         {% endif %}
         {% if img_url_3 != blank %}
-          <div class="product-banner-card">
-            <img src="{{ img_url_3 }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}">
+          <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+            <img src="{{ img_url_3 }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}" style="width: 100%; height: auto; display: block; border-radius: 20px;">
           </div>
         {% endif %}
         {% if img_url_4 != blank %}
-          <div class="product-banner-card">
-            <img src="{{ img_url_4 }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}">
+          <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+            <img src="{{ img_url_4 }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}" style="width: 100%; height: auto; display: block; border-radius: 20px;">
           </div>
         {% endif %}
         {% if img_url_5 != blank %}
-          <div class="product-banner-card">
-            <img src="{{ img_url_5 }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}">
+          <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+            <img src="{{ img_url_5 }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}" style="width: 100%; height: auto; display: block; border-radius: 20px;">
           </div>
         {% endif %}
         {% if img_url_6 != blank %}
-          <div class="product-banner-card">
-            <img src="{{ img_url_6 }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}">
+          <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+            <img src="{{ img_url_6 }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}" style="width: 100%; height: auto; display: block; border-radius: 20px;">
           </div>
         {% endif %}
       </div>
 
-    <!-- 2. Fallback to Theme Editor Blocks if configured (up to 6 blocks) -->
+    <!-- 3. Fallback to Theme Editor Blocks if configured (up to 6 blocks) -->
     {% elsif block_banners.size > 0 %}
-      <div class="product-banners-grid product-banners-grid--{{ block_banners.size | at_most: 6 }}">
+      <div class="product-banners-grid" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
         {% for block in block_banners limit: 6 %}
           {% if block.settings.image != blank %}
-            <div class="product-banner-card" {{ block.shopify_attributes }}>
+            <div class="product-banner-card" {{ block.shopify_attributes }} style="border-radius: 20px; overflow: hidden; width: 100%; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
               {% if block.settings.link != blank %}<a href="{{ block.settings.link }}" class="product-banner-link">{% endif %}
                 <picture class="product-banner-picture">
                   {% if block.settings.image_mobile != blank %}
                     <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 800 }}">
                   {% endif %}
-                  {{ block.settings.image | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: block.settings.heading | default: product.title }}
+                  {{ block.settings.image | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: block.settings.heading | default: product.title, style: 'width: 100%; height: auto; display: block; border-radius: 20px;' }}
                 </picture>
                 {% if block.settings.heading != blank or block.settings.subtitle != blank %}
                   <div class="product-banner-overlay-text">
@@ -136,7 +137,7 @@
         {% endfor %}
       </div>
 
-    <!-- 3. Fallback to Theme Editor Section Settings (banner_image_1 .. banner_image_6) -->
+    <!-- 4. Fallback to Theme Editor Section Settings (banner_image_1 .. banner_image_6) -->
     {% else %}
       {% liquid
         assign s_b1 = section.settings.banner_image_1
@@ -147,35 +148,35 @@
         assign s_b6 = section.settings.banner_image_6
       %}
       {% if s_b1 != blank or s_b2 != blank or s_b3 != blank or s_b4 != blank or s_b5 != blank or s_b6 != blank %}
-        <div class="product-banners-grid">
+        <div class="product-banners-grid" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
           {% if s_b1 != blank %}
-            <div class="product-banner-card">
-              {{ s_b1 | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: product.title }}
+            <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%;">
+              {{ s_b1 | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: product.title, style: 'width: 100%; height: auto; display: block; border-radius: 20px;' }}
             </div>
           {% endif %}
           {% if s_b2 != blank %}
-            <div class="product-banner-card">
-              {{ s_b2 | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: product.title }}
+            <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%;">
+              {{ s_b2 | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: product.title, style: 'width: 100%; height: auto; display: block; border-radius: 20px;' }}
             </div>
           {% endif %}
           {% if s_b3 != blank %}
-            <div class="product-banner-card">
-              {{ s_b3 | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: product.title }}
+            <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%;">
+              {{ s_b3 | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: product.title, style: 'width: 100%; height: auto; display: block; border-radius: 20px;' }}
             </div>
           {% endif %}
           {% if s_b4 != blank %}
-            <div class="product-banner-card">
-              {{ s_b4 | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: product.title }}
+            <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%;">
+              {{ s_b4 | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: product.title, style: 'width: 100%; height: auto; display: block; border-radius: 20px;' }}
             </div>
           {% endif %}
           {% if s_b5 != blank %}
-            <div class="product-banner-card">
-              {{ s_b5 | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: product.title }}
+            <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%;">
+              {{ s_b5 | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: product.title, style: 'width: 100%; height: auto; display: block; border-radius: 20px;' }}
             </div>
           {% endif %}
           {% if s_b6 != blank %}
-            <div class="product-banner-card">
-              {{ s_b6 | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: product.title }}
+            <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%;">
+              {{ s_b6 | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: product.title, style: 'width: 100%; height: auto; display: block; border-radius: 20px;' }}
             </div>
           {% endif %}
         </div>
