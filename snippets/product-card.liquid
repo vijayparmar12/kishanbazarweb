@@ -12,7 +12,7 @@
   endif
 
   # Dynamic per-product badge determination
-  assign p_custom_badge = product.metafields.custom.custom_badge.value | default: product.metafields.custom.custom_badge | default: product.metafields.custom.badge.value | default: product.metafields.custom.badge | default: product.metafields.custom.badge_text.value | default: product.metafields.custom.badge_text | default: badge_text
+  assign p_custom_badge = product.metafields.custom.custom_badge.value | default: product.metafields.custom.custom_badge | default: product.metafields.custom.badge.value | default: product.metafields.custom.badge | default: product.metafields.custom.badge_text.value | default: product.metafields.custom.badge_text | default: product.metafields.custom.product_badge.value | default: product.metafields.custom.product_badge | default: product.metafields.custom.custom_tag.value | default: product.metafields.custom.custom_tag | default: badge_text
   assign tag_str = product.tags | join: ',' | downcase
 
   assign badge_label = ''

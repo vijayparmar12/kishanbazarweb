@@ -21,7 +21,7 @@
   endif
 
   # Dynamic per-product badge determination
-  assign g_custom_badge = product.metafields.custom.custom_badge.value | default: product.metafields.custom.custom_badge | default: product.metafields.custom.badge.value | default: product.metafields.custom.badge | default: product.metafields.custom.badge_text.value | default: product.metafields.custom.badge_text
+  assign g_custom_badge = product.metafields.custom.custom_badge.value | default: product.metafields.custom.custom_badge | default: product.metafields.custom.badge.value | default: product.metafields.custom.badge | default: product.metafields.custom.badge_text.value | default: product.metafields.custom.badge_text | default: product.metafields.custom.product_badge.value | default: product.metafields.custom.product_badge | default: product.metafields.custom.custom_tag.value | default: product.metafields.custom.custom_tag
   assign g_tag_str = product.tags | join: ',' | downcase
 
   assign g_badge_label = ''
@@ -40,7 +40,7 @@
   elsif g_tag_str contains 'trending' or g_tag_str contains 'top rated'
     assign g_badge_label = 'TRENDING'
   elsif g_sale
-    assign g_badge_label = 'BESTSELLER &bull; SAVE ' | append: g_discount | append: '%'
+    assign g_badge_label = 'SAVE ' | append: g_discount | append: '%'
   endif
 %}
 
