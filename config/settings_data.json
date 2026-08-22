@@ -9,6 +9,7 @@
  */
 {
   "current": {
+    "max_page_width": "110rem",
     "sections": {
       "customer-login-modal": {
         "type": "customer-login-modal",
