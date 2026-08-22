@@ -175,7 +175,7 @@
   .shopify-block:has(.product-info__benefits-block),
   .product-info > *:has(.product-info__benefits-block) {
     order: 5 !important;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.15rem !important;
   }
 
   .product-info__rating {
@@ -559,7 +559,7 @@
 .product-info {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 0.65rem;
 }
 
 /* Breadcrumb Navigation */
@@ -782,19 +782,12 @@
 
 .product-info__variants-container {
   border: 0;
-  margin: 1.25rem 0 1rem;
+  margin: 0.25rem 0 0.5rem;
   padding: 0;
 }
 
 .product-info__variants-label {
-  color: #374151;
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 0.6rem;
-}
-
-.product-info__variants-label strong {
-  color: #1b4317;
+  display: none !important;
 }
 
 .product-info__variant-cards {
@@ -1018,7 +1011,7 @@
 
 /* 4 Feature Badges (Large 85px Size - Clean Spacing) */
 .product-circle-features {
-  margin: 0.65rem 0 0.5rem;
+  margin: 0.2rem 0;
   padding: 0;
   width: 100%;
 }

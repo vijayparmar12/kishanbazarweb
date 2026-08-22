@@ -122,10 +122,6 @@
         {% when 'variant_picker' %}
           {% if product.variants.size > 0 %}
             <fieldset class="product-info__variants-container" {{ block.shopify_attributes }}>
-              <legend class="product-info__variants-label">
-                Select {{ product.options_with_values[0].name | default: 'Variant / Size' }}:
-                <strong data-selected-variant-title>{{ current_variant.title }}</strong>
-              </legend>
               <div class="product-info__variant-cards">
                 {% for variant in product.variants %}
                   {% assign variant_sale = false %}
@@ -300,10 +296,6 @@
         <input type="hidden" name="id" value="{{ current_variant.id }}" data-product-selected-variant-id>
         {% if product.variants.size > 0 %}
           <fieldset class="product-info__variants-container">
-            <legend class="product-info__variants-label">
-              Select {{ product.options_with_values[0].name | default: 'Variant / Size' }}:
-              <strong data-selected-variant-title>{{ current_variant.title }}</strong>
-            </legend>
             <div class="product-info__variant-cards">
               {% for variant in product.variants %}
                 {% assign variant_sale = false %}
