@@ -87,19 +87,14 @@
     </div>
   </div>
 
-  <!-- Section 6: Customer Reviews & Ratings / Judge.me App Widget (Placed Directly Below FAQ Section & Above Recommended Products) -->
-  <div class="product-page-section product-page-section--reviews">
-    <div class="product-page-container">
-      {% for block in section.blocks %}
-        {% if block.type == '@app' %}
-          <div class="product-app-block" {{ block.shopify_attributes }}>
-            {% render block %}
-          </div>
-        {% endif %}
-      {% endfor %}
-      {% render 'product-reviews-section', product: product, section: section %}
+  <!-- Section 6: Customer Reviews & Ratings (Placed Directly Below FAQ Section on Desktop & Mobile) -->
+  {% if section.settings.show_reviews %}
+    <div class="product-page-section product-page-section--reviews">
+      <div class="product-page-container">
+        {% render 'product-reviews-section', product: product, section: section %}
+      </div>
     </div>
-  </div>
+  {% endif %}
 
   <!-- Section 7: Recommended Organic Products Slider -->
   {% if section.settings.show_recommendations %}
