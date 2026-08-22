@@ -63,12 +63,12 @@
   assign block_banners = section.blocks | where: 'type', 'product_banner'
 %}
 
-<div class="product-banners-wrapper" data-product-banners-wrapper style="margin: 1.25rem 0 1.75rem; width: 100%;">
+<div class="product-banners-wrapper" data-product-banners-wrapper style="margin: 0.35rem 0 0.5rem; width: 100%;">
   <div class="product-banners-container" style="position: relative; width: 100%;">
 
     <!-- 1. Render Product Metafield File List if present -->
     {% if m_banner_list != blank and m_banner_list.size > 0 %}
-      <div class="product-banners-grid" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+      <div class="product-banners-grid" style="display: flex; flex-direction: column; gap: 0.65rem; width: 100%;">
         {% for b_img in m_banner_list limit: 6 %}
           {% assign b_src = b_img.preview_image | default: b_img | image_url: width: 1400 %}
           <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
@@ -79,7 +79,7 @@
 
     <!-- 2. Render Product Custom Metafields 1 to 6 (banner_1 ... banner_6) -->
     {% elsif img_url_1 != blank or img_url_2 != blank or img_url_3 != blank or img_url_4 != blank or img_url_5 != blank or img_url_6 != blank %}
-      <div class="product-banners-grid" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+      <div class="product-banners-grid" style="display: flex; flex-direction: column; gap: 0.65rem; width: 100%;">
         {% if img_url_1 != blank %}
           <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
             <img src="{{ img_url_1 }}" class="product-banner-img" loading="lazy" alt="{{ product.title | escape }}" style="width: 100%; height: auto; display: block; border-radius: 20px;">
@@ -114,7 +114,7 @@
 
     <!-- 3. Fallback to Theme Editor Blocks if configured (supporting up to 6 banners per block or 6 blocks) -->
     {% elsif block_banners.size > 0 %}
-      <div class="product-banners-grid" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+      <div class="product-banners-grid" style="display: flex; flex-direction: column; gap: 0.65rem; width: 100%;">
         {% for block in block_banners limit: 6 %}
           {% liquid
             assign b_img_1 = block.settings.image_1 | default: block.settings.image
@@ -251,7 +251,7 @@
         assign s_b6 = section.settings.banner_image_6
       %}
       {% if s_b1 != blank or s_b2 != blank or s_b3 != blank or s_b4 != blank or s_b5 != blank or s_b6 != blank %}
-        <div class="product-banners-grid" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+        <div class="product-banners-grid" style="display: flex; flex-direction: column; gap: 0.65rem; width: 100%;">
           {% if s_b1 != blank %}
             <div class="product-banner-card" style="border-radius: 20px; overflow: hidden; width: 100%;">
               {{ s_b1 | image_url: width: 1400 | image_tag: class: 'product-banner-img', loading: 'lazy', widths: '400, 600, 800, 1200, 1400', alt: product.title, style: 'width: 100%; height: auto; display: block; border-radius: 20px;' }}
