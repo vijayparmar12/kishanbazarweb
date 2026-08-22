@@ -25,6 +25,10 @@
             "review_count": "128 Verified Ratings"
           }
         },
+        "judge_me_reviews_preview_badge_hhdQye": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
         "description_WMpDyn": {
           "type": "description",
           "settings": {}
@@ -107,6 +111,7 @@
       "block_order": [
         "title_zwNBWV",
         "rating_Gk9zN6",
+        "judge_me_reviews_preview_badge_hhdQye",
         "description_WMpDyn",
         "benefit_icons_TeMKQk",
         "price_cXRV6V",
