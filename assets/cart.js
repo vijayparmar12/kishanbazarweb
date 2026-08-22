@@ -4,7 +4,7 @@
 
   const formatMoney = (value) => {
     const amount = Math.round(Number(value || 0) / 100);
-    return 'Rs. ' + amount.toLocaleString('en-IN');
+    return '₹' + amount.toLocaleString('en-IN');
   };
 
   const setCartCount = (count) => {

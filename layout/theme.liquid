@@ -89,5 +89,52 @@
     <script src="{{ 'component-quantity-selector.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'section-membership.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'section-our-story.js' | asset_url }}" defer="defer"></script>
+
+    <!-- Global Rupee Symbol (₹) Site-wide Converter -->
+    <script>
+      (function() {
+        function replaceRupeeText(node) {
+          if (node.nodeType === 3) {
+            if (node.nodeValue && /\bRs\.?\s*/i.test(node.nodeValue)) {
+              node.nodeValue = node.nodeValue.replace(/\bRs\.?\s*/gi, '₹');
+            }
+          } else if (node.nodeType === 1 && !['SCRIPT', 'STYLE', 'INPUT', 'TEXTAREA', 'OPTION'].includes(node.tagName)) {
+            for (var i = 0; i < node.childNodes.length; i++) {
+              replaceRupeeText(node.childNodes[i]);
+            }
+          }
+        }
+
+        function runReplace() {
+          if (document.body) {
+            replaceRupeeText(document.body);
+          }
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', runReplace);
+        } else {
+          runReplace();
+        }
+
+        var observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type === 'characterData') {
+              replaceRupeeText(mutation.target);
+            } else if (mutation.addedNodes) {
+              mutation.addedNodes.forEach(function(node) {
+                replaceRupeeText(node);
+              });
+            }
+          });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+          if (document.body) {
+            observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
