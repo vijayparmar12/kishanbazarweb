@@ -88,7 +88,10 @@
     endif
   endif
 
-  assign max_icons = limit | default: max_icons | default: block.settings.max_icons | default: 4
+  assign max_icons = limit | default: block.settings.max_icons | default: 4
+  if has_custom_metafields and limit == blank
+    assign max_icons = 4
+  endif
 
   assign uploaded_count = 0
   if img_url_1 != blank
