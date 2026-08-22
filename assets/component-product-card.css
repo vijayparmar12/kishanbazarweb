@@ -75,7 +75,7 @@
 .product-card__badge {
   align-items: center;
   background: linear-gradient(135deg, #1b4317 0%, #23421f 100%) !important;
-  border-radius: 999px !important;
+  border-radius: 8px !important;
   box-shadow: 0 4px 12px rgba(27, 67, 23, 0.25) !important;
   box-sizing: border-box;
   color: #ffffff !important;
