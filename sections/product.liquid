@@ -88,13 +88,11 @@
   </div>
 
   <!-- Section 6: Customer Reviews & Ratings (Placed Directly Below FAQ Section on Desktop & Mobile) -->
-  {% if section.settings.show_reviews %}
-    <div class="product-page-section product-page-section--reviews">
-      <div class="product-page-container">
-        {% render 'product-reviews-section', product: product, section: section %}
-      </div>
+  <div class="product-page-section product-page-section--reviews">
+    <div class="product-page-container">
+      {% render 'product-reviews-section', product: product, section: section %}
     </div>
-  {% endif %}
+  </div>
 
   <!-- Section 7: Recommended Organic Products Slider -->
   {% if section.settings.show_recommendations %}

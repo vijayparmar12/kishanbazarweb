@@ -25,14 +25,9 @@
     {% for block in section.blocks %}
       {% case block.type %}
         {% when '@app' %}
-          {% if block.type contains 'judge' or block.type contains 'preview_badge' or block.type contains 'rating' %}
-            {% unless rating_already_rendered %}
-              {% render block %}
-              {% assign rating_already_rendered = true %}
-            {% endunless %}
-          {% else %}
+          <div class="product-info__app-block" {{ block.shopify_attributes }}>
             {% render block %}
-          {% endif %}
+          </div>
 
         {% when 'custom_badge' %}
           <div class="product-info__custom-badge-wrap" {{ block.shopify_attributes }}>

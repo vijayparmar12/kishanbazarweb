@@ -233,6 +233,31 @@
     flex-wrap: wrap !important;
     gap: 8px !important;
   }
+
+  /* Customer Photo Review Thumbnails / 4 Images Row Grid */
+  .jdgm-rev__pics,
+  .jdgm-pictures-wrapper,
+  .jdgm-carousel-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: 10px 0 !important;
+    width: 100% !important;
+  }
+
+  .jdgm-rev__pic-link,
+  .jdgm-rev__pic-img,
+  .jdgm-gallery-item img,
+  .jdgm-carousel-item img {
+    width: 75px !important;
+    height: 75px !important;
+    border-radius: 12px !important;
+    object-fit: cover !important;
+    border: 1px solid #e5e7eb !important;
+    display: inline-block !important;
+  }
 </style>
 
 <section class="product-reviews" id="ProductReviews-{{ section.id }}" aria-label="Customer Reviews">
