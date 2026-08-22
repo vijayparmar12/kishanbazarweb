@@ -93,6 +93,40 @@ p, .rte, .product-details-card, .product-tabs__content, .product-info__descripti
   text-justify: inter-word;
 }
 
+/* Judge.me App Block Reset & #1B4317 Dark Green Color Overrides */
+.jdgm-rev-widg,
+.jdgm-widget,
+.shopify-app-block:has(.jdgm-widget) {
+  text-align: left !important;
+  text-justify: auto !important;
+  width: 100% !important;
+}
+
+.jdgm-rev-widg p,
+.jdgm-widget p,
+.jdgm-rev-widg *,
+.jdgm-widget * {
+  text-justify: auto !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+.jdgm-star,
+.jdgm-star * {
+  color: #1B4317 !important;
+  fill: #1B4317 !important;
+  display: inline-block !important;
+}
+
+.jdgm-write-rev-btn,
+.jdgm-btn,
+.jdgm-btn--primary {
+  background-color: #1B4317 !important;
+  color: #ffffff !important;
+  border-color: #1B4317 !important;
+  border-radius: 50px !important;
+}
+
 /** Section layout utilities */
 .shopify-section {
   --content-width: min(

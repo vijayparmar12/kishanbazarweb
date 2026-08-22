@@ -1339,24 +1339,49 @@
   }
 }
 
-/* Judge.me Live Plugin Review Widget Custom Color (#23421F) & Side Curve Styling */
+/* Judge.me Live Plugin Review Widget Custom Color (#1B4317 Dark Green) & Side Curve Styling */
 .jdgm-rev-widg,
 .jdgm-widget,
 .jdgm-review-widget {
   font-family: inherit !important;
+  text-align: left !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 /* Overall Widget Container Card Curved Sides */
 .jdgm-rev-widg {
   border-radius: 20px !important;
   border: 1px solid #efe8da !important;
-  background-color: #fcfbf9 !important;
+  background-color: #ffffff !important;
   padding: 1.5rem !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02) !important;
 }
 
+/* Force #1B4317 Dark Green for all Judge.me stars */
+.jdgm-star,
+.jdgm-star *,
+.jdgm-rev__rating .jdgm-star,
+.jdgm-form-rating .jdgm-star,
+.jdgm-prev-badge .jdgm-star,
+.jdgm-histogram__star .jdgm-star {
+  color: #1B4317 !important;
+  fill: #1B4317 !important;
+  display: inline-block !important;
+  float: none !important;
+}
+
+/* Force #1B4317 Dark Green for Histogram Progress Bars */
+.jdgm-histogram__bar-content,
+.jdgm-rev-widg__summary-bar-fill {
+  background-color: #1B4317 !important;
+}
+
 @media (max-width: 768px) {
-  .product-page-section--reviews {
+  .product-page-section--reviews,
+  .shopify-app-block:has(.jdgm-widget),
+  .shopify-app-block:has(.jdgm-rev-widg) {
     padding: 0.25rem 0 !important;
     margin: 0 !important;
     box-sizing: border-box !important;
@@ -1409,7 +1434,7 @@
   padding: 1.25rem !important;
 }
 
-/* Write a Review Button: #1B4317 + Curved Pill/Side Curves */
+/* Write a Review Button: #1B4317 Dark Green + Curved Pill/Side Curves */
 .jdgm-write-rev-btn,
 .jdgm-btn,
 .jdgm-submit-rev,
@@ -1421,10 +1446,14 @@ input[type="submit"].jdgm-btn,
   background-color: #1B4317 !important;
   color: #ffffff !important;
   border-color: #1B4317 !important;
-  border-radius: 14px !important;
+  border-radius: 50px !important;
   font-weight: 700 !important;
   font-size: 0.95rem !important;
-  padding: 12px 26px !important;
+  padding: 10px 24px !important;
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   transition: all 0.25s ease !important;
   box-shadow: 0 4px 14px rgba(27, 67, 23, 0.2) !important;
 }
