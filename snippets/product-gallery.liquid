@@ -10,11 +10,45 @@
   {% render 'product-gallery', product: product, current_variant: current_variant, sale: sale %}
 {% enddoc %}
 
+{% liquid
+  assign g_compare = current_variant.compare_at_price
+  assign g_sale = false
+  assign g_discount = 0
+  if g_compare != blank and g_compare > current_variant.price
+    assign g_sale = true
+    assign g_saving = g_compare | minus: current_variant.price
+    assign g_discount = g_saving | times: 100 | divided_by: g_compare
+  endif
+
+  # Dynamic per-product badge determination
+  assign g_custom_badge = product.metafields.custom.custom_badge.value | default: product.metafields.custom.custom_badge | default: product.metafields.custom.badge.value | default: product.metafields.custom.badge | default: product.metafields.custom.badge_text.value | default: product.metafields.custom.badge_text
+  assign g_tag_str = product.tags | join: ',' | downcase
+
+  assign g_badge_label = ''
+  if g_custom_badge != blank
+    assign g_badge_label = g_custom_badge
+  elsif g_tag_str contains 'bestseller' or g_tag_str contains 'best seller' or g_tag_str contains 'best-seller'
+    if g_sale
+      assign g_badge_label = 'BESTSELLER &bull; SAVE ' | append: g_discount | append: '%'
+    else
+      assign g_badge_label = 'BESTSELLER'
+    endif
+  elsif g_tag_str contains 'new' or g_tag_str contains 'new launch' or g_tag_str contains 'new-launch'
+    assign g_badge_label = 'NEW LAUNCH'
+  elsif g_tag_str contains 'organic' or g_tag_str contains '100% organic'
+    assign g_badge_label = '100% ORGANIC'
+  elsif g_tag_str contains 'trending' or g_tag_str contains 'top rated'
+    assign g_badge_label = 'TRENDING'
+  elsif g_sale
+    assign g_badge_label = 'BESTSELLER &bull; SAVE ' | append: g_discount | append: '%'
+  endif
+%}
+
 <div class="product-gallery" data-product-gallery>
   <div class="product-gallery__main-wrap">
-    {% if sale %}
+    {% if g_badge_label != blank %}
       <span class="product-gallery__badge product-gallery__badge--sale" data-gallery-sale-badge>
-        Bestseller &bull; Save {{ current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price }}%
+        {{ g_badge_label }}
       </span>
     {% endif %}
 

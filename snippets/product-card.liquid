@@ -10,6 +10,29 @@
     assign compare_price = 0
     assign discount = 0
   endif
+
+  # Dynamic per-product badge determination
+  assign p_custom_badge = product.metafields.custom.custom_badge.value | default: product.metafields.custom.custom_badge | default: product.metafields.custom.badge.value | default: product.metafields.custom.badge | default: product.metafields.custom.badge_text.value | default: product.metafields.custom.badge_text | default: badge_text
+  assign tag_str = product.tags | join: ',' | downcase
+
+  assign badge_label = ''
+  if p_custom_badge != blank
+    assign badge_label = p_custom_badge
+  elsif tag_str contains 'bestseller' or tag_str contains 'best seller' or tag_str contains 'best-seller'
+    if has_compare
+      assign badge_label = 'BESTSELLER &bull; SAVE ' | append: discount | append: '%'
+    else
+      assign badge_label = 'BESTSELLER'
+    endif
+  elsif tag_str contains 'new' or tag_str contains 'new launch' or tag_str contains 'new-launch'
+    assign badge_label = 'NEW LAUNCH'
+  elsif tag_str contains 'organic' or tag_str contains '100% organic'
+    assign badge_label = '100% ORGANIC'
+  elsif tag_str contains 'trending' or tag_str contains 'top rated'
+    assign badge_label = 'TRENDING'
+  elsif has_compare
+    assign badge_label = 'SAVE ' | append: discount | append: '%'
+  endif
 %}
 
 <article class="product-card" data-product-card data-product-handle="{{ product.handle }}">
@@ -26,22 +49,12 @@
     </a>
 
     <div class="product-card__top-bar">
-      {% if show_badge %}
-        {% if product.available == false %}
-          <span class="product-card__badge product-card__badge--sold">Sold out</span>
-        {% else %}
-          <span class="product-card__badge product-card__badge--loved" style="{% if badge_bg != blank %}background-color: {{ badge_bg }};{% endif %}{% if badge_color != blank %}color: {{ badge_color }};{% endif %}">
-            {% if badge_text != blank %}
-              {{ badge_text }}
-            {% elsif product.tags contains 'new' or product.tags contains 'New' %}
-              New Launch
-            {% elsif product.tags contains 'bestseller' or product.tags contains 'Bestseller' %}
-              Bestseller
-            {% else %}
-              MOST LOVED
-            {% endif %}
-          </span>
-        {% endif %}
+      {% if product.available == false %}
+        <span class="product-card__badge product-card__badge--sold">Sold out</span>
+      {% elsif badge_label != blank %}
+        <span class="product-card__badge product-card__badge--loved" style="{% if badge_bg != blank %}background-color: {{ badge_bg }};{% endif %}{% if badge_color != blank %}color: {{ badge_color }};{% endif %}">
+          {{ badge_label }}
+        </span>
       {% endif %}
 
       {% if show_wishlist %}
