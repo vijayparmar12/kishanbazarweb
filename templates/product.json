@@ -44,6 +44,7 @@
         },
         "stock_status_qfnGpK": {
           "type": "stock_status",
+          "disabled": true,
           "settings": {
             "stock_text": "In Stock • Ready to Dispatch in 24 Hours"
           }
