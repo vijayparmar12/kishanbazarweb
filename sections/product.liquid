@@ -87,6 +87,15 @@
     </div>
   </div>
 
+  <!-- Section 6: Customer Reviews & Ratings (Placed Directly Below FAQ Section on Desktop & Mobile) -->
+  {% if section.settings.show_reviews %}
+    <div class="product-page-section product-page-section--reviews">
+      <div class="product-page-container">
+        {% render 'product-reviews-section', product: product, section: section %}
+      </div>
+    </div>
+  {% endif %}
+
   <!-- Section 7: Recommended Organic Products Slider -->
   {% if section.settings.show_recommendations %}
     <div class="product-page-section product-page-section--recommendations">
@@ -148,7 +157,7 @@
       "type": "checkbox",
       "id": "show_reviews",
       "label": "Show customer reviews section",
-      "default": false
+      "default": true
     },
     {
       "type": "checkbox",
@@ -317,15 +326,38 @@
       "limit": 1,
       "settings": [
         {
+          "type": "select",
+          "id": "mobile_position",
+          "label": "📱 Mobile View Position",
+          "default": "below_title",
+          "options": [
+            { "value": "below_title", "label": "Below Product Title (Recommended)" },
+            { "value": "below_image", "label": "Below Product Gallery Image" },
+            { "value": "above_title", "label": "Above Product Title" },
+            { "value": "below_price", "label": "Below Price Box" }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "desktop_position",
+          "label": "💻 Desktop (Web) View Position",
+          "default": "below_title",
+          "options": [
+            { "value": "below_title", "label": "Below Product Title (Recommended)" },
+            { "value": "below_price", "label": "Below Price Box" },
+            { "value": "below_description", "label": "Below Product Description" }
+          ]
+        },
+        {
           "type": "text",
           "id": "score",
-          "label": "Rating score",
+          "label": "Fallback rating score",
           "default": "4.9"
         },
         {
           "type": "text",
           "id": "review_count",
-          "label": "Review count text",
+          "label": "Fallback review count text",
           "default": "128 Verified Ratings"
         }
       ]

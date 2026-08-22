@@ -92,6 +92,7 @@
     display: flex !important;
     flex-direction: column !important;
     padding-top: 0.5rem;
+    gap: 0.75rem;
   }
 
   .main-product__right,
@@ -99,51 +100,86 @@
     display: contents !important;
   }
 
-  /* Default order 15 for all children so nothing jumps */
   .main-product > *,
-  .product-info > * {
+  .product-info > *,
+  .product-info > .shopify-block {
     order: 15;
   }
 
-  /* 1. Title & Subtitle FIRST on mobile */
-  .product-info__header-block {
+  /* 1. Title, Subtitle & Star Rating Header Block FIRST at top of mobile screen */
+  .product-info__header-block,
+  .shopify-block:has(.product-info__header-block),
+  .shopify-block:has(.product-info__title),
+  [data-shopify-editor-block]:has(.product-info__header-block),
+  .product-info > *:has(.product-info__title),
+  .product-info > *:has(.product-info__header-block),
+  /* Judge.me App Block & Star Rating Blocks MUST be directly below Title (order 1) */
+  .shopify-block:has(.jdgm-widget),
+  .shopify-block:has(.jdgm-preview-badge),
+  .shopify-block:has(.product-info__rating),
+  .shopify-block:has(.product-info__rating-block),
+  .shopify-block:has([class*="jdgm"]),
+  .shopify-block:has([class*="rating"]),
+  [data-shopify-editor-block]:has(.jdgm-widget),
+  [data-shopify-editor-block]:has(.jdgm-preview-badge),
+  [data-shopify-editor-block]:has(.product-info__rating),
+  [data-shopify-editor-block]:has([class*="jdgm"]),
+  [data-shopify-editor-block]:has([class*="rating"]),
+  .product-info > .shopify-block[data-shopify-editor-block*="judge"],
+  .product-info > .shopify-block[data-shopify-editor-block*="rating"],
+  .product-info > [class*="jdgm"],
+  .product-info > [class*="rating"],
+  .product-info__rating-block,
+  .product-info__rating,
+  .jdgm-preview-badge,
+  .jdgm-widget {
     order: 1 !important;
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
-    margin-bottom: 0.15rem !important;
+    gap: 0.25rem;
+    margin-bottom: 0.35rem !important;
     padding-bottom: 0 !important;
   }
 
-  .product-info__title {
-    margin-bottom: 0.1rem !important;
-  }
-
-  .product-info__subtitle {
-    margin-top: 0 !important;
-    margin-bottom: 0.15rem !important;
-  }
-
-  /* 2. Star Rating & Reviews SECOND (Directly under Subtitle, Above Image) */
-  .product-info__rating {
-    order: 2 !important;
-    margin-top: 0 !important;
-    margin-bottom: 0.4rem !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
-
-  /* 3. Product Gallery Images THIRD */
+  /* 2. Product Gallery Image SECOND directly below Title, Subtitle & Star Rating on mobile */
   .main-product__left {
+    order: 2 !important;
+    margin-top: 0.35rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* 3. Price Box THIRD */
+  .product-info__price-box,
+  .shopify-block:has(.product-info__price-box),
+  .product-info > *:has(.product-info__price-box) {
     order: 3 !important;
-    margin-top: 0 !important;
     margin-bottom: 0.75rem;
   }
 
-  /* 4. Price & Discount FOURTH (Directly after Product Images) */
-  .product-info__price-box {
+  /* 4. Description FOURTH */
+  .product-info__description,
+  .product-info__collapsible,
+  .shopify-block:has(.product-info__description),
+  .product-info > *:has(.product-info__description) {
     order: 4 !important;
+    margin-bottom: 0.85rem;
+  }
+
+  /* 5. Circle Benefit Badges FIFTH */
+  .product-circle-features:not(.product-circle-features--trust),
+  .product-info__benefits-block,
+  .shopify-block:has(.product-info__benefits-block),
+  .product-info > *:has(.product-info__benefits-block) {
+    order: 5 !important;
     margin-bottom: 0.75rem;
+  }
+
+  .product-info__rating {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin-top: 0.1rem !important;
+    margin-bottom: 0.4rem !important;
   }
 
   /* Hide duplicate inline buy buttons form below price on mobile (since sticky bottom bar handles ADD TO CART & Quantity) */
@@ -152,60 +188,6 @@
   .product-info__secondary-actions,
   .product-info__buy-box {
     display: none !important;
-  }
-
-  /* 5. Product Description FIFTH (Placed ABOVE Icons on Mobile View) */
-  .product-info__description,
-  .product-info__collapsible {
-    order: 5 !important;
-    margin-bottom: 0.85rem;
-  }
-
-  /* 6. 4 Circle Benefit Badges SIXTH */
-  .product-circle-features:not(.product-circle-features--trust),
-  .product-info__benefits-block {
-    order: 6 !important;
-    margin-bottom: 0.75rem;
-  }
-
-  /* 7. Variants Grams Box SEVENTH */
-  .product-info__variants-container,
-  .product-info__variant-cards,
-  .product-info__variants,
-  .product-info__variant-picker,
-  .variant-picker,
-  variant-radios,
-  variant-selects {
-    order: 7 !important;
-    margin-bottom: 0.75rem;
-  }
-
-  /* 8. Stock & Availability Status EIGHTH (Placed ABOVE Trust Badges on Mobile) */
-  .product-info__availability,
-  .product-info__stock-status {
-    order: 8 !important;
-    margin-top: 0.35rem;
-    margin-bottom: 0.75rem;
-  }
-
-  /* 9. ALL 4 TRUST BADGE ICONS NINTH (Placed BELOW In Stock Line) */
-  .product-info__trust-badges,
-  .product-circle-features--trust,
-  [data-product-trust-badges] {
-    order: 9 !important;
-    display: block !important;
-    margin-top: 0.35rem;
-    margin-bottom: 0.85rem;
-    width: 100%;
-  }
-
-  /* 10. Product Video Card TENTH (Placed DIRECTLY AFTER Trust Badges on Mobile) */
-  .product-info__video-block {
-    order: 10 !important;
-    display: block !important;
-    margin-top: 0.85rem;
-    margin-bottom: 1.25rem;
-    width: 100%;
   }
 
   .product-page-section--video-desktop {
@@ -656,9 +638,35 @@
 
 /* Rating Header matching Logo Harvest Gold Accent */
 .product-info__rating {
-  align-items: center;
-  display: flex;
+  order: var(--d-order, 2);
+  align-items: center !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   gap: 0.5rem;
+}
+
+.product-card__stars,
+.product-info__stars-wrap {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+}
+
+.product-card__star-icon {
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  fill: #f59e0b !important;
+  color: #f59e0b !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
+}
+
+.product-card__star-icon--empty {
+  fill: #d1d5db !important;
+  color: #d1d5db !important;
 }
 
 .product-info__stars {
@@ -1290,6 +1298,31 @@
   background-color: #fcfbf9 !important;
   padding: 1.5rem !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02) !important;
+}
+
+@media (max-width: 768px) {
+  .product-page-section--reviews {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    box-sizing: border-box !important;
+  }
+  .product-reviews,
+  .product-reviews__container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .jdgm-rev-widg,
+  .jdgm-widget,
+  .jdgm-review-widget {
+    padding: 1.25rem 1rem !important;
+    border-radius: 16px !important;
+    background-color: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+  }
 }
 
 /* Summary Box Curved Corners */
