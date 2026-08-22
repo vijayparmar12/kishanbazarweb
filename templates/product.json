@@ -18,10 +18,6 @@
             "show_subtitle": true
           }
         },
-        "judge_me_reviews_preview_badge_PXhHFt": {
-          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {}
-        },
         "rating_QizByz": {
           "type": "rating",
           "settings": {
@@ -110,7 +106,6 @@
       },
       "block_order": [
         "title_zwNBWV",
-        "judge_me_reviews_preview_badge_PXhHFt",
         "rating_QizByz",
         "description_WMpDyn",
         "benefit_icons_TeMKQk",
