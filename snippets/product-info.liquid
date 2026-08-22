@@ -42,12 +42,6 @@
           </div>
 
         {% when 'title' %}
-          {% liquid
-            assign j_rating = product.metafields.judgeme.rating | default: product.metafields.custom.rating.value | default: product.metafields.custom.rating | default: product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value | default: 4.9
-            assign p_rating = j_rating | times: 1.0
-            assign j_count = product.metafields.judgeme.review_count | default: product.metafields.custom.review_count.value | default: product.metafields.custom.review_count | default: product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count | default: 128
-            assign p_reviews_count = j_count
-          %}
           <div class="product-info__header-block" {{ block.shopify_attributes }}>
             <h1 class="product-info__title">{{ product.title }}</h1>
             {% if block.settings.show_subtitle %}
@@ -58,24 +52,6 @@
                 {% endif %}
               </p>
             {% endif %}
-
-            {% unless has_separate_rating_block or rating_already_rendered %}
-              <!-- Dynamic Star Rating (Rendered only if no separate rating block exists) -->
-              <div class="product-info__rating" aria-label="{{ p_rating }} star customer rating" style="display: flex !important; visibility: visible !important; opacity: 1 !important; align-items: center !important; gap: 0.4rem !important; margin-top: 0.35rem !important; margin-bottom: 0.35rem !important; min-height: 24px !important;">
-                {% if product.metafields.judgeme.badge != blank %}
-                  <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}" style="display: inline-flex !important;">
-                    {{ product.metafields.judgeme.badge }}
-                  </div>
-                {% else %}
-                  <div class="product-info__stars-wrap" style="display: inline-flex !important; align-items: center !important; gap: 0.4rem !important;">
-                    {% render 'rating-stars', product: product, rating: p_rating %}
-                    <span class="product-info__rating-score" style="font-weight: 700 !important; font-size: 0.95rem !important; color: #111827 !important; display: inline-block !important;">{{ p_rating | round: 1 }}</span>
-                    <a href="#ProductReviews-{{ section.id }}" class="product-info__review-count" style="color: #1b4317 !important; font-size: 0.85rem !important; font-weight: 600 !important; text-decoration: none !important; display: inline-block !important;">({{ p_reviews_count }} reviews)</a>
-                  </div>
-                {% endif %}
-              </div>
-              {% assign rating_already_rendered = true %}
-            {% endunless %}
           </div>
 
         {% when 'rating' %}
