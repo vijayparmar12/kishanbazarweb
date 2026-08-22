@@ -133,7 +133,7 @@
                     {% assign variant_sale = true %}
                     {% assign variant_disc = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price %}
                   {% endif %}
-                  {% assign v_custom_badge = variant.metafields.custom.badge.value | default: variant.metafields.custom.badge | default: variant.metafields.custom.custom_badge.value | default: variant.metafields.custom.custom_badge | default: variant.metafields.custom.badge_text.value | default: variant.metafields.custom.badge_text | default: variant.metafields.custom.variant_badge.value | default: variant.metafields.custom.variant_badge %}
+                  {% assign v_custom_badge = variant.metafields.custom.badge.value | default: variant.metafields.custom.badge | default: variant.metafields.custom.custom_badge.value | default: variant.metafields.custom.custom_badge | default: variant.metafields.custom.badge_varient.value | default: variant.metafields.custom.badge_varient | default: variant.metafields.custom.custom_badge_varient.value | default: variant.metafields.custom.custom_badge_varient | default: variant.metafields.custom.badge_variant.value | default: variant.metafields.custom.badge_variant | default: variant.metafields.custom.badge_text.value | default: variant.metafields.custom.badge_text | default: variant.metafields.custom.variant_badge.value | default: variant.metafields.custom.variant_badge %}
                   <label class="product-info__variant-pill {% if variant == current_variant %}is-selected{% endif %}">
                     {% if v_custom_badge != blank %}
                       <span class="product-info__variant-badge">{{ v_custom_badge }}</span>
@@ -311,7 +311,7 @@
                   {% assign variant_sale = true %}
                   {% assign variant_disc = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price %}
                 {% endif %}
-                {% assign v_custom_badge = variant.metafields.custom.badge.value | default: variant.metafields.custom.badge | default: variant.metafields.custom.custom_badge.value | default: variant.metafields.custom.custom_badge | default: variant.metafields.custom.badge_text.value | default: variant.metafields.custom.badge_text | default: variant.metafields.custom.variant_badge.value | default: variant.metafields.custom.variant_badge %}
+                {% assign v_custom_badge = variant.metafields.custom.badge.value | default: variant.metafields.custom.badge | default: variant.metafields.custom.custom_badge.value | default: variant.metafields.custom.custom_badge | default: variant.metafields.custom.badge_varient.value | default: variant.metafields.custom.badge_varient | default: variant.metafields.custom.custom_badge_varient.value | default: variant.metafields.custom.custom_badge_varient | default: variant.metafields.custom.badge_variant.value | default: variant.metafields.custom.badge_variant | default: variant.metafields.custom.badge_text.value | default: variant.metafields.custom.badge_text | default: variant.metafields.custom.variant_badge.value | default: variant.metafields.custom.variant_badge %}
                 <label class="product-info__variant-pill {% if variant == current_variant %}is-selected{% endif %}">
                   {% if v_custom_badge != blank %}
                     <span class="product-info__variant-badge">{{ v_custom_badge }}</span>
