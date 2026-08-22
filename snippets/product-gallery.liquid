@@ -130,15 +130,6 @@
     {% endif %}
   </div>
 
-  <!-- Mobile Swipe Pagination Dots Indicator -->
-  {% if media_list.size > 1 %}
-    <div class="product-gallery__dots" data-gallery-dots>
-      {% for media in media_list %}
-        <span class="product-gallery__dot {% if forloop.first %}is-active{% endif %}" data-gallery-dot="{{ forloop.index0 }}"></span>
-      {% endfor %}
-    </div>
-  {% endif %}
-
   <!-- 4 Highlight Badges below product images (Desktop View) -->
   <div class="product-gallery__highlights-desktop">
     {% render 'product-highlights' %}

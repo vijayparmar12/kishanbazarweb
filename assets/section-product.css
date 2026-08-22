@@ -144,8 +144,12 @@
   /* 2. Product Gallery Image SECOND directly below Title, Subtitle & Star Rating on mobile */
   .main-product__left {
     order: 2 !important;
-    margin-top: 0.35rem !important;
-    margin-bottom: 0.75rem !important;
+    margin-top: 0.2rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .product-gallery {
+    gap: 0.4rem !important;
   }
 
   /* 3. Price Box THIRD */
@@ -393,20 +397,9 @@
   width: 100%;
 }
 
-/* Mobile Swipe Pagination Dots */
+/* Mobile Swipe Pagination Dots (Hidden) */
 .product-gallery__dots {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  width: 100%;
-}
-
-@media (min-width: 48rem) {
-  .product-gallery__dots {
-    display: none;
-  }
+  display: none !important;
 }
 
 .product-gallery__dot {
