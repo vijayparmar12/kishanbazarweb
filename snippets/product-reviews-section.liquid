@@ -1,6 +1,6 @@
 {% doc %}
   Renders the live Judge.me Reviews plugin widget for KishanVeda / Kishan Bazar.
-  Matches official Judge.me app preview styling and mobile padding.
+  Fully editable via Shopify Theme Editor (Section Settings for Button Colors, Star Colors, Progress Bar Colors, Corner Radius & Headings).
 
   @param {object} product - The Shopify product object
   @param {object} [section] - The section object containing theme editor settings
@@ -20,6 +20,22 @@
 %}
 
 <style>
+  /* Section & Container Padding Removal */
+  .product-page-section--reviews {
+    padding: 0.25rem 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .product-reviews,
+  .product-reviews__container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
   #ProductReviews-{{ section.id }} {
     --jdgm-btn-bg: {{ btn_bg }};
     --jdgm-btn-text: {{ btn_text }};
@@ -27,48 +43,12 @@
     --jdgm-star-color: {{ star_col }};
     --jdgm-bar-fill: {{ bar_col }};
     --jdgm-radius: {{ border_rad }}px;
-    padding: 0.5rem 0 !important;
     width: 100% !important;
-    box-sizing: border-box !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
-  #ProductReviews-{{ section.id }} .product-reviews__container {
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-    padding: 0 0.75rem !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
-  }
-
-  /* Judge.me Main Card Box */
-  #ProductReviews-{{ section.id }} .jdgm-rev-widg,
-  #ProductReviews-{{ section.id }} .jdgm-review-widget {
-    border-radius: var(--jdgm-radius) !important;
-    border: 1px solid #efe8da !important;
-    background-color: #ffffff !important;
-    padding: 1.5rem 1.25rem !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03) !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
-    margin: 0 auto !important;
-  }
-
-  /* Responsive Mobile Padding Adjustments */
-  @media (max-width: 768px) {
-    #ProductReviews-{{ section.id }} .product-reviews__container {
-      padding: 0 0.5rem !important;
-    }
-    #ProductReviews-{{ section.id }} .jdgm-rev-widg,
-    #ProductReviews-{{ section.id }} .jdgm-review-widget {
-      padding: 1.25rem 0.85rem !important;
-      border-radius: 16px !important;
-    }
-    #ProductReviews-{{ section.id }} .jdgm-rev-widg__summary {
-      padding: 1rem 0.65rem !important;
-    }
-  }
-
-  /* Comprehensive Judge.me Button Overrides */
+  /* Comprehensive Judge.me Button Color Overrides */
   #ProductReviews-{{ section.id }} .jdgm-write-rev-btn,
   #ProductReviews-{{ section.id }} .jdgm-btn,
   #ProductReviews-{{ section.id }} .jdgm-submit-rev,
@@ -76,204 +56,165 @@
   #ProductReviews-{{ section.id }} a.jdgm-btn,
   #ProductReviews-{{ section.id }} button.jdgm-btn,
   #ProductReviews-{{ section.id }} input[type="submit"].jdgm-btn,
-  #ProductReviews-{{ section.id }} .jdgm-all-reviews-rating-actions__write-btn,
-  .jdgm-write-rev-btn,
-  .jdgm-all-reviews-rating-actions__write-btn {
-    background-color: var(--jdgm-btn-bg, #1B4317) !important;
-    color: var(--jdgm-btn-text, #ffffff) !important;
-    border-color: var(--jdgm-btn-bg, #1B4317) !important;
-    border-radius: var(--jdgm-radius, 12px) !important;
+  #ProductReviews-{{ section.id }} .jdgm-all-reviews-rating-actions__write-btn {
+    background-color: var(--jdgm-btn-bg) !important;
+    color: var(--jdgm-btn-text) !important;
+    border-color: var(--jdgm-btn-bg) !important;
+    border-radius: var(--jdgm-radius) !important;
     white-space: nowrap !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 100% !important;
-    max-width: 380px !important;
-    padding: 12px 24px !important;
-    margin: 10px auto !important;
-    text-align: center !important;
-    font-weight: 700 !important;
-    font-size: 0.95rem !important;
-    box-shadow: 0 4px 14px rgba(27, 67, 23, 0.2) !important;
+    padding: 0.6rem 1.25rem !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
   }
 
   #ProductReviews-{{ section.id }} .jdgm-write-rev-btn:hover,
   #ProductReviews-{{ section.id }} .jdgm-btn:hover,
-  .jdgm-write-rev-btn:hover {
-    background-color: var(--jdgm-btn-hover, #143511) !important;
-    border-color: var(--jdgm-btn-hover, #143511) !important;
+  #ProductReviews-{{ section.id }} .jdgm-submit-rev:hover,
+  #ProductReviews-{{ section.id }} .jdgm-btn--primary:hover,
+  #ProductReviews-{{ section.id }} a.jdgm-btn:hover,
+  #ProductReviews-{{ section.id }} button.jdgm-btn:hover,
+  #ProductReviews-{{ section.id }} input[type="submit"].jdgm-btn:hover {
+    background-color: var(--jdgm-btn-hover) !important;
+    border-color: var(--jdgm-btn-hover) !important;
   }
 
-  /* Star Color Override */
+  /* Progress Bar Fill Color Override */
+  #ProductReviews-{{ section.id }} .jdgm-rev-widg__summary-bar-fill {
+    background-color: var(--jdgm-bar-fill) !important;
+  }
+
+  /* Star Styling Fix: Inline display to prevent vertical stacking */
   #ProductReviews-{{ section.id }} .jdgm-star,
-  .jdgm-star {
-    color: var(--jdgm-star-color, #F59E0B) !important;
-  }
-
-  /* Title Word Wrapping Fix ("Customer Reviews") */
-  .jdgm-rev-widg__title,
-  .jdgm-widget-title,
-  .jdgm-rev-widg__header,
-  .jdgm-rev-widg__summary-text,
-  h2.jdgm-rev-widg__title,
-  h2.jdgm-widget-title {
-    font-size: 1.4rem !important;
-    font-weight: 800 !important;
-    word-break: keep-all !important;
-    word-wrap: normal !important;
-    overflow-wrap: normal !important;
-    white-space: nowrap !important;
-    hyphens: manual !important;
+  #ProductReviews-{{ section.id }} .jdgm-star * {
+    color: var(--jdgm-star-color) !important;
+    display: inline-block !important;
     text-align: center !important;
-    display: block !important;
-    width: 100% !important;
-    margin-bottom: 0.5rem !important;
   }
 
-  /* Force Rating Stars to remain horizontal inline row */
-  .jdgm-star,
-  .jdgm-star.jdgm--on,
-  .jdgm-star.jdgm--off,
-  .jdgm-star.jdgm--half {
+  #ProductReviews-{{ section.id }} .jdgm-form-rating .jdgm-star,
+  #ProductReviews-{{ section.id }} .jdgm-prev-badge .jdgm-star,
+  #ProductReviews-{{ section.id }} .jdgm-rev__rating .jdgm-star {
     display: inline-block !important;
     float: none !important;
-    font-family: JudgemeStar, sans-serif !important;
-    line-height: 1 !important;
-    width: auto !important;
-    height: auto !important;
-    margin: 0 1px !important;
   }
 
-  .jdgm-rev__rating,
-  .jdgm-rev-widg__summary-stars,
-  .jdgm-prev-badge__stars {
-    display: inline-flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: center !important;
-    white-space: nowrap !important;
-    gap: 2px !important;
-  }
-
-  /* Histogram Rating Rows (5★, 4★, 3★, 2★, 1★) Horizontal Flex Layout */
-  .jdgm-histogram {
+  /* Reset Text Align for Judge.me widget so numbers & stars don't justify vertically */
+  #ProductReviews-{{ section.id }} .jdgm-rev-widg,
+  #ProductReviews-{{ section.id }} .jdgm-widget,
+  #ProductReviews-{{ section.id }} .jdgm-review-widget {
+    text-align: left !important;
     width: 100% !important;
-    max-width: 480px !important;
-    margin: 12px auto !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 8px !important;
     box-sizing: border-box !important;
   }
 
-  .jdgm-histogram__row {
+  #ProductReviews-{{ section.id }} .jdgm-rev-widg__summary-text {
+    white-space: nowrap !important;
+    text-align: left !important;
+  }
+
+  /* Histogram Rows Flexbox Fix (5 Star, 4 Star horizontal alignment) */
+  #ProductReviews-{{ section.id }} .jdgm-histogram__row {
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 8px !important;
+    gap: 0.5rem !important;
     width: 100% !important;
-    box-sizing: border-box !important;
+    margin-bottom: 0.35rem !important;
   }
 
-  .jdgm-histogram__star {
-    min-width: 45px !important;
-    flex: 0 0 45px !important;
-    display: inline-flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    font-size: 0.9rem !important;
-    white-space: nowrap !important;
-  }
-
-  .jdgm-histogram__bar {
-    flex: 1 1 auto !important;
-    height: 8px !important;
+  #ProductReviews-{{ section.id }} .jdgm-histogram__bar {
+    flex: 1 !important;
+    height: 10px !important;
+    border-radius: 5px !important;
     background-color: #e5e7eb !important;
-    border-radius: 999px !important;
-    position: relative !important;
     overflow: hidden !important;
-    min-width: 60px !important;
-    margin: 0 4px !important;
   }
 
-  .jdgm-histogram__bar-content,
-  .jdgm-rev-widg__summary-bar-fill {
-    background-color: var(--jdgm-bar-fill, #1B4317) !important;
-    height: 100% !important;
-    border-radius: 999px !important;
-  }
-
-  .jdgm-histogram__count,
-  .jdgm-histogram__percentage {
-    min-width: 25px !important;
-    flex: 0 0 25px !important;
-    text-align: right !important;
+  #ProductReviews-{{ section.id }} .jdgm-histogram__star,
+  #ProductReviews-{{ section.id }} .jdgm-histogram__count {
+    white-space: nowrap !important;
+    display: inline-block !important;
     font-size: 0.85rem !important;
-    color: #6b7280 !important;
   }
 
-  /* Customer Review Photos Grid / Carousel (4 images side-by-side in 1 row) */
-  .jdgm-pictures-wrapper,
-  .jdgm-carousel-wrapper,
-  .jdgm-gallery-wrapper,
-  .jdgm-rev-widg__pictures {
+  /* Review Item Author Header Horizontal Alignment */
+  #ProductReviews-{{ section.id }} .jdgm-rev__header {
     display: flex !important;
     flex-direction: row !important;
-    flex-wrap: nowrap !important;
+    flex-wrap: wrap !important;
     align-items: center !important;
-    justify-content: flex-start !important;
-    gap: 10px !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    padding: 0.75rem 0 !important;
-    margin: 0.75rem 0 !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+  }
+
+  #ProductReviews-{{ section.id }} .jdgm-rev__author-wrapper,
+  #ProductReviews-{{ section.id }} .jdgm-rev__rating {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+  }
+
+  /* Card Side Curves & Padding Override */
+  #ProductReviews-{{ section.id }} .jdgm-rev-widg {
+    border-radius: var(--jdgm-radius) !important;
+    padding: 1.25rem 1rem !important;
+    background-color: #ffffff !important;
+    border: 1px solid #efe8da !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03) !important;
+    margin: 0 auto !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
 
-  .jdgm-pictures-wrapper .jdgm-gallery-item,
-  .jdgm-carousel-wrapper .jdgm-carousel-item,
-  .jdgm-rev-widg__pictures .jdgm-picture-item,
-  .jdgm-rev__pic-img {
-    flex: 0 0 calc(25% - 8px) !important;
-    min-width: 75px !important;
-    max-width: 110px !important;
-    aspect-ratio: 1 / 1 !important;
-    border-radius: 12px !important;
-    overflow: hidden !important;
-    border: 1px solid #e5e7eb !important;
-  }
+  /* Responsive Adjustments for Mobile Screens */
+  @media (max-width: 768px) {
+    #ProductReviews-{{ section.id }} {
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
 
-  .jdgm-pictures-wrapper img,
-  .jdgm-carousel-wrapper img,
-  .jdgm-gallery-wrapper img,
-  .jdgm-rev__pic-img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    border-radius: 12px !important;
-  }
+    #ProductReviews-{{ section.id }} .jdgm-rev-widg,
+    #ProductReviews-{{ section.id }} .jdgm-review-widget {
+      padding: 1rem 0.75rem !important;
+      border-radius: 16px !important;
+      background-color: #ffffff !important;
+      border: 1px solid #e5e7eb !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
+      box-sizing: border-box !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
 
-  /* Filter & Sort Dropdowns Layout */
-  .jdgm-rev-widg__sub-wrap,
-  .jdgm-sub-wrap,
-  .jdgm-sort-dropdown,
-  .jdgm-filter-dropdown {
-    display: inline-flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-wrap: wrap !important;
-    gap: 8px !important;
+    #ProductReviews-{{ section.id }} .jdgm-rev-widg__summary {
+      padding: 0.85rem 0.5rem !important;
+      border-radius: 12px !important;
+      background-color: #faf9f6 !important;
+      margin-bottom: 0.85rem !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 0.75rem !important;
+    }
+
+    #ProductReviews-{{ section.id }} .jdgm-rev {
+      padding: 0.85rem 0.5rem !important;
+      margin-bottom: 0.75rem !important;
+      border-radius: 12px !important;
+      border: 1px solid #f3f4f6 !important;
+      box-sizing: border-box !important;
+    }
   }
 </style>
 
 <section class="product-reviews" id="ProductReviews-{{ section.id }}" aria-label="Customer Reviews">
   <div class="product-reviews__container">
     {% if heading != blank %}
-      <h2 class="product-reviews__main-title" style="text-align: center; font-size: 1.85rem; font-weight: 800; margin-bottom: 1.25rem; color: #111827;">{{ heading }}</h2>
+      <h2 class="product-reviews__main-title" style="text-align: center; font-size: 1.5rem; font-weight: 800; margin-bottom: 0.85rem; color: #111827;">{{ heading }}</h2>
     {% endif %}
 
     <!-- Live Judge.me App Review Widget -->
