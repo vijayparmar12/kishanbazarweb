@@ -149,7 +149,7 @@
 
           {% when 'card_benefit_icons' %}
             <div {{ block.shopify_attributes }}>
-              {% render 'product-circle-features', product: product, block: block, limit: 4 %}
+              {% render 'product-circle-features', product: product, block: block, limit: 3 %}
             </div>
 
           {% when 'card_variant_selector' or 'card_buy_button' %}
@@ -256,7 +256,7 @@
       {% endif %}
 
       {% if show_benefit_icons != false %}
-        {% render 'product-circle-features', product: product, limit: 4 %}
+        {% render 'product-circle-features', product: product, limit: 3 %}
       {% endif %}
 
       <div class="product-card__actions" style="margin-top: auto; padding-top: 0.4rem; width: 100%;">
