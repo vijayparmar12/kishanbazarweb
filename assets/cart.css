@@ -3003,26 +3003,39 @@ body.kb-cart-drawer-open {
 
 .kb-cart-estimated-prices {
   display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+  gap: 2px !important;
+  text-align: right !important;
+}
+
+.kb-cart-estimated-final {
+  color: #0f172a !important;
+  font-weight: 900 !important;
   font-size: 1.05rem !important;
-  font-weight: 800 !important;
-  color: #1e293b !important;
+  line-height: 1.2 !important;
+  display: block !important;
 }
 
 .kb-cart-estimated-original {
   color: #94a3b8 !important;
-  font-weight: 600 !important;
-  font-size: 0.90rem !important;
+  font-weight: 500 !important;
+  font-size: 0.82rem !important;
   text-decoration: line-through !important;
+  line-height: 1.2 !important;
+  display: block !important;
 }
 
 .kb-cart-estimated-badge {
   color: #166534 !important;
   font-weight: 800 !important;
-  font-size: 0.80rem !important;
+  font-size: 0.78rem !important;
   background: #f0fdf4 !important;
   padding: 2px 6px !important;
-  border-radius: 6px !important;
+  border-radius: 4px !important;
+  line-height: 1.2 !important;
+  display: block !important;
+  margin-top: 2px !important;
 }
 
