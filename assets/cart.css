@@ -2933,7 +2933,7 @@ body.kb-cart-drawer-open {
   position: relative !important;
   z-index: 3 !important;
   margin-top: 0 !important;
-  margin-bottom: -1px !important;
+  margin-bottom: 10px !important;
 }
 
 .kb-cart-savings-ribbon {
@@ -2941,36 +2941,19 @@ body.kb-cart-drawer-open {
   background: #166534 !important; /* Brand Deep Green */
   color: #ffffff !important;
   text-align: center !important;
-  padding: 7px 20px !important;
+  padding: 8px 16px !important;
   font-weight: 800 !important;
   font-size: 0.88rem !important;
   letter-spacing: 0.02em !important;
-  border-radius: 6px 6px 0 0 !important;
-  box-shadow: 0 4px 12px rgba(22, 101, 52, 0.20) !important;
-  width: calc(100% - 32px) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 12px rgba(22, 101, 52, 0.15) !important;
+  width: 100% !important;
   box-sizing: border-box !important;
 }
 
-.kb-cart-savings-ribbon::before {
-  content: '' !important;
-  position: absolute !important;
-  left: -8px !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  width: 8px !important;
-  background: #115e2e !important;
-  clip-path: polygon(100% 0, 0 50%, 100% 100%) !important;
-}
-
+.kb-cart-savings-ribbon::before,
 .kb-cart-savings-ribbon::after {
-  content: '' !important;
-  position: absolute !important;
-  right: -8px !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  width: 8px !important;
-  background: #115e2e !important;
-  clip-path: polygon(0 0, 100% 50%, 0 100%) !important;
+  display: none !important;
 }
 
 .kb-cart-estimated-total-row {
