@@ -127,7 +127,7 @@
         </div>
 
         <div class="kb-cart-tab-panel is-active" data-tab-panel="frequently">
-          <div class="kb-cart-addons-track" style="display: flex; gap: 0.75rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none;">
+          <div class="kb-cart-addons-track">
             {% assign addons_coll = addons_collection.products | default: collections.all.products %}
             {% for product in addons_coll limit: 8 %}
               <div

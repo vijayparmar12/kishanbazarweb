@@ -1794,21 +1794,36 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-addons-track {
-  display: flex;
-  gap: 0.75rem;
-  overflow-x: auto;
-  padding-bottom: 0.4rem;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
+  display: flex !important;
+  gap: 0.75rem !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-snap-type: x mandatory !important;
+  padding-bottom: 6px !important;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: thin !important;
 }
 
 .kb-cart-addons-track::-webkit-scrollbar {
-  display: none;
+  height: 4px !important;
+  display: block !important;
+}
+
+.kb-cart-addons-track::-webkit-scrollbar-track {
+  background: #f1f5f9 !important;
+  border-radius: 4px !important;
+}
+
+.kb-cart-addons-track::-webkit-scrollbar-thumb {
+  background: #166534 !important;
+  border-radius: 4px !important;
 }
 
 .kb-cart-addon-card {
-  flex: 0 0 185px !important;
-  width: 185px !important;
+  flex: 0 0 175px !important;
+  min-width: 175px !important;
+  max-width: 175px !important;
+  scroll-snap-align: start !important;
   background: #ffffff !important;
   border: 1px solid #e2e8f0 !important;
   border-radius: 12px !important;
