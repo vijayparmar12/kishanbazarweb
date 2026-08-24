@@ -297,10 +297,10 @@
         "category_tab_cRHrih": {
           "type": "category_tab",
           "settings": {
-            "title": "Aatta",
-            "collection": "",
-            "icon_image": "shopify://shop_images/gemini-svg_5.svg",
-            "active_icon_image": "shopify://shop_images/gemini-svg_6.svg",
+            "title": "All Products",
+            "collection": "{{ section.settings.collection }}",
+            "icon_image": "shopify://shop_images/all-products-category-icon_1.svg",
+            "active_icon_image": "shopify://shop_images/all-products-category-icon-filled_1.svg",
             "icon_type": "ghee"
           }
         },
