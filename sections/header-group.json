@@ -323,14 +323,22 @@
       "type": "cart-drawer",
       "name": "Cart Drawer Settings",
       "settings": {
+        "cart_title_text": "YOUR CART",
         "cart_promo_bar_text": "Rakhi gifting, sorted! 🎁 Get 10% OFF with RAKHI10 💕",
         "cart_free_shipping_threshold": 1499,
-        "cart_discount_threshold": 3000,
+        "cart_discount_threshold": 0,
+        "cart_coupons_modal_title": "Available Coupons & Offers",
         "cart_coupon_code": "",
         "cart_savings_label": "",
+        "cart_savings_ribbon_suffix": "Saved so far!",
+        "cart_estimated_total_label": "Estimated Total",
         "cart_addons_heading": "Frequently Bought Together",
         "cart_addons_collection": "",
-        "cart_checkout_btn_text": "Checkout"
+        "cart_checkout_btn_text": "Checkout",
+        "cart_show_payment_badges": true,
+        "cart_credit_branding_text": "Powered by Shopflo",
+        "cart_choose_option_title": "Choose Option",
+        "cart_choose_option_confirm_btn": "Confirm"
       }
     }
   },
