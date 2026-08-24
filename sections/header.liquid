@@ -25,7 +25,7 @@
 {% endstyle %}
 
 <header
-  class="kb-header{% if section.settings.enable_sticky_header %} kb-header--sticky{% endif %}{% unless template.name == 'index' %} kb-header--inner-page{% endunless %}"
+  class="kb-header{% if section.settings.enable_sticky_header %} kb-header--sticky{% endif %}{% unless template.name == 'index' %} kb-header--inner-page{% endunless %}{% if template.name == 'collection' %} kb-header--collection-page{% endif %}"
   data-premium-header
 >
   <!-- STICKY TOP CONTAINER: ANNOUNCEMENT BAR + HEADER 1 (SEARCH, LOGO, PROFILE, WISHLIST, CART) -->
@@ -54,7 +54,7 @@
           {% render 'icon', name: 'menu', size: 24 %}
         </button>
 
-        {% if section.settings.show_search and template.name != 'collection' %}
+        {% if section.settings.show_search %}
           <form class="kb-header__search" action="{{ routes.search_url }}" method="get" role="search">
             <label class="visually-hidden" for="kb-header-search-{{ section.id }}"></label>
             <span class="kb-header__search-icon" aria-hidden="true">{% render 'icon', name: 'search', size: 22 %}</span>
