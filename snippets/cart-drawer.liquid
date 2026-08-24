@@ -68,8 +68,8 @@
       </button>
     </div>
 
-    {% assign promo_text = section.settings.cart_promo_bar_text | default: settings.cart_promo_bar_text %}
-    {% if promo_text != blank and promo_text != 'cart' and cart.item_count > 0 %}
+    {% assign promo_text = settings.cart_promo_bar_text %}
+    {% if promo_text != blank and cart.item_count > 0 %}
       <div class="kb-cart-drawer__promo" data-cart-drawer-promo>
         <span>{{ promo_text }}</span>
       </div>
