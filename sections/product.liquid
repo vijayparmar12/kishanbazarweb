@@ -227,6 +227,43 @@
     },
     {
       "type": "header",
+      "content": "Earn Coins Banner Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_coins_banner",
+      "label": "Show Earn Coins Banner",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "coins_multiplier",
+      "label": "Coins Multiplier (x Price in Rupees)",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "coins_banner_label",
+      "label": "Coins Banner Label (Use {coins} as placeholder)",
+      "default": "Earn {coins} Coins on this product"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_coins_savings",
+      "label": "Show Savings Pill in Coins Banner",
+      "default": true
+    },
+    {
+      "type": "color_background",
+      "id": "coins_banner_bg",
+      "label": "Coins Banner Background Gradient",
+      "default": "linear-gradient(90deg, #1b4317 0%, #2e5b29 55%, #3d6e37 100%)"
+    },
+    {
+      "type": "header",
       "content": "Product Details Accordions (Metafields)"
     },
     { "type": "richtext", "id": "tab_description", "label": "Default Description Content" },

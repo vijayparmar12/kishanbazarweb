@@ -325,16 +325,20 @@ function initVariantSelection(container) {
       }
 
       // Update Dynamic Coins & Savings Box
+      const coinsBanner = container.querySelector('[data-product-coins-banner]');
       const coinsText = container.querySelector('[data-product-coins-text]');
       const coinsSavings = container.querySelector('[data-product-coins-savings]');
-      if (price) {
+      if (coinsBanner && price) {
+        const multiplier = parseInt(coinsBanner.getAttribute('data-coins-multiplier') || '3', 10);
+        const template = coinsBanner.getAttribute('data-label-template') || 'Earn {coins} Coins on this product';
         const numericPrice = parseInt(price.replace(/[^0-9]/g, ''), 10) || 0;
         const numericCompare = compare ? parseInt(compare.replace(/[^0-9]/g, ''), 10) : 0;
-        const coins = Math.round(numericPrice * 3);
+        const coins = Math.round(numericPrice * multiplier);
         const savings = numericCompare > numericPrice ? (numericCompare - numericPrice) : 0;
 
         if (coinsText) {
-          coinsText.innerHTML = `Earn <strong>${coins}</strong> Coins on this product`;
+          const coinsHtml = `<strong>${coins}</strong>`;
+          coinsText.innerHTML = template.replace('{coins}', coinsHtml);
         }
         if (coinsSavings) {
           if (savings > 0) {
