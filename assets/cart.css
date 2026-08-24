@@ -1620,43 +1620,67 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-drawer__checkout-btn {
-  width: 100%;
-  min-height: 52px;
-  background: #0d6840;
-  color: #ffffff;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: 700;
-  transition: background 0.2s ease, transform 0.1s ease;
-  border: none;
-  cursor: pointer;
+  width: 100% !important;
+  min-height: 52px !important;
+  background: #166534 !important;
+  color: #ffffff !important;
+  border-radius: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 10px 16px !important;
+  text-decoration: none !important;
+  transition: background 0.2s ease, transform 0.1s ease !important;
+  border: none !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
 }
 
 .kb-cart-drawer__checkout-btn:hover {
-  background: #095232;
-  color: #ffffff;
-  transform: translateY(-1px);
+  background: #115e2e !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
 }
 
-.kb-cart-drawer__payment-badges {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.kb-cart-drawer__checkout-left {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  gap: 2px !important;
+  text-align: left !important;
+}
+
+.kb-cart-drawer__checkout-label {
+  font-size: 1.05rem !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  line-height: 1.2 !important;
+}
+
+.kb-cart-drawer__checkout-subtext {
+  font-size: 0.72rem !important;
+  font-weight: 500 !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  line-height: 1.2 !important;
+}
+
+.kb-cart-drawer__payment-badge-pill {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  background: #ffffff !important;
+  border-radius: 8px !important;
+  padding: 4px 8px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+  flex-shrink: 0 !important;
 }
 
 .kb-pay-badge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 7px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.22);
-  color: #ffffff;
-  letter-spacing: 0.02em;
+  font-size: 0.68rem !important;
+  font-weight: 800 !important;
+  color: #1e293b !important;
+  letter-spacing: 0.01em !important;
 }
 
 .kb-cart-drawer__credit {
