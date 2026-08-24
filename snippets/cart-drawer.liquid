@@ -211,14 +211,6 @@
           <span class="kb-cart-drawer__checkout-label">{{ checkout_label }}</span>
           <span class="kb-cart-drawer__checkout-subtext">Free Shipping on Orders Above ₹{{ free_shipping_threshold_num }}</span>
         </div>
-        {% if show_payment_badges %}
-          <div class="kb-cart-drawer__payment-badge-pill">
-            <span class="kb-pay-badge kb-pay-badge--paytm">Paytm</span>
-            <span class="kb-pay-badge kb-pay-badge--gpay">GPay</span>
-            <span class="kb-pay-badge kb-pay-badge--phonepe">Pe</span>
-            <span class="kb-pay-badge kb-pay-badge--cards">💳</span>
-          </div>
-        {% endif %}
       </a>
       {% if credit_branding_text != blank %}
         <div class="kb-cart-drawer__credit">{{ credit_branding_text }}</div>
