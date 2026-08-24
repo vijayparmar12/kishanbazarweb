@@ -1168,6 +1168,17 @@ body.kb-header-menu-open {
     margin-bottom: 6px !important;
   }
 
+  body.template-collection .kb-header__search,
+  .template-collection .kb-header__search {
+    display: none !important;
+  }
+
+  body.template-collection .kb-header__main-grid,
+  .template-collection .kb-header__main-grid {
+    grid-template-areas: "toggle logo actions" !important;
+    padding-bottom: 0.25rem !important;
+  }
+
   .kb-header__search-icon {
     display: inline-flex;
   }

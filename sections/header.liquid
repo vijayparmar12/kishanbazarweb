@@ -54,7 +54,7 @@
           {% render 'icon', name: 'menu', size: 24 %}
         </button>
 
-        {% if section.settings.show_search %}
+        {% if section.settings.show_search and template.name != 'collection' %}
           <form class="kb-header__search" action="{{ routes.search_url }}" method="get" role="search">
             <label class="visually-hidden" for="kb-header-search-{{ section.id }}"></label>
             <span class="kb-header__search-icon" aria-hidden="true">{% render 'icon', name: 'search', size: 22 %}</span>
