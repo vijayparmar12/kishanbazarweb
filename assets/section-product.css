@@ -886,11 +886,10 @@
 
 /* Purchase Row (Quantity Stepper & Add to Cart) */
 .product-info__purchase-row {
-  display: grid;
-  gap: 0.85rem;
-  grid-template-columns: 130px 1fr;
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
+  display: flex !important;
+  width: 100% !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
 }
 
 .product-info__quantity-stepper {
