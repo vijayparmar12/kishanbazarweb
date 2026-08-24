@@ -18,6 +18,26 @@ function initProductPage() {
   initRecommendationSlider(container);
   initShareAndWishlist(container);
   initStickyMobileBar(container);
+  positionRecommendationsBelowReviews();
+}
+
+function positionRecommendationsBelowReviews() {
+  const move = () => {
+    const reviewWidget = document.querySelector(
+      '.shopify-app-block:has(.jdgm-widget), .shopify-app-block:has(.jdgm-rev-widg), .shopify-section:has(.jdgm-widget), .product-page-section--reviews, .jdgm-rev-widg, [data-shopify-editor-block*="review"]'
+    );
+    const recSection = document.querySelector(
+      '.product-page-section--recommendations, .section-product-recommendations, .product-recommendations-section, [data-recommended-products-section]'
+    );
+    if (reviewWidget && recSection && reviewWidget.nextElementSibling !== recSection) {
+      reviewWidget.parentNode.insertBefore(recSection, reviewWidget.nextSibling);
+    }
+  };
+
+  move();
+  setTimeout(move, 400);
+  setTimeout(move, 1200);
+  setTimeout(move, 2500);
 }
 
 /* ==========================================================================

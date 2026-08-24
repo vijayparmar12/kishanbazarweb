@@ -8,12 +8,28 @@
   {% render 'product-recommendations-slider', product: product %}
 {% enddoc %}
 
-<section class="product-recommendations-slider" aria-label="Recommended Products">
+{% liquid
+  assign rec_products = collection.products
+  if rec_products == blank or rec_products.size == 0
+    assign rec_products = product.collections.first.products
+  endif
+  if rec_products == blank or rec_products.size == 0
+    assign rec_products = collections.all.products
+  endif
+  if rec_products == blank or rec_products.size == 0
+    assign rec_products = collections['all'].products
+  endif
+  if rec_products == blank or rec_products.size == 0
+    assign rec_products = collections.frontpage.products
+  endif
+%}
+
+<section class="product-recommendations-slider" aria-label="Recommended Products" data-recommended-products-section>
   <div class="product-recommendations-slider__inner">
-    <div class="product-recommendations-slider__head">
+    <div class="product-recommendations-slider__head" style="margin-bottom: 1.25rem;">
       <div>
-        <span class="product-recommendations-slider__eyebrow">Handpicked Organic Staples</span>
-        <h2 class="product-recommendations-slider__title">You May Also Like</h2>
+        <span class="product-recommendations-slider__eyebrow" style="color: #D97706; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 0.25rem;">Handpicked Organic Staples</span>
+        <h2 class="product-recommendations-slider__title" style="color: #1B4317; font-size: clamp(1.4rem, 3.2vw, 2.2rem); font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; margin: 0;">RECOMMENDED</h2>
       </div>
       <div class="product-recommendations-slider__nav-btns">
         <button type="button" class="product-recommendations-slider__nav-btn cta-arrow-circle" data-slider-prev aria-label="Previous recommended products">
@@ -30,13 +46,16 @@
     </div>
 
     <div class="product-recommendations-slider__track" data-slider-track>
-      {% assign rec_products = collection.products | default: collections['all'].products %}
       {% if rec_products.size > 0 %}
-        {% for rec_product in rec_products limit: 8 %}
+        {% assign count = 0 %}
+        {% for rec_product in rec_products %}
           {% unless rec_product.id == product.id %}
-            <div class="product-recommendations-slider__slide">
-              {% render 'product-card', product: rec_product, show_badge: true, show_rating: true, show_wishlist: true %}
-            </div>
+            {% assign count = count | plus: 1 %}
+            {% if count <= 8 %}
+              <div class="product-recommendations-slider__slide">
+                {% render 'product-card', product: rec_product, show_badge: true, show_rating: true, show_wishlist: true %}
+              </div>
+            {% endif %}
           {% endunless %}
         {% endfor %}
       {% endif %}
