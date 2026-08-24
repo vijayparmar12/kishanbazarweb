@@ -189,12 +189,6 @@
           <div class="kb-cart-estimated-prices">
             <strong class="kb-cart-estimated-final" data-cart-drawer-subtotal>{{ cart.total_price | money }}</strong>
             <s class="kb-cart-estimated-original" data-cart-drawer-original-total {% if total_saved <= 0 %}style="display: none;"{% endif %}>{{ cart_original_price | money }}</s>
-            {% if total_saved > 0 and cart_original_price > 0 %}
-              {% assign save_pct = total_saved | times: 100 | divided_by: cart_original_price %}
-              <span class="kb-cart-estimated-badge" data-cart-drawer-save-badge>({{ save_pct }}% OFF)</span>
-            {% else %}
-              <span class="kb-cart-estimated-badge" data-cart-drawer-save-badge style="display: none;"></span>
-            {% endif %}
           </div>
         </div>
       </div>

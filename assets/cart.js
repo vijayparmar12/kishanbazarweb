@@ -233,13 +233,7 @@
     }
 
     if (badgeEl) {
-      if (totalSaved > 0 && totalCompare > 0) {
-        const pct = Math.round((totalSaved / totalCompare) * 100);
-        badgeEl.style.display = 'inline';
-        badgeEl.textContent = `(${pct}% OFF)`;
-      } else {
-        badgeEl.style.display = 'none';
-      }
+      badgeEl.style.display = 'none';
     }
 
     // Hydrate cart item variant dropdown select boxes
