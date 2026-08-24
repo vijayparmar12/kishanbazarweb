@@ -68,13 +68,6 @@
       </button>
     </div>
 
-    {% assign promo_text = settings.cart_promo_bar_text %}
-    {% if promo_text != blank and cart.item_count > 0 %}
-      <div class="kb-cart-drawer__promo" data-cart-drawer-promo>
-        <span>{{ promo_text }}</span>
-      </div>
-    {% endif %}
-
     <div class="kb-cart-drawer__progress" data-cart-drawer-progress {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
       <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status>
         {% if cart.total_price >= free_ship_val %}
