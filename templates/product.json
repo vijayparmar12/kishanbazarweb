@@ -149,7 +149,7 @@
         "desktop_media_width": "large",
         "show_tabs": true,
         "show_reviews": false,
-        "show_recommendations": true,
+        "show_recommendations": false,
         "recommendations_limit": 6,
         "show_sticky_mobile_bar": true,
         "sticky_bar_btn_text": "ADD TO CART",
