@@ -90,10 +90,24 @@
   }
 {% endstyle %}
 
-{% assign banner_img_desktop = section.settings.custom_image_desktop | default: collection.image | default: collection.products.first.featured_image %}
-{% assign banner_img_mobile = section.settings.custom_image_mobile | default: section.settings.custom_image_desktop | default: collection.image | default: collection.products.first.featured_image %}
+{% comment %} Look for a collection-specific block match defined in Theme Editor {% endcomment %}
+{% assign matched_block = nil %}
+{% for block in section.blocks %}
+  {% if block.settings.target_collection != blank and block.settings.target_collection.handle == collection.handle %}
+    {% assign matched_block = block %}
+    {% break %}
+  {% endif %}
+{% endfor %}
 
-<section id="CollectionBanner-{{ section.id }}" class="collection-banner">
+{% if matched_block != nil %}
+  {% assign banner_img_desktop = matched_block.settings.image_desktop | default: collection.image | default: collection.products.first.featured_image %}
+  {% assign banner_img_mobile = matched_block.settings.image_mobile | default: matched_block.settings.image_desktop | default: collection.image | default: collection.products.first.featured_image %}
+{% else %}
+  {% assign banner_img_desktop = collection.image | default: section.settings.custom_image_desktop | default: collection.products.first.featured_image %}
+  {% assign banner_img_mobile = collection.image | default: section.settings.custom_image_mobile | default: section.settings.custom_image_desktop | default: collection.products.first.featured_image %}
+{% endif %}
+
+<section id="CollectionBanner-{{ section.id }}" class="collection-banner" {% if matched_block != nil %}{{ matched_block.shopify_attributes }}{% endif %}>
   {% if section.settings.show_image and banner_img_desktop != blank %}
     <picture class="collection-banner__picture">
       {% if banner_img_mobile != blank %}
@@ -125,10 +139,10 @@
       ],
       "default": "center"
     },
-    { "type": "header", "content": "Banner Background Images" },
+    { "type": "header", "content": "Default / Fallback Banner Images" },
     { "type": "checkbox", "id": "show_image", "label": "Show Background Image", "default": true },
-    { "type": "image_picker", "id": "custom_image_desktop", "label": "Custom Desktop Banner Image", "info": "Upload custom graphic image to override default collection image on Desktop" },
-    { "type": "image_picker", "id": "custom_image_mobile", "label": "Custom Mobile Banner Image", "info": "Upload custom graphic image to override default collection image on Mobile" },
+    { "type": "image_picker", "id": "custom_image_desktop", "label": "Fallback Desktop Banner Image", "info": "Used if no specific collection image or collection block is set" },
+    { "type": "image_picker", "id": "custom_image_mobile", "label": "Fallback Mobile Banner Image", "info": "Used if no specific collection image or collection block is set" },
     {
       "type": "select",
       "id": "image_fit_desktop",
@@ -155,16 +169,38 @@
     { "type": "range", "id": "overlay_opacity", "label": "Overlay Opacity (%)", "min": 0, "max": 100, "step": 5, "default": 0, "unit": "%" },
     { "type": "color", "id": "bg_color", "label": "Fallback Background Color", "default": "#1b4317" },
     { "type": "color", "id": "text_color", "label": "Title & Text Color", "default": "#ffffff" },
-    { "type": "color", "id": "breadcrumb_color", "label": "Breadcrumb Color", "default": "#ffffff" },
-    { "type": "header", "content": "Title & Content Options" },
-    { "type": "checkbox", "id": "show_breadcrumbs", "label": "Show Breadcrumbs", "default": false },
-    { "type": "checkbox", "id": "show_title", "label": "Show Collection Title", "default": false },
-    { "type": "text", "id": "custom_title", "label": "Custom Title Override", "info": "Leave blank to use default Collection Title" },
-    { "type": "text", "id": "custom_subheading", "label": "Custom Subheading / Tagline", "info": "e.g. 100% Natural & Organic Essentials" },
-    { "type": "checkbox", "id": "show_description", "label": "Show Collection Description", "default": false },
-    { "type": "textarea", "id": "custom_description", "label": "Custom Description Override", "info": "Leave blank to use default Collection Description" },
-    { "type": "range", "id": "title_size_desktop", "label": "Desktop Title Size (px)", "min": 24, "max": 72, "step": 2, "default": 42, "unit": "px" },
-    { "type": "range", "id": "title_size_mobile", "label": "Mobile Title Size (px)", "min": 18, "max": 48, "step": 2, "default": 28, "unit": "px" }
+    { "type": "color", "id": "breadcrumb_color", "label": "Breadcrumb Color", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "collection_banner",
+      "name": "Collection Specific Banner",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "target_collection",
+          "label": "Select Collection",
+          "info": "Choose the collection this custom banner belongs to (e.g. Ghee, Atta, Oils)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop",
+          "label": "Desktop Banner Image",
+          "info": "Upload custom desktop graphic banner for this collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile Banner Image",
+          "info": "Upload custom mobile graphic banner for this collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Banner"
+    }
   ]
 }
 {% endschema %}
