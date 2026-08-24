@@ -1723,72 +1723,89 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-addon-card {
-  flex: 0 0 200px;
-  width: 200px;
-  background: #ffffff;
-  border: 1px solid #d4e5d2;
-  border-radius: 12px;
-  padding: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  flex: 0 0 170px !important;
+  width: 170px !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  padding: 0.65rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  box-sizing: border-box !important;
 }
 
-.kb-cart-addon-badge {
-  background: #166534;
-  color: #ffffff;
-  border-radius: 8px;
-  padding: 0.4rem 0.5rem;
-  font-size: 0.72rem;
-  line-height: 1.2;
-  margin-bottom: 0.5rem;
-}
-
-.kb-cart-addon-badge strong {
-  color: #fef08a;
-  font-size: 0.84rem;
+.kb-cart-addon-top-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  margin-bottom: 0.4rem !important;
 }
 
 .kb-cart-addon-img {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 0.4rem;
+  width: 48px !important;
+  height: 48px !important;
+  object-fit: cover !important;
+  border-radius: 8px !important;
+  flex-shrink: 0 !important;
+}
+
+.kb-cart-addon-info-meta {
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
 }
 
 .kb-cart-addon-title {
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: #132d14;
-  line-height: 1.25;
-  margin-bottom: 0.2rem;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+  line-height: 1.25 !important;
+  margin-bottom: 0.15rem !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 .kb-cart-addon-price {
-  font-size: 0.84rem;
-  font-weight: 900;
-  color: #166534;
-  margin-bottom: 0.5rem;
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  color: #166534 !important;
+  margin-bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
+}
+
+.kb-cart-addon-compare {
+  color: #94a3b8 !important;
+  text-decoration: line-through !important;
+  font-weight: 500 !important;
+  font-size: 0.75rem !important;
 }
 
 .kb-cart-addon-add-btn {
-  background: #ffffff;
-  border: 1px solid #166534;
-  color: #166534;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  font-weight: 800;
-  padding: 0.35rem;
-  width: 100%;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  width: 100% !important;
+  background: #ffffff !important;
+  border: 1.5px solid #166534 !important;
+  color: #166534 !important;
+  border-radius: 8px !important;
+  padding: 0.4rem 0 !important;
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .kb-cart-addon-add-btn:hover {
-  background: #166534;
-  color: #ffffff;
+  background: #166534 !important;
+  color: #ffffff !important;
 }
 
 /* ==========================================================================

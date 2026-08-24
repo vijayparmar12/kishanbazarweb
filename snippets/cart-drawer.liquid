@@ -127,16 +127,16 @@
 
 
 
-      <!-- Frequently Bought Together Carousel -->
+      <!-- Frequently Bought Together Carousel (Matching Two Brothers Organic Farms UI) -->
       <div class="kb-cart-drawer__addons-block" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
-        <div class="kb-cart-addons-tabs">
-          <button type="button" class="kb-cart-tab-btn is-active" data-cart-tab="frequently">{{ addons_heading }}</button>
+        <div class="kb-cart-addons-tabs" style="margin-bottom: 0.6rem;">
+          <button type="button" class="kb-cart-tab-btn is-active" data-cart-tab="frequently" style="font-weight: 800; font-size: 0.88rem; color: #166534;">Frequently Bought Together</button>
         </div>
 
         <div class="kb-cart-tab-panel is-active" data-tab-panel="frequently">
-          <div class="kb-cart-addons-track">
+          <div class="kb-cart-addons-track" style="display: flex; gap: 0.75rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none;">
             {% assign addons_coll = addons_collection.products | default: collections.all.products %}
-            {% for product in addons_coll limit: 6 %}
+            {% for product in addons_coll limit: 8 %}
               <div
                 class="kb-cart-addon-card"
                 data-fbt-card
@@ -146,14 +146,20 @@
                 data-product-title="{{ product.title | escape }}"
                 style="cursor: pointer;"
               >
-                <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" class="kb-cart-addon-img" width="60" height="60" loading="lazy">
-                <div class="kb-cart-addon-details">
-                  <div class="kb-cart-addon-title">{{ product.title }}</div>
-                  <div class="kb-cart-addon-price">
-                    {% if product.compare_at_price > product.price %}
-                      <s class="kb-cart-addon-compare">{{ product.compare_at_price | money }}</s>
-                    {% endif %}
-                    <span>{{ product.price | money }}</span>
+                <div class="kb-cart-addon-top-row">
+                  {% if product.featured_image != blank %}
+                    <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" class="kb-cart-addon-img" width="48" height="48" loading="lazy">
+                  {% else %}
+                    {{ 'product-1' | placeholder_svg_tag: 'kb-cart-addon-img' }}
+                  {% endif %}
+                  <div class="kb-cart-addon-info-meta">
+                    <div class="kb-cart-addon-title">{{ product.title }}</div>
+                    <div class="kb-cart-addon-price">
+                      {% if product.compare_at_price > product.price %}
+                        <s class="kb-cart-addon-compare">{{ product.compare_at_price | money }}</s>
+                      {% endif %}
+                      <span>{{ product.price | money }}</span>
+                    </div>
                   </div>
                 </div>
                 <button
