@@ -143,13 +143,7 @@
     {% endif %}
   </div>
 
-  {% if section.settings.show_cta_btn != false %}
-    <div class="categories__cta-container">
-      <a class="categories__shop-more-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}" aria-label="{{ section.settings.cta_label | default: 'Shop More' }}">
-        <span>{{ section.settings.cta_label | default: "Shop More" }}</span>
-      </a>
-    </div>
-  {% endif %}
+  {% comment %} Shop More button removed {% endcomment %}
 
   <div class="categories__grid">
     {% assign rendered_collections = 0 %}

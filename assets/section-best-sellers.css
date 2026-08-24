@@ -42,17 +42,11 @@
   width: 100% !important;
   box-sizing: border-box !important;
   padding: 0 !important;
-.best-sellers__cta-container {
-  display: flex !important;
-  justify-content: flex-end !important;
-  align-items: center !important;
-  width: 100% !important;
-  margin-top: 0.35rem !important;
-  margin-bottom: 0.65rem !important;
-  clear: both !important;
-  position: relative !important;
-  z-index: 5 !important;
-  text-align: right !important;
+.best-sellers__cta-container,
+.categories__cta-container,
+.best-sellers__shop-more-btn,
+.categories__shop-more-btn {
+  display: none !important;
 }
 
 .best-sellers__cta-container .best-sellers__shop-more-btn,
