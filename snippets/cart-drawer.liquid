@@ -148,7 +148,7 @@
               >
                 <div class="kb-cart-addon-top-row">
                   {% if product.featured_image != blank %}
-                    <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" class="kb-cart-addon-img" width="48" height="48" loading="lazy">
+                    <img src="{{ product.featured_image | image_url: width: 140 }}" alt="{{ product.title | escape }}" class="kb-cart-addon-img" width="58" height="58" loading="lazy">
                   {% else %}
                     {{ 'product-1' | placeholder_svg_tag: 'kb-cart-addon-img' }}
                   {% endif %}

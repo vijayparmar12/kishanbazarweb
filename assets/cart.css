@@ -1731,8 +1731,8 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-addon-card {
-  flex: 0 0 170px !important;
-  width: 170px !important;
+  flex: 0 0 185px !important;
+  width: 185px !important;
   background: #ffffff !important;
   border: 1px solid #e2e8f0 !important;
   border-radius: 12px !important;
@@ -1752,8 +1752,8 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-addon-img {
-  width: 48px !important;
-  height: 48px !important;
+  width: 58px !important;
+  height: 58px !important;
   object-fit: cover !important;
   border-radius: 8px !important;
   flex-shrink: 0 !important;
