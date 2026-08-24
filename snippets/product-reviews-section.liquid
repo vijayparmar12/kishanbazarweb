@@ -20,24 +20,27 @@
 %}
 
 <style>
-  /* Section & Container Padding Removal */
-  .product-page-section--reviews,
-  .shopify-app-block,
-  .shopify-block:has(.jdgm-widget),
-  .shopify-block:has(.jdgm-rev-widg) {
-    padding: 0.25rem 0 !important;
-    margin: 0 !important;
+  /* Align Section & Container Side Padding with Product Page Container */
+  .product-page-section--reviews {
+    padding: 0.5rem 0 !important;
+    margin: 0 auto !important;
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: 2000px !important;
     box-sizing: border-box !important;
   }
 
   .product-reviews,
-  .product-reviews__container {
+  .product-reviews__container,
+  .shopify-app-block:has(.jdgm-rev-widg),
+  .shopify-app-block:has(.jdgm-widget:not(.jdgm-preview-badge)),
+  .shopify-block:has(.jdgm-rev-widg),
+  .shopify-block:has(.jdgm-widget.jdgm-review-widget) {
     width: 100% !important;
-    max-width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    max-width: 2000px !important;
+    padding-left: clamp(1rem, 2.5vw, 1.25rem) !important;
+    padding-right: clamp(1rem, 2.5vw, 1.25rem) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     box-sizing: border-box !important;
   }
 
@@ -209,10 +212,21 @@
 
   /* Mobile Responsive Adjustment */
   @media (max-width: 768px) {
-    .product-page-section--reviews,
-    .shopify-app-block {
+    .product-page-section--reviews {
       padding: 0.25rem 0 !important;
-      margin: 0 !important;
+      margin: 0 auto !important;
+      width: 100% !important;
+    }
+
+    .shopify-app-block:has(.jdgm-rev-widg),
+    .shopify-app-block:has(.jdgm-widget:not(.jdgm-preview-badge)),
+    .product-reviews,
+    .product-reviews__container {
+      padding-left: clamp(0.75rem, 3vw, 1.25rem) !important;
+      padding-right: clamp(0.75rem, 3vw, 1.25rem) !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      box-sizing: border-box !important;
       width: 100% !important;
     }
 
@@ -224,7 +238,7 @@
       border: 1px solid #e5e7eb !important;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
       box-sizing: border-box !important;
-      margin: 0 !important;
+      margin: 0 auto !important;
       width: 100% !important;
     }
 

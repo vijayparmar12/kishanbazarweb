@@ -63,13 +63,13 @@
               assign p_reviews_count = j_count
             %}
             <div class="product-info__rating-block" {{ block.shopify_attributes }}>
-              <div class="product-info__rating" aria-label="{{ p_rating }} star customer rating" style="display: flex !important; visibility: visible !important; opacity: 1 !important; align-items: center !important; gap: 0.4rem !important; margin-top: 0.35rem !important; margin-bottom: 0.35rem !important; min-height: 24px !important;">
+              <div class="product-info__rating" aria-label="{{ p_rating }} star customer rating" style="display: flex !important; visibility: visible !important; opacity: 1 !important; align-items: center !important; justify-content: flex-start !important; gap: 0.4rem !important; margin-top: 0.35rem !important; margin-bottom: 0.35rem !important; margin-left: 0 !important; margin-right: auto !important; min-height: 24px !important; text-align: left !important;">
                 {% if product.metafields.judgeme.badge != blank %}
-                  <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}" style="display: inline-flex !important;">
+                  <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}" style="display: inline-flex !important; justify-content: flex-start !important; align-items: center !important; margin-left: 0 !important; text-align: left !important;">
                     {{ product.metafields.judgeme.badge }}
                   </div>
                 {% else %}
-                  <div class="product-info__stars-wrap" style="display: inline-flex !important; align-items: center !important; gap: 0.4rem !important;">
+                  <div class="product-info__stars-wrap" style="display: inline-flex !important; align-items: center !important; justify-content: flex-start !important; gap: 0.4rem !important; margin-left: 0 !important; text-align: left !important;">
                     {% render 'rating-stars', product: product, rating: p_rating %}
                     <span class="product-info__rating-score" style="font-weight: 700 !important; font-size: 0.95rem !important; color: #111827 !important; display: inline-block !important;">{{ p_rating | round: 1 }}</span>
                     <a href="#ProductReviews-{{ section.id }}" class="product-info__review-count" style="color: #1b4317 !important; font-size: 0.85rem !important; font-weight: 600 !important; text-decoration: none !important; display: inline-block !important;">({{ p_reviews_count }} reviews)</a>

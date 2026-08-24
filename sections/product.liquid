@@ -19,11 +19,26 @@
 
     .kishanbazar-product-page .product-page-section--reviews,
     .kishanbazar-product-page .product-reviews,
-    .kishanbazar-product-page .jdgm-widget,
+    .kishanbazar-product-page .product-reviews .jdgm-widget,
     .kishanbazar-product-page .jdgm-rev-widg {
       max-width: {{ section.settings.mobile_reviews_width | default: 100 }}% !important;
       margin-left: auto !important;
       margin-right: auto !important;
+      padding-left: clamp(0.75rem, 3vw, 1.25rem) !important;
+      padding-right: clamp(0.75rem, 3vw, 1.25rem) !important;
+      box-sizing: border-box !important;
+    }
+
+    .kishanbazar-product-page .product-info .jdgm-widget,
+    .kishanbazar-product-page .product-info .jdgm-preview-badge,
+    .kishanbazar-product-page .product-info .jdgm-prev-badge,
+    .kishanbazar-product-page .product-info__rating-block,
+    .kishanbazar-product-page .product-info__rating {
+      margin-left: 0 !important;
+      margin-right: auto !important;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+      text-align: left !important;
     }
   }
 {% endstyle %}

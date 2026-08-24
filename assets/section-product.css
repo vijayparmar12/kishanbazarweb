@@ -139,6 +139,11 @@
     gap: 0.25rem;
     margin-bottom: 0.35rem !important;
     padding-bottom: 0 !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
   }
 
   /* 2. Product Gallery Image SECOND directly below Title, Subtitle & Star Rating on mobile */
@@ -643,10 +648,14 @@
 .product-info__rating {
   order: var(--d-order, 2);
   align-items: center !important;
+  justify-content: flex-start !important;
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
   gap: 0.5rem;
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
 }
 
 .product-card__stars,
@@ -1379,18 +1388,21 @@
 }
 
 @media (max-width: 768px) {
-  .product-page-section--reviews,
-  .shopify-app-block:has(.jdgm-widget),
-  .shopify-app-block:has(.jdgm-rev-widg) {
+  .product-page-section--reviews {
     padding: 0.25rem 0 !important;
-    margin: 0 !important;
+    margin: 0 auto !important;
     box-sizing: border-box !important;
     width: 100% !important;
   }
   .product-reviews,
-  .product-reviews__container {
-    padding: 0 !important;
-    margin: 0 !important;
+  .product-reviews__container,
+  .shopify-app-block:has(.jdgm-rev-widg),
+  .shopify-app-block:has(.jdgm-widget:not(.jdgm-preview-badge)),
+  .shopify-block:has(.jdgm-rev-widg) {
+    padding-left: clamp(0.75rem, 3vw, 1.25rem) !important;
+    padding-right: clamp(0.75rem, 3vw, 1.25rem) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     box-sizing: border-box !important;
     width: 100% !important;
   }
@@ -1407,7 +1419,7 @@
   }
 }
 
-/* Remove card box style from star rating under title */
+/* Remove card box style from star rating under title & enforce strict left positioning */
 .product-info .jdgm-widget,
 .product-info .jdgm-preview-badge,
 .product-info .product-info__rating-block,
@@ -1417,7 +1429,13 @@
 .jdgm-preview-badge,
 .jdgm-widget.jdgm-preview-badge,
 .shopify-block:has(.jdgm-preview-badge),
-.shopify-block:has(.jdgm-widget) {
+.shopify-block:has(.jdgm-widget),
+.shopify-block:has([class*="rating"]),
+.shopify-block:has([class*="jdgm"]),
+[data-shopify-editor-block]:has(.jdgm-preview-badge),
+[data-shopify-editor-block]:has(.jdgm-widget),
+[data-shopify-editor-block]:has([class*="rating"]),
+[data-shopify-editor-block]:has([class*="jdgm"]) {
   background: transparent !important;
   background-color: transparent !important;
   border: none !important;
@@ -1426,6 +1444,32 @@
   padding: 0 !important;
   border-radius: 0 !important;
   width: auto !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* Force Judge.me badge inner elements to align to the left side */
+.product-info .jdgm-prev-badge,
+.jdgm-prev-badge,
+.jdgm-widget .jdgm-prev-badge,
+.jdgm-preview-badge .jdgm-prev-badge {
+  text-align: left !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  float: left !important;
+}
+
+.jdgm-prev-badge__stars,
+.jdgm-prev-badge__text {
+  text-align: left !important;
+  margin-left: 0 !important;
 }
 
 /* Summary Box Curved Corners */
