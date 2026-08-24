@@ -304,13 +304,13 @@
             "icon_type": "ghee"
           }
         },
-        "category_tab_UWnxqx": {
+        "category_tab_hJeYRM": {
           "type": "category_tab",
           "settings": {
-            "title": "Aatta",
-            "collection": "",
-            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_13_2026_10_48_13_AM.png",
-            "active_icon_image": "shopify://shop_images/ChatGPT_Image_Aug_13_2026_10_51_53_AM.png",
+            "title": "Oil",
+            "collection": "oil",
+            "icon_image": "shopify://shop_images/gemini-svg_9.svg",
+            "active_icon_image": "shopify://shop_images/gemini-svg_9.svg",
             "icon_type": "ghee"
           }
         }
@@ -323,7 +323,7 @@
         "card_variant_selector_P9HiVz",
         "card_buy_button_34nVEe",
         "category_tab_cRHrih",
-        "category_tab_UWnxqx"
+        "category_tab_hJeYRM"
       ],
       "name": "shop By category",
       "settings": {
