@@ -62,7 +62,7 @@
 %}
 
 <li class="shoppable-videos__slide" data-carousel-slide {{ shopify_attributes }}>
-  <article class="shoppable-videos__card{% if is_preview %} shoppable-videos__card--preview{% endif %}" data-shoppable-card {% if variant != blank %}data-variant-id="{{ variant.id }}"{% endif %}>
+  <article class="shoppable-videos__card{% if is_preview %} shoppable-videos__card--preview{% endif %}" data-shoppable-card {% if variant != blank %}data-variant-id="{{ variant.id }}"{% endif %} {% if card_product != blank %}data-product-handle="{{ card_product.handle }}"{% endif %}>
     
     <!-- Video Media Wrap -->
     <div class="shoppable-videos__media-wrap">

@@ -107,9 +107,7 @@ class ShoppableVideosSection {
         if (e.target.closest('[data-quick-view-trigger]') || e.target.closest('.shoppable-videos__product-info-row') || e.target.closest('[data-add-to-cart]') || e.target.closest('[data-video-mute]')) return;
 
         // Extract Product details for Modal White Box
-        const overlayEl = mediaWrap.querySelector('.shoppable-videos__product-overlay') || card.querySelector('[data-product-handle]');
-        const productHandle = overlayEl?.dataset?.productHandle || card.dataset.productHandle || '';
-        const variantId = overlayEl?.dataset?.variantId || card.dataset.variantId || '';
+        const variantId = card.dataset.variantId || '';
         const thumb = card.querySelector('.shoppable-videos__product-thumb')?.src || '';
         const title = card.querySelector('.shoppable-videos__product-name')?.textContent || 'Organic Product';
         const subtitle = card.querySelector('.shoppable-videos__product-subtitle')?.textContent || '';
@@ -185,80 +183,6 @@ class ShoppableVideosSection {
         `;
         clone.appendChild(whiteProductBox);
 
-        // Bind Choose Option Modal to White Product Box ADD TO CART button
-        const modalAddBtn = whiteProductBox.querySelector('.shoppable-videos__modal-add-btn');
-        if (modalAddBtn) {
-          modalAddBtn.addEventListener('click', (ev) => {
-            ev.preventDefault();
-            ev.stopPropagation();
-
-            // 1. Close Video Modal
-            const modalEl = this.root.querySelector('[data-video-modal]');
-            if (modalEl) {
-              modalEl.removeAttribute('open');
-              document.body.classList.remove('shoppable-video-modal-open');
-              if (modalBody) {
-                const v = modalBody.querySelector('video');
-                if (v) v.pause();
-                modalBody.innerHTML = '';
-              }
-            }
-
-            // 2. Open Choose Option Modal or Add to Cart
-            if (productHandle && typeof window.openChooseOptionModal === 'function') {
-              window.openChooseOptionModal(productHandle, variantId);
-            } else if (variantId && typeof window.addSingleVariantToCart === 'function') {
-              window.addSingleVariantToCart(variantId, 1);
-            } else if (productHandle) {
-              document.dispatchEvent(
-                new CustomEvent('kb:open:choose-option', {
-                  detail: { handle: productHandle, defaultVariantId: variantId }
-                })
-              );
-            } else if (variantId) {
-              document.dispatchEvent(
-                new CustomEvent('kb:open:choose-option', {
-                  detail: { defaultVariantId: variantId }
-                })
-              );
-            }
-          });
-        }
-
-        const infoBox = whiteProductBox.querySelector('div[style*="display: flex; align-items: center; gap: 10px;"]');
-        if (infoBox) {
-          infoBox.style.cursor = 'pointer';
-          infoBox.addEventListener('click', (ev) => {
-            ev.preventDefault();
-            ev.stopPropagation();
-
-            // 1. Close Video Modal
-            const modalEl = this.root.querySelector('[data-video-modal]');
-            if (modalEl) {
-              modalEl.removeAttribute('open');
-              document.body.classList.remove('shoppable-video-modal-open');
-              if (modalBody) {
-                const v = modalBody.querySelector('video');
-                if (v) v.pause();
-                modalBody.innerHTML = '';
-              }
-            }
-
-            // 2. Open Choose Option Modal
-            if (productHandle && typeof window.openChooseOptionModal === 'function') {
-              window.openChooseOptionModal(productHandle, variantId);
-            } else if (variantId && typeof window.addSingleVariantToCart === 'function') {
-              window.addSingleVariantToCart(variantId, 1);
-            } else if (productHandle) {
-              document.dispatchEvent(
-                new CustomEvent('kb:open:choose-option', {
-                  detail: { handle: productHandle, defaultVariantId: variantId }
-                })
-              );
-            }
-          });
-        }
-
         if (modalBody) {
           modalBody.innerHTML = '';
           modalBody.appendChild(clone);
@@ -272,6 +196,47 @@ class ShoppableVideosSection {
         const muteIcon = muteBtn?.querySelector('[data-mute-icon]');
         const unmuteIcon = muteBtn?.querySelector('[data-unmute-icon]');
         const modalCloseBtn = clone.querySelector('[data-modal-close]');
+
+        // Extract Product Handle
+        const handle = card.dataset.productHandle || card.querySelector('[data-product-handle]')?.dataset.productHandle;
+
+        const triggerChooseOptionModal = (ev) => {
+          if (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+          }
+
+          // Close video modal
+          const modalEl = this.root.querySelector('[data-video-modal]');
+          if (modalEl) {
+            modalEl.removeAttribute('open');
+            document.body.classList.remove('shoppable-video-modal-open');
+            if (modalBody) {
+              const v = modalBody.querySelector('video');
+              if (v) v.pause();
+              modalBody.innerHTML = '';
+            }
+          }
+
+          // Open Choose Option / Variant Modal Popup (Screenshot 1)
+          if (handle && typeof window.openChooseOptionModal === 'function') {
+            window.openChooseOptionModal(handle);
+          } else if (handle) {
+            const rootUrl = window.Shopify?.routes?.root || '/';
+            document.dispatchEvent(new CustomEvent('greenbasket:quick-view', { detail: { url: `${rootUrl}products/${handle}` } }));
+          }
+        };
+
+        const modalAddBtn = whiteProductBox.querySelector('.shoppable-videos__modal-add-btn');
+        if (modalAddBtn) {
+          modalAddBtn.addEventListener('click', triggerChooseOptionModal);
+        }
+
+        const modalInfoRow = whiteProductBox.firstElementChild;
+        if (modalInfoRow) {
+          modalInfoRow.style.cursor = 'pointer';
+          modalInfoRow.addEventListener('click', triggerChooseOptionModal);
+        }
 
         if (modalCloseBtn) {
           modalCloseBtn.addEventListener('click', (ev) => {
@@ -578,24 +543,23 @@ class ShoppableVideosSection {
 
         const handle = trigger.dataset.productHandle || '';
         const variantId = trigger.dataset.variantId || '';
+        const title = trigger.dataset.productTitle || '';
+        const price = trigger.dataset.productPrice || '';
+        const comparePrice = trigger.dataset.productComparePrice || '';
+        const image = trigger.dataset.productImage || '';
 
-        if (handle && typeof window.openChooseOptionModal === 'function') {
-          window.openChooseOptionModal(handle, variantId);
-        } else if (variantId && typeof window.addSingleVariantToCart === 'function') {
-          window.addSingleVariantToCart(variantId, 1);
-        } else if (handle) {
-          document.dispatchEvent(
-            new CustomEvent('kb:open:choose-option', {
-              detail: { handle, defaultVariantId: variantId }
-            })
-          );
-        } else if (variantId) {
-          document.dispatchEvent(
-            new CustomEvent('kb:open:choose-option', {
-              detail: { defaultVariantId: variantId }
-            })
-          );
-        }
+        document.dispatchEvent(
+          new CustomEvent('greenbasket:quick-view', {
+            detail: {
+              handle,
+              variantId,
+              title,
+              price,
+              comparePrice,
+              image,
+            },
+          })
+        );
       });
     });
   }
