@@ -152,7 +152,7 @@ class ProductQuickViewManager {
     if (this.variantSelect && data.variants && data.variants.length > 0) {
       this.variantSelect.innerHTML = data.variants
         .map((v) => {
-          const label = `${v.title} - ${this.formatMoney(v.price)}`;
+          const label = v.title;
           const isSelected = String(v.id) === String(preferredVariantId) || v === data.variants[0];
           if (isSelected) this.currentVariantId = v.id;
           return `<option value="${v.id}" ${isSelected ? 'selected' : ''}>${label}</option>`;
