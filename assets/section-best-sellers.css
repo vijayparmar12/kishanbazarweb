@@ -612,27 +612,27 @@
   width: 54px !important;
   height: 54px !important;
   border-radius: 50% !important;
-  background-color: #3c4043 !important;
+  background-color: #1b4317 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18) !important;
+  box-shadow: 0 4px 14px rgba(27, 67, 23, 0.3) !important;
   transition: background-color 200ms ease, box-shadow 200ms ease !important;
 }
 
 .best-sellers__more-card-link:hover .best-sellers__more-card-circle {
-  background-color: #1b4317 !important;
-  box-shadow: 0 6px 18px rgba(27, 67, 23, 0.35) !important;
+  background-color: #143311 !important;
+  box-shadow: 0 6px 18px rgba(20, 51, 17, 0.45) !important;
 }
 
 .best-sellers__more-card-text {
   font-size: 0.92rem !important;
-  font-weight: 700 !important;
-  color: #3c4043 !important;
+  font-weight: 800 !important;
+  color: #1b4317 !important;
   letter-spacing: 0.02em !important;
   transition: color 200ms ease !important;
 }
 
 .best-sellers__more-card-link:hover .best-sellers__more-card-text {
-  color: #1b4317 !important;
+  color: #143311 !important;
 }
