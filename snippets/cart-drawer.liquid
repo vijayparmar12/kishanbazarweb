@@ -75,44 +75,44 @@
       </div>
     {% endif %}
 
-    <div class="kb-cart-drawer__progress" data-cart-drawer-progress {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
-      <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status>
-        {% if cart.total_price >= free_ship_val %}
-          Hurray! You've unlocked FREE Shipping
-        {% else %}
-          {% assign remaining_ship = free_ship_val | minus: cart.total_price %}
-          Add {{ remaining_ship | money }} more for FREE Shipping
-        {% endif %}
-      </p>
-      
-      <div class="kb-cart-drawer__progress-track-wrap">
-        <div class="kb-cart-drawer__progress-track">
-          {% liquid
-            if cart.total_price >= free_ship_val
-              assign fill_pct = 100
-            else
-              assign fill_pct = cart.total_price | times: 100 | divided_by: free_ship_val
-            endif
-          %}
-          <span class="kb-cart-drawer__progress-fill" style="width: {{ fill_pct }}%"></span>
-          
-          <div class="kb-cart-drawer__marker kb-cart-drawer__marker--1 kb-cart-drawer__progress-marker--1 {% if cart.total_price >= free_ship_val %}is-active{% endif %}" style="left: 95%">
-            <span class="kb-cart-drawer__marker-top">₹{{ free_shipping_threshold_num }}</span>
-            <div class="kb-cart-drawer__marker-box">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
-                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                <circle cx="18.5" cy="18.5" r="2.5"></circle>
-              </svg>
+    <div class="kb-cart-drawer__body">
+      <div class="kb-cart-drawer__progress" data-cart-drawer-progress {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
+        <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status>
+          {% if cart.total_price >= free_ship_val %}
+            Hurray! You've unlocked FREE Shipping
+          {% else %}
+            {% assign remaining_ship = free_ship_val | minus: cart.total_price %}
+            Add {{ remaining_ship | money }} more for FREE Shipping
+          {% endif %}
+        </p>
+        
+        <div class="kb-cart-drawer__progress-track-wrap">
+          <div class="kb-cart-drawer__progress-track">
+            {% liquid
+              if cart.total_price >= free_ship_val
+                assign fill_pct = 100
+              else
+                assign fill_pct = cart.total_price | times: 100 | divided_by: free_ship_val
+              endif
+            %}
+            <span class="kb-cart-drawer__progress-fill" style="width: {{ fill_pct }}%"></span>
+            
+            <div class="kb-cart-drawer__marker kb-cart-drawer__marker--1 kb-cart-drawer__progress-marker--1 {% if cart.total_price >= free_ship_val %}is-active{% endif %}" style="left: 95%">
+              <span class="kb-cart-drawer__marker-top">₹{{ free_shipping_threshold_num }}</span>
+              <div class="kb-cart-drawer__marker-box">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
+                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                  <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                  <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                </svg>
+              </div>
+              <span class="kb-cart-drawer__marker-bottom">FREE SHIPPING</span>
             </div>
-            <span class="kb-cart-drawer__marker-bottom">FREE SHIPPING</span>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="kb-cart-drawer__body">
       <div class="kb-cart-drawer__items" data-cart-drawer-items>
         {% for item in cart.items %}
           {% render 'cart-item', item: item, line_index: forloop.index, compact: true %}
