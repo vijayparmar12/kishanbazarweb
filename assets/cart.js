@@ -73,11 +73,8 @@
 
     const status = drawer.querySelector('[data-cart-drawer-status]');
     if (status) {
-      if (cart.total_price >= 300000) {
-        status.textContent = "🎉 Hurray! You've unlocked 10% OFF + FREE Shipping";
-      } else if (cart.total_price >= 149900) {
-        const remaining = 300000 - cart.total_price;
-        status.textContent = `🎉 Hurray! You've unlocked FREE Shipping! Add ${formatMoney(remaining)} more for 10% OFF`;
+      if (cart.total_price >= 149900) {
+        status.textContent = "Hurray! You've unlocked FREE Shipping";
       } else {
         const remaining = 149900 - cart.total_price;
         status.textContent = `Add ${formatMoney(remaining)} more for FREE Shipping`;
@@ -86,24 +83,13 @@
 
     const progressFill = drawer.querySelector('[data-cart-drawer-progress] .kb-cart-drawer__progress-fill');
     if (progressFill) {
-      let pct = 0;
-      if (cart.total_price >= 300000) {
-        pct = 100;
-      } else if (cart.total_price >= 149900) {
-        pct = 50 + ((cart.total_price - 149900) / 150100) * 50;
-      } else {
-        pct = (cart.total_price / 149900) * 50;
-      }
+      let pct = (cart.total_price / 149900) * 100;
       progressFill.style.width = `${Math.min(100, Math.max(0, pct))}%`;
     }
 
     const marker1 = drawer.querySelector('.kb-cart-drawer__progress-marker--1');
     if (marker1) {
       marker1.classList.toggle('is-active', cart.total_price >= 149900);
-    }
-    const marker2 = drawer.querySelector('.kb-cart-drawer__progress-marker--2');
-    if (marker2) {
-      marker2.classList.toggle('is-active', cart.total_price >= 300000);
     }
 
     const items = drawer.querySelector('[data-cart-drawer-items]');

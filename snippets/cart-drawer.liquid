@@ -77,11 +77,8 @@
 
     <div class="kb-cart-drawer__progress" data-cart-drawer-progress {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
       <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status>
-        {% if cart.total_price >= discount_val %}
-          🎉 Hurray! You've unlocked 10% OFF + FREE Shipping
-        {% elsif cart.total_price >= free_ship_val %}
-          {% assign remaining_disc = discount_val | minus: cart.total_price %}
-          🎉 Hurray! You've unlocked FREE Shipping! Add {{ remaining_disc | money }} more for 10% OFF
+        {% if cart.total_price >= free_ship_val %}
+          Hurray! You've unlocked FREE Shipping
         {% else %}
           {% assign remaining_ship = free_ship_val | minus: cart.total_price %}
           Add {{ remaining_ship | money }} more for FREE Shipping
@@ -91,19 +88,15 @@
       <div class="kb-cart-drawer__progress-track-wrap">
         <div class="kb-cart-drawer__progress-track">
           {% liquid
-            assign remaining_range = discount_val | minus: free_ship_val
-            if cart.total_price >= discount_val
+            if cart.total_price >= free_ship_val
               assign fill_pct = 100
-            elsif cart.total_price >= free_ship_val
-              assign extra = cart.total_price | minus: free_ship_val | times: 50 | divided_by: remaining_range
-              assign fill_pct = 50 | plus: extra
             else
-              assign fill_pct = cart.total_price | times: 50 | divided_by: free_ship_val
+              assign fill_pct = cart.total_price | times: 100 | divided_by: free_ship_val
             endif
           %}
           <span class="kb-cart-drawer__progress-fill" style="width: {{ fill_pct }}%"></span>
           
-          <div class="kb-cart-drawer__marker kb-cart-drawer__marker--1 kb-cart-drawer__progress-marker--1 {% if cart.total_price >= free_ship_val %}is-active{% endif %}" style="left: 50%">
+          <div class="kb-cart-drawer__marker kb-cart-drawer__marker--1 kb-cart-drawer__progress-marker--1 {% if cart.total_price >= free_ship_val %}is-active{% endif %}" style="left: 95%">
             <span class="kb-cart-drawer__marker-top">₹{{ free_shipping_threshold_num }}</span>
             <div class="kb-cart-drawer__marker-box">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -114,18 +107,6 @@
               </svg>
             </div>
             <span class="kb-cart-drawer__marker-bottom">FREE SHIPPING</span>
-          </div>
-
-          <div class="kb-cart-drawer__marker kb-cart-drawer__marker--2 kb-cart-drawer__progress-marker--2 {% if cart.total_price >= discount_val %}is-active{% endif %}" style="left: 92%">
-            <span class="kb-cart-drawer__marker-top">₹{{ discount_threshold_num }}</span>
-            <div class="kb-cart-drawer__marker-box">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="19" y1="5" x2="5" y2="19"></line>
-                <circle cx="6.5" cy="6.5" r="2.5"></circle>
-                <circle cx="17.5" cy="17.5" r="2.5"></circle>
-              </svg>
-            </div>
-            <span class="kb-cart-drawer__marker-bottom">10% OFF</span>
           </div>
         </div>
       </div>
@@ -144,31 +125,16 @@
         {% endfor %}
       </div>
 
-      <!-- Offers & Discounts Block -->
-      {% if coupon_code != blank or coupon_blocks.size > 0 %}
-        <div class="kb-cart-drawer__offers-block" data-cart-offers-block {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
+      <!-- Clean Single Line Coupon Code Box matching Two Brothers India Shop -->
+      <div class="kb-cart-drawer__coupon-input-wrap" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
+        <div class="kb-cart-drawer__coupon-input-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+          <input type="text" placeholder="Enter coupon code" class="kb-cart-drawer__coupon-field" data-cart-coupon-input>
           {% if coupon_code != blank %}
-            <div class="kb-cart-coupon-box">
-              <div class="kb-cart-coupon-info">
-                <span class="kb-cart-coupon-icon">%</span>
-                <div class="kb-cart-coupon-text">
-                  {% if savings_label != blank %}
-                    <strong data-cart-savings-label>{{ savings_label }}</strong>
-                  {% endif %}
-                  <span>with '<strong data-applied-coupon>{{ coupon_code }}</strong>'</span>
-                </div>
-              </div>
-              <button type="button" class="kb-cart-coupon-apply-btn" data-cart-apply-coupon data-coupon-code="{{ coupon_code }}">Apply</button>
-            </div>
+            <button type="button" class="kb-cart-coupon-apply-btn" data-cart-apply-coupon data-coupon-code="{{ coupon_code }}">Apply</button>
           {% endif %}
-          
-          <div class="kb-cart-offers-links">
-            <button type="button" class="kb-cart-offers-link" data-open-coupons-modal>
-              <span class="icon">%</span> More offers <span class="arrow">View all coupons &gt;</span>
-            </button>
-          </div>
         </div>
-      {% endif %}
+      </div>
 
       <!-- Frequently Bought Together Carousel -->
       <div class="kb-cart-drawer__addons-block" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
