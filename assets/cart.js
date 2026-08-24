@@ -120,10 +120,10 @@
                 </div>
               </div>
             </div>
-            <div class="kb-cart-item__bottom-row">
+            <div class="kb-cart-item__bottom-block">
               <div class="kb-cart-item__pricing">
-                ${hasCompare ? `<s class="kb-cart-item__compare">${formatMoney(compareVal)}</s>` : ''}
                 <span class="kb-cart-item__price" data-cart-line-price>${formatMoney(finalVal)}</span>
+                ${hasCompare ? `<s class="kb-cart-item__compare">${formatMoney(compareVal)}</s>` : ''}
                 ${saveBadgeHtml}
               </div>
               <div class="kb-cart-item__actions">

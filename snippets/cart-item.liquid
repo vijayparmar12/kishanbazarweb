@@ -61,22 +61,20 @@
     </div>
   </div>
 
-  <!-- Bottom Row: Pricing (Below Middle Part) + Stepper Pill (Bottom Right) -->
-  <div class="kb-cart-item__bottom-row">
-    <!-- Pricing Block Below Middle Part -->
+  <!-- Bottom Block: Pricing (Selling Price first, Cross Price second) + Quantity Stepper Below -->
+  <div class="kb-cart-item__bottom-block">
+    <!-- Pricing: Selling price first, Compare cross price second -->
     <div class="kb-cart-item__pricing">
-      {% if compare_price > item.final_line_price %}
-        <s class="kb-cart-item__compare">{{ compare_price | money }}</s>
-      {% endif %}
       <span class="kb-cart-item__price" data-cart-line-price>{{ item.final_line_price | money }}</span>
       {% if compare_price > item.final_line_price %}
+        <s class="kb-cart-item__compare">{{ compare_price | money }}</s>
         {% assign item_saved = compare_price | minus: item.final_line_price %}
         {% assign item_save_pct = item_saved | times: 100 | divided_by: compare_price %}
         <span class="kb-cart-item__save-badge">({{ item_save_pct }}% OFF)</span>
       {% endif %}
     </div>
 
-    <!-- Actions: Stepper Pill -->
+    <!-- Actions: Quantity Stepper Pill Below Price -->
     <div class="kb-cart-item__actions">
       <div class="kb-cart-item__control-pill">
         <button class="kb-cart-item__qty-btn" type="button" aria-label="Decrease quantity" data-cart-qty-minus>-</button>
