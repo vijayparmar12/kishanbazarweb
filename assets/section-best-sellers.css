@@ -578,3 +578,61 @@
     align-items: center;
   }
 }
+
+/* End of Carousel "More" Arrow Card (Matching Google Deals Reference Layout) */
+.best-sellers__slide--more-card {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 140px !important;
+  width: 140px !important;
+  min-width: 140px !important;
+  max-width: 160px !important;
+}
+
+.best-sellers__more-card-link {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.6rem !important;
+  text-decoration: none !important;
+  padding: 1.5rem 1rem !important;
+  transition: transform 220ms ease !important;
+  cursor: pointer !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.best-sellers__more-card-link:hover {
+  transform: translateY(-3px) scale(1.05) !important;
+}
+
+.best-sellers__more-card-circle {
+  width: 54px !important;
+  height: 54px !important;
+  border-radius: 50% !important;
+  background-color: #3c4043 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18) !important;
+  transition: background-color 200ms ease, box-shadow 200ms ease !important;
+}
+
+.best-sellers__more-card-link:hover .best-sellers__more-card-circle {
+  background-color: #1b4317 !important;
+  box-shadow: 0 6px 18px rgba(27, 67, 23, 0.35) !important;
+}
+
+.best-sellers__more-card-text {
+  font-size: 0.92rem !important;
+  font-weight: 700 !important;
+  color: #3c4043 !important;
+  letter-spacing: 0.02em !important;
+  transition: color 200ms ease !important;
+}
+
+.best-sellers__more-card-link:hover .best-sellers__more-card-text {
+  color: #1b4317 !important;
+}

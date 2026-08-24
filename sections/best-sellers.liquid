@@ -231,7 +231,7 @@
     {% endif %}
   </div>
 
-  {% if section.settings.show_cta_btn != false %}
+  {% if section.settings.show_cta_btn == true %}
     <div class="best-sellers__cta-container">
       <a class="best-sellers__shop-more-btn" href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}" aria-label="{{ section.settings.cta_label | default: 'Shop More' }}">
         <span>{{ section.settings.cta_label | default: "Shop More" }}</span>
@@ -373,6 +373,19 @@
             %}
           </div>
         {% endfor %}
+
+        <!-- End of Track "More" Circle Card (Matching Google Deals / User Reference Image) -->
+        <div class="best-sellers__slide best-sellers__slide--more-card">
+          <a href="{{ section.settings.cta_url | default: displayed_collection.url | default: routes.all_products_collection_url }}" class="best-sellers__more-card-link" aria-label="View all products">
+            <div class="best-sellers__more-card-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+            <span class="best-sellers__more-card-text">More</span>
+          </a>
+        </div>
       </div>
 
       <button type="button" class="best-sellers__arrow best-sellers__arrow--next" data-best-sellers-next aria-label="Next products">
