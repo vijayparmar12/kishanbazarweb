@@ -469,7 +469,6 @@
 }
 
 .best-sellers__arrow {
-  display: none !important;
   align-items: center;
   background: #ffffff;
   border: 1px solid rgba(35, 66, 31, 0.15);
@@ -580,15 +579,21 @@
   }
 }
 
-/* End of Carousel "More" Arrow Card (Matching Google Deals Reference Layout) */
+/* End of Carousel "More" Arrow Card (Shown ONLY in Mobile View) */
 .best-sellers__slide--more-card {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex: 0 0 140px !important;
-  width: 140px !important;
-  min-width: 140px !important;
-  max-width: 160px !important;
+  display: none !important;
+}
+
+@media (max-width: 48rem) {
+  .best-sellers__slide--more-card {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 140px !important;
+    width: 140px !important;
+    min-width: 140px !important;
+    max-width: 160px !important;
+  }
 }
 
 .best-sellers__more-card-link {
