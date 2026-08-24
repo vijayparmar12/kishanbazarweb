@@ -668,6 +668,18 @@
   object-fit: contain;
 }
 
+/* Hide 3 feature icons ONLY on Collection Pages in Mobile View */
+@media (max-width: 48rem) {
+  body.template-collection .product-card .product-circle-features,
+  .template-collection .product-card .product-circle-features,
+  .kb-collection-grid .product-card .product-circle-features,
+  [data-section-type="main-collection"] .product-card .product-circle-features,
+  .section-main-collection .product-card .product-circle-features,
+  .collection .product-card .product-circle-features {
+    display: none !important;
+  }
+}
+
 /* Circular Side Scroll Arrow Button Component (Matching User Design) */
 .cta-arrow-circle,
 .shoppable-videos__arrow,
