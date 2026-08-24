@@ -107,7 +107,9 @@ class ShoppableVideosSection {
         if (e.target.closest('[data-quick-view-trigger]') || e.target.closest('.shoppable-videos__product-info-row') || e.target.closest('[data-add-to-cart]') || e.target.closest('[data-video-mute]')) return;
 
         // Extract Product details for Modal White Box
-        const variantId = card.dataset.variantId || '';
+        const overlayEl = card.querySelector('.shoppable-videos__product-overlay');
+        const handle = card.dataset.productHandle || overlayEl?.dataset?.productHandle || '';
+        const variantId = card.dataset.variantId || overlayEl?.dataset?.variantId || '';
         const thumb = card.querySelector('.shoppable-videos__product-thumb')?.src || '';
         const title = card.querySelector('.shoppable-videos__product-name')?.textContent || 'Organic Product';
         const subtitle = card.querySelector('.shoppable-videos__product-subtitle')?.textContent || '';
@@ -156,9 +158,9 @@ class ShoppableVideosSection {
         // Build Bottom White Product Box Card
         const whiteProductBox = document.createElement('div');
         whiteProductBox.className = 'shoppable-videos__modal-white-box';
-        whiteProductBox.style.cssText = 'position: absolute; bottom: 12px; left: 12px; right: 12px; z-index: 100; background: #ffffff; border-radius: 16px; padding: 10px 12px; box-shadow: 0 12px 30px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid rgba(35,66,31,0.12);';
+        whiteProductBox.style.cssText = 'position: absolute; bottom: 12px; left: 12px; right: 12px; z-index: 100; background: #ffffff; border-radius: 16px; padding: 10px 12px; box-shadow: 0 12px 30px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid rgba(35,66,31,0.12); cursor: pointer;';
         whiteProductBox.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1;">
+          <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; cursor: pointer;">
             ${thumb ? `<img src="${thumb}" alt="${title}" style="width: 50px; height: 50px; border-radius: 10px; object-fit: cover; flex-shrink: 0; border: 1px solid #f0f0f0;">` : ''}
             <div style="min-width: 0; flex: 1;">
               <h4 style="margin: 0 0 2px; font-size: 0.86rem; font-weight: 800; color: #132d14; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${title}</h4>
@@ -169,17 +171,9 @@ class ShoppableVideosSection {
               </div>
             </div>
           </div>
-          <form method="post" action="/cart/add" data-product-card-form style="margin: 0;">
-            <input type="hidden" name="id" value="${variantId || ''}">
-            <div style="position: relative; height: 38px;">
-              <button type="submit" class="shoppable-videos__modal-add-btn" data-card-add-btn style="background: #23421f; color: #ffffff; border: none; padding: 0.55rem 0.95rem; border-radius: 10px; font-weight: 800; font-size: 0.78rem; cursor: pointer; white-space: nowrap; flex-shrink: 0; box-shadow: 0 4px 12px rgba(35,66,31,0.25);">ADD TO CART</button>
-              <div class="shoppable-videos__inline-stepper" data-card-inline-stepper style="display: none; height: 38px; border: 2px solid #23421f; border-radius: 10px; background: #ffffff; align-items: center; justify-content: space-between; padding: 0 8px; box-sizing: border-box; min-width: 95px;">
-                <button type="button" data-inline-minus style="border: none; background: transparent; cursor: pointer; font-size: 1.15rem; font-weight: 900; color: #23421f; padding: 0 4px;">-</button>
-                <span data-inline-count style="font-size: 0.90rem; font-weight: 900; color: #23421f;">1</span>
-                <button type="button" data-inline-plus style="border: none; background: transparent; cursor: pointer; font-size: 1.15rem; font-weight: 900; color: #23421f; padding: 0 4px;">+</button>
-              </div>
-            </div>
-          </form>
+          <div style="position: relative; height: 38px; flex-shrink: 0;">
+            <button type="button" class="shoppable-videos__modal-add-btn" style="background: #23421f; color: #ffffff; border: none; padding: 0.55rem 0.95rem; border-radius: 10px; font-weight: 800; font-size: 0.78rem; cursor: pointer; white-space: nowrap; flex-shrink: 0; box-shadow: 0 4px 12px rgba(35,66,31,0.25);">ADD TO CART</button>
+          </div>
         `;
         clone.appendChild(whiteProductBox);
 
@@ -196,9 +190,6 @@ class ShoppableVideosSection {
         const muteIcon = muteBtn?.querySelector('[data-mute-icon]');
         const unmuteIcon = muteBtn?.querySelector('[data-unmute-icon]');
         const modalCloseBtn = clone.querySelector('[data-modal-close]');
-
-        // Extract Product Handle
-        const handle = card.dataset.productHandle || card.querySelector('[data-product-handle]')?.dataset.productHandle;
 
         const triggerChooseOptionModal = (ev) => {
           if (ev) {
@@ -219,24 +210,17 @@ class ShoppableVideosSection {
           }
 
           // Open Choose Option / Variant Modal Popup (Screenshot 1)
-          if (handle && typeof window.openChooseOptionModal === 'function') {
-            window.openChooseOptionModal(handle);
-          } else if (handle) {
+          const targetHandle = handle || 'khapli-atta';
+          if (typeof window.openChooseOptionModal === 'function') {
+            window.openChooseOptionModal(targetHandle, variantId);
+          } else {
             const rootUrl = window.Shopify?.routes?.root || '/';
-            document.dispatchEvent(new CustomEvent('greenbasket:quick-view', { detail: { url: `${rootUrl}products/${handle}` } }));
+            document.dispatchEvent(new CustomEvent('greenbasket:quick-view', { detail: { url: `${rootUrl}products/${targetHandle}` } }));
           }
         };
 
-        const modalAddBtn = whiteProductBox.querySelector('.shoppable-videos__modal-add-btn');
-        if (modalAddBtn) {
-          modalAddBtn.addEventListener('click', triggerChooseOptionModal);
-        }
-
-        const modalInfoRow = whiteProductBox.firstElementChild;
-        if (modalInfoRow) {
-          modalInfoRow.style.cursor = 'pointer';
-          modalInfoRow.addEventListener('click', triggerChooseOptionModal);
-        }
+        // Attach event listener directly to white product box & button
+        whiteProductBox.addEventListener('click', triggerChooseOptionModal);
 
         if (modalCloseBtn) {
           modalCloseBtn.addEventListener('click', (ev) => {

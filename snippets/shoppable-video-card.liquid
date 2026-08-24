@@ -18,6 +18,10 @@
   assign is_preview = is_preview | default: false
   assign is_demo = is_demo | default: false
 
+  if card_product == blank and collections.all.products.size > 0
+    assign card_product = collections.all.products.first
+  endif
+
   assign variant = blank
   if card_product != blank
     assign variant = card_product.selected_or_first_available_variant
