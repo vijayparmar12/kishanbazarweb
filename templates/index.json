@@ -457,6 +457,22 @@
     },
     "testimonials": {
       "type": "testimonials",
+      "blocks": {
+        "testimonial_eMW8K3": {
+          "type": "testimonial",
+          "settings": {
+            "headline": "Finally a truly delicious and quality product.",
+            "review": "Wholesome organic products with authentic flavour.",
+            "image": "shopify://shop_images/af11f02c-a1db-4b92-93da-b74caf5fcc2e.png",
+            "name": "Amaan Bakali",
+            "role": "Verified Customer",
+            "rating": 5
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_eMW8K3"
+      ],
       "settings": {
         "heading_image_desktop": "shopify://shop_images/first_image_2048px_width_1.png",
         "heading_image_mobile": "shopify://shop_images/ChatGPT_Image_Aug_17_2026_10_23_50_AM.png",
