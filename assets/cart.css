@@ -1424,8 +1424,8 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-item--compact .kb-cart-item__media {
-  width: 58px !important;
-  height: 58px !important;
+  width: 56px !important;
+  height: 56px !important;
   border-radius: 8px !important;
   overflow: hidden !important;
   background: #f8fafc !important;
@@ -1439,7 +1439,7 @@ body.kb-cart-drawer-open {
   object-fit: cover !important;
 }
 
-.kb-cart-item__main-info {
+.kb-cart-item__details {
   display: flex !important;
   flex-direction: column !important;
   gap: 4px !important;
@@ -1447,25 +1447,17 @@ body.kb-cart-drawer-open {
   min-width: 0 !important;
 }
 
-.kb-cart-item__info-header {
-  display: flex !important;
-  align-items: baseline !important;
-  justify-content: space-between !important;
-  gap: 8px !important;
-  width: 100% !important;
-}
-
 .kb-cart-item__title {
-  font-size: 0.86rem !important;
+  font-size: 0.88rem !important;
   font-weight: 700 !important;
   color: #1e293b !important;
   margin: 0 !important;
   line-height: 1.25 !important;
-  white-space: nowrap !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  flex: 1 !important;
-  min-width: 0 !important;
 }
 
 .kb-cart-item__title a {
@@ -1473,11 +1465,20 @@ body.kb-cart-drawer-open {
   text-decoration: none !important;
 }
 
-.kb-cart-item__pricing-inline {
+.kb-cart-item__bottom-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-top: 4px !important;
+  gap: 8px !important;
+}
+
+.kb-cart-item__pricing {
   display: flex !important;
   align-items: baseline !important;
   gap: 6px !important;
-  flex-shrink: 0 !important;
+  flex-wrap: wrap !important;
 }
 
 .kb-cart-item__compare {
@@ -1494,28 +1495,11 @@ body.kb-cart-drawer-open {
   white-space: nowrap !important;
 }
 
-.kb-cart-item__info-sub {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 8px !important;
-  width: 100% !important;
-}
-
 .kb-cart-item__save-badge {
   color: #16a34a !important;
   font-weight: 800 !important;
   font-size: 0.74rem !important;
   white-space: nowrap !important;
-  flex-shrink: 0 !important;
-}
-
-.kb-cart-item__bottom-row {
-  display: flex !important;
-  justify-content: flex-end !important;
-  align-items: center !important;
-  width: 100% !important;
-  margin-top: 2px !important;
 }
 
 .kb-cart-item__actions {

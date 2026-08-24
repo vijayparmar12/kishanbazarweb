@@ -113,23 +113,19 @@
               <a class="kb-cart-item__media" href="${item.url}" aria-label="${item.product_title || ''}">
                 ${item.image ? `<img class="kb-cart-item__image" src="${item.image.src || item.image}" alt="${item.product_title || ''}" loading="lazy">` : ''}
               </a>
-              <div class="kb-cart-item__main-info">
-                <div class="kb-cart-item__info-header">
-                  <h3 class="kb-cart-item__title"><a href="${item.url}">${item.product_title}</a></h3>
-                  <div class="kb-cart-item__pricing-inline">
-                    ${hasCompare ? `<s class="kb-cart-item__compare">${formatMoney(compareVal)}</s>` : ''}
-                    <span class="kb-cart-item__price" data-cart-line-price>${formatMoney(finalVal)}</span>
-                  </div>
-                </div>
-                <div class="kb-cart-item__info-sub">
-                  <div class="kb-cart-item__variant-container" data-cart-variant-container="${item.key}">
-                    ${item.variant_title && item.variant_title !== 'Default Title' ? `<span class="kb-cart-item__variant-pill">${item.variant_title}</span>` : ''}
-                  </div>
-                  ${saveBadgeHtml}
+              <div class="kb-cart-item__details">
+                <h3 class="kb-cart-item__title"><a href="${item.url}">${item.product_title}</a></h3>
+                <div class="kb-cart-item__variant-container" data-cart-variant-container="${item.key}">
+                  ${item.variant_title && item.variant_title !== 'Default Title' ? `<span class="kb-cart-item__variant-pill">${item.variant_title}</span>` : ''}
                 </div>
               </div>
             </div>
             <div class="kb-cart-item__bottom-row">
+              <div class="kb-cart-item__pricing">
+                ${hasCompare ? `<s class="kb-cart-item__compare">${formatMoney(compareVal)}</s>` : ''}
+                <span class="kb-cart-item__price" data-cart-line-price>${formatMoney(finalVal)}</span>
+                ${saveBadgeHtml}
+              </div>
               <div class="kb-cart-item__actions">
                 <div class="kb-cart-item__control-pill">
                   <button class="kb-cart-item__qty-btn" type="button" aria-label="Decrease quantity" data-cart-qty-minus>-</button>
