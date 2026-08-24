@@ -183,6 +183,75 @@ class ShoppableVideosSection {
         `;
         clone.appendChild(whiteProductBox);
 
+        // Bind Choose Option Modal to White Product Box ADD TO CART button
+        const productHandle = card.querySelector('[data-product-handle]')?.dataset?.productHandle || card.dataset.productHandle || '';
+        const modalAddBtn = whiteProductBox.querySelector('.shoppable-videos__modal-add-btn');
+        if (modalAddBtn) {
+          modalAddBtn.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+
+            // 1. Close Video Modal
+            const modalEl = this.root.querySelector('[data-video-modal]');
+            if (modalEl) {
+              modalEl.removeAttribute('open');
+              document.body.classList.remove('shoppable-video-modal-open');
+              if (modalBody) {
+                const v = modalBody.querySelector('video');
+                if (v) v.pause();
+                modalBody.innerHTML = '';
+              }
+            }
+
+            // 2. Open Choose Option Modal (Variant Drawer)
+            if (productHandle) {
+              if (typeof window.openChooseOptionModal === 'function') {
+                window.openChooseOptionModal(productHandle, variantId);
+              } else {
+                document.dispatchEvent(
+                  new CustomEvent('kb:open:choose-option', {
+                    detail: { handle: productHandle, defaultVariantId: variantId }
+                  })
+                );
+              }
+            }
+          });
+        }
+
+        const infoBox = whiteProductBox.querySelector('div[style*="display: flex; align-items: center; gap: 10px;"]');
+        if (infoBox) {
+          infoBox.style.cursor = 'pointer';
+          infoBox.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+
+            // 1. Close Video Modal
+            const modalEl = this.root.querySelector('[data-video-modal]');
+            if (modalEl) {
+              modalEl.removeAttribute('open');
+              document.body.classList.remove('shoppable-video-modal-open');
+              if (modalBody) {
+                const v = modalBody.querySelector('video');
+                if (v) v.pause();
+                modalBody.innerHTML = '';
+              }
+            }
+
+            // 2. Open Choose Option Modal
+            if (productHandle) {
+              if (typeof window.openChooseOptionModal === 'function') {
+                window.openChooseOptionModal(productHandle, variantId);
+              } else {
+                document.dispatchEvent(
+                  new CustomEvent('kb:open:choose-option', {
+                    detail: { handle: productHandle, defaultVariantId: variantId }
+                  })
+                );
+              }
+            }
+          });
+        }
+
         if (modalBody) {
           modalBody.innerHTML = '';
           modalBody.appendChild(clone);
@@ -502,23 +571,18 @@ class ShoppableVideosSection {
 
         const handle = trigger.dataset.productHandle || '';
         const variantId = trigger.dataset.variantId || '';
-        const title = trigger.dataset.productTitle || '';
-        const price = trigger.dataset.productPrice || '';
-        const comparePrice = trigger.dataset.productComparePrice || '';
-        const image = trigger.dataset.productImage || '';
 
-        document.dispatchEvent(
-          new CustomEvent('greenbasket:quick-view', {
-            detail: {
-              handle,
-              variantId,
-              title,
-              price,
-              comparePrice,
-              image,
-            },
-          })
-        );
+        if (handle) {
+          if (typeof window.openChooseOptionModal === 'function') {
+            window.openChooseOptionModal(handle, variantId);
+          } else {
+            document.dispatchEvent(
+              new CustomEvent('kb:open:choose-option', {
+                detail: { handle, defaultVariantId: variantId }
+              })
+            );
+          }
+        }
       });
     });
   }
