@@ -90,7 +90,11 @@
   }
 {% endstyle %}
 
-{% comment %} Look for a collection-specific block match defined in Theme Editor {% endcomment %}
+{% comment %} 1. Check Collection Metafields (Shopify Admin > Custom Data > Collections) {% endcomment %}
+{% assign metafield_banner_desktop = collection.metafields.custom.banner_image.value | default: collection.metafields.custom.banner_image | default: collection.metafields.custom.banner.value | default: collection.metafields.custom.banner | default: collection.metafields.custom.desktop_banner.value | default: collection.metafields.custom.desktop_banner | default: collection.metafields.custom.collection_banner.value | default: collection.metafields.custom.collection_banner %}
+{% assign metafield_banner_mobile = collection.metafields.custom.banner_mobile.value | default: collection.metafields.custom.banner_mobile | default: collection.metafields.custom.mobile_banner.value | default: collection.metafields.custom.mobile_banner | default: metafield_banner_desktop %}
+
+{% comment %} 2. Check Theme Editor Block match for this collection {% endcomment %}
 {% assign matched_block = nil %}
 {% for block in section.blocks %}
   {% if block.settings.target_collection != blank and block.settings.target_collection.handle == collection.handle %}
@@ -99,7 +103,10 @@
   {% endif %}
 {% endfor %}
 
-{% if matched_block != nil %}
+{% if metafield_banner_desktop != blank %}
+  {% assign banner_img_desktop = metafield_banner_desktop %}
+  {% assign banner_img_mobile = metafield_banner_mobile %}
+{% elsif matched_block != nil %}
   {% assign banner_img_desktop = matched_block.settings.image_desktop | default: collection.image | default: collection.products.first.featured_image %}
   {% assign banner_img_mobile = matched_block.settings.image_mobile | default: matched_block.settings.image_desktop | default: collection.image | default: collection.products.first.featured_image %}
 {% else %}
