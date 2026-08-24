@@ -1408,6 +1408,15 @@ body.kb-cart-drawer-open {
   display: flex !important;
   flex-direction: column !important;
   gap: 4px !important;
+  justify-content: flex-start !important;
+}
+
+.kb-cart-item__right-col {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
 }
 
 .kb-cart-item__title {
@@ -1452,8 +1461,9 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-item__actions {
-  display: flex;
-  align-items: center;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
 }
 
 .kb-cart-item__control-pill {

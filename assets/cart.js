@@ -117,6 +117,13 @@
               <div class="kb-cart-item__variant-container" data-cart-variant-container="${item.key}">
                 ${item.variant_title && item.variant_title !== 'Default Title' ? `<span class="kb-cart-item__variant-pill">${item.variant_title}</span>` : ''}
               </div>
+            </div>
+            <div class="kb-cart-item__right-col">
+              <div class="kb-cart-item__pricing">
+                ${hasCompare ? `<s class="kb-cart-item__compare">${formatMoney(compareVal)}</s>` : ''}
+                <span class="kb-cart-item__price" data-cart-line-price>${formatMoney(finalVal)}</span>
+                ${saveBadgeHtml}
+              </div>
               <div class="kb-cart-item__actions">
                 <div class="kb-cart-item__control-pill">
                   <button class="kb-cart-item__qty-btn" type="button" aria-label="Decrease quantity" data-cart-qty-minus>-</button>
@@ -131,11 +138,6 @@
                   </button>
                 </div>
               </div>
-            </div>
-            <div class="kb-cart-item__pricing">
-              ${hasCompare ? `<s class="kb-cart-item__compare">${formatMoney(compareVal)}</s>` : ''}
-              <span class="kb-cart-item__price" data-cart-line-price>${formatMoney(finalVal)}</span>
-              ${saveBadgeHtml}
             </div>
           </article>
         `;
