@@ -137,7 +137,7 @@
           "type": "mobile_nav_item",
           "settings": {
             "title": "Shop By Category",
-            "url": "shopify://collections",
+            "url": "",
             "badge": "",
             "badge_background": "#e53935",
             "badge_color": "#ffffff",
