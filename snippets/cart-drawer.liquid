@@ -172,7 +172,7 @@
       </div>
     </div>
 
-    <div class="kb-cart-drawer__footer" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
+    <div class="kb-cart-drawer__footer{% if cart.item_count == 0 %} is-empty{% endif %}" {% if cart.item_count == 0 %}style="display: none !important;"{% endif %}>
       <!-- Rosier Foods Style Dynamic Savings Ribbon & Estimated Total Box -->
       <div class="kb-cart-drawer__summary-box" data-cart-summary-box style="width: 100%;">
         <div class="kb-cart-savings-ribbon-wrap">

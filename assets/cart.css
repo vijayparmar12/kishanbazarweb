@@ -1601,6 +1601,12 @@ body.kb-cart-drawer-open {
   box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.05) !important;
 }
 
+.kb-cart-drawer__footer[style*="display: none"],
+.kb-cart-drawer.is-empty .kb-cart-drawer__footer,
+.kb-cart-drawer__footer.is-empty {
+  display: none !important;
+}
+
 .kb-cart-drawer__checkout-btn {
   width: 100% !important;
   min-height: 52px !important;

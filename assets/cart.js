@@ -159,17 +159,25 @@
     const progress = drawer.querySelector('.kb-cart-drawer__progress');
 
     if (cart.item_count === 0) {
-      if (offersBlock) offersBlock.style.display = 'none';
-      if (addonsBlock) addonsBlock.style.display = 'none';
-      if (footer) footer.style.display = 'none';
-      if (promo) promo.style.display = 'none';
-      if (progress) progress.style.display = 'none';
+      drawer.classList.add('is-empty');
+      if (offersBlock) offersBlock.style.setProperty('display', 'none', 'important');
+      if (addonsBlock) addonsBlock.style.setProperty('display', 'none', 'important');
+      if (footer) {
+        footer.classList.add('is-empty');
+        footer.style.setProperty('display', 'none', 'important');
+      }
+      if (promo) promo.style.setProperty('display', 'none', 'important');
+      if (progress) progress.style.setProperty('display', 'none', 'important');
     } else {
-      if (offersBlock) offersBlock.style.display = 'block';
-      if (addonsBlock) addonsBlock.style.display = 'block';
-      if (footer) footer.style.display = 'flex';
-      if (promo) promo.style.display = 'grid';
-      if (progress) progress.style.display = 'block';
+      drawer.classList.remove('is-empty');
+      if (offersBlock) offersBlock.style.setProperty('display', 'block', 'important');
+      if (addonsBlock) addonsBlock.style.setProperty('display', 'block', 'important');
+      if (footer) {
+        footer.classList.remove('is-empty');
+        footer.style.setProperty('display', 'flex', 'important');
+      }
+      if (promo) promo.style.setProperty('display', 'grid', 'important');
+      if (progress) progress.style.setProperty('display', 'block', 'important');
     }
     const subtotal = drawer.querySelector('[data-cart-drawer-subtotal]');
     if (subtotal) subtotal.textContent = formatMoney(cart.total_price);
