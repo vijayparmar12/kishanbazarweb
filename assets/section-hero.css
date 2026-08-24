@@ -33,6 +33,7 @@
 @media (max-width: 48rem) {
   .home-hero-split {
     padding: 0.35rem 0.5rem 0.75rem !important;
+    margin-bottom: 16px !important;
   }
 
   .home-hero-split__decor-badal {

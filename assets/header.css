@@ -1100,7 +1100,7 @@ body.kb-header-menu-open {
     grid-template-areas:
       "toggle logo actions"
       "search search search";
-    padding: 0.15rem 0.8rem 0.25rem !important;
+    padding: 0.15rem 0.8rem 0.65rem !important;
     align-items: center;
   }
 
@@ -1165,6 +1165,7 @@ body.kb-header-menu-open {
     max-width: none;
     min-width: 0;
     width: 100%;
+    margin-bottom: 6px !important;
   }
 
   .kb-header__search-icon {
