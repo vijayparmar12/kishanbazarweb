@@ -28,14 +28,19 @@
         const addBtn = form.querySelector('[data-card-add-btn]');
         const stepper = form.querySelector('[data-card-inline-stepper]');
         const countSpan = form.querySelector('[data-inline-count]');
+        const container = form.querySelector('[data-card-btn-container]');
 
         if (qtyInCart > 0 && stepper && addBtn && countSpan) {
-          addBtn.style.display = 'none';
-          stepper.style.display = 'flex';
+          form.classList.add('is-in-cart');
+          if (container) container.classList.add('is-in-cart');
+          addBtn.style.setProperty('display', 'none', 'important');
+          stepper.style.setProperty('display', 'flex', 'important');
           countSpan.textContent = String(qtyInCart);
         } else if (stepper && addBtn) {
-          stepper.style.display = 'none';
-          addBtn.style.display = 'flex';
+          form.classList.remove('is-in-cart');
+          if (container) container.classList.remove('is-in-cart');
+          stepper.style.setProperty('display', 'none', 'important');
+          addBtn.style.setProperty('display', 'flex', 'important');
         }
       });
     } catch (e) {
@@ -52,6 +57,7 @@
     const addBtn = form.querySelector('[data-card-add-btn]');
     const stepper = form.querySelector('[data-card-inline-stepper]');
     const countSpan = form.querySelector('[data-inline-count]');
+    const container = form.querySelector('[data-card-btn-container]');
 
     if (addBtn) addBtn.disabled = true;
 
@@ -67,8 +73,10 @@
 
       // Morph button into [- 1 +] stepper in-place
       if (addBtn && stepper && countSpan) {
-        addBtn.style.display = 'none';
-        stepper.style.display = 'flex';
+        form.classList.add('is-in-cart');
+        if (container) container.classList.add('is-in-cart');
+        addBtn.style.setProperty('display', 'none', 'important');
+        stepper.style.setProperty('display', 'flex', 'important');
         countSpan.textContent = '1';
       }
 
@@ -106,6 +114,7 @@
     const stepper = form.querySelector('[data-card-inline-stepper]');
     const addBtn = form.querySelector('[data-card-add-btn]');
     const countSpan = form.querySelector('[data-inline-count]');
+    const container = form.querySelector('[data-card-btn-container]');
     let currentQty = parseInt(countSpan?.textContent || '1', 10);
 
     let nextQty = currentQty;
@@ -117,8 +126,10 @@
 
     if (nextQty <= 0) {
       // Remove item from cart -> Morph back to ADD TO CART button
-      stepper.style.display = 'none';
-      addBtn.style.display = 'flex';
+      form.classList.remove('is-in-cart');
+      if (container) container.classList.remove('is-in-cart');
+      stepper.style.setProperty('display', 'none', 'important');
+      addBtn.style.setProperty('display', 'flex', 'important');
 
       try {
         const changeRes = await fetch(`${rootUrl}cart/change.js`, {

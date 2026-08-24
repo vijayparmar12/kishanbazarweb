@@ -407,6 +407,18 @@
   box-sizing: border-box !important;
 }
 
+.product-card__form.is-in-cart .product-card__add,
+.product-card__btn-container.is-in-cart .product-card__add,
+[data-card-btn-container].is-in-cart [data-card-add-btn] {
+  display: none !important;
+}
+
+.product-card__form.is-in-cart .product-card__inline-stepper,
+.product-card__btn-container.is-in-cart .product-card__inline-stepper,
+[data-card-btn-container].is-in-cart [data-card-inline-stepper] {
+  display: flex !important;
+}
+
 /* MOBILE VIEW ONLY: STACK VARIANT SELECT ABOVE ADD TO CART BUTTON (TWO BROTHERS STYLE) */
 @media (max-width: 48rem) {
   .product-card__form {
