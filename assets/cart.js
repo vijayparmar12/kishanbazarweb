@@ -63,6 +63,41 @@
     }).join('');
   };
 
+  window.openChooseOptionModal = (handle, defaultVariantId) => {
+    if (!handle) return;
+    const cleanRoot = rootUrl.replace(/\/$/, '');
+    fetch(`${cleanRoot}/products/${handle}.js`)
+      .then((res) => res.json())
+      .then((product) => {
+        if (!product || !product.variants) return;
+        window._variantComparePrices = window._variantComparePrices || {};
+        product.variants.forEach((v) => {
+          window._variantComparePrices[v.id] = v.compare_at_price || v.price;
+        });
+
+        const modal = document.querySelector('[data-choose-option-modal]');
+        const titleEl = modal?.querySelector('[data-choose-product-title]');
+        const listEl = modal?.querySelector('[data-choose-options-list]');
+        if (!modal || !listEl) return;
+
+        if (titleEl) titleEl.textContent = product.title;
+        window._chooseOptionCurrentProduct = product;
+        window._chooseOptionQuantities = {};
+
+        if (product.variants && product.variants.length) {
+          window._chooseOptionQuantities[product.variants[0].id] = 1;
+        }
+
+        renderChooseOptionList(product, listEl);
+
+        modal.hidden = false;
+        modal.classList.add('is-open');
+      })
+      .catch((err) => {
+        console.error('Error fetching product variants:', err);
+      });
+  };
+
   const updateDrawer = (cart) => {
     const drawer = document.querySelector('[data-cart-drawer]');
     if (!drawer) return;
@@ -640,46 +675,7 @@
       return;
     }
 
-window.openChooseOptionModal = function(handle, defaultVariantId) {
-  if (!handle) return;
-  const cleanRoot = (window.Shopify?.routes?.root || '/').replace(/\/$/, '');
-  fetch(`${cleanRoot}/products/${handle}.js`)
-    .then((res) => res.json())
-    .then((product) => {
-      window._variantComparePrices = window._variantComparePrices || {};
-      if (product && product.variants) {
-        product.variants.forEach((v) => {
-          window._variantComparePrices[v.id] = v.compare_at_price || v.price;
-        });
-      }
 
-      const modal = document.querySelector('[data-choose-option-modal]');
-      const titleEl = modal?.querySelector('[data-choose-product-title]');
-      const listEl = modal?.querySelector('[data-choose-options-list]');
-      if (!modal || !listEl) return;
-
-      if (titleEl) titleEl.textContent = product.title;
-      window._chooseOptionCurrentProduct = product;
-      window._chooseOptionQuantities = {};
-
-      if (product.variants && product.variants.length) {
-        window._chooseOptionQuantities[product.variants[0].id] = 1;
-      }
-
-      if (typeof renderChooseOptionList === 'function') {
-        renderChooseOptionList(product, listEl);
-      }
-
-      modal.hidden = false;
-      modal.classList.add('is-open');
-    })
-    .catch((err) => {
-      console.error('Error fetching product variants:', err);
-      if (defaultVariantId && typeof addSingleVariantToCart === 'function') {
-        addSingleVariantToCart(defaultVariantId);
-      }
-    });
-};
 
     // 16. FBT Card / "+ ADD" button click (Always open Choose Option Modal with variants & quantities)
     const fbtCard = event.target.closest('[data-fbt-card], .kb-cart-addon-add-btn');
