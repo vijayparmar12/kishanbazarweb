@@ -324,7 +324,7 @@
       "name": "Cart Drawer Settings",
       "settings": {
         "cart_title_text": "YOUR CART",
-        "cart_promo_bar_text": "Rakhi gifting, sorted! 🎁 Get 10% OFF with RAKHI10 💕",
+        "cart_promo_bar_text": "",
         "cart_free_shipping_threshold": 1499,
         "cart_discount_threshold": 0,
         "cart_coupons_modal_title": "Available Coupons & Offers",
