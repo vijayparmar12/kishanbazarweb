@@ -28,9 +28,9 @@
 </script>
 
 <article class="kb-cart-item{% if compact %} kb-cart-item--compact{% endif %}" data-cart-line-item data-cart-line-key="{{ line_key }}" data-cart-line-index="{{ line_index }}" data-cart-product-handle="{{ product_handle }}" data-variant-id="{{ variant.id }}" data-compare-unit-price="{{ compare_unit }}" data-compare-line-price="{{ compare_price }}">
-  <!-- Top Row: Image, Details, Pricing -->
+  <!-- Top Section: Image + Info Block -->
   <div class="kb-cart-item__top-row">
-    <!-- Left: Product Image -->
+    <!-- Left: Image -->
     <a class="kb-cart-item__media" href="{{ item.url }}" aria-label="{{ item.product.title | escape }}">
       {% if item.image != blank %}
         {{ item.image | image_url: width: 180 | image_tag: class: 'kb-cart-item__image', loading: 'lazy', widths: '80, 120, 180' }}
@@ -39,38 +39,41 @@
       {% endif %}
     </a>
 
-    <!-- Middle: Title & Variant Selector -->
-    <div class="kb-cart-item__details">
-      <h3 class="kb-cart-item__title">
-        <a href="{{ item.url }}">{{ item.product.title | default: item.title }}</a>
-      </h3>
+    <!-- Right of Image: Title & Prices Row 1, Variant & Discount Row 2 -->
+    <div class="kb-cart-item__main-info">
+      <div class="kb-cart-item__info-header">
+        <h3 class="kb-cart-item__title">
+          <a href="{{ item.url }}">{{ item.product.title | default: item.title }}</a>
+        </h3>
+        <div class="kb-cart-item__pricing-inline">
+          {% if compare_price > item.final_line_price %}
+            <s class="kb-cart-item__compare">{{ compare_price | money }}</s>
+          {% endif %}
+          <span class="kb-cart-item__price" data-cart-line-price>{{ item.final_line_price | money }}</span>
+        </div>
+      </div>
 
-      <div class="kb-cart-item__variant-container" data-cart-variant-container="{{ line_key }}">
-        {% if item.product.variants.size > 1 %}
-          <select class="kb-cart-item__variant-select" data-cart-item-variant-select data-line-key="{{ line_key }}" data-current-qty="{{ item.quantity }}">
-            {% for v in item.product.variants %}
-              <option value="{{ v.id }}" {% if v.id == variant.id %}selected{% endif %}>
-                {{ v.title }}
-              </option>
-            {% endfor %}
-          </select>
-        {% elsif variant.title != blank and variant.title != 'Default Title' %}
-          <span class="kb-cart-item__variant-pill">{{ variant.title }}</span>
+      <div class="kb-cart-item__info-sub">
+        <div class="kb-cart-item__variant-container" data-cart-variant-container="{{ line_key }}">
+          {% if item.product.variants.size > 1 %}
+            <select class="kb-cart-item__variant-select" data-cart-item-variant-select data-line-key="{{ line_key }}" data-current-qty="{{ item.quantity }}">
+              {% for v in item.product.variants %}
+                <option value="{{ v.id }}" {% if v.id == variant.id %}selected{% endif %}>
+                  {{ v.title }}
+                </option>
+              {% endfor %}
+            </select>
+          {% elsif variant.title != blank and variant.title != 'Default Title' %}
+            <span class="kb-cart-item__variant-pill">{{ variant.title }}</span>
+          {% endif %}
+        </div>
+
+        {% if compare_price > item.final_line_price %}
+          {% assign item_saved = compare_price | minus: item.final_line_price %}
+          {% assign item_save_pct = item_saved | times: 100 | divided_by: compare_price %}
+          <span class="kb-cart-item__save-badge">({{ item_save_pct }}% OFF)</span>
         {% endif %}
       </div>
-    </div>
-
-    <!-- Right: Pricing -->
-    <div class="kb-cart-item__pricing">
-      {% if compare_price > item.final_line_price %}
-        <s class="kb-cart-item__compare">{{ compare_price | money }}</s>
-      {% endif %}
-      <span class="kb-cart-item__price" data-cart-line-price>{{ item.final_line_price | money }}</span>
-      {% if compare_price > item.final_line_price %}
-        {% assign item_saved = compare_price | minus: item.final_line_price %}
-        {% assign item_save_pct = item_saved | times: 100 | divided_by: compare_price %}
-        <span class="kb-cart-item__save-badge">({{ item_save_pct }}% OFF)</span>
-      {% endif %}
     </div>
   </div>
 
