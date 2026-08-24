@@ -670,6 +670,8 @@
 
 /* Hide 3 feature icons ONLY on Collection Pages in Mobile View */
 @media (max-width: 48rem) {
+  .main-collection .product-circle-features,
+  .main-collection__grid .product-circle-features,
   body.template-collection .product-card .product-circle-features,
   .template-collection .product-card .product-circle-features,
   .kb-collection-grid .product-card .product-circle-features,
