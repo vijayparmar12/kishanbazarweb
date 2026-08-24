@@ -107,7 +107,9 @@ class ShoppableVideosSection {
         if (e.target.closest('[data-quick-view-trigger]') || e.target.closest('.shoppable-videos__product-info-row') || e.target.closest('[data-add-to-cart]') || e.target.closest('[data-video-mute]')) return;
 
         // Extract Product details for Modal White Box
-        const variantId = card.dataset.variantId || '';
+        const overlayEl = mediaWrap.querySelector('.shoppable-videos__product-overlay') || card.querySelector('[data-product-handle]');
+        const productHandle = overlayEl?.dataset?.productHandle || card.dataset.productHandle || '';
+        const variantId = overlayEl?.dataset?.variantId || card.dataset.variantId || '';
         const thumb = card.querySelector('.shoppable-videos__product-thumb')?.src || '';
         const title = card.querySelector('.shoppable-videos__product-name')?.textContent || 'Organic Product';
         const subtitle = card.querySelector('.shoppable-videos__product-subtitle')?.textContent || '';
@@ -184,7 +186,6 @@ class ShoppableVideosSection {
         clone.appendChild(whiteProductBox);
 
         // Bind Choose Option Modal to White Product Box ADD TO CART button
-        const productHandle = card.querySelector('[data-product-handle]')?.dataset?.productHandle || card.dataset.productHandle || '';
         const modalAddBtn = whiteProductBox.querySelector('.shoppable-videos__modal-add-btn');
         if (modalAddBtn) {
           modalAddBtn.addEventListener('click', (ev) => {
@@ -203,17 +204,23 @@ class ShoppableVideosSection {
               }
             }
 
-            // 2. Open Choose Option Modal (Variant Drawer)
-            if (productHandle) {
-              if (typeof window.openChooseOptionModal === 'function') {
-                window.openChooseOptionModal(productHandle, variantId);
-              } else {
-                document.dispatchEvent(
-                  new CustomEvent('kb:open:choose-option', {
-                    detail: { handle: productHandle, defaultVariantId: variantId }
-                  })
-                );
-              }
+            // 2. Open Choose Option Modal or Add to Cart
+            if (productHandle && typeof window.openChooseOptionModal === 'function') {
+              window.openChooseOptionModal(productHandle, variantId);
+            } else if (variantId && typeof window.addSingleVariantToCart === 'function') {
+              window.addSingleVariantToCart(variantId, 1);
+            } else if (productHandle) {
+              document.dispatchEvent(
+                new CustomEvent('kb:open:choose-option', {
+                  detail: { handle: productHandle, defaultVariantId: variantId }
+                })
+              );
+            } else if (variantId) {
+              document.dispatchEvent(
+                new CustomEvent('kb:open:choose-option', {
+                  detail: { defaultVariantId: variantId }
+                })
+              );
             }
           });
         }
@@ -238,16 +245,16 @@ class ShoppableVideosSection {
             }
 
             // 2. Open Choose Option Modal
-            if (productHandle) {
-              if (typeof window.openChooseOptionModal === 'function') {
-                window.openChooseOptionModal(productHandle, variantId);
-              } else {
-                document.dispatchEvent(
-                  new CustomEvent('kb:open:choose-option', {
-                    detail: { handle: productHandle, defaultVariantId: variantId }
-                  })
-                );
-              }
+            if (productHandle && typeof window.openChooseOptionModal === 'function') {
+              window.openChooseOptionModal(productHandle, variantId);
+            } else if (variantId && typeof window.addSingleVariantToCart === 'function') {
+              window.addSingleVariantToCart(variantId, 1);
+            } else if (productHandle) {
+              document.dispatchEvent(
+                new CustomEvent('kb:open:choose-option', {
+                  detail: { handle: productHandle, defaultVariantId: variantId }
+                })
+              );
             }
           });
         }
@@ -572,16 +579,22 @@ class ShoppableVideosSection {
         const handle = trigger.dataset.productHandle || '';
         const variantId = trigger.dataset.variantId || '';
 
-        if (handle) {
-          if (typeof window.openChooseOptionModal === 'function') {
-            window.openChooseOptionModal(handle, variantId);
-          } else {
-            document.dispatchEvent(
-              new CustomEvent('kb:open:choose-option', {
-                detail: { handle, defaultVariantId: variantId }
-              })
-            );
-          }
+        if (handle && typeof window.openChooseOptionModal === 'function') {
+          window.openChooseOptionModal(handle, variantId);
+        } else if (variantId && typeof window.addSingleVariantToCart === 'function') {
+          window.addSingleVariantToCart(variantId, 1);
+        } else if (handle) {
+          document.dispatchEvent(
+            new CustomEvent('kb:open:choose-option', {
+              detail: { handle, defaultVariantId: variantId }
+            })
+          );
+        } else if (variantId) {
+          document.dispatchEvent(
+            new CustomEvent('kb:open:choose-option', {
+              detail: { defaultVariantId: variantId }
+            })
+          );
         }
       });
     });

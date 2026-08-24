@@ -32,6 +32,10 @@
   window._chooseOptionQuantities = {};
 
   window.openChooseOptionModal = (handle, defaultVariantId) => {
+    if (!handle && defaultVariantId && window.addSingleVariantToCart) {
+      window.addSingleVariantToCart(defaultVariantId);
+      return;
+    }
     if (!handle) return;
     const cleanRoot = rootUrl.replace(/\/$/, '');
     fetch(`${cleanRoot}/products/${handle}.js`)
@@ -64,6 +68,9 @@
       })
       .catch((err) => {
         console.error('Error fetching product variants:', err);
+        if (defaultVariantId && window.addSingleVariantToCart) {
+          window.addSingleVariantToCart(defaultVariantId);
+        }
       });
   };
 
@@ -71,6 +78,8 @@
     const { handle, defaultVariantId } = ev.detail || {};
     if (handle && window.openChooseOptionModal) {
       window.openChooseOptionModal(handle, defaultVariantId);
+    } else if (defaultVariantId && window.addSingleVariantToCart) {
+      window.addSingleVariantToCart(defaultVariantId);
     }
   });
 
@@ -438,6 +447,7 @@
       console.error('Error adding variant to cart:', err);
     }
   };
+  window.addSingleVariantToCart = addSingleVariantToCart;
 
   const openDrawer = () => {
     const drawer = document.querySelector('[data-cart-drawer]');
