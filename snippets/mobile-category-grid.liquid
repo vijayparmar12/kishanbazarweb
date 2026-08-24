@@ -15,17 +15,28 @@
   <!-- 1. Custom Category Blocks from Theme Editor -->
   {% for block in section.blocks %}
     {% if block.type == 'category_card' %}
-      {% if block.settings.collection != blank %}
-        {% assign collection = block.settings.collection %}
-        {% assign count = count | plus: 1 %}
-        {% assign rendered_handles = rendered_handles | append: collection.handle | append: '|' %}
-        <a href="{{ collection.url }}" class="kb-mobile-cat-card" {{ block.shopify_attributes }}>
-          <span class="kb-mobile-cat-card__media">
-            {% render 'category-icon', category: collection, size: 48 %}
-          </span>
-          <span class="kb-mobile-cat-card__title">{{ block.settings.title | default: collection.title }}</span>
-        </a>
-      {% endif %}
+      {% liquid
+        assign card_collection = block.settings.collection
+        assign card_title = block.settings.title | default: card_collection.title
+        assign card_handle = card_title | handleize
+        assign card_url = card_collection.url
+
+        if card_url == blank or card_collection == blank
+          if collections[card_handle] != blank
+            assign card_url = collections[card_handle].url
+          elsif card_handle != blank
+            assign card_url = '/collections/' | append: card_handle
+          else
+            assign card_url = routes.all_products_collection_url
+          endif
+        endif
+      %}
+      <a href="{{ card_url }}" class="kb-mobile-cat-card" {{ block.shopify_attributes }}>
+        <span class="kb-mobile-cat-card__media">
+          {% render 'category-icon', category: card_collection, category_name: card_title, size: 48 %}
+        </span>
+        <span class="kb-mobile-cat-card__title">{{ card_title }}</span>
+      </a>
     {% endif %}
   {% endfor %}
 
