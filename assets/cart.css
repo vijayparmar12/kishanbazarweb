@@ -1380,12 +1380,12 @@ body.kb-cart-drawer-open {
 
 .kb-cart-item--compact {
   display: grid !important;
-  grid-template-columns: 54px minmax(0, 1fr) auto !important;
+  grid-template-columns: 48px minmax(0, 1fr) auto !important;
   gap: 8px !important;
-  padding: 8px 8px !important;
+  padding: 6px 8px !important;
   background: #ffffff !important;
   border: 1px solid #ebe8e2 !important;
-  border-radius: 12px !important;
+  border-radius: 10px !important;
   align-items: center !important;
   transition: box-shadow 0.2s ease !important;
   width: 100% !important;
@@ -1397,9 +1397,9 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-item--compact .kb-cart-item__media {
-  width: 54px !important;
-  height: 54px !important;
-  border-radius: 10px !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 8px !important;
   overflow: hidden !important;
   background: #f8fafc !important;
   flex-shrink: 0 !important;
@@ -1415,7 +1415,7 @@ body.kb-cart-drawer-open {
 .kb-cart-item__details {
   display: flex !important;
   flex-direction: column !important;
-  gap: 3px !important;
+  gap: 2px !important;
   justify-content: center !important;
   min-width: 0 !important;
   overflow: hidden !important;
@@ -1426,12 +1426,12 @@ body.kb-cart-drawer-open {
   flex-direction: column !important;
   align-items: flex-end !important;
   justify-content: space-between !important;
-  gap: 4px !important;
+  gap: 3px !important;
   flex-shrink: 0 !important;
 }
 
 .kb-cart-item__title {
-  font-size: 0.80rem !important;
+  font-size: 0.78rem !important;
   font-weight: 700 !important;
   color: #1e293b !important;
   margin: 0 !important;
@@ -1454,7 +1454,7 @@ body.kb-cart-drawer-open {
 
 .kb-cart-item__compare {
   color: #94a3b8 !important;
-  font-size: 0.70rem !important;
+  font-size: 0.68rem !important;
   text-decoration: line-through !important;
   font-weight: 500 !important;
 }
@@ -1462,13 +1462,13 @@ body.kb-cart-drawer-open {
 .kb-cart-item__price {
   color: #166534 !important;
   font-weight: 900 !important;
-  font-size: 0.86rem !important;
+  font-size: 0.84rem !important;
 }
 
 .kb-cart-item__save-badge {
   color: #dc2626 !important;
   font-weight: 800 !important;
-  font-size: 0.66rem !important;
+  font-size: 0.64rem !important;
 }
 
 .kb-cart-item__actions {
