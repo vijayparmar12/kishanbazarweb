@@ -186,7 +186,7 @@
 }
 
 .kb-cart-item__compare {
-  display: block !important;
+  display: inline-block !important;
   font-size: 0.8rem !important;
   color: #94a3b8 !important;
   text-decoration: line-through !important;
@@ -1475,9 +1475,12 @@ body.kb-cart-drawer-open {
 
 .kb-cart-item__pricing {
   display: flex !important;
+  flex-direction: row !important;
   align-items: baseline !important;
+  justify-content: flex-start !important;
   gap: 6px !important;
-  flex-wrap: wrap !important;
+  width: auto !important;
+  margin: 0 !important;
 }
 
 .kb-cart-item__price {
@@ -1485,6 +1488,8 @@ body.kb-cart-drawer-open {
   font-weight: 900 !important;
   font-size: 0.94rem !important;
   white-space: nowrap !important;
+  display: inline-block !important;
+  margin: 0 !important;
 }
 
 .kb-cart-item__compare {
@@ -1492,6 +1497,9 @@ body.kb-cart-drawer-open {
   font-size: 0.78rem !important;
   text-decoration: line-through !important;
   font-weight: 500 !important;
+  white-space: nowrap !important;
+  display: inline-block !important;
+  margin: 0 !important;
 }
 
 .kb-cart-item__save-badge {
@@ -1499,6 +1507,8 @@ body.kb-cart-drawer-open {
   font-weight: 800 !important;
   font-size: 0.74rem !important;
   white-space: nowrap !important;
+  display: inline-block !important;
+  margin: 0 !important;
 }
 
 .kb-cart-item__actions {
