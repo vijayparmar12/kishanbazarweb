@@ -1212,12 +1212,12 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-drawer__progress {
-  background: linear-gradient(180deg, #f8fbf6 0%, #f1f8ec 100%) !important;
-  border: 1px solid #d4e5d2 !important;
+  background: #f0fdf4 !important;
+  border: 1px solid #bbf7d0 !important;
   border-radius: 16px !important;
   margin: 12px 16px 16px !important;
-  padding: 14px 16px 42px !important;
-  box-shadow: 0 2px 8px rgba(22, 101, 52, 0.04) !important;
+  padding: 18px 18px 46px !important;
+  box-shadow: 0 2px 8px rgba(22, 101, 52, 0.05) !important;
   position: relative !important;
   box-sizing: border-box !important;
   overflow: visible !important;
@@ -1226,10 +1226,10 @@ body.kb-cart-drawer-open {
 .kb-cart-drawer__promo-copy {
   margin: 0 0 2.2rem 0 !important;
   text-align: center !important;
-  font-size: 0.90rem !important;
+  font-size: 0.94rem !important;
   font-weight: 800 !important;
   color: #166534 !important;
-  line-height: 1.35 !important;
+  line-height: 1.4 !important;
 }
 
 .kb-cart-drawer__progress-track-wrap {
@@ -2396,15 +2396,14 @@ body.kb-cart-drawer-open {
   }
 
   .kb-cart-drawer__promo-copy {
-    margin-left: 16px !important;
-    margin-right: 16px !important;
-    width: calc(100% - 32px) !important;
+    margin: 0 0 2.2rem 0 !important;
+    width: 100% !important;
     box-sizing: border-box !important;
   }
 
   .kb-cart-drawer__progress {
     margin: 12px 16px 16px !important;
-    padding: 14px 14px 44px !important;
+    padding: 18px 16px 46px !important;
     width: auto !important;
     box-sizing: border-box !important;
     overflow: visible !important;
