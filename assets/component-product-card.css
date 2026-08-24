@@ -18,7 +18,11 @@
 
 @media (max-width: 48rem) {
   .product-card {
-    max-width: 270px !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .product-card__content {
+    padding: 0.85rem !important;
   }
 }
 
