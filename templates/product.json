@@ -208,10 +208,24 @@
         "judge_me_reviews_review_widget_LwAFMi"
       ],
       "settings": {}
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "RECOMMENDED",
+        "eyebrow": "HANDPICKED ORGANIC STAPLES",
+        "bg_color": "#FAF7F2",
+        "heading_color": "#1B4317",
+        "eyebrow_color": "#D97706",
+        "products_limit": 4,
+        "columns_desktop": "4",
+        "columns_mobile": "2"
+      }
     }
   },
   "order": [
     "main",
-    "1787546802eef3e65a"
+    "1787546802eef3e65a",
+    "recommendations"
   ]
 }
