@@ -1428,14 +1428,14 @@
 .product-info__rating-block,
 .jdgm-preview-badge,
 .jdgm-widget.jdgm-preview-badge,
-.shopify-block:has(.jdgm-preview-badge),
-.shopify-block:has(.jdgm-widget),
-.shopify-block:has([class*="rating"]),
-.shopify-block:has([class*="jdgm"]),
-[data-shopify-editor-block]:has(.jdgm-preview-badge),
-[data-shopify-editor-block]:has(.jdgm-widget),
-[data-shopify-editor-block]:has([class*="rating"]),
-[data-shopify-editor-block]:has([class*="jdgm"]) {
+.product-info .shopify-block:has(.jdgm-preview-badge),
+.product-info .shopify-block:has(.jdgm-widget),
+.product-info .shopify-block:has([class*="rating"]),
+.product-info .shopify-block:has([class*="jdgm"]),
+.product-info [data-shopify-editor-block]:has(.jdgm-preview-badge),
+.product-info [data-shopify-editor-block]:has(.jdgm-widget),
+.product-info [data-shopify-editor-block]:has([class*="rating"]),
+.product-info [data-shopify-editor-block]:has([class*="jdgm"]) {
   background: transparent !important;
   background-color: transparent !important;
   border: none !important;
@@ -1449,6 +1449,24 @@
   text-align: left !important;
   margin-left: 0 !important;
   margin-right: auto !important;
+}
+
+/* Force 100% full width for Customer Reviews section on Desktop & Mobile */
+.product-page-section--reviews,
+.product-reviews,
+.product-reviews__container,
+.shopify-app-block:has(.jdgm-rev-widg),
+.shopify-app-block:has(.jdgm-widget:not(.jdgm-preview-badge)),
+.shopify-block:has(.jdgm-rev-widg),
+.shopify-block:has(.jdgm-widget:not(.jdgm-preview-badge)),
+[data-shopify-editor-block]:has(.jdgm-rev-widg),
+[data-shopify-editor-block]:has(.jdgm-widget:not(.jdgm-preview-badge)),
+.jdgm-rev-widg,
+.jdgm-review-widget {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
+  box-sizing: border-box !important;
 }
 
 /* Force Judge.me badge inner elements to align to the left side */
