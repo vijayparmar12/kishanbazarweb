@@ -19,19 +19,11 @@
   if p_custom_badge != blank
     assign badge_label = p_custom_badge
   elsif tag_str contains 'bestseller' or tag_str contains 'best seller' or tag_str contains 'best-seller'
-    if has_compare
-      assign badge_label = 'BESTSELLER &bull; SAVE ' | append: discount | append: '%'
-    else
-      assign badge_label = 'BESTSELLER'
-    endif
-  elsif tag_str contains 'new' or tag_str contains 'new launch' or tag_str contains 'new-launch'
+    assign badge_label = 'BESTSELLER'
+  elsif tag_str contains 'new launch' or tag_str contains 'new-launch'
     assign badge_label = 'NEW LAUNCH'
-  elsif tag_str contains 'organic' or tag_str contains '100% organic'
-    assign badge_label = '100% ORGANIC'
-  elsif tag_str contains 'trending' or tag_str contains 'top rated'
+  elsif tag_str contains 'trending'
     assign badge_label = 'TRENDING'
-  elsif has_compare
-    assign badge_label = 'SAVE ' | append: discount | append: '%'
   endif
 %}
 

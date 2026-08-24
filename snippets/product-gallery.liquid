@@ -28,19 +28,11 @@
   if g_custom_badge != blank
     assign g_badge_label = g_custom_badge
   elsif g_tag_str contains 'bestseller' or g_tag_str contains 'best seller' or g_tag_str contains 'best-seller'
-    if g_sale
-      assign g_badge_label = 'BESTSELLER &bull; SAVE ' | append: g_discount | append: '%'
-    else
-      assign g_badge_label = 'BESTSELLER'
-    endif
-  elsif g_tag_str contains 'new' or g_tag_str contains 'new launch' or g_tag_str contains 'new-launch'
+    assign g_badge_label = 'BESTSELLER'
+  elsif g_tag_str contains 'new launch' or g_tag_str contains 'new-launch'
     assign g_badge_label = 'NEW LAUNCH'
-  elsif g_tag_str contains 'organic' or g_tag_str contains '100% organic'
-    assign g_badge_label = '100% ORGANIC'
-  elsif g_tag_str contains 'trending' or g_tag_str contains 'top rated'
+  elsif g_tag_str contains 'trending'
     assign g_badge_label = 'TRENDING'
-  elsif g_sale
-    assign g_badge_label = 'SAVE ' | append: g_discount | append: '%'
   endif
 %}
 
