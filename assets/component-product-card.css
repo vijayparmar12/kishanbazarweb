@@ -271,19 +271,19 @@
   white-space: nowrap !important;
 }
 
+.product-card__price-current {
+  color: #132d14 !important;
+  font-weight: 900 !important;
+  font-size: 1.12rem !important;
+  line-height: 1.2 !important;
+  order: 1 !important;
+}
+
 .product-card__price-compare {
   color: #94a3b8 !important;
   font-size: 0.85rem !important;
   text-decoration: line-through !important;
   font-weight: 500 !important;
-  line-height: 1.2 !important;
-  order: 1 !important;
-}
-
-.product-card__price-current {
-  color: #132d14 !important;
-  font-weight: 900 !important;
-  font-size: 1.12rem !important;
   line-height: 1.2 !important;
   order: 2 !important;
 }

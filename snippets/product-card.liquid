@@ -92,10 +92,10 @@
               <h3 class="product-card__title"><a href="{{ product.url }}" style="{% if block.settings.title_color != blank %}color: {{ block.settings.title_color }};{% elsif title_color != blank %}color: {{ title_color }};{% endif %}">{{ product.title }}</a></h3>
               {% if show_price != false %}
                 <div class="product-card__price">
+                  <span class="product-card__price-current" style="{% if block.settings.price_color != blank %}color: {{ block.settings.price_color }};{% elsif price_color != blank %}color: {{ price_color }};{% endif %}">₹{{ variant.price | money_without_currency }}</span>
                   {% if has_compare %}
                     <s class="product-card__price-compare" style="{% if block.settings.compare_price_color != blank %}color: {{ block.settings.compare_price_color }};{% elsif compare_price_color != blank %}color: {{ compare_price_color }};{% endif %}">₹{{ compare_price | money_without_currency }}</s>
                   {% endif %}
-                  <span class="product-card__price-current" style="{% if block.settings.price_color != blank %}color: {{ block.settings.price_color }};{% elsif price_color != blank %}color: {{ price_color }};{% endif %}">₹{{ variant.price | money_without_currency }}</span>
                 </div>
               {% endif %}
             </div>
@@ -210,8 +210,8 @@
         <h3 class="product-card__title"><a href="{{ product.url }}" style="{% if title_color != blank %}color: {{ title_color }};{% endif %}">{{ product.title }}</a></h3>
         {% if show_price != false %}
           <div class="product-card__price">
-            <s class="product-card__price-compare" style="{% if compare_price_color != blank %}color: {{ compare_price_color }};{% endif %}">₹{{ compare_price | money_without_currency }}</s>
             <span class="product-card__price-current" style="{% if price_color != blank %}color: {{ price_color }};{% endif %}">₹{{ variant.price | money_without_currency }}</span>
+            <s class="product-card__price-compare" style="{% if compare_price_color != blank %}color: {{ compare_price_color }};{% endif %}">₹{{ compare_price | money_without_currency }}</s>
           </div>
         {% endif %}
       </div>
