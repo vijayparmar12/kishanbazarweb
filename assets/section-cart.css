@@ -116,7 +116,7 @@
   box-shadow: 0 12px 32px rgba(28, 49, 32, .08);
 }
 
-.kb-cart-item--compact {
+.kb-main-cart-page .kb-cart-item--compact {
   grid-template-columns: 80px minmax(0, 1fr);
   padding: 12px;
 }
