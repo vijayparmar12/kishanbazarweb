@@ -92,31 +92,55 @@
 
 {% comment %} 1. Check Collection Metafields (Shopify Admin > Custom Data > Collections) {% endcomment %}
 {% assign mf_img = nil %}
-{% if collection.metafields.custom.banner_image.value != blank %}
-  {% assign mf_img = collection.metafields.custom.banner_image.value %}
-{% elsif collection.metafields.custom.banner_image != blank and collection.metafields.custom.banner_image.value == nil and collection.metafields.custom.banner_image.type == nil %}
-  {% assign mf_img = collection.metafields.custom.banner_image %}
-{% elsif collection.metafields.custom.banner.value != blank %}
-  {% assign mf_img = collection.metafields.custom.banner.value %}
-{% elsif collection.metafields.custom.desktop_banner.value != blank %}
-  {% assign mf_img = collection.metafields.custom.desktop_banner.value %}
-{% elsif collection.metafields.custom.collection_banner.value != blank %}
-  {% assign mf_img = collection.metafields.custom.collection_banner.value %}
+{% if collection.metafields.custom.banner_image != blank %}
+  {% if collection.metafields.custom.banner_image.value != blank %}
+    {% assign mf_img = collection.metafields.custom.banner_image.value %}
+  {% else %}
+    {% assign mf_img = collection.metafields.custom.banner_image %}
+  {% endif %}
+{% elsif collection.metafields.custom.banner != blank %}
+  {% if collection.metafields.custom.banner.value != blank %}
+    {% assign mf_img = collection.metafields.custom.banner.value %}
+  {% else %}
+    {% assign mf_img = collection.metafields.custom.banner %}
+  {% endif %}
+{% elsif collection.metafields.custom.desktop_banner != blank %}
+  {% if collection.metafields.custom.desktop_banner.value != blank %}
+    {% assign mf_img = collection.metafields.custom.desktop_banner.value %}
+  {% else %}
+    {% assign mf_img = collection.metafields.custom.desktop_banner %}
+  {% endif %}
+{% elsif collection.metafields.custom.collection_banner != blank %}
+  {% if collection.metafields.custom.collection_banner.value != blank %}
+    {% assign mf_img = collection.metafields.custom.collection_banner.value %}
+  {% else %}
+    {% assign mf_img = collection.metafields.custom.collection_banner %}
+  {% endif %}
 {% endif %}
 
 {% assign mf_mobile_img = nil %}
-{% if collection.metafields.custom.banner_mobile.value != blank %}
-  {% assign mf_mobile_img = collection.metafields.custom.banner_mobile.value %}
-{% elsif collection.metafields.custom.mobile_banner.value != blank %}
-  {% assign mf_mobile_img = collection.metafields.custom.mobile_banner.value %}
+{% if collection.metafields.custom.banner_mobile != blank %}
+  {% if collection.metafields.custom.banner_mobile.value != blank %}
+    {% assign mf_mobile_img = collection.metafields.custom.banner_mobile.value %}
+  {% else %}
+    {% assign mf_mobile_img = collection.metafields.custom.banner_mobile %}
+  {% endif %}
+{% elsif collection.metafields.custom.mobile_banner != blank %}
+  {% if collection.metafields.custom.mobile_banner.value != blank %}
+    {% assign mf_mobile_img = collection.metafields.custom.mobile_banner.value %}
+  {% else %}
+    {% assign mf_mobile_img = collection.metafields.custom.mobile_banner %}
+  {% endif %}
 {% endif %}
 
 {% comment %} 2. Check Theme Editor Block match for this collection {% endcomment %}
 {% assign matched_block = nil %}
 {% for block in section.blocks %}
-  {% if block.settings.target_collection != blank and block.settings.target_collection.handle == collection.handle %}
-    {% assign matched_block = block %}
-    {% break %}
+  {% if block.settings.target_collection != blank %}
+    {% if block.settings.target_collection.handle == collection.handle or block.settings.target_collection == collection.handle %}
+      {% assign matched_block = block %}
+      {% break %}
+    {% endif %}
   {% endif %}
 {% endfor %}
 
@@ -136,18 +160,31 @@
 {% elsif section.settings.custom_image_desktop != blank %}
   {% assign banner_img_desktop = section.settings.custom_image_desktop %}
   {% assign banner_img_mobile = section.settings.custom_image_mobile | default: section.settings.custom_image_desktop %}
-{% elsif collection.products.first.featured_image != blank %}
-  {% assign banner_img_desktop = collection.products.first.featured_image %}
-  {% assign banner_img_mobile = collection.products.first.featured_image %}
 {% endif %}
 
 <section id="CollectionBanner-{{ section.id }}" class="collection-banner" {% if matched_block != nil %}{{ matched_block.shopify_attributes }}{% endif %}>
   {% if section.settings.show_image and banner_img_desktop != blank %}
     <picture class="collection-banner__picture">
       {% if banner_img_mobile != blank %}
-        <source media="(max-width: 749px)" srcset="{{ banner_img_mobile | image_url: width: 1200 }}">
+        {% assign mob_url = banner_img_mobile | image_url: width: 1200 %}
+        {% if mob_url == blank and banner_img_mobile contains 'http' %}
+          {% assign mob_url = banner_img_mobile %}
+        {% endif %}
+        <source media="(max-width: 749px)" srcset="{{ mob_url }}">
       {% endif %}
-      {{ banner_img_desktop | image_url: width: 2200 | image_tag: class: 'collection-banner__img', alt: collection.title, loading: 'eager', fetchpriority: 'high' }}
+
+      {% assign desk_url = nil %}
+      {% if banner_img_desktop.src != blank %}
+        {% assign desk_url = banner_img_desktop.src | image_url: width: 2200 %}
+      {% else %}
+        {% assign desk_url = banner_img_desktop | image_url: width: 2200 %}
+      {% endif %}
+
+      {% if desk_url != blank %}
+        {{ banner_img_desktop | image_url: width: 2200 | image_tag: class: 'collection-banner__img', alt: collection.title, loading: 'eager', fetchpriority: 'high' }}
+      {% else %}
+        <img src="{{ banner_img_desktop }}" alt="{{ collection.title | escape }}" class="collection-banner__img" loading="eager" fetchpriority="high">
+      {% endif %}
     </picture>
   {% endif %}
 </section>
