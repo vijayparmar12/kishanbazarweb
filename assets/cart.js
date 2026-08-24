@@ -96,7 +96,8 @@
     if (items) {
       items.innerHTML = cart.items.length
         ? cart.items.map((item, index) => {
-            const compareVal = window._variantComparePrices[item.variant_id] || item.original_line_price;
+            const compareUnit = window._variantComparePrices[item.variant_id] || (item.variant && item.variant.compare_at_price) || 0;
+            const compareVal = (compareUnit > 0 ? compareUnit * item.quantity : 0) || item.original_line_price;
             const finalVal = item.final_line_price || item.line_price;
             const hasCompare = compareVal > finalVal;
             let saveBadgeHtml = '';
@@ -248,7 +249,13 @@
         fetch(`${rootUrl}products/${item.handle}.js`)
           .then((res) => (res.ok ? res.json() : null))
           .then((pData) => {
-            if (!pData || !pData.variants || pData.variants.length <= 1) return;
+            if (!pData || !pData.variants) return;
+            pData.variants.forEach((v) => {
+              if (v.compare_at_price) {
+                window._variantComparePrices[v.id] = v.compare_at_price;
+              }
+            });
+            if (pData.variants.length <= 1) return;
             const container = drawer.querySelector(`[data-cart-variant-container="${item.key}"]`);
             if (container) {
               const optionsHtml = pData.variants
