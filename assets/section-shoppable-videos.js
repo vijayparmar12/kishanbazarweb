@@ -197,7 +197,7 @@ class ShoppableVideosSection {
             ev.stopPropagation();
           }
 
-          // Close video modal
+          // Close video player modal
           const modalEl = this.root.querySelector('[data-video-modal]');
           if (modalEl) {
             modalEl.removeAttribute('open');
@@ -209,14 +209,20 @@ class ShoppableVideosSection {
             }
           }
 
-          // Open Choose Option / Variant Modal Popup (Screenshot 1)
+          // Open Quick View Product Details Modal (Screenshot 1)
           const targetHandle = handle || 'khapli-atta';
-          if (typeof window.openChooseOptionModal === 'function') {
-            window.openChooseOptionModal(targetHandle, variantId);
-          } else {
-            const rootUrl = window.Shopify?.routes?.root || '/';
-            document.dispatchEvent(new CustomEvent('greenbasket:quick-view', { detail: { url: `${rootUrl}products/${targetHandle}` } }));
-          }
+          document.dispatchEvent(
+            new CustomEvent('greenbasket:quick-view', {
+              detail: {
+                handle: targetHandle,
+                variantId: variantId,
+                title: title,
+                price: price,
+                comparePrice: comparePrice,
+                image: thumb,
+              },
+            })
+          );
         };
 
         // Attach event listener directly to white product box & button
