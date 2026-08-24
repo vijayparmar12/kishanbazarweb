@@ -3,7 +3,7 @@
 
 {% assign free_ship_val = settings.cart_free_shipping_threshold | default: 1499 | times: 100 %}
 {% assign discount_val = settings.cart_discount_threshold | default: 3000 | times: 100 %}
-{% assign promo_text = settings.cart_promo_bar_text | default: '🎉 Get 10% OFF on orders above ₹3000 | TBOF10' %}
+{% assign promo_text = settings.cart_promo_bar_text %}
 
 <section class="kb-cart-page" data-main-cart data-cart-section-id="{{ section.id }}">
   <nav class="kb-cart-page__breadcrumbs" aria-label="Breadcrumb">
@@ -21,10 +21,11 @@
   </header>
 
   {% if cart.item_count > 0 %}
-    <!-- Promo Bar matching Cart Drawer (Image 2) -->
-    <div class="kb-cart-drawer__promo-top-bar" style="border-radius: 12px; margin-bottom: 16px;">
-      {{ promo_text }}
-    </div>
+    {% if promo_text != blank and promo_text != 'cart' %}
+      <div class="kb-cart-drawer__promo-top-bar" style="border-radius: 12px; margin-bottom: 16px;">
+        {{ promo_text }}
+      </div>
+    {% endif %}
 
     <!-- Free Shipping Progress Bar matching Cart Drawer (Image 2) -->
     <div class="kb-cart-drawer__progress" data-cart-drawer-progress style="margin-bottom: 24px;">

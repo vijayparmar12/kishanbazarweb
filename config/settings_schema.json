@@ -178,7 +178,7 @@
         "type": "text",
         "id": "cart_promo_bar_text",
         "label": "Top Promo Banner Text (leave blank to hide)",
-        "default": "Rakhi gifting, sorted! 🎁 Get 10% OFF with RAKHI10 💕"
+        "default": ""
       },
       {
         "type": "number",
