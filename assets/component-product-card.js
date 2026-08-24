@@ -172,6 +172,33 @@
       if (labelSpan) labelSpan.textContent = disabled ? 'SOLD OUT' : 'ADD TO CART';
     }
 
+    // Dynamic Variant Badge Update
+    const badgeText = option?.dataset.badge;
+    let topBar = card.querySelector('.product-card__top-bar');
+    if (!topBar) {
+      const media = card.querySelector('.product-card__media');
+      if (media) {
+        topBar = document.createElement('div');
+        topBar.className = 'product-card__top-bar';
+        media.appendChild(topBar);
+      }
+    }
+
+    let badgeEl = card.querySelector('.product-card__badge:not(.product-card__badge--sold)');
+    if (badgeText && badgeText.trim() !== '') {
+      if (!badgeEl) {
+        badgeEl = document.createElement('span');
+        badgeEl.className = 'product-card__badge product-card__badge--loved';
+        if (topBar) topBar.insertBefore(badgeEl, topBar.firstChild);
+      }
+      badgeEl.textContent = badgeText;
+      badgeEl.style.display = 'inline-flex';
+    } else {
+      if (badgeEl) {
+        badgeEl.style.display = 'none';
+      }
+    }
+
     // Sync stepper state for newly selected variant
     syncCartState();
   });

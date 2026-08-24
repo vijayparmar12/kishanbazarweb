@@ -11,8 +11,10 @@
     assign discount = 0
   endif
 
-  # Dynamic per-product badge determination
-  assign p_custom_badge = product.metafields.custom.custom_badge.value | default: product.metafields.custom.custom_badge | default: product.metafields.custom.badge.value | default: product.metafields.custom.badge | default: product.metafields.custom.badge_text.value | default: product.metafields.custom.badge_text | default: product.metafields.custom.product_badge.value | default: product.metafields.custom.product_badge | default: product.metafields.custom.custom_tag.value | default: product.metafields.custom.custom_tag | default: badge_text
+  # Dynamic per-product and per-variant badge determination
+  assign v_badge = variant.metafields.custom.badge_varient.value | default: variant.metafields.custom.badge_varient | default: variant.metafields.custom.badge_variant.value | default: variant.metafields.custom.badge_variant | default: variant.metafields.custom.variant_badge.value | default: variant.metafields.custom.variant_badge | default: variant.metafields.custom.badge.value | default: variant.metafields.custom.badge
+
+  assign p_custom_badge = v_badge | default: product.metafields.custom.custom_badge.value | default: product.metafields.custom.custom_badge | default: product.metafields.custom.badge.value | default: product.metafields.custom.badge | default: product.metafields.custom.badge_text.value | default: product.metafields.custom.badge_text | default: product.metafields.custom.product_badge.value | default: product.metafields.custom.product_badge | default: product.metafields.custom.custom_tag.value | default: product.metafields.custom.custom_tag | default: badge_text
   assign tag_str = product.tags | join: ',' | downcase
 
   assign badge_label = ''
@@ -160,7 +162,11 @@
                             {% assign v_has_comp = false %}
                             {% assign v_compare = 0 %}
                           {% endif %}
-                          <option value="{{ card_variant.id }}" data-price="₹{{ card_variant.price | money_without_currency }}" data-compare="{% if v_has_comp %}₹{{ v_compare | money_without_currency }}{% endif %}" {% if card_variant == variant %}selected{% endif %} {% if card_variant.available == false %}disabled{% endif %}>
+                          {% assign opt_v_badge = card_variant.metafields.custom.badge_varient.value | default: card_variant.metafields.custom.badge_varient | default: card_variant.metafields.custom.badge_variant.value | default: card_variant.metafields.custom.badge_variant | default: card_variant.metafields.custom.variant_badge.value | default: card_variant.metafields.custom.variant_badge | default: card_variant.metafields.custom.badge.value | default: card_variant.metafields.custom.badge %}
+                          {% if opt_v_badge == blank %}
+                            {% assign opt_v_badge = badge_label %}
+                          {% endif %}
+                          <option value="{{ card_variant.id }}" data-price="₹{{ card_variant.price | money_without_currency }}" data-compare="{% if v_has_comp %}₹{{ v_compare | money_without_currency }}{% endif %}" data-badge="{{ opt_v_badge | escape }}" {% if card_variant == variant %}selected{% endif %} {% if card_variant.available == false %}disabled{% endif %}>
                             {{ card_variant.title }}{% if card_variant.available == false %} (Sold out){% endif %}
                           </option>
                         {% endfor %}
@@ -268,10 +274,15 @@
                         {% assign v_compare = card_variant.price | plus: 2000 %}
                       {% endif %}
                     {% endif %}
+                    {% assign opt_v_badge = card_variant.metafields.custom.badge_varient.value | default: card_variant.metafields.custom.badge_varient | default: card_variant.metafields.custom.badge_variant.value | default: card_variant.metafields.custom.badge_variant | default: card_variant.metafields.custom.variant_badge.value | default: card_variant.metafields.custom.variant_badge | default: card_variant.metafields.custom.badge.value | default: card_variant.metafields.custom.badge %}
+                    {% if opt_v_badge == blank %}
+                      {% assign opt_v_badge = badge_label %}
+                    {% endif %}
                     <option
                       value="{{ card_variant.id }}"
                       data-price="₹{{ card_variant.price | money_without_currency }}"
                       data-compare="₹{{ v_compare | money_without_currency }}"
+                      data-badge="{{ opt_v_badge | escape }}"
                       {% if card_variant == variant %}selected{% endif %}
                       {% if card_variant.available == false %}disabled{% endif %}
                     >
