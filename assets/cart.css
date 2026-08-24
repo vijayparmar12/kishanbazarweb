@@ -2912,8 +2912,8 @@ body.kb-cart-drawer-open {
 .kb-cart-drawer__summary-box {
   width: 100% !important;
   position: relative !important;
-  margin-top: 6px !important;
-  margin-bottom: 8px !important;
+  margin-top: 12px !important;
+  margin-bottom: 12px !important;
   box-sizing: border-box !important;
 }
 
@@ -2923,8 +2923,8 @@ body.kb-cart-drawer-open {
   justify-content: center !important;
   position: relative !important;
   z-index: 3 !important;
-  margin-top: 4px !important;
-  margin-bottom: -6px !important;
+  margin-top: 0 !important;
+  margin-bottom: -1px !important;
 }
 
 .kb-cart-savings-ribbon {
