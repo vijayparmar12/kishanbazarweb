@@ -324,28 +324,23 @@ function initVariantSelection(container) {
         }
       }
 
-      // Update Dynamic Coins & Savings Box
-      const coinsBanner = container.querySelector('[data-product-coins-banner]');
-      const coinsText = container.querySelector('[data-product-coins-text]');
-      const coinsSavings = container.querySelector('[data-product-coins-savings]');
-      if (coinsBanner && price) {
-        const multiplier = parseInt(coinsBanner.getAttribute('data-coins-multiplier') || '3', 10);
-        const template = coinsBanner.getAttribute('data-label-template') || 'Earn {coins} Coins on this product';
+      // Update Dynamic Savings Box
+      const savingsBanner = container.querySelector('[data-product-savings-banner], [data-product-coins-banner]');
+      const savingsText = container.querySelector('[data-product-savings-text], [data-product-coins-text]');
+      if (savingsBanner && price) {
+        let template = savingsBanner.getAttribute('data-savings-template') || savingsBanner.getAttribute('data-label-template') || 'Save ₹{savings} on this order';
+        if (template.includes('{coins}')) {
+          template = 'Save ₹{savings} on this order';
+        }
         const numericPrice = parseInt(price.replace(/[^0-9]/g, ''), 10) || 0;
         const numericCompare = compare ? parseInt(compare.replace(/[^0-9]/g, ''), 10) : 0;
-        const coins = Math.round(numericPrice * multiplier);
         const savings = numericCompare > numericPrice ? (numericCompare - numericPrice) : 0;
 
-        if (coinsText) {
-          const coinsHtml = `<strong>${coins}</strong>`;
-          coinsText.innerHTML = template.replace('{coins}', coinsHtml);
-        }
-        if (coinsSavings) {
+        if (savingsText) {
           if (savings > 0) {
-            coinsSavings.textContent = `(Save ₹${savings.toLocaleString('en-IN')})`;
-            coinsSavings.style.display = 'inline-block';
+            savingsText.innerHTML = template.replace('{savings}', savings.toLocaleString('en-IN'));
           } else {
-            coinsSavings.style.display = 'none';
+            savingsText.innerHTML = 'Special Discount Applied';
           }
         }
       }
