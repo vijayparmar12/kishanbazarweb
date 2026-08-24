@@ -156,28 +156,19 @@
     // Hide top plain default Judge.me widget container safely
     const jgContainer = document.querySelector('.testimonials__judgeme-container');
     if (jgContainer) {
-      jgContainer.style.opacity = '0';
-      jgContainer.style.position = 'absolute';
-      jgContainer.style.left = '-9999px';
+      jgContainer.style.display = 'none';
     }
 
-    // If ZERO published reviews, clear track and hide section
+    // Always ensure testimonial section remains visible for admin blocks!
+    sections.forEach(sec => {
+      sec.style.display = 'block';
+    });
+
+    // If ZERO Judge.me reviews found, DO NOT touch or delete the admin/theme-editor cards!
     if (extractedReviews.length === 0) {
-      const tracks = document.querySelectorAll('[data-testimonials-track]');
-      tracks.forEach(track => {
-        track.innerHTML = '';
-      });
-      sections.forEach(sec => {
-        sec.style.display = 'none';
-      });
       hasSyncedJudgeme = true;
       return;
     }
-
-    // Show section if reviews exist
-    sections.forEach(sec => {
-      sec.style.display = '';
-    });
 
     // Populate green cards strictly for current active Judge.me reviews
     const tracks = document.querySelectorAll('[data-testimonials-track]');
