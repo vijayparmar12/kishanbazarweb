@@ -125,16 +125,7 @@
         {% endfor %}
       </div>
 
-      <!-- Clean Single Line Coupon Code Box matching Two Brothers India Shop -->
-      <div class="kb-cart-drawer__coupon-input-wrap" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
-        <div class="kb-cart-drawer__coupon-input-box">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
-          <input type="text" placeholder="Enter coupon code" class="kb-cart-drawer__coupon-field" data-cart-coupon-input>
-          {% if coupon_code != blank %}
-            <button type="button" class="kb-cart-coupon-apply-btn" data-cart-apply-coupon data-coupon-code="{{ coupon_code }}">Apply</button>
-          {% endif %}
-        </div>
-      </div>
+
 
       <!-- Frequently Bought Together Carousel -->
       <div class="kb-cart-drawer__addons-block" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>

@@ -104,7 +104,9 @@
             </a>
             <div class="kb-cart-item__body">
               <h3 class="kb-cart-item__title"><a href="${item.url}">${item.product_title}</a></h3>
-              ${item.variant_title && item.variant_title !== 'Default Title' ? `<p class="kb-cart-item__variant">${item.variant_title}</p>` : ''}
+              <div class="kb-cart-item__variant-container" data-cart-variant-container="${item.key}">
+                ${item.variant_title && item.variant_title !== 'Default Title' ? `<span class="kb-cart-item__variant-pill">${item.variant_title}</span>` : ''}
+              </div>
               <div class="kb-cart-item__pricing">
                 <span class="kb-cart-item__price" data-cart-line-price>${formatMoney(item.final_line_price || item.line_price)}</span>
                 ${hasCompare ? `<s class="kb-cart-item__compare">${formatMoney(item.original_line_price)}</s>` : ''}
@@ -223,7 +225,68 @@
         badgeEl.style.display = 'none';
       }
     }
+
+    // Hydrate cart item variant dropdown select boxes
+    if (cart.items && cart.items.length) {
+      cart.items.forEach((item) => {
+        if (!item.handle) return;
+        fetch(`${rootUrl}products/${item.handle}.js`)
+          .then((res) => (res.ok ? res.json() : null))
+          .then((pData) => {
+            if (!pData || !pData.variants || pData.variants.length <= 1) return;
+            const container = drawer.querySelector(`[data-cart-variant-container="${item.key}"]`);
+            if (container) {
+              const optionsHtml = pData.variants
+                .map((v) => `<option value="${v.id}" ${v.id === item.variant_id ? 'selected' : ''}>${v.title}</option>`)
+                .join('');
+              container.innerHTML = `<select class="kb-cart-item__variant-select" data-cart-item-variant-select data-line-key="${item.key}" data-current-qty="${item.quantity}">${optionsHtml}</select>`;
+            }
+          })
+          .catch(() => {});
+      });
+    }
   };
+
+  // Swapping cart item variant via dropdown
+  document.addEventListener('change', async (e) => {
+    const select = e.target.closest('[data-cart-item-variant-select]');
+    if (!select) return;
+
+    const newVariantId = select.value;
+    const oldKey = select.dataset.lineKey;
+    const qty = parseInt(select.dataset.currentQty, 10) || 1;
+
+    if (!newVariantId || !oldKey) return;
+
+    select.disabled = true;
+    select.style.opacity = '0.5';
+
+    try {
+      // 1. Set old line item quantity to 0
+      await fetch(`${rootUrl}cart/change.js`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ id: oldKey, quantity: 0 })
+      });
+
+      // 2. Add new variant with same quantity
+      await fetch(`${rootUrl}cart/add.js`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ id: newVariantId, quantity: qty })
+      });
+
+      // 3. Re-fetch cart & update drawer
+      const cartRes = await fetch(`${rootUrl}cart.js`);
+      const updatedCart = await cartRes.json();
+      updateDrawer(updatedCart);
+      document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
+    } catch (err) {
+      console.error('Error swapping cart variant:', err);
+      select.disabled = false;
+      select.style.opacity = '1';
+    }
+  });
 
   const getLineDetails = (element) => {
     const lineItem = element.closest('[data-cart-line-item]');

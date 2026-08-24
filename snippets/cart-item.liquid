@@ -43,9 +43,19 @@
         <h3 class="kb-cart-item__title">
           <a href="{{ item.url }}">{{ item.product.title | default: item.title }}</a>
         </h3>
-        {% if variant.title != blank and variant.title != 'Default Title' %}
-          <span class="kb-cart-item__variant-pill">{{ variant.title }}</span>
-        {% endif %}
+        <div class="kb-cart-item__variant-container" data-cart-variant-container="{{ line_key }}">
+          {% if item.product.variants.size > 1 %}
+            <select class="kb-cart-item__variant-select" data-cart-item-variant-select data-line-key="{{ line_key }}" data-current-qty="{{ item.quantity }}">
+              {% for v in item.product.variants %}
+                <option value="{{ v.id }}" {% if v.id == variant.id %}selected{% endif %}>
+                  {{ v.title }}
+                </option>
+              {% endfor %}
+            </select>
+          {% elsif variant.title != blank and variant.title != 'Default Title' %}
+            <span class="kb-cart-item__variant-pill">{{ variant.title }}</span>
+          {% endif %}
+        </div>
       </div>
 
       <div class="kb-cart-item__pricing">
