@@ -469,6 +469,7 @@
 }
 
 .best-sellers__arrow {
+  display: none !important;
   align-items: center;
   background: #ffffff;
   border: 1px solid rgba(35, 66, 31, 0.15);
