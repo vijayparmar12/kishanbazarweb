@@ -104,6 +104,40 @@
               {% endif %}
             </div>
             <p class="product-info__tax-note">MRP (Incl. of all taxes)</p>
+
+            {% comment %} GirOrganic Style Dynamic Earn Coins & Savings Banner {% endcomment %}
+            {% liquid
+              assign variant_rupees = current_variant.price | divided_by: 100
+              assign earn_coins = variant_rupees | times: 3
+              assign savings_rupees = 0
+              if current_variant.compare_at_price > current_variant.price
+                assign savings_rupees = current_variant.compare_at_price | minus: current_variant.price | divided_by: 100
+              endif
+            %}
+
+            <div class="product-info__coins-banner" data-product-coins-banner data-variant-price="{{ current_variant.price }}" data-variant-compare="{{ current_variant.compare_at_price }}">
+              <div class="product-info__coins-icon-wrap">
+                <svg width="34" height="34" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="24" cy="24" r="20" fill="url(#coin_grad_1)" stroke="#F59E0B" stroke-width="2"/>
+                  <ellipse cx="24" cy="22" rx="14" ry="14" fill="#FBBF24"/>
+                  <path d="M24 12V32M18 16H27C28.6569 16 30 17.3431 30 19C30 20.6569 28.6569 22 27 22H21C19.3431 22 18 23.3431 18 25C18 26.6569 19.3431 28 21 28H30" stroke="#B45309" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                  <defs>
+                    <linearGradient id="coin_grad_1" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#FCD34D"/>
+                      <stop offset="1" stop-color="#D97706"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div class="product-info__coins-text">
+                <span data-product-coins-text>Earn <strong>{{ earn_coins }}</strong> Coins on this product</span>
+                {% if savings_rupees > 0 %}
+                  <span class="product-info__coins-savings-badge" data-product-coins-savings>(Save ₹{{ savings_rupees }})</span>
+                {% else %}
+                  <span class="product-info__coins-savings-badge" data-product-coins-savings style="display: none;"></span>
+                {% endif %}
+              </div>
+            </div>
           </div>
 
         {% when 'stock_status' %}

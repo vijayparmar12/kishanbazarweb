@@ -758,6 +758,60 @@
   letter-spacing: 0.01em !important;
 }
 
+/* GirOrganic Style Dynamic Earn Coins & Savings Banner */
+.product-info__coins-banner {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.85rem !important;
+  background: linear-gradient(90deg, #1b4317 0%, #2e5b29 55%, #3d6e37 100%) !important;
+  border-radius: 12px !important;
+  padding: 0.65rem 1.1rem !important;
+  margin-top: 0.85rem !important;
+  margin-bottom: 0.85rem !important;
+  box-shadow: 0 4px 16px rgba(27, 67, 23, 0.22) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.product-info__coins-icon-wrap {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.product-info__coins-text {
+  color: #ffffff !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 0.45rem !important;
+  letter-spacing: 0.01em !important;
+}
+
+.product-info__coins-text strong {
+  font-weight: 900 !important;
+  font-size: 1.05rem !important;
+  color: #fef08a !important; /* Golden glow */
+  letter-spacing: 0.02em !important;
+}
+
+.product-info__coins-savings-badge {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  padding: 0.15rem 0.5rem !important;
+  border-radius: 6px !important;
+  backdrop-filter: blur(4px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+
 /* Availability Indicator */
 .product-info__availability {
   align-items: center;

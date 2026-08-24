@@ -324,6 +324,28 @@ function initVariantSelection(container) {
         }
       }
 
+      // Update Dynamic Coins & Savings Box
+      const coinsText = container.querySelector('[data-product-coins-text]');
+      const coinsSavings = container.querySelector('[data-product-coins-savings]');
+      if (price) {
+        const numericPrice = parseInt(price.replace(/[^0-9]/g, ''), 10) || 0;
+        const numericCompare = compare ? parseInt(compare.replace(/[^0-9]/g, ''), 10) : 0;
+        const coins = Math.round(numericPrice * 3);
+        const savings = numericCompare > numericPrice ? (numericCompare - numericPrice) : 0;
+
+        if (coinsText) {
+          coinsText.innerHTML = `Earn <strong>${coins}</strong> Coins on this product`;
+        }
+        if (coinsSavings) {
+          if (savings > 0) {
+            coinsSavings.textContent = `(Save ₹${savings.toLocaleString('en-IN')})`;
+            coinsSavings.style.display = 'inline-block';
+          } else {
+            coinsSavings.style.display = 'none';
+          }
+        }
+      }
+
       // Update SKU
       if (skuDisplay && sku) {
         skuDisplay.textContent = sku;
