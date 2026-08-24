@@ -164,7 +164,15 @@
     const add = card.querySelector('[data-card-add-btn]');
 
     if (price && option?.dataset.price) price.textContent = option.dataset.price;
-    if (compare) compare.textContent = option?.dataset.compare || '';
+    if (compare) {
+      const compVal = option?.dataset.compare;
+      if (compVal && compVal.trim() !== '' && compVal !== option.dataset.price) {
+        compare.textContent = compVal;
+        compare.style.display = 'block';
+      } else {
+        compare.style.display = 'none';
+      }
+    }
     if (add) {
       const disabled = option?.disabled;
       add.disabled = disabled;

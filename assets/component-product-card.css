@@ -264,26 +264,28 @@
 }
 
 .product-card__price {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-  white-space: nowrap;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  text-align: right !important;
+  white-space: nowrap !important;
 }
 
 .product-card__price-compare {
-  color: #94a3b8;
-  font-size: 0.88rem;
-  text-decoration: line-through;
-  font-weight: 500;
-  line-height: 1.2;
+  color: #94a3b8 !important;
+  font-size: 0.85rem !important;
+  text-decoration: line-through !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+  order: 1 !important;
 }
 
 .product-card__price-current {
-  color: #132d14;
-  font-weight: 900;
-  font-size: 1.15rem;
-  line-height: 1.2;
+  color: #132d14 !important;
+  font-weight: 900 !important;
+  font-size: 1.12rem !important;
+  line-height: 1.2 !important;
+  order: 2 !important;
 }
 
 /* Variant Dropdown Select - Matching Two Brothers India Shop UI */

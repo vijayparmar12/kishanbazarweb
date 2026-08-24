@@ -268,11 +268,11 @@
                 >
                   {% for card_variant in product.variants %}
                     {% assign v_compare = card_variant.compare_at_price %}
-                    {% if v_compare == blank or v_compare <= card_variant.price %}
-                      {% assign v_compare = card_variant.price | times: 110 | divided_by: 100 %}
-                      {% if v_compare == card_variant.price %}
-                        {% assign v_compare = card_variant.price | plus: 2000 %}
-                      {% endif %}
+                    {% if v_compare != blank and v_compare > card_variant.price %}
+                      {% assign v_has_comp = true %}
+                    {% else %}
+                      {% assign v_has_comp = false %}
+                      {% assign v_compare = 0 %}
                     {% endif %}
                     {% assign opt_v_badge = card_variant.metafields.custom.badge_varient.value | default: card_variant.metafields.custom.badge_varient | default: card_variant.metafields.custom.badge_variant.value | default: card_variant.metafields.custom.badge_variant | default: card_variant.metafields.custom.variant_badge.value | default: card_variant.metafields.custom.variant_badge | default: card_variant.metafields.custom.badge.value | default: card_variant.metafields.custom.badge %}
                     {% if opt_v_badge == blank %}
@@ -281,7 +281,7 @@
                     <option
                       value="{{ card_variant.id }}"
                       data-price="₹{{ card_variant.price | money_without_currency }}"
-                      data-compare="₹{{ v_compare | money_without_currency }}"
+                      data-compare="{% if v_has_comp %}₹{{ v_compare | money_without_currency }}{% endif %}"
                       data-badge="{{ opt_v_badge | escape }}"
                       {% if card_variant == variant %}selected{% endif %}
                       {% if card_variant.available == false %}disabled{% endif %}
