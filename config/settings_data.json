@@ -9,6 +9,7 @@
  */
 {
   "current": {
+    "type_primary_font": "montserrat_n7",
     "max_page_width": "110rem",
     "sections": {
       "customer-login-modal": {
