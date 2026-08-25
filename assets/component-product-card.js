@@ -184,7 +184,8 @@
         compare.style.display = 'none';
       }
     }
-    const isAvailable = (option?.dataset.available === 'true' || (option && !option.disabled && option.dataset.available !== 'false'));
+    const optText = (option?.textContent || '').toLowerCase();
+    const isAvailable = option && !option.disabled && option.dataset.available !== 'false' && !optText.includes('sold out') && !optText.includes('out of stock');
     const form = card.querySelector('[data-product-card-form]');
     const addBtn = card.querySelector('[data-card-add-btn]');
     const stepper = card.querySelector('[data-card-inline-stepper]');

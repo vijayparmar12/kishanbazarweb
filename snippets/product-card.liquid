@@ -284,6 +284,10 @@
                       {% assign v_has_comp = false %}
                       {% assign v_compare = 0 %}
                     {% endif %}
+                    {% assign v_avail = card_variant.available %}
+                    {% if card_variant.inventory_management != blank and card_variant.inventory_policy == 'deny' and card_variant.inventory_quantity <= 0 %}
+                      {% assign v_avail = false %}
+                    {% endif %}
                     {% assign opt_v_badge = card_variant.metafields.custom.badge_varient.value | default: card_variant.metafields.custom.badge_varient | default: card_variant.metafields.custom.badge_variant.value | default: card_variant.metafields.custom.badge_variant | default: card_variant.metafields.custom.variant_badge.value | default: card_variant.metafields.custom.variant_badge | default: card_variant.metafields.custom.badge.value | default: card_variant.metafields.custom.badge %}
                     {% if opt_v_badge == blank %}
                       {% assign opt_v_badge = badge_label %}
@@ -293,10 +297,12 @@
                       data-price="₹{{ card_variant.price | money_without_currency }}"
                       data-compare="{% if v_has_comp %}₹{{ v_compare | money_without_currency }}{% endif %}"
                       data-badge="{{ opt_v_badge | escape }}"
+                      data-available="{{ v_avail }}"
+                      data-inventory="{{ card_variant.inventory_quantity }}"
                       {% if card_variant == variant %}selected{% endif %}
-                      {% if card_variant.available == false %}disabled{% endif %}
+                      {% if v_avail == false %}disabled{% endif %}
                     >
-                      {{ card_variant.title }}{% if card_variant.available == false %} (Sold out){% endif %}
+                      {{ card_variant.title }}{% if v_avail == false %} (Sold out){% endif %}
                     </option>
                   {% endfor %}
                 </select>
@@ -307,10 +313,14 @@
 
             <!-- In-Place Morphing Button Container -->
             <div class="product-card__btn-container" data-card-btn-container>
+              {% assign default_v_avail = variant.available %}
+              {% if variant.inventory_management != blank and variant.inventory_policy == 'deny' and variant.inventory_quantity <= 0 %}
+                {% assign default_v_avail = false %}
+              {% endif %}
               <!-- Standard ADD TO CART Button -->
-              <button class="product-card__add" type="submit"{% if product.available == false %} disabled{% endif %} data-card-add-btn style="{% if btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if btn_color != blank %}color: {{ btn_color }};{% endif %}">
+              <button class="product-card__add" type="submit"{% if default_v_avail == false %} disabled{% endif %} data-card-add-btn style="{% if btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if btn_color != blank %}color: {{ btn_color }};{% endif %}">
                 <span>
-                  {% if product.available %}
+                  {% if default_v_avail %}
                     {{ add_to_cart_text | default: "ADD TO CART" }}
                   {% else %}
                     SOLD OUT
