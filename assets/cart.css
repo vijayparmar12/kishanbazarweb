@@ -1772,6 +1772,9 @@ body.kb-cart-drawer-open {
 /* Add-ons Tabbed Carousel */
 .kb-cart-drawer__addons-block {
   padding: 0.85rem 1rem;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
 }
 
 .kb-cart-addons-tabs {
@@ -1804,11 +1807,13 @@ body.kb-cart-drawer-open {
   flex-direction: row !important;
   flex-wrap: nowrap !important;
   gap: 0.75rem !important;
-  overflow-x: scroll !important;
+  overflow-x: auto !important;
   overflow-y: hidden !important;
-  touch-action: pan-x !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  touch-action: pan-x pan-y !important;
   overscroll-behavior-x: contain !important;
-  padding-bottom: 8px !important;
+  padding-bottom: 10px !important;
   -webkit-overflow-scrolling: touch !important;
   scrollbar-width: thin !important;
   scrollbar-color: #166534 #f1f5f9 !important;
@@ -1831,9 +1836,10 @@ body.kb-cart-drawer-open {
 
 .kb-cart-addon-card {
   flex: 0 0 175px !important;
+  flex-shrink: 0 !important;
+  width: 175px !important;
   min-width: 175px !important;
   max-width: 175px !important;
-  flex-shrink: 0 !important;
   scroll-snap-align: start !important;
   background: #ffffff !important;
   border: 1px solid #e2e8f0 !important;

@@ -994,31 +994,36 @@
 
   const initTrackDragScroll = () => {
     document.querySelectorAll('.kb-cart-addons-track').forEach((track) => {
-      if (track.dataset.dragScrollInitialized === 'true') return;
-      track.dataset.dragScrollInitialized = 'true';
-
       let isDown = false;
-      let startX;
-      let scrollLeft;
+      let startX = 0;
+      let scrollLeft = 0;
 
-      track.addEventListener('mousedown', (e) => {
+      track.style.cursor = 'grab';
+
+      track.onmousedown = (e) => {
         isDown = true;
         startX = e.pageX - track.offsetLeft;
         scrollLeft = track.scrollLeft;
-      });
-      track.addEventListener('mouseleave', () => {
+        track.style.cursor = 'grabbing';
+      };
+
+      track.onmouseleave = () => {
         isDown = false;
-      });
-      track.addEventListener('mouseup', () => {
+        track.style.cursor = 'grab';
+      };
+
+      track.onmouseup = () => {
         isDown = false;
-      });
-      track.addEventListener('mousemove', (e) => {
+        track.style.cursor = 'grab';
+      };
+
+      track.onmousemove = (e) => {
         if (!isDown) return;
         e.preventDefault();
         const x = e.pageX - track.offsetLeft;
-        const walk = (x - startX) * 2;
+        const walk = (x - startX) * 1.8;
         track.scrollLeft = scrollLeft - walk;
-      });
+      };
     });
   };
 
