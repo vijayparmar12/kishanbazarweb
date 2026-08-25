@@ -146,19 +146,6 @@
             "icon_image": "shopify://shop_images/shop_by_category_icon_1.svg"
           }
         },
-        "mobile_nav_item_k9RhyN": {
-          "type": "mobile_nav_item",
-          "settings": {
-            "title": "THE VEDIC WAY",
-            "url": "",
-            "badge": "",
-            "badge_background": "#e53935",
-            "badge_color": "#ffffff",
-            "mega_menu": "custom",
-            "icon": "",
-            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_20_2026_12_45_02_PM.png"
-          }
-        },
         "mobile_nav_item_zP48rj": {
           "type": "mobile_nav_item",
           "settings": {
@@ -183,6 +170,19 @@
             "mega_menu": "none",
             "icon": "",
             "icon_image": "shopify://shop_images/lab_report_icon_b0b62f70-177f-4e7f-9e3c-f6d8a07597ba.svg"
+          }
+        },
+        "mobile_nav_item_k9RhyN": {
+          "type": "mobile_nav_item",
+          "settings": {
+            "title": "THE VEDIC WAY",
+            "url": "",
+            "badge": "",
+            "badge_background": "#e53935",
+            "badge_color": "#ffffff",
+            "mega_menu": "custom",
+            "icon": "",
+            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_20_2026_12_45_02_PM.png"
           }
         },
         "mobile_nav_item_H8TFFh": {
@@ -261,9 +261,9 @@
         "feature_icon_JhK4rd",
         "mobile_nav_item_g3bfBd",
         "mobile_nav_item_rCkftz",
-        "mobile_nav_item_k9RhyN",
         "mobile_nav_item_zP48rj",
         "mobile_nav_item_zP7qcP",
+        "mobile_nav_item_k9RhyN",
         "mobile_nav_item_H8TFFh",
         "desktop_nav_item_Yg7mAb",
         "desktop_nav_item_FPeGPX",
@@ -302,7 +302,6 @@
         "farm_title": "THE VEDIC WAY",
         "customers_title": "Customers",
         "enable_category_mega": true,
-        "category_wave_image": "shopify://shop_images/shop_by_category_bg.png",
         "enable_concern_mega": true,
         "enable_farm_mega": true,
         "enable_customers_mega": true,
