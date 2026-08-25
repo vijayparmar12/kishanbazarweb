@@ -174,8 +174,21 @@
                   {% render 'mega-menu', section: section, menu_type: mega_type %}
                 </li>
               {% else %}
+                {% liquid
+                  assign nav_url = block.settings.url
+                  assign title_down = block.settings.title | downcase | strip
+                  if nav_url == blank
+                    if title_down == 'home' or title_down contains 'home'
+                      assign nav_url = routes.root_url
+                    else
+                      assign nav_url = routes.all_products_collection_url
+                    endif
+                  elsif nav_url == '/' or title_down == 'home'
+                    assign nav_url = routes.root_url
+                  endif
+                %}
                 <li class="kb-header__nav-item" {{ block.shopify_attributes }}>
-                  <a class="kb-header__nav-link{% if block.settings.icon_image != blank or block.settings.icon != blank %} kb-header__nav-link--icon{% endif %}" href="{{ block.settings.url | default: routes.all_products_collection_url }}">
+                  <a class="kb-header__nav-link{% if block.settings.icon_image != blank or block.settings.icon != blank %} kb-header__nav-link--icon{% endif %}" href="{{ nav_url }}">
                     {% if block.settings.icon_image != blank %}
                       {{ block.settings.icon_image | image_url: width: 48 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
                     {% elsif block.settings.icon != blank %}
@@ -332,8 +345,15 @@
                 </details>
               </li>
             {% else %}
+              {% liquid
+                assign mob_link_url = link.url
+                assign m_title_down = link.title | downcase | strip
+                if mob_link_url == blank or mob_link_url == '#' or m_title_down == 'home'
+                  assign mob_link_url = routes.root_url
+                endif
+              %}
               <li class="kb-header__mobile-item">
-                <a class="kb-header__mobile-link" href="{{ link.url }}">
+                <a class="kb-header__mobile-link" href="{{ mob_link_url }}">
                   <span class="kb-header__mobile-link-left">
                     {% if link_icon_image != blank %}
                       {{ link_icon_image | image_url: width: 64 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
@@ -358,8 +378,21 @@
                   {% render 'mega-menu', section: section, menu_type: mega_type, mobile: true, custom_title: block.settings.title, custom_icon_image: block.settings.icon_image, custom_icon: block.settings.icon, custom_badge: block.settings.badge %}
                 </li>
               {% else %}
+                {% liquid
+                  assign mob_url = block.settings.url
+                  assign mob_title_down = block.settings.title | downcase | strip
+                  if mob_url == blank
+                    if mob_title_down == 'home' or mob_title_down contains 'home'
+                      assign mob_url = routes.root_url
+                    else
+                      assign mob_url = routes.all_products_collection_url
+                    endif
+                  elsif mob_url == '/' or mob_title_down == 'home'
+                    assign mob_url = routes.root_url
+                  endif
+                %}
                 <li class="kb-header__mobile-item" {{ block.shopify_attributes }}>
-                  <a class="kb-header__mobile-link" href="{{ block.settings.url | default: routes.all_products_collection_url }}">
+                  <a class="kb-header__mobile-link" href="{{ mob_url }}">
                     <span class="kb-header__mobile-link-left">
                       {% if block.settings.icon_image != blank %}
                         {{ block.settings.icon_image | image_url: width: 64 | image_tag: class: 'kb-nav-icon-img', loading: 'lazy' }}
