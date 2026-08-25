@@ -350,9 +350,10 @@ function initVariantSelection(container) {
         skuDisplay.textContent = sku;
       }
 
-      // Update Availability & Buttons
-      const stickyBtn = container.querySelector('[data-sticky-add-to-cart]');
+      // Update Availability & Buttons for Main Form and Mobile Sticky Bar
+      const stickyBtn = container.querySelector('[data-sticky-add-to-cart-btn], [data-sticky-add-to-cart]');
       const stickyBtnText = container.querySelector('[data-sticky-btn-text]');
+      const stickyStepper = container.querySelector('[data-sticky-stepper], .sticky-mobile-bar__quantity-stepper');
       const stepper = container.querySelector('[data-card-inline-stepper]');
 
       if (available) {
@@ -369,8 +370,16 @@ function initVariantSelection(container) {
           addToCartBtn.style.setProperty('cursor', 'pointer', 'important');
         }
         if (addToCartText) addToCartText.textContent = 'ADD TO CART';
-        if (stickyBtn) stickyBtn.removeAttribute('disabled');
+
+        if (stickyBtn) {
+          stickyBtn.removeAttribute('disabled');
+          stickyBtn.disabled = false;
+          stickyBtn.textContent = 'ADD TO CART';
+          stickyBtn.style.setProperty('opacity', '1', 'important');
+          stickyBtn.style.setProperty('cursor', 'pointer', 'important');
+        }
         if (stickyBtnText) stickyBtnText.textContent = 'ADD TO CART';
+        if (stickyStepper) stickyStepper.style.setProperty('display', 'flex', 'important');
       } else {
         if (availabilityStatus) {
           availabilityStatus.innerHTML = `
@@ -387,8 +396,16 @@ function initVariantSelection(container) {
         }
         if (stepper) stepper.style.setProperty('display', 'none', 'important');
         if (addToCartText) addToCartText.textContent = 'SOLD OUT';
-        if (stickyBtn) stickyBtn.setAttribute('disabled', 'disabled');
+
+        if (stickyBtn) {
+          stickyBtn.setAttribute('disabled', 'disabled');
+          stickyBtn.disabled = true;
+          stickyBtn.textContent = 'SOLD OUT';
+          stickyBtn.style.setProperty('opacity', '0.65', 'important');
+          stickyBtn.style.setProperty('cursor', 'not-allowed', 'important');
+        }
         if (stickyBtnText) stickyBtnText.textContent = 'SOLD OUT';
+        if (stickyStepper) stickyStepper.style.setProperty('display', 'none', 'important');
       }
 
       // Update Sticky Bar

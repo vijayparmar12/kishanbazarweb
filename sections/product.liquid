@@ -140,14 +140,21 @@
 
 
 
+  {% assign current_v_avail = product.selected_or_first_available_variant.available %}
+  {% if product.selected_or_first_available_variant.inventory_management != blank and product.selected_or_first_available_variant.inventory_policy == 'deny' and product.selected_or_first_available_variant.inventory_quantity <= 0 %}
+    {% assign current_v_avail = false %}
+  {% elsif product.selected_or_first_available_variant.inventory_quantity != blank and product.selected_or_first_available_variant.inventory_quantity <= 0 and product.selected_or_first_available_variant.inventory_policy != 'continue' %}
+    {% assign current_v_avail = false %}
+  {% endif %}
+
   <!-- Sticky Bottom Buy Bar on Mobile (Two Brothers Style: Add To Cart + Quantity Stepper) -->
   <div class="sticky-mobile-bar" data-sticky-mobile-bar aria-hidden="false">
     <div class="sticky-mobile-bar__content">
-      <button type="button" class="sticky-mobile-bar__btn" data-sticky-add-to-cart-btn>
-        ADD TO CART
+      <button type="button" class="sticky-mobile-bar__btn" data-sticky-add-to-cart-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
+        {% if current_v_avail %}{{ section.settings.sticky_bar_btn_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}
       </button>
 
-      <div class="sticky-mobile-bar__quantity-stepper">
+      <div class="sticky-mobile-bar__quantity-stepper" data-sticky-stepper {% unless current_v_avail %}style="display: none !important;"{% endunless %}>
         <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-minus aria-label="Decrease quantity">-</button>
         <span class="sticky-mobile-bar__qval" data-sticky-quantity-val>1</span>
         <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-plus aria-label="Increase quantity">+</button>
