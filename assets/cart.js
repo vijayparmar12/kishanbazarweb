@@ -905,36 +905,9 @@
   });
 
   const showCartToast = (cart) => {
-    let toast = document.querySelector('[data-kb-cart-toast]');
-    if (!toast) {
-      toast = document.createElement('div');
-      toast.dataset.kbCartToast = 'true';
-      document.body.appendChild(toast);
-    }
-
-    toast.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 0.5rem; min-width: 0;">
-        <span style="font-size: 1.1rem; flex-shrink: 0;">🌿</span>
-        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${cart.item_count} ${cart.item_count === 1 ? 'item' : 'items'} added</span>
-      </div>
-      <button type="button" data-toast-open-cart style="background: #ffffff; color: #1b4317; border: none; padding: 0.45rem 0.95rem; border-radius: 10px; font-weight: 900; font-size: 0.84rem; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.12); flex-shrink: 0;">View Cart &rarr;</button>
-    `;
-
-    const openBtn = toast.querySelector('[data-toast-open-cart]');
-    if (openBtn) {
-      openBtn.addEventListener('click', () => {
-        openDrawer();
-        toast.remove();
-      });
-    }
-
-    setTimeout(() => {
-      if (toast && toast.parentNode) {
-        toast.style.opacity = '0';
-        toast.style.transition = 'opacity 300ms ease';
-        setTimeout(() => toast.remove(), 300);
-      }
-    }, 4000);
+    // Disabled as requested ("remove complete view cart mesg")
+    const existing = document.querySelector('[data-kb-cart-toast]');
+    if (existing) existing.remove();
   };
 
   window.showCartToast = showCartToast;
