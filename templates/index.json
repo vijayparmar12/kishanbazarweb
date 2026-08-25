@@ -299,8 +299,8 @@
           "settings": {
             "title": "All Products",
             "collection": "{{ section.settings.collection }}",
-            "icon_image": "shopify://shop_images/all-products-category-icon_1.svg",
-            "active_icon_image": "shopify://shop_images/all-products-category-icon-filled_1.svg",
+            "icon_image": "shopify://shop_images/download_9.svg",
+            "active_icon_image": "shopify://shop_images/download_8.svg",
             "icon_type": "ghee"
           }
         },
@@ -309,8 +309,8 @@
           "settings": {
             "title": "Atta",
             "collection": "frontpage",
-            "icon_image": "shopify://shop_images/gemini-svg_7.svg",
-            "active_icon_image": "shopify://shop_images/gemini-svg_8.svg",
+            "icon_image": "shopify://shop_images/spice_sack_black_outline.svg",
+            "active_icon_image": "shopify://shop_images/download_4.svg",
             "icon_type": "ghee"
           }
         },
@@ -329,8 +329,8 @@
           "settings": {
             "title": "Ghee",
             "collection": "ghee",
-            "icon_image": "shopify://shop_images/gemini-svg_5.svg",
-            "active_icon_image": "shopify://shop_images/gemini-svg_6.svg",
+            "icon_image": "shopify://shop_images/minimalist-outline-icon-design-featuring-ghee-pot-representing-traditional-ayurveda-food-simple-clean-aesthetic-420107313_1.svg",
+            "active_icon_image": "shopify://shop_images/download_1.svg",
             "icon_type": "ghee"
           }
         },
