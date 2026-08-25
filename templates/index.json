@@ -353,6 +353,16 @@
             "active_icon_image": "shopify://shop_images/download_3.svg",
             "icon_type": "oil"
           }
+        },
+        "category_tab_DrrCFB": {
+          "type": "category_tab",
+          "settings": {
+            "title": "Sweetner",
+            "collection": "sweetner",
+            "icon_image": "shopify://shop_images/download_2.svg",
+            "active_icon_image": "shopify://shop_images/download_3.svg",
+            "icon_type": "oil"
+          }
         }
       },
       "block_order": [
@@ -367,7 +377,8 @@
         "category_tab_fDtRir",
         "category_tab_jB3mG8",
         "category_tab_hJeYRM",
-        "category_tab_6jgDce"
+        "category_tab_6jgDce",
+        "category_tab_DrrCFB"
       ],
       "name": "shop By category",
       "settings": {
