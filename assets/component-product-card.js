@@ -30,7 +30,37 @@
         const countSpan = form.querySelector('[data-inline-count]');
         const container = form.querySelector('[data-card-btn-container]');
 
-        if (qtyInCart > 0 && stepper && addBtn && countSpan) {
+        const select = form.querySelector('[data-product-card-variant-select]');
+        const selectedOption = select ? select.selectedOptions[0] : null;
+
+        let isAvail = true;
+        if (select && selectedOption) {
+          const optText = (selectedOption.textContent || '').toLowerCase();
+          isAvail = !selectedOption.disabled && selectedOption.dataset.available !== 'false' && !optText.includes('sold out') && !optText.includes('out of stock');
+        } else {
+          const isBtnDisabled = addBtn ? (addBtn.hasAttribute('disabled') || addBtn.disabled) : false;
+          const isDataUnavailable = form.dataset.available === 'false';
+          const labelText = (addBtn?.textContent || '').toLowerCase();
+          if (isDataUnavailable || isBtnDisabled || labelText.includes('sold out') || labelText.includes('out of stock')) {
+            isAvail = false;
+          }
+        }
+
+        if (!isAvail) {
+          form.classList.remove('is-in-cart');
+          if (container) container.classList.remove('is-in-cart');
+          if (stepper) stepper.style.setProperty('display', 'none', 'important');
+          if (addBtn) {
+            addBtn.style.setProperty('display', 'flex', 'important');
+            addBtn.disabled = true;
+            addBtn.setAttribute('disabled', 'disabled');
+            addBtn.style.setProperty('opacity', '0.65', 'important');
+            addBtn.style.setProperty('cursor', 'not-allowed', 'important');
+            const labelSpan = addBtn.querySelector('span');
+            if (labelSpan) labelSpan.textContent = 'SOLD OUT';
+            else addBtn.textContent = 'SOLD OUT';
+          }
+        } else if (qtyInCart > 0 && stepper && addBtn && countSpan) {
           form.classList.add('is-in-cart');
           if (container) container.classList.add('is-in-cart');
           addBtn.style.setProperty('display', 'none', 'important');
@@ -41,24 +71,12 @@
           if (container) container.classList.remove('is-in-cart');
           stepper.style.setProperty('display', 'none', 'important');
           addBtn.style.setProperty('display', 'flex', 'important');
-
-          const select = form.querySelector('[data-product-card-variant-select]');
-          const selectedOption = select ? select.selectedOptions[0] : null;
-          const optText = (selectedOption?.textContent || '').toLowerCase();
-          const isAvail = selectedOption
-            ? (!selectedOption.disabled && selectedOption.dataset.available !== 'false' && !optText.includes('sold out') && !optText.includes('out of stock'))
-            : true;
-
-          if (!isAvail) {
-            addBtn.disabled = true;
-            const labelSpan = addBtn.querySelector('span');
-            if (labelSpan) labelSpan.textContent = 'SOLD OUT';
-            else addBtn.textContent = 'SOLD OUT';
-          } else {
-            addBtn.disabled = false;
-            const labelSpan = addBtn.querySelector('span');
-            if (labelSpan) labelSpan.textContent = 'ADD TO CART';
-          }
+          addBtn.disabled = false;
+          addBtn.removeAttribute('disabled');
+          addBtn.style.setProperty('opacity', '1', 'important');
+          addBtn.style.setProperty('cursor', 'pointer', 'important');
+          const labelSpan = addBtn.querySelector('span');
+          if (labelSpan) labelSpan.textContent = 'ADD TO CART';
         }
       });
     } catch (e) {
