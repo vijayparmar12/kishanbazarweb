@@ -339,7 +339,13 @@
         {% endif %}
 
         {% for product in best_selling_products limit: section.settings.maximum %}
-          <div class="best-sellers__slide">
+          {% capture prod_cat_str %}
+            {{ product.title | downcase }}
+            {{ product.type | downcase }}
+            {% for tag in product.tags %}{{ tag | downcase }} {% endfor %}
+            {% for col in product.collections %}{{ col.title | downcase }} {{ col.handle | downcase }} {% endfor %}
+          {% endcapture %}
+          <div class="best-sellers__slide" data-best-sellers-slide data-product-categories="{{ prod_cat_str | escape }}">
             {% render 'product-card',
               product: product,
               card_blocks: section.blocks,

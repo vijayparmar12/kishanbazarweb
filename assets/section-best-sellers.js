@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = section.querySelector('[data-best-sellers-prev]');
     const nextBtn = section.querySelector('[data-best-sellers-next]');
     const tabs = section.querySelectorAll('[data-best-sellers-tab]');
-    const cards = section.querySelectorAll('[data-product-card]');
+    const slides = section.querySelectorAll('[data-best-sellers-slide], .best-sellers__slide');
 
     if (prevBtn && nextBtn && track) {
       prevBtn.addEventListener('click', () => {
@@ -15,26 +15,36 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    if (tabs.length > 0 && cards.length > 0) {
+    if (tabs.length > 0 && slides.length > 0) {
       tabs.forEach((tab) => {
         tab.addEventListener('click', () => {
           tabs.forEach((t) => t.classList.remove('is-active'));
           tab.classList.add('is-active');
 
-          const category = tab.dataset.categoryFilter ? tab.dataset.categoryFilter.toLowerCase() : 'all';
+          const category = tab.dataset.categoryFilter ? tab.dataset.categoryFilter.toLowerCase().trim() : 'all';
 
-          cards.forEach((card) => {
-            const handle = card.dataset.productHandle ? card.dataset.productHandle.toLowerCase() : '';
-            const text = card.textContent.toLowerCase();
+          slides.forEach((slide) => {
+            const categories = slide.dataset.productCategories ? slide.dataset.productCategories.toLowerCase() : slide.textContent.toLowerCase();
 
-            if (category === 'all' || category === 'newly launched') {
-              card.style.display = 'flex';
-            } else if (text.includes(category) || handle.includes(category)) {
-              card.style.display = 'flex';
+            if (category === 'all' || category === 'all products' || category === 'newly launched') {
+              slide.style.display = 'block';
             } else {
-              card.style.display = 'none';
+              let keyword = category;
+              if (keyword.endsWith('s') && keyword.length > 3 && !keyword.endsWith('ss')) {
+                keyword = keyword.slice(0, -1); // e.g. "oils" -> "oil", "spices" -> "spice"
+              }
+
+              if (categories.includes(category) || (keyword && categories.includes(keyword))) {
+                slide.style.display = 'block';
+              } else {
+                slide.style.display = 'none';
+              }
             }
           });
+
+          if (track) {
+            track.scrollTo({ left: 0, behavior: 'smooth' });
+          }
         });
       });
     }
