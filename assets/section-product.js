@@ -351,22 +351,31 @@ function initVariantSelection(container) {
       }
 
       // Update Availability & Buttons
-      if (availabilityStatus) {
-        if (available) {
+      const stickyBtn = container.querySelector('[data-sticky-add-to-cart]');
+      const stickyBtnText = container.querySelector('[data-sticky-btn-text]');
+
+      if (available) {
+        if (availabilityStatus) {
           availabilityStatus.innerHTML = `
             <span class="product-info__stock-dot is-in-stock"></span>
             <span class="product-info__stock-text">In Stock &bull; Ready to Dispatch in 24 Hours</span>
           `;
-          if (addToCartBtn) addToCartBtn.removeAttribute('disabled');
-          if (addToCartText) addToCartText.textContent = 'ADD TO CART';
-        } else {
+        }
+        if (addToCartBtn) addToCartBtn.removeAttribute('disabled');
+        if (addToCartText) addToCartText.textContent = 'ADD TO CART';
+        if (stickyBtn) stickyBtn.removeAttribute('disabled');
+        if (stickyBtnText) stickyBtnText.textContent = 'ADD TO CART';
+      } else {
+        if (availabilityStatus) {
           availabilityStatus.innerHTML = `
             <span class="product-info__stock-dot is-out-of-stock"></span>
             <span class="product-info__stock-text">Temporarily Sold Out</span>
           `;
-          if (addToCartBtn) addToCartBtn.setAttribute('disabled', 'disabled');
-          if (addToCartText) addToCartText.textContent = 'SOLD OUT';
         }
+        if (addToCartBtn) addToCartBtn.setAttribute('disabled', 'disabled');
+        if (addToCartText) addToCartText.textContent = 'SOLD OUT';
+        if (stickyBtn) stickyBtn.setAttribute('disabled', 'disabled');
+        if (stickyBtnText) stickyBtnText.textContent = 'SOLD OUT';
       }
 
       // Update Sticky Bar

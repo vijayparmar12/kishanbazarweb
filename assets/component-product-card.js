@@ -184,11 +184,30 @@
         compare.style.display = 'none';
       }
     }
-    if (add) {
-      const disabled = option?.disabled;
-      add.disabled = disabled;
-      const labelSpan = add.querySelector('span');
-      if (labelSpan) labelSpan.textContent = disabled ? 'SOLD OUT' : 'ADD TO CART';
+    const isAvailable = (option?.dataset.available === 'true' || (option && !option.disabled && option.dataset.available !== 'false'));
+    const form = card.querySelector('[data-product-card-form]');
+    const addBtn = card.querySelector('[data-card-add-btn]');
+    const stepper = card.querySelector('[data-card-inline-stepper]');
+    const container = card.querySelector('[data-card-btn-container]');
+
+    if (!isAvailable) {
+      if (form) form.classList.remove('is-in-cart');
+      if (container) container.classList.remove('is-in-cart');
+      if (stepper) stepper.style.setProperty('display', 'none', 'important');
+      if (addBtn) {
+        addBtn.style.setProperty('display', 'flex', 'important');
+        addBtn.disabled = true;
+        const labelSpan = addBtn.querySelector('span');
+        if (labelSpan) labelSpan.textContent = 'SOLD OUT';
+        else addBtn.textContent = 'SOLD OUT';
+      }
+    } else {
+      if (addBtn) {
+        addBtn.disabled = false;
+        const labelSpan = addBtn.querySelector('span');
+        if (labelSpan) labelSpan.textContent = 'ADD TO CART';
+      }
+      syncCartState();
     }
 
     // Dynamic Variant Badge Update
