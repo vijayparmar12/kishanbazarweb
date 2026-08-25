@@ -53,7 +53,7 @@
             {% assign count = count | plus: 1 %}
             {% if count <= 8 %}
               <div class="product-recommendations-slider__slide">
-                {% render 'product-card', product: rec_product, show_badge: true, show_rating: true, show_wishlist: true %}
+                {% render 'product-card', product: rec_product, show_badge: true, show_rating: true, show_wishlist: true, hide_benefit_icons: true %}
               </div>
             {% endif %}
           {% endunless %}

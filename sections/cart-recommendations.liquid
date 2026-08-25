@@ -22,7 +22,7 @@
   <div class="kb-cart-recommendations__track" data-cart-recommendations-track>
     {% if recommendations.performed and recommendations.products_count > 0 %}
       {% for product in recommendations.products %}
-        {% render 'product-card', product: product, show_vendor: true, show_price: true, show_compare_price: true, show_rating: false, show_badge: true, show_wishlist: false, show_quickview: false, show_add_to_cart: true %}
+        {% render 'product-card', product: product, show_vendor: true, show_price: true, show_compare_price: true, show_rating: false, show_badge: true, show_wishlist: false, show_quickview: false, show_add_to_cart: true, hide_benefit_icons: true %}
       {% endfor %}
     {% else %}
       <div class="kb-cart-recommendations__skeleton" aria-hidden="true"></div>

@@ -142,9 +142,11 @@
             </div>
 
           {% when 'card_benefit_icons' %}
-            <div {{ block.shopify_attributes }}>
-              {% render 'product-circle-features', product: product, block: block, limit: 3 %}
-            </div>
+            {% if hide_benefit_icons != true %}
+              <div {{ block.shopify_attributes }}>
+                {% render 'product-circle-features', product: product, block: block, limit: 3 %}
+              </div>
+            {% endif %}
 
           {% when 'card_variant_selector' or 'card_buy_button' %}
             {% if rendered_actions_row != true %}

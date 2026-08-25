@@ -65,7 +65,7 @@
           {% unless rec_item.id == product.id %}
             {% assign count = count | plus: 1 %}
             {% if count <= section.settings.products_limit %}
-              {% render 'product-card', product: rec_item, show_badge: true, show_rating: true, show_wishlist: true, show_quickview: false %}
+              {% render 'product-card', product: rec_item, show_badge: true, show_rating: true, show_wishlist: true, show_quickview: false, hide_benefit_icons: true %}
             {% endif %}
           {% endunless %}
         {% endfor %}

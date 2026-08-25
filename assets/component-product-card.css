@@ -668,6 +668,22 @@
   object-fit: contain;
 }
 
+/* Hide 3 feature icons ONLY in Recommended Products Section */
+.product-recommendations-slider .product-circle-features,
+.product-recommendations-slider .product-card__circle-features,
+.product-recommendations-section .product-circle-features,
+.product-recommendations-section .product-card__circle-features,
+.section-product-recommendations .product-circle-features,
+.section-product-recommendations .product-card__circle-features,
+[data-recommended-products-section] .product-circle-features,
+[data-recommended-products-section] .product-card__circle-features,
+.product-recommendations__grid .product-circle-features,
+.product-recommendations__grid .product-card__circle-features,
+.kb-cart-recommendations .product-circle-features,
+.kb-cart-recommendations .product-card__circle-features {
+  display: none !important;
+}
+
 /* Hide 3 feature icons ONLY on Collection Pages in Mobile View */
 @media (max-width: 48rem) {
   .main-collection .product-circle-features,
