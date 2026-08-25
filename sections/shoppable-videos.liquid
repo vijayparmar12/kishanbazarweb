@@ -117,6 +117,18 @@
       assign slides_rendered = slides_rendered | plus: 1
     endif
   endfor
+
+  if section.settings.enable_product_metafields != false
+    assign meta_col = section.settings.metafield_collection | default: collections['all']
+    if meta_col != blank and meta_col.products_count > 0
+      for product in meta_col.products limit: 50
+        assign meta_video = product.metafields.custom.video.value | default: product.metafields.custom.video | default: product.metafields.custom.video_url.value | default: product.metafields.custom.video_url | default: product.metafields.custom.short_video.value | default: product.metafields.custom.short_video | default: product.metafields.custom.reels.value | default: product.metafields.custom.reels | default: product.metafields.custom.video_file.value | default: product.metafields.custom.video_file
+        if meta_video != blank
+          assign slides_rendered = slides_rendered | plus: 1
+        endif
+      endfor
+    endif
+  endif
 %}
 
 <section
@@ -289,6 +301,37 @@
                 section: section
               %}
             {% endfor %}
+
+            {% if section.settings.enable_product_metafields != false %}
+              {% assign meta_col = section.settings.metafield_collection | default: collections['all'] %}
+              {% if meta_col != blank and meta_col.products_count > 0 %}
+                {% for product in meta_col.products limit: 50 %}
+                  {% assign meta_video = product.metafields.custom.video.value | default: product.metafields.custom.video | default: product.metafields.custom.video_url.value | default: product.metafields.custom.video_url | default: product.metafields.custom.short_video.value | default: product.metafields.custom.short_video | default: product.metafields.custom.reels.value | default: product.metafields.custom.reels | default: product.metafields.custom.video_file.value | default: product.metafields.custom.video_file %}
+                  {% assign meta_poster = product.metafields.custom.video_poster.value | default: product.metafields.custom.video_poster | default: product.metafields.custom.cover_image.value | default: product.metafields.custom.cover_image %}
+
+                  {% if meta_video != blank %}
+                    {% assign meta_video_url = '' %}
+                    {% assign meta_hosted = nil %}
+                    {% if meta_video.sources != blank %}
+                      {% assign meta_hosted = meta_video %}
+                    {% elsif meta_video contains 'http' or meta_video contains '.mp4' %}
+                      {% assign meta_video_url = meta_video %}
+                    {% else %}
+                      {% assign meta_hosted = meta_video %}
+                    {% endif %}
+
+                    {% render 'shoppable-video-card',
+                      card_product: product,
+                      hosted_video: meta_hosted,
+                      mp4_url: meta_video_url,
+                      poster: meta_poster,
+                      video_label: product.title,
+                      section: section
+                    %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            {% endif %}
           </ul>
         </div>
 
@@ -376,6 +419,23 @@
       "id": "subheading",
       "label": "t:sections.shoppable_videos.settings.subheading.label",
       "default": "Shop by videos"
+    },
+    {
+      "type": "header",
+      "content": "Product Metafields Video Scanner"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_product_metafields",
+      "label": "Auto-load videos from Product Metafields",
+      "info": "Automatically scans products and displays video cards for any product with a video metafield (custom.video, custom.video_url, custom.short_video, custom.reels, or custom.video_file).",
+      "default": true
+    },
+    {
+      "type": "collection",
+      "id": "metafield_collection",
+      "label": "Collection to scan for Video Metafields",
+      "info": "Select collection to scan for product video metafields. Defaults to All Products."
     },
     {
       "type": "checkbox",
