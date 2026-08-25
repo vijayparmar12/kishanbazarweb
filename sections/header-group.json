@@ -226,12 +226,12 @@
         "desktop_nav_item_HJjjxt": {
           "type": "desktop_nav_item",
           "settings": {
-            "title": "Shop By Category",
+            "title": "The Vedic Way",
             "url": "",
             "badge": "",
             "badge_background": "#e53935",
             "badge_color": "#ffffff",
-            "mega_menu": "category",
+            "mega_menu": "custom",
             "icon": ""
           }
         },
