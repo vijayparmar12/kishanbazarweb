@@ -681,6 +681,7 @@
     // 16. FBT Card / "+ ADD" button click (Always open Choose Option Modal with variants & quantities)
     const fbtCard = event.target.closest('[data-fbt-card], .kb-cart-addon-add-btn');
     if (fbtCard) {
+      if (window._isFbtTrackDragging) return;
       event.preventDefault();
       event.stopPropagation();
 
@@ -994,36 +995,64 @@
 
   const initTrackDragScroll = () => {
     document.querySelectorAll('.kb-cart-addons-track').forEach((track) => {
+      if (track.dataset.dragScrollInitialized === 'true') return;
+      track.dataset.dragScrollInitialized = 'true';
+
       let isDown = false;
-      let startX = 0;
-      let scrollLeft = 0;
+      let startX, startY, scrollLeft;
 
-      track.style.cursor = 'grab';
-
-      track.onmousedown = (e) => {
+      track.addEventListener('mousedown', (e) => {
         isDown = true;
+        window._isFbtTrackDragging = false;
         startX = e.pageX - track.offsetLeft;
         scrollLeft = track.scrollLeft;
-        track.style.cursor = 'grabbing';
-      };
+      });
 
-      track.onmouseleave = () => {
+      track.addEventListener('mouseleave', () => {
         isDown = false;
-        track.style.cursor = 'grab';
-      };
+      });
 
-      track.onmouseup = () => {
+      track.addEventListener('mouseup', () => {
         isDown = false;
-        track.style.cursor = 'grab';
-      };
+        setTimeout(() => { window._isFbtTrackDragging = false; }, 80);
+      });
 
-      track.onmousemove = (e) => {
+      track.addEventListener('mousemove', (e) => {
         if (!isDown) return;
-        e.preventDefault();
         const x = e.pageX - track.offsetLeft;
-        const walk = (x - startX) * 1.8;
-        track.scrollLeft = scrollLeft - walk;
-      };
+        const walk = (x - startX);
+        if (Math.abs(walk) > 5) {
+          window._isFbtTrackDragging = true;
+          e.preventDefault();
+          track.scrollLeft = scrollLeft - walk * 1.5;
+        }
+      });
+
+      // Mobile touch drag support
+      track.addEventListener('touchstart', (e) => {
+        window._isFbtTrackDragging = false;
+        if (e.touches && e.touches[0]) {
+          startX = e.touches[0].pageX - track.offsetLeft;
+          startY = e.touches[0].pageY;
+          scrollLeft = track.scrollLeft;
+        }
+      }, { passive: true });
+
+      track.addEventListener('touchmove', (e) => {
+        if (e.touches && e.touches[0]) {
+          const x = e.touches[0].pageX - track.offsetLeft;
+          const y = e.touches[0].pageY;
+          const walkX = Math.abs(x - startX);
+          const walkY = Math.abs(y - startY);
+          if (walkX > 6 && walkX > walkY) {
+            window._isFbtTrackDragging = true;
+          }
+        }
+      }, { passive: true });
+
+      track.addEventListener('touchend', () => {
+        setTimeout(() => { window._isFbtTrackDragging = false; }, 100);
+      }, { passive: true });
     });
   };
 
