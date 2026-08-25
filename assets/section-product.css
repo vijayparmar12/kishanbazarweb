@@ -1508,6 +1508,24 @@
   margin-right: auto !important;
 }
 
+/* Clear Spacing between Rating Stars and Review Count Text */
+.jdgm-prev-badge__text,
+.jdgm-preview-badge .jdgm-prev-badge__text,
+.product-info .jdgm-prev-badge__text,
+.product-info__review-count,
+.product-card__rating-count {
+  margin-left: 8px !important;
+  display: inline-block !important;
+}
+
+.jdgm-prev-badge__stars,
+.jdgm-preview-badge .jdgm-prev-badge__stars,
+.product-info .jdgm-prev-badge__stars {
+  margin-right: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
 /* Force 100% full width for Customer Reviews section on Desktop & Mobile */
 .product-page-section--reviews,
 .product-reviews,
