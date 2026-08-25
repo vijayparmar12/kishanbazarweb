@@ -304,16 +304,6 @@
             "icon_type": "ghee"
           }
         },
-        "category_tab_fDtRir": {
-          "type": "category_tab",
-          "settings": {
-            "title": "Aatta",
-            "collection": "",
-            "icon_image": "shopify://shop_images/gemini-svg_5.svg",
-            "active_icon_image": "shopify://shop_images/gemini-svg_6.svg",
-            "icon_type": "ghee"
-          }
-        },
         "category_tab_byiDdn": {
           "type": "category_tab",
           "settings": {
@@ -321,6 +311,16 @@
             "collection": "frontpage",
             "icon_image": "shopify://shop_images/gemini-svg_7.svg",
             "active_icon_image": "shopify://shop_images/gemini-svg_8.svg",
+            "icon_type": "ghee"
+          }
+        },
+        "category_tab_fDtRir": {
+          "type": "category_tab",
+          "settings": {
+            "title": "BreakFast",
+            "collection": "breakfast",
+            "icon_image": "shopify://shop_images/gemini-svg_17.svg",
+            "active_icon_image": "shopify://shop_images/gemini-svg_21.svg",
             "icon_type": "ghee"
           }
         },
@@ -343,6 +343,16 @@
             "active_icon_image": "shopify://shop_images/gemini-svg_10.svg",
             "icon_type": "oil"
           }
+        },
+        "category_tab_6jgDce": {
+          "type": "category_tab",
+          "settings": {
+            "title": "Spices",
+            "collection": "spices",
+            "icon_image": "shopify://shop_images/gemini-svg_11.svg",
+            "active_icon_image": "shopify://shop_images/gemini-svg_12.svg",
+            "icon_type": "oil"
+          }
         }
       },
       "block_order": [
@@ -353,10 +363,11 @@
         "card_variant_selector_P9HiVz",
         "card_buy_button_34nVEe",
         "category_tab_cRHrih",
-        "category_tab_fDtRir",
         "category_tab_byiDdn",
+        "category_tab_fDtRir",
         "category_tab_jB3mG8",
-        "category_tab_hJeYRM"
+        "category_tab_hJeYRM",
+        "category_tab_6jgDce"
       ],
       "name": "shop By category",
       "settings": {
