@@ -768,6 +768,7 @@
         })
           .then((res) => res.json())
           .then(async () => {
+            window._chooseOptionQuantities = {};
             const modal = document.querySelector('[data-choose-option-modal]');
             if (modal) {
               modal.hidden = true;
@@ -779,6 +780,7 @@
           })
           .catch((err) => console.error('Error adding selected variants to cart:', err));
       } else {
+        window._chooseOptionQuantities = {};
         const modal = document.querySelector('[data-choose-option-modal]');
         if (modal) {
           modal.hidden = true;
@@ -868,6 +870,21 @@
 
       changeCartLine(details.lineIndex, details.lineKey, nextQty);
     }
+    if (event.target.closest('[data-address-form]')) {
+      const form = event.target.closest('[data-address-form]');
+      const formData = new FormData(form);
+      const addressData = {
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+        email: formData.get('email'),
+        flat: formData.get('flat'),
+        city: formData.get('city'),
+        state: formData.get('state'),
+        pincode: formData.get('pincode'),
+        tag: formData.get('tag') || 'Home'
+      };
+      saveAddress(addressData);
+    }
   });
 
   document.addEventListener('keydown', (event) => {
@@ -878,7 +895,11 @@
   });
 
   document.addEventListener('kb:cart:updated', (event) => {
-    if (event.detail?.cart) updateDrawer(event.detail.cart);
+    if (event.detail && event.detail.cart) {
+      updateDrawer(event.detail.cart);
+    } else {
+      updateDrawerFromServer();
+    }
   });
 
   const showCartToast = (cart) => {
@@ -920,6 +941,7 @@
   const initAddToCartForms = () => {
     document.querySelectorAll('form[action*="/cart/add"]').forEach((form) => {
       if (form.dataset.ajaxAddInitialized === 'true') return;
+      if (form.matches('[data-product-card-form]')) return; // Avoid duplicate submit listener for product cards
       form.dataset.ajaxAddInitialized = 'true';
 
       form.addEventListener('submit', async (event) => {
