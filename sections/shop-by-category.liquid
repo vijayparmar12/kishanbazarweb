@@ -1,0 +1,304 @@
+<link rel="stylesheet" href="{{ 'section-shop-by-category.css' | asset_url }}">
+<script src="{{ 'section-shop-by-category.js' | asset_url }}" defer="defer"></script>
+
+{% assign displayed_collection = section.settings.collection %}
+{% if displayed_collection == blank %}
+  {% assign displayed_collection = collections['all'] %}
+{% endif %}
+
+<div id="ShopByCategory-{{ section.id }}" class="shop-by-category" data-shop-by-category>
+  <div class="shop-by-category__head">
+    {% if section.settings.heading_image_desktop != blank or section.settings.heading_image_mobile != blank %}
+      <div class="shop-by-category__heading-banner-wrap">
+        <picture class="shop-by-category__heading-picture">
+          {% if section.settings.heading_image_mobile != blank %}
+            <source media="(max-width: 749px)" srcset="{{ section.settings.heading_image_mobile | image_url: width: 1200 }}">
+          {% endif %}
+          {% assign heading_img = section.settings.heading_image_desktop | default: section.settings.heading_image_mobile %}
+          {{ heading_img | image_url: width: 2200 | image_tag: class: 'shop-by-category__heading-image', alt: section.settings.heading, loading: 'lazy' }}
+        </picture>
+      </div>
+    {% else %}
+      <div class="shop-by-category__title-wrap">
+        {% if section.settings.eyebrow != blank %}
+          <p style="color: #166534; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; font-family: Georgia, serif;">
+            {{ section.settings.eyebrow }}
+          </p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 style="color: #1e3d20; font-size: clamp(1.6rem, 3.5vw, 2.65rem); font-weight: 900; font-family: Georgia, serif; margin: 0;">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+  {% assign category_blocks = section.blocks | where: 'type', 'category_tab' %}
+  {% if section.settings.show_tabs or category_blocks.size > 0 %}
+    <div class="shop-by-category__tabs-wrapper">
+      <div class="shop-by-category__tabs" role="tablist" aria-label="Filter products by category">
+        {% if section.settings.show_all_tab %}
+          <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="all">
+            <span class="shop-by-category__tab-icon">
+              {% if section.settings.all_tab_icon != blank %}
+                {{ section.settings.all_tab_icon | image_url: width: 100 | image_tag: class: 'shop-by-category__tab-img', loading: 'lazy' }}
+              {% else %}
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
+              {% endif %}
+            </span>
+            <span class="shop-by-category__tab-label">{{ section.settings.all_tab_label | default: "All Products" }}</span>
+          </button>
+        {% endif %}
+
+        {% if category_blocks.size > 0 %}
+          {% for block in category_blocks %}
+            {% assign filter_name = block.settings.title %}
+            {% if block.settings.collection != blank %}
+              {% assign filter_name = block.settings.collection.title %}
+            {% endif %}
+            <button class="shop-by-category__tab{% if forloop.first and section.settings.show_all_tab == false %} is-active{% endif %}" type="button" role="tab" data-category-tab data-category-filter="{{ filter_name | escape }}" {{ block.shopify_attributes }}>
+              <span class="shop-by-category__tab-icon">
+                {% if block.settings.active_icon_image != blank and block.settings.icon_image != blank %}
+                  {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'shop-by-category__tab-img shop-by-category__tab-img--normal', loading: 'lazy', alt: block.settings.title }}
+                {% elsif block.settings.icon_image != blank %}
+                  {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'shop-by-category__tab-img', loading: 'lazy', alt: block.settings.title }}
+                {% else %}
+                  <svg width="34" height="34" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" fill="currentColor"/></svg>
+                {% endif %}
+              </span>
+              <span class="shop-by-category__tab-label">{{ block.settings.title }}</span>
+            </button>
+          {% endfor %}
+        {% else %}
+          <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="Atta">
+            <span class="shop-by-category__tab-label">Atta</span>
+          </button>
+          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="BreakFast">
+            <span class="shop-by-category__tab-label">BreakFast</span>
+          </button>
+          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="Ghee">
+            <span class="shop-by-category__tab-label">Ghee</span>
+          </button>
+          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="Oil">
+            <span class="shop-by-category__tab-label">Oil</span>
+          </button>
+          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="Spices">
+            <span class="shop-by-category__tab-label">Spices</span>
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if displayed_collection != blank and displayed_collection.products_count > 0 %}
+    <div class="shop-by-category__carousel-wrapper">
+      <div class="shop-by-category__track" data-category-track>
+        {% for product in displayed_collection.products limit: section.settings.maximum %}
+          {% capture prod_cat_str %}
+            {{ product.title | downcase }}
+            {{ product.type | downcase }}
+            {% for tag in product.tags %}{{ tag | downcase }} {% endfor %}
+            {% for col in product.collections %}{{ col.title | downcase }} {{ col.handle | downcase }} {% endfor %}
+          {% endcapture %}
+          <div class="shop-by-category__slide" data-category-slide data-product-categories="{{ prod_cat_str | escape }}">
+            {% render 'product-card',
+              product: product,
+              card_blocks: section.blocks,
+              show_badge: section.settings.show_badge,
+              show_wishlist: section.settings.show_wishlist,
+              show_subtitle: section.settings.show_subtitle,
+              show_rating: section.settings.show_rating,
+              show_benefit_icons: section.settings.show_benefit_icons,
+              show_variant_selector: section.settings.show_variant_selector,
+              show_add_to_cart: section.settings.show_add_to_cart
+            %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Shop by Category",
+  "tag": "section",
+  "class": "section-shop-by-category",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "Shop By Category"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "हर Category में Goodness"
+    },
+    {
+      "type": "image_picker",
+      "id": "heading_image_desktop",
+      "label": "Heading Banner Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "heading_image_mobile",
+      "label": "Heading Banner Image (Mobile)"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "maximum",
+      "label": "Maximum products to show",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tabs",
+      "label": "Show category filter tabs",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_all_tab",
+      "label": "Show 'All Products' tab",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "all_tab_label",
+      "label": "'All' tab label",
+      "default": "All Products"
+    },
+    {
+      "type": "image_picker",
+      "id": "all_tab_icon",
+      "label": "'All' tab icon image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show product badges",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show wishlist icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subtitle",
+      "label": "Show product subtitle / type & tags",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating stars",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_benefit_icons",
+      "label": "Show circle benefit badges",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variant_selector",
+      "label": "Show variant dropdown",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_add_to_cart",
+      "label": "Show Add to Cart button",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_tab",
+      "name": "Category Filter Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Category"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Filter Collection (Optional)"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Category Icon Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "active_icon_image",
+          "label": "Active Category Icon Image (Optional)"
+        }
+      ]
+    },
+    {
+      "type": "card_title_price",
+      "name": "Card Title & Price",
+      "limit": 1
+    },
+    {
+      "type": "card_subtitle",
+      "name": "Card Subtitle / Type & Tags",
+      "limit": 1
+    },
+    {
+      "type": "card_rating",
+      "name": "Card Rating",
+      "limit": 1
+    },
+    {
+      "type": "card_benefit_icons",
+      "name": "Card Benefit Badges",
+      "limit": 1
+    },
+    {
+      "type": "card_variant_selector",
+      "name": "Card Variant Selector",
+      "limit": 1
+    },
+    {
+      "type": "card_buy_button",
+      "name": "Card Buy Button",
+      "limit": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Category",
+      "blocks": [
+        { "type": "card_title_price" },
+        { "type": "card_subtitle" },
+        { "type": "card_rating" },
+        { "type": "card_benefit_icons" },
+        { "type": "card_variant_selector" },
+        { "type": "card_buy_button" }
+      ]
+    }
+  ]
+}
+{% endschema %}

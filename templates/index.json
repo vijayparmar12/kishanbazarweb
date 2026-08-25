@@ -247,7 +247,7 @@
       }
     },
     "best_sellers": {
-      "type": "best-sellers",
+      "type": "shop-by-category",
       "blocks": {
         "card_title_price_q6DyNh": {
           "type": "card_title_price",
