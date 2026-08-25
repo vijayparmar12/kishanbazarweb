@@ -287,7 +287,7 @@ function initVariantSelection(container) {
       const compare = radio.getAttribute('data-compare');
       const discount = radio.getAttribute('data-discount');
       const sku = radio.getAttribute('data-sku');
-      const available = radio.getAttribute('data-available') === 'true';
+      const available = radio.getAttribute('data-available') === 'true' && !radio.hasAttribute('disabled');
       const img = radio.getAttribute('data-image');
 
       // Update hidden input
@@ -353,6 +353,7 @@ function initVariantSelection(container) {
       // Update Availability & Buttons
       const stickyBtn = container.querySelector('[data-sticky-add-to-cart]');
       const stickyBtnText = container.querySelector('[data-sticky-btn-text]');
+      const stepper = container.querySelector('[data-card-inline-stepper]');
 
       if (available) {
         if (availabilityStatus) {
@@ -361,7 +362,12 @@ function initVariantSelection(container) {
             <span class="product-info__stock-text">In Stock &bull; Ready to Dispatch in 24 Hours</span>
           `;
         }
-        if (addToCartBtn) addToCartBtn.removeAttribute('disabled');
+        if (addToCartBtn) {
+          addToCartBtn.removeAttribute('disabled');
+          addToCartBtn.disabled = false;
+          addToCartBtn.style.setProperty('opacity', '1', 'important');
+          addToCartBtn.style.setProperty('cursor', 'pointer', 'important');
+        }
         if (addToCartText) addToCartText.textContent = 'ADD TO CART';
         if (stickyBtn) stickyBtn.removeAttribute('disabled');
         if (stickyBtnText) stickyBtnText.textContent = 'ADD TO CART';
@@ -372,7 +378,14 @@ function initVariantSelection(container) {
             <span class="product-info__stock-text">Temporarily Sold Out</span>
           `;
         }
-        if (addToCartBtn) addToCartBtn.setAttribute('disabled', 'disabled');
+        if (addToCartBtn) {
+          addToCartBtn.setAttribute('disabled', 'disabled');
+          addToCartBtn.disabled = true;
+          addToCartBtn.style.setProperty('opacity', '0.65', 'important');
+          addToCartBtn.style.setProperty('cursor', 'not-allowed', 'important');
+          addToCartBtn.style.setProperty('display', 'flex', 'important');
+        }
+        if (stepper) stepper.style.setProperty('display', 'none', 'important');
         if (addToCartText) addToCartText.textContent = 'SOLD OUT';
         if (stickyBtn) stickyBtn.setAttribute('disabled', 'disabled');
         if (stickyBtnText) stickyBtnText.textContent = 'SOLD OUT';

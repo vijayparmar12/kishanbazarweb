@@ -163,8 +163,14 @@
                     {% assign variant_sale = true %}
                     {% assign variant_disc = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price %}
                   {% endif %}
+                  {% assign v_avail = variant.available %}
+                  {% if variant.inventory_management != blank and variant.inventory_policy == 'deny' and variant.inventory_quantity <= 0 %}
+                    {% assign v_avail = false %}
+                  {% elsif variant.inventory_quantity != blank and variant.inventory_quantity <= 0 and variant.inventory_policy != 'continue' %}
+                    {% assign v_avail = false %}
+                  {% endif %}
                   {% assign v_custom_badge = variant.metafields.custom.badge.value | default: variant.metafields.custom.badge | default: variant.metafields.custom.custom_badge.value | default: variant.metafields.custom.custom_badge | default: variant.metafields.custom.badge_varient.value | default: variant.metafields.custom.badge_varient | default: variant.metafields.custom.custom_badge_varient.value | default: variant.metafields.custom.custom_badge_varient | default: variant.metafields.custom.badge_variant.value | default: variant.metafields.custom.badge_variant | default: variant.metafields.custom.badge_text.value | default: variant.metafields.custom.badge_text | default: variant.metafields.custom.variant_badge.value | default: variant.metafields.custom.variant_badge %}
-                  <label class="product-info__variant-pill {% if variant == current_variant %}is-selected{% endif %}">
+                  <label class="product-info__variant-pill {% if variant == current_variant %}is-selected{% endif %} {% if v_avail == false %}is-sold-out{% endif %}" style="{% if v_avail == false %}opacity: 0.65; cursor: not-allowed;{% endif %}">
                     {% if v_custom_badge != blank %}
                       <span class="product-info__variant-badge">{{ v_custom_badge }}</span>
                     {% endif %}
@@ -179,12 +185,13 @@
                       data-compare="{% if variant_sale %}{{ variant.compare_at_price | money_without_trailing_zeros | escape }}{% endif %}"
                       data-discount="{% if variant_sale %}{{ variant_disc }}{% endif %}"
                       data-sku="{{ variant.sku | escape }}"
-                      data-available="{% if variant.available %}true{% else %}false{% endif %}"
+                      data-available="{% if v_avail %}true{% else %}false{% endif %}"
+                      {% if v_avail == false %}disabled{% endif %}
                       {% if variant.featured_media != blank %}data-image="{{ variant.featured_media | image_url: width: 1200 }}"{% endif %}
                       {% if variant == current_variant %}checked{% endif %}
                     >
                     <span class="product-info__variant-card-inner">
-                      <span class="product-info__variant-title">{{ variant.title }}</span>
+                      <span class="product-info__variant-title">{{ variant.title }}{% if v_avail == false %} (Sold out){% endif %}</span>
                       <span class="product-info__variant-price">{{ variant.price | money_without_trailing_zeros }}</span>
                       {% if variant_sale %}
                         <span class="product-info__variant-save">{{ variant_disc }}% OFF</span>
@@ -197,7 +204,13 @@
           {% endif %}
 
         {% when 'buy_buttons' %}
-          {% form 'product', product, class: 'product-info__form', data-product-main-form: '', data-product-card-form: '' %}
+          {% assign current_v_avail = current_variant.available %}
+          {% if current_variant.inventory_management != blank and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity <= 0 %}
+            {% assign current_v_avail = false %}
+          {% elsif current_variant.inventory_quantity != blank and current_variant.inventory_quantity <= 0 and current_variant.inventory_policy != 'continue' %}
+            {% assign current_v_avail = false %}
+          {% endif %}
+          {% form 'product', product, class: 'product-info__form', data-product-main-form: '' %}
             <input type="hidden" name="id" value="{{ current_variant.id }}" data-product-selected-variant-id>
             <input type="hidden" name="quantity" value="1" data-quantity-input>
             <div class="product-info__purchase-row" {{ block.shopify_attributes }} style="width: 100%;">
@@ -210,11 +223,11 @@
                   class="product-info__btn product-info__btn--add-to-cart"
                   data-card-add-btn
                   data-add-to-cart-button
-                  {% unless current_variant.available %}disabled{% endunless %}
+                  {% unless current_v_avail %}disabled{% endunless %}
                   style="width: 100%; height: 48px; min-height: 48px; border-radius: 10px; font-weight: 800; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px; {% if block.settings.cart_btn_bg != blank %}background-color: {{ block.settings.cart_btn_bg }};{% else %}background-color: #166534;{% endif %}{% if block.settings.cart_btn_color != blank %}color: {{ block.settings.cart_btn_color }};{% else %}color: #ffffff;{% endif %}"
                 >
                   <span data-add-to-cart-text style="letter-spacing: 0.04em;">
-                    {% if current_variant.available %}
+                    {% if current_v_avail %}
                       {{ block.settings.cart_btn_text | default: "ADD TO CART" }}
                     {% else %}
                       SOLD OUT
@@ -308,8 +321,15 @@
         <p class="product-info__tax-note">Inclusive of all taxes &bull; Free Shipping on orders over ₹499</p>
       </div>
 
+      {% assign current_v_avail = current_variant.available %}
+      {% if current_variant.inventory_management != blank and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity <= 0 %}
+        {% assign current_v_avail = false %}
+      {% elsif current_variant.inventory_quantity != blank and current_variant.inventory_quantity <= 0 and current_variant.inventory_policy != 'continue' %}
+        {% assign current_v_avail = false %}
+      {% endif %}
+
       <div class="product-info__availability" data-product-availability-status>
-        {% if current_variant.available %}
+        {% if current_v_avail %}
           <span class="product-info__stock-dot is-in-stock"></span>
           <span class="product-info__stock-text">In Stock &bull; Ready to Dispatch in 24 Hours</span>
         {% else %}
@@ -329,14 +349,20 @@
                   {% assign variant_sale = true %}
                   {% assign variant_disc = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price %}
                 {% endif %}
+                {% assign v_avail = variant.available %}
+                {% if variant.inventory_management != blank and variant.inventory_policy == 'deny' and variant.inventory_quantity <= 0 %}
+                  {% assign v_avail = false %}
+                {% elsif variant.inventory_quantity != blank and variant.inventory_quantity <= 0 and variant.inventory_policy != 'continue' %}
+                  {% assign v_avail = false %}
+                {% endif %}
                 {% assign v_custom_badge = variant.metafields.custom.badge.value | default: variant.metafields.custom.badge | default: variant.metafields.custom.custom_badge.value | default: variant.metafields.custom.custom_badge | default: variant.metafields.custom.badge_varient.value | default: variant.metafields.custom.badge_varient | default: variant.metafields.custom.custom_badge_varient.value | default: variant.metafields.custom.custom_badge_varient | default: variant.metafields.custom.badge_variant.value | default: variant.metafields.custom.badge_variant | default: variant.metafields.custom.badge_text.value | default: variant.metafields.custom.badge_text | default: variant.metafields.custom.variant_badge.value | default: variant.metafields.custom.variant_badge %}
-                <label class="product-info__variant-pill {% if variant == current_variant %}is-selected{% endif %}">
+                <label class="product-info__variant-pill {% if variant == current_variant %}is-selected{% endif %} {% if v_avail == false %}is-sold-out{% endif %}" style="{% if v_avail == false %}opacity: 0.65; cursor: not-allowed;{% endif %}">
                   {% if v_custom_badge != blank %}
                     <span class="product-info__variant-badge">{{ v_custom_badge }}</span>
                   {% endif %}
-                  <input type="radio" name="variant_id_option" value="{{ variant.id }}" data-variant-radio data-variant-id="{{ variant.id }}" data-variant-title="{{ variant.title | escape }}" data-price="{{ variant.price | money_without_trailing_zeros | escape }}" data-compare="{% if variant_sale %}{{ variant.compare_at_price | money_without_trailing_zeros | escape }}{% endif %}" data-discount="{% if variant_sale %}{{ variant_disc }}{% endif %}" data-sku="{{ variant.sku | escape }}" data-available="{% if variant.available %}true{% else %}false{% endif %}" {% if variant.featured_media != blank %}data-image="{{ variant.featured_media | image_url: width: 1200 }}"{% endif %} {% if variant == current_variant %}checked{% endif %}>
+                  <input type="radio" name="variant_id_option" value="{{ variant.id }}" data-variant-radio data-variant-id="{{ variant.id }}" data-variant-title="{{ variant.title | escape }}" data-price="{{ variant.price | money_without_trailing_zeros | escape }}" data-compare="{% if variant_sale %}{{ variant.compare_at_price | money_without_trailing_zeros | escape }}{% endif %}" data-discount="{% if variant_sale %}{{ variant_disc }}{% endif %}" data-sku="{{ variant.sku | escape }}" data-available="{% if v_avail %}true{% else %}false{% endif %}" {% if v_avail == false %}disabled{% endif %} {% if variant.featured_media != blank %}data-image="{{ variant.featured_media | image_url: width: 1200 }}"{% endif %} {% if variant == current_variant %}checked{% endif %}>
                   <span class="product-info__variant-card-inner">
-                    <span class="product-info__variant-title">{{ variant.title }}</span>
+                    <span class="product-info__variant-title">{{ variant.title }}{% if v_avail == false %} (Sold out){% endif %}</span>
                     <span class="product-info__variant-price">{{ variant.price | money_without_trailing_zeros }}</span>
                     {% if variant_sale %}<span class="product-info__variant-save">{{ variant_disc }}% OFF</span>{% endif %}
                   </span>
@@ -354,10 +380,10 @@
               class="product-info__btn product-info__btn--add-to-cart"
               data-card-add-btn
               data-add-to-cart-button
-              {% unless current_variant.available %}disabled{% endunless %}
+              {% unless current_v_avail %}disabled{% endunless %}
               style="width: 100%; height: 48px; min-height: 48px; border-radius: 10px; font-weight: 800; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px; background-color: #166534; color: #ffffff;"
             >
-              <span data-add-to-cart-text style="letter-spacing: 0.04em;">{% if current_variant.available %}ADD TO CART{% else %}SOLD OUT{% endif %}</span>
+              <span data-add-to-cart-text style="letter-spacing: 0.04em;">{% if current_v_avail %}ADD TO CART{% else %}SOLD OUT{% endif %}</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="9" cy="21" r="1"></circle>
                 <circle cx="20" cy="21" r="1"></circle>
