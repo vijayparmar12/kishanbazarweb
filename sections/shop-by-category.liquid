@@ -53,11 +53,14 @@
 
         {% if category_blocks.size > 0 %}
           {% for block in category_blocks %}
-            {% assign filter_name = block.settings.title %}
-            {% if block.settings.collection != blank %}
-              {% assign filter_name = block.settings.collection.title %}
-            {% endif %}
-            <button class="shop-by-category__tab{% if forloop.first and section.settings.show_all_tab == false %} is-active{% endif %}" type="button" role="tab" data-category-tab data-category-filter="{{ filter_name | escape }}" {{ block.shopify_attributes }}>
+            {% capture filter_terms %}
+              {{ block.settings.title | downcase }}
+              {% if block.settings.collection != blank %}
+                {{ block.settings.collection.title | downcase }}
+                {{ block.settings.collection.handle | downcase }}
+              {% endif %}
+            {% endcapture %}
+            <button class="shop-by-category__tab{% if forloop.first and section.settings.show_all_tab == false %} is-active{% endif %}" type="button" role="tab" data-category-tab data-category-filter="{{ filter_terms | strip | escape }}" {{ block.shopify_attributes }}>
               <span class="shop-by-category__tab-icon">
                 {% if block.settings.active_icon_image != blank and block.settings.icon_image != blank %}
                   {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'shop-by-category__tab-img shop-by-category__tab-img--normal', loading: 'lazy', alt: block.settings.title }}
@@ -71,19 +74,19 @@
             </button>
           {% endfor %}
         {% else %}
-          <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="Atta">
+          <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="atta aatta">
             <span class="shop-by-category__tab-label">Atta</span>
           </button>
-          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="BreakFast">
+          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="breakfast">
             <span class="shop-by-category__tab-label">BreakFast</span>
           </button>
-          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="Ghee">
+          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="ghee">
             <span class="shop-by-category__tab-label">Ghee</span>
           </button>
-          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="Oil">
+          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="oil">
             <span class="shop-by-category__tab-label">Oil</span>
           </button>
-          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="Spices">
+          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="spices">
             <span class="shop-by-category__tab-label">Spices</span>
           </button>
         {% endif %}
@@ -91,16 +94,64 @@
     </div>
   {% endif %}
 
-  {% if displayed_collection != blank and displayed_collection.products_count > 0 %}
-    <div class="shop-by-category__carousel-wrapper">
-      <div class="shop-by-category__track" data-category-track>
-        {% for product in displayed_collection.products limit: section.settings.maximum %}
+  <div class="shop-by-category__carousel-wrapper">
+    <div class="shop-by-category__track" data-category-track>
+      {% assign rendered_product_handles = '' %}
+
+      {% comment %} 1. Render products from Category Tab Collections first {% endcomment %}
+      {% for block in category_blocks %}
+        {% if block.settings.collection != blank and block.settings.collection.products_count > 0 %}
+          {% for product in block.settings.collection.products limit: 12 %}
+            {% unless rendered_product_handles contains product.handle %}
+              {% assign handle_with_comma = product.handle | append: ',' %}
+              {% assign rendered_product_handles = rendered_product_handles | append: handle_with_comma %}
+
+              {% capture prod_cat_str %}
+                {{ product.title | downcase }}
+                {{ product.type | downcase }}
+                {{ block.settings.title | downcase }}
+                {{ block.settings.collection.title | downcase }}
+                {{ block.settings.collection.handle | downcase }}
+                {% for tag in product.tags %}{{ tag | downcase }} {% endfor %}
+                {% for col in product.collections %}{{ col.title | downcase }} {{ col.handle | downcase }} {% endfor %}
+              {% endcapture %}
+
+              <div class="shop-by-category__slide" data-category-slide data-product-categories="{{ prod_cat_str | escape }}">
+                {% render 'product-card',
+                  product: product,
+                  card_blocks: section.blocks,
+                  show_badge: section.settings.show_badge,
+                  show_wishlist: section.settings.show_wishlist,
+                  show_subtitle: section.settings.show_subtitle,
+                  show_rating: section.settings.show_rating,
+                  show_benefit_icons: section.settings.show_benefit_icons,
+                  show_variant_selector: section.settings.show_variant_selector,
+                  show_add_to_cart: section.settings.show_add_to_cart
+                %}
+              </div>
+            {% endunless %}
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+
+      {% comment %} 2. Render remaining products from main collection {% endcomment %}
+      {% assign main_products = displayed_collection.products %}
+      {% if main_products == blank or main_products.size == 0 %}
+        {% assign main_products = collections['all'].products %}
+      {% endif %}
+
+      {% for product in main_products limit: section.settings.maximum %}
+        {% unless rendered_product_handles contains product.handle %}
+          {% assign handle_with_comma = product.handle | append: ',' %}
+          {% assign rendered_product_handles = rendered_product_handles | append: handle_with_comma %}
+
           {% capture prod_cat_str %}
             {{ product.title | downcase }}
             {{ product.type | downcase }}
             {% for tag in product.tags %}{{ tag | downcase }} {% endfor %}
             {% for col in product.collections %}{{ col.title | downcase }} {{ col.handle | downcase }} {% endfor %}
           {% endcapture %}
+
           <div class="shop-by-category__slide" data-category-slide data-product-categories="{{ prod_cat_str | escape }}">
             {% render 'product-card',
               product: product,
@@ -114,10 +165,10 @@
               show_add_to_cart: section.settings.show_add_to_cart
             %}
           </div>
-        {% endfor %}
-      </div>
+        {% endunless %}
+      {% endfor %}
     </div>
-  {% endif %}
+  </div>
 </div>
 
 {% schema %}
@@ -158,9 +209,9 @@
       "id": "maximum",
       "label": "Maximum products to show",
       "min": 4,
-      "max": 24,
+      "max": 48,
       "step": 2,
-      "default": 12
+      "default": 24
     },
     {
       "type": "checkbox",

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Shop By Category Section Script (Dedicated)
+   Shop By Category Section Script (Dedicated & Precise Category Filtering)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -26,21 +26,29 @@ document.addEventListener('DOMContentLoaded', () => {
             tabs.forEach((t) => t.classList.remove('is-active'));
             tab.classList.add('is-active');
 
-            const category = tab.dataset.categoryFilter ? tab.dataset.categoryFilter.toLowerCase().trim() : 'all';
+            const filterRaw = tab.dataset.categoryFilter ? tab.dataset.categoryFilter.toLowerCase().trim() : 'all';
+            const keywords = filterRaw.split(/\s+/).filter(Boolean);
+
+            let visibleCount = 0;
 
             slides.forEach((slide) => {
               const categories = slide.dataset.productCategories ? slide.dataset.productCategories.toLowerCase() : slide.textContent.toLowerCase();
 
-              if (category === 'all' || category === 'all products' || category === 'newly launched') {
+              if (filterRaw === 'all' || filterRaw === 'all products' || keywords.includes('all')) {
                 slide.style.display = 'block';
+                visibleCount++;
               } else {
-                let keyword = category;
-                if (keyword.endsWith('s') && keyword.length > 3 && !keyword.endsWith('ss')) {
-                  keyword = keyword.slice(0, -1);
-                }
+                const matches = keywords.some((kw) => {
+                  let stem = kw;
+                  if (stem.endsWith('s') && stem.length > 3 && !stem.endsWith('ss')) {
+                    stem = stem.slice(0, -1);
+                  }
+                  return categories.includes(kw) || categories.includes(stem);
+                });
 
-                if (categories.includes(category) || (keyword && categories.includes(keyword))) {
+                if (matches) {
                   slide.style.display = 'block';
+                  visibleCount++;
                 } else {
                   slide.style.display = 'none';
                 }
