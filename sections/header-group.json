@@ -238,12 +238,12 @@
         "desktop_nav_item_Fp679N": {
           "type": "desktop_nav_item",
           "settings": {
-            "title": "Fram Life",
+            "title": "The Vedic Way",
             "url": "",
             "badge": "",
             "badge_background": "#e53935",
             "badge_color": "#ffffff",
-            "mega_menu": "farm",
+            "mega_menu": "custom",
             "icon": ""
           }
         }
