@@ -35,7 +35,7 @@
             "link_1_label": "Our Story",
             "link_1_url": "shopify://pages/our-story-1",
             "link_2_label": "All Products",
-            "link_2_url": "shopify://collections",
+            "link_2_url": "shopify://collections/all",
             "link_3_label": "Lab Reports",
             "link_3_url": "shopify://pages/lab-report",
             "link_4_label": "Blog",
