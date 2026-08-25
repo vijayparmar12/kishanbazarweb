@@ -907,16 +907,15 @@
     if (!toast) {
       toast = document.createElement('div');
       toast.dataset.kbCartToast = 'true';
-      toast.style.cssText = 'position: fixed; bottom: 20px; left: 20px; z-index: 99999; background: #1b4317; color: #ffffff; padding: 0.75rem 1.25rem; border-radius: 14px; box-shadow: 0 12px 30px rgba(27, 67, 23, 0.4); display: flex; align-items: center; gap: 1rem; font-family: inherit; font-size: 0.9rem; font-weight: 800; animation: kbToastSlideUp 350ms cubic-bezier(0.16, 1, 0.3, 1);';
       document.body.appendChild(toast);
     }
 
     toast.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span style="font-size: 1.1rem;">🌿</span>
-        <span>${cart.item_count} ${cart.item_count === 1 ? 'item' : 'items'} added</span>
+      <div style="display: flex; align-items: center; gap: 0.5rem; min-width: 0;">
+        <span style="font-size: 1.1rem; flex-shrink: 0;">🌿</span>
+        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${cart.item_count} ${cart.item_count === 1 ? 'item' : 'items'} added</span>
       </div>
-      <button type="button" data-toast-open-cart style="background: #ffffff; color: #1b4317; border: none; padding: 0.4rem 0.85rem; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; white-space: nowrap;">View Cart &rarr;</button>
+      <button type="button" data-toast-open-cart style="background: #ffffff; color: #1b4317; border: none; padding: 0.45rem 0.95rem; border-radius: 10px; font-weight: 900; font-size: 0.84rem; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.12); flex-shrink: 0;">View Cart &rarr;</button>
     `;
 
     const openBtn = toast.querySelector('[data-toast-open-cart]');
