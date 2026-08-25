@@ -339,8 +339,8 @@
           "settings": {
             "title": "Oil",
             "collection": "oil",
-            "icon_image": "shopify://shop_images/gemini-svg_9.svg",
-            "active_icon_image": "shopify://shop_images/gemini-svg_10.svg",
+            "icon_image": "shopify://shop_images/ghee_oil_bottle_icon_0cb4e5b1-185b-4361-8598-a0558425969a.svg",
+            "active_icon_image": "shopify://shop_images/bottle_icon_3e563c.svg",
             "icon_type": "oil"
           }
         },
@@ -349,8 +349,8 @@
           "settings": {
             "title": "Spices",
             "collection": "spices",
-            "icon_image": "shopify://shop_images/gemini-svg_11.svg",
-            "active_icon_image": "shopify://shop_images/gemini-svg_12.svg",
+            "icon_image": "shopify://shop_images/download_2.svg",
+            "active_icon_image": "shopify://shop_images/download_3.svg",
             "icon_type": "oil"
           }
         }
