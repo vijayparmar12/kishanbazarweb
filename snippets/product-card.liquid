@@ -101,15 +101,31 @@
             </div>
 
           {% when 'card_subtitle' %}
-            {% assign card_subtitle = product.metafields.descriptors.subtitle %}
+            {% assign card_subtitle = product.metafields.descriptors.subtitle.value | default: product.metafields.descriptors.subtitle | default: product.metafields.custom.subtitle.value | default: product.metafields.custom.subtitle | default: product.metafields.custom.made_from.value | default: product.metafields.custom.made_from %}
             {% if card_subtitle == blank %}
-              {% assign card_subtitle = product.metafields.custom.subtitle %}
+              {% capture type_tags_str %}
+                {% if product.type != blank %}{{ product.type }}{% endif %}
+                {% if product.tags.size > 0 %}
+                  {% if product.type != blank %} &bull; {% endif %}
+                  {{ product.tags | join: ' &bull; ' }}
+                {% endif %}
+              {% endcapture %}
+              {% assign card_subtitle = type_tags_str | strip %}
             {% endif %}
             {% if card_subtitle == blank %}
-              {% assign card_subtitle = product.metafields.custom.made_from %}
-            {% endif %}
-            {% if card_subtitle == blank and product.description != blank %}
-              {% assign card_subtitle = product.description | strip_html | truncatewords: 8 %}
+              {% assign p_title_down = product.title | downcase %}
+              {% assign p_type_down = product.type | downcase %}
+              {% if p_title_down contains 'atta' or p_title_down contains 'flour' or p_title_down contains 'khapli' or p_type_down contains 'atta' %}
+                {% assign card_subtitle = "Atta &bull; Khapli &bull; Organic &bull; Stone Ground" %}
+              {% elsif p_title_down contains 'ghee' or p_type_down contains 'ghee' %}
+                {% assign card_subtitle = "Ghee &bull; A2 Bilona &bull; Organic &bull; Pure Gir Cow" %}
+              {% elsif p_title_down contains 'oil' or p_type_down contains 'oil' %}
+                {% assign card_subtitle = "Oil &bull; Cold Pressed &bull; Unrefined &bull; Natural" %}
+              {% elsif p_title_down contains 'jaggery' or p_title_down contains 'sweetener' or p_type_down contains 'jaggery' %}
+                {% assign card_subtitle = "Jaggery &bull; Natural &bull; Organic &bull; Chemical Free" %}
+              {% else %}
+                {% assign card_subtitle = "100% Natural &bull; Organic &bull; Farm Fresh" %}
+              {% endif %}
             {% endif %}
             {% if card_subtitle != blank %}
               <p class="product-card__subtitle" style="{% if block.settings.subtitle_color != blank %}color: {{ block.settings.subtitle_color }};{% elsif subtitle_color != blank %}color: {{ subtitle_color }};{% endif %}" {{ block.shopify_attributes }}>{{ card_subtitle }}</p>
@@ -229,26 +245,30 @@
 
 
       {% if show_subtitle != false %}
-        {% assign card_subtitle = product.metafields.descriptors.subtitle %}
+        {% assign card_subtitle = product.metafields.descriptors.subtitle.value | default: product.metafields.descriptors.subtitle | default: product.metafields.custom.subtitle.value | default: product.metafields.custom.subtitle | default: product.metafields.custom.made_from.value | default: product.metafields.custom.made_from %}
         {% if card_subtitle == blank %}
-          {% assign card_subtitle = product.metafields.custom.subtitle %}
-        {% endif %}
-        {% if card_subtitle == blank %}
-          {% assign card_subtitle = product.metafields.custom.made_from %}
+          {% capture type_tags_str %}
+            {% if product.type != blank %}{{ product.type }}{% endif %}
+            {% if product.tags.size > 0 %}
+              {% if product.type != blank %} &bull; {% endif %}
+              {{ product.tags | join: ' &bull; ' }}
+            {% endif %}
+          {% endcapture %}
+          {% assign card_subtitle = type_tags_str | strip %}
         {% endif %}
         {% if card_subtitle == blank %}
           {% assign p_title_down = product.title | downcase %}
           {% assign p_type_down = product.type | downcase %}
           {% if p_title_down contains 'atta' or p_title_down contains 'flour' or p_title_down contains 'khapli' or p_type_down contains 'atta' %}
-            {% assign card_subtitle = "Made from ancient Emmer Wheat" %}
+            {% assign card_subtitle = "Atta &bull; Khapli &bull; Organic &bull; Stone Ground" %}
           {% elsif p_title_down contains 'ghee' or p_type_down contains 'ghee' %}
-            {% assign card_subtitle = "Made from 100% Pure Bilona A2 Gir Cow Milk" %}
+            {% assign card_subtitle = "Ghee &bull; A2 Bilona &bull; Organic &bull; Pure Gir Cow" %}
           {% elsif p_title_down contains 'oil' or p_type_down contains 'oil' %}
-            {% assign card_subtitle = "Made from Cold Pressed & Unrefined Seeds" %}
+            {% assign card_subtitle = "Oil &bull; Cold Pressed &bull; Unrefined &bull; Natural" %}
           {% elsif p_title_down contains 'jaggery' or p_title_down contains 'sweetener' or p_type_down contains 'jaggery' %}
-            {% assign card_subtitle = "Made from 100% Natural Organic Sugarcane Juice" %}
+            {% assign card_subtitle = "Jaggery &bull; Natural &bull; Organic &bull; Chemical Free" %}
           {% else %}
-            {% assign card_subtitle = "Made from 100% Natural & Organic Ingredients" %}
+            {% assign card_subtitle = "100% Natural &bull; Organic &bull; Farm Fresh" %}
           {% endif %}
         {% endif %}
         <p class="product-card__subtitle" style="{% if subtitle_color != blank %}color: {{ subtitle_color }};{% endif %}">{{ card_subtitle }}</p>
