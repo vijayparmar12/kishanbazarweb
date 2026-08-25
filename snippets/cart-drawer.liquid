@@ -129,7 +129,7 @@
         <div class="kb-cart-tab-panel is-active" data-tab-panel="frequently">
           <div class="kb-cart-addons-track">
             {% assign addons_coll = addons_collection.products | default: collections.all.products %}
-            {% for product in addons_coll limit: 8 %}
+            {% for product in addons_coll limit: 50 %}
               <div
                 class="kb-cart-addon-card"
                 data-fbt-card

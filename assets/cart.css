@@ -1804,8 +1804,10 @@ body.kb-cart-drawer-open {
   gap: 0.75rem !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
+  touch-action: pan-x !important;
+  overscroll-behavior-x: contain !important;
   scroll-snap-type: x mandatory !important;
-  padding-bottom: 6px !important;
+  padding-bottom: 8px !important;
   -webkit-overflow-scrolling: touch !important;
   scrollbar-width: thin !important;
 }
