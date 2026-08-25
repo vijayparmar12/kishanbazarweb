@@ -438,6 +438,7 @@
     drawer.classList.add('is-open');
     document.documentElement.classList.add('kb-cart-drawer-open');
     updateDrawerFromServer();
+    initTrackDragScroll();
   };
 
   const updateDrawerFromServer = async () => {
@@ -991,8 +992,39 @@
     });
   };
 
+  const initTrackDragScroll = () => {
+    document.querySelectorAll('.kb-cart-addons-track').forEach((track) => {
+      if (track.dataset.dragScrollInitialized === 'true') return;
+      track.dataset.dragScrollInitialized = 'true';
+
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      track.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+      });
+      track.addEventListener('mouseleave', () => {
+        isDown = false;
+      });
+      track.addEventListener('mouseup', () => {
+        isDown = false;
+      });
+      track.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 2;
+        track.scrollLeft = scrollLeft - walk;
+      });
+    });
+  };
+
   const autoOpenCart = () => {
     initAddToCartForms();
+    initTrackDragScroll();
     if (window.location.search.includes('open_cart')) {
       window.setTimeout(() => {
         openDrawer();
