@@ -21,20 +21,25 @@ document.addEventListener('DOMContentLoaded', () => {
           tabs.forEach((t) => t.classList.remove('is-active'));
           tab.classList.add('is-active');
 
-          const category = tab.dataset.categoryFilter ? tab.dataset.categoryFilter.toLowerCase().trim() : 'all';
+          const filterRaw = tab.dataset.categoryFilter ? tab.dataset.categoryFilter.toLowerCase().trim() : 'all';
+          const keywords = filterRaw.split(/\s+/).filter(Boolean);
 
           slides.forEach((slide) => {
+            if (slide.classList.contains('best-sellers__slide--more-card')) return;
             const categories = slide.dataset.productCategories ? slide.dataset.productCategories.toLowerCase() : slide.textContent.toLowerCase();
 
-            if (category === 'all' || category === 'all products' || category === 'newly launched') {
+            if (filterRaw === 'all' || filterRaw === 'all products' || keywords.includes('all')) {
               slide.style.display = 'block';
             } else {
-              let keyword = category;
-              if (keyword.endsWith('s') && keyword.length > 3 && !keyword.endsWith('ss')) {
-                keyword = keyword.slice(0, -1); // e.g. "oils" -> "oil", "spices" -> "spice"
-              }
+              const matches = keywords.some((kw) => {
+                let stem = kw;
+                if (stem.endsWith('s') && stem.length > 3 && !stem.endsWith('ss')) {
+                  stem = stem.slice(0, -1);
+                }
+                return categories.includes(kw) || categories.includes(stem);
+              });
 
-              if (categories.includes(category) || (keyword && categories.includes(keyword))) {
+              if (matches) {
                 slide.style.display = 'block';
               } else {
                 slide.style.display = 'none';
@@ -74,6 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         priceCompare.style.display = 'none';
       }
+    }
+
     const badgeText = selectedOption?.dataset.badge;
     let topBar = card.querySelector('.product-card__top-bar');
     if (!topBar) {

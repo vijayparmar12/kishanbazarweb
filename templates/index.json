@@ -29,7 +29,7 @@
       }
     },
     "categories": {
-      "type": "best-sellers",
+      "type": "shop-by-category",
       "blocks": {
         "card_title_price_gXgeTC": {
           "type": "card_title_price",
@@ -247,7 +247,7 @@
       }
     },
     "best_sellers": {
-      "type": "shop-by-category",
+      "type": "best-sellers",
       "blocks": {
         "card_title_price_q6DyNh": {
           "type": "card_title_price",
