@@ -29,7 +29,7 @@
       }
     },
     "categories": {
-      "type": "shop-by-category",
+      "type": "best-sellers",
       "blocks": {
         "card_title_price_gXgeTC": {
           "type": "card_title_price",
@@ -235,6 +235,8 @@
         "heading_image_mobile_max_width": 800,
         "heading": "",
         "subheading": "",
+        "enable_product_metafields": true,
+        "metafield_collection": "",
         "show_demo_video": false,
         "bulk_video_csv": "# product-handle,https://video-url.mp4\n# organic-ghee,https://cdn.shopify.com/s/files/1/YOUR_SHOP/files/video1.mp4",
         "background_color": "#eef2e4",
@@ -319,8 +321,8 @@
           "settings": {
             "title": "BreakFast",
             "collection": "breakfast",
-            "icon_image": "shopify://shop_images/gemini-svg_17.svg",
-            "active_icon_image": "shopify://shop_images/gemini-svg_21.svg",
+            "icon_image": "shopify://shop_images/download_12.svg",
+            "active_icon_image": "shopify://shop_images/download_5_8c0a578c-56ce-4fff-9831-0a18aa23a7d2.svg",
             "icon_type": "ghee"
           }
         },
@@ -359,8 +361,8 @@
           "settings": {
             "title": "Sweetner",
             "collection": "sweetner",
-            "icon_image": "shopify://shop_images/download_2.svg",
-            "active_icon_image": "shopify://shop_images/download_3.svg",
+            "icon_image": "shopify://shop_images/download_7.svg",
+            "active_icon_image": "shopify://shop_images/seed_tray_3e563c_8d27bf03-6c4d-4f72-a62c-b9539bf8bb82.svg",
             "icon_type": "oil"
           }
         }
@@ -530,7 +532,6 @@
       ],
       "settings": {
         "heading_image_desktop": "shopify://shop_images/first_image_2048px_width_1.png",
-        "heading_image_mobile": "shopify://shop_images/ChatGPT_Image_Aug_17_2026_10_23_50_AM.png",
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
         "heading_image_flip": false,
