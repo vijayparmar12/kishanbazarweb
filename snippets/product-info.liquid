@@ -42,8 +42,16 @@
           </div>
 
         {% when 'title' %}
+          {% liquid
+            assign m_title_size = block.settings.title_font_size_mobile | default: section.settings.mobile_title_font_size | default: 22
+            assign d_title_size = block.settings.title_font_size_desktop | default: section.settings.desktop_title_font_size | default: 28
+            assign title_clr = block.settings.title_color | default: '#1e3d20'
+            assign title_wt = block.settings.title_font_weight | default: '800'
+          %}
           <div class="product-info__header-block" {{ block.shopify_attributes }}>
-            <h1 class="product-info__title">{{ product.title }}</h1>
+            <h1 class="product-info__title" style="--title-mobile-size: {{ m_title_size }}px; --title-desktop-size: {{ d_title_size }}px; color: {{ title_clr }} !important; font-weight: {{ title_wt }} !important;">
+              {{ product.title }}
+            </h1>
             {% if block.settings.show_subtitle %}
               <p class="product-info__subtitle">
                 {% if product.type != blank %}{{ product.type }}{% else %}Organic Grocery{% endif %}

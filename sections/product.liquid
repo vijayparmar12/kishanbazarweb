@@ -392,6 +392,50 @@
     },
     {
       "type": "header",
+      "content": "📱 Mobile View Font Sizes (Mobile Only)"
+    },
+    {
+      "type": "range",
+      "id": "mobile_title_font_size",
+      "label": "Mobile Product Title Font Size (px)",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "desktop_title_font_size",
+      "label": "Desktop Product Title Font Size (px)",
+      "min": 16,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "mobile_price_font_size",
+      "label": "Mobile Product Price Font Size (px)",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mobile_desc_font_size",
+      "label": "Mobile Description Font Size (px)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
       "content": "Product Page Banners (Up to 6 Banners)"
     },
     { "type": "image_picker", "id": "banner_image_1", "label": "Default Banner 1 Image" },
@@ -464,6 +508,50 @@
           "id": "show_subtitle",
           "label": "Show category subtitle",
           "default": true
+        },
+        {
+          "type": "header",
+          "content": "Title Typography"
+        },
+        {
+          "type": "range",
+          "id": "title_font_size_mobile",
+          "label": "Mobile Title Font Size (px)",
+          "min": 14,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "default": 22
+        },
+        {
+          "type": "range",
+          "id": "title_font_size_desktop",
+          "label": "Desktop Title Font Size (px)",
+          "min": 16,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "default": 28
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Text Color",
+          "default": "#1e3d20"
+        },
+        {
+          "type": "select",
+          "id": "title_font_weight",
+          "label": "Title Font Weight",
+          "default": "800",
+          "options": [
+            { "value": "400", "label": "400 - Normal" },
+            { "value": "500", "label": "500 - Medium" },
+            { "value": "600", "label": "600 - SemiBold" },
+            { "value": "700", "label": "700 - Bold" },
+            { "value": "800", "label": "800 - ExtraBold" },
+            { "value": "900", "label": "900 - Black" }
+          ]
         }
       ]
     },

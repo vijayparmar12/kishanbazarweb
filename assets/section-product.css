@@ -629,11 +629,17 @@
 /* Title & Subtitle */
 .product-info__title {
   color: #111827;
-  font-size: clamp(1.75rem, 2.5vw, 2.35rem);
+  font-size: var(--title-desktop-size, clamp(1.75rem, 2.5vw, 2.35rem)) !important;
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.18;
   margin: 0;
+}
+
+@media (max-width: 768px) {
+  .product-info__title {
+    font-size: var(--title-mobile-size, 22px) !important;
+  }
 }
 
 .product-info__subtitle {
