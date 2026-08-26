@@ -20,7 +20,7 @@
             "menu_group": "custom1",
             "title": "The Framers",
             "link": "",
-            "icon": "Oil"
+            "icon": ""
           }
         },
         "mega_link_fUDNM6": {
@@ -149,7 +149,6 @@
             "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
-            "icon_image": "shopify://shop_images/ChatGPT_Image_Aug_11_2026_11_41_02_AM.png",
             "link": "",
             "icon_background": "#23421f",
             "icon_color": "#f0d78a"
