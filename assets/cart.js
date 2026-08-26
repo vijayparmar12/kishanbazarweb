@@ -302,10 +302,21 @@
                 window._variantComparePrices[v.id] = v.compare_at_price;
               }
             });
-            if (pData.variants.length <= 1) return;
+            const availVariants = pData.variants.filter((v) => v.available || v.id === item.variant_id);
             const container = drawer.querySelector(`[data-cart-variant-container="${item.key}"]`);
             if (container) {
-              const optionsHtml = pData.variants
+              if (availVariants.length <= 1) {
+                const currentV = pData.variants.find((v) => v.id === item.variant_id);
+                const titleText = currentV && currentV.title !== 'Default Title' ? currentV.title : '';
+                const isSold = currentV && !currentV.available;
+                if (titleText) {
+                  container.innerHTML = `<span class="kb-cart-item__variant-pill">${titleText}${isSold ? ' <span class="kb-cart-item__sold-badge">(Sold Out)</span>' : ''}</span>`;
+                } else if (isSold) {
+                  container.innerHTML = `<span class="kb-cart-item__sold-badge">(Sold Out)</span>`;
+                }
+                return;
+              }
+              const optionsHtml = availVariants
                 .map((v) => {
                   const isAvail = Boolean(v.available);
                   const label = isAvail ? v.title : `${v.title} - Sold Out`;
