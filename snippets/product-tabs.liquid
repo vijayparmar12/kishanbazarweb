@@ -46,7 +46,7 @@
         <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.4 19 2c1 2 2 4.1 2 9a9 9 0 0 1-10 9Z"/>
         <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
       </svg>
-      <h3 class="product-details-card__title">PRODUCT DETAILS</h3>
+      <h3 class="product-details-card__title">{{ section.settings.product_details_heading | default: "PRODUCT DETAILS" }}</h3>
     </div>
 
     <div class="product-accordion">
@@ -55,7 +55,7 @@
       {% if raw_desc != blank %}
         <details class="product-accordion-item" open>
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">Description</span>
+            <span class="product-accordion-item__title">{{ section.settings.tab_desc_title | default: "Description" }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -91,7 +91,7 @@
       {% if raw_ingredients != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">Ingredients</span>
+            <span class="product-accordion-item__title">{{ section.settings.tab_ingredients_title | default: "Ingredients" }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -127,7 +127,7 @@
       {% if raw_usage != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">Usage Info</span>
+            <span class="product-accordion-item__title">{{ section.settings.tab_usage_title | default: "Usage Info" }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -163,7 +163,7 @@
       {% if raw_benefits != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">Benefits</span>
+            <span class="product-accordion-item__title">{{ section.settings.tab_benefits_title | default: "Benefits" }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -199,7 +199,7 @@
       {% if raw_storage != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">Storage Info</span>
+            <span class="product-accordion-item__title">{{ section.settings.tab_storage_title | default: "Storage Info" }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -235,7 +235,7 @@
       {% if raw_mfr != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">Manufacturer &amp; Packer Details</span>
+            <span class="product-accordion-item__title">{{ section.settings.tab_mfr_title | default: "Manufacturer & Packer Details" }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -271,7 +271,7 @@
       {% if raw_origin != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">Country of Origin</span>
+            <span class="product-accordion-item__title">{{ section.settings.tab_origin_title | default: "Country of Origin" }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -293,7 +293,7 @@
       {% if raw_shelflife != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">Shelf Life</span>
+            <span class="product-accordion-item__title">{{ section.settings.tab_shelflife_title | default: "Shelf Life" }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
