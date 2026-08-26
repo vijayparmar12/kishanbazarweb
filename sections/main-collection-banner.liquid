@@ -1,9 +1,9 @@
 {% comment %}
   Collection Hero Banner Section (Full-Width Edge-To-Edge like Two Brothers Organic Farms)
   Resolves Banner Images in Priority:
-  1. Collection Metafield (`custom.banner_image`, `custom.banner`, `custom.desktop_banner`, `custom.collection_banner`)
-  2. Shopify Theme Editor Block Match for target collection
-  3. Shopify Theme Editor Section Fallback Setting
+  1. Shopify Theme Editor Main Banner Image (`section.settings.banner_image_desktop`)
+  2. Collection Metafield (`custom.banner_image`, `custom.banner`, `custom.desktop_banner`, `custom.collection_banner`)
+  3. Shopify Theme Editor Block Match for target collection
   4. Native Collection Image (`collection.image`)
   5. Default Theme Hero Banner (`home.png`)
 {% endcomment %}
@@ -105,56 +105,31 @@
     {% assign val = val.first %}
   {% endif %}
 
-  {% comment %} Check 1: Direct .url property {% endcomment %}
   {% if val.url != blank %}
     {% assign mf_desktop_url = val.url %}
-  {% endif %}
-
-  {% comment %} Check 2: .preview_image property {% endcomment %}
-  {% if mf_desktop_url == blank and val.preview_image != blank %}
+  {% elsif val.preview_image != blank %}
     {% assign mf_desktop_url = val.preview_image | image_url: width: 2200 %}
-  {% endif %}
-
-  {% comment %} Check 3: .image / .src property {% endcomment %}
-  {% if mf_desktop_url == blank and val.image != blank %}
+  {% elsif val.image != blank %}
     {% assign mf_desktop_url = val.image | image_url: width: 2200 %}
-  {% elsif mf_desktop_url == blank and val.src != blank %}
+  {% elsif val.src != blank %}
     {% assign mf_desktop_url = val.src | image_url: width: 2200 %}
-  {% endif %}
-
-  {% comment %} Check 4: image_url filter {% endcomment %}
-  {% if mf_desktop_url == blank %}
+  {% else %}
     {% assign test_img = val | image_url: width: 2200 %}
     {% if test_img != blank and test_img contains 'no-image' == false %}
       {% assign mf_desktop_url = test_img %}
+    {% else %}
+      {% assign test_file_img = val | file_img_url: '2048x2048' %}
+      {% if test_file_img != blank and test_file_img contains 'no-image' == false %}
+        {% assign mf_desktop_url = test_file_img %}
+      {% else %}
+        {% assign test_file = val | file_url %}
+        {% if test_file != blank and test_file contains 'no-image' == false %}
+          {% assign mf_desktop_url = test_file %}
+        {% endif %}
+      {% endif %}
     {% endif %}
   {% endif %}
 
-  {% comment %} Check 5: file_img_url filter {% endcomment %}
-  {% if mf_desktop_url == blank %}
-    {% assign test_file_img = val | file_img_url: '2048x2048' %}
-    {% if test_file_img != blank and test_file_img contains 'no-image' == false %}
-      {% assign mf_desktop_url = test_file_img %}
-    {% endif %}
-  {% endif %}
-
-  {% comment %} Check 6: file_url filter {% endcomment %}
-  {% if mf_desktop_url == blank %}
-    {% assign test_file = val | file_url %}
-    {% if test_file != blank and test_file contains 'no-image' == false %}
-      {% assign mf_desktop_url = test_file %}
-    {% endif %}
-  {% endif %}
-
-  {% comment %} Check 7: raw_mf file_url {% endcomment %}
-  {% if mf_desktop_url == blank %}
-    {% assign test_raw_file = raw_mf | file_url %}
-    {% if test_raw_file != blank and test_raw_file contains 'no-image' == false %}
-      {% assign mf_desktop_url = test_raw_file %}
-    {% endif %}
-  {% endif %}
-
-  {% comment %} Check 8: String filename like spices.png {% endcomment %}
   {% if mf_desktop_url == blank and val != blank %}
     {% assign test_str = val | to_s %}
     {% if test_str contains '.png' or test_str contains '.jpg' or test_str contains '.jpeg' or test_str contains '.webp' %}
@@ -212,7 +187,11 @@
 {% assign final_desktop_url = nil %}
 {% assign final_mobile_url = nil %}
 
-{% if mf_desktop_url != blank %}
+{% if section.settings.banner_image_desktop != blank %}
+  {% assign final_desktop_url = section.settings.banner_image_desktop | image_url: width: 2200 %}
+  {% assign mob_sec = section.settings.banner_image_mobile | default: section.settings.banner_image_desktop %}
+  {% assign final_mobile_url = mob_sec | image_url: width: 1200 %}
+{% elsif mf_desktop_url != blank %}
   {% assign final_desktop_url = mf_desktop_url %}
   {% assign final_mobile_url = mf_mobile_url | default: mf_desktop_url %}
 {% elsif matched_block != nil and matched_block.settings.image_desktop != blank %}
@@ -259,12 +238,64 @@
   "tag": "section",
   "class": "section-collection-banner",
   "settings": [
-    { "type": "header", "content": "Full-Width Banner Dimensions" },
-    { "type": "checkbox", "id": "show_image", "label": "Show Banner Image", "default": true },
-    { "type": "checkbox", "id": "use_default_fallback_asset", "label": "Show Theme Default Banner Image for all collections", "default": true },
-    { "type": "checkbox", "id": "show_title_overlay", "label": "Show Collection Title over Banner Image", "default": false },
-    { "type": "range", "id": "banner_height_desktop", "label": "Desktop Max Height (px)", "min": 200, "max": 650, "step": 10, "default": 450, "unit": "px" },
-    { "type": "range", "id": "banner_height_mobile", "label": "Mobile Max Height (px)", "min": 120, "max": 450, "step": 10, "default": 240, "unit": "px" },
+    {
+      "type": "header",
+      "content": "Theme Editor Banner Image (All Collections)"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_desktop",
+      "label": "Desktop Banner Image (Theme Editor)",
+      "info": "Upload banner image directly here in Theme Editor for all collections"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_mobile",
+      "label": "Mobile Banner Image (Theme Editor)",
+      "info": "Upload mobile banner image directly here in Theme Editor for all collections"
+    },
+    {
+      "type": "header",
+      "content": "Full-Width Banner Dimensions"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show Banner Image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "use_default_fallback_asset",
+      "label": "Show Theme Default Banner Image for all collections",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title_overlay",
+      "label": "Show Collection Title over Banner Image",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "banner_height_desktop",
+      "label": "Desktop Max Height (px)",
+      "min": 200,
+      "max": 650,
+      "step": 10,
+      "default": 450,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "banner_height_mobile",
+      "label": "Mobile Max Height (px)",
+      "min": 120,
+      "max": 450,
+      "step": 10,
+      "default": 240,
+      "unit": "px"
+    },
     {
       "type": "select",
       "id": "image_fit_desktop",
@@ -285,16 +316,66 @@
       ],
       "default": "cover"
     },
-    { "type": "header", "content": "Fallback Banner Images (Theme Editor)" },
-    { "type": "image_picker", "id": "custom_image_desktop", "label": "Fallback Desktop Banner", "info": "Used if no specific collection metafield or block is set" },
-    { "type": "image_picker", "id": "custom_image_mobile", "label": "Fallback Mobile Banner", "info": "Used if no specific collection metafield or block is set" },
-    { "type": "checkbox", "id": "show_collection_image", "label": "Use Native Collection Image as Fallback", "default": true },
-    { "type": "header", "content": "Overlay Tint & Colors" },
-    { "type": "checkbox", "id": "enable_overlay", "label": "Enable Tint Overlay", "default": false },
-    { "type": "color", "id": "overlay_color", "label": "Overlay Tint Color", "default": "#000000" },
-    { "type": "range", "id": "overlay_opacity", "label": "Overlay Opacity (%)", "min": 0, "max": 100, "step": 5, "default": 0, "unit": "%" },
-    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#ffffff" },
-    { "type": "color", "id": "text_color", "label": "Text / Title Color", "default": "#1b4317" }
+    {
+      "type": "header",
+      "content": "Fallback Banner Images (Theme Editor)"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_image_desktop",
+      "label": "Fallback Desktop Banner",
+      "info": "Used if no specific collection metafield or block is set"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_image_mobile",
+      "label": "Fallback Mobile Banner",
+      "info": "Used if no specific collection metafield or block is set"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "label": "Use Native Collection Image as Fallback",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Overlay Tint & Colors"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_overlay",
+      "label": "Enable Tint Overlay",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Tint Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity (%)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "%"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text / Title Color",
+      "default": "#1b4317"
+    }
   ],
   "blocks": [
     {
