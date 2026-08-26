@@ -5,9 +5,13 @@
 <div class="kb-auth-step kb-auth-step--otp" data-auth-step="otp" style="display: none;">
   <div class="kb-auth-card__header">
     <div class="kb-auth-card__logo">
-      <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" width="140" height="50" loading="eager">
+      {% if logo != blank %}
+        {{ logo | image_url: width: 280 | image_tag: alt: shop.name, loading: 'eager' }}
+      {% else %}
+        <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" width="140" height="50" loading="eager">
+      {% endif %}
     </div>
-    <h2 class="kb-auth-card__title">Verify OTP</h2>
+    <h2 class="kb-auth-card__title">{{ verify_title | default: 'Verify OTP' }}</h2>
     <p class="kb-auth-card__subtitle">
       OTP sent to <strong data-display-phone>+91 98765 43210</strong>
       <button type="button" class="kb-auth-edit-phone-btn" data-edit-phone>Edit</button>
@@ -16,7 +20,7 @@
 
   <form class="kb-auth-form" data-otp-form>
     <div class="kb-auth-field">
-      <label class="kb-auth-label">Enter 6-Digit OTP</label>
+      <label class="kb-auth-label">{{ otp_label | default: 'Enter 6-Digit OTP' }}</label>
       <div class="kb-auth-otp-grid" data-otp-grid>
         <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="kb-otp-box" data-otp-box="1" autofocus autocomplete="one-time-code">
         <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" class="kb-otp-box" data-otp-box="2">
@@ -30,11 +34,11 @@
 
     <div class="kb-auth-resend-row">
       <span class="kb-auth-timer" data-otp-timer>Resend OTP in <strong>00:30</strong></span>
-      <button type="button" class="kb-auth-resend-btn" data-resend-otp disabled style="display: none;">Resend OTP</button>
+      <button type="button" class="kb-auth-resend-btn" data-resend-otp disabled style="display: none;">{{ resend_btn_text | default: 'Resend OTP' }}</button>
     </div>
 
-    <button type="submit" class="kb-auth-submit-btn" data-verify-otp-btn disabled>
-      <span class="btn-text">Verify & Proceed</span>
+    <button type="submit" class="kb-auth-submit-btn" data-verify-otp-btn disabled style="background-color: {{ btn_bg | default: '#23421F' }}; color: {{ btn_text_color | default: '#FFFFFF' }};">
+      <span class="btn-text">{{ verify_btn_text | default: 'Verify & Proceed' }}</span>
       <span class="btn-loader" style="display: none;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
@@ -44,3 +48,4 @@
     </button>
   </form>
 </div>
+

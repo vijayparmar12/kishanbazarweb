@@ -17,18 +17,18 @@
 
   <form class="kb-auth-form" data-phone-form>
     <div class="kb-auth-field">
-      <label for="AuthPhoneInput" class="kb-auth-label">Mobile Number</label>
+      <label for="AuthPhoneInput" class="kb-auth-label">{{ phone_label | default: 'Mobile Number' }}</label>
       <div class="kb-auth-phone-input-wrap">
         <div class="kb-auth-country-select">
           <span class="flag">🇮🇳</span>
-          <span class="code">+91</span>
+          <span class="code">{{ country_code | default: '+91' }}</span>
         </div>
         <input
           type="tel"
           id="AuthPhoneInput"
           name="phone"
           class="kb-auth-input"
-          placeholder="98765 43210"
+          placeholder="{{ phone_placeholder | default: '98765 43210' }}"
           maxlength="10"
           pattern="[0-9]{10}"
           inputmode="numeric"
@@ -39,8 +39,8 @@
       <p class="kb-auth-error-msg" data-phone-error style="display: none;">Please enter a valid 10-digit mobile number</p>
     </div>
 
-    <button type="submit" class="kb-auth-submit-btn" data-send-otp-btn>
-      <span class="btn-text">Continue</span>
+    <button type="submit" class="kb-auth-submit-btn" data-send-otp-btn style="background-color: {{ btn_bg | default: '#23421F' }}; color: {{ btn_text_color | default: '#FFFFFF' }};">
+      <span class="btn-text">{{ submit_btn_text | default: 'Continue' }}</span>
       <span class="btn-loader" style="display: none;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
@@ -50,7 +50,8 @@
     </button>
 
     <p class="kb-auth-terms">
-      By continuing, you agree to Kishan Bazar's <a href="/pages/terms-and-conditions">Terms of Service</a> & <a href="/pages/privacy-policy">Privacy Policy</a>.
+      {{ terms_text | default: "By continuing, you agree to Kishan Bazar's" }} <a href="{{ terms_url | default: '/pages/terms-and-conditions' }}">Terms of Service</a> & <a href="{{ privacy_url | default: '/pages/privacy-policy' }}">Privacy Policy</a>.
     </p>
   </form>
 </div>
+

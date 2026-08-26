@@ -2,13 +2,34 @@
   Renders the global Customer OTP Login Modal popup.
 {% enddoc %}
 
-<aside class="kb-auth-modal" id="CustomerAuthModal" hidden data-auth-modal>
+<aside class="kb-auth-modal" id="CustomerAuthModal" hidden data-auth-modal style="--modal-card-bg: {{ section.settings.card_bg | default: '#FFFFFF' }}; --modal-text-color: {{ section.settings.text_color | default: '#23421F' }};">
   <div class="kb-auth-modal__overlay" data-auth-close></div>
   <div class="kb-auth-modal__panel" role="dialog" aria-modal="true" aria-labelledby="AuthModalTitle">
     <button class="kb-auth-modal__close" type="button" aria-label="Close login" data-auth-close>&times;</button>
     <div class="kb-auth-modal__content">
-      {% render 'otp-login-form', title: section.settings.modal_title, subtitle: section.settings.modal_subtitle, logo: section.settings.modal_logo %}
-      {% render 'otp-verification-form' %}
+      {% render 'otp-login-form',
+        logo: section.settings.modal_logo,
+        title: section.settings.modal_title,
+        subtitle: section.settings.modal_subtitle,
+        phone_label: section.settings.phone_label,
+        country_code: section.settings.country_code,
+        phone_placeholder: section.settings.phone_placeholder,
+        submit_btn_text: section.settings.submit_btn_text,
+        terms_text: section.settings.terms_text,
+        terms_url: section.settings.terms_url,
+        privacy_url: section.settings.privacy_url,
+        btn_bg: section.settings.btn_bg,
+        btn_text_color: section.settings.btn_text_color
+      %}
+      {% render 'otp-verification-form',
+        logo: section.settings.modal_logo,
+        verify_title: section.settings.verify_title,
+        otp_label: section.settings.otp_label,
+        verify_btn_text: section.settings.verify_btn_text,
+        resend_btn_text: section.settings.resend_btn_text,
+        btn_bg: section.settings.btn_bg,
+        btn_text_color: section.settings.btn_text_color
+      %}
     </div>
   </div>
 </aside>
@@ -19,11 +40,29 @@
   "tag": "section",
   "class": "section-customer-login-modal",
   "settings": [
-    { "type": "header", "content": "Login & OTP Modal Content" },
-    { "type": "text", "id": "modal_title", "label": "Login modal heading", "default": "Welcome to Kishan Bazar" },
-    { "type": "text", "id": "modal_subtitle", "label": "Login modal subtitle", "default": "Enter your mobile number to receive an OTP for instant login" },
-    { "type": "image_picker", "id": "modal_logo", "label": "Custom modal logo image" }
+    { "type": "header", "content": "Step 1: Mobile Login Form" },
+    { "type": "image_picker", "id": "modal_logo", "label": "Custom Modal Logo Image" },
+    { "type": "text", "id": "modal_title", "label": "Heading Title", "default": "Welcome to Kishan Bazar" },
+    { "type": "text", "id": "modal_subtitle", "label": "Subtitle Text", "default": "Enter your mobile number to receive an OTP for instant login" },
+    { "type": "text", "id": "phone_label", "label": "Phone Field Label", "default": "Mobile Number" },
+    { "type": "text", "id": "country_code", "label": "Country Dial Code", "default": "+91" },
+    { "type": "text", "id": "phone_placeholder", "label": "Phone Placeholder", "default": "98765 43210" },
+    { "type": "text", "id": "submit_btn_text", "label": "Continue Button Text", "default": "Continue" },
+    { "type": "text", "id": "terms_text", "label": "Terms Prefix Text", "default": "By continuing, you agree to Kishan Bazar's" },
+    { "type": "url", "id": "terms_url", "label": "Terms of Service Link URL" },
+    { "type": "url", "id": "privacy_url", "label": "Privacy Policy Link URL" },
+    { "type": "header", "content": "Step 2: OTP Verification Form" },
+    { "type": "text", "id": "verify_title", "label": "OTP Step Heading", "default": "Verify OTP" },
+    { "type": "text", "id": "otp_label", "label": "OTP Field Label", "default": "Enter 6-Digit OTP" },
+    { "type": "text", "id": "verify_btn_text", "label": "Verify Button Text", "default": "Verify & Proceed" },
+    { "type": "text", "id": "resend_btn_text", "label": "Resend Button Text", "default": "Resend OTP" },
+    { "type": "header", "content": "Modal Colors & Appearance" },
+    { "type": "color", "id": "btn_bg", "label": "Button Background Color", "default": "#23421F" },
+    { "type": "color", "id": "btn_text_color", "label": "Button Text Color", "default": "#FFFFFF" },
+    { "type": "color", "id": "card_bg", "label": "Modal Background Color", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Modal Text Color", "default": "#23421F" }
   ]
 }
 {% endschema %}
+
 
