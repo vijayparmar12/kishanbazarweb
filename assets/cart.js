@@ -135,21 +135,12 @@
             const compareVal = (compareUnit > 0 ? compareUnit * item.quantity : 0) || item.original_line_price;
             const finalVal = item.final_line_price || item.line_price;
             const hasCompare = compareVal > finalVal;
-            let discountBadgeHtml = '';
-            if (hasCompare) {
-              const itemSaved = compareVal - finalVal;
-              const savePct = Math.round((itemSaved / compareVal) * 100);
-              if (savePct > 0) {
-                discountBadgeHtml = `<span class="kb-cart-item__badge-discount">${savePct}% OFF</span>`;
-              }
-            }
             return `
           <article class="kb-cart-item kb-cart-item--compact" data-cart-line-item data-cart-line-key="${item.key}" data-cart-line-index="${index + 1}">
             <div class="kb-cart-item__media-wrap">
               <a class="kb-cart-item__media-link" href="${item.url}" aria-label="${item.product_title || ''}">
                 ${item.image ? `<img class="kb-cart-item__image" src="${item.image.src || item.image}" alt="${item.product_title || ''}" loading="lazy">` : ''}
               </a>
-              ${discountBadgeHtml}
             </div>
 
             <div class="kb-cart-item__content">

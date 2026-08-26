@@ -35,16 +35,11 @@
   <div class="kb-cart-item__media-wrap">
     <a class="kb-cart-item__media-link" href="{{ item.url }}" aria-label="{{ item.product.title | escape }}">
       {% if item.image != blank %}
-        {{ item.image | image_url: width: 220 | image_tag: class: 'kb-cart-item__image', loading: 'lazy', widths: '100, 150, 220' }}
+        {{ item.image | image_url: width: 260 | image_tag: class: 'kb-cart-item__image', loading: 'lazy', widths: '100, 150, 260' }}
       {% else %}
         {{ 'product-1' | placeholder_svg_tag: 'kb-cart-item__placeholder' }}
       {% endif %}
     </a>
-    {% if compare_price > item.final_line_price %}
-      {% assign item_saved = compare_price | minus: item.final_line_price %}
-      {% assign item_save_pct = item_saved | times: 100 | divided_by: compare_price %}
-      <span class="kb-cart-item__badge-discount">{{ item_save_pct }}% OFF</span>
-    {% endif %}
   </div>
 
   <!-- Right Column: Content matching Wishlist Drawer -->
