@@ -7,7 +7,7 @@
   <div class="kb-auth-modal__panel" role="dialog" aria-modal="true" aria-labelledby="AuthModalTitle">
     <button class="kb-auth-modal__close" type="button" aria-label="Close login" data-auth-close>&times;</button>
     <div class="kb-auth-modal__content">
-      {% render 'otp-login-form' %}
+      {% render 'otp-login-form', title: section.settings.modal_title, subtitle: section.settings.modal_subtitle, logo: section.settings.modal_logo %}
       {% render 'otp-verification-form' %}
     </div>
   </div>
@@ -18,6 +18,12 @@
   "name": "Customer Login Modal",
   "tag": "section",
   "class": "section-customer-login-modal",
-  "settings": []
+  "settings": [
+    { "type": "header", "content": "Login & OTP Modal Content" },
+    { "type": "text", "id": "modal_title", "label": "Login modal heading", "default": "Welcome to Kishan Bazar" },
+    { "type": "text", "id": "modal_subtitle", "label": "Login modal subtitle", "default": "Enter your mobile number to receive an OTP for instant login" },
+    { "type": "image_picker", "id": "modal_logo", "label": "Custom modal logo image" }
+  ]
 }
 {% endschema %}
+

@@ -84,7 +84,61 @@
 
         <div class="kb-header__actions" aria-label="Header actions">
           {% if section.settings.show_account %}
-            <a class="kb-header__action kb-header__action--account" href="{{ routes.account_url }}" aria-label="Account" data-customer-login-trigger>{% render 'icon', name: 'user', size: 25 %}</a>
+            {% assign desktop_account_label = section.settings.desktop_account_label | default: 'Account' %}
+            {% if customer %}
+              <a class="kb-header__action kb-header__action--account" href="{{ routes.account_url }}" aria-label="{{ desktop_account_label }}" title="{{ customer.first_name | default: desktop_account_label }}">
+                {% if section.settings.account_icon_image != blank %}
+                  {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: desktop_account_label }}
+                {% elsif section.settings.account_icon_emoji != blank %}
+                  <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
+                {% else %}
+                  {% render 'icon', name: 'user', size: 25 %}
+                {% endif %}
+              </a>
+            {% else %}
+              {% assign account_action = section.settings.account_action | default: 'modal' %}
+              {% if account_action == 'login_url' %}
+                <a class="kb-header__action kb-header__action--account" href="{{ routes.account_login_url }}" aria-label="{{ desktop_account_label }}" data-customer-login-trigger>
+                  {% if section.settings.account_icon_image != blank %}
+                    {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: desktop_account_label }}
+                  {% elsif section.settings.account_icon_emoji != blank %}
+                    <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
+                  {% else %}
+                    {% render 'icon', name: 'user', size: 25 %}
+                  {% endif %}
+                </a>
+              {% elsif account_action == 'account_page' %}
+                <a class="kb-header__action kb-header__action--account" href="{{ routes.account_url }}" aria-label="{{ desktop_account_label }}">
+                  {% if section.settings.account_icon_image != blank %}
+                    {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: desktop_account_label }}
+                  {% elsif section.settings.account_icon_emoji != blank %}
+                    <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
+                  {% else %}
+                    {% render 'icon', name: 'user', size: 25 %}
+                  {% endif %}
+                </a>
+              {% elsif account_action == 'custom' and section.settings.account_custom_url != blank %}
+                <a class="kb-header__action kb-header__action--account" href="{{ section.settings.account_custom_url }}" aria-label="{{ desktop_account_label }}">
+                  {% if section.settings.account_icon_image != blank %}
+                    {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: desktop_account_label }}
+                  {% elsif section.settings.account_icon_emoji != blank %}
+                    <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
+                  {% else %}
+                    {% render 'icon', name: 'user', size: 25 %}
+                  {% endif %}
+                </a>
+              {% else %}
+                <button type="button" class="kb-header__action kb-header__action--account" aria-label="{{ desktop_account_label }}" data-customer-login-trigger>
+                  {% if section.settings.account_icon_image != blank %}
+                    {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: desktop_account_label }}
+                  {% elsif section.settings.account_icon_emoji != blank %}
+                    <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
+                  {% else %}
+                    {% render 'icon', name: 'user', size: 25 %}
+                  {% endif %}
+                </button>
+              {% endif %}
+            {% endif %}
           {% endif %}
           {% if section.settings.show_wishlist %}
             <button class="kb-header__action kb-header__action--wishlist" type="button" aria-label="Wishlist" data-wishlist-drawer-trigger>
@@ -415,12 +469,76 @@
           {% endif %}
         {% endfor %}
       </ul>
-      <div class="kb-header__mobile-account-wrap">
-        <button type="button" class="kb-header__mobile-account-btn" data-customer-login-trigger>
-          {% render 'icon', name: 'user', size: 20 %}
-          <span data-mobile-account-text>My Profile / Login</span>
-        </button>
-      </div>
+      {% if section.settings.show_mobile_account != false and section.settings.show_account != false %}
+        <div class="kb-header__mobile-account-wrap" style="
+          --kb-account-bg: {{ section.settings.mobile_account_bg | default: '#23421F' }};
+          --kb-account-color: {{ section.settings.mobile_account_text_color | default: '#FFFFFF' }};
+          --kb-account-border: {{ section.settings.mobile_account_border_color | default: '#23421F' }};
+          --kb-account-radius: {{ section.settings.mobile_account_border_radius | default: 8 }}px;
+        ">
+          {% assign account_btn_text = section.settings.mobile_account_text | default: 'My Profile / Login' %}
+          {% assign account_logged_in_text = section.settings.mobile_account_logged_in_text | default: 'My Profile' %}
+          {% if customer %}
+            <a href="{{ routes.account_url }}" class="kb-header__mobile-account-btn">
+              {% if section.settings.account_icon_image != blank %}
+                {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: 'Profile' }}
+              {% elsif section.settings.account_icon_emoji != blank %}
+                <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
+              {% else %}
+                {% render 'icon', name: 'user', size: 20 %}
+              {% endif %}
+              <span>{{ customer.first_name | default: account_logged_in_text }}</span>
+            </a>
+          {% else %}
+            {% assign account_action = section.settings.account_action | default: 'modal' %}
+            {% if account_action == 'login_url' %}
+              <a href="{{ routes.account_login_url }}" class="kb-header__mobile-account-btn" data-customer-login-trigger>
+                {% if section.settings.account_icon_image != blank %}
+                  {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: 'Profile' }}
+                {% elsif section.settings.account_icon_emoji != blank %}
+                  <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
+                {% else %}
+                  {% render 'icon', name: 'user', size: 20 %}
+                {% endif %}
+                <span>{{ account_btn_text }}</span>
+              </a>
+            {% elsif account_action == 'account_page' %}
+              <a href="{{ routes.account_url }}" class="kb-header__mobile-account-btn">
+                {% if section.settings.account_icon_image != blank %}
+                  {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: 'Profile' }}
+                {% elsif section.settings.account_icon_emoji != blank %}
+                  <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
+                {% else %}
+                  {% render 'icon', name: 'user', size: 20 %}
+                {% endif %}
+                <span>{{ account_btn_text }}</span>
+              </a>
+            {% elsif account_action == 'custom' and section.settings.account_custom_url != blank %}
+              <a href="{{ section.settings.account_custom_url }}" class="kb-header__mobile-account-btn">
+                {% if section.settings.account_icon_image != blank %}
+                  {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: 'Profile' }}
+                {% elsif section.settings.account_icon_emoji != blank %}
+                  <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
+                {% else %}
+                  {% render 'icon', name: 'user', size: 20 %}
+                {% endif %}
+                <span>{{ account_btn_text }}</span>
+              </a>
+            {% else %}
+              <button type="button" class="kb-header__mobile-account-btn" data-customer-login-trigger>
+                {% if section.settings.account_icon_image != blank %}
+                  {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: 'Profile' }}
+                {% elsif section.settings.account_icon_emoji != blank %}
+                  <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
+                {% else %}
+                  {% render 'icon', name: 'user', size: 20 %}
+                {% endif %}
+                <span data-mobile-account-text>{{ account_btn_text }}</span>
+              </button>
+            {% endif %}
+          {% endif %}
+        </div>
+      {% endif %}
     </div>
   </nav>
 
@@ -528,8 +646,27 @@
     { "type": "color", "id": "mega_text_color", "label": "Mega text", "default": "#23421F" },
     { "type": "color", "id": "mega_hover_color", "label": "Mega hover background", "default": "#F1F8EC" },
     { "type": "color", "id": "mega_wave_color", "label": "Wave color", "default": "#EAF5E3" },
-    { "type": "header", "content": "Actions" },
-    { "type": "checkbox", "id": "show_account", "label": "Show account icon", "default": true },
+    { "type": "header", "content": "Account, Login & OTP+ Settings" },
+    { "type": "paragraph", "content": "Customize desktop & mobile profile/login buttons, labels, icons, actions, links, and button colors." },
+    { "type": "checkbox", "id": "show_account", "label": "Show account icon on desktop header", "default": true },
+    { "type": "checkbox", "id": "show_mobile_account", "label": "Show account button in mobile drawer", "default": true },
+    { "type": "text", "id": "desktop_account_label", "label": "Desktop account icon title / tooltip", "default": "Account" },
+    { "type": "text", "id": "mobile_account_text", "label": "Mobile button text (Logged Out)", "default": "My Profile / Login" },
+    { "type": "text", "id": "mobile_account_logged_in_text", "label": "Mobile button text (Logged In)", "default": "My Profile" },
+    { "type": "select", "id": "account_action", "label": "Account / Login click action", "options": [
+      { "value": "modal", "label": "Open OTP Login Modal / OTP+ Widget" },
+      { "value": "login_url", "label": "Redirect to Shopify Login Page (/account/login)" },
+      { "value": "account_page", "label": "Redirect to Account Overview Page (/account)" },
+      { "value": "custom", "label": "Redirect to Custom Link URL" }
+    ], "default": "modal" },
+    { "type": "url", "id": "account_custom_url", "label": "Custom Account / Login URL (Optional)" },
+    { "type": "text", "id": "account_icon_emoji", "label": "Custom Account Icon Emoji (Optional)", "info": "e.g. 👤 or 🔑" },
+    { "type": "image_picker", "id": "account_icon_image", "label": "Custom Account Icon Image (Optional)" },
+    { "type": "header", "content": "Mobile Account Button Styling & Colors" },
+    { "type": "color", "id": "mobile_account_bg", "label": "Mobile button background color", "default": "#23421F" },
+    { "type": "color", "id": "mobile_account_text_color", "label": "Mobile button text color", "default": "#FFFFFF" },
+    { "type": "color", "id": "mobile_account_border_color", "label": "Mobile button border color", "default": "#23421F" },
+    { "type": "range", "id": "mobile_account_border_radius", "label": "Mobile button corner rounding", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 8 },
     { "type": "checkbox", "id": "show_wishlist", "label": "Show wishlist icon", "default": true },
     { "type": "url", "id": "wishlist_url", "label": "Wishlist link" },
     { "type": "checkbox", "id": "show_cart", "label": "Show cart icon", "default": true },

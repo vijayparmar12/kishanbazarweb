@@ -5,10 +5,14 @@
 <div class="kb-auth-step kb-auth-step--phone" data-auth-step="phone">
   <div class="kb-auth-card__header">
     <div class="kb-auth-card__logo">
-      <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" width="140" height="50" loading="eager">
+      {% if logo != blank %}
+        {{ logo | image_url: width: 280 | image_tag: alt: shop.name, loading: 'eager' }}
+      {% else %}
+        <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" width="140" height="50" loading="eager">
+      {% endif %}
     </div>
-    <h2 class="kb-auth-card__title">Welcome to Kishan Bazar</h2>
-    <p class="kb-auth-card__subtitle">Enter your mobile number to receive an OTP for instant login</p>
+    <h2 class="kb-auth-card__title">{{ title | default: 'Welcome to Kishan Bazar' }}</h2>
+    <p class="kb-auth-card__subtitle">{{ subtitle | default: 'Enter your mobile number to receive an OTP for instant login' }}</p>
   </div>
 
   <form class="kb-auth-form" data-phone-form>

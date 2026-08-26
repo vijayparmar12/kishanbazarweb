@@ -1271,10 +1271,10 @@ body.kb-header-menu-open {
   height: 44px;
   min-height: 44px;
   max-height: 44px;
-  background: #23421f;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
+  background: var(--kb-account-bg, #23421f);
+  color: var(--kb-account-color, #ffffff);
+  border: 1px solid var(--kb-account-border, #23421f);
+  border-radius: var(--kb-account-radius, 8px);
   font-size: 0.88rem;
   font-weight: 700;
   cursor: pointer;
@@ -1283,9 +1283,22 @@ body.kb-header-menu-open {
   justify-content: center;
   gap: 0.5rem;
   box-shadow: none;
-  transition: background 200ms ease;
+  transition: background 200ms ease, opacity 200ms ease;
   box-sizing: border-box;
   overflow: hidden;
+  text-decoration: none;
+}
+
+.kb-account-custom-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.kb-account-emoji {
+  font-size: 1.2rem;
+  line-height: 1;
 }
 
 .kb-header__mobile-account-btn svg {
