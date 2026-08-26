@@ -135,45 +135,47 @@
             const compareVal = (compareUnit > 0 ? compareUnit * item.quantity : 0) || item.original_line_price;
             const finalVal = item.final_line_price || item.line_price;
             const hasCompare = compareVal > finalVal;
-            let saveBadgeHtml = '';
+            let discountBadgeHtml = '';
             if (hasCompare) {
               const itemSaved = compareVal - finalVal;
               const savePct = Math.round((itemSaved / compareVal) * 100);
               if (savePct > 0) {
-                saveBadgeHtml = `<span class="kb-cart-item__save-badge">(${savePct}% OFF)</span>`;
+                discountBadgeHtml = `<span class="kb-cart-item__badge-discount">${savePct}% OFF</span>`;
               }
             }
             return `
           <article class="kb-cart-item kb-cart-item--compact" data-cart-line-item data-cart-line-key="${item.key}" data-cart-line-index="${index + 1}">
-            <div class="kb-cart-item__top-row">
-              <a class="kb-cart-item__media" href="${item.url}" aria-label="${item.product_title || ''}">
+            <div class="kb-cart-item__media-wrap">
+              <a class="kb-cart-item__media-link" href="${item.url}" aria-label="${item.product_title || ''}">
                 ${item.image ? `<img class="kb-cart-item__image" src="${item.image.src || item.image}" alt="${item.product_title || ''}" loading="lazy">` : ''}
               </a>
-              <div class="kb-cart-item__details">
-                <h3 class="kb-cart-item__title"><a href="${item.url}">${item.product_title}</a></h3>
-                <div class="kb-cart-item__variant-container" data-cart-variant-container="${item.key}">
-                  ${item.variant_title && item.variant_title !== 'Default Title' ? `<span class="kb-cart-item__variant-pill">${item.variant_title}</span>` : ''}
-                </div>
-              </div>
+              ${discountBadgeHtml}
             </div>
-            <div class="kb-cart-item__bottom-block">
-              <div class="kb-cart-item__pricing">
+
+            <div class="kb-cart-item__content">
+              <button class="kb-cart-item__remove-btn" type="button" aria-label="Remove item" data-cart-remove title="Remove item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+
+              <h3 class="kb-cart-item__title"><a href="${item.url}">${item.product_title}</a></h3>
+
+              <div class="kb-cart-item__variant-container" data-cart-variant-container="${item.key}">
+                ${item.variant_title && item.variant_title !== 'Default Title' ? `<span class="kb-cart-item__variant-pill">${item.variant_title}</span>` : ''}
+              </div>
+
+              <div class="kb-cart-item__price-row">
                 <span class="kb-cart-item__price" data-cart-line-price>${formatMoney(finalVal)}</span>
                 ${hasCompare ? `<s class="kb-cart-item__compare">${formatMoney(compareVal)}</s>` : ''}
-                ${saveBadgeHtml}
               </div>
+
               <div class="kb-cart-item__actions">
                 <div class="kb-cart-item__control-pill">
                   <button class="kb-cart-item__qty-btn" type="button" aria-label="Decrease quantity" data-cart-qty-minus>-</button>
                   <input class="kb-cart-item__qty-input" type="number" min="1" step="1" value="${item.quantity}" inputmode="numeric" data-cart-quantity-input>
                   <button class="kb-cart-item__qty-btn" type="button" aria-label="Increase quantity" data-cart-qty-plus>+</button>
-                  <span class="kb-cart-item__pill-divider"></span>
-                  <button class="kb-cart-item__remove-btn" type="button" aria-label="Remove item" data-cart-remove title="Remove item">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="3 6 5 6 21 6"></polyline>
-                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                    </svg>
-                  </button>
                 </div>
               </div>
             </div>
