@@ -14,29 +14,40 @@
   assign c_meta = product.metafields.custom
   assign alt_meta = product.metafields['product.metafields.custom']
 
-  # 1. DESCRIPTION (Theme Editor Setting -> Metafield -> Product Description)
-  assign raw_desc = section.settings.tab_description | default: c_meta.description.value | default: c_meta.description | default: alt_meta.description.value | default: alt_meta.description | default: product.description
+  # Headings
+  assign details_card_title = block.settings.heading | default: section.settings.product_details_heading | default: "PRODUCT DETAILS"
+  assign title_desc = block.settings.tab_desc_title | default: section.settings.tab_desc_title | default: "Description"
+  assign title_ingredients = block.settings.tab_ingredients_title | default: section.settings.tab_ingredients_title | default: "Ingredients"
+  assign title_usage = block.settings.tab_usage_title | default: section.settings.tab_usage_title | default: "Usage Info"
+  assign title_benefits = block.settings.tab_benefits_title | default: section.settings.tab_benefits_title | default: "Benefits"
+  assign title_storage = block.settings.tab_storage_title | default: section.settings.tab_storage_title | default: "Storage Info"
+  assign title_mfr = block.settings.tab_mfr_title | default: section.settings.tab_mfr_title | default: "Manufacturer & Packer Details"
+  assign title_origin = block.settings.tab_origin_title | default: section.settings.tab_origin_title | default: "Country of Origin"
+  assign title_shelflife = block.settings.tab_shelflife_title | default: section.settings.tab_shelflife_title | default: "Shelf Life"
+
+  # 1. DESCRIPTION
+  assign raw_desc = block.settings.tab_description | default: section.settings.tab_description | default: c_meta.description.value | default: c_meta.description | default: alt_meta.description.value | default: alt_meta.description | default: product.description
 
   # 2. INGREDIENTS
-  assign raw_ingredients = section.settings.tab_ingredients | default: c_meta.Ingredients.value | default: c_meta.Ingredients | default: c_meta.ingredients.value | default: c_meta.ingredients | default: alt_meta.Ingredients.value | default: alt_meta.ingredients.value
+  assign raw_ingredients = block.settings.tab_ingredients | default: section.settings.tab_ingredients | default: c_meta.Ingredients.value | default: c_meta.Ingredients | default: c_meta.ingredients.value | default: c_meta.ingredients | default: alt_meta.Ingredients.value | default: alt_meta.ingredients.value
 
   # 3. USAGE INFO
-  assign raw_usage = section.settings.tab_usage | default: c_meta.usage.value | default: c_meta.usage | default: alt_meta.usage.value | default: alt_meta.usage
+  assign raw_usage = block.settings.tab_usage | default: section.settings.tab_usage | default: c_meta.usage.value | default: c_meta.usage | default: alt_meta.usage.value | default: alt_meta.usage
 
   # 4. BENEFITS
-  assign raw_benefits = section.settings.tab_benefits | default: c_meta.benefits.value | default: c_meta.benefits | default: alt_meta.benefits.value | default: alt_meta.benefits
+  assign raw_benefits = block.settings.tab_benefits | default: section.settings.tab_benefits | default: c_meta.benefits.value | default: c_meta.benefits | default: alt_meta.benefits.value | default: alt_meta.benefits
 
   # 5. STORAGE INFO
-  assign raw_storage = section.settings.tab_storage | default: c_meta.storage_info.value | default: c_meta.storage_info | default: alt_meta.storage_info.value | default: alt_meta.storage_info | default: c_meta.storage
+  assign raw_storage = block.settings.tab_storage | default: section.settings.tab_storage | default: c_meta.storage_info.value | default: c_meta.storage_info | default: alt_meta.storage_info.value | default: alt_meta.storage_info | default: c_meta.storage
 
   # 6. MANUFACTURER & PACKER DETAILS
-  assign raw_mfr = section.settings.tab_manufacturer | default: c_meta.manufacturer.value | default: c_meta.manufacturer | default: alt_meta.manufacturer.value | default: alt_meta.manufacturer
+  assign raw_mfr = block.settings.tab_manufacturer | default: section.settings.tab_manufacturer | default: c_meta.manufacturer.value | default: c_meta.manufacturer | default: alt_meta.manufacturer.value | default: alt_meta.manufacturer
 
   # 7. COUNTRY OF ORIGIN
-  assign raw_origin = section.settings.tab_origin | default: c_meta.origin.value | default: c_meta.origin | default: alt_meta.origin.value | default: alt_meta.origin
+  assign raw_origin = block.settings.tab_origin | default: section.settings.tab_origin | default: c_meta.origin.value | default: c_meta.origin | default: alt_meta.origin.value | default: alt_meta.origin
 
   # 8. SHELF LIFE
-  assign raw_shelflife = section.settings.tab_shelflife | default: c_meta.shelf_life.value | default: c_meta.shelf_life | default: alt_meta.shelf_life.value | default: alt_meta.shelf_life
+  assign raw_shelflife = block.settings.tab_shelflife | default: section.settings.tab_shelflife | default: c_meta.shelf_life.value | default: c_meta.shelf_life | default: alt_meta.shelf_life.value | default: alt_meta.shelf_life
 %}
 
 <section class="product-tabs-section" aria-label="Product Details">
@@ -46,7 +57,7 @@
         <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.4 19 2c1 2 2 4.1 2 9a9 9 0 0 1-10 9Z"/>
         <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
       </svg>
-      <h3 class="product-details-card__title">{{ section.settings.product_details_heading | default: "PRODUCT DETAILS" }}</h3>
+      <h3 class="product-details-card__title">{{ details_card_title }}</h3>
     </div>
 
     <div class="product-accordion">
@@ -55,7 +66,7 @@
       {% if raw_desc != blank %}
         <details class="product-accordion-item" open>
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">{{ section.settings.tab_desc_title | default: "Description" }}</span>
+            <span class="product-accordion-item__title">{{ title_desc }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -91,7 +102,7 @@
       {% if raw_ingredients != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">{{ section.settings.tab_ingredients_title | default: "Ingredients" }}</span>
+            <span class="product-accordion-item__title">{{ title_ingredients }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -127,7 +138,7 @@
       {% if raw_usage != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">{{ section.settings.tab_usage_title | default: "Usage Info" }}</span>
+            <span class="product-accordion-item__title">{{ title_usage }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -163,7 +174,7 @@
       {% if raw_benefits != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">{{ section.settings.tab_benefits_title | default: "Benefits" }}</span>
+            <span class="product-accordion-item__title">{{ title_benefits }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -199,7 +210,7 @@
       {% if raw_storage != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">{{ section.settings.tab_storage_title | default: "Storage Info" }}</span>
+            <span class="product-accordion-item__title">{{ title_storage }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -235,7 +246,7 @@
       {% if raw_mfr != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">{{ section.settings.tab_mfr_title | default: "Manufacturer & Packer Details" }}</span>
+            <span class="product-accordion-item__title">{{ title_mfr }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -271,7 +282,7 @@
       {% if raw_origin != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">{{ section.settings.tab_origin_title | default: "Country of Origin" }}</span>
+            <span class="product-accordion-item__title">{{ title_origin }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -293,7 +304,7 @@
       {% if raw_shelflife != blank %}
         <details class="product-accordion-item">
           <summary class="product-accordion-item__header">
-            <span class="product-accordion-item__title">{{ section.settings.tab_shelflife_title | default: "Shelf Life" }}</span>
+            <span class="product-accordion-item__title">{{ title_shelflife }}</span>/span>
             <span class="product-accordion-item__icon" aria-hidden="true">
               <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>

@@ -295,6 +295,11 @@
             </script>
           {% endif %}
 
+        {% when 'product_details_accordions' %}
+          <div class="product-info__details-accordions-block" {{ block.shopify_attributes }}>
+            {% render 'product-tabs', product: product, block: block, section: section %}
+          </div>
+
         {% when 'collapsible_tab' %}
           <details class="product-info__collapsible-tab" {{ block.shopify_attributes }} style="margin-top: 0.75rem; border: 1px solid #d4e5d2; border-radius: 12px; padding: 12px 14px; background: #ffffff;">
             <summary style="font-weight: 800; color: #23421f; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.92rem;">
