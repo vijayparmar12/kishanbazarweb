@@ -5,7 +5,7 @@
   2. Collection Metafield (`custom.banner_image`, `custom.banner`, `custom.desktop_banner`, `custom.collection_banner`)
   3. Shopify Theme Editor Block Match for target collection
   4. Native Collection Image (`collection.image`)
-  5. Default Theme Hero Banner (`home.png`)
+  5. Default Theme Hero Banner Asset (`home.png`)
 {% endcomment %}
 
 {% style %}
@@ -202,23 +202,23 @@
   {% assign final_desktop_url = section.settings.custom_image_desktop | image_url: width: 2200 %}
   {% assign mob_sec = section.settings.custom_image_mobile | default: section.settings.custom_image_desktop %}
   {% assign final_mobile_url = mob_sec | image_url: width: 1200 %}
-{% elsif collection.image != blank and section.settings.show_collection_image %}
+{% elsif collection.image != blank and section.settings.show_collection_image != false %}
   {% assign final_desktop_url = collection.image | image_url: width: 2200 %}
   {% assign final_mobile_url = collection.image | image_url: width: 1200 %}
-{% elsif section.settings.use_default_fallback_asset %}
+{% else %}
   {% assign final_desktop_url = 'home.png' | asset_url %}
   {% assign final_mobile_url = 'home.png' | asset_url %}
 {% endif %}
 
 {% comment %} Render Full-Width Banner Section {% endcomment %}
-{% if section.settings.show_image and final_desktop_url != blank %}
+{% if section.settings.show_image != false %}
   <section id="CollectionBanner-{{ section.id }}" class="collection-banner" {% if matched_block != nil %}{{ matched_block.shopify_attributes }}{% endif %}>
     <div class="collection-banner__wrapper">
       <picture class="collection-banner__picture">
         {% if final_mobile_url != blank and final_mobile_url != final_desktop_url %}
           <source media="(max-width: 749px)" srcset="{{ final_mobile_url }}">
         {% endif %}
-        <img src="{{ final_desktop_url }}" alt="{{ collection.title | escape }}" class="collection-banner__img" loading="eager" fetchpriority="high">
+        <img src="{{ final_desktop_url }}" alt="{{ collection.title | default: 'Collection' | escape }}" class="collection-banner__img" loading="eager" fetchpriority="high">
       </picture>
       {% if section.settings.enable_overlay %}
         <div class="collection-banner__overlay"></div>

@@ -3,19 +3,18 @@
     "banner": {
       "type": "main-collection-banner",
       "settings": {
-        "banner_height_desktop": 320,
-        "banner_height_mobile": 180,
-        "banner_max_width": 1550,
-        "text_align": "center",
         "show_image": true,
-        "show_collection_image": false,
+        "use_default_fallback_asset": true,
+        "show_collection_image": true,
+        "banner_height_desktop": 450,
+        "banner_height_mobile": 240,
         "image_fit_desktop": "cover",
         "image_fit_mobile": "cover",
-        "enable_overlay": true,
+        "enable_overlay": false,
         "overlay_color": "#000000",
-        "overlay_opacity": 15,
-        "bg_color": "#1b4317",
-        "text_color": "#ffffff"
+        "overlay_opacity": 0,
+        "bg_color": "#ffffff",
+        "text_color": "#1b4317"
       }
     },
     "product_grid": {
