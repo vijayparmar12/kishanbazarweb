@@ -111,42 +111,59 @@
   {% assign mf_mobile_img = collection.metafields.custom.mobile_banner.value | default: collection.metafields.custom.mobile_banner %}
 {% endif %}
 
-{% comment %} Resolve Metafield Image URL (Failsafe for File References like spices.png) {% endcomment %}
+{% comment %} 7-Stage Failsafe URL Resolution for Desktop Metafield Image {% endcomment %}
 {% assign mf_img_resolved_url = nil %}
 {% if mf_img != nil and mf_img != blank %}
   {% if mf_img.url != blank and mf_img.url contains '/' %}
     {% assign mf_img_resolved_url = mf_img.url %}
   {% elsif mf_img.preview_image != blank %}
     {% assign mf_img_resolved_url = mf_img.preview_image | image_url: width: 2200 %}
+  {% elsif mf_img.image != blank %}
+    {% assign mf_img_resolved_url = mf_img.image | image_url: width: 2200 %}
+  {% elsif mf_img.src != blank %}
+    {% assign mf_img_resolved_url = mf_img.src | image_url: width: 2200 %}
   {% else %}
-    {% assign test_image_url = mf_img | image_url: width: 2200 %}
-    {% if test_image_url != blank and test_image_url contains 'cdn.shopify.com' %}
-      {% assign mf_img_resolved_url = test_image_url %}
+    {% assign try_img = mf_img | image_url: width: 2200 %}
+    {% if try_img != blank and try_img contains 'shopify' %}
+      {% assign mf_img_resolved_url = try_img %}
     {% else %}
-      {% assign test_file_url = mf_img | file_url %}
-      {% if test_file_url != blank and test_file_url contains 'cdn.shopify.com' or test_file_url contains '/files/' or test_file_url contains 'http' %}
-        {% assign mf_img_resolved_url = test_file_url %}
-      {% elsif mf_img contains 'cdn.shopify.com' or mf_img contains 'http' %}
-        {% assign mf_img_resolved_url = mf_img %}
+      {% assign try_file_img = mf_img | file_img_url: '2048x2048' %}
+      {% if try_file_img != blank and try_file_img contains 'shopify' %}
+        {% assign mf_img_resolved_url = try_file_img %}
       {% else %}
-        {% assign mf_img_resolved_url = mf_img | file_url %}
+        {% assign try_file = mf_img | file_url %}
+        {% if try_file != blank and try_file contains 'shopify' %}
+          {% assign mf_img_resolved_url = try_file %}
+        {% elsif mf_img contains 'http' or mf_img contains 'shopify' %}
+          {% assign mf_img_resolved_url = mf_img %}
+        {% endif %}
       {% endif %}
     {% endif %}
   {% endif %}
 {% endif %}
 
+{% comment %} 7-Stage Failsafe URL Resolution for Mobile Metafield Image {% endcomment %}
 {% assign mf_mobile_resolved_url = nil %}
 {% if mf_mobile_img != nil and mf_mobile_img != blank %}
   {% if mf_mobile_img.url != blank and mf_mobile_img.url contains '/' %}
     {% assign mf_mobile_resolved_url = mf_mobile_img.url %}
   {% elsif mf_mobile_img.preview_image != blank %}
     {% assign mf_mobile_resolved_url = mf_mobile_img.preview_image | image_url: width: 1200 %}
+  {% elsif mf_mobile_img.image != blank %}
+    {% assign mf_mobile_resolved_url = mf_mobile_img.image | image_url: width: 1200 %}
+  {% elsif mf_mobile_img.src != blank %}
+    {% assign mf_mobile_resolved_url = mf_mobile_img.src | image_url: width: 1200 %}
   {% else %}
-    {% assign test_mob_img_url = mf_mobile_img | image_url: width: 1200 %}
-    {% if test_mob_img_url != blank and test_mob_img_url contains 'cdn.shopify.com' %}
-      {% assign mf_mobile_resolved_url = test_mob_img_url %}
+    {% assign try_mob_img = mf_mobile_img | image_url: width: 1200 %}
+    {% if try_mob_img != blank and try_mob_img contains 'shopify' %}
+      {% assign mf_mobile_resolved_url = try_mob_img %}
     {% else %}
-      {% assign mf_mobile_resolved_url = mf_mobile_img | file_url %}
+      {% assign try_mob_file = mf_mobile_img | file_img_url: '1200x' %}
+      {% if try_mob_file != blank and try_mob_file contains 'shopify' %}
+        {% assign mf_mobile_resolved_url = try_mob_file %}
+      {% else %}
+        {% assign mf_mobile_resolved_url = mf_mobile_img | file_url %}
+      {% endif %}
     {% endif %}
   {% endif %}
 {% endif %}
