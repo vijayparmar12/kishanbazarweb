@@ -169,7 +169,7 @@
         "coins_multiplier": 3,
         "coins_banner_label": "Earn {coins} Coins on this product",
         "show_coins_savings": true,
-        "coins_banner_bg": "linear-gradient(90deg, #1b4317 0%, #2e5b29 55%, #3d6e37 100%)",
+        "coins_banner_bg": "linear-gradient(90deg, rgba(27, 67, 23, 1), rgba(46, 91, 41, 1) 55%, rgba(61, 110, 55, 1) 100%)",
         "tab_description": "<p>{{ product.metafields.custom.description | metafield_tag }}</p>",
         "tab_ingredients": "<p>{{ product.metafields.custom.ingredients | metafield_tag }}</p>",
         "tab_usage": "<p>{{ product.metafields.custom.usage | metafield_tag }}</p>",
