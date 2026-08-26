@@ -510,6 +510,12 @@
           "default": true
         },
         {
+          "type": "text",
+          "id": "custom_subtitle",
+          "label": "Custom Subtitle Text",
+          "info": "Leave blank to automatically display product type & tags"
+        },
+        {
           "type": "header",
           "content": "Title Typography"
         },
@@ -551,6 +557,48 @@
             { "value": "700", "label": "700 - Bold" },
             { "value": "800", "label": "800 - ExtraBold" },
             { "value": "900", "label": "900 - Black" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Subtitle Typography"
+        },
+        {
+          "type": "range",
+          "id": "subtitle_font_size_mobile",
+          "label": "Mobile Subtitle Font Size (px)",
+          "min": 10,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "default": 13
+        },
+        {
+          "type": "range",
+          "id": "subtitle_font_size_desktop",
+          "label": "Desktop Subtitle Font Size (px)",
+          "min": 12,
+          "max": 28,
+          "step": 1,
+          "unit": "px",
+          "default": 15
+        },
+        {
+          "type": "color",
+          "id": "subtitle_color",
+          "label": "Subtitle Text Color",
+          "default": "#4b5563"
+        },
+        {
+          "type": "select",
+          "id": "subtitle_font_weight",
+          "label": "Subtitle Font Weight",
+          "default": "500",
+          "options": [
+            { "value": "400", "label": "400 - Normal" },
+            { "value": "500", "label": "500 - Medium" },
+            { "value": "600", "label": "600 - SemiBold" },
+            { "value": "700", "label": "700 - Bold" }
           ]
         }
       ]

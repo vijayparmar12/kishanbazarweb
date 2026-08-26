@@ -53,16 +53,27 @@
               {{ product.title }}
             </h1>
             {% if block.settings.show_subtitle %}
+              {% assign custom_sub = block.settings.custom_subtitle | strip %}
               {% capture subtitle_text %}
-                {% if product.type != blank %}{{ product.type }}{% endif %}
-                {% if product.tags.size > 0 %}
-                  {% if product.type != blank %} &bull; {% endif %}
-                  {{ product.tags | join: ' &bull; ' }}
+                {% if custom_sub != blank %}
+                  {{ custom_sub }}
+                {% else %}
+                  {% if product.type != blank %}{{ product.type }}{% endif %}
+                  {% if product.tags.size > 0 %}
+                    {% if product.type != blank %} &bull; {% endif %}
+                    {{ product.tags | join: ' &bull; ' }}
+                  {% endif %}
                 {% endif %}
               {% endcapture %}
               {% assign clean_subtitle = subtitle_text | strip %}
               {% if clean_subtitle != blank %}
-                <p class="product-info__subtitle">
+                {% liquid
+                  assign m_sub_size = block.settings.subtitle_font_size_mobile | default: 13
+                  assign d_sub_size = block.settings.subtitle_font_size_desktop | default: 15
+                  assign sub_clr = block.settings.subtitle_color | default: '#4b5563'
+                  assign sub_wt = block.settings.subtitle_font_weight | default: '500'
+                %}
+                <p class="product-info__subtitle" style="--sub-mobile-size: {{ m_sub_size }}px; --sub-desktop-size: {{ d_sub_size }}px; color: {{ sub_clr }} !important; font-weight: {{ sub_wt }} !important;">
                   {{ clean_subtitle }}
                 </p>
               {% endif %}
