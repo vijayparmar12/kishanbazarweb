@@ -1793,47 +1793,80 @@ body.kb-cart-drawer-open {
   border-bottom-color: #166534;
 }
 
+.kb-cart-tab-panel[data-tab-panel="frequently"] {
+  position: relative !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.kb-cart-fbt-floating-arrow {
+  position: absolute !important;
+  top: 45% !important;
+  transform: translateY(-50%) !important;
+  z-index: 15 !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #166534 !important;
+  font-size: 1.35rem !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.2s ease !important;
+}
+
+.kb-cart-fbt-floating-arrow:hover {
+  background: #166534 !important;
+  color: #ffffff !important;
+  border-color: #166534 !important;
+}
+
+.kb-cart-fbt-floating-arrow--prev {
+  left: -8px !important;
+}
+
+.kb-cart-fbt-floating-arrow--next {
+  right: -8px !important;
+}
+
 .kb-cart-addons-track {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
-  gap: 0.75rem !important;
+  gap: 0.85rem !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
   touch-action: pan-x pan-y !important;
+  -webkit-overflow-scrolling: touch !important;
   overscroll-behavior-x: contain !important;
   scroll-snap-type: x proximity !important;
-  padding-bottom: 8px !important;
-  -webkit-overflow-scrolling: touch !important;
-  scrollbar-width: thin !important;
-  scrollbar-color: #166534 #f1f5f9 !important;
+  padding: 6px 4px 12px 4px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 .kb-cart-addons-track::-webkit-scrollbar {
-  height: 5px !important;
-  display: block !important;
-}
-
-.kb-cart-addons-track::-webkit-scrollbar-track {
-  background: #f1f5f9 !important;
-  border-radius: 4px !important;
-}
-
-.kb-cart-addons-track::-webkit-scrollbar-thumb {
-  background: #166534 !important;
-  border-radius: 4px !important;
+  display: none !important;
 }
 
 .kb-cart-addon-card {
-  flex: 0 0 175px !important;
-  min-width: 175px !important;
-  max-width: 175px !important;
+  flex: 0 0 240px !important;
+  min-width: 240px !important;
+  max-width: 240px !important;
   flex-shrink: 0 !important;
   scroll-snap-align: start !important;
   background: #ffffff !important;
   border: 1px solid #e2e8f0 !important;
   border-radius: 12px !important;
-  padding: 0.65rem !important;
+  padding: 0.75rem !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
@@ -1843,14 +1876,13 @@ body.kb-cart-drawer-open {
 
 .kb-cart-addon-top-row {
   display: flex !important;
-  align-items: center !important;
-  gap: 0.5rem !important;
-  margin-bottom: 0.4rem !important;
+  align-items: flex-start !important;
+  gap: 0.65rem !important;
 }
 
 .kb-cart-addon-img {
-  width: 58px !important;
-  height: 58px !important;
+  width: 64px !important;
+  height: 64px !important;
   object-fit: cover !important;
   border-radius: 8px !important;
   flex-shrink: 0 !important;
@@ -1859,27 +1891,29 @@ body.kb-cart-drawer-open {
 .kb-cart-addon-info-meta {
   display: flex !important;
   flex-direction: column !important;
+  justify-content: flex-start !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
   overflow: hidden !important;
 }
 
 .kb-cart-addon-title {
-  font-size: 0.78rem !important;
-  font-weight: 700 !important;
+  font-size: 0.84rem !important;
+  font-weight: 600 !important;
   color: #1e293b !important;
   line-height: 1.25 !important;
-  margin-bottom: 0.15rem !important;
   display: -webkit-box !important;
   -webkit-line-clamp: 2 !important;
   -webkit-box-orient: vertical !important;
   overflow: hidden !important;
-  text-overflow: ellipsis !important;
+  word-break: break-word !important;
 }
 
 .kb-cart-addon-price {
-  font-size: 0.82rem !important;
+  font-size: 0.88rem !important;
   font-weight: 800 !important;
   color: #166534 !important;
-  margin-bottom: 0 !important;
+  margin-top: 4px !important;
   display: flex !important;
   align-items: center !important;
   gap: 0.35rem !important;
@@ -1888,8 +1922,8 @@ body.kb-cart-drawer-open {
 .kb-cart-addon-compare {
   color: #94a3b8 !important;
   text-decoration: line-through !important;
-  font-weight: 500 !important;
-  font-size: 0.75rem !important;
+  font-weight: 400 !important;
+  font-size: 0.78rem !important;
 }
 
 .kb-cart-addon-add-btn {
@@ -1898,14 +1932,16 @@ body.kb-cart-drawer-open {
   border: 1.5px solid #166534 !important;
   color: #166534 !important;
   border-radius: 8px !important;
-  padding: 0.4rem 0 !important;
-  font-size: 0.82rem !important;
+  padding: 0.45rem 0 !important;
+  font-size: 0.88rem !important;
   font-weight: 800 !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  margin-top: 10px !important;
+  box-sizing: border-box !important;
 }
 
 .kb-cart-addon-add-btn:hover {
@@ -2523,11 +2559,11 @@ body.kb-cart-drawer-open {
   }
 
   .kb-cart-addon-card {
-    flex: 0 0 165px !important;
-    min-width: 165px !important;
-    max-width: 165px !important;
+    flex: 0 0 220px !important;
+    min-width: 220px !important;
+    max-width: 220px !important;
     flex-shrink: 0 !important;
-    width: 165px !important;
+    width: 220px !important;
     scroll-snap-align: start !important;
     box-sizing: border-box !important;
   }
