@@ -4,7 +4,7 @@
   1. Collection Metafield (`custom.banner_image`, `custom.banner`, `custom.desktop_banner`, `custom.collection_banner`)
   2. Shopify Theme Editor Block Match for target collection
   3. Shopify Theme Editor Section Fallback Setting
-  4. Native Collection Image (if enabled in settings)
+  4. Native Collection Image (`collection.image`)
 {% endcomment %}
 
 {% style %}
@@ -15,7 +15,7 @@
     position: relative;
     width: 100%;
     max-width: var(--banner-max-width);
-    margin: 1.5rem auto 0.5rem;
+    margin: 1.25rem auto 0.5rem;
     padding: 0 var(--container-padding, 1rem);
     box-sizing: border-box;
   }
@@ -28,6 +28,15 @@
     overflow: hidden;
     background-color: {{ section.settings.bg_color }};
     box-shadow: 0 10px 30px rgba(35, 66, 31, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__wrapper--text-only {
+    height: auto;
+    min-height: 120px;
+    padding: 2rem;
   }
 
   #CollectionBanner-{{ section.id }} .collection-banner__picture,
@@ -47,6 +56,20 @@
     pointer-events: none;
   }
 
+  #CollectionBanner-{{ section.id }} .collection-banner__title-box {
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+    color: {{ section.settings.text_color }};
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__title-box h1 {
+    margin: 0;
+    color: inherit;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+  }
+
   @media (max-width: 749px) {
     #CollectionBanner-{{ section.id }} .collection-banner__wrapper {
       height: var(--banner-height-mobile);
@@ -59,6 +82,9 @@
 
 {% comment %} 1. Locate Desktop Metafield Image {% endcomment %}
 {% assign raw_mf = collection.metafields.custom.banner_image %}
+{% if raw_mf == blank or raw_mf == nil %}
+  {% assign raw_mf = collection.metafields.custom['banner_image'] %}
+{% endif %}
 {% if raw_mf == blank or raw_mf == nil %}
   {% assign raw_mf = collection.metafields.custom.banner %}
 {% endif %}
@@ -86,36 +112,60 @@
     {% assign val = val.first %}
   {% endif %}
 
-  {% if val.url != blank and val.url contains '/' %}
+  {% comment %} Check 1: Direct .url property {% endcomment %}
+  {% if val.url != blank %}
     {% assign mf_desktop_url = val.url %}
-  {% elsif val.preview_image.src != blank %}
-    {% assign mf_desktop_url = val.preview_image.src | image_url: width: 2200 %}
-  {% elsif val.preview_image != blank %}
+  {% endif %}
+
+  {% comment %} Check 2: .preview_image property {% endcomment %}
+  {% if mf_desktop_url == blank and val.preview_image != blank %}
     {% assign mf_desktop_url = val.preview_image | image_url: width: 2200 %}
-  {% elsif val.image != blank %}
+  {% endif %}
+
+  {% comment %} Check 3: .image / .src property {% endcomment %}
+  {% if mf_desktop_url == blank and val.image != blank %}
     {% assign mf_desktop_url = val.image | image_url: width: 2200 %}
-  {% elsif val.src != blank %}
+  {% elsif mf_desktop_url == blank and val.src != blank %}
     {% assign mf_desktop_url = val.src | image_url: width: 2200 %}
   {% endif %}
 
+  {% comment %} Check 4: image_url filter {% endcomment %}
   {% if mf_desktop_url == blank %}
-    {% assign u1 = val | image_url: width: 2200 %}
-    {% if u1 != blank and u1 contains '/' and u1 contains 'no-image' == false %}
-      {% assign mf_desktop_url = u1 %}
+    {% assign test_img = val | image_url: width: 2200 %}
+    {% if test_img != blank and test_img contains 'no-image' == false %}
+      {% assign mf_desktop_url = test_img %}
     {% endif %}
   {% endif %}
 
+  {% comment %} Check 5: file_img_url filter {% endcomment %}
   {% if mf_desktop_url == blank %}
-    {% assign u2 = val | file_img_url: '2048x2048' %}
-    {% if u2 != blank and u2 contains '/' and u2 contains 'no-image' == false %}
-      {% assign mf_desktop_url = u2 %}
+    {% assign test_file_img = val | file_img_url: '2048x2048' %}
+    {% if test_file_img != blank and test_file_img contains 'no-image' == false %}
+      {% assign mf_desktop_url = test_file_img %}
     {% endif %}
   {% endif %}
 
+  {% comment %} Check 6: file_url filter {% endcomment %}
   {% if mf_desktop_url == blank %}
-    {% assign u3 = val | file_url %}
-    {% if u3 != blank and u3 contains '/' and u3 contains 'no-image' == false %}
-      {% assign mf_desktop_url = u3 %}
+    {% assign test_file = val | file_url %}
+    {% if test_file != blank and test_file contains 'no-image' == false %}
+      {% assign mf_desktop_url = test_file %}
+    {% endif %}
+  {% endif %}
+
+  {% comment %} Check 7: raw_mf file_url {% endcomment %}
+  {% if mf_desktop_url == blank %}
+    {% assign test_raw_file = raw_mf | file_url %}
+    {% if test_raw_file != blank and test_raw_file contains 'no-image' == false %}
+      {% assign mf_desktop_url = test_raw_file %}
+    {% endif %}
+  {% endif %}
+
+  {% comment %} Check 8: String filename like spices.png {% endcomment %}
+  {% if mf_desktop_url == blank and val != blank %}
+    {% assign test_str = val | to_s %}
+    {% if test_str contains '.png' or test_str contains '.jpg' or test_str contains '.jpeg' or test_str contains '.webp' %}
+      {% assign mf_desktop_url = test_str | file_url %}
     {% endif %}
   {% endif %}
 {% endif %}
@@ -128,10 +178,8 @@
     {% assign mob_val = mob_val.first %}
   {% endif %}
 
-  {% if mob_val.url != blank and mob_val.url contains '/' %}
+  {% if mob_val.url != blank %}
     {% assign mf_mobile_url = mob_val.url %}
-  {% elsif mob_val.preview_image.src != blank %}
-    {% assign mf_mobile_url = mob_val.preview_image.src | image_url: width: 1200 %}
   {% elsif mob_val.preview_image != blank %}
     {% assign mf_mobile_url = mob_val.preview_image | image_url: width: 1200 %}
   {% elsif mob_val.image != blank %}
@@ -140,15 +188,15 @@
     {% assign mf_mobile_url = mob_val.src | image_url: width: 1200 %}
   {% else %}
     {% assign mu1 = mob_val | image_url: width: 1200 %}
-    {% if mu1 != blank and mu1 contains '/' and mu1 contains 'no-image' == false %}
+    {% if mu1 != blank and mu1 contains 'no-image' == false %}
       {% assign mf_mobile_url = mu1 %}
     {% else %}
       {% assign mu2 = mob_val | file_img_url: '1200x' %}
-      {% if mu2 != blank and mu2 contains '/' and mu2 contains 'no-image' == false %}
+      {% if mu2 != blank and mu2 contains 'no-image' == false %}
         {% assign mf_mobile_url = mu2 %}
       {% else %}
         {% assign mu3 = mob_val | file_url %}
-        {% if mu3 != blank and mu3 contains '/' and mu3 contains 'no-image' == false %}
+        {% if mu3 != blank and mu3 contains 'no-image' == false %}
           {% assign mf_mobile_url = mu3 %}
         {% endif %}
       {% endif %}
@@ -187,9 +235,9 @@
   {% assign final_mobile_url = collection.image | image_url: width: 1200 %}
 {% endif %}
 
-{% comment %} Render Banner if image exists {% endcomment %}
-{% if final_desktop_url != blank and section.settings.show_image %}
-  <section id="CollectionBanner-{{ section.id }}" class="collection-banner" {% if matched_block != nil %}{{ matched_block.shopify_attributes }}{% endif %}>
+{% comment %} Render Section {% endcomment %}
+<section id="CollectionBanner-{{ section.id }}" class="collection-banner" {% if matched_block != nil %}{{ matched_block.shopify_attributes }}{% endif %}>
+  {% if final_desktop_url != blank and section.settings.show_image %}
     <div class="collection-banner__wrapper">
       <picture class="collection-banner__picture">
         {% if final_mobile_url != blank and final_mobile_url != final_desktop_url %}
@@ -200,9 +248,20 @@
       {% if section.settings.enable_overlay %}
         <div class="collection-banner__overlay"></div>
       {% endif %}
+      {% if section.settings.show_title_overlay %}
+        <div class="collection-banner__title-box">
+          <h1>{{ collection.title }}</h1>
+        </div>
+      {% endif %}
     </div>
-  </section>
-{% endif %}
+  {% elsif section.settings.show_fallback_header %}
+    <div class="collection-banner__wrapper collection-banner__wrapper--text-only">
+      <div class="collection-banner__title-box">
+        <h1>{{ collection.title }}</h1>
+      </div>
+    </div>
+  {% endif %}
+</section>
 
 {% schema %}
 {
@@ -212,6 +271,8 @@
   "settings": [
     { "type": "header", "content": "Banner Display & Dimensions" },
     { "type": "checkbox", "id": "show_image", "label": "Show Banner Image", "default": true },
+    { "type": "checkbox", "id": "show_fallback_header", "label": "Show Text Title if no image set", "default": false },
+    { "type": "checkbox", "id": "show_title_overlay", "label": "Show Collection Title over Banner Image", "default": false },
     { "type": "range", "id": "banner_height_desktop", "label": "Desktop Height (px)", "min": 150, "max": 650, "step": 10, "default": 320, "unit": "px" },
     { "type": "range", "id": "banner_height_mobile", "label": "Mobile Height (px)", "min": 100, "max": 450, "step": 10, "default": 180, "unit": "px" },
     { "type": "range", "id": "banner_max_width", "label": "Max Width (px)", "min": 800, "max": 2200, "step": 50, "default": 1550, "unit": "px" },
@@ -239,12 +300,13 @@
     { "type": "header", "content": "Fallback Banner Images (Theme Editor)" },
     { "type": "image_picker", "id": "custom_image_desktop", "label": "Fallback Desktop Banner", "info": "Used if no specific collection metafield or block is set" },
     { "type": "image_picker", "id": "custom_image_mobile", "label": "Fallback Mobile Banner", "info": "Used if no specific collection metafield or block is set" },
-    { "type": "checkbox", "id": "show_collection_image", "label": "Use Native Collection Image as Fallback", "default": false },
+    { "type": "checkbox", "id": "show_collection_image", "label": "Use Native Collection Image as Fallback", "default": true },
     { "type": "header", "content": "Overlay Tint & Colors" },
     { "type": "checkbox", "id": "enable_overlay", "label": "Enable Tint Overlay", "default": true },
     { "type": "color", "id": "overlay_color", "label": "Overlay Tint Color", "default": "#000000" },
     { "type": "range", "id": "overlay_opacity", "label": "Overlay Opacity (%)", "min": 0, "max": 100, "step": 5, "default": 15, "unit": "%" },
-    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#1b4317" }
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#1b4317" },
+    { "type": "color", "id": "text_color", "label": "Text / Title Color", "default": "#ffffff" }
   ],
   "blocks": [
     {
