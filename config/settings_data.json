@@ -14,7 +14,25 @@
     "sections": {
       "customer-login-modal": {
         "type": "customer-login-modal",
-        "settings": {}
+        "settings": {
+          "modal_title": "Welcome to Kishan Bazar",
+          "modal_subtitle": "Enter your mobile number to receive an OTP for instant login",
+          "phone_label": "Mobile Number",
+          "country_code": "+91",
+          "phone_placeholder": "98765 43210",
+          "submit_btn_text": "Continue",
+          "terms_text": "By continuing, you agree to Kishan Bazar's",
+          "terms_url": "/pages/terms-and-conditions",
+          "privacy_url": "/pages/privacy-policy",
+          "verify_title": "Verify OTP",
+          "otp_label": "Enter 6-Digit OTP",
+          "verify_btn_text": "Verify & Proceed",
+          "resend_btn_text": "Resend OTP",
+          "btn_bg": "#23421F",
+          "btn_text_color": "#FFFFFF",
+          "card_bg": "#FFFFFF",
+          "text_color": "#23421F"
+        }
       },
       "customer-profile": {
         "type": "customer-profile",
