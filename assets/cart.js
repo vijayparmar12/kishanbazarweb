@@ -964,6 +964,15 @@
       if (track.dataset.dragScrollInitialized === 'true') return;
       track.dataset.dragScrollInitialized = 'true';
 
+      // 1. Mouse wheel horizontal scroll converter
+      track.addEventListener('wheel', (e) => {
+        if (e.deltaY !== 0) {
+          e.preventDefault();
+          track.scrollLeft += e.deltaY;
+        }
+      }, { passive: false });
+
+      // 2. Mouse Drag Scroll
       let isDown = false;
       let startX, startY, scrollLeft;
 
@@ -972,14 +981,17 @@
         window._isFbtTrackDragging = false;
         startX = e.pageX - track.offsetLeft;
         scrollLeft = track.scrollLeft;
+        track.style.cursor = 'grabbing';
       });
 
       track.addEventListener('mouseleave', () => {
         isDown = false;
+        track.style.cursor = 'grab';
       });
 
       track.addEventListener('mouseup', () => {
         isDown = false;
+        track.style.cursor = 'grab';
         setTimeout(() => { window._isFbtTrackDragging = false; }, 80);
       });
 
@@ -987,14 +999,14 @@
         if (!isDown) return;
         const x = e.pageX - track.offsetLeft;
         const walk = (x - startX);
-        if (Math.abs(walk) > 5) {
+        if (Math.abs(walk) > 4) {
           window._isFbtTrackDragging = true;
           e.preventDefault();
           track.scrollLeft = scrollLeft - walk * 1.5;
         }
       });
 
-      // Mobile touch drag support
+      // 3. Mobile touch drag support
       track.addEventListener('touchstart', (e) => {
         window._isFbtTrackDragging = false;
         if (e.touches && e.touches[0]) {
@@ -1019,6 +1031,29 @@
       track.addEventListener('touchend', () => {
         setTimeout(() => { window._isFbtTrackDragging = false; }, 100);
       }, { passive: true });
+    });
+
+    // 4. Left / Right Arrow Buttons Click Event
+    document.addEventListener('click', (e) => {
+      const prevBtn = e.target.closest('[data-fbt-prev]');
+      if (prevBtn) {
+        const block = prevBtn.closest('.kb-cart-drawer__addons-block');
+        const track = block?.querySelector('.kb-cart-addons-track');
+        if (track) {
+          track.scrollBy({ left: -220, behavior: 'smooth' });
+        }
+        return;
+      }
+
+      const nextBtn = e.target.closest('[data-fbt-next]');
+      if (nextBtn) {
+        const block = nextBtn.closest('.kb-cart-drawer__addons-block');
+        const track = block?.querySelector('.kb-cart-addons-track');
+        if (track) {
+          track.scrollBy({ left: 220, behavior: 'smooth' });
+        }
+        return;
+      }
     });
   };
 

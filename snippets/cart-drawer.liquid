@@ -122,8 +122,12 @@
 
       <!-- Frequently Bought Together Carousel (Matching Two Brothers Organic Farms UI) -->
       <div class="kb-cart-drawer__addons-block" {% if cart.item_count == 0 %}style="display: none;"{% endif %}>
-        <div class="kb-cart-addons-tabs" style="margin-bottom: 0.6rem;">
-          <button type="button" class="kb-cart-tab-btn is-active" data-cart-tab="frequently" style="font-weight: 800; font-size: 0.88rem; color: #166534;">Frequently Bought Together</button>
+        <div class="kb-cart-addons-tabs" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem;">
+          <button type="button" class="kb-cart-tab-btn is-active" data-cart-tab="frequently" style="font-weight: 800; font-size: 0.88rem; color: #166534; background: none; border: none; padding: 0;">Frequently Bought Together</button>
+          <div class="kb-cart-fbt-nav-btns" style="display: flex; align-items: center; gap: 0.4rem;">
+            <button type="button" class="kb-cart-fbt-arrow kb-cart-fbt-arrow--prev" data-fbt-prev aria-label="Scroll left" style="background: #ffffff; border: 1px solid #cbd5e1; color: #166534; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 800; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">&larr;</button>
+            <button type="button" class="kb-cart-fbt-arrow kb-cart-fbt-arrow--next" data-fbt-next aria-label="Scroll right" style="background: #ffffff; border: 1px solid #cbd5e1; color: #166534; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 800; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">&rarr;</button>
+          </div>
         </div>
 
         <div class="kb-cart-tab-panel is-active" data-tab-panel="frequently">
