@@ -180,29 +180,17 @@
 
   // Event Listeners
   document.addEventListener('click', (event) => {
-    // 1. Click Profile Icon or Mobile Account Button
-    const profileTrigger = event.target.closest('a[href*="/account"], [data-customer-login-trigger]');
-    if (profileTrigger) {
-      event.preventDefault();
-      const session = getSession();
-      if (!session || !session.isLoggedIn) {
-        openAuthModal();
-      } else {
-        window.location.href = '/pages/account';
-      }
-    }
-
-    // 2. Auth Modal Close
+    // 1. Auth Modal Close
     if (event.target.closest('[data-auth-close]')) {
       closeAuthModal();
     }
 
-    // 3. Edit Phone Button
+    // 2. Edit Phone Button
     if (event.target.closest('[data-edit-phone]')) {
       showStep('phone');
     }
 
-    // 4. Resend OTP Button
+    // 3. Resend OTP Button
     if (event.target.closest('[data-resend-otp]')) {
       startCountdown(30);
     }

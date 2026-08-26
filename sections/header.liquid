@@ -96,48 +96,19 @@
                 {% endif %}
               </a>
             {% else %}
-              {% assign account_action = section.settings.account_action | default: 'modal' %}
-              {% if account_action == 'login_url' %}
-                <a class="kb-header__action kb-header__action--account" href="{{ routes.account_login_url }}" aria-label="{{ desktop_account_label }}" data-customer-login-trigger>
-                  {% if section.settings.account_icon_image != blank %}
-                    {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: desktop_account_label }}
-                  {% elsif section.settings.account_icon_emoji != blank %}
-                    <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
-                  {% else %}
-                    {% render 'icon', name: 'user', size: 25 %}
-                  {% endif %}
-                </a>
-              {% elsif account_action == 'account_page' %}
-                <a class="kb-header__action kb-header__action--account" href="{{ routes.account_url }}" aria-label="{{ desktop_account_label }}">
-                  {% if section.settings.account_icon_image != blank %}
-                    {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: desktop_account_label }}
-                  {% elsif section.settings.account_icon_emoji != blank %}
-                    <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
-                  {% else %}
-                    {% render 'icon', name: 'user', size: 25 %}
-                  {% endif %}
-                </a>
-              {% elsif account_action == 'custom' and section.settings.account_custom_url != blank %}
-                <a class="kb-header__action kb-header__action--account" href="{{ section.settings.account_custom_url }}" aria-label="{{ desktop_account_label }}">
-                  {% if section.settings.account_icon_image != blank %}
-                    {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: desktop_account_label }}
-                  {% elsif section.settings.account_icon_emoji != blank %}
-                    <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
-                  {% else %}
-                    {% render 'icon', name: 'user', size: 25 %}
-                  {% endif %}
-                </a>
-              {% else %}
-                <button type="button" class="kb-header__action kb-header__action--account" aria-label="{{ desktop_account_label }}" data-customer-login-trigger>
-                  {% if section.settings.account_icon_image != blank %}
-                    {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: desktop_account_label }}
-                  {% elsif section.settings.account_icon_emoji != blank %}
-                    <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
-                  {% else %}
-                    {% render 'icon', name: 'user', size: 25 %}
-                  {% endif %}
-                </button>
+              {% assign account_target_url = section.settings.account_custom_url | default: routes.account_login_url %}
+              {% if section.settings.account_action == 'account_page' %}
+                {% assign account_target_url = routes.account_url %}
               {% endif %}
+              <a class="kb-header__action kb-header__action--account" href="{{ account_target_url }}" aria-label="{{ desktop_account_label }}">
+                {% if section.settings.account_icon_image != blank %}
+                  {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: desktop_account_label }}
+                {% elsif section.settings.account_icon_emoji != blank %}
+                  <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
+                {% else %}
+                  {% render 'icon', name: 'user', size: 25 %}
+                {% endif %}
+              </a>
             {% endif %}
           {% endif %}
           {% if section.settings.show_wishlist %}
@@ -490,52 +461,20 @@
               <span>{{ customer.first_name | default: account_logged_in_text }}</span>
             </a>
           {% else %}
-            {% assign account_action = section.settings.account_action | default: 'modal' %}
-            {% if account_action == 'login_url' %}
-              <a href="{{ routes.account_login_url }}" class="kb-header__mobile-account-btn" data-customer-login-trigger>
-                {% if section.settings.account_icon_image != blank %}
-                  {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: 'Profile' }}
-                {% elsif section.settings.account_icon_emoji != blank %}
-                  <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
-                {% else %}
-                  {% render 'icon', name: 'user', size: 20 %}
-                {% endif %}
-                <span>{{ account_btn_text }}</span>
-              </a>
-            {% elsif account_action == 'account_page' %}
-              <a href="{{ routes.account_url }}" class="kb-header__mobile-account-btn">
-                {% if section.settings.account_icon_image != blank %}
-                  {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: 'Profile' }}
-                {% elsif section.settings.account_icon_emoji != blank %}
-                  <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
-                {% else %}
-                  {% render 'icon', name: 'user', size: 20 %}
-                {% endif %}
-                <span>{{ account_btn_text }}</span>
-              </a>
-            {% elsif account_action == 'custom' and section.settings.account_custom_url != blank %}
-              <a href="{{ section.settings.account_custom_url }}" class="kb-header__mobile-account-btn">
-                {% if section.settings.account_icon_image != blank %}
-                  {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: 'Profile' }}
-                {% elsif section.settings.account_icon_emoji != blank %}
-                  <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
-                {% else %}
-                  {% render 'icon', name: 'user', size: 20 %}
-                {% endif %}
-                <span>{{ account_btn_text }}</span>
-              </a>
-            {% else %}
-              <button type="button" class="kb-header__mobile-account-btn" data-customer-login-trigger>
-                {% if section.settings.account_icon_image != blank %}
-                  {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: 'Profile' }}
-                {% elsif section.settings.account_icon_emoji != blank %}
-                  <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
-                {% else %}
-                  {% render 'icon', name: 'user', size: 20 %}
-                {% endif %}
-                <span data-mobile-account-text>{{ account_btn_text }}</span>
-              </button>
+            {% assign mobile_profile_url = section.settings.account_custom_url | default: routes.account_login_url %}
+            {% if section.settings.account_action == 'account_page' %}
+              {% assign mobile_profile_url = routes.account_url %}
             {% endif %}
+            <a href="{{ mobile_profile_url }}" class="kb-header__mobile-account-btn">
+              {% if section.settings.account_icon_image != blank %}
+                {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: 'Profile' }}
+              {% elsif section.settings.account_icon_emoji != blank %}
+                <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
+              {% else %}
+                {% render 'icon', name: 'user', size: 20 %}
+              {% endif %}
+              <span data-mobile-account-text>{{ account_btn_text }}</span>
+            </a>
           {% endif %}
         </div>
       {% endif %}

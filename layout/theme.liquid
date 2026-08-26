@@ -49,7 +49,6 @@
   <body class="template-{{ template.name | default: 'index' | handle }}{% if template.suffix %} template-suffix-{{ template.suffix | handle }}{% endif %}">
     {% sections 'header-group' %}
 
-    {% section 'customer-login-modal' %}
     {% section 'customer-profile' %}
     {% section 'wishlist-drawer' %}
     {% render 'predictive-search-drawer' %}
