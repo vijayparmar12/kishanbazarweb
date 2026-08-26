@@ -140,6 +140,20 @@
             "faq_4_q": "",
             "faq_4_a": ""
           }
+        },
+        "product_details_accordions_card": {
+          "type": "product_details_accordions",
+          "settings": {
+            "heading": "PRODUCT DETAILS",
+            "tab_desc_title": "Description",
+            "tab_ingredients_title": "Ingredients",
+            "tab_usage_title": "Usage Info",
+            "tab_benefits_title": "Benefits",
+            "tab_storage_title": "Storage Info",
+            "tab_mfr_title": "Manufacturer & Packer Details",
+            "tab_origin_title": "Country of Origin",
+            "tab_shelflife_title": "Shelf Life"
+          }
         }
       },
       "block_order": [
@@ -152,6 +166,7 @@
         "buy_buttons_jrQJdY",
         "variant_picker_fTExdk",
         "trust_badges_V7nWne",
+        "product_details_accordions_card",
         "product_video_g8Vgf7",
         "product_banner_F8tDeF",
         "product_faq_X8pL9P"
