@@ -132,7 +132,21 @@
           <button type="button" class="kb-cart-fbt-floating-arrow kb-cart-fbt-floating-arrow--next" data-fbt-next aria-label="Scroll right">&rsaquo;</button>
 
           <div class="kb-cart-addons-track">
-            {% assign addons_coll = addons_collection.products | default: collections.all.products %}
+            {% assign addons_coll = addons_collection.products %}
+            {% if addons_coll == blank or addons_coll.size == 0 %}
+              {% assign addons_coll = collections.frontpage.products %}
+            {% endif %}
+            {% if addons_coll == blank or addons_coll.size == 0 %}
+              {% assign addons_coll = collections.all.products %}
+            {% endif %}
+            {% if addons_coll == blank or addons_coll.size == 0 %}
+              {% for c in collections %}
+                {% if c.products.size > 0 %}
+                  {% assign addons_coll = c.products %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
             {% for product in addons_coll limit: 250 %}
               <div
                 class="kb-cart-addon-card"
