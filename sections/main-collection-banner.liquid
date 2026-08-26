@@ -5,6 +5,7 @@
   2. Shopify Theme Editor Block Match for target collection
   3. Shopify Theme Editor Section Fallback Setting
   4. Native Collection Image (`collection.image`)
+  5. Default Theme Hero Banner (`home.png`)
 {% endcomment %}
 
 {% style %}
@@ -225,11 +226,14 @@
 {% elsif collection.image != blank and section.settings.show_collection_image %}
   {% assign final_desktop_url = collection.image | image_url: width: 2200 %}
   {% assign final_mobile_url = collection.image | image_url: width: 1200 %}
+{% elsif section.settings.use_default_fallback_asset %}
+  {% assign final_desktop_url = 'home.png' | asset_url %}
+  {% assign final_mobile_url = 'home.png' | asset_url %}
 {% endif %}
 
 {% comment %} Render Full-Width Banner Section {% endcomment %}
-<section id="CollectionBanner-{{ section.id }}" class="collection-banner" {% if matched_block != nil %}{{ matched_block.shopify_attributes }}{% endif %}>
-  {% if final_desktop_url != blank and section.settings.show_image %}
+{% if section.settings.show_image and final_desktop_url != blank %}
+  <section id="CollectionBanner-{{ section.id }}" class="collection-banner" {% if matched_block != nil %}{{ matched_block.shopify_attributes }}{% endif %}>
     <div class="collection-banner__wrapper">
       <picture class="collection-banner__picture">
         {% if final_mobile_url != blank and final_mobile_url != final_desktop_url %}
@@ -246,14 +250,8 @@
         </div>
       {% endif %}
     </div>
-  {% elsif section.settings.show_fallback_header %}
-    <div class="collection-banner__wrapper collection-banner__wrapper--text-only">
-      <div class="collection-banner__title-box">
-        <h1>{{ collection.title }}</h1>
-      </div>
-    </div>
-  {% endif %}
-</section>
+  </section>
+{% endif %}
 
 {% schema %}
 {
@@ -263,7 +261,7 @@
   "settings": [
     { "type": "header", "content": "Full-Width Banner Dimensions" },
     { "type": "checkbox", "id": "show_image", "label": "Show Banner Image", "default": true },
-    { "type": "checkbox", "id": "show_fallback_header", "label": "Show Text Title if no image set", "default": false },
+    { "type": "checkbox", "id": "use_default_fallback_asset", "label": "Show Theme Default Banner Image for all collections", "default": true },
     { "type": "checkbox", "id": "show_title_overlay", "label": "Show Collection Title over Banner Image", "default": false },
     { "type": "range", "id": "banner_height_desktop", "label": "Desktop Max Height (px)", "min": 200, "max": 650, "step": 10, "default": 450, "unit": "px" },
     { "type": "range", "id": "banner_height_mobile", "label": "Mobile Max Height (px)", "min": 120, "max": 450, "step": 10, "default": 240, "unit": "px" },
