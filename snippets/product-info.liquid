@@ -263,9 +263,42 @@
           {% endform %}
 
         {% when 'description' %}
-          <div class="product-info__description" {{ block.shopify_attributes }}>
-            {{ product.description }}
-          </div>
+          {% if product.description != blank %}
+            <div class="product-info__description product-info__description--mobile-toggle" {{ block.shopify_attributes }} data-mobile-desc-toggle>
+              <div class="product-info__description-content is-collapsed" data-desc-content>
+                {{ product.description }}
+              </div>
+              <button type="button" class="product-info__desc-toggle-btn" data-desc-toggle-btn aria-expanded="false">
+                <span class="toggle-text">View More</span>
+                <svg class="toggle-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </div>
+            <script>
+              (function() {
+                if (window._mobileDescToggleInit) return;
+                window._mobileDescToggleInit = true;
+                document.addEventListener('click', function(e) {
+                  var btn = e.target.closest('[data-desc-toggle-btn]');
+                  if (!btn) return;
+                  var container = btn.closest('[data-mobile-desc-toggle]');
+                  if (!container) return;
+                  var content = container.querySelector('[data-desc-content]');
+                  var textSpan = btn.querySelector('.toggle-text');
+                  var isExpanded = btn.getAttribute('aria-expanded') === 'true';
+
+                  if (isExpanded) {
+                    btn.setAttribute('aria-expanded', 'false');
+                    if (content) content.classList.add('is-collapsed');
+                    if (textSpan) textSpan.textContent = 'View More';
+                  } else {
+                    btn.setAttribute('aria-expanded', 'true');
+                    if (content) content.classList.remove('is-collapsed');
+                    if (textSpan) textSpan.textContent = 'View Less';
+                  }
+                });
+              })();
+            </script>
+          {% endif %}
 
         {% when 'collapsible_tab' %}
           <details class="product-info__collapsible-tab" {{ block.shopify_attributes }} style="margin-top: 0.75rem; border: 1px solid #d4e5d2; border-radius: 12px; padding: 12px 14px; background: #ffffff;">

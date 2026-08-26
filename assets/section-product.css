@@ -2390,3 +2390,62 @@ input[type="submit"].jdgm-btn:hover {
   text-align: justify !important;
   text-justify: inter-word !important;
 }
+
+/* Mobile Description 2-Line Truncation & Toggle */
+@media (max-width: 768px) {
+  .product-info__description--mobile-toggle {
+    margin-bottom: 0.85rem;
+  }
+
+  .product-info__description-content.is-collapsed {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.5 !important;
+    max-height: 3.1em !important;
+  }
+
+  .product-info__description-content.is-collapsed * {
+    display: inline !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .product-info__desc-toggle-btn {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    padding: 6px 0 0 0;
+    color: #23421f;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .product-info__desc-toggle-btn .toggle-icon {
+    transition: transform 0.25s ease;
+  }
+
+  .product-info__desc-toggle-btn[aria-expanded="true"] .toggle-icon {
+    transform: rotate(180deg);
+  }
+}
+
+@media (min-width: 769px) {
+  .product-info__desc-toggle-btn {
+    display: none !important;
+  }
+
+  .product-info__description-content.is-collapsed {
+    display: block !important;
+    -webkit-line-clamp: unset !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}
