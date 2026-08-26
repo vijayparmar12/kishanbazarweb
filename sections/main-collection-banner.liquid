@@ -1,5 +1,5 @@
 {% comment %}
-  Collection Banner Section
+  Collection Hero Banner Section (Full-Width Edge-To-Edge like Two Brothers Organic Farms)
   Resolves Banner Images in Priority:
   1. Collection Metafield (`custom.banner_image`, `custom.banner`, `custom.desktop_banner`, `custom.collection_banner`)
   2. Shopify Theme Editor Block Match for target collection
@@ -9,40 +9,33 @@
 
 {% style %}
   #CollectionBanner-{{ section.id }} {
-    --banner-height-desktop: {{ section.settings.banner_height_desktop }}px;
-    --banner-height-mobile: {{ section.settings.banner_height_mobile }}px;
-    --banner-max-width: {{ section.settings.banner_max_width }}px;
     position: relative;
     width: 100%;
-    max-width: var(--banner-max-width);
-    margin: 1.25rem auto 0.5rem;
-    padding: 0 var(--container-padding, 1rem);
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
+    overflow: hidden;
   }
 
   #CollectionBanner-{{ section.id }} .collection-banner__wrapper {
     position: relative;
     width: 100%;
-    height: var(--banner-height-desktop);
-    border-radius: {{ section.settings.border_radius }}px;
     overflow: hidden;
     background-color: {{ section.settings.bg_color }};
-    box-shadow: 0 10px 30px rgba(35, 66, 31, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  #CollectionBanner-{{ section.id }} .collection-banner__wrapper--text-only {
-    height: auto;
-    min-height: 120px;
-    padding: 2rem;
+  #CollectionBanner-{{ section.id }} .collection-banner__picture {
+    width: 100%;
+    display: block;
   }
 
-  #CollectionBanner-{{ section.id }} .collection-banner__picture,
   #CollectionBanner-{{ section.id }} .collection-banner__img {
     width: 100%;
-    height: 100%;
+    height: auto;
+    max-height: {{ section.settings.banner_height_desktop }}px;
     object-fit: {{ section.settings.image_fit_desktop }};
     object-position: center;
     display: block;
@@ -61,20 +54,19 @@
     z-index: 2;
     text-align: center;
     color: {{ section.settings.text_color }};
+    padding: 1rem;
   }
 
   #CollectionBanner-{{ section.id }} .collection-banner__title-box h1 {
     margin: 0;
     color: inherit;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-size: clamp(1.8rem, 4vw, 3rem);
     font-weight: 800;
   }
 
   @media (max-width: 749px) {
-    #CollectionBanner-{{ section.id }} .collection-banner__wrapper {
-      height: var(--banner-height-mobile);
-    }
     #CollectionBanner-{{ section.id }} .collection-banner__img {
+      max-height: {{ section.settings.banner_height_mobile }}px;
       object-fit: {{ section.settings.image_fit_mobile }};
     }
   }
@@ -235,7 +227,7 @@
   {% assign final_mobile_url = collection.image | image_url: width: 1200 %}
 {% endif %}
 
-{% comment %} Render Section {% endcomment %}
+{% comment %} Render Full-Width Banner Section {% endcomment %}
 <section id="CollectionBanner-{{ section.id }}" class="collection-banner" {% if matched_block != nil %}{{ matched_block.shopify_attributes }}{% endif %}>
   {% if final_desktop_url != blank and section.settings.show_image %}
     <div class="collection-banner__wrapper">
@@ -269,20 +261,18 @@
   "tag": "section",
   "class": "section-collection-banner",
   "settings": [
-    { "type": "header", "content": "Banner Display & Dimensions" },
+    { "type": "header", "content": "Full-Width Banner Dimensions" },
     { "type": "checkbox", "id": "show_image", "label": "Show Banner Image", "default": true },
     { "type": "checkbox", "id": "show_fallback_header", "label": "Show Text Title if no image set", "default": false },
     { "type": "checkbox", "id": "show_title_overlay", "label": "Show Collection Title over Banner Image", "default": false },
-    { "type": "range", "id": "banner_height_desktop", "label": "Desktop Height (px)", "min": 150, "max": 650, "step": 10, "default": 320, "unit": "px" },
-    { "type": "range", "id": "banner_height_mobile", "label": "Mobile Height (px)", "min": 100, "max": 450, "step": 10, "default": 180, "unit": "px" },
-    { "type": "range", "id": "banner_max_width", "label": "Max Width (px)", "min": 800, "max": 2200, "step": 50, "default": 1550, "unit": "px" },
-    { "type": "range", "id": "border_radius", "label": "Border Radius (px)", "min": 0, "max": 40, "step": 2, "default": 16, "unit": "px" },
+    { "type": "range", "id": "banner_height_desktop", "label": "Desktop Max Height (px)", "min": 200, "max": 650, "step": 10, "default": 450, "unit": "px" },
+    { "type": "range", "id": "banner_height_mobile", "label": "Mobile Max Height (px)", "min": 120, "max": 450, "step": 10, "default": 240, "unit": "px" },
     {
       "type": "select",
       "id": "image_fit_desktop",
       "label": "Desktop Image Fit",
       "options": [
-        { "value": "cover", "label": "Cover (Fill banner)" },
+        { "value": "cover", "label": "Cover (Crop to fill)" },
         { "value": "contain", "label": "Contain (Fit full image)" }
       ],
       "default": "cover"
@@ -292,7 +282,7 @@
       "id": "image_fit_mobile",
       "label": "Mobile Image Fit",
       "options": [
-        { "value": "cover", "label": "Cover (Fill banner)" },
+        { "value": "cover", "label": "Cover (Crop to fill)" },
         { "value": "contain", "label": "Contain (Fit full image)" }
       ],
       "default": "cover"
@@ -302,11 +292,11 @@
     { "type": "image_picker", "id": "custom_image_mobile", "label": "Fallback Mobile Banner", "info": "Used if no specific collection metafield or block is set" },
     { "type": "checkbox", "id": "show_collection_image", "label": "Use Native Collection Image as Fallback", "default": true },
     { "type": "header", "content": "Overlay Tint & Colors" },
-    { "type": "checkbox", "id": "enable_overlay", "label": "Enable Tint Overlay", "default": true },
+    { "type": "checkbox", "id": "enable_overlay", "label": "Enable Tint Overlay", "default": false },
     { "type": "color", "id": "overlay_color", "label": "Overlay Tint Color", "default": "#000000" },
-    { "type": "range", "id": "overlay_opacity", "label": "Overlay Opacity (%)", "min": 0, "max": 100, "step": 5, "default": 15, "unit": "%" },
-    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#1b4317" },
-    { "type": "color", "id": "text_color", "label": "Text / Title Color", "default": "#ffffff" }
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay Opacity (%)", "min": 0, "max": 100, "step": 5, "default": 0, "unit": "%" },
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text / Title Color", "default": "#1b4317" }
   ],
   "blocks": [
     {
