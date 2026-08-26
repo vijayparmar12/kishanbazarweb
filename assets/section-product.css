@@ -632,13 +632,14 @@
   font-size: var(--title-desktop-size, clamp(1.75rem, 2.5vw, 2.35rem)) !important;
   font-weight: 800;
   letter-spacing: -0.02em;
-  line-height: 1.18;
-  margin: 0;
+  line-height: var(--title-line-height, 1.38) !important;
+  margin: 0 0 0.35rem 0;
 }
 
 @media (max-width: 768px) {
   .product-info__title {
     font-size: var(--title-mobile-size, 22px) !important;
+    line-height: var(--title-line-height, 1.38) !important;
   }
 }
 

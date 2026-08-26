@@ -47,9 +47,10 @@
             assign d_title_size = block.settings.title_font_size_desktop | default: section.settings.desktop_title_font_size | default: 28
             assign title_clr = block.settings.title_color | default: '#1e3d20'
             assign title_wt = block.settings.title_font_weight | default: '800'
+            assign title_lh = block.settings.title_line_height | default: 1.38
           %}
           <div class="product-info__header-block" {{ block.shopify_attributes }}>
-            <h1 class="product-info__title" style="--title-mobile-size: {{ m_title_size }}px; --title-desktop-size: {{ d_title_size }}px; color: {{ title_clr }} !important; font-weight: {{ title_wt }} !important;">
+            <h1 class="product-info__title" style="--title-mobile-size: {{ m_title_size }}px; --title-desktop-size: {{ d_title_size }}px; --title-line-height: {{ title_lh }}; color: {{ title_clr }} !important; font-weight: {{ title_wt }} !important; line-height: {{ title_lh }} !important;">
               {{ product.title }}
             </h1>
             {% if block.settings.show_subtitle %}
