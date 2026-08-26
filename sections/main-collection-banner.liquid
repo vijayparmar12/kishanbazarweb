@@ -93,43 +93,61 @@
 {% comment %} 1. Check Collection Metafields (Shopify Admin > Custom Data > Collections) {% endcomment %}
 {% assign mf_img = nil %}
 {% if collection.metafields.custom.banner_image != blank %}
-  {% if collection.metafields.custom.banner_image.value != blank %}
-    {% assign mf_img = collection.metafields.custom.banner_image.value %}
-  {% else %}
-    {% assign mf_img = collection.metafields.custom.banner_image %}
-  {% endif %}
+  {% assign mf_img = collection.metafields.custom.banner_image.value | default: collection.metafields.custom.banner_image %}
 {% elsif collection.metafields.custom.banner != blank %}
-  {% if collection.metafields.custom.banner.value != blank %}
-    {% assign mf_img = collection.metafields.custom.banner.value %}
-  {% else %}
-    {% assign mf_img = collection.metafields.custom.banner %}
-  {% endif %}
+  {% assign mf_img = collection.metafields.custom.banner.value | default: collection.metafields.custom.banner %}
 {% elsif collection.metafields.custom.desktop_banner != blank %}
-  {% if collection.metafields.custom.desktop_banner.value != blank %}
-    {% assign mf_img = collection.metafields.custom.desktop_banner.value %}
-  {% else %}
-    {% assign mf_img = collection.metafields.custom.desktop_banner %}
-  {% endif %}
+  {% assign mf_img = collection.metafields.custom.desktop_banner.value | default: collection.metafields.custom.desktop_banner %}
 {% elsif collection.metafields.custom.collection_banner != blank %}
-  {% if collection.metafields.custom.collection_banner.value != blank %}
-    {% assign mf_img = collection.metafields.custom.collection_banner.value %}
-  {% else %}
-    {% assign mf_img = collection.metafields.custom.collection_banner %}
-  {% endif %}
+  {% assign mf_img = collection.metafields.custom.collection_banner.value | default: collection.metafields.custom.collection_banner %}
+{% elsif collection.metafields.custom.banner_img != blank %}
+  {% assign mf_img = collection.metafields.custom.banner_img.value | default: collection.metafields.custom.banner_img %}
 {% endif %}
 
 {% assign mf_mobile_img = nil %}
 {% if collection.metafields.custom.banner_mobile != blank %}
-  {% if collection.metafields.custom.banner_mobile.value != blank %}
-    {% assign mf_mobile_img = collection.metafields.custom.banner_mobile.value %}
-  {% else %}
-    {% assign mf_mobile_img = collection.metafields.custom.banner_mobile %}
-  {% endif %}
+  {% assign mf_mobile_img = collection.metafields.custom.banner_mobile.value | default: collection.metafields.custom.banner_mobile %}
 {% elsif collection.metafields.custom.mobile_banner != blank %}
-  {% if collection.metafields.custom.mobile_banner.value != blank %}
-    {% assign mf_mobile_img = collection.metafields.custom.mobile_banner.value %}
+  {% assign mf_mobile_img = collection.metafields.custom.mobile_banner.value | default: collection.metafields.custom.mobile_banner %}
+{% endif %}
+
+{% comment %} Resolve Metafield Image URL (Failsafe for File References like spices.png) {% endcomment %}
+{% assign mf_img_resolved_url = nil %}
+{% if mf_img != nil and mf_img != blank %}
+  {% if mf_img.url != blank and mf_img.url contains '/' %}
+    {% assign mf_img_resolved_url = mf_img.url %}
+  {% elsif mf_img.preview_image != blank %}
+    {% assign mf_img_resolved_url = mf_img.preview_image | image_url: width: 2200 %}
   {% else %}
-    {% assign mf_mobile_img = collection.metafields.custom.mobile_banner %}
+    {% assign test_image_url = mf_img | image_url: width: 2200 %}
+    {% if test_image_url != blank and test_image_url contains 'cdn.shopify.com' %}
+      {% assign mf_img_resolved_url = test_image_url %}
+    {% else %}
+      {% assign test_file_url = mf_img | file_url %}
+      {% if test_file_url != blank and test_file_url contains 'cdn.shopify.com' or test_file_url contains '/files/' or test_file_url contains 'http' %}
+        {% assign mf_img_resolved_url = test_file_url %}
+      {% elsif mf_img contains 'cdn.shopify.com' or mf_img contains 'http' %}
+        {% assign mf_img_resolved_url = mf_img %}
+      {% else %}
+        {% assign mf_img_resolved_url = mf_img | file_url %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+{% assign mf_mobile_resolved_url = nil %}
+{% if mf_mobile_img != nil and mf_mobile_img != blank %}
+  {% if mf_mobile_img.url != blank and mf_mobile_img.url contains '/' %}
+    {% assign mf_mobile_resolved_url = mf_mobile_img.url %}
+  {% elsif mf_mobile_img.preview_image != blank %}
+    {% assign mf_mobile_resolved_url = mf_mobile_img.preview_image | image_url: width: 1200 %}
+  {% else %}
+    {% assign test_mob_img_url = mf_mobile_img | image_url: width: 1200 %}
+    {% if test_mob_img_url != blank and test_mob_img_url contains 'cdn.shopify.com' %}
+      {% assign mf_mobile_resolved_url = test_mob_img_url %}
+    {% else %}
+      {% assign mf_mobile_resolved_url = mf_mobile_img | file_url %}
+    {% endif %}
   {% endif %}
 {% endif %}
 
@@ -145,46 +163,32 @@
 {% endfor %}
 
 {% comment %} 3. Resolve Banner Images by Priority {% endcomment %}
-{% assign banner_img_desktop = nil %}
-{% assign banner_img_mobile = nil %}
+{% assign final_banner_desktop_url = nil %}
+{% assign final_banner_mobile_url = nil %}
 
-{% if mf_img != nil and mf_img != blank %}
-  {% assign banner_img_desktop = mf_img %}
-  {% assign banner_img_mobile = mf_mobile_img | default: mf_img %}
-{% elsif matched_block != nil and matched_block.settings.image_desktop != blank %}
-  {% assign banner_img_desktop = matched_block.settings.image_desktop %}
-  {% assign banner_img_mobile = matched_block.settings.image_mobile | default: matched_block.settings.image_desktop %}
+{% if mf_img_resolved_url != blank %}
+  {% assign final_banner_desktop_url = mf_img_resolved_url %}
+  {% assign final_banner_mobile_url = mf_mobile_resolved_url | default: mf_img_resolved_url %}
 {% elsif collection.image != blank %}
-  {% assign banner_img_desktop = collection.image %}
-  {% assign banner_img_mobile = collection.image %}
+  {% assign final_banner_desktop_url = collection.image | image_url: width: 2200 %}
+  {% assign final_banner_mobile_url = collection.image | image_url: width: 1200 %}
+{% elsif matched_block != nil and matched_block.settings.image_desktop != blank %}
+  {% assign final_banner_desktop_url = matched_block.settings.image_desktop | image_url: width: 2200 %}
+  {% assign mob_block_img = matched_block.settings.image_mobile | default: matched_block.settings.image_desktop %}
+  {% assign final_banner_mobile_url = mob_block_img | image_url: width: 1200 %}
 {% elsif section.settings.custom_image_desktop != blank %}
-  {% assign banner_img_desktop = section.settings.custom_image_desktop %}
-  {% assign banner_img_mobile = section.settings.custom_image_mobile | default: section.settings.custom_image_desktop %}
+  {% assign final_banner_desktop_url = section.settings.custom_image_desktop | image_url: width: 2200 %}
+  {% assign mob_sec_img = section.settings.custom_image_mobile | default: section.settings.custom_image_desktop %}
+  {% assign final_banner_mobile_url = mob_sec_img | image_url: width: 1200 %}
 {% endif %}
 
 <section id="CollectionBanner-{{ section.id }}" class="collection-banner" {% if matched_block != nil %}{{ matched_block.shopify_attributes }}{% endif %}>
-  {% if section.settings.show_image and banner_img_desktop != blank %}
+  {% if section.settings.show_image and final_banner_desktop_url != blank %}
     <picture class="collection-banner__picture">
-      {% if banner_img_mobile != blank %}
-        {% assign mob_url = banner_img_mobile | image_url: width: 1200 %}
-        {% if mob_url == blank and banner_img_mobile contains 'http' %}
-          {% assign mob_url = banner_img_mobile %}
-        {% endif %}
-        <source media="(max-width: 749px)" srcset="{{ mob_url }}">
+      {% if final_banner_mobile_url != blank and final_banner_mobile_url != final_banner_desktop_url %}
+        <source media="(max-width: 749px)" srcset="{{ final_banner_mobile_url }}">
       {% endif %}
-
-      {% assign desk_url = nil %}
-      {% if banner_img_desktop.src != blank %}
-        {% assign desk_url = banner_img_desktop.src | image_url: width: 2200 %}
-      {% else %}
-        {% assign desk_url = banner_img_desktop | image_url: width: 2200 %}
-      {% endif %}
-
-      {% if desk_url != blank %}
-        {{ banner_img_desktop | image_url: width: 2200 | image_tag: class: 'collection-banner__img', alt: collection.title, loading: 'eager', fetchpriority: 'high' }}
-      {% else %}
-        <img src="{{ banner_img_desktop }}" alt="{{ collection.title | escape }}" class="collection-banner__img" loading="eager" fetchpriority="high">
-      {% endif %}
+      <img src="{{ final_banner_desktop_url }}" alt="{{ collection.title | escape }}" class="collection-banner__img" loading="eager" fetchpriority="high">
     </picture>
   {% endif %}
 </section>
