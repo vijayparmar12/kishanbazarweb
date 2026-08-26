@@ -430,15 +430,23 @@
     }
   };
 
-  const openDrawer = () => {
+  const openDrawer = (cartData = null) => {
     const drawer = document.querySelector('[data-cart-drawer]');
     if (!drawer) return;
+
+    if (cartData) {
+      updateDrawer(cartData);
+    } else {
+      updateDrawerFromServer();
+    }
+
     drawer.hidden = false;
     drawer.classList.add('is-open');
     document.documentElement.classList.add('kb-cart-drawer-open');
-    updateDrawerFromServer();
     initTrackDragScroll();
   };
+
+  window.openDrawer = openDrawer;
 
   const updateDrawerFromServer = async () => {
     try {

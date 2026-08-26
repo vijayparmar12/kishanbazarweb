@@ -120,11 +120,15 @@
         countSpan.textContent = '1';
       }
 
-      // Fetch updated cart and dispatch custom event (triggers floating toast without navigating)
+      // Fetch updated cart, dispatch custom event, and IMMEDIATELY open cart drawer
       const cartRes = await fetch(`${rootUrl}cart.js`);
       const updatedCart = await cartRes.json();
       document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
-      if (window.showCartToast) window.showCartToast(updatedCart);
+      if (window.openDrawer) {
+        window.openDrawer(updatedCart);
+      } else if (window.showCartToast) {
+        window.showCartToast(updatedCart);
+      }
     } catch (err) {
       console.error(err);
     } finally {
