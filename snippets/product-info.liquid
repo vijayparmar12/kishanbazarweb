@@ -112,9 +112,14 @@
           </div>
 
         {% when 'price' %}
-          <div class="product-info__price-box" {{ block.shopify_attributes }}>
+          {% liquid
+            assign m_price_size = block.settings.price_font_size_mobile | default: section.settings.mobile_price_font_size | default: 24
+            assign d_price_size = block.settings.price_font_size_desktop | default: 32
+            assign price_clr = block.settings.price_color | default: '#1b4317'
+          %}
+          <div class="product-info__price-box" style="--price-mobile-size: {{ m_price_size }}px; --price-desktop-size: {{ d_price_size }}px; --price-color: {{ price_clr }};" {{ block.shopify_attributes }}>
             <div class="product-info__prices">
-              <span class="product-info__price-selling" data-product-price-selling>
+              <span class="product-info__price-selling" data-product-price-selling style="color: {{ price_clr }} !important;">
                 {{ current_variant.price | money_without_trailing_zeros }}
               </span>
               {% if sale %}

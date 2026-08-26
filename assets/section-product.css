@@ -738,11 +738,17 @@
 }
 
 .product-info__price-selling {
-  color: #111827 !important;
-  font-size: 2.15rem !important;
+  color: var(--price-color, #1b4317) !important;
+  font-size: var(--price-desktop-size, 2.15rem) !important;
   font-weight: 800 !important;
   line-height: 1.1 !important;
   letter-spacing: -0.02em !important;
+}
+
+@media (max-width: 768px) {
+  .product-info__price-selling {
+    font-size: var(--price-mobile-size, 1.5rem) !important;
+  }
 }
 
 .product-info__price-mrp {
