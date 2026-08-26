@@ -90,79 +90,108 @@
   }
 {% endstyle %}
 
-{% comment %} 1. Check Collection Metafields (Shopify Admin > Custom Data > Collections) {% endcomment %}
-{% assign mf_img = nil %}
-{% if collection.metafields.custom.banner_image != blank %}
-  {% assign mf_img = collection.metafields.custom.banner_image.value | default: collection.metafields.custom.banner_image %}
-{% elsif collection.metafields.custom.banner != blank %}
-  {% assign mf_img = collection.metafields.custom.banner.value | default: collection.metafields.custom.banner %}
-{% elsif collection.metafields.custom.desktop_banner != blank %}
-  {% assign mf_img = collection.metafields.custom.desktop_banner.value | default: collection.metafields.custom.desktop_banner %}
-{% elsif collection.metafields.custom.collection_banner != blank %}
-  {% assign mf_img = collection.metafields.custom.collection_banner.value | default: collection.metafields.custom.collection_banner %}
-{% elsif collection.metafields.custom.banner_img != blank %}
-  {% assign mf_img = collection.metafields.custom.banner_img.value | default: collection.metafields.custom.banner_img %}
+{% comment %} 1. Locate Custom Banner Image Metafield {% endcomment %}
+{% assign raw_mf = collection.metafields.custom.banner_image %}
+{% if raw_mf == blank or raw_mf == nil %}
+  {% assign raw_mf = collection.metafields.custom.banner %}
+{% endif %}
+{% if raw_mf == blank or raw_mf == nil %}
+  {% assign raw_mf = collection.metafields.custom.desktop_banner %}
+{% endif %}
+{% if raw_mf == blank or raw_mf == nil %}
+  {% assign raw_mf = collection.metafields.custom.collection_banner %}
+{% endif %}
+{% if raw_mf == blank or raw_mf == nil %}
+  {% assign raw_mf = collection.metafields.custom.banner_img %}
 {% endif %}
 
-{% assign mf_mobile_img = nil %}
-{% if collection.metafields.custom.banner_mobile != blank %}
-  {% assign mf_mobile_img = collection.metafields.custom.banner_mobile.value | default: collection.metafields.custom.banner_mobile %}
-{% elsif collection.metafields.custom.mobile_banner != blank %}
-  {% assign mf_mobile_img = collection.metafields.custom.mobile_banner.value | default: collection.metafields.custom.mobile_banner %}
+{% comment %} Extract Value Object {% endcomment %}
+{% assign mf_val = raw_mf.value | default: raw_mf %}
+{% if mf_val.first != blank %}
+  {% assign mf_val = mf_val.first %}
 {% endif %}
 
-{% comment %} 7-Stage Failsafe URL Resolution for Desktop Metafield Image {% endcomment %}
+{% comment %} Resolve Desktop Image URL {% endcomment %}
 {% assign mf_img_resolved_url = nil %}
-{% if mf_img != nil and mf_img != blank %}
-  {% if mf_img.url != blank and mf_img.url contains '/' %}
-    {% assign mf_img_resolved_url = mf_img.url %}
-  {% elsif mf_img.preview_image != blank %}
-    {% assign mf_img_resolved_url = mf_img.preview_image | image_url: width: 2200 %}
-  {% elsif mf_img.image != blank %}
-    {% assign mf_img_resolved_url = mf_img.image | image_url: width: 2200 %}
-  {% elsif mf_img.src != blank %}
-    {% assign mf_img_resolved_url = mf_img.src | image_url: width: 2200 %}
-  {% else %}
-    {% assign try_img = mf_img | image_url: width: 2200 %}
-    {% if try_img != blank and try_img contains 'shopify' %}
-      {% assign mf_img_resolved_url = try_img %}
-    {% else %}
-      {% assign try_file_img = mf_img | file_img_url: '2048x2048' %}
-      {% if try_file_img != blank and try_file_img contains 'shopify' %}
-        {% assign mf_img_resolved_url = try_file_img %}
-      {% else %}
-        {% assign try_file = mf_img | file_url %}
-        {% if try_file != blank and try_file contains 'shopify' %}
-          {% assign mf_img_resolved_url = try_file %}
-        {% elsif mf_img contains 'http' or mf_img contains 'shopify' %}
-          {% assign mf_img_resolved_url = mf_img %}
-        {% endif %}
-      {% endif %}
+
+{% if mf_val != blank %}
+  {% if mf_val.url != blank and mf_val.url contains '/' %}
+    {% assign mf_img_resolved_url = mf_val.url %}
+  {% elsif mf_val.preview_image.src != blank %}
+    {% assign mf_img_resolved_url = mf_val.preview_image.src | image_url: width: 2200 %}
+  {% elsif mf_val.preview_image != blank %}
+    {% assign mf_img_resolved_url = mf_val.preview_image | image_url: width: 2200 %}
+  {% elsif mf_val.image != blank %}
+    {% assign mf_img_resolved_url = mf_val.image | image_url: width: 2200 %}
+  {% elsif mf_val.src != blank %}
+    {% assign mf_img_resolved_url = mf_val.src | image_url: width: 2200 %}
+  {% endif %}
+
+  {% if mf_img_resolved_url == blank %}
+    {% assign t1 = mf_val | image_url: width: 2200 %}
+    {% if t1 != blank and t1 contains '/' and t1 contains 'no-image' == false %}
+      {% assign mf_img_resolved_url = t1 %}
+    {% endif %}
+  {% endif %}
+
+  {% if mf_img_resolved_url == blank %}
+    {% assign t2 = mf_val | file_img_url: '2048x2048' %}
+    {% if t2 != blank and t2 contains '/' and t2 contains 'no-image' == false %}
+      {% assign mf_img_resolved_url = t2 %}
+    {% endif %}
+  {% endif %}
+
+  {% if mf_img_resolved_url == blank %}
+    {% assign t3 = mf_val | file_url %}
+    {% if t3 != blank and t3 contains '/' and t3 contains 'no-image' == false %}
+      {% assign mf_img_resolved_url = t3 %}
+    {% endif %}
+  {% endif %}
+
+  {% if mf_img_resolved_url == blank and raw_mf != blank %}
+    {% assign t4 = raw_mf | file_url %}
+    {% if t4 != blank and t4 contains '/' and t4 contains 'no-image' == false %}
+      {% assign mf_img_resolved_url = t4 %}
     {% endif %}
   {% endif %}
 {% endif %}
 
-{% comment %} 7-Stage Failsafe URL Resolution for Mobile Metafield Image {% endcomment %}
+{% comment %} Locate Mobile Banner Image Metafield {% endcomment %}
+{% assign raw_mob_mf = collection.metafields.custom.banner_mobile %}
+{% if raw_mob_mf == blank or raw_mob_mf == nil %}
+  {% assign raw_mob_mf = collection.metafields.custom.mobile_banner %}
+{% endif %}
+
+{% assign mf_mob_val = raw_mob_mf.value | default: raw_mob_mf %}
+{% if mf_mob_val.first != blank %}
+  {% assign mf_mob_val = mf_mob_val.first %}
+{% endif %}
+
 {% assign mf_mobile_resolved_url = nil %}
-{% if mf_mobile_img != nil and mf_mobile_img != blank %}
-  {% if mf_mobile_img.url != blank and mf_mobile_img.url contains '/' %}
-    {% assign mf_mobile_resolved_url = mf_mobile_img.url %}
-  {% elsif mf_mobile_img.preview_image != blank %}
-    {% assign mf_mobile_resolved_url = mf_mobile_img.preview_image | image_url: width: 1200 %}
-  {% elsif mf_mobile_img.image != blank %}
-    {% assign mf_mobile_resolved_url = mf_mobile_img.image | image_url: width: 1200 %}
-  {% elsif mf_mobile_img.src != blank %}
-    {% assign mf_mobile_resolved_url = mf_mobile_img.src | image_url: width: 1200 %}
+{% if mf_mob_val != blank %}
+  {% if mf_mob_val.url != blank and mf_mob_val.url contains '/' %}
+    {% assign mf_mobile_resolved_url = mf_mob_val.url %}
+  {% elsif mf_mob_val.preview_image.src != blank %}
+    {% assign mf_mobile_resolved_url = mf_mob_val.preview_image.src | image_url: width: 1200 %}
+  {% elsif mf_mob_val.preview_image != blank %}
+    {% assign mf_mobile_resolved_url = mf_mob_val.preview_image | image_url: width: 1200 %}
+  {% elsif mf_mob_val.image != blank %}
+    {% assign mf_mobile_resolved_url = mf_mob_val.image | image_url: width: 1200 %}
+  {% elsif mf_mob_val.src != blank %}
+    {% assign mf_mobile_resolved_url = mf_mob_val.src | image_url: width: 1200 %}
   {% else %}
-    {% assign try_mob_img = mf_mobile_img | image_url: width: 1200 %}
-    {% if try_mob_img != blank and try_mob_img contains 'shopify' %}
-      {% assign mf_mobile_resolved_url = try_mob_img %}
+    {% assign mt1 = mf_mob_val | image_url: width: 1200 %}
+    {% if mt1 != blank and mt1 contains '/' and mt1 contains 'no-image' == false %}
+      {% assign mf_mobile_resolved_url = mt1 %}
     {% else %}
-      {% assign try_mob_file = mf_mobile_img | file_img_url: '1200x' %}
-      {% if try_mob_file != blank and try_mob_file contains 'shopify' %}
-        {% assign mf_mobile_resolved_url = try_mob_file %}
+      {% assign mt2 = mf_mob_val | file_img_url: '1200x' %}
+      {% if mt2 != blank and mt2 contains '/' and mt2 contains 'no-image' == false %}
+        {% assign mf_mobile_resolved_url = mt2 %}
       {% else %}
-        {% assign mf_mobile_resolved_url = mf_mobile_img | file_url %}
+        {% assign mt3 = mf_mob_val | file_url %}
+        {% if mt3 != blank and mt3 contains '/' and mt3 contains 'no-image' == false %}
+          {% assign mf_mobile_resolved_url = mt3 %}
+        {% endif %}
       {% endif %}
     {% endif %}
   {% endif %}
