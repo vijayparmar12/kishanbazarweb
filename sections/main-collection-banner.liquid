@@ -1,12 +1,279 @@
 {% comment %}
-  Collection Banner Section (Disabled)
+  Collection Banner Section
+  Resolves Banner Images in Priority:
+  1. Collection Metafield (`custom.banner_image`, `custom.banner`, `custom.desktop_banner`, `custom.collection_banner`)
+  2. Shopify Theme Editor Block Match for target collection
+  3. Shopify Theme Editor Section Fallback Setting
+  4. Native Collection Image (if enabled in settings)
 {% endcomment %}
+
+{% style %}
+  #CollectionBanner-{{ section.id }} {
+    --banner-height-desktop: {{ section.settings.banner_height_desktop }}px;
+    --banner-height-mobile: {{ section.settings.banner_height_mobile }}px;
+    --banner-max-width: {{ section.settings.banner_max_width }}px;
+    position: relative;
+    width: 100%;
+    max-width: var(--banner-max-width);
+    margin: 1.5rem auto 0.5rem;
+    padding: 0 var(--container-padding, 1rem);
+    box-sizing: border-box;
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__wrapper {
+    position: relative;
+    width: 100%;
+    height: var(--banner-height-desktop);
+    border-radius: {{ section.settings.border_radius }}px;
+    overflow: hidden;
+    background-color: {{ section.settings.bg_color }};
+    box-shadow: 0 10px 30px rgba(35, 66, 31, 0.08);
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__picture,
+  #CollectionBanner-{{ section.id }} .collection-banner__img {
+    width: 100%;
+    height: 100%;
+    object-fit: {{ section.settings.image_fit_desktop }};
+    object-position: center;
+    display: block;
+  }
+
+  #CollectionBanner-{{ section.id }} .collection-banner__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: {{ section.settings.overlay_color }};
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    pointer-events: none;
+  }
+
+  @media (max-width: 749px) {
+    #CollectionBanner-{{ section.id }} .collection-banner__wrapper {
+      height: var(--banner-height-mobile);
+    }
+    #CollectionBanner-{{ section.id }} .collection-banner__img {
+      object-fit: {{ section.settings.image_fit_mobile }};
+    }
+  }
+{% endstyle %}
+
+{% comment %} 1. Locate Desktop Metafield Image {% endcomment %}
+{% assign raw_mf = collection.metafields.custom.banner_image %}
+{% if raw_mf == blank or raw_mf == nil %}
+  {% assign raw_mf = collection.metafields.custom.banner %}
+{% endif %}
+{% if raw_mf == blank or raw_mf == nil %}
+  {% assign raw_mf = collection.metafields.custom.desktop_banner %}
+{% endif %}
+{% if raw_mf == blank or raw_mf == nil %}
+  {% assign raw_mf = collection.metafields.custom.collection_banner %}
+{% endif %}
+{% if raw_mf == blank or raw_mf == nil %}
+  {% assign raw_mf = collection.metafields.custom.banner_img %}
+{% endif %}
+
+{% comment %} Locate Mobile Metafield Image {% endcomment %}
+{% assign raw_mob_mf = collection.metafields.custom.banner_mobile %}
+{% if raw_mob_mf == blank or raw_mob_mf == nil %}
+  {% assign raw_mob_mf = collection.metafields.custom.mobile_banner %}
+{% endif %}
+
+{% comment %} 2. Resolve Metafield Desktop Image URL {% endcomment %}
+{% assign mf_desktop_url = nil %}
+{% if raw_mf != blank %}
+  {% assign val = raw_mf.value | default: raw_mf %}
+  {% if val.first != blank %}
+    {% assign val = val.first %}
+  {% endif %}
+
+  {% if val.url != blank and val.url contains '/' %}
+    {% assign mf_desktop_url = val.url %}
+  {% elsif val.preview_image.src != blank %}
+    {% assign mf_desktop_url = val.preview_image.src | image_url: width: 2200 %}
+  {% elsif val.preview_image != blank %}
+    {% assign mf_desktop_url = val.preview_image | image_url: width: 2200 %}
+  {% elsif val.image != blank %}
+    {% assign mf_desktop_url = val.image | image_url: width: 2200 %}
+  {% elsif val.src != blank %}
+    {% assign mf_desktop_url = val.src | image_url: width: 2200 %}
+  {% endif %}
+
+  {% if mf_desktop_url == blank %}
+    {% assign u1 = val | image_url: width: 2200 %}
+    {% if u1 != blank and u1 contains '/' and u1 contains 'no-image' == false %}
+      {% assign mf_desktop_url = u1 %}
+    {% endif %}
+  {% endif %}
+
+  {% if mf_desktop_url == blank %}
+    {% assign u2 = val | file_img_url: '2048x2048' %}
+    {% if u2 != blank and u2 contains '/' and u2 contains 'no-image' == false %}
+      {% assign mf_desktop_url = u2 %}
+    {% endif %}
+  {% endif %}
+
+  {% if mf_desktop_url == blank %}
+    {% assign u3 = val | file_url %}
+    {% if u3 != blank and u3 contains '/' and u3 contains 'no-image' == false %}
+      {% assign mf_desktop_url = u3 %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+{% comment %} 3. Resolve Metafield Mobile Image URL {% endcomment %}
+{% assign mf_mobile_url = nil %}
+{% if raw_mob_mf != blank %}
+  {% assign mob_val = raw_mob_mf.value | default: raw_mob_mf %}
+  {% if mob_val.first != blank %}
+    {% assign mob_val = mob_val.first %}
+  {% endif %}
+
+  {% if mob_val.url != blank and mob_val.url contains '/' %}
+    {% assign mf_mobile_url = mob_val.url %}
+  {% elsif mob_val.preview_image.src != blank %}
+    {% assign mf_mobile_url = mob_val.preview_image.src | image_url: width: 1200 %}
+  {% elsif mob_val.preview_image != blank %}
+    {% assign mf_mobile_url = mob_val.preview_image | image_url: width: 1200 %}
+  {% elsif mob_val.image != blank %}
+    {% assign mf_mobile_url = mob_val.image | image_url: width: 1200 %}
+  {% elsif mob_val.src != blank %}
+    {% assign mf_mobile_url = mob_val.src | image_url: width: 1200 %}
+  {% else %}
+    {% assign mu1 = mob_val | image_url: width: 1200 %}
+    {% if mu1 != blank and mu1 contains '/' and mu1 contains 'no-image' == false %}
+      {% assign mf_mobile_url = mu1 %}
+    {% else %}
+      {% assign mu2 = mob_val | file_img_url: '1200x' %}
+      {% if mu2 != blank and mu2 contains '/' and mu2 contains 'no-image' == false %}
+        {% assign mf_mobile_url = mu2 %}
+      {% else %}
+        {% assign mu3 = mob_val | file_url %}
+        {% if mu3 != blank and mu3 contains '/' and mu3 contains 'no-image' == false %}
+          {% assign mf_mobile_url = mu3 %}
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+{% comment %} 4. Check Shopify Theme Editor Block match for current collection handle {% endcomment %}
+{% assign matched_block = nil %}
+{% for block in section.blocks %}
+  {% if block.settings.target_collection != blank %}
+    {% if block.settings.target_collection.handle == collection.handle or block.settings.target_collection == collection.handle %}
+      {% assign matched_block = block %}
+      {% break %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% comment %} 5. Assign Final Desktop & Mobile Banner Image URLs by Priority {% endcomment %}
+{% assign final_desktop_url = nil %}
+{% assign final_mobile_url = nil %}
+
+{% if mf_desktop_url != blank %}
+  {% assign final_desktop_url = mf_desktop_url %}
+  {% assign final_mobile_url = mf_mobile_url | default: mf_desktop_url %}
+{% elsif matched_block != nil and matched_block.settings.image_desktop != blank %}
+  {% assign final_desktop_url = matched_block.settings.image_desktop | image_url: width: 2200 %}
+  {% assign mob_block = matched_block.settings.image_mobile | default: matched_block.settings.image_desktop %}
+  {% assign final_mobile_url = mob_block | image_url: width: 1200 %}
+{% elsif section.settings.custom_image_desktop != blank %}
+  {% assign final_desktop_url = section.settings.custom_image_desktop | image_url: width: 2200 %}
+  {% assign mob_sec = section.settings.custom_image_mobile | default: section.settings.custom_image_desktop %}
+  {% assign final_mobile_url = mob_sec | image_url: width: 1200 %}
+{% elsif collection.image != blank and section.settings.show_collection_image %}
+  {% assign final_desktop_url = collection.image | image_url: width: 2200 %}
+  {% assign final_mobile_url = collection.image | image_url: width: 1200 %}
+{% endif %}
+
+{% comment %} Render Banner if image exists {% endcomment %}
+{% if final_desktop_url != blank and section.settings.show_image %}
+  <section id="CollectionBanner-{{ section.id }}" class="collection-banner" {% if matched_block != nil %}{{ matched_block.shopify_attributes }}{% endif %}>
+    <div class="collection-banner__wrapper">
+      <picture class="collection-banner__picture">
+        {% if final_mobile_url != blank and final_mobile_url != final_desktop_url %}
+          <source media="(max-width: 749px)" srcset="{{ final_mobile_url }}">
+        {% endif %}
+        <img src="{{ final_desktop_url }}" alt="{{ collection.title | escape }}" class="collection-banner__img" loading="eager" fetchpriority="high">
+      </picture>
+      {% if section.settings.enable_overlay %}
+        <div class="collection-banner__overlay"></div>
+      {% endif %}
+    </div>
+  </section>
+{% endif %}
 
 {% schema %}
 {
   "name": "Collection Banner",
   "tag": "section",
   "class": "section-collection-banner",
-  "settings": []
+  "settings": [
+    { "type": "header", "content": "Banner Display & Dimensions" },
+    { "type": "checkbox", "id": "show_image", "label": "Show Banner Image", "default": true },
+    { "type": "range", "id": "banner_height_desktop", "label": "Desktop Height (px)", "min": 150, "max": 650, "step": 10, "default": 320, "unit": "px" },
+    { "type": "range", "id": "banner_height_mobile", "label": "Mobile Height (px)", "min": 100, "max": 450, "step": 10, "default": 180, "unit": "px" },
+    { "type": "range", "id": "banner_max_width", "label": "Max Width (px)", "min": 800, "max": 2200, "step": 50, "default": 1550, "unit": "px" },
+    { "type": "range", "id": "border_radius", "label": "Border Radius (px)", "min": 0, "max": 40, "step": 2, "default": 16, "unit": "px" },
+    {
+      "type": "select",
+      "id": "image_fit_desktop",
+      "label": "Desktop Image Fit",
+      "options": [
+        { "value": "cover", "label": "Cover (Fill banner)" },
+        { "value": "contain", "label": "Contain (Fit full image)" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "image_fit_mobile",
+      "label": "Mobile Image Fit",
+      "options": [
+        { "value": "cover", "label": "Cover (Fill banner)" },
+        { "value": "contain", "label": "Contain (Fit full image)" }
+      ],
+      "default": "cover"
+    },
+    { "type": "header", "content": "Fallback Banner Images (Theme Editor)" },
+    { "type": "image_picker", "id": "custom_image_desktop", "label": "Fallback Desktop Banner", "info": "Used if no specific collection metafield or block is set" },
+    { "type": "image_picker", "id": "custom_image_mobile", "label": "Fallback Mobile Banner", "info": "Used if no specific collection metafield or block is set" },
+    { "type": "checkbox", "id": "show_collection_image", "label": "Use Native Collection Image as Fallback", "default": false },
+    { "type": "header", "content": "Overlay Tint & Colors" },
+    { "type": "checkbox", "id": "enable_overlay", "label": "Enable Tint Overlay", "default": true },
+    { "type": "color", "id": "overlay_color", "label": "Overlay Tint Color", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "label": "Overlay Opacity (%)", "min": 0, "max": 100, "step": 5, "default": 15, "unit": "%" },
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#1b4317" }
+  ],
+  "blocks": [
+    {
+      "type": "collection_banner",
+      "name": "Collection Banner Block",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "target_collection",
+          "label": "Select Collection",
+          "info": "Choose the collection this banner belongs to"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop",
+          "label": "Desktop Banner Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile Banner Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Banner"
+    }
+  ]
 }
 {% endschema %}

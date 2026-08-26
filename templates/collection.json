@@ -1,5 +1,23 @@
 {
   "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "banner_height_desktop": 320,
+        "banner_height_mobile": 180,
+        "banner_max_width": 1550,
+        "text_align": "center",
+        "show_image": true,
+        "show_collection_image": false,
+        "image_fit_desktop": "cover",
+        "image_fit_mobile": "cover",
+        "enable_overlay": true,
+        "overlay_color": "#000000",
+        "overlay_opacity": 15,
+        "bg_color": "#1b4317",
+        "text_color": "#ffffff"
+      }
+    },
     "product_grid": {
       "type": "main-collection-product-grid",
       "settings": {
@@ -16,6 +34,7 @@
     }
   },
   "order": [
+    "banner",
     "product_grid"
   ]
 }
