@@ -260,12 +260,18 @@
 }
 
 .collection-sorting {
-  background: #fff;
-  border: 1px solid rgb(35 66 31 / 10%);
-  border-radius: 16px;
-  box-shadow: 0 12px 30px rgb(35 66 31 / 7%);
-  margin-bottom: var(--space-5);
-  padding: 0.85rem 1rem;
+  background: #ffffff !important;
+  border: 1px solid rgba(35, 66, 31, 0.12) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 16px rgba(35, 66, 31, 0.05) !important;
+  padding: 0.5rem 1rem !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  margin-bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem !important;
 }
 
 .collection-sorting__count {
@@ -445,6 +451,29 @@
 }
 
 @media (max-width: 47.99rem) {
+  .main-collection__top-bar {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+  }
+
+  .main-collection__filters-inline,
+  .main-collection__sorting-wrap {
+    width: 100% !important;
+  }
+
+  .collection-filters--horizontal,
+  .collection-sorting {
+    background: #ffffff !important;
+    border: 1px solid rgba(35, 66, 31, 0.12) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 16px rgba(35, 66, 31, 0.05) !important;
+    padding: 0.5rem 0.85rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
   .collection-banner__content {
     padding-block: var(--space-8);
   }
@@ -454,12 +483,8 @@
     flex-direction: row !important;
     align-items: center !important;
     justify-content: space-between !important;
-    padding: 0.5rem 0.85rem !important;
     gap: 0.5rem !important;
-    border-radius: 12px !important;
     margin-bottom: 0 !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
   }
 
   .collection-sorting__count {
@@ -488,10 +513,6 @@
     font-size: 0.8rem !important;
     padding: 0 22px 0 10px !important;
     border-radius: 10px !important;
-  }
-
-  .collection-filters--horizontal {
-    padding: 0.5rem 0.75rem !important;
   }
 
   .collection-filters--horizontal .collection-filters__form {
