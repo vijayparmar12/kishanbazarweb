@@ -34,7 +34,7 @@
       {% assign fallback_collection = collections['best-sellers'] | default: collections['all'] %}
       {% if fallback_collection != blank and fallback_collection.products_count > 0 %}
         <div class="search-page__fallback-products" style="margin-top: 3rem;">
-          <h2 style="font-family: Georgia, serif; color: #1e3d20; font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 1.5rem;">Popular Products You Might Like</h2>
+          <h2 style="font-family: 'Montserrat', sans-serif; color: #1e3d20; font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 1.5rem;">Popular Products You Might Like</h2>
           <div class="search-page__grid" role="list">
             {% for product in fallback_collection.products limit: 4 %}
               <div role="listitem">

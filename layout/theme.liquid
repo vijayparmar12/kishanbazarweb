@@ -4,18 +4,24 @@
     {% # Inlined CSS Variables %}
     {% render 'css-variables' %}
 
-    {% comment %}
-      Font preloading:
-      1. Preconnect to font CDN for faster connection
-      2. Preload only the critical font variant (base weight)
-      3. Additional variants load on-demand via @font-face
-    {% endcomment %}
-    {% unless settings.type_primary_font.system? %}
-      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --font-family-base: 'Montserrat', sans-serif !important;
+        --font-primary--family: 'Montserrat', sans-serif !important;
+        --font-secondary--family: 'Montserrat', sans-serif !important;
+        --font-heading-family: 'Montserrat', sans-serif !important;
+        --font-body-family: 'Montserrat', sans-serif !important;
+        --story-font: 'Montserrat', sans-serif !important;
+      }
 
-      {% comment %} Preload the base font variant for initial page render {% endcomment %}
-      {{ settings.type_primary_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
-    {% endunless %}
+      *, *::before, *::after, html, body, button, input, select, textarea, optgroup, option, h1, h2, h3, h4, h5, h6, p, a, span, label, td, th, li, ul, ol, nav, header, footer, section, div, article, main, aside, summary, details {
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+      }
+    </style>
 
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
