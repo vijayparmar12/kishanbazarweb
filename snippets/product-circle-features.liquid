@@ -23,24 +23,11 @@
   assign m_b3_val = c_meta.badge_image_3.value | default: alt_meta.badge_image_3.value | default: c_meta.feature_icon_3.value | default: c_meta.custom_badge_image_3.value
   assign m_b4_val = c_meta.badge_image_4.value | default: alt_meta.badge_image_4.value | default: c_meta.feature_icon_4.value | default: c_meta.custom_badge_image_4.value
 
-  assign has_custom_metafields = false
-  if m_b1_val != blank or m_b2_val != blank or m_b3_val != blank or m_b4_val != blank
-    assign has_custom_metafields = true
-  endif
-
-  # Image 1 (Product Custom Metafield FIRST)
+  # Image 1 (Product Custom Metafield ONLY - No Fallbacks)
   assign img_url_1 = blank
   if m_b1_val != blank
     assign b1_img = m_b1_val.preview_image | default: m_b1_val
     assign img_url_1 = b1_img | image_url: width: 300
-  elsif has_custom_metafields == false
-    if benefit_image_1 != blank
-      assign img_url_1 = benefit_image_1 | image_url: width: 300
-    elsif block.settings.benefit_image_1 != blank
-      assign img_url_1 = block.settings.benefit_image_1 | image_url: width: 300
-    elsif section.settings.benefit_image_1 != blank
-      assign img_url_1 = section.settings.benefit_image_1 | image_url: width: 300
-    endif
   endif
 
   # Image 2
@@ -48,14 +35,6 @@
   if m_b2_val != blank
     assign b2_img = m_b2_val.preview_image | default: m_b2_val
     assign img_url_2 = b2_img | image_url: width: 300
-  elsif has_custom_metafields == false
-    if benefit_image_2 != blank
-      assign img_url_2 = benefit_image_2 | image_url: width: 300
-    elsif block.settings.benefit_image_2 != blank
-      assign img_url_2 = block.settings.benefit_image_2 | image_url: width: 300
-    elsif section.settings.benefit_image_2 != blank
-      assign img_url_2 = section.settings.benefit_image_2 | image_url: width: 300
-    endif
   endif
 
   # Image 3
@@ -63,14 +42,6 @@
   if m_b3_val != blank
     assign b3_img = m_b3_val.preview_image | default: m_b3_val
     assign img_url_3 = b3_img | image_url: width: 300
-  elsif has_custom_metafields == false
-    if benefit_image_3 != blank
-      assign img_url_3 = benefit_image_3 | image_url: width: 300
-    elsif block.settings.benefit_image_3 != blank
-      assign img_url_3 = block.settings.benefit_image_3 | image_url: width: 300
-    elsif section.settings.benefit_image_3 != blank
-      assign img_url_3 = section.settings.benefit_image_3 | image_url: width: 300
-    endif
   endif
 
   # Image 4
@@ -78,20 +49,9 @@
   if m_b4_val != blank
     assign b4_img = m_b4_val.preview_image | default: m_b4_val
     assign img_url_4 = b4_img | image_url: width: 300
-  elsif has_custom_metafields == false
-    if benefit_image_4 != blank
-      assign img_url_4 = benefit_image_4 | image_url: width: 300
-    elsif block.settings.benefit_image_4 != blank
-      assign img_url_4 = block.settings.benefit_image_4 | image_url: width: 300
-    elsif section.settings.benefit_image_4 != blank
-      assign img_url_4 = section.settings.benefit_image_4 | image_url: width: 300
-    endif
   endif
 
   assign max_icons = limit | default: block.settings.max_icons | default: 4
-  if has_custom_metafields and limit == blank
-    assign max_icons = 4
-  endif
 
   assign uploaded_count = 0
   if img_url_1 != blank
