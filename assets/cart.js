@@ -39,15 +39,21 @@
       const variantTitle = v.title !== 'Default Title' ? v.title : '';
       const displayTitle = variantTitle ? `${product.title}` : product.title;
 
-      const actionBtnHtml = qty > 0
-        ? `<div class="kb-variant-qty-pill" style="display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #0d6840; border-radius: 8px; width: 90px; height: 36px; padding: 0 6px; box-sizing: border-box; background: #ffffff;">
+      const isAvail = v.available !== false && (v.inventory_quantity === undefined || v.inventory_quantity > 0);
+      let actionBtnHtml = '';
+      if (!isAvail) {
+        actionBtnHtml = `<button type="button" disabled style="background: #94a3b8; color: #ffffff; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: not-allowed; opacity: 0.7;">Sold Out</button>`;
+      } else if (qty > 0) {
+        actionBtnHtml = `<div class="kb-variant-qty-pill" style="display: flex; align-items: center; justify-content: space-between; border: 1.5px solid #0d6840; border-radius: 8px; width: 90px; height: 36px; padding: 0 6px; box-sizing: border-box; background: #ffffff;">
              <button type="button" data-choose-qty-minus="${v.id}" style="border: none; background: transparent; font-weight: 800; font-size: 1.1rem; color: #0d6840; cursor: pointer; padding: 0 4px;">-</button>
              <span style="font-weight: 800; font-size: 0.95rem; color: #0d6840;">${qty}</span>
              <button type="button" data-choose-qty-plus="${v.id}" style="border: none; background: transparent; font-weight: 800; font-size: 1.1rem; color: #0d6840; cursor: pointer; padding: 0 4px;">+</button>
-           </div>`
-        : `<button type="button" class="kb-variant-option-card__add-btn" data-choose-add-variant="${v.id}" style="background: #0d6840; color: #ffffff; border: none; padding: 8px 18px; border-radius: 8px; font-weight: 800; font-size: 0.9rem; cursor: pointer;">
+           </div>`;
+      } else {
+        actionBtnHtml = `<button type="button" class="kb-variant-option-card__add-btn" data-choose-add-variant="${v.id}" style="background: #0d6840; color: #ffffff; border: none; padding: 8px 18px; border-radius: 8px; font-weight: 800; font-size: 0.9rem; cursor: pointer;">
              Add
            </button>`;
+      }
 
       return `
         <div class="kb-variant-option-card ${qty > 0 ? 'is-selected' : ''}" data-choose-variant-card data-variant-id="${v.id}">

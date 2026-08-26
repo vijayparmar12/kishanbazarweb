@@ -36,7 +36,11 @@
         let isAvail = true;
         if (select && selectedOption) {
           const optText = (selectedOption.textContent || '').toLowerCase();
-          isAvail = !selectedOption.disabled && selectedOption.dataset.available !== 'false' && !optText.includes('sold out') && !optText.includes('out of stock');
+          const isDataUnavail = selectedOption.dataset.available === 'false';
+          const isZeroInv = selectedOption.dataset.inventory !== undefined && parseInt(selectedOption.dataset.inventory, 10) <= 0;
+          if (selectedOption.disabled || isDataUnavail || isZeroInv || optText.includes('sold out') || optText.includes('out of stock')) {
+            isAvail = false;
+          }
         } else {
           const isBtnDisabled = addBtn ? (addBtn.hasAttribute('disabled') || addBtn.disabled) : false;
           const isDataUnavailable = form.dataset.available === 'false';
@@ -221,7 +225,9 @@
       }
     }
     const optText = (option?.textContent || '').toLowerCase();
-    const isAvailable = option && !option.disabled && option.dataset.available !== 'false' && !optText.includes('sold out') && !optText.includes('out of stock');
+    const isDataUnavail = option?.dataset?.available === 'false';
+    const isZeroInv = option?.dataset?.inventory !== undefined && parseInt(option.dataset.inventory, 10) <= 0;
+    const isAvailable = option && !option.disabled && !isDataUnavail && !isZeroInv && !optText.includes('sold out') && !optText.includes('out of stock');
     const form = card.querySelector('[data-product-card-form]');
     const addBtn = card.querySelector('[data-card-add-btn]');
     const stepper = card.querySelector('[data-card-inline-stepper]');
@@ -234,6 +240,9 @@
       if (addBtn) {
         addBtn.style.setProperty('display', 'flex', 'important');
         addBtn.disabled = true;
+        addBtn.setAttribute('disabled', 'disabled');
+        addBtn.style.setProperty('opacity', '0.65', 'important');
+        addBtn.style.setProperty('cursor', 'not-allowed', 'important');
         const labelSpan = addBtn.querySelector('span');
         if (labelSpan) labelSpan.textContent = 'SOLD OUT';
         else addBtn.textContent = 'SOLD OUT';
@@ -241,10 +250,12 @@
     } else {
       if (addBtn) {
         addBtn.disabled = false;
+        addBtn.removeAttribute('disabled');
+        addBtn.style.setProperty('opacity', '1', 'important');
+        addBtn.style.setProperty('cursor', 'pointer', 'important');
         const labelSpan = addBtn.querySelector('span');
         if (labelSpan) labelSpan.textContent = 'ADD TO CART';
       }
-      syncCartState();
     }
 
     // Dynamic Variant Badge Update
