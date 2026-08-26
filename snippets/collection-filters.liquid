@@ -1,26 +1,39 @@
 {% doc %}
-  Renders Shopify's native collection filter controls.
+  Renders Shopify's native collection filter controls in a horizontal single-row bar.
 
   @param {string} section_id - Unique ID used to connect the filter heading.
 {% enddoc %}
-<aside class="collection-filters" aria-labelledby="CollectionFilters-{{ section_id }}">
+<aside class="collection-filters collection-filters--horizontal" aria-labelledby="CollectionFilters-{{ section_id }}">
   <form class="collection-filters__form" action="{{ collection.url }}" method="get" data-collection-filters>
-    <div class="collection-filters__heading"><h2 id="CollectionFilters-{{ section_id }}">Filter products</h2><a href="{{ collection.url }}" class="collection-filters__clear">Clear all</a></div>
-    {% for filter in collection.filters %}
-      <details class="collection-filter"{% if filter.active_values.size > 0 %} open{% endif %}>
-        <summary><span>{{ filter.label }}</span><span aria-hidden="true">+</span></summary>
-        <div class="collection-filter__values">
-          {% case filter.type %}
-            {% when 'boolean', 'list' %}
-              {% for value in filter.values %}
-                <label class="collection-filter__value{% if value.count == 0 and value.active == false %} is-disabled{% endif %}"><input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}><span>{{ value.label }}</span><small>({{ value.count }})</small></label>
-              {% endfor %}
-            {% when 'price_range' %}
-              <div class="collection-filter__price-range"><label>From <input name="{{ filter.min_value.param_name }}" type="number" min="0" inputmode="decimal" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}" placeholder="0"></label><label>To <input name="{{ filter.max_value.param_name }}" type="number" min="0" inputmode="decimal" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}" placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"></label></div>
-          {% endcase %}
-        </div>
-      </details>
-    {% endfor %}
-    <button class="button button--primary collection-filters__apply" type="submit">Apply filters</button>
+    <div class="collection-filters__heading">
+      <h2 id="CollectionFilters-{{ section_id }}">Filter products</h2>
+      <a href="{{ collection.url }}" class="collection-filters__clear">Clear all</a>
+    </div>
+
+    <div class="collection-filters__items-row">
+      {% for filter in collection.filters %}
+        <details class="collection-filter collection-filter--inline"{% if filter.active_values.size > 0 %} open{% endif %}>
+          <summary><span>{{ filter.label }}</span><span aria-hidden="true">▾</span></summary>
+          <div class="collection-filter__values">
+            {% case filter.type %}
+              {% when 'boolean', 'list' %}
+                {% for value in filter.values %}
+                  <label class="collection-filter__value{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
+                    <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>
+                    <span>{{ value.label }}</span>
+                    <small>({{ value.count }})</small>
+                  </label>
+                {% endfor %}
+              {% when 'price_range' %}
+                <div class="collection-filter__price-range">
+                  <label>From <input name="{{ filter.min_value.param_name }}" type="number" min="0" inputmode="decimal" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}" placeholder="0"></label>
+                  <label>To <input name="{{ filter.max_value.param_name }}" type="number" min="0" inputmode="decimal" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}" placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"></label>
+                </div>
+            {% endcase %}
+          </div>
+        </details>
+      {% endfor %}
+      <button class="button button--primary collection-filters__apply" type="submit">Apply</button>
+    </div>
   </form>
 </aside>

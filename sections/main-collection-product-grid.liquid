@@ -2,16 +2,29 @@
 <script src="{{ 'section-collection.js' | asset_url }}" defer="defer"></script>
 
 {% paginate collection.products by section.settings.products_per_page %}
-  <section class="main-collection page-width" data-collection-grid>
-    {% if section.settings.enable_filters %}
-      {% render 'collection-filters', section_id: section.id %}
-    {% endif %}
-    <div class="main-collection__content">
-      {% if section.settings.enable_sorting %}
-        {% render 'collection-sorting', section_id: section.id %}
-      {% else %}
-        <p class="collection-sorting__count" role="status">{{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}</p>
+  {% assign show_filters = false %}
+  {% if section.settings.enable_filters and collection.handle == 'all' %}
+    {% assign show_filters = true %}
+  {% endif %}
+
+  <section class="main-collection page-width{% unless show_filters %} main-collection--no-filters{% endunless %}" data-collection-grid>
+    <div class="main-collection__top-bar">
+      {% if show_filters %}
+        <div class="main-collection__filters-inline">
+          {% render 'collection-filters', section_id: section.id %}
+        </div>
       {% endif %}
+
+      <div class="main-collection__sorting-wrap">
+        {% if section.settings.enable_sorting %}
+          {% render 'collection-sorting', section_id: section.id %}
+        {% else %}
+          <p class="collection-sorting__count" role="status">{{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="main-collection__content">
       {% if collection.products_count > 0 %}
         <div class="main-collection__grid main-collection__grid--{{ section.settings.products_per_row }}" role="list">
           {% for product in collection.products %}
