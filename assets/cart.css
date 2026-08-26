@@ -1798,10 +1798,11 @@ body.kb-cart-drawer-open {
   flex-direction: row !important;
   flex-wrap: nowrap !important;
   gap: 0.75rem !important;
-  overflow-x: scroll !important;
+  overflow-x: auto !important;
   overflow-y: hidden !important;
-  touch-action: pan-x !important;
+  touch-action: pan-x pan-y !important;
   overscroll-behavior-x: contain !important;
+  scroll-snap-type: x proximity !important;
   padding-bottom: 8px !important;
   -webkit-overflow-scrolling: touch !important;
   scrollbar-width: thin !important;
@@ -2493,22 +2494,31 @@ body.kb-cart-drawer-open {
     box-sizing: border-box !important;
   }
 
-  .kb-cart-drawer__addons-block {
+  .kb-cart-drawer__addons-block,
+  .kb-cart-tab-panel {
     padding-left: 0 !important;
     padding-right: 0 !important;
     width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
     box-sizing: border-box !important;
+    overflow: hidden !important;
   }
 
   .kb-cart-addons-track {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
-    overflow-x: scroll !important;
+    gap: 0.75rem !important;
+    overflow-x: auto !important;
     overflow-y: hidden !important;
-    touch-action: pan-x !important;
+    touch-action: pan-x pan-y !important;
     -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
+    scroll-snap-type: x proximity !important;
     padding-right: 16px !important;
+    padding-bottom: 8px !important;
+    width: 100% !important;
     box-sizing: border-box !important;
   }
 
@@ -2518,6 +2528,7 @@ body.kb-cart-drawer-open {
     max-width: 165px !important;
     flex-shrink: 0 !important;
     width: 165px !important;
+    scroll-snap-align: start !important;
     box-sizing: border-box !important;
   }
 
