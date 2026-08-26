@@ -134,10 +134,16 @@
           <div class="kb-cart-addons-track">
             {% assign addons_coll = addons_collection.products %}
             {% if addons_coll == blank or addons_coll.size == 0 %}
-              {% assign addons_coll = collections.frontpage.products %}
+              {% assign addons_coll = collections['all'].products %}
             {% endif %}
             {% if addons_coll == blank or addons_coll.size == 0 %}
               {% assign addons_coll = collections.all.products %}
+            {% endif %}
+            {% if addons_coll == blank or addons_coll.size == 0 %}
+              {% assign addons_coll = collections['frontpage'].products %}
+            {% endif %}
+            {% if addons_coll == blank or addons_coll.size == 0 %}
+              {% assign addons_coll = collections.frontpage.products %}
             {% endif %}
             {% if addons_coll == blank or addons_coll.size == 0 %}
               {% for c in collections %}
