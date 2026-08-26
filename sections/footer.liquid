@@ -139,18 +139,43 @@
                   <div class="site-footer__address" style="margin-bottom: 0.75rem; line-height: 1.55;">{{ block.settings.address_text | newline_to_br }}</div>
                 {% endif %}
 
-                {% assign footer_email = block.settings.email | default: 'support@kishanbazar.com' %}
-                {% assign footer_phone = block.settings.phone | default: '+91 88888 88888' %}
+                {% assign brand_block = section.blocks | where: 'type', 'brand' | first %}
+
+                {% assign footer_email = block.settings.email %}
+                {% if footer_email == blank and brand_block != blank %}
+                  {% assign footer_email = brand_block.settings.email %}
+                {% endif %}
+
+                {% assign footer_email_label = block.settings.email_label %}
+                {% if footer_email_label == blank and brand_block != blank %}
+                  {% assign footer_email_label = brand_block.settings.email_label %}
+                {% endif %}
+                {% if footer_email_label == blank %}
+                  {% assign footer_email_label = 'Email:' %}
+                {% endif %}
+
+                {% assign footer_phone = block.settings.phone %}
+                {% if footer_phone == blank and brand_block != blank %}
+                  {% assign footer_phone = brand_block.settings.phone %}
+                {% endif %}
+
+                {% assign footer_phone_label = block.settings.phone_label %}
+                {% if footer_phone_label == blank and brand_block != blank %}
+                  {% assign footer_phone_label = brand_block.settings.phone_label %}
+                {% endif %}
+                {% if footer_phone_label == blank %}
+                  {% assign footer_phone_label = 'Tel:' %}
+                {% endif %}
 
                 <div class="site-footer__contact-details" style="margin-top: 0.65rem; margin-bottom: 0.85rem;">
                   {% if footer_phone != blank %}
                     <p class="site-footer__contact-line" style="margin: 0 0 0.35rem; font-size: 0.92rem; color: #23421f;">
-                      <strong>Tel:</strong> <a href="tel:{{ footer_phone | remove: ' ' }}" style="color: #23421f; text-decoration: none;">{{ footer_phone }}</a>
+                      <strong>{{ footer_phone_label }}</strong> <a href="tel:{{ footer_phone | remove: ' ' }}" style="color: #23421f; text-decoration: none;">{{ footer_phone }}</a>
                     </p>
                   {% endif %}
                   {% if footer_email != blank %}
                     <p class="site-footer__contact-line" style="margin: 0; font-size: 0.92rem; color: #23421f;">
-                      <strong>Email:</strong> <a href="mailto:{{ footer_email }}" style="color: #23421f; text-decoration: underline;">{{ footer_email }}</a>
+                      <strong>{{ footer_email_label }}</strong> <a href="mailto:{{ footer_email }}" style="color: #23421f; text-decoration: underline;">{{ footer_email }}</a>
                     </p>
                   {% endif %}
                 </div>
@@ -434,6 +459,30 @@
           "id": "address_text",
           "label": "Company address",
           "default": "11th Floor, Jasminium Building, Magarpatta City, Hadapsar, Pune, Maharashtra, 411028"
+        },
+        {
+          "type": "text",
+          "id": "phone_label",
+          "label": "Phone label",
+          "default": "Tel:"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone",
+          "default": "+91 93773 41042"
+        },
+        {
+          "type": "text",
+          "id": "email_label",
+          "label": "Email label",
+          "default": "Email:"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Email",
+          "default": "vijay9377341042@gmail.com"
         },
         {
           "type": "checkbox",
