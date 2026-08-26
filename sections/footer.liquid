@@ -19,6 +19,27 @@
 
 {% assign social_blocks = section.blocks | where: 'type', 'social_link' %}
 
+{% assign brand_email = '' %}
+{% assign brand_phone = '' %}
+{% assign brand_phone_label = '' %}
+{% assign brand_email_label = '' %}
+{% for b in section.blocks %}
+  {% if b.type == 'brand' %}
+    {% if b.settings.email != blank %}
+      {% assign brand_email = b.settings.email %}
+    {% endif %}
+    {% if b.settings.phone != blank %}
+      {% assign brand_phone = b.settings.phone %}
+    {% endif %}
+    {% if b.settings.phone_label != blank %}
+      {% assign brand_phone_label = b.settings.phone_label %}
+    {% endif %}
+    {% if b.settings.email_label != blank %}
+      {% assign brand_email_label = b.settings.email_label %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
 <footer class="site-footer" data-site-footer>
   <div class="site-footer__content-layer">
     <div class="site-footer__inner">
@@ -139,29 +160,27 @@
                   <div class="site-footer__address" style="margin-bottom: 0.75rem; line-height: 1.55;">{{ block.settings.address_text | newline_to_br }}</div>
                 {% endif %}
 
-                {% assign brand_block = section.blocks | where: 'type', 'brand' | first %}
-
                 {% assign footer_email = block.settings.email %}
-                {% if footer_email == blank and brand_block != blank %}
-                  {% assign footer_email = brand_block.settings.email %}
+                {% if footer_email == blank %}
+                  {% assign footer_email = brand_email %}
                 {% endif %}
 
                 {% assign footer_email_label = block.settings.email_label %}
-                {% if footer_email_label == blank and brand_block != blank %}
-                  {% assign footer_email_label = brand_block.settings.email_label %}
+                {% if footer_email_label == blank %}
+                  {% assign footer_email_label = brand_email_label %}
                 {% endif %}
                 {% if footer_email_label == blank %}
                   {% assign footer_email_label = 'Email:' %}
                 {% endif %}
 
                 {% assign footer_phone = block.settings.phone %}
-                {% if footer_phone == blank and brand_block != blank %}
-                  {% assign footer_phone = brand_block.settings.phone %}
+                {% if footer_phone == blank %}
+                  {% assign footer_phone = brand_phone %}
                 {% endif %}
 
                 {% assign footer_phone_label = block.settings.phone_label %}
-                {% if footer_phone_label == blank and brand_block != blank %}
-                  {% assign footer_phone_label = brand_block.settings.phone_label %}
+                {% if footer_phone_label == blank %}
+                  {% assign footer_phone_label = brand_phone_label %}
                 {% endif %}
                 {% if footer_phone_label == blank %}
                   {% assign footer_phone_label = 'Tel:' %}

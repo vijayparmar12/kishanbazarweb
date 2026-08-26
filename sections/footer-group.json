@@ -78,6 +78,10 @@
           "settings": {
             "heading": "Company & contact",
             "address_text": "G-14, Bhagwati Ashish Complex, City Light Town, Athwa, Surat, Gujarat 395007, India",
+            "phone_label": "Tel:",
+            "phone": "+91 93773 41042",
+            "email_label": "Email:",
+            "email": "vijay9377341042@gmail.com",
             "show_newsletter": true,
             "newsletter_placeholder": "Your e-mail",
             "newsletter_button_text": "->",
