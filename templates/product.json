@@ -15,7 +15,11 @@
         "title_zwNBWV": {
           "type": "title",
           "settings": {
-            "show_subtitle": true
+            "show_subtitle": true,
+            "title_font_size_mobile": 23,
+            "title_font_size_desktop": 28,
+            "title_color": "#1e3d20",
+            "title_font_weight": "600"
           }
         },
         "judge_me_reviews_preview_badge_hhdQye": {
@@ -39,7 +43,10 @@
         "price_cXRV6V": {
           "type": "price",
           "settings": {
-            "show_tax_note": true
+            "show_tax_note": true,
+            "show_savings_banner": true,
+            "savings_text_template": "Save ₹{savings} on this order",
+            "banner_bg": "#1b4317"
           }
         },
         "stock_status_qfnGpK": {
@@ -153,6 +160,11 @@
         "recommendations_limit": 6,
         "show_sticky_mobile_bar": true,
         "sticky_bar_btn_text": "ADD TO CART",
+        "show_coins_banner": true,
+        "coins_multiplier": 3,
+        "coins_banner_label": "Earn {coins} Coins on this product",
+        "show_coins_savings": true,
+        "coins_banner_bg": "linear-gradient(90deg, #1b4317 0%, #2e5b29 55%, #3d6e37 100%)",
         "tab_description": "<p>{{ product.metafields.custom.description | metafield_tag }}</p>",
         "tab_ingredients": "<p>{{ product.metafields.custom.ingredients | metafield_tag }}</p>",
         "tab_usage": "<p>{{ product.metafields.custom.usage | metafield_tag }}</p>",
@@ -183,6 +195,10 @@
         "mobile_side_padding": 0,
         "mobile_vertical_gap": 4,
         "mobile_reviews_width": 100,
+        "mobile_title_font_size": 22,
+        "desktop_title_font_size": 28,
+        "mobile_price_font_size": 24,
+        "mobile_desc_font_size": 14,
         "banner_image_1": "{{ product.metafields.custom.custom_banner_1.value }}",
         "banner_image_2": "{{ product.metafields.custom.custom_banner_2.value }}",
         "banner_image_3": "{{ product.metafields.custom.custom_banner_3.value }}",
@@ -214,9 +230,10 @@
       "settings": {
         "heading": "RECOMMENDED",
         "eyebrow": "HANDPICKED ORGANIC STAPLES",
-        "bg_color": "#FAF7F2",
-        "heading_color": "#1B4317",
-        "eyebrow_color": "#D97706",
+        "collection": "",
+        "bg_color": "#faf7f2",
+        "heading_color": "#1b4317",
+        "eyebrow_color": "#d97706",
         "products_limit": 4,
         "columns_desktop": "4",
         "columns_mobile": "2"
