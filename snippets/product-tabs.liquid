@@ -63,7 +63,26 @@
             </span>
           </summary>
           <div class="product-accordion-item__content rte">
-            {{ raw_desc }}
+            {% if raw_desc contains '<li>' or raw_desc contains '<ul' %}
+              {{ raw_desc }}
+            {% else %}
+              <ul class="product-details-bullet-list">
+                {% assign lines = raw_desc | newline_to_br | split: '<br />' %}
+                {% for line in lines %}
+                  {% assign trimmed = line | strip | remove: '<p>' | remove: '</p>' | strip %}
+                  {% if trimmed != blank %}
+                    <li class="product-details-bullet-item">
+                      {% if trimmed contains ':' %}
+                        {% assign parts = trimmed | split: ':' %}
+                        <strong>{{ parts[0] | strip }}:</strong>{{ parts | slice: 1, 100 | join: ':' }}
+                      {% else %}
+                        {{ trimmed }}
+                      {% endif %}
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
           </div>
         </details>
       {% endif %}
@@ -80,7 +99,26 @@
             </span>
           </summary>
           <div class="product-accordion-item__content rte">
-            {{ raw_ingredients }}
+            {% if raw_ingredients contains '<li>' or raw_ingredients contains '<ul' %}
+              {{ raw_ingredients }}
+            {% else %}
+              <ul class="product-details-bullet-list">
+                {% assign lines = raw_ingredients | newline_to_br | split: '<br />' %}
+                {% for line in lines %}
+                  {% assign trimmed = line | strip | remove: '<p>' | remove: '</p>' | strip %}
+                  {% if trimmed != blank %}
+                    <li class="product-details-bullet-item">
+                      {% if trimmed contains ':' %}
+                        {% assign parts = trimmed | split: ':' %}
+                        <strong>{{ parts[0] | strip }}:</strong>{{ parts | slice: 1, 100 | join: ':' }}
+                      {% else %}
+                        {{ trimmed }}
+                      {% endif %}
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
           </div>
         </details>
       {% endif %}
@@ -97,7 +135,26 @@
             </span>
           </summary>
           <div class="product-accordion-item__content rte">
-            {{ raw_usage }}
+            {% if raw_usage contains '<li>' or raw_usage contains '<ul' %}
+              {{ raw_usage }}
+            {% else %}
+              <ul class="product-details-bullet-list">
+                {% assign lines = raw_usage | newline_to_br | split: '<br />' %}
+                {% for line in lines %}
+                  {% assign trimmed = line | strip | remove: '<p>' | remove: '</p>' | strip %}
+                  {% if trimmed != blank %}
+                    <li class="product-details-bullet-item">
+                      {% if trimmed contains ':' %}
+                        {% assign parts = trimmed | split: ':' %}
+                        <strong>{{ parts[0] | strip }}:</strong>{{ parts | slice: 1, 100 | join: ':' }}
+                      {% else %}
+                        {{ trimmed }}
+                      {% endif %}
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
           </div>
         </details>
       {% endif %}
@@ -114,7 +171,26 @@
             </span>
           </summary>
           <div class="product-accordion-item__content rte">
-            {{ raw_benefits }}
+            {% if raw_benefits contains '<li>' or raw_benefits contains '<ul' %}
+              {{ raw_benefits }}
+            {% else %}
+              <ul class="product-details-bullet-list">
+                {% assign lines = raw_benefits | newline_to_br | split: '<br />' %}
+                {% for line in lines %}
+                  {% assign trimmed = line | strip | remove: '<p>' | remove: '</p>' | strip %}
+                  {% if trimmed != blank %}
+                    <li class="product-details-bullet-item">
+                      {% if trimmed contains ':' %}
+                        {% assign parts = trimmed | split: ':' %}
+                        <strong>{{ parts[0] | strip }}:</strong>{{ parts | slice: 1, 100 | join: ':' }}
+                      {% else %}
+                        {{ trimmed }}
+                      {% endif %}
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
           </div>
         </details>
       {% endif %}
@@ -131,7 +207,26 @@
             </span>
           </summary>
           <div class="product-accordion-item__content rte">
-            {{ raw_storage }}
+            {% if raw_storage contains '<li>' or raw_storage contains '<ul' %}
+              {{ raw_storage }}
+            {% else %}
+              <ul class="product-details-bullet-list">
+                {% assign lines = raw_storage | newline_to_br | split: '<br />' %}
+                {% for line in lines %}
+                  {% assign trimmed = line | strip | remove: '<p>' | remove: '</p>' | strip %}
+                  {% if trimmed != blank %}
+                    <li class="product-details-bullet-item">
+                      {% if trimmed contains ':' %}
+                        {% assign parts = trimmed | split: ':' %}
+                        <strong>{{ parts[0] | strip }}:</strong>{{ parts | slice: 1, 100 | join: ':' }}
+                      {% else %}
+                        {{ trimmed }}
+                      {% endif %}
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
           </div>
         </details>
       {% endif %}
@@ -148,7 +243,26 @@
             </span>
           </summary>
           <div class="product-accordion-item__content rte">
-            {{ raw_mfr }}
+            {% if raw_mfr contains '<li>' or raw_mfr contains '<ul' %}
+              {{ raw_mfr }}
+            {% else %}
+              <ul class="product-details-bullet-list">
+                {% assign lines = raw_mfr | newline_to_br | split: '<br />' %}
+                {% for line in lines %}
+                  {% assign trimmed = line | strip | remove: '<p>' | remove: '</p>' | strip %}
+                  {% if trimmed != blank %}
+                    <li class="product-details-bullet-item">
+                      {% if trimmed contains ':' %}
+                        {% assign parts = trimmed | split: ':' %}
+                        <strong>{{ parts[0] | strip }}:</strong>{{ parts | slice: 1, 100 | join: ':' }}
+                      {% else %}
+                        {{ trimmed }}
+                      {% endif %}
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
           </div>
         </details>
       {% endif %}
@@ -187,7 +301,28 @@
             </span>
           </summary>
           <div class="product-accordion-item__content">
-            <div class="rte">{{ raw_shelflife }}</div>
+            <div class="rte">
+              {% if raw_shelflife contains '<li>' or raw_shelflife contains '<ul' %}
+                {{ raw_shelflife }}
+              {% else %}
+                <ul class="product-details-bullet-list">
+                  {% assign lines = raw_shelflife | newline_to_br | split: '<br />' %}
+                  {% for line in lines %}
+                    {% assign trimmed = line | strip | remove: '<p>' | remove: '</p>' | strip %}
+                    {% if trimmed != blank %}
+                      <li class="product-details-bullet-item">
+                        {% if trimmed contains ':' %}
+                          {% assign parts = trimmed | split: ':' %}
+                          <strong>{{ parts[0] | strip }}:</strong>{{ parts | slice: 1, 100 | join: ':' }}
+                        {% else %}
+                          {{ trimmed }}
+                        {% endif %}
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
           </div>
         </details>
       {% endif %}
