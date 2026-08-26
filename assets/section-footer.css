@@ -511,7 +511,11 @@
   background: #23421f;
   color: #ffffff;
   padding: 1.1rem 1.25rem;
-  text-align: center;
+  text-align: center !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
   position: relative;
   z-index: 5;
 }
@@ -519,7 +523,9 @@
 .site-footer__copyright {
   font-size: 0.85rem;
   font-weight: 600;
-  margin: 0;
+  margin: 0 auto !important;
+  text-align: center !important;
   letter-spacing: 0.02em;
   opacity: 0.95;
+  width: 100% !important;
 }
