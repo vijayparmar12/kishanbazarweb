@@ -307,7 +307,7 @@
             if (container) {
               const optionsHtml = pData.variants
                 .map((v) => {
-                  const isAvail = v.available !== false && (v.inventory_quantity === undefined || v.inventory_quantity > 0 || v.inventory_policy === 'continue');
+                  const isAvail = Boolean(v.available);
                   const label = isAvail ? v.title : `${v.title} - Sold Out`;
                   const disabledAttr = !isAvail ? 'disabled data-available="false"' : 'data-available="true"';
                   return `<option value="${v.id}" ${v.id === item.variant_id ? 'selected' : ''} ${disabledAttr}>${label}</option>`;
@@ -328,12 +328,11 @@
 
     const selectedOption = select.selectedOptions[0];
     const isAvail = selectedOption && selectedOption.dataset.available !== 'false' && !selectedOption.disabled;
+    const oldVariantId = select.dataset.currentVariantId;
 
     if (!isAvail) {
       alert('Sorry, the selected variant is currently sold out.');
-      if (select.dataset.currentVariantId) {
-        select.value = select.dataset.currentVariantId;
-      }
+      if (oldVariantId) select.value = oldVariantId;
       return;
     }
 
@@ -341,24 +340,34 @@
     const oldKey = select.dataset.lineKey;
     const qty = parseInt(select.dataset.currentQty, 10) || 1;
 
-    if (!newVariantId || !oldKey) return;
+    if (!newVariantId || !oldKey || newVariantId === oldVariantId) return;
 
     select.disabled = true;
     select.style.opacity = '0.5';
 
     try {
-      // 1. Set old line item quantity to 0
+      // 1. Attempt to add new variant FIRST
+      const addRes = await fetch(`${rootUrl}cart/add.js`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ id: newVariantId, quantity: qty })
+      });
+
+      if (!addRes.ok) {
+        const errJson = await addRes.json().catch(() => ({}));
+        const errMsg = errJson.description || errJson.message || 'Selected variant is sold out or unavailable.';
+        alert(`Cannot change variant: ${errMsg}`);
+        if (oldVariantId) select.value = oldVariantId;
+        select.disabled = false;
+        select.style.opacity = '1';
+        return;
+      }
+
+      // 2. Only if add succeeded, remove the old line item
       await fetch(`${rootUrl}cart/change.js`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ id: oldKey, quantity: 0 })
-      });
-
-      // 2. Add new variant with same quantity
-      await fetch(`${rootUrl}cart/add.js`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ id: newVariantId, quantity: qty })
       });
 
       // 3. Re-fetch cart with cache-busting timestamp & update drawer
@@ -368,6 +377,7 @@
       document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
     } catch (err) {
       console.error('Error swapping cart variant:', err);
+      if (oldVariantId) select.value = oldVariantId;
       select.disabled = false;
       select.style.opacity = '1';
     }
