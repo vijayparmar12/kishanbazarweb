@@ -28,10 +28,10 @@
           "otp_label": "Enter 6-Digit OTP",
           "verify_btn_text": "Verify & Proceed",
           "resend_btn_text": "Resend OTP",
-          "btn_bg": "#23421F",
-          "btn_text_color": "#FFFFFF",
-          "card_bg": "#FFFFFF",
-          "text_color": "#23421F"
+          "btn_bg": "#23421f",
+          "btn_text_color": "#ffffff",
+          "card_bg": "#ffffff",
+          "text_color": "#23421f"
         }
       },
       "customer-profile": {
@@ -97,6 +97,17 @@
           "mega_hover_color": "#f1f8ec",
           "mega_wave_color": "#eaf5e3",
           "show_account": true,
+          "show_mobile_account": true,
+          "desktop_account_label": "Account",
+          "mobile_account_text": "My Profile / Login",
+          "mobile_account_logged_in_text": "My Profile",
+          "account_action": "modal",
+          "account_custom_url": "",
+          "account_icon_emoji": "",
+          "mobile_account_bg": "#23421f",
+          "mobile_account_text_color": "#ffffff",
+          "mobile_account_border_color": "#23421f",
+          "mobile_account_border_radius": 8,
           "show_wishlist": true,
           "wishlist_url": "",
           "show_cart": true,
