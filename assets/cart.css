@@ -1385,6 +1385,18 @@ body.kb-cart-drawer-open {
   box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08) !important;
 }
 
+.kb-cart-item__variant-select option:disabled {
+  color: #94a3b8 !important;
+  background-color: #f8fafc !important;
+}
+
+.kb-cart-item__sold-badge {
+  font-size: 0.75rem;
+  color: #dc2626;
+  font-weight: 700;
+  margin-left: 4px;
+}
+
 .kb-cart-item,
 .kb-cart-item--compact {
   display: grid !important;

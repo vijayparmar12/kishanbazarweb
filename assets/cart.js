@@ -306,9 +306,14 @@
             const container = drawer.querySelector(`[data-cart-variant-container="${item.key}"]`);
             if (container) {
               const optionsHtml = pData.variants
-                .map((v) => `<option value="${v.id}" ${v.id === item.variant_id ? 'selected' : ''}>${v.title}</option>`)
+                .map((v) => {
+                  const isAvail = v.available !== false && (v.inventory_quantity === undefined || v.inventory_quantity > 0 || v.inventory_policy === 'continue');
+                  const label = isAvail ? v.title : `${v.title} - Sold Out`;
+                  const disabledAttr = !isAvail ? 'disabled data-available="false"' : 'data-available="true"';
+                  return `<option value="${v.id}" ${v.id === item.variant_id ? 'selected' : ''} ${disabledAttr}>${label}</option>`;
+                })
                 .join('');
-              container.innerHTML = `<select class="kb-cart-item__variant-select" data-cart-item-variant-select data-line-key="${item.key}" data-current-qty="${item.quantity}">${optionsHtml}</select>`;
+              container.innerHTML = `<select class="kb-cart-item__variant-select" data-cart-item-variant-select data-line-key="${item.key}" data-current-qty="${item.quantity}" data-current-variant-id="${item.variant_id}">${optionsHtml}</select>`;
             }
           })
           .catch(() => {});
@@ -320,6 +325,17 @@
   document.addEventListener('change', async (e) => {
     const select = e.target.closest('[data-cart-item-variant-select]');
     if (!select) return;
+
+    const selectedOption = select.selectedOptions[0];
+    const isAvail = selectedOption && selectedOption.dataset.available !== 'false' && !selectedOption.disabled;
+
+    if (!isAvail) {
+      alert('Sorry, the selected variant is currently sold out.');
+      if (select.dataset.currentVariantId) {
+        select.value = select.dataset.currentVariantId;
+      }
+      return;
+    }
 
     const newVariantId = select.value;
     const oldKey = select.dataset.lineKey;
@@ -345,8 +361,8 @@
         body: JSON.stringify({ id: newVariantId, quantity: qty })
       });
 
-      // 3. Re-fetch cart & update drawer
-      const cartRes = await fetch(`${rootUrl}cart.js`);
+      // 3. Re-fetch cart with cache-busting timestamp & update drawer
+      const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
       const updatedCart = await cartRes.json();
       updateDrawer(updatedCart);
       document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));

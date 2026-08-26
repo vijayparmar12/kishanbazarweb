@@ -57,15 +57,28 @@
 
     <div class="kb-cart-item__variant-container" data-cart-variant-container="{{ line_key }}">
       {% if item.product.variants.size > 1 %}
-        <select class="kb-cart-item__variant-select" data-cart-item-variant-select data-line-key="{{ line_key }}" data-current-qty="{{ item.quantity }}">
+        <select class="kb-cart-item__variant-select" data-cart-item-variant-select data-line-key="{{ line_key }}" data-current-qty="{{ item.quantity }}" data-current-variant-id="{{ variant.id }}">
           {% for v in item.product.variants %}
-            <option value="{{ v.id }}" {% if v.id == variant.id %}selected{% endif %}>
-              {{ v.title }}
+            {% assign v_avail = true %}
+            {% if v.available == false or v.inventory_quantity <= 0 and v.inventory_policy != 'continue' %}
+              {% assign v_avail = false %}
+            {% endif %}
+            <option
+              value="{{ v.id }}"
+              {% if v.id == variant.id %}selected{% endif %}
+              {% unless v_avail %}disabled data-available="false"{% else %}data-available="true"{% endunless %}
+            >
+              {{ v.title }}{% unless v_avail %} - Sold Out{% endunless %}
             </option>
           {% endfor %}
         </select>
       {% elsif variant.title != blank and variant.title != 'Default Title' %}
-        <span class="kb-cart-item__variant-pill">{{ variant.title }}</span>
+        <span class="kb-cart-item__variant-pill">
+          {{ variant.title }}
+          {% if variant.available == false %}
+            <span class="kb-cart-item__sold-badge">(Sold Out)</span>
+          {% endif %}
+        </span>
       {% endif %}
     </div>
 
