@@ -2431,8 +2431,9 @@ body.kb-cart-drawer-open {
   .kb-cart-drawer__panel {
     width: 100% !important;
     max-width: 100% !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    height: 100% !important;
     display: flex !important;
     flex-direction: column !important;
     box-sizing: border-box !important;
@@ -2481,8 +2482,10 @@ body.kb-cart-drawer-open {
     flex: 1 1 auto !important;
     min-height: 0 !important;
     overflow-y: auto !important;
+    overscroll-behavior-y: contain !important;
+    touch-action: pan-y !important;
     -webkit-overflow-scrolling: touch !important;
-    padding: 12px 16px 24px !important;
+    padding: 12px 16px 40px !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
