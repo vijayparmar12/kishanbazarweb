@@ -1609,11 +1609,12 @@ body.kb-cart-drawer-open {
 
 .kb-cart-drawer__checkout-btn {
   width: 100% !important;
-  min-height: 52px !important;
+  min-height: 56px !important;
   background: #166534 !important;
   color: #ffffff !important;
   border-radius: 14px !important;
   display: flex !important;
+  flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
   padding: 10px 16px !important;
@@ -1635,22 +1636,28 @@ body.kb-cart-drawer-open {
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 2px !important;
+  gap: 3px !important;
   text-align: center !important;
+  width: 100% !important;
 }
 
 .kb-cart-drawer__checkout-label {
-  font-size: 1.05rem !important;
-  font-weight: 800 !important;
+  font-size: 1.15rem !important;
+  font-weight: 900 !important;
   color: #ffffff !important;
-  line-height: 1.2 !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0.02em !important;
+  display: block !important;
 }
 
 .kb-cart-drawer__checkout-subtext {
-  font-size: 0.72rem !important;
-  font-weight: 500 !important;
-  color: rgba(255, 255, 255, 0.9) !important;
-  line-height: 1.2 !important;
+  font-size: 0.76rem !important;
+  font-weight: 600 !important;
+  color: rgba(255, 255, 255, 0.94) !important;
+  line-height: 1.25 !important;
+  display: block !important;
+  white-space: normal !important;
+  text-align: center !important;
 }
 
 .kb-cart-drawer__payment-badge-pill {
