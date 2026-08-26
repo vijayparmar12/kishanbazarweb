@@ -104,42 +104,6 @@
               {% endif %}
             </div>
             <p class="product-info__tax-note">MRP (Incl. of all taxes)</p>
-
-            {% comment %} Dynamic Savings Banner (Editable in Theme Editor under Price & Discount block) {% endcomment %}
-            {% liquid
-              assign show_banner = block.settings.show_savings_banner
-              if show_banner == nil
-                assign show_banner = section.settings.show_coins_banner
-              endif
-              if show_banner == nil
-                assign show_banner = true
-              endif
-
-              assign savings_rupees = 0
-              if current_variant.compare_at_price > current_variant.price
-                assign savings_rupees = current_variant.compare_at_price | minus: current_variant.price | divided_by: 100
-              endif
-
-              assign savings_template = block.settings.savings_text_template | default: section.settings.coins_banner_label | default: 'Save ₹{savings} on this order'
-              if savings_template contains '{coins}'
-                assign savings_template = 'Save ₹{savings} on this order'
-              endif
-              assign formatted_savings_text = savings_template | replace: '{savings}', savings_rupees
-            %}
-
-            {% if show_banner %}
-              <div class="product-info__coins-banner" data-product-savings-banner data-savings-template="{{ savings_template | escape }}" style="background: {{ block.settings.banner_bg | default: section.settings.coins_banner_bg | default: '#1b4317' }};">
-                <div class="product-info__coins-text">
-                  <span data-product-savings-text style="font-weight: 700; font-size: 0.95rem; color: #ffffff;">
-                    {% if savings_rupees > 0 %}
-                      {{ formatted_savings_text }}
-                    {% else %}
-                      Special Discount Applied
-                    {% endif %}
-                  </span>
-                </div>
-              </div>
-            {% endif %}
           </div>
 
         {% when 'stock_status' %}
