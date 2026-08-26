@@ -139,6 +139,10 @@
           <div class="kb-mega__customer-list">
             {% render 'mega-menu', section: section, menu_type: 'customers', mobile: 'items_only' %}
           </div>
+        {% else %}
+          <div class="kb-mega__customer-list">
+            {% render 'mega-menu', section: section, menu_type: menu_type, mobile: 'items_only' %}
+          </div>
         {% endif %}
       </div>
 

@@ -157,6 +157,10 @@
             {% if block.type == 'desktop_nav_item' or target == 'desktop' or target == 'all' %}
               {% assign total_nav_count = total_nav_count | plus: 1 %}
               {% assign mega_type = block.settings.mega_menu | default: 'none' %}
+              {% assign block_title_down = block.settings.title | downcase | strip %}
+              {% if mega_type == 'none' and block_title_down contains 'vedic' %}
+                {% assign mega_type = 'custom1' %}
+              {% endif %}
               {% if mega_type != 'none' and mega_type != blank %}
                 <li class="kb-header__nav-item kb-header__nav-item--mega" data-mega-item {{ block.shopify_attributes }}>
                   <button class="kb-header__nav-link kb-header__nav-button" type="button" aria-expanded="false" aria-controls="MegaMenu-{{ mega_type }}-{{ section.id }}" data-mega-trigger>
