@@ -17,7 +17,6 @@
         "banner_max_width": 1550,
         "text_align": "center",
         "show_image": true,
-        "custom_image_desktop": "shopify://shop_images/hero_banner.png",
         "image_fit_desktop": "cover",
         "image_fit_mobile": "cover",
         "enable_overlay": true,
