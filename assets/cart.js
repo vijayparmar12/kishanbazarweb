@@ -524,11 +524,15 @@
       const details = getLineDetails(minusBtn);
       if (!details) return;
 
-      const currentQty = Math.max(1, Number(details.input?.value || 1));
-      const nextQty = Math.max(1, currentQty - 1);
-      if (details.input) details.input.value = nextQty;
+      const currentQty = Number(details.input?.value || 1);
+      const nextQty = currentQty - 1;
 
-      changeCartLine(details.lineIndex, details.lineKey, nextQty);
+      if (nextQty <= 0) {
+        changeCartLine(details.lineIndex, details.lineKey, 0);
+      } else {
+        if (details.input) details.input.value = nextQty;
+        changeCartLine(details.lineIndex, details.lineKey, nextQty);
+      }
       return;
     }
 

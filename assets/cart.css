@@ -2578,7 +2578,38 @@ body.kb-cart-drawer-open {
     border: none !important;
     border-bottom: 1px solid #e2e8f0 !important;
     box-shadow: none !important;
-    overflow: hidden !important;
+    overflow: visible !important;
+  }
+
+  .kb-cart-item__content {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    padding-right: 28px !important;
+  }
+
+  .kb-cart-item__remove-btn {
+    position: absolute !important;
+    top: -2px !important;
+    right: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    color: #64748b !important;
+    padding: 4px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: color 0.2s ease, transform 0.2s ease !important;
+    z-index: 10 !important;
+  }
+
+  .kb-cart-item__remove-btn:hover {
+    color: #ef4444 !important;
+    transform: scale(1.15) !important;
   }
 
   .kb-cart-item__top-row {
