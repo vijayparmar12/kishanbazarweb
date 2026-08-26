@@ -16,10 +16,15 @@
           "type": "title",
           "settings": {
             "show_subtitle": true,
+            "custom_subtitle": "",
             "title_font_size_mobile": 23,
             "title_font_size_desktop": 28,
             "title_color": "#1e3d20",
-            "title_font_weight": "600"
+            "title_font_weight": "600",
+            "subtitle_font_size_mobile": 13,
+            "subtitle_font_size_desktop": 15,
+            "subtitle_color": "#4b5563",
+            "subtitle_font_weight": "500"
           }
         },
         "judge_me_reviews_preview_badge_hhdQye": {
@@ -125,7 +130,7 @@
         "product_faq_X8pL9P": {
           "type": "product_faq",
           "settings": {
-            "heading": "FAQ",
+            "heading": "FAQs | सवाल",
             "faq_1_q": "",
             "faq_1_a": "",
             "faq_2_q": "",
