@@ -237,8 +237,16 @@
 
     removeFromWishlist(variantId);
 
-    const cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
-    if (cartTrigger) cartTrigger.click();
+    try {
+      const rootUrl = window.Shopify?.routes?.root || '/';
+      const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
+      const updatedCart = await cartRes.json();
+      document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
+      if (window.openDrawer) window.openDrawer(updatedCart);
+    } catch (err) {
+      const cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
+      if (cartTrigger) cartTrigger.click();
+    }
   };
 
   const moveAllToCart = async () => {
@@ -269,8 +277,16 @@
     renderWishlist();
     closeWishlistDrawer();
 
-    const cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
-    if (cartTrigger) cartTrigger.click();
+    try {
+      const rootUrl = window.Shopify?.routes?.root || '/';
+      const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
+      const updatedCart = await cartRes.json();
+      document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
+      if (window.openDrawer) window.openDrawer(updatedCart);
+    } catch (err) {
+      const cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
+      if (cartTrigger) cartTrigger.click();
+    }
   };
 
   // Event Delegation

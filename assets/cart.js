@@ -108,6 +108,17 @@
     const drawer = document.querySelector('[data-cart-drawer]');
     if (!drawer) return;
 
+    if (!cart || !Array.isArray(cart.items)) {
+      updateDrawerFromServer();
+      return;
+    }
+
+    if (cart.item_count > 0 && cart.items.length === 0) {
+      setTimeout(() => {
+        updateDrawerFromServer();
+      }, 80);
+    }
+
     setCartCount(cart.item_count);
     const title = drawer.querySelector('#CartDrawerTitle');
     if (title) title.textContent = `YOUR CART (${cart.item_count})`;
@@ -434,7 +445,7 @@
     const drawer = document.querySelector('[data-cart-drawer]');
     if (!drawer) return;
 
-    if (cartData) {
+    if (cartData && Array.isArray(cartData.items) && cartData.items.length > 0) {
       updateDrawer(cartData);
     } else {
       updateDrawerFromServer();
@@ -450,7 +461,7 @@
 
   const updateDrawerFromServer = async () => {
     try {
-      const response = await fetch(`${rootUrl}cart.js`);
+      const response = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
       const cart = await response.json();
       updateDrawer(cart);
       return cart;

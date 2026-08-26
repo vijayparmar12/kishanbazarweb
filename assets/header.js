@@ -173,7 +173,8 @@
 
   const syncCartState = async () => {
     try {
-      const response = await fetch('/cart.js');
+      const rootUrl = window.Shopify?.routes?.root || '/';
+      const response = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
       const cart = await response.json();
       updateDrawer(cart);
     } catch (error) {

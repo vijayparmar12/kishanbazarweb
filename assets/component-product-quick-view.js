@@ -190,10 +190,12 @@ class ProductQuickViewManager {
       });
 
       if (response.ok) {
-        // Trigger global Cart Drawer open
-        document.dispatchEvent(new CustomEvent('cart:open'));
-        if (window.kbCartDrawer && typeof window.kbCartDrawer.open === 'function') {
-          window.kbCartDrawer.open();
+        const rootUrl = window.Shopify?.routes?.root || '/';
+        const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
+        const updatedCart = await cartRes.json();
+        document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
+        if (window.openDrawer) {
+          window.openDrawer(updatedCart);
         } else {
           const drawer = document.getElementById('CartDrawer');
           if (drawer) {

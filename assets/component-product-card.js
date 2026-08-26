@@ -8,7 +8,7 @@
   // Helper to fetch current cart and sync product card stepper UI across the page
   const syncCartState = async () => {
     try {
-      const res = await fetch(`${rootUrl}cart.js`);
+      const res = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
       if (!res.ok) return;
       const cart = await res.json();
 
@@ -120,8 +120,8 @@
         countSpan.textContent = '1';
       }
 
-      // Fetch updated cart, dispatch custom event, and IMMEDIATELY open cart drawer
-      const cartRes = await fetch(`${rootUrl}cart.js`);
+      // Fetch updated cart with cache-busting timestamp, dispatch custom event, and IMMEDIATELY open cart drawer
+      const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
       const updatedCart = await cartRes.json();
       document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
       if (window.openDrawer) {
