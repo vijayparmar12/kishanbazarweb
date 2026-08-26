@@ -53,12 +53,19 @@
               {{ product.title }}
             </h1>
             {% if block.settings.show_subtitle %}
-              <p class="product-info__subtitle">
-                {% if product.type != blank %}{{ product.type }}{% else %}Organic Grocery{% endif %}
+              {% capture subtitle_text %}
+                {% if product.type != blank %}{{ product.type }}{% endif %}
                 {% if product.tags.size > 0 %}
-                  &bull; {{ product.tags | join: ' &bull; ' }}
+                  {% if product.type != blank %} &bull; {% endif %}
+                  {{ product.tags | join: ' &bull; ' }}
                 {% endif %}
-              </p>
+              {% endcapture %}
+              {% assign clean_subtitle = subtitle_text | strip %}
+              {% if clean_subtitle != blank %}
+                <p class="product-info__subtitle">
+                  {{ clean_subtitle }}
+                </p>
+              {% endif %}
             {% endif %}
           </div>
 
@@ -299,12 +306,19 @@
     <!-- Default Header Block -->
     <div class="product-info__header-block">
       <h1 class="product-info__title">{{ product.title }}</h1>
-      <p class="product-info__subtitle">
-        {% if product.type != blank %}{{ product.type }}{% else %}Organic Grocery{% endif %}
+      {% capture fallback_subtitle_text %}
+        {% if product.type != blank %}{{ product.type }}{% endif %}
         {% if product.tags.size > 0 %}
-          &bull; {{ product.tags | join: ' &bull; ' }}
+          {% if product.type != blank %} &bull; {% endif %}
+          {{ product.tags | join: ' &bull; ' }}
         {% endif %}
-      </p>
+      {% endcapture %}
+      {% assign clean_fallback_subtitle = fallback_subtitle_text | strip %}
+      {% if clean_fallback_subtitle != blank %}
+        <p class="product-info__subtitle">
+          {{ clean_fallback_subtitle }}
+        </p>
+      {% endif %}
       <div class="product-info__rating" aria-label="5 star customer rating">
         <div class="product-info__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <span class="product-info__rating-score">4.9</span>
