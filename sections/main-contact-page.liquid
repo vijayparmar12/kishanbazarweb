@@ -1,16 +1,15 @@
 {% doc %}
-  Renders the Two Brothers style Contact Us page for Kishan Bazar.
+  Renders the Two Brothers style Contact Us page for Kisan Bazar.
   - Phone, WhatsApp, & Email support card
-  - Location & Address card (clean text without extra button)
+  - Location & Address card (displays 100% complete address typed in Theme Editor without truncation)
   - Google Map Embed Card placed BELOW the contact form with "Open in Maps ↗" button
-  - "Open in Maps ↗" button opens Google Maps Place location directly (showing pin, bottom sheet details & navigation options matching user screenshot).
 {% enddoc %}
 
 <link rel="stylesheet" href="{{ 'section-contact-page.css' | asset_url }}">
 
 {% liquid
   assign raw_place_url = section.settings.map_external_url | default: section.settings.map_iframe_url
-  assign display_address = section.settings.address_text
+  assign display_address = section.settings.address_text | strip
 
   if display_address == blank and raw_place_url contains 'maps/place/'
     assign place_part = raw_place_url | split: 'maps/place/' | last | split: '/' | first
@@ -18,10 +17,10 @@
   endif
 
   if display_address == blank
-    assign display_address = "Bhagwati Ashish Complex, Surat, Gujarat, India"
+    assign display_address = "G-14, Bhagwati Ashish Complex, City Light Town, Athwa, Surat, Gujarat 395007, India"
   endif
 
-  # Generate Direct Google Maps Place Location Link (Matching user screenshot)
+  # Generate Direct Google Maps Place Location Link
   if section.settings.map_external_url != blank
     assign map_target_link = section.settings.map_external_url
   elsif raw_place_url contains 'google.com/maps' or raw_place_url contains 'maps.app.goo.gl'
@@ -94,7 +93,7 @@
               <h3 class="contact-card__title">{{ section.settings.address_heading | default: "Our Location & Address" }}</h3>
             </div>
             <div class="contact-card__body">
-              <div class="contact-card__address" data-address-text>{{ display_address | default: "Bhagwati Ashish Complex, Surat, Gujarat, India" }}</div>
+              <div class="contact-card__address" data-address-text>{{ display_address }}</div>
             </div>
           </div>
         {% endif %}
@@ -228,9 +227,6 @@
 
       var fetchedName = extractPlaceName(rawSrc);
       var addressEl = document.querySelector('[data-address-text]');
-      if (addressEl && fetchedName && (addressEl.textContent.trim() === '' || addressEl.textContent.includes('Bhagwati Ashish'))) {
-        addressEl.textContent = fetchedName;
-      }
 
       // Update map target links for direct Google Maps Place search & location view
       var mapLinks = document.querySelectorAll('[data-map-target-link]');
@@ -278,7 +274,7 @@
     },
     { "type": "checkbox", "id": "show_address_card", "label": "Show Address Card", "default": true },
     { "type": "text", "id": "address_heading", "label": "Address Card Heading", "default": "Our Location & Address" },
-    { "type": "textarea", "id": "address_text", "label": "Complete Address Text (Leave blank to auto-fetch from Google Map link)", "default": "Bhagwati Ashish Complex, Surat, Gujarat, India" },
+    { "type": "textarea", "id": "address_text", "label": "Complete Address Text", "default": "G-14, Bhagwati Ashish Complex, City Light Town, Athwa, Surat, Gujarat 395007, India" },
     {
       "type": "header",
       "content": "Google Map Embed Card"
