@@ -19,7 +19,7 @@
             "custom_subtitle": "",
             "title_font_size_mobile": 23,
             "title_font_size_desktop": 28,
-            "title_color": "#23421F",
+            "title_color": "#23421f",
             "title_font_weight": "700",
             "subtitle_font_size_mobile": 13,
             "subtitle_font_size_desktop": 15,
@@ -74,7 +74,7 @@
         "trust_badges_V7nWne": {
           "type": "trust_badges",
           "settings": {
-            "icon_size": 70
+            "icon_size": 96
           }
         },
         "product_video_g8Vgf7": {
