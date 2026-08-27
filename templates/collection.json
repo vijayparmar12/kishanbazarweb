@@ -13,7 +13,7 @@
       "type": "main-collection-banner",
       "settings": {
         "show_collection_image": true,
-        "custom_banner_desktop": "{{ collection.metafields.custom.custom_banner_image.value }}",
+        "custom_banner_desktop": "shopify://shop_images/1_3dd6fd08-fdcb-4b87-b223-75bbb5c14fd9.svg",
         "custom_banner_mobile": "{{ collection.metafields.custom.custom_banner_image.value }}",
         "banner_border_radius": 24,
         "show_collection_title": true,
