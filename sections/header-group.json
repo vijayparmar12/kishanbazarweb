@@ -14,15 +14,6 @@
     "header": {
       "type": "header",
       "blocks": {
-        "mega_link_qpaiwH": {
-          "type": "mega_link",
-          "settings": {
-            "menu_group": "category",
-            "title": "Atta",
-            "link": "shopify://collections/frontpage",
-            "icon": ""
-          }
-        },
         "mega_link_Q8Mg8p": {
           "type": "mega_link",
           "settings": {
@@ -310,7 +301,6 @@
         }
       },
       "block_order": [
-        "mega_link_qpaiwH",
         "mega_link_Q8Mg8p",
         "mega_link_fUDNM6",
         "mega_link_D4TtRC",
