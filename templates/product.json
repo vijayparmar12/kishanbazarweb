@@ -74,9 +74,9 @@
         "trust_badges_V7nWne": {
           "type": "trust_badges",
           "settings": {
-            "icon_size": 82,
+            "icon_size": 96,
             "trust_image_1": "shopify://shop_images/free_shipping.svg",
-            "trust_image_2": "shopify://shop_images/secure_payments_exact_size.svg",
+            "trust_image_2": "shopify://shop_images/2_ba336ae0-143b-410a-8945-835c9c2b535b.svg",
             "trust_image_3": "shopify://shop_images/customer_support_5db98fba-7990-4cae-bc36-aa0fdfb57c9d.svg",
             "trust_image_4": "shopify://shop_images/COD.svg"
           }
