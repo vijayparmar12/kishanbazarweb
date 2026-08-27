@@ -73,7 +73,7 @@
           "settings": {
             "menu_group": "custom1",
             "title": "Vedic Food Wisdom",
-            "link": "",
+            "link": "shopify://pages/vedic-food-wisdom",
             "icon": ""
           }
         },
@@ -82,7 +82,7 @@
           "settings": {
             "menu_group": "custom",
             "title": "Vedic Food Wisdom",
-            "link": "",
+            "link": "shopify://pages/vedic-food-wisdom",
             "icon": ""
           }
         },
