@@ -20,7 +20,7 @@
             "logo": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_04_21_23_PM.png",
             "logo_width": 300,
             "show_default_logo": false,
-            "about_text": "We Provide Fresh Fruits and vegetables that freshly hand picked  from farms .We also provide grocery and millets which have no preservatives or chemicals in them . We provide Pure A2 milk and products after feeding calves properly . [ Insert We are go to shop for your and your family ] health .",
+            "about_text": "Dedicated to empowering our farmers (Annadata) and restoring the sanctity of the native Desi Gir cow (Gaumata). Rooted in the timeless wisdom of ancient India (Bharat), we bridge traditional farms directly to your home with 100% pure, chemical-free nutrition.",
             "email_label": "Email:",
             "email": "",
             "phone_label": "Tel:",
@@ -77,7 +77,7 @@
           "type": "contact",
           "settings": {
             "heading": "Company & contact",
-            "address_text": "G-14, Bhagwati Ashish Complex, City Light Town, Athwa, Surat, Gujarat 395007, India\nGrievance Officer : Vijay Agrawal",
+            "address_text": "G-14, Bhagwati Ashish Complex, City Light Town, Athwa, Surat, Gujarat 395007, India\n\nGrievance Officer : Vijay Agrawal",
             "phone_label": "Tel:",
             "phone": "+91 93773 41042",
             "email_label": "Email:",
@@ -146,7 +146,7 @@
         "illustration_height": 480,
         "illustration_position": "top center",
         "footer_bottom_image_alt": "Footer farm illustration",
-        "copyright_text": "Copyright &copy; [year], [shop] &bull; All Rights Reserved."
+        "copyright_text": "Copyright &copy; [year] , [KisanVeda] &bull; All Rights Reserved."
       }
     }
   },
