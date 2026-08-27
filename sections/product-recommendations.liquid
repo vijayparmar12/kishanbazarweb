@@ -107,7 +107,7 @@
         endif
       endif
 
-      assign more_url = selected_coll.url | default: product.collections.first.url | default: routes.all_products_collection_url
+      assign more_url = routes.all_products_collection_url
     %}
 
     {% if rec_products.size > 0 %}

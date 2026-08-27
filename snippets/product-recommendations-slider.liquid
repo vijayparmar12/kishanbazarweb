@@ -1,5 +1,7 @@
 {% doc %}
   Renders the horizontal slider for recommended organic products in Kishan Bazar.
+  - Smooth snap slider with navigation buttons
+  - Green circular [ → ] More card that navigates to All Collections / All Products (/collections/all)
 
   @param {object} product - Main product object
   @param {object} [collection] - Parent collection if available
@@ -22,6 +24,8 @@
   if rec_products == blank or rec_products.size == 0
     assign rec_products = collections.frontpage.products
   endif
+
+  assign all_products_url = routes.all_products_collection_url
 %}
 
 <section class="product-recommendations-slider" aria-label="Recommended Products" data-recommended-products-section>
@@ -58,6 +62,19 @@
             {% endif %}
           {% endunless %}
         {% endfor %}
+
+        <!-- GREEN CIRCLE [ → ] MORE END CARD (NAVIGATES TO ALL COLLECTIONS / ALL PRODUCTS) -->
+        <div class="product-recommendations-slider__slide product-recommendations-slider__slide--more">
+          <a href="{{ all_products_url }}" class="product-recommendations-slider__more-card" aria-label="View all products">
+            <div class="product-recommendations-slider__more-circle">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+            <span class="product-recommendations-slider__more-label">More</span>
+          </a>
+        </div>
       {% endif %}
     </div>
   </div>
