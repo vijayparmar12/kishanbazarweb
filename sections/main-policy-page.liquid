@@ -3,24 +3,29 @@
   Supports BOTH:
   1. Direct editing from Shopify Admin > Pages (page.content rich text box) for instant easy editing
   2. Theme Editor blocks (Highlight boxes, Policy Clauses, Contact cards)
+  3. Option to show or remove top title header banner
 {% enddoc %}
 
 <link rel="stylesheet" href="{{ 'section-policy-page.css' | asset_url }}">
 
 <section id="PolicyPage-{{ section.id }}" class="policy-page-section" data-section-id="{{ section.id }}">
   <div class="policy-page__container">
-    <div class="policy-page__header">
-      {% if section.settings.eyebrow != blank %}
-        <span class="policy-page__eyebrow">{{ section.settings.eyebrow }}</span>
-      {% endif %}
-      <h1 class="policy-page__heading">{{ page.title | default: section.settings.heading | default: 'Store Policy' }}</h1>
-      {% if section.settings.subheading != blank %}
-        <p class="policy-page__subheading">{{ section.settings.subheading }}</p>
-      {% endif %}
-    </div>
+    
+    <!-- TOP TITLE HEADER BANNER (Disabled by default per user request) -->
+    {% if section.settings.show_header %}
+      <div class="policy-page__header">
+        {% if section.settings.eyebrow != blank %}
+          <span class="policy-page__eyebrow">{{ section.settings.eyebrow }}</span>
+        {% endif %}
+        <h1 class="policy-page__heading">{{ page.title | default: section.settings.heading | default: 'Store Policy' }}</h1>
+        {% if section.settings.subheading != blank %}
+          <p class="policy-page__subheading">{{ section.settings.subheading }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
 
     <div class="policy-page__body">
-      <!-- 1. EDITABLE FROM SHOPIFY ADMIN > PAGES (Image 1 Content Box) -->
+      <!-- 1. EDITABLE FROM SHOPIFY ADMIN > PAGES -->
       {% if page.content != blank %}
         <div class="policy-clause-card default-page-content">
           <div class="policy-clause__content rte">
@@ -29,7 +34,7 @@
         </div>
       {% endif %}
 
-      <!-- 2. THEME EDITOR BLOCKS (Optional Clauses, Highlights & Contact Cards) -->
+      <!-- 2. THEME EDITOR BLOCKS -->
       {% for block in section.blocks %}
         {% case block.type %}
           {% when 'policy_clause' %}
@@ -95,6 +100,12 @@
 {
   "name": "Policy Page Content",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_header",
+      "label": "Show Top Title Header Banner",
+      "default": false
+    },
     {
       "type": "text",
       "id": "eyebrow",
