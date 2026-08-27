@@ -49,16 +49,12 @@
           "type": "price",
           "settings": {
             "show_tax_note": true,
+            "price_color": "#1b4317",
+            "price_font_size_mobile": 24,
+            "price_font_size_desktop": 32,
             "show_savings_banner": true,
             "savings_text_template": "Save ₹{savings} on this order",
             "banner_bg": "#1b4317"
-          }
-        },
-        "stock_status_qfnGpK": {
-          "type": "stock_status",
-          "disabled": true,
-          "settings": {
-            "stock_text": "In Stock • Ready to Dispatch in 24 Hours"
           }
         },
         "buy_buttons_jrQJdY": {
@@ -140,20 +136,6 @@
             "faq_4_q": "",
             "faq_4_a": ""
           }
-        },
-        "product_details_accordions_card": {
-          "type": "product_details_accordions",
-          "settings": {
-            "heading": "PRODUCT DETAILS",
-            "tab_desc_title": "Description",
-            "tab_ingredients_title": "Ingredients",
-            "tab_usage_title": "Usage Info",
-            "tab_benefits_title": "Benefits",
-            "tab_storage_title": "Storage Info",
-            "tab_mfr_title": "Manufacturer & Packer Details",
-            "tab_origin_title": "Country of Origin",
-            "tab_shelflife_title": "Shelf Life"
-          }
         }
       },
       "block_order": [
@@ -162,11 +144,9 @@
         "description_WMpDyn",
         "benefit_icons_TeMKQk",
         "price_cXRV6V",
-        "stock_status_qfnGpK",
         "buy_buttons_jrQJdY",
         "variant_picker_fTExdk",
         "trust_badges_V7nWne",
-        "product_details_accordions_card",
         "product_video_g8Vgf7",
         "product_banner_F8tDeF",
         "product_faq_X8pL9P"
@@ -185,13 +165,22 @@
         "coins_banner_label": "Earn {coins} Coins on this product",
         "show_coins_savings": true,
         "coins_banner_bg": "linear-gradient(90deg, rgba(27, 67, 23, 1), rgba(46, 91, 41, 1) 55%, rgba(61, 110, 55, 1) 100%)",
+        "product_details_heading": "PRODUCT DETAILS",
+        "tab_desc_title": "Description",
         "tab_description": "<p>{{ product.metafields.custom.description | metafield_tag }}</p>",
+        "tab_ingredients_title": "Ingredients",
         "tab_ingredients": "<p>{{ product.metafields.custom.ingredients | metafield_tag }}</p>",
+        "tab_usage_title": "Usage Info",
         "tab_usage": "<p>{{ product.metafields.custom.usage | metafield_tag }}</p>",
+        "tab_benefits_title": "Benefits",
         "tab_benefits": "<p>{{ product.metafields.custom.benefits | metafield_tag }}</p>",
+        "tab_storage_title": "Storage Info",
         "tab_storage": "<p>{{ product.metafields.custom.storage_info | metafield_tag }}</p>",
+        "tab_mfr_title": "Manufacturer & Packer Details",
         "tab_manufacturer": "<p>{{ product.metafields.custom.manufacturer | metafield_tag }}</p>",
+        "tab_origin_title": "Country of Origin",
         "tab_origin": "<p>{{ product.metafields.custom.origin | metafield_tag }}</p>",
+        "tab_shelflife_title": "Shelf Life",
         "tab_shelflife": "<p>{{ product.metafields.custom.shelf_life | metafield_tag }}</p>",
         "faq_heading": "FAQ",
         "faq_1_q": "<p>{{ product.metafields.custom.product_metafields_custom_faq_1_question | metafield_tag }}</p>",
