@@ -1,6 +1,7 @@
 {% doc %}
   Renders the 3-column mobile category grid at the top of the mobile drawer.
   Displays ONLY the category_card blocks chosen by the merchant in Shopify Theme Editor.
+  Excludes "best product", "daily essential", and "monsoon" categories.
 
   @param {section} section - Header section containing blocks.
 
@@ -16,46 +17,55 @@
     <!-- 1. Display ONLY Category Cards explicitly selected by Merchant in Theme Editor -->
     {% for block in custom_cards %}
       {% liquid
-        assign count = count | plus: 1
         assign card_collection = block.settings.collection
         assign card_title = block.settings.title | default: card_collection.title
         assign card_handle = card_title | handleize
-        assign card_url = card_collection.url
-
-        if card_url == blank or card_collection == blank
-          if collections[card_handle] != blank
-            assign card_url = collections[card_handle].url
-          elsif card_handle != blank
-            assign card_url = '/collections/' | append: card_handle
-          else
-            assign card_url = routes.all_products_collection_url
-          endif
-        endif
-
-        assign card_image = block.settings.image | default: card_collection.image
-        if card_image == blank and card_collection != blank
-          assign first_product = card_collection.products | first
-          if first_product != blank
-            assign card_image = first_product.featured_image
-          endif
-        endif
+        assign check_title = card_title | downcase
+        assign check_handle = card_collection.handle | default: card_handle
       %}
-      <a href="{{ card_url }}" class="kb-mobile-cat-card" {{ block.shopify_attributes }}>
-        <span class="kb-mobile-cat-card__media">
-          {% if card_image != blank %}
-            {{ card_image | image_url: width: 240 | image_tag: class: 'kb-mobile-cat-card__image', alt: card_title, loading: 'lazy' }}
-          {% else %}
-            {% render 'category-icon', category: card_collection, category_name: card_title, size: 48 %}
-          {% endif %}
-        </span>
-        <span class="kb-mobile-cat-card__title">{{ card_title }}</span>
-      </a>
+
+      {% unless check_title contains 'best' or check_title contains 'daily' or check_title contains 'monsoon' or check_handle contains 'best' or check_handle contains 'daily' or check_handle contains 'monsoon' %}
+        {% liquid
+          assign count = count | plus: 1
+          assign card_url = card_collection.url
+
+          if card_url == blank or card_collection == blank
+            if collections[card_handle] != blank
+              assign card_url = collections[card_handle].url
+            elsif card_handle != blank
+              assign card_url = '/collections/' | append: card_handle
+            else
+              assign card_url = routes.all_products_collection_url
+            endif
+          endif
+
+          assign card_image = block.settings.image | default: card_collection.image
+          if card_image == blank and card_collection != blank
+            assign first_product = card_collection.products | first
+            if first_product != blank
+              assign card_image = first_product.featured_image
+            endif
+          endif
+        %}
+        <a href="{{ card_url }}" class="kb-mobile-cat-card" {{ block.shopify_attributes }}>
+          <span class="kb-mobile-cat-card__media">
+            {% if card_image != blank %}
+              {{ card_image | image_url: width: 240 | image_tag: class: 'kb-mobile-cat-card__image', alt: card_title, loading: 'lazy' }}
+            {% else %}
+              {% render 'category-icon', category: card_collection, category_name: card_title, size: 48 %}
+            {% endif %}
+          </span>
+          <span class="kb-mobile-cat-card__title">{{ card_title }}</span>
+        </a>
+      {% endunless %}
     {% endfor %}
 
   {% else %}
     <!-- 2. Store Collections Fallback (Shown ONLY if no Theme Editor category_card blocks exist) -->
     {% for collection in collections limit: 12 %}
-      {% unless collection.handle == 'all' %}
+      {% assign col_title = collection.title | downcase %}
+      {% assign col_handle = collection.handle %}
+      {% unless col_handle == 'all' or col_title contains 'best' or col_title contains 'daily' or col_title contains 'monsoon' or col_handle contains 'best' or col_handle contains 'daily' or col_handle contains 'monsoon' %}
         {% assign count = count | plus: 1 %}
         <a href="{{ collection.url }}" class="kb-mobile-cat-card">
           <span class="kb-mobile-cat-card__media">
