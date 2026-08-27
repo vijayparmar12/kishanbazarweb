@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -133,8 +142,8 @@
       "settings": {
         "show_hero": true,
         "hero_badge": "CONTACT KISHAN BAZAR",
-        "hero_heading": "Let's Connect",
-        "hero_subheading": "We're here to help. Whether you have a question about our products, your order, or simply want to know more about Kishan Bazar, we'd love to hear from you.",
+        "hero_heading": "",
+        "hero_subheading": "",
         "info_heading": "How Can We Help?",
         "info_desc": "Our team is always happy to help you with your questions, orders, products, and feedback.",
         "phone_number": "+91 98765 43210",
@@ -151,9 +160,11 @@
         "why_us_title": "Why Choose Kishan Bazar?",
         "show_faq": true,
         "faq_title": "Frequently Asked Questions",
-        "faq_cta_label": "View All FAQs &rarr;",
+        "faq_cta_label": "View All FAQs →",
+        "faq_cta_url": "",
         "show_map": true,
         "map_title": "Find Kishan Bazar",
+        "map_iframe_url": "",
         "show_final_cta": true,
         "cta_heading": "We're Always Happy to Help",
         "cta_text": "Have a question, suggestion, or feedback? Get in touch with the Kishan Bazar team.",
