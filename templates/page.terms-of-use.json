@@ -12,7 +12,7 @@
     "main": {
       "type": "main-policy-page",
       "settings": {
-        "eyebrow": "KISAN BAZAR POLICIES",
+        "eyebrow": "",
         "heading": "Terms of Use",
         "subheading": "",
         "show_page_content": true
