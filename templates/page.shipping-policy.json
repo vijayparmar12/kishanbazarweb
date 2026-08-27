@@ -17,9 +17,9 @@
           "settings": {
             "title": "🚚 Free Shipping Above ₹499 Nationwide",
             "content": "Enjoy free standard shipping on all orders above ₹499 across 26,000+ Indian pincodes. All organic staples are freshly ground and dispatched within 24–48 hours of order confirmation.",
-            "bg_color": "#EFF6FF",
-            "border_color": "#BFDBFE",
-            "text_color": "#1E40AF"
+            "bg_color": "#eff6ff",
+            "border_color": "#bfdbfe",
+            "text_color": "#1e40af"
           }
         },
         "clause_1": {
@@ -60,7 +60,8 @@
             "title": "Need Help Tracking Your Shipment?",
             "email": "shipping@kishanbazar.com",
             "phone": "+91 98765 43210",
-            "button_text": "Track Your Parcel"
+            "button_text": "Track Your Parcel",
+            "button_url": ""
           }
         }
       },
@@ -73,9 +74,10 @@
         "contact"
       ],
       "settings": {
-        "eyebrow": "KISAN BAZAR POLICIES",
+        "eyebrow": "",
         "heading": "Shipping & Delivery Policy",
-        "subheading": "Effective Date: August 12, 2026 • Fast, reliable farm-to-table dispatch across India."
+        "subheading": "",
+        "show_page_content": true
       }
     }
   },
