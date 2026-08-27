@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -6,19 +15,19 @@
         "page_title": "CONTACT US",
         "show_phone_card": true,
         "phone_heading": "Phone & WhatsApp Support",
-        "phone_number": "+91 74067 53753",
+        "phone_number": "+91 93773 41042",
         "phone_timing": "Monday to Saturday · 10:00 AM - 6:00 PM",
         "call_button_text": "Call Now",
-        "whatsapp_number": "917406753753",
+        "whatsapp_number": "+91 93773 41042",
         "whatsapp_button_text": "WhatsApp",
-        "show_email_card": false,
-        "show_farm_card": false,
         "show_map": true,
-        "map_btn_text": "Open in Maps",
+        "map_btn_text": "",
         "map_external_url": "https://maps.google.com",
-        "map_iframe_url": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.41709511116!2d72.74109865045437!3d21.161026848206806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
+        "map_iframe_url": "https://www.google.com/maps/place/Bhagwati+Ashish+Complex/@21.1667045,72.7949069,17z/data=!3m1!4b1!4m6!3m5!1s0x3be04de5d1b0a8bb:0xa97f0f6f97b2b669!8m2!3d21.1667045!4d72.7949069!16s%2Fg%2F1q5blv8gx!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDgyNC4wIKXMDSoASAFQAw%3D%3D",
         "form_heading": "Send Us a Message",
-        "form_subheading": "Have a question? Fill in the form and our team will get back to you."
+        "form_subheading": "Have a question? Fill in the form and our team will get back to you.",
+        "form_btn_text": "Send Message",
+        "form_success_msg": "🌿 Thank you for reaching out! Your message has been received. Our team will contact you shortly."
       }
     }
   },
