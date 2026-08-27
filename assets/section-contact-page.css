@@ -161,13 +161,19 @@
   font-weight: 500;
 }
 
-/* Google Map Embed Card */
+/* Google Map Embed Card (Placed Below Message Form) */
+.contact-map-wrapper {
+  margin-top: 2rem;
+  width: 100%;
+}
+
 .contact-card--map {
   position: relative;
   padding: 0 !important;
-  height: 260px;
+  height: 320px;
   overflow: hidden;
   border-radius: 18px;
+  margin-bottom: 0;
 }
 
 .contact-map__overlay {

@@ -1,7 +1,8 @@
 {% doc %}
   Renders the Two Brothers style Contact Us page for Kishan Bazar.
-  ALL details, headings, phone numbers, WhatsApp numbers, email, farm visit text,
-  button labels, map link, and form text are 100% editable via Shopify Theme Editor settings.
+  - Phone & WhatsApp Support card
+  - Native Shopify "Send Us a Message" Contact Form
+  - Google Map Embed Card placed BELOW the contact form/message card
 {% enddoc %}
 
 <link rel="stylesheet" href="{{ 'section-contact-page.css' | asset_url }}">
@@ -15,10 +16,8 @@
   <div class="contact-page__container">
     <div class="contact-grid">
       
-      <!-- LEFT COLUMN: CONTACT INFO CARDS -->
+      <!-- LEFT COLUMN: PHONE & WHATSAPP SUPPORT CARD -->
       <div class="contact-cards-column">
-        
-        <!-- CARD 1: PHONE & WHATSAPP SUPPORT -->
         {% if section.settings.show_phone_card %}
           <div class="contact-card contact-card--support">
             <div class="contact-card__header">
@@ -46,63 +45,6 @@
             </div>
           </div>
         {% endif %}
-
-        <!-- CARD 2: GENERAL SUPPORT -->
-        {% if section.settings.show_email_card %}
-          <div class="contact-card">
-            <div class="contact-card__header">
-              <span class="contact-card__icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="4" width="20" height="16" rx="3"/>
-                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-                </svg>
-              </span>
-              <h3 class="contact-card__title">{{ section.settings.email_heading | default: "General Support" }}</h3>
-            </div>
-            <div class="contact-card__body">
-              <a href="mailto:{{ section.settings.email_address | default: 'info@twobrothersindia.com' }}" class="contact-card__email">
-                {{ section.settings.email_address | default: "info@twobrothersindia.com" }}
-              </a>
-            </div>
-          </div>
-        {% endif %}
-
-        <!-- CARD 3: FARM VISITS -->
-        {% if section.settings.show_farm_card %}
-          <div class="contact-card">
-            <div class="contact-card__header">
-              <span class="contact-card__icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.4 19 2c1 2 2 4.1 2 9a9 9 0 0 1-10 9Z"/>
-                  <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-                </svg>
-              </span>
-              <h3 class="contact-card__title">{{ section.settings.farm_heading | default: "Farm Visits" }}</h3>
-            </div>
-            <div class="contact-card__body">
-              <div class="contact-card__text">{{ section.settings.farm_details | default: "Bhodani Vakilwasti Rd, India" }}</div>
-            </div>
-          </div>
-        {% endif %}
-
-        <!-- CARD 4: GOOGLE MAP EMBED CARD WITH OPEN IN MAPS BUTTON -->
-        {% if section.settings.show_map %}
-          <div class="contact-card contact-card--map">
-            <div class="contact-map__overlay">
-              <a href="{{ section.settings.map_external_url | default: 'https://maps.google.com' }}" target="_blank" rel="noopener" class="contact-map__btn">
-                {{ section.settings.map_btn_text | default: "Open in Maps" }} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              </a>
-            </div>
-            <iframe
-              src="{{ section.settings.map_iframe_url | default: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.41709511116!2d72.74109865045437!3d21.161026848206806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin' }}"
-              class="contact-map__iframe"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              title="Location Map"
-            ></iframe>
-          </div>
-        {% endif %}
-
       </div>
 
       <!-- RIGHT COLUMN: CONTACT FORM ("Send Us a Message") -->
@@ -169,6 +111,27 @@
       </div>
 
     </div>
+
+    <!-- MAP CARD: POSITIONED BELOW THE MESSAGE / CONTACT FORM -->
+    {% if section.settings.show_map %}
+      <div class="contact-map-wrapper">
+        <div class="contact-card contact-card--map">
+          <div class="contact-map__overlay">
+            <a href="{{ section.settings.map_external_url | default: 'https://maps.google.com' }}" target="_blank" rel="noopener" class="contact-map__btn">
+              {{ section.settings.map_btn_text | default: "Open in Maps" }} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+          <iframe
+            src="{{ section.settings.map_iframe_url | default: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.41709511116!2d72.74109865045437!3d21.161026848206806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin' }}"
+            class="contact-map__iframe"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Location Map"
+          ></iframe>
+        </div>
+      </div>
+    {% endif %}
+
   </div>
 </div>
 
@@ -192,20 +155,6 @@
     { "type": "text", "id": "call_button_text", "label": "Call Now Button Text", "default": "Call Now" },
     { "type": "text", "id": "whatsapp_number", "label": "WhatsApp Phone (With Country Code e.g. 917406753753)", "default": "917406753753" },
     { "type": "text", "id": "whatsapp_button_text", "label": "WhatsApp Button Text", "default": "WhatsApp" },
-    {
-      "type": "header",
-      "content": "General Support Email Card"
-    },
-    { "type": "checkbox", "id": "show_email_card", "label": "Show General Support Card", "default": false },
-    { "type": "text", "id": "email_heading", "label": "Card Heading", "default": "General Support" },
-    { "type": "text", "id": "email_address", "label": "Email Address", "default": "info@twobrothersindia.com" },
-    {
-      "type": "header",
-      "content": "Farm Visits Card"
-    },
-    { "type": "checkbox", "id": "show_farm_card", "label": "Show Farm Visits Card", "default": false },
-    { "type": "text", "id": "farm_heading", "label": "Card Heading", "default": "Farm Visits" },
-    { "type": "textarea", "id": "farm_details", "label": "Farm Address / Details Text", "default": "Bhodani Vakilwasti Rd, India" },
     {
       "type": "header",
       "content": "Google Map Embed Card"
