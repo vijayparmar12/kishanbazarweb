@@ -2,162 +2,23 @@
   "sections": {
     "main": {
       "type": "main-contact-page",
-      "blocks": {
-        "help_1": {
-          "type": "quick_help",
-          "settings": {
-            "icon": "📦",
-            "title": "Track My Order",
-            "desc": "Check your order status",
-            "url": "/pages/account"
-          }
-        },
-        "help_2": {
-          "type": "quick_help",
-          "settings": {
-            "icon": "🚚",
-            "title": "Shipping Information",
-            "desc": "Learn about delivery",
-            "url": "/policies/shipping-policy"
-          }
-        },
-        "help_3": {
-          "type": "quick_help",
-          "settings": {
-            "icon": "🔄",
-            "title": "Returns & Refunds",
-            "desc": "Understand our return policy",
-            "url": "/policies/refund-policy"
-          }
-        },
-        "help_4": {
-          "type": "quick_help",
-          "settings": {
-            "icon": "❓",
-            "title": "FAQs",
-            "desc": "Find answers to common questions",
-            "url": "#contact-faq"
-          }
-        },
-        "why_1": {
-          "type": "why_us",
-          "settings": {
-            "icon": "🌿",
-            "title": "Natural & Authentic",
-            "desc": "Thoughtfully sourced products"
-          }
-        },
-        "why_2": {
-          "type": "why_us",
-          "settings": {
-            "icon": "🥛",
-            "title": "Pure & Traditional",
-            "desc": "Made with care and trusted practices"
-          }
-        },
-        "why_3": {
-          "type": "why_us",
-          "settings": {
-            "icon": "🚚",
-            "title": "Reliable Delivery",
-            "desc": "Your order delivered safely"
-          }
-        },
-        "why_4": {
-          "type": "why_us",
-          "settings": {
-            "icon": "🤝",
-            "title": "Customer First",
-            "desc": "Here whenever you need us"
-          }
-        },
-        "faq_1": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How can I track my order?",
-            "answer": "Once your parcel is dispatched, you will receive a tracking link via SMS, WhatsApp, and Email to monitor your shipment in real time."
-          }
-        },
-        "faq_2": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How long does delivery take?",
-            "answer": "Standard delivery takes 2–4 business days for metro cities, and 3–5 business days for tier 2 & 3 cities across India."
-          }
-        },
-        "faq_3": {
-          "type": "faq_item",
-          "settings": {
-            "question": "What is your return policy?",
-            "answer": "If your order arrives damaged or incorrect, contact us within 48 hours with photos for a hassle-free replacement or full refund."
-          }
-        },
-        "faq_4": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How can I cancel my order?",
-            "answer": "Orders can be cancelled before dispatch (within 4 hours of placing the order) by reaching out to our customer care team."
-          }
-        },
-        "faq_5": {
-          "type": "faq_item",
-          "settings": {
-            "question": "How can I contact customer support?",
-            "answer": "You can call us at +91 98765 43210 or email support@kishanbazar.com from Monday to Saturday, 10:00 AM – 6:00 PM."
-          }
-        },
-        "faq_6": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Do you deliver across India?",
-            "answer": "Yes! We deliver farm-fresh organic staples to over 26,000+ pincodes nationwide with free shipping on orders above ₹499."
-          }
-        }
-      },
-      "block_order": [
-        "help_1",
-        "help_2",
-        "help_3",
-        "help_4",
-        "why_1",
-        "why_2",
-        "why_3",
-        "why_4",
-        "faq_1",
-        "faq_2",
-        "faq_3",
-        "faq_4",
-        "faq_5",
-        "faq_6"
-      ],
       "settings": {
-        "show_hero": true,
-        "hero_badge": "CONTACT KISHAN BAZAR",
-        "hero_heading": "Let's Connect",
-        "hero_subheading": "We're here to help. Whether you have a question about our products, your order, or simply want to know more about Kishan Bazar, we'd love to hear from you.",
-        "info_heading": "How Can We Help?",
-        "info_desc": "Our team is always happy to help you with your questions, orders, products, and feedback.",
-        "phone_number": "+91 98765 43210",
-        "email_address": "support@kishanbazar.com",
-        "address_text": "Surat, Gujarat, India",
-        "support_hours": "Monday – Saturday",
-        "support_time": "10:00 AM – 6:00 PM",
-        "form_heading": "Send Us a Message",
-        "form_subheading": "Have a question? Fill in the form and our team will get back to you.",
-        "show_quick_help": true,
-        "quick_help_title": "Looking for Quick Answers?",
-        "quick_help_subtitle": "You may find what you're looking for here.",
-        "show_why_us": true,
-        "why_us_title": "Why Choose Kishan Bazar?",
-        "show_faq": true,
-        "faq_title": "Frequently Asked Questions",
-        "faq_cta_label": "View All FAQs &rarr;",
+        "page_title": "CONTACT US",
+        "phone_heading": "Phone & WhatsApp Support",
+        "phone_number": "+91 74067 53753",
+        "phone_timing": "Monday to Saturday · 10:00 AM - 6:00 PM",
+        "call_button_text": "Call Now",
+        "whatsapp_number": "917406753753",
+        "whatsapp_button_text": "WhatsApp",
+        "email_heading": "General Support",
+        "email_address": "info@twobrothersindia.com",
+        "farm_heading": "Farm Visits",
+        "farm_details": "Bhodani Vakilwasti Rd, India",
         "show_map": true,
-        "map_title": "Find Kishan Bazar",
-        "show_final_cta": true,
-        "cta_heading": "We're Always Happy to Help",
-        "cta_text": "Have a question, suggestion, or feedback? Get in touch with the Kishan Bazar team.",
-        "cta_btn_label": "Contact Us"
+        "map_external_url": "https://maps.google.com",
+        "map_iframe_url": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.41709511116!2d72.74109865045437!3d21.161026848206806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
+        "form_heading": "Send Us a Message",
+        "form_subheading": "Have a question? Fill in the form and our team will get back to you."
       }
     }
   },
