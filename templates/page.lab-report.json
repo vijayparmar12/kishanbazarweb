@@ -76,7 +76,9 @@
         "lab_report_GNUHXp"
       ],
       "settings": {
-        "badge": "Lab Reports",
+        "banner_image_desktop": "shopify://shop_images/LAB_REPORT_BANNER.png",
+        "banner_radius": 20,
+        "badge": "",
         "heading": "",
         "subheading": "",
         "grid_heading": "",
