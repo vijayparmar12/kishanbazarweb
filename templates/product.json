@@ -76,8 +76,8 @@
           "settings": {
             "icon_size": 96,
             "trust_image_1": "shopify://shop_images/free_shipping.svg",
-            "trust_image_2": "shopify://shop_images/secure_payments_088fe97b-21f6-4b37-909a-5e37d350cf68.svg",
-            "trust_image_3": "shopify://shop_images/customer_support.svg",
+            "trust_image_2": "shopify://shop_images/secure_payments_exact_size.svg",
+            "trust_image_3": "shopify://shop_images/customer_support_b57d8a7e-936d-451a-b3be-e2a21f920004.svg",
             "trust_image_4": "shopify://shop_images/COD.svg"
           }
         },
