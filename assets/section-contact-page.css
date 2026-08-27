@@ -165,7 +165,24 @@
   font-weight: 700;
   color: #0f172a;
   line-height: 1.5;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.contact-card__address-actions {
+  margin-top: 0.75rem;
+}
+
+.contact-btn--directions {
+  background-color: #1b4317;
+  color: #ffffff !important;
+  display: inline-flex;
+  padding: 0.65rem 1.1rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+}
+
+.contact-btn--directions:hover {
+  background-color: #143511;
 }
 
 .contact-card__email-wrap {
