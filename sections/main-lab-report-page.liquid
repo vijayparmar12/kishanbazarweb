@@ -1,8 +1,11 @@
 {% doc %}
-  Renders the Lab Report page containing clean 3-element Lab Report cards:
-  1. Report / Product Image
-  2. Product Name
-  3. PDF Link / Download Button
+  Renders the Lab Report page containing:
+  - Top Hero Banner Image (Editable in Theme Editor)
+  - Hero Badge, Title, Subtitle
+  - Clean 3-element Lab Report cards:
+    1. Report / Product Image
+    2. Product Name
+    3. PDF Link / Download Button
   Fully editable via Shopify Theme Editor blocks and Product Metafields.
 
   @example
@@ -12,7 +15,26 @@
 {{ 'section-lab-report.css' | asset_url | stylesheet_tag }}
 
 <section class="lab-report-page" id="LabReport-{{ section.id }}">
-  <!-- Hero Banner -->
+  <!-- Top Banner Image (Editable in Theme Editor) -->
+  {% if section.settings.banner_image_desktop != blank or section.settings.banner_image_mobile != blank %}
+    <div class="lab-report-banner-wrap" style="max-width: 1400px; margin: 1rem auto 1.5rem; padding: 0 1rem; box-sizing: border-box;">
+      <picture class="lab-report-picture">
+        {% if section.settings.banner_image_mobile != blank %}
+          <source media="(max-width: 768px)" srcset="{{ section.settings.banner_image_mobile | image_url: width: 1200 }}">
+        {% endif %}
+        {% assign banner_img = section.settings.banner_image_desktop | default: section.settings.banner_image_mobile %}
+        <img
+          src="{{ banner_img | image_url: width: 2000 }}"
+          alt="{{ section.settings.heading | default: 'Lab Testing & Quality Reports' | escape }}"
+          class="lab-report-banner-image"
+          loading="eager"
+          style="width: 100%; height: auto; display: block; border-radius: {{ section.settings.banner_radius | default: 20 }}px; max-height: 450px; object-fit: cover; box-shadow: 0 8px 24px rgba(35, 66, 31, 0.08);"
+        >
+      </picture>
+    </div>
+  {% endif %}
+
+  <!-- Hero Header -->
   <div class="lab-report-hero">
     <div class="lab-report-hero__inner">
       {% if section.settings.badge != blank %}
@@ -151,7 +173,31 @@
   "settings": [
     {
       "type": "header",
-      "content": "Hero Banner Settings"
+      "content": "Top Banner Image Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_desktop",
+      "label": "Top Hero Banner Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_mobile",
+      "label": "Top Hero Banner Image (Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "banner_radius",
+      "label": "Banner Border Radius (px)",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Hero Title & Description Settings"
     },
     {
       "type": "text",
