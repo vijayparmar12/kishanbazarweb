@@ -1,10 +1,8 @@
 {% doc %}
-  Renders the Two Brothers style Contact Us page for Kisan Bazar:
-  - Top "CONTACT US" heading
-  - Phone & WhatsApp Support card
-  - Our Location & Address card (displays full address, email, etc.)
-  - Google Map Embed Card placed BELOW the contact form with automatic Google Place URL to embed converter
-  - Native Shopify "Send Us a Message" Contact Form
+  Renders the Two Brothers style Contact Us page for Kishan Bazar.
+  Includes Phone, WhatsApp, & Email support card, Location address card, Map card,
+  and native Shopify "Send Us a Message" Contact Form.
+  All fields including Email Address are prominent and 100% editable via Theme Editor settings.
 {% enddoc %}
 
 <link rel="stylesheet" href="{{ 'section-contact-page.css' | asset_url }}">
@@ -21,7 +19,7 @@
       <!-- LEFT COLUMN: CONTACT INFO CARDS -->
       <div class="contact-cards-column">
         
-        <!-- CARD 1: PHONE & WHATSAPP SUPPORT -->
+        <!-- CARD 1: PHONE, WHATSAPP & EMAIL SUPPORT -->
         {% if section.settings.show_phone_card %}
           <div class="contact-card contact-card--support">
             <div class="contact-card__header">
@@ -33,11 +31,19 @@
               <h3 class="contact-card__title">{{ section.settings.phone_heading | default: "Phone & WhatsApp Support" }}</h3>
             </div>
             <div class="contact-card__body">
-              <div class="contact-card__phone">{{ section.settings.phone_number | default: "+91 74067 53753" }}</div>
+              <div class="contact-card__phone">{{ section.settings.phone_number | default: "+91 93773 41042" }}</div>
+              
+              {% if section.settings.email_address != blank %}
+                <div class="contact-card__email-line">
+                  <span class="contact-card__email-label">Email:</span>
+                  <a href="mailto:{{ section.settings.email_address }}" class="contact-card__email">{{ section.settings.email_address }}</a>
+                </div>
+              {% endif %}
+
               <div class="contact-card__timing">{{ section.settings.phone_timing | default: "Monday to Saturday · 10:00 AM - 6:00 PM" }}</div>
               
               <div class="contact-card__actions">
-                {% assign clean_phone = section.settings.phone_number | default: "+917406753753" | remove: " " | remove: "-" %}
+                {% assign clean_phone = section.settings.phone_number | default: "+919377341042" | remove: " " | remove: "-" %}
                 {% assign clean_wa = section.settings.whatsapp_number | default: clean_phone | remove: "+" | remove: " " %}
                 <a href="tel:{{ clean_phone }}" class="contact-btn contact-btn--call">
                   {{ section.settings.call_button_text | default: "Call Now" }}
@@ -64,12 +70,6 @@
             </div>
             <div class="contact-card__body">
               <div class="contact-card__address">{{ section.settings.address_text | default: "Bhagwati Ashish, Surat, Gujarat, India" }}</div>
-              {% if section.settings.email_address != blank %}
-                <div class="contact-card__email-wrap">
-                  <span class="contact-card__sublabel">Email:</span>
-                  <a href="mailto:{{ section.settings.email_address }}" class="contact-card__email">{{ section.settings.email_address }}</a>
-                </div>
-              {% endif %}
             </div>
           </div>
         {% endif %}
@@ -171,22 +171,18 @@
     function sanitizeGoogleMapUrl(url) {
       if (!url) return '';
       url = url.trim();
-      // If it's already an embed URL
       if (url.includes('/embed') || url.includes('output=embed')) {
         return url;
       }
-      // Extract coordinates @lat,lng e.g. @21.1667045,72.7949069
       var coordMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
       if (coordMatch) {
         return 'https://maps.google.com/maps?q=' + coordMatch[1] + ',' + coordMatch[2] + '&z=16&output=embed';
       }
-      // Extract place name /maps/place/Bhagwati+Ashish/
       var placeMatch = url.match(/maps\/place\/([^/@]+)/);
       if (placeMatch) {
         var name = decodeURIComponent(placeMatch[1].replace(/\+/g, ' '));
         return 'https://maps.google.com/maps?q=' + encodeURIComponent(name) + '&z=16&output=embed';
       }
-      // Fallback for search URL or place text
       return 'https://maps.google.com/maps?q=' + encodeURIComponent(url) + '&z=16&output=embed';
     }
 
@@ -212,14 +208,15 @@
     { "type": "text", "id": "page_title", "label": "Page Main Heading", "default": "CONTACT US" },
     {
       "type": "header",
-      "content": "Phone & WhatsApp Support Card"
+      "content": "Phone, WhatsApp & Email Support Card"
     },
-    { "type": "checkbox", "id": "show_phone_card", "label": "Show Phone & WhatsApp Card", "default": true },
+    { "type": "checkbox", "id": "show_phone_card", "label": "Show Phone & Support Card", "default": true },
     { "type": "text", "id": "phone_heading", "label": "Card Heading", "default": "Phone & WhatsApp Support" },
-    { "type": "text", "id": "phone_number", "label": "Phone Number Display", "default": "+91 74067 53753" },
+    { "type": "text", "id": "phone_number", "label": "Phone Number Display", "default": "+91 93773 41042" },
+    { "type": "text", "id": "email_address", "label": "Support Email Address", "default": "support@kishanbazar.com" },
     { "type": "text", "id": "phone_timing", "label": "Support Hours Text", "default": "Monday to Saturday · 10:00 AM - 6:00 PM" },
     { "type": "text", "id": "call_button_text", "label": "Call Now Button Text", "default": "Call Now" },
-    { "type": "text", "id": "whatsapp_number", "label": "WhatsApp Phone (With Country Code e.g. 917406753753)", "default": "917406753753" },
+    { "type": "text", "id": "whatsapp_number", "label": "WhatsApp Phone (With Country Code e.g. 919377341042)", "default": "919377341042" },
     { "type": "text", "id": "whatsapp_button_text", "label": "WhatsApp Button Text", "default": "WhatsApp" },
     {
       "type": "header",
@@ -228,7 +225,6 @@
     { "type": "checkbox", "id": "show_address_card", "label": "Show Address Card", "default": true },
     { "type": "text", "id": "address_heading", "label": "Address Card Heading", "default": "Our Location & Address" },
     { "type": "textarea", "id": "address_text", "label": "Complete Address Text", "default": "Bhagwati Ashish, Surat, Gujarat, India" },
-    { "type": "text", "id": "email_address", "label": "Email Address", "default": "info@twobrothersindia.com" },
     {
       "type": "header",
       "content": "Google Map Embed Card"

@@ -145,6 +145,20 @@
   background-color: #143511;
 }
 
+/* Support Email Line */
+.contact-card__email-line {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+
+.contact-card__email-label {
+  color: #64748b;
+  font-weight: 600;
+}
+
 /* Location & Address Card Details */
 .contact-card__address {
   font-size: 1.02rem;
