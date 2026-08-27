@@ -11,7 +11,18 @@
   "sections": {
     "banner": {
       "type": "main-collection-banner",
-      "settings": {}
+      "settings": {
+        "show_collection_image": true,
+        "custom_banner_desktop": "shopify://shop_images/oil.png",
+        "banner_border_radius": 24,
+        "show_collection_title": true,
+        "title_alignment": "center",
+        "title_text_transform": "uppercase",
+        "title_font_size": 32,
+        "title_color": "#1b4317",
+        "title_font_weight": "800",
+        "show_description": false
+      }
     },
     "product_grid": {
       "type": "main-collection-product-grid",
