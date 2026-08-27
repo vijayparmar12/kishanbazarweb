@@ -65,30 +65,6 @@
             "report_url": "https://kisanbazaarorganic.com/wp-content/uploads/2026/03/Sessame-lab-report-.pdf",
             "button_text": "Download PDF Report ↓"
           }
-        },
-        "pillar_2": {
-          "type": "quality_pillar",
-          "settings": {
-            "icon": "🥛",
-            "title": "Traditional Bilona Process",
-            "description": "Crafted slowly using ancient Vedic methods to retain maximum nutrients."
-          }
-        },
-        "pillar_3": {
-          "type": "quality_pillar",
-          "settings": {
-            "icon": "🔬",
-            "title": "NABL Lab Certification",
-            "description": "Rigorous multi-parameter laboratory testing before packaging."
-          }
-        },
-        "pillar_4": {
-          "type": "quality_pillar",
-          "settings": {
-            "icon": "📦",
-            "title": "Hygienic Sealed Packing",
-            "description": "Packed in glass jars and food-grade containers for uncompromised freshness."
-          }
         }
       },
       "block_order": [
@@ -97,10 +73,7 @@
         "report_oil",
         "lab_report_rEXgnk",
         "lab_report_3K3qpw",
-        "lab_report_GNUHXp",
-        "pillar_2",
-        "pillar_3",
-        "pillar_4"
+        "lab_report_GNUHXp"
       ],
       "settings": {
         "badge": "Lab Reports",
