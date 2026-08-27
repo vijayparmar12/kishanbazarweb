@@ -172,19 +172,12 @@
 }
 
 .lab-report-card__body {
-  padding: 1.35rem;
+  padding: 1.25rem 1.35rem 1.35rem;
   display: flex;
   flex-direction: column;
   flex: 1;
-}
-
-.lab-report-card__batch {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #166534;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.4rem;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .lab-report-card__title {
@@ -192,45 +185,9 @@
   font-size: 1.2rem;
   font-weight: 800;
   color: #132D14;
-  margin: 0 0 0.6rem;
-  line-height: 1.3;
-}
-
-.lab-report-card__meta {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  margin-bottom: 1rem;
-  font-size: 0.85rem;
-  color: #4B5563;
-  background: #F9FAF7;
-  padding: 0.75rem;
-  border-radius: 10px;
-  border: 1px solid rgba(35, 66, 31, 0.06);
-}
-
-.lab-report-card__meta-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.lab-report-card__meta-label {
-  font-weight: 600;
-  color: #6B7280;
-}
-
-.lab-report-card__meta-val {
-  font-weight: 700;
-  color: #132D14;
-}
-
-.lab-report-card__summary {
-  font-size: 0.84rem;
-  color: #374151;
-  line-height: 1.5;
-  margin-bottom: 1.25rem;
-  flex: 1;
+  margin: 0;
+  line-height: 1.35;
+  text-align: center;
 }
 
 .lab-report-card__btn {
@@ -239,15 +196,17 @@
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.8rem 1rem;
   background: #23421F;
   color: #FFFFFF;
   font-size: 0.88rem;
   font-weight: 800;
-  border-radius: 10px;
+  border-radius: 12px;
   text-decoration: none;
   transition: background 200ms ease, transform 150ms ease;
   box-shadow: 0 4px 14px rgba(35, 66, 31, 0.18);
+  margin-top: auto;
+}
   box-sizing: border-box;
 }
 

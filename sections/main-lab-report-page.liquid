@@ -1,6 +1,9 @@
 {% doc %}
-  Renders the Lab Report page featuring NABL lab testing certificates, batch reports, and purity parameters.
-  All details, heading, description, reports list, quality pillars, and download buttons are fully editable in Shopify Theme Editor.
+  Renders the Lab Report page containing clean 3-element Lab Report cards:
+  1. Report / Product Image
+  2. Product Name
+  3. PDF Link / Download Button
+  Fully editable via Shopify Theme Editor blocks and Product Metafields.
 
   @example
   {% section 'main-lab-report-page' %}
@@ -23,30 +26,6 @@
       {% if section.settings.subheading != blank %}
         <p class="lab-report-hero__subheading">{{ section.settings.subheading }}</p>
       {% endif %}
-
-      <!-- Quick Trust Stats -->
-      <div class="lab-report-stats">
-        <div class="lab-report-stat">
-          <span class="lab-report-stat__icon">🔬</span>
-          <h3 class="lab-report-stat__title">NABL Accredited</h3>
-          <p class="lab-report-stat__desc">Tested by ISO certified labs</p>
-        </div>
-        <div class="lab-report-stat">
-          <span class="lab-report-stat__icon">🌿</span>
-          <h3 class="lab-report-stat__title">100% Pure</h3>
-          <p class="lab-report-stat__desc">Zero chemicals or preservatives</p>
-        </div>
-        <div class="lab-report-stat">
-          <span class="lab-report-stat__icon">📋</span>
-          <h3 class="lab-report-stat__title">Batch-by-Batch</h3>
-          <p class="lab-report-stat__desc">Every lot thoroughly tested</p>
-        </div>
-        <div class="lab-report-stat">
-          <span class="lab-report-stat__icon">✅</span>
-          <h3 class="lab-report-stat__title">Heavy Metals Free</h3>
-          <p class="lab-report-stat__desc">Passes strict FSSAI norms</p>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -54,64 +33,103 @@
     {% assign report_blocks = section.blocks | where: 'type', 'lab_report' %}
     {% assign pillar_blocks = section.blocks | where: 'type', 'quality_pillar' %}
 
-    {% if report_blocks.size > 0 %}
-      <div class="lab-report-section-title">
-        <h2>{{ section.settings.grid_heading | default: "Certified Product Test Reports" }}</h2>
-        <p>{{ section.settings.grid_subheading | default: "Click on any report below to view or download the full laboratory analysis certificate." }}</p>
-      </div>
+    <div class="lab-report-section-title">
+      <h2>{{ section.settings.grid_heading | default: "Certified Product Test Reports" }}</h2>
+      {% if section.settings.grid_subheading != blank %}
+        <p>{{ section.settings.grid_subheading }}</p>
+      {% endif %}
+    </div>
 
-      <div class="lab-report-grid">
+    <div class="lab-report-grid">
+      {% if report_blocks.size > 0 %}
+        <!-- 1. Render Theme Editor Lab Report Blocks -->
         {% for block in report_blocks %}
+          {% liquid
+            assign report_img = block.settings.report_image
+            assign prod_name = block.settings.product_title
+            assign pdf_url = block.settings.report_url
+          %}
           <article class="lab-report-card" {{ block.shopify_attributes }}>
+            <!-- Element 1: Image -->
             <div class="lab-report-card__media">
-              {% if block.settings.report_image != blank %}
-                {{ block.settings.report_image | image_url: width: 600 | image_tag: alt: block.settings.product_title, loading: 'lazy' }}
+              {% if report_img != blank %}
+                {{ report_img | image_url: width: 600 | image_tag: alt: prod_name, loading: 'lazy', class: 'lab-report-card__image' }}
               {% else %}
-                <img src="{{ 'hero-farmer.png' | asset_url }}" alt="{{ block.settings.product_title | escape }}" loading="lazy">
+                <div class="lab-report-card__placeholder">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#23421f" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
               {% endif %}
-              <span class="lab-report-card__status">{{ block.settings.status_badge | default: "PASS - 100% PURE" }}</span>
             </div>
 
             <div class="lab-report-card__body">
-              <span class="lab-report-card__batch">{{ block.settings.batch_no | default: "BATCH #KB-2026-08" }}</span>
-              <h3 class="lab-report-card__title">{{ block.settings.product_title | default: "A2 Gir Cow Bilona Ghee" }}</h3>
-
-              <div class="lab-report-card__meta">
-                <div class="lab-report-card__meta-item">
-                  <span class="lab-report-card__meta-label">Testing Lab:</span>
-                  <span class="lab-report-card__meta-val">{{ block.settings.lab_name | default: "Eurofins / NABL Lab" }}</span>
-                </div>
-                <div class="lab-report-card__meta-item">
-                  <span class="lab-report-card__meta-label">Test Date:</span>
-                  <span class="lab-report-card__meta-val">{{ block.settings.test_date | default: "August 2026" }}</span>
-                </div>
-              </div>
-
-              {% if block.settings.summary != blank %}
-                <p class="lab-report-card__summary">{{ block.settings.summary }}</p>
-              {% else %}
-                <p class="lab-report-card__summary">Verified free from oxytocin, synthetic hormones, pesticides, and heavy metal adulterants.</p>
+              <!-- Element 2: Product Name -->
+              {% if prod_name != blank %}
+                <h3 class="lab-report-card__title">{{ prod_name }}</h3>
               {% endif %}
 
-              <a class="lab-report-card__btn" href="{{ block.settings.report_url | default: '#' }}" target="_blank" rel="noopener">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                <span>{{ block.settings.button_text | default: "Download PDF Report ↓" }}</span>
-              </a>
+              <!-- Element 3: PDF Link -->
+              {% if pdf_url != blank %}
+                <a class="lab-report-card__btn" href="{{ pdf_url }}" target="_blank" rel="noopener">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                  <span>{{ block.settings.button_text | default: "View / Download PDF Report ↓" }}</span>
+                </a>
+              {% endif %}
             </div>
           </article>
         {% endfor %}
-      </div>
-    {% endif %}
 
-    <!-- Quality Assurance Pillars -->
-    <div class="lab-report-pillars">
-      <div class="lab-report-section-title" style="margin-bottom: 2rem;">
-        <h2>{{ section.settings.pillars_heading | default: "Our 4-Step Quality Guarantee" }}</h2>
-        <p>{{ section.settings.pillars_subheading | default: "How we ensure every single batch delivered to your doorstep meets peak purity." }}</p>
-      </div>
+      {% else %}
+        <!-- 2. Auto-fetch Products with Metafield Lab Reports -->
+        {% for product in collections.all.products %}
+          {% liquid
+            assign meta_pdf = product.metafields.custom.lab_report.value | default: product.metafields.custom.lab_report | default: product.metafields.custom.lab_report_pdf.value | default: product.metafields.custom.lab_report_pdf
+            assign pdf_url = meta_pdf.url | default: meta_pdf
+            assign meta_img = product.metafields.custom.lab_report_image.value | default: product.metafields.custom.lab_report_image | default: product.featured_image
+          %}
+          {% if pdf_url != blank %}
+            <article class="lab-report-card">
+              <!-- Element 1: Image -->
+              <div class="lab-report-card__media">
+                {% if meta_img != blank %}
+                  {{ meta_img | image_url: width: 600 | image_tag: alt: product.title, loading: 'lazy', class: 'lab-report-card__image' }}
+                {% endif %}
+              </div>
 
-      <div class="lab-report-pillars__grid">
-        {% if pillar_blocks.size > 0 %}
+              <div class="lab-report-card__body">
+                <!-- Element 2: Product Name -->
+                <h3 class="lab-report-card__title">{{ product.title }}</h3>
+
+                <!-- Element 3: PDF Link -->
+                <a class="lab-report-card__btn" href="{{ pdf_url }}" target="_blank" rel="noopener">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                  </svg>
+                  <span>View / Download PDF Report ↓</span>
+                </a>
+              </div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <!-- Quality Assurance Pillars (Optional) -->
+    {% if pillar_blocks.size > 0 %}
+      <div class="lab-report-pillars">
+        <div class="lab-report-section-title" style="margin-bottom: 2rem;">
+          <h2>{{ section.settings.pillars_heading | default: "Our Quality Guarantee" }}</h2>
+        </div>
+
+        <div class="lab-report-pillars__grid">
           {% for block in pillar_blocks %}
             <div class="lab-report-pillar" {{ block.shopify_attributes }}>
               <div class="lab-report-pillar__icon">{{ block.settings.icon | default: "🔬" }}</div>
@@ -119,30 +137,9 @@
               <p class="lab-report-pillar__desc">{{ block.settings.description }}</p>
             </div>
           {% endfor %}
-        {% else %}
-          <div class="lab-report-pillar">
-            <div class="lab-report-pillar__icon">🌱</div>
-            <h3 class="lab-report-pillar__title">Organic Soil Sourcing</h3>
-            <p class="lab-report-pillar__desc">Grown naturally without chemical pesticides or artificial fertilizers.</p>
-          </div>
-          <div class="lab-report-pillar">
-            <div class="lab-report-pillar__icon">🥛</div>
-            <h3 class="lab-report-pillar__title">Traditional Bilona Process</h3>
-            <p class="lab-report-pillar__desc">Crafted slowly using ancient Vedic methods to retain maximum nutrients.</p>
-          </div>
-          <div class="lab-report-pillar">
-            <div class="lab-report-pillar__icon">🔬</div>
-            <h3 class="lab-report-pillar__title">NABL Lab Certification</h3>
-            <p class="lab-report-pillar__desc">Rigorous multi-parameter laboratory testing before packaging.</p>
-          </div>
-          <div class="lab-report-pillar">
-            <div class="lab-report-pillar__icon">📦</div>
-            <h3 class="lab-report-pillar__title">Hygienic Sealed Packing</h3>
-            <p class="lab-report-pillar__desc">Packed in glass jars and food-grade containers for uncompromised freshness.</p>
-          </div>
-        {% endif %}
+        </div>
       </div>
-    </div>
+    {% endif %}
   </div>
 </section>
 
@@ -189,22 +186,6 @@
       "id": "grid_subheading",
       "label": "Grid subheading",
       "default": "Click on any report below to view or download the full laboratory analysis certificate."
-    },
-    {
-      "type": "header",
-      "content": "Quality Pillars Section"
-    },
-    {
-      "type": "text",
-      "id": "pillars_heading",
-      "label": "Pillars heading",
-      "default": "Our 4-Step Quality Guarantee"
-    },
-    {
-      "type": "text",
-      "id": "pillars_subheading",
-      "label": "Pillars subheading",
-      "default": "How we ensure every single batch delivered to your doorstep meets peak purity."
     }
   ],
   "blocks": [
@@ -212,15 +193,10 @@
       "type": "lab_report",
       "name": "Lab Report Card",
       "settings": [
-        { "type": "text", "id": "product_title", "label": "Product Title", "default": "A2 Gir Cow Bilona Ghee" },
-        { "type": "text", "id": "batch_no", "label": "Batch Number", "default": "BATCH #KB-GHEE-2026-08" },
-        { "type": "text", "id": "lab_name", "label": "Testing Lab Name", "default": "Eurofins / NABL Accredited Lab" },
-        { "type": "text", "id": "test_date", "label": "Test Date", "default": "August 2026" },
-        { "type": "text", "id": "status_badge", "label": "Status Badge", "default": "PASS - 100% PURE" },
-        { "type": "image_picker", "id": "report_image", "label": "Report / Product Image" },
-        { "type": "textarea", "id": "summary", "label": "Parameters Tested Summary", "default": "Verified free from oxytocin, synthetic hormones, pesticides, and heavy metal adulterants." },
-        { "type": "url", "id": "report_url", "label": "PDF / Report Download Link" },
-        { "type": "text", "id": "button_text", "label": "Download Button Text", "default": "Download PDF Report ↓" }
+        { "type": "image_picker", "id": "report_image", "label": "1. Report / Product Image" },
+        { "type": "text", "id": "product_title", "label": "2. Product Name" },
+        { "type": "url", "id": "report_url", "label": "3. PDF Link / File URL" },
+        { "type": "text", "id": "button_text", "label": "Button Text", "default": "View / Download PDF Report ↓" }
       ]
     },
     {
@@ -228,53 +204,14 @@
       "name": "Quality Pillar Feature",
       "settings": [
         { "type": "text", "id": "icon", "label": "Emoji Icon", "default": "🔬" },
-        { "type": "text", "id": "title", "label": "Title", "default": "NABL Accredited Testing" },
-        { "type": "textarea", "id": "description", "label": "Description", "default": "Every lot is tested for heavy metals, pesticides, and microbial purity." }
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "description", "label": "Description" }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Lab Report Page Showcase",
-      "blocks": [
-        {
-          "type": "lab_report",
-          "settings": {
-            "product_title": "A2 Gir Cow Bilona Ghee",
-            "batch_no": "BATCH #KB-GHEE-2026-08",
-            "lab_name": "Eurofins / NABL Lab",
-            "test_date": "August 2026",
-            "status_badge": "PASS - 100% PURE",
-            "summary": "Tested zero oxytocin, zero synthetic fats, 100% pure Bilona fatty acid profile."
-          }
-        },
-        {
-          "type": "lab_report",
-          "settings": {
-            "product_title": "Organic Khapli Emmer Wheat Flour",
-            "batch_no": "BATCH #KB-ATTA-2026-08",
-            "lab_name": "SGS India / NABL Lab",
-            "test_date": "August 2026",
-            "status_badge": "PASS - ZERO PESTICIDES",
-            "summary": "Certified non-GMO, zero chemical residues, high dietary fiber & low glycemic index."
-          }
-        },
-        {
-          "type": "lab_report",
-          "settings": {
-            "product_title": "Cold Pressed Mustard Oil",
-            "batch_no": "BATCH #KB-OIL-2026-08",
-            "lab_name": "Intertek / NABL Lab",
-            "test_date": "August 2026",
-            "status_badge": "PASS - UNREFINED PURE",
-            "summary": "100% Wood-pressed oil, unbleached, zero argemone adulteration."
-          }
-        },
-        { "type": "quality_pillar", "settings": { "icon": "🌱", "title": "Organic Soil Sourcing", "description": "Grown naturally without chemical pesticides or artificial fertilizers." } },
-        { "type": "quality_pillar", "settings": { "icon": "🥛", "title": "Traditional Bilona Process", "description": "Crafted slowly using ancient Vedic methods to retain maximum nutrients." } },
-        { "type": "quality_pillar", "settings": { "icon": "🔬", "title": "NABL Lab Certification", "description": "Rigorous multi-parameter laboratory testing before packaging." } },
-        { "type": "quality_pillar", "settings": { "icon": "📦", "title": "Hygienic Sealed Packing", "description": "Packed in glass jars and food-grade containers for uncompromised freshness." } }
-      ]
+      "name": "Lab Report Page Showcase"
     }
   ]
 }
