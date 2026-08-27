@@ -1,8 +1,9 @@
 {% doc %}
-  Renders the Two Brothers style Contact Us page for Kishan Bazar.
-  Includes Phone, WhatsApp, & Email support card, Location address card, Map card,
-  and native Shopify "Send Us a Message" Contact Form.
-  All fields including Email Address are prominent and 100% editable via Theme Editor settings.
+  Renders the Two Brothers style Contact Us page for Kishan Bazar:
+  - Phone, WhatsApp, & Email support card
+  - Location & Address card with automatic Google Maps address fetcher
+  - Google Map Embed Card placed BELOW the contact form with automatic Place URL converter
+  - Native Shopify "Send Us a Message" Contact Form
 {% enddoc %}
 
 <link rel="stylesheet" href="{{ 'section-contact-page.css' | asset_url }}">
@@ -58,6 +59,14 @@
 
         <!-- CARD 2: LOCATION & ADDRESS CARD -->
         {% if section.settings.show_address_card %}
+          {% liquid
+            assign map_url = section.settings.map_iframe_url | default: section.settings.map_external_url
+            assign display_address = section.settings.address_text
+            if display_address == blank and map_url contains 'maps/place/'
+              assign place_part = map_url | split: 'maps/place/' | last | split: '/' | first
+              assign display_address = place_part | replace: '+', ' ' | url_decode
+            endif
+          %}
           <div class="contact-card contact-card--address">
             <div class="contact-card__header">
               <span class="contact-card__icon">
@@ -69,7 +78,7 @@
               <h3 class="contact-card__title">{{ section.settings.address_heading | default: "Our Location & Address" }}</h3>
             </div>
             <div class="contact-card__body">
-              <div class="contact-card__address">{{ section.settings.address_text | default: "Bhagwati Ashish, Surat, Gujarat, India" }}</div>
+              <div class="contact-card__address" data-address-text>{{ display_address | default: "Bhagwati Ashish Complex, Surat, Gujarat, India" }}</div>
             </div>
           </div>
         {% endif %}
@@ -168,6 +177,15 @@
 
 <script>
   (function() {
+    function extractPlaceName(url) {
+      if (!url) return '';
+      var placeMatch = url.match(/maps\/place\/([^/@]+)/);
+      if (placeMatch) {
+        return decodeURIComponent(placeMatch[1].replace(/\+/g, ' '));
+      }
+      return '';
+    }
+
     function sanitizeGoogleMapUrl(url) {
       if (!url) return '';
       url = url.trim();
@@ -178,10 +196,9 @@
       if (coordMatch) {
         return 'https://maps.google.com/maps?q=' + coordMatch[1] + ',' + coordMatch[2] + '&z=16&output=embed';
       }
-      var placeMatch = url.match(/maps\/place\/([^/@]+)/);
-      if (placeMatch) {
-        var name = decodeURIComponent(placeMatch[1].replace(/\+/g, ' '));
-        return 'https://maps.google.com/maps?q=' + encodeURIComponent(name) + '&z=16&output=embed';
+      var placeName = extractPlaceName(url);
+      if (placeName) {
+        return 'https://maps.google.com/maps?q=' + encodeURIComponent(placeName) + '&z=16&output=embed';
       }
       return 'https://maps.google.com/maps?q=' + encodeURIComponent(url) + '&z=16&output=embed';
     }
@@ -192,6 +209,12 @@
       var cleanSrc = sanitizeGoogleMapUrl(rawSrc);
       if (cleanSrc && cleanSrc !== rawSrc) {
         iframe.src = cleanSrc;
+      }
+
+      var fetchedName = extractPlaceName(rawSrc);
+      var addressEl = document.querySelector('[data-address-text]');
+      if (addressEl && fetchedName && (addressEl.textContent.trim() === '' || addressEl.textContent.includes('Bhagwati Ashish'))) {
+        addressEl.textContent = fetchedName;
       }
     }
   })();
@@ -224,7 +247,7 @@
     },
     { "type": "checkbox", "id": "show_address_card", "label": "Show Address Card", "default": true },
     { "type": "text", "id": "address_heading", "label": "Address Card Heading", "default": "Our Location & Address" },
-    { "type": "textarea", "id": "address_text", "label": "Complete Address Text", "default": "Bhagwati Ashish, Surat, Gujarat, India" },
+    { "type": "textarea", "id": "address_text", "label": "Complete Address Text (Leave blank to auto-fetch from Google Map link)", "default": "Bhagwati Ashish Complex, Surat, Gujarat, India" },
     {
       "type": "header",
       "content": "Google Map Embed Card"
