@@ -1,6 +1,7 @@
 {% doc %}
   Renders the 3-column mobile category grid at the top of the mobile drawer.
   Matching Two Brothers reference with icon ABOVE title.
+  Excludes promotional/meta collection handles (monsoon, best-product, daily-essential).
 
   @param {section} section - Header section containing blocks.
 
@@ -11,6 +12,7 @@
 <div class="kb-mobile-cat-grid">
   {% assign count = 0 %}
   {% assign rendered_handles = '|' %}
+  {% assign exclude_handles = 'monsoon,monsoon-special,best,best-product,best-sellers,daily,daily-essential,daily-essentials,offers,deals,value,all,frontpage' | split: ',' %}
 
   <!-- 1. Custom Category Blocks from Theme Editor -->
   {% for block in section.blocks %}
@@ -19,30 +21,38 @@
         assign card_collection = block.settings.collection
         assign card_title = block.settings.title | default: card_collection.title
         assign card_handle = card_title | handleize
-        assign card_url = card_collection.url
-
-        if card_url == blank or card_collection == blank
-          if collections[card_handle] != blank
-            assign card_url = collections[card_handle].url
-          elsif card_handle != blank
-            assign card_url = '/collections/' | append: card_handle
-          else
-            assign card_url = routes.all_products_collection_url
-          endif
-        endif
+        assign collection_handle = card_collection.handle | default: card_handle
       %}
-      <a href="{{ card_url }}" class="kb-mobile-cat-card" {{ block.shopify_attributes }}>
-        <span class="kb-mobile-cat-card__media">
-          {% render 'category-icon', category: card_collection, category_name: card_title, size: 48 %}
-        </span>
-        <span class="kb-mobile-cat-card__title">{{ card_title }}</span>
-      </a>
+      {% unless exclude_handles contains card_handle or exclude_handles contains collection_handle %}
+        {% liquid
+          assign card_url = card_collection.url
+
+          if card_url == blank or card_collection == blank
+            if collections[card_handle] != blank
+              assign card_url = collections[card_handle].url
+            elsif card_handle != blank
+              assign card_url = '/collections/' | append: card_handle
+            else
+              assign card_url = routes.all_products_collection_url
+            endif
+          endif
+
+          assign count = count | plus: 1
+          assign rendered_handles = rendered_handles | append: card_handle | append: '|' | append: collection_handle | append: '|'
+        %}
+        <a href="{{ card_url }}" class="kb-mobile-cat-card" {{ block.shopify_attributes }}>
+          <span class="kb-mobile-cat-card__media">
+            {% render 'category-icon', category: card_collection, category_name: card_title, size: 48 %}
+          </span>
+          <span class="kb-mobile-cat-card__title">{{ card_title }}</span>
+        </a>
+      {% endunless %}
     {% endif %}
   {% endfor %}
 
-  <!-- 2. Store Collections fallback -->
-  {% for collection in collections limit: 12 %}
-    {% unless collection.handle == 'all' %}
+  <!-- 2. Store Collections fallback (excl. monsoon, best, daily-essential) -->
+  {% for collection in collections limit: 16 %}
+    {% unless exclude_handles contains collection.handle %}
       {% unless rendered_handles contains collection.handle %}
         {% assign count = count | plus: 1 %}
         {% assign rendered_handles = rendered_handles | append: collection.handle | append: '|' %}

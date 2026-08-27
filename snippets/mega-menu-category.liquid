@@ -1,6 +1,7 @@
 {% doc %}
   Renders the Shop By Category mega menu.
   Displays ONLY categories added by the merchant in Shopify Admin or collections.
+  Excludes promotional/meta collection handles (monsoon, best-product, daily-essential).
 
   @param {section} section - Header section containing category_card blocks.
 
@@ -10,6 +11,7 @@
 
 {% liquid
   assign wave_img = section.settings.category_wave_image | default: section.settings.mega_wave_image
+  assign exclude_handles = 'monsoon,monsoon-special,best,best-product,best-sellers,daily,daily-essential,daily-essentials,offers,deals,value,all,frontpage' | split: ','
 %}
 
 <div class="kb-category-mega{% if wave_img != blank %} has-bg-image{% endif %}" data-category-mega {% if wave_img != blank %}style="background-image: url('{{ wave_img | image_url: width: 1800 }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;"{% endif %}>
@@ -26,53 +28,61 @@
           assign card_collection = block.settings.collection
           assign card_title = block.settings.title | default: card_collection.title
           assign card_handle = card_title | handleize
-          assign card_url = card_collection.url
-
-          if card_url == blank or card_collection == blank
-            if collections[card_handle] != blank
-              assign card_url = collections[card_handle].url
-            elsif card_handle != blank
-              assign card_url = '/collections/' | append: card_handle
-            else
-              assign card_url = routes.all_products_collection_url
-            endif
-          endif
-
-          assign card_image = block.settings.image | default: card_collection.image
-          if card_image == blank and card_collection != blank
-            assign first_product = card_collection.products | first
-            if first_product != blank
-              assign card_image = first_product.featured_image
-            endif
-          endif
+          assign collection_handle = card_collection.handle | default: card_handle
         %}
-        <a class="kb-category-card" href="{{ card_url }}" {{ block.shopify_attributes }}>
-          <span class="kb-category-card__media">
-            {% if card_image != blank %}
-              {{
-                card_image
-                | image_url: width: 320
-                | image_tag:
-                  class: 'kb-category-card__image',
-                  alt: card_title,
-                  widths: '160, 240, 320',
-                  sizes: '(min-width: 990px) 120px, 35vw',
-                  loading: 'lazy'
-              }}
-            {% else %}
-              {% render 'category-icon', category: card_collection, category_name: card_title, size: 48 %}
-            {% endif %}
-          </span>
-          <span class="kb-category-card__content">
-            <span class="kb-category-card__title">{{ card_title }}</span>
-          </span>
-        </a>
+        {% unless exclude_handles contains card_handle or exclude_handles contains collection_handle %}
+          {% liquid
+            assign card_url = card_collection.url
+
+            if card_url == blank or card_collection == blank
+              if collections[card_handle] != blank
+                assign card_url = collections[card_handle].url
+              elsif card_handle != blank
+                assign card_url = '/collections/' | append: card_handle
+              else
+                assign card_url = routes.all_products_collection_url
+              endif
+            endif
+
+            assign card_image = block.settings.image | default: card_collection.image
+            if card_image == blank and card_collection != blank
+              assign first_product = card_collection.products | first
+              if first_product != blank
+                assign card_image = first_product.featured_image
+              endif
+            endif
+
+            assign category_count = category_count | plus: 1
+            assign rendered_handles = rendered_handles | append: card_handle | append: '|' | append: collection_handle | append: '|'
+          %}
+          <a class="kb-category-card" href="{{ card_url }}" {{ block.shopify_attributes }}>
+            <span class="kb-category-card__media">
+              {% if card_image != blank %}
+                {{
+                  card_image
+                  | image_url: width: 320
+                  | image_tag:
+                    class: 'kb-category-card__image',
+                    alt: card_title,
+                    widths: '160, 240, 320',
+                    sizes: '(min-width: 990px) 120px, 35vw',
+                    loading: 'lazy'
+                }}
+              {% else %}
+                {% render 'category-icon', category: card_collection, category_name: card_title, size: 48 %}
+              {% endif %}
+            </span>
+            <span class="kb-category-card__content">
+              <span class="kb-category-card__title">{{ card_title }}</span>
+            </span>
+          </a>
+        {% endunless %}
       {% endif %}
     {% endfor %}
 
-    <!-- 2. Store Collections -->
-    {% for collection in collections limit: 12 %}
-      {% unless collection.handle == 'all' %}
+    <!-- 2. Store Collections (excl. monsoon, best, daily-essential) -->
+    {% for collection in collections limit: 16 %}
+      {% unless exclude_handles contains collection.handle %}
         {% unless rendered_handles contains collection.handle %}
           {% if collection.products_count > 0 %}
             {% assign category_count = category_count | plus: 1 %}
@@ -134,7 +144,3 @@
     </a>
   </div>
 </div>
-
-
-
-
