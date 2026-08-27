@@ -16,32 +16,32 @@
           "type": "policy_clause",
           "settings": {
             "icon": "📜",
-            "title": "1. Acceptance & Eligibility",
-            "content": "<p>By browsing or purchasing from Kisan Bazar, you represent that you are at least 18 years old or visiting under the supervision of a parent or guardian.</p><p>We provide certified organic food staples, cold-pressed oils, and traditional Bilona ghee directly from verified Indian organic farms.</p>"
+            "title": "1. About KisanVeda",
+            "content": "<p>KisanVeda is an online platform offering food and grocery products including organic groceries, grains, pulses, millets, atta, spices, oils, jaggery, dairy products and other products listed on our website.</p><p>Our goal is to make quality food products more accessible while building greater transparency and connection between consumers, farmers and food producers.</p>"
           }
         },
         "clause_2": {
           "type": "policy_clause",
           "settings": {
             "icon": "🏷️",
-            "title": "2. Product Information & Pricing",
-            "content": "<p>We strive to display accurate product descriptions, net weights, and pricing. All prices are listed in Indian Rupees (INR) and include applicable taxes unless specified otherwise.</p><p>Kishan Bazar reserves the right to modify prices or correct pricing errors without prior notice.</p>"
+            "title": "2. Use of Our Website",
+            "content": "<p>You agree to use the KisanVeda website only for lawful purposes.</p><p>You must not:</p><ul><li>Use the website for fraudulent or unlawful activities.<br/></li><li>Attempt to gain unauthorized access to our website, systems or accounts.<br/></li><li>Copy, reproduce or misuse our website content, images, logos or other intellectual property without permission.<br/></li><li>Upload or transmit harmful software, viruses or malicious content.<br/></li><li>Provide false or misleading information while placing an order.<br/></li></ul><p>KisanVeda reserves the right to restrict or terminate access to the website if we believe these terms have been violated.</p>"
           }
         },
         "clause_3": {
           "type": "policy_clause",
           "settings": {
             "icon": "💳",
-            "title": "3. Orders & Payment Processing",
-            "content": "<p>Orders placed through our website are subject to acceptance and availability. We support secure UPI, credit/debit cards, net banking, and Cash on Delivery (COD).</p><p>In the event of payment failure or suspected fraud, we reserve the right to cancel or place the order on hold.</p>"
+            "title": "3. Product Information",
+            "content": "<p>We make reasonable efforts to ensure that product names, descriptions, images, prices, weights and other information displayed on our website are accurate.</p><p>However:</p><ul><li>Actual product appearance may vary slightly from photographs.<br/></li><li>Natural products may vary in colour, texture, size and appearance from batch to batch.<br/></li><li>Product availability may change without prior notice.<br/></li><li>Packaging may be updated from time to time.<br/></li><li>Product information should always be checked on the product packaging and applicable labels.<br/></li></ul><p>We reserve the right to correct errors, inaccuracies or omissions in product information.</p>"
           }
         },
         "clause_4": {
           "type": "policy_clause",
           "settings": {
             "icon": "⚖️",
-            "title": "4. Intellectual Property & Brand Usage",
-            "content": "<p>All logos, imagery, product titles, and content published on Kisan Bazar are the exclusive property of Kisan Bazar. Unauthorized reproduction, distribution, or commercial use is strictly prohibited.</p>"
+            "title": "4. Prices",
+            "content": "<ul><li>All prices displayed on the website are in <strong>Indian Rupees (₹)</strong> unless otherwise stated.</li><li>Prices may change from time to time. The price applicable to your order will be the price displayed at the time of checkout.</li><li>Applicable taxes, delivery charges or other charges, if any, will be displayed before order confirmation.</li></ul>"
           }
         },
         "contact": {
