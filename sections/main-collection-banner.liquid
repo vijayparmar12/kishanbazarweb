@@ -1,10 +1,11 @@
 {% doc %}
   Renders the Collection Banner & Title section matching the reference design:
   - Top full-width Collection Hero Banner Image
-  - Priority:
+  - Bulletproof Priority:
     1. collection.metafields.custom.banner_image (Specific collection metafield image if uploaded)
-    2. section.settings.custom_banner_desktop / default_banner_image (Global Default Banner Image uploaded in Theme Editor)
-    3. collection.image / collection.featured_image
+    2. collection.image (Collection main image)
+    3. section.settings.custom_banner_desktop / default_banner_image (Theme Editor uploaded banner)
+    4. collection.products.first.featured_image (Featured product image fallback for All Products & collections)
   - Prominent Collection Title below banner (e.g. STONE GROUND CHAKKI ATTA) with alignment, size, and style controls
 {% enddoc %}
 
@@ -32,6 +33,11 @@
     assign valid_meta_desk = meta_desk.preview_image | default: meta_desk
   endif
 
+  assign valid_meta_mob = blank
+  if meta_mob.width != blank or meta_mob.src != blank or meta_mob.preview_image != blank
+    assign valid_meta_mob = meta_mob.preview_image | default: meta_mob
+  endif
+
   assign valid_sett_desk = blank
   if sett_desk.width != blank or sett_desk.src != blank or sett_desk.preview_image != blank
     assign valid_sett_desk = sett_desk.preview_image | default: sett_desk
@@ -49,15 +55,17 @@
     assign valid_coll_img = collection.featured_image
   endif
 
-  # Resolve final desktop banner image:
-  assign banner_img = valid_meta_desk | default: valid_sett_desk | default: valid_sett_default | default: valid_coll_img
-
-  # Mobile resolution
-  assign valid_meta_mob = blank
-  if meta_mob.width != blank or meta_mob.src != blank or meta_mob.preview_image != blank
-    assign valid_meta_mob = meta_mob.preview_image | default: meta_mob
+  assign valid_prod_img = blank
+  if collection.products.first.featured_image != blank
+    assign valid_prod_img = collection.products.first.featured_image
+  elsif collections.all.products.first.featured_image != blank
+    assign valid_prod_img = collections.all.products.first.featured_image
   endif
 
+  # Resolve final desktop banner image:
+  assign banner_img = valid_meta_desk | default: valid_coll_img | default: valid_sett_desk | default: valid_sett_default | default: valid_prod_img
+
+  # Mobile resolution
   assign valid_sett_mob = blank
   if sett_mob.width != blank or sett_mob.src != blank or sett_mob.preview_image != blank
     assign valid_sett_mob = sett_mob.preview_image | default: sett_mob
@@ -78,7 +86,7 @@
           {% endif %}
           <img
             src="{{ banner_img | image_url: width: 2000 }}"
-            alt="{{ collection.title | escape }}"
+            alt="{{ collection.title | default: 'All Products' | escape }}"
             class="collection-hero__image"
             loading="eager"
             width="{{ banner_img.width | default: 1600 }}"
@@ -90,7 +98,7 @@
       <!-- Fallback placeholder banner if no banner image uploaded yet -->
       <div class="collection-hero__banner-wrap collection-hero__banner-wrap--placeholder">
         <div class="collection-hero__placeholder-content">
-          <span class="collection-hero__placeholder-badge">{{ collection.title | upcase }}</span>
+          <span class="collection-hero__placeholder-badge">{{ collection.title | default: 'ALL PRODUCTS' | upcase }}</span>
         </div>
       </div>
     {% endif %}
@@ -99,7 +107,7 @@
     {% if section.settings.show_collection_title %}
       <div class="collection-hero__header collection-hero__header--{{ section.settings.title_alignment | default: 'center' }}">
         <h1 class="collection-hero__title" style="text-transform: {{ section.settings.title_text_transform | default: 'uppercase' }}; font-weight: {{ section.settings.title_font_weight | default: '800' }};">
-          {{ collection.title }}
+          {{ collection.title | default: 'All Products' }}
         </h1>
         
         {% if section.settings.show_description and collection.description != blank %}
