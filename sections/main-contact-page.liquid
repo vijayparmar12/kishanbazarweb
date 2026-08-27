@@ -1,9 +1,9 @@
 {% doc %}
-  Renders the Two Brothers style Contact Us page for Kisan Bazar.
+  Renders the Two Brothers style Contact Us page for Kishan Bazar.
   - Phone, WhatsApp, & Email support card
-  - Location & Address card with "Get Directions ↗" button
+  - Location & Address card (clean text without extra button)
   - Google Map Embed Card placed BELOW the contact form with "Open in Maps ↗" button
-  - Both map buttons automatically link directly to Google Maps navigation with full destination address.
+  - "Open in Maps ↗" button opens Google Maps Place location directly (showing pin, bottom sheet details & navigation options matching user screenshot).
 {% enddoc %}
 
 <link rel="stylesheet" href="{{ 'section-contact-page.css' | asset_url }}">
@@ -21,14 +21,14 @@
     assign display_address = "Bhagwati Ashish Complex, Surat, Gujarat, India"
   endif
 
-  # Generate Full Google Maps Directions / Place Link
+  # Generate Direct Google Maps Place Location Link (Matching user screenshot)
   if section.settings.map_external_url != blank
     assign map_target_link = section.settings.map_external_url
   elsif raw_place_url contains 'google.com/maps' or raw_place_url contains 'maps.app.goo.gl'
     assign map_target_link = raw_place_url
   else
     assign encoded_dest = display_address | url_encode
-    assign map_target_link = 'https://www.google.com/maps/dir/?api=1&destination=' | append: encoded_dest
+    assign map_target_link = 'https://www.google.com/maps/search/?api=1&query=' | append: encoded_dest
   endif
 %}
 
@@ -95,12 +95,6 @@
             </div>
             <div class="contact-card__body">
               <div class="contact-card__address" data-address-text>{{ display_address | default: "Bhagwati Ashish Complex, Surat, Gujarat, India" }}</div>
-              
-              <div class="contact-card__address-actions">
-                <a href="{{ map_target_link }}" target="_blank" rel="noopener" class="contact-btn contact-btn--directions" data-map-target-link>
-                  📍 Get Directions ↗
-                </a>
-              </div>
             </div>
           </div>
         {% endif %}
@@ -238,15 +232,15 @@
         addressEl.textContent = fetchedName;
       }
 
-      // Construct direct Google Maps navigation link with destination
+      // Update map target links for direct Google Maps Place search & location view
       var mapLinks = document.querySelectorAll('[data-map-target-link]');
       var finalNavUrl = '';
       if (rawSrc && (rawSrc.includes('google.com/maps/place/') || rawSrc.includes('maps.app.goo.gl'))) {
         finalNavUrl = rawSrc;
       } else if (addressEl && addressEl.textContent.trim()) {
-        finalNavUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(addressEl.textContent.trim());
+        finalNavUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(addressEl.textContent.trim());
       } else if (fetchedName) {
-        finalNavUrl = 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(fetchedName + ', Surat, Gujarat, India');
+        finalNavUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(fetchedName + ', Surat, Gujarat, India');
       }
       if (finalNavUrl) {
         mapLinks.forEach(function(link) {
