@@ -19,7 +19,7 @@
           "settings": {
             "menu_group": "custom1",
             "title": "The Framers",
-            "link": "",
+            "link": "shopify://pages/the-framers",
             "icon": ""
           }
         },
@@ -28,7 +28,7 @@
           "settings": {
             "menu_group": "custom",
             "title": "The Farmers",
-            "link": "",
+            "link": "shopify://pages/the-framers",
             "icon": ""
           }
         },
@@ -37,7 +37,7 @@
           "settings": {
             "menu_group": "custom",
             "title": "The Gaushala",
-            "link": "",
+            "link": "shopify://pages/the-gaishala",
             "icon": ""
           }
         },
@@ -46,7 +46,7 @@
           "settings": {
             "menu_group": "custom1",
             "title": "The Gaushala",
-            "link": "",
+            "link": "shopify://pages/the-gaishala",
             "icon": ""
           }
         },
@@ -55,7 +55,7 @@
           "settings": {
             "menu_group": "custom1",
             "title": "Ancient Kitchen & Recipes",
-            "link": "",
+            "link": "shopify://pages/ancient-kitchen-recipes",
             "icon": ""
           }
         },
@@ -64,7 +64,7 @@
           "settings": {
             "menu_group": "custom",
             "title": "Ancient Kitchen & Recipes",
-            "link": "",
+            "link": "shopify://pages/ancient-kitchen-recipes",
             "icon": ""
           }
         },
