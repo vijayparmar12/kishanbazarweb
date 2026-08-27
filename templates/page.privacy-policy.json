@@ -11,72 +11,10 @@
   "sections": {
     "main": {
       "type": "main-policy-page",
-      "blocks": {
-        "summary": {
-          "type": "policy_highlight",
-          "settings": {
-            "title": "🔒 Privacy & Data Protection Guarantee",
-            "content": "Your privacy is paramount to us. We never sell, rent, trade, or compromise your personal information or contact details to third-party advertisers.",
-            "bg_color": "#f0fdf4",
-            "border_color": "#bbf7d0",
-            "text_color": "#166534"
-          }
-        },
-        "clause_1": {
-          "type": "policy_clause",
-          "settings": {
-            "icon": "",
-            "title": "1. Information We Collect",
-            "content": "<p>When you visit Kisan Bazar, create an account, or place an order for organic staples, we collect essential data to fulfill your request:</p><ul><li><strong>Contact Details:</strong> Full Name, Email Address, Mobile Number</li><li><strong>Delivery Details:</strong> Shipping & Billing Address, Pincode</li><li><strong>Transaction Logs:</strong> Order ID, Payment Method (we do NOT store credit card CVV or bank passwords)</li></ul>"
-          }
-        },
-        "clause_2": {
-          "type": "policy_clause",
-          "settings": {
-            "icon": "",
-            "title": "2. How We Use Your Information",
-            "content": "<p>Your personal data is used exclusively to deliver an exceptional shopping experience:</p><ul><li>Processing, packing, and dispatching your farm-fresh orders</li><li>Sending real-time SMS, WhatsApp, and Email delivery updates</li><li>Providing responsive customer care and handling enquiries</li><li>Sending optional seasonal farm offers (unsubscribe anytime)</li></ul>"
-          }
-        },
-        "clause_3": {
-          "type": "policy_clause",
-          "settings": {
-            "icon": "",
-            "title": "3. Data Encryption & Security",
-            "content": "<p>Kishan Bazar uses 256-bit SSL encryption to safeguard all checkout transactions and personal data. Access to shipping information is restricted strictly to authorized logistics partners and support team members.</p>"
-          }
-        },
-        "clause_4": {
-          "type": "policy_clause",
-          "settings": {
-            "icon": "",
-            "title": "4. Cookies & Preferences",
-            "content": "<p>We use essential cookies to keep items in your cart, remember session preferences, and analyze website traffic. You can modify or disable cookies in your browser settings at any time.</p>"
-          }
-        },
-        "contact": {
-          "type": "policy_contact",
-          "settings": {
-            "title": "Data Privacy Requests or Questions?",
-            "email": "privacy@kishanbazar.com",
-            "phone": "+91 98765 43210",
-            "button_text": "Contact Data Officer",
-            "button_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "summary",
-        "clause_1",
-        "clause_2",
-        "clause_3",
-        "clause_4",
-        "contact"
-      ],
       "settings": {
-        "eyebrow": "KISAN BAZAR POLICIES",
-        "heading": "Privacy Policy",
-        "subheading": "Effective Date: August 12, 2026 • We respect and protect your personal information.",
+        "eyebrow": "",
+        "heading": "",
+        "subheading": "",
         "show_page_content": true
       }
     }
