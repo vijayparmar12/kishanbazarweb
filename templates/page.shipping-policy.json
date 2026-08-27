@@ -11,71 +11,9 @@
   "sections": {
     "main": {
       "type": "main-policy-page",
-      "blocks": {
-        "summary": {
-          "type": "policy_highlight",
-          "settings": {
-            "title": "🚚 Free Shipping Above ₹499 Nationwide",
-            "content": "Enjoy free standard shipping on all orders above ₹499 across 26,000+ Indian pincodes. All organic staples are freshly ground and dispatched within 24–48 hours of order confirmation.",
-            "bg_color": "#eff6ff",
-            "border_color": "#bfdbfe",
-            "text_color": "#1e40af"
-          }
-        },
-        "clause_1": {
-          "type": "policy_clause",
-          "settings": {
-            "icon": "",
-            "title": "1. Processing & Dispatch Timelines",
-            "content": "<p>All orders are milled, stone-ground, and packed fresh in our Surat/Gujarat hub:</p><ul><li><strong>Standard Dispatch:</strong> Shipped within 24 to 48 hours of order placement.</li><li><strong>Weekend & Holiday Orders:</strong> Orders placed on Sundays or national holidays are dispatched on the next working business day.</li></ul>"
-          }
-        },
-        "clause_2": {
-          "type": "policy_clause",
-          "settings": {
-            "icon": "",
-            "title": "2. Estimated Delivery Timeframes",
-            "content": "<p>We partner with premier express logistics (BlueDart, Delhivery, DTDC) to deliver your parcel safely:</p><ul><li><strong>Metro Cities (Mumbai, Delhi-NCR, Bengaluru, Hyderabad, Pune, Chennai):</strong> 2–4 Business Days</li><li><strong>Tier 2 & Tier 3 Cities (Gujarat, Maharashtra, MP, Rajasthan, UP):</strong> 3–5 Business Days</li><li><strong>Rest of India & Special Zones:</strong> 5–7 Business Days</li></ul>"
-          }
-        },
-        "clause_3": {
-          "type": "policy_clause",
-          "settings": {
-            "icon": "",
-            "title": "3. Shipping Charges & Cash on Delivery (COD)",
-            "content": "<p>Our shipping fee structure is simple and transparent:</p><ul><li><strong>Orders ₹499 and Above:</strong> FREE Shipping nationwide!</li><li><strong>Orders Below ₹499:</strong> Flat nominal shipping fee of ₹49.</li><li><strong>Cash on Delivery (COD):</strong> Available for eligible pincodes with a flat ₹30 COD handling fee.</li></ul>"
-          }
-        },
-        "clause_4": {
-          "type": "policy_clause",
-          "settings": {
-            "icon": "",
-            "title": "4. Real-Time Order Tracking",
-            "content": "<p>As soon as your parcel is handed over to our courier partner, you will receive an instant tracking link via SMS, WhatsApp, and Email so you can monitor your parcel's live journey to your doorstep.</p>"
-          }
-        },
-        "contact": {
-          "type": "policy_contact",
-          "settings": {
-            "title": "Need Help Tracking Your Shipment?",
-            "email": "shipping@kishanbazar.com",
-            "phone": "+91 98765 43210",
-            "button_text": "Track Your Parcel",
-            "button_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "summary",
-        "clause_1",
-        "clause_2",
-        "clause_3",
-        "clause_4",
-        "contact"
-      ],
       "settings": {
         "eyebrow": "",
-        "heading": "Shipping & Delivery Policy",
+        "heading": "",
         "subheading": "",
         "show_page_content": true
       }
