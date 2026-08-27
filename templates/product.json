@@ -38,7 +38,7 @@
         "benefit_icons_TeMKQk": {
           "type": "benefit_icons",
           "settings": {
-            "icon_size": 80,
+            "icon_size": 96,
             "benefit_image_1": "{{ product.metafields.custom.custom_badge_image_1.value }}",
             "benefit_image_2": "{{ product.metafields.custom.custom_badge_image_2.value }}",
             "benefit_image_3": "{{ product.metafields.custom.custom_badge_image_3.value }}",
