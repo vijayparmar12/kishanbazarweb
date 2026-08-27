@@ -1,23 +1,29 @@
 {% doc %}
   Renders the Collection Banner & Title section matching the reference design:
   - Top full-width Collection Hero Banner Image
-  - Bulletproof Priority:
-    1. collection.metafields.custom.banner_image (Specific collection metafield image if uploaded)
-    2. collection.image (Collection main image)
-    3. section.settings.custom_banner_desktop / default_banner_image (Theme Editor uploaded banner)
-    4. collection.products.first.featured_image (Featured product image fallback for All Products & collections)
-  - Prominent Collection Title below banner (e.g. STONE GROUND CHAKKI ATTA) with alignment, size, and style controls
+  - 100% Dynamic Priority:
+    1. collection.metafields.custom.banner_image (Specific collection metafield image e.g. atta.png)
+    2. collection.image (Collection main image from Shopify Admin)
+    3. section.settings.custom_banner_desktop / default_banner_image (Theme Editor default fallback image)
+    4. collection.products.first.featured_image (Product fallback for All Products)
 {% enddoc %}
 
 {% liquid
-  # 1. Custom Metafield on Collection
-  assign meta_desk_raw = collection.metafields.custom.banner_image
-  assign meta_desk = meta_desk_raw.value | default: meta_desk_raw
+  # 1. Custom Metafield on Collection (Supports File Reference, GenericFile, MediaImage, and Image Drop)
+  assign m_desk = collection.metafields.custom.banner_image.value | default: collection.metafields.custom.banner_image | default: collection.metafields.custom.banner.value | default: collection.metafields.custom.banner | default: collection.metafields.custom.collection_banner.value | default: collection.metafields.custom.collection_banner
+  assign m_mob = collection.metafields.custom.banner_mobile_image.value | default: collection.metafields.custom.banner_mobile_image | default: collection.metafields.custom.mobile_banner.value | default: collection.metafields.custom.mobile_banner
 
-  assign meta_mob_raw = collection.metafields.custom.banner_mobile_image
-  assign meta_mob = meta_mob_raw.value | default: meta_mob_raw
+  assign valid_meta_desk = blank
+  if m_desk != blank
+    assign valid_meta_desk = m_desk.preview_image | default: m_desk
+  endif
 
-  # 2. Section Settings (Theme Editor Image Uploads)
+  assign valid_meta_mob = blank
+  if m_mob != blank
+    assign valid_meta_mob = m_mob.preview_image | default: m_mob
+  endif
+
+  # 2. Section Settings (Theme Editor Default Fallbacks)
   assign sett_desk_raw = section.settings.custom_banner_desktop
   assign sett_desk = sett_desk_raw.value | default: sett_desk_raw
 
@@ -27,31 +33,20 @@
   assign sett_mob_raw = section.settings.custom_banner_mobile
   assign sett_mob = sett_mob_raw.value | default: sett_mob_raw
 
-  # Verify image objects actually contain image data
-  assign valid_meta_desk = blank
-  if meta_desk.width != blank or meta_desk.src != blank or meta_desk.preview_image != blank
-    assign valid_meta_desk = meta_desk.preview_image | default: meta_desk
-  endif
-
-  assign valid_meta_mob = blank
-  if meta_mob.width != blank or meta_mob.src != blank or meta_mob.preview_image != blank
-    assign valid_meta_mob = meta_mob.preview_image | default: meta_mob
-  endif
-
   assign valid_sett_desk = blank
-  if sett_desk.width != blank or sett_desk.src != blank or sett_desk.preview_image != blank
+  if sett_desk != blank
     assign valid_sett_desk = sett_desk.preview_image | default: sett_desk
   endif
 
   assign valid_sett_default = blank
-  if sett_default.width != blank or sett_default.src != blank or sett_default.preview_image != blank
+  if sett_default != blank
     assign valid_sett_default = sett_default.preview_image | default: sett_default
   endif
 
   assign valid_coll_img = blank
-  if collection.image.width != blank or collection.image.src != blank
+  if collection.image != blank
     assign valid_coll_img = collection.image
-  elsif collection.featured_image.width != blank or collection.featured_image.src != blank
+  elsif collection.featured_image != blank
     assign valid_coll_img = collection.featured_image
   endif
 
@@ -62,12 +57,13 @@
     assign valid_prod_img = collections.all.products.first.featured_image
   endif
 
-  # Resolve final desktop banner image:
+  # Dynamic Resolution Priority:
+  # 1. Collection Metafield -> 2. Collection Main Image -> 3. Theme Setting Custom Banner -> 4. Theme Setting Default Banner -> 5. Product Image
   assign banner_img = valid_meta_desk | default: valid_coll_img | default: valid_sett_desk | default: valid_sett_default | default: valid_prod_img
 
   # Mobile resolution
   assign valid_sett_mob = blank
-  if sett_mob.width != blank or sett_mob.src != blank or sett_mob.preview_image != blank
+  if sett_mob != blank
     assign valid_sett_mob = sett_mob.preview_image | default: sett_mob
   endif
 
@@ -133,8 +129,8 @@
     },
     { "type": "checkbox", "id": "show_collection_image", "label": "Show Collection Banner Image", "default": true },
     { "type": "image_picker", "id": "default_banner_image", "label": "Global Default Desktop Banner (Shown when collection has no custom banner)" },
-    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Custom Desktop Banner Image Override" },
-    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Custom Mobile Banner Image Override" },
+    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Default Desktop Banner Image Fallback" },
+    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Default Mobile Banner Image Fallback" },
     {
       "type": "range",
       "id": "banner_border_radius",
