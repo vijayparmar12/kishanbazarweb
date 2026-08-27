@@ -136,6 +136,27 @@
   line-height: 1.75;
 }
 
+.policy-clause__content h1,
+.policy-clause__content h2,
+.policy-clause__content h3,
+.policy-clause__content h4 {
+  font-family: Georgia, serif, inherit;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #2e5d34;
+  margin: 1.75rem 0 0.85rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1.5px solid #e8efe8;
+  line-height: 1.3;
+}
+
+.policy-clause__content h1:first-child,
+.policy-clause__content h2:first-child,
+.policy-clause__content h3:first-child,
+.policy-clause__content h4:first-child {
+  margin-top: 0;
+}
+
 .policy-clause__content p {
   margin: 0 0 1.15rem;
 }
