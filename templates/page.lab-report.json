@@ -57,39 +57,13 @@
             "button_text": "Download PDF Report ↓"
           }
         },
-        "lab_report_3yVk4c": {
+        "lab_report_GNUHXp": {
           "type": "lab_report",
           "settings": {
             "report_image": "shopify://shop_images/OIL1.png",
             "product_title": "WHITE TIL OIL",
             "report_url": "https://kisanbazaarorganic.com/wp-content/uploads/2026/03/Sessame-lab-report-.pdf",
             "button_text": "Download PDF Report ↓"
-          }
-        },
-        "lab_report_4HLNHF": {
-          "type": "lab_report",
-          "settings": {
-            "report_image": "shopify://shop_images/DHANIYA.png",
-            "product_title": "DHANIYA",
-            "report_url": "https://kisanbazaarorganic.com/wp-content/uploads/2026/03/Coriander-Lab-Report-.pdf",
-            "button_text": "Download PDF Report ↓"
-          }
-        },
-        "lab_report_rBzGxE": {
-          "type": "lab_report",
-          "settings": {
-            "report_image": "shopify://shop_images/DHANIYA.png",
-            "product_title": "DHANIYA",
-            "report_url": "https://kisanbazaarorganic.com/wp-content/uploads/2026/03/Coriander-Lab-Report-.pdf",
-            "button_text": "Download PDF Report ↓"
-          }
-        },
-        "pillar_1": {
-          "type": "quality_pillar",
-          "settings": {
-            "icon": "🌱",
-            "title": "Organic Farm Sourcing",
-            "description": "Grown naturally without chemical pesticides or artificial fertilizers."
           }
         },
         "pillar_2": {
@@ -123,10 +97,7 @@
         "report_oil",
         "lab_report_rEXgnk",
         "lab_report_3K3qpw",
-        "lab_report_3yVk4c",
-        "lab_report_4HLNHF",
-        "lab_report_rBzGxE",
-        "pillar_1",
+        "lab_report_GNUHXp",
         "pillar_2",
         "pillar_3",
         "pillar_4"
