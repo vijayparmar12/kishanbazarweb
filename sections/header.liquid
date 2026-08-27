@@ -488,8 +488,17 @@
         {% for block in section.blocks %}
           {% if block.type == 'feature_icon' %}
             {% assign feature_count = feature_count | plus: 1 %}
-            {% assign default_feature_url = routes.all_products_collection_url %}
-            <a class="kb-header__feature" href="{{ block.settings.link | default: default_feature_url }}" style="--kb-feature-icon-bg: {{ block.settings.icon_background }}; --kb-feature-icon-color: {{ block.settings.icon_color }};" {{ block.shopify_attributes }}>
+            {% assign base_feature_url = block.settings.link | default: routes.all_products_collection_url %}
+            {% assign final_feature_url = base_feature_url %}
+            {% if block.settings.enable_price_filter and block.settings.max_price_filter > 0 %}
+              {% assign limit_amt = block.settings.max_price_filter %}
+              {% if base_feature_url contains '?' %}
+                {% assign final_feature_url = base_feature_url | append: '&filter.v.price.lte=' | append: limit_amt | append: '&max_price=' | append: limit_amt %}
+              {% else %}
+                {% assign final_feature_url = base_feature_url | append: '?filter.v.price.lte=' | append: limit_amt | append: '&max_price=' | append: limit_amt %}
+              {% endif %}
+            {% endif %}
+            <a class="kb-header__feature" href="{{ final_feature_url }}" style="--kb-feature-icon-bg: {{ block.settings.icon_background }}; --kb-feature-icon-color: {{ block.settings.icon_color }};" {{ block.shopify_attributes }}>
               <span class="kb-header__feature-icon" aria-hidden="true">
                 {% if block.settings.icon_image != blank %}
                   {{ block.settings.icon_image | image_url: width: 96 | image_tag: alt: '', widths: '48, 72, 96', loading: 'lazy', class: 'kb-header__feature-image' }}
@@ -511,7 +520,13 @@
                 {% if block.settings.badge != blank %}
                   <span class="kb-header__feature-badge" style="{% if block.settings.badge_background != blank %}background-color: {{ block.settings.badge_background }};{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }};{% endif %}">{{ block.settings.badge }}</span>
                 {% endif %}
-                <span class="kb-header__feature-title">{{ block.settings.title }}</span>
+                <span class="kb-header__feature-title">
+                  {% if block.settings.enable_price_filter and block.settings.max_price_filter > 0 and block.settings.auto_update_title %}
+                    Top Under {{ block.settings.max_price_filter }}
+                  {% else %}
+                    {{ block.settings.title }}
+                  {% endif %}
+                </span>
               </span>
             </a>
           {% endif %}
@@ -737,7 +752,10 @@
         { "type": "image_picker", "id": "icon_image", "label": "Custom icon image" },
         { "type": "url", "id": "link", "label": "Link" },
         { "type": "color", "id": "icon_background", "label": "Icon background", "default": "#23421F" },
-        { "type": "color", "id": "icon_color", "label": "Icon color", "default": "#F0D78A" }
+        { "type": "color", "id": "icon_color", "label": "Icon color", "default": "#F0D78A" },
+        { "type": "number", "id": "max_price_filter", "label": "Max Price Limit (e.g. 999)", "default": 999 },
+        { "type": "checkbox", "id": "enable_price_filter", "label": "Enable automatic price filtering (show products under this price)", "default": true },
+        { "type": "checkbox", "id": "auto_update_title", "label": "Auto update title to show 'Top Under [Price]'", "default": false }
       ]
     }
   ],

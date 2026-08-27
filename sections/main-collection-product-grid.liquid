@@ -25,10 +25,20 @@
     </div>
 
     <div class="main-collection__content">
+      {% liquid
+        assign url_max_price = canonical_url | split: 'max_price=' | last | split: '&' | first | plus: 0
+        if url_max_price <= 0
+          assign url_max_price = canonical_url | split: 'filter.v.price.lte=' | last | split: '&' | first | plus: 0
+        endif
+      %}
+
       {% if collection.products_count > 0 %}
         <div class="main-collection__grid main-collection__grid--{{ section.settings.products_per_row }}" role="list">
           {% for product in collection.products %}
-            <div role="listitem">{% render 'product-card', product: product, show_vendor: section.settings.show_vendor, show_price: section.settings.show_price, show_compare_price: section.settings.show_compare_price, show_rating: section.settings.show_rating, show_badge: section.settings.show_badges, show_wishlist: true, show_quickview: true, show_add_to_cart: true %}</div>
+            {% assign current_prod_price = product.price | divided_by: 100 %}
+            {% if url_max_price <= 0 or current_prod_price <= url_max_price %}
+              <div role="listitem">{% render 'product-card', product: product, show_vendor: section.settings.show_vendor, show_price: section.settings.show_price, show_compare_price: section.settings.show_compare_price, show_rating: section.settings.show_rating, show_badge: section.settings.show_badges, show_wishlist: true, show_quickview: true, show_add_to_cart: true %}</div>
+            {% endif %}
           {% endfor %}
         </div>
         {% if paginate.pages > 1 %}
