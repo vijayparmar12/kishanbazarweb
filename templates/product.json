@@ -74,7 +74,11 @@
         "trust_badges_V7nWne": {
           "type": "trust_badges",
           "settings": {
-            "icon_size": 96
+            "icon_size": 96,
+            "trust_image_1": "shopify://shop_images/free_shipping.svg",
+            "trust_image_2": "shopify://shop_images/secure_payments_088fe97b-21f6-4b37-909a-5e37d350cf68.svg",
+            "trust_image_3": "shopify://shop_images/customer_support.svg",
+            "trust_image_4": "shopify://shop_images/COD.svg"
           }
         },
         "product_video_g8Vgf7": {
@@ -243,9 +247,7 @@
         "bg_color": "#faf7f2",
         "heading_color": "#1b4317",
         "eyebrow_color": "#d97706",
-        "products_limit": 4,
-        "columns_desktop": "4",
-        "columns_mobile": "2"
+        "products_limit": 4
       }
     }
   },
