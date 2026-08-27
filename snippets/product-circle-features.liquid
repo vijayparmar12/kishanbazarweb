@@ -1,13 +1,11 @@
 {% doc %}
   Renders feature badge icons dynamically purely from Shopify CSV / Product Metafields.
   Prioritizes individual product custom metafields (badge_image_1..4) over theme block defaults.
-  Metafield keys supported:
-  - product.metafields.custom.badge_image_1
-  - product.metafields.custom.badge_image_2
-  - product.metafields.custom.badge_image_3
-  - product.metafields.custom.badge_image_4
+  Non-clickable, high-resolution rendering.
 
   @param {object} [product] - The Shopify product object
+  @param {number} [limit] - Maximum icons to render
+  @param {number} [icon_size] - Icon size in px
 
   @example
   {% render 'product-circle-features', product: product %}
@@ -23,32 +21,29 @@
   assign m_b3_val = c_meta.badge_image_3.value | default: alt_meta.badge_image_3.value | default: c_meta.feature_icon_3.value | default: c_meta.custom_badge_image_3.value
   assign m_b4_val = c_meta.badge_image_4.value | default: alt_meta.badge_image_4.value | default: c_meta.feature_icon_4.value | default: c_meta.custom_badge_image_4.value
 
-  # Image 1 (Product Custom Metafield ONLY - No Fallbacks)
+  # High-resolution 600px images
   assign img_url_1 = blank
   if m_b1_val != blank
     assign b1_img = m_b1_val.preview_image | default: m_b1_val
-    assign img_url_1 = b1_img | image_url: width: 300
+    assign img_url_1 = b1_img | image_url: width: 600
   endif
 
-  # Image 2
   assign img_url_2 = blank
   if m_b2_val != blank
     assign b2_img = m_b2_val.preview_image | default: m_b2_val
-    assign img_url_2 = b2_img | image_url: width: 300
+    assign img_url_2 = b2_img | image_url: width: 600
   endif
 
-  # Image 3
   assign img_url_3 = blank
   if m_b3_val != blank
     assign b3_img = m_b3_val.preview_image | default: m_b3_val
-    assign img_url_3 = b3_img | image_url: width: 300
+    assign img_url_3 = b3_img | image_url: width: 600
   endif
 
-  # Image 4
   assign img_url_4 = blank
   if m_b4_val != blank
     assign b4_img = m_b4_val.preview_image | default: m_b4_val
-    assign img_url_4 = b4_img | image_url: width: 300
+    assign img_url_4 = b4_img | image_url: width: 600
   endif
 
   assign max_icons = limit | default: block.settings.max_icons | default: 4
@@ -67,41 +62,41 @@
     assign uploaded_count = uploaded_count | plus: 1
   endif
 
-  assign current_icon_size = block.settings.icon_size | default: section.settings.icon_size | default: icon_size | default: 56
+  assign current_icon_size = block.settings.icon_size | default: section.settings.icon_size | default: icon_size | default: 64
 %}
 
 {% if uploaded_count > 0 %}
-  <div class="product-circle-features" aria-label="Product Key Benefits" style="margin: 0.2rem 0; width: 100%; --kb-benefit-icon-size: {{ current_icon_size }}px;">
+  <div class="product-circle-features" aria-label="Product Key Benefits" style="margin: 0.2rem 0; width: 100%; pointer-events: none; user-select: none; --kb-benefit-icon-size: {{ current_icon_size }}px;">
     <div class="product-circle-features__grid" style="display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 0.5rem; width: 100%;">
       
       {% if img_url_1 != blank and max_icons >= 1 %}
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px;">
-            <img src="{{ img_url_1 }}" alt="Benefit 1" loading="lazy" width="{{ current_icon_size }}" height="{{ current_icon_size }}" style="width: 100%; height: 100%; object-fit: contain;">
+        <div class="product-circle-features__item" style="pointer-events: none; cursor: default;">
+          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; pointer-events: none; cursor: default;">
+            <img src="{{ img_url_1 }}" alt="Benefit 1" loading="eager" fetchpriority="high" width="{{ current_icon_size | times: 2 }}" height="{{ current_icon_size | times: 2 }}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; cursor: default; image-rendering: -webkit-optimize-contrast;">
           </div>
         </div>
       {% endif %}
 
       {% if img_url_2 != blank and max_icons >= 2 %}
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px;">
-            <img src="{{ img_url_2 }}" alt="Benefit 2" loading="lazy" width="{{ current_icon_size }}" height="{{ current_icon_size }}" style="width: 100%; height: 100%; object-fit: contain;">
+        <div class="product-circle-features__item" style="pointer-events: none; cursor: default;">
+          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; pointer-events: none; cursor: default;">
+            <img src="{{ img_url_2 }}" alt="Benefit 2" loading="eager" fetchpriority="high" width="{{ current_icon_size | times: 2 }}" height="{{ current_icon_size | times: 2 }}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; cursor: default; image-rendering: -webkit-optimize-contrast;">
           </div>
         </div>
       {% endif %}
 
       {% if img_url_3 != blank and max_icons >= 3 %}
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px;">
-            <img src="{{ img_url_3 }}" alt="Benefit 3" loading="lazy" width="{{ current_icon_size }}" height="{{ current_icon_size }}" style="width: 100%; height: 100%; object-fit: contain;">
+        <div class="product-circle-features__item" style="pointer-events: none; cursor: default;">
+          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; pointer-events: none; cursor: default;">
+            <img src="{{ img_url_3 }}" alt="Benefit 3" loading="eager" fetchpriority="high" width="{{ current_icon_size | times: 2 }}" height="{{ current_icon_size | times: 2 }}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; cursor: default; image-rendering: -webkit-optimize-contrast;">
           </div>
         </div>
       {% endif %}
 
       {% if img_url_4 != blank and max_icons >= 4 %}
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px;">
-            <img src="{{ img_url_4 }}" alt="Benefit 4" loading="lazy" width="{{ current_icon_size }}" height="{{ current_icon_size }}" style="width: 100%; height: 100%; object-fit: contain;">
+        <div class="product-circle-features__item" style="pointer-events: none; cursor: default;">
+          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; pointer-events: none; cursor: default;">
+            <img src="{{ img_url_4 }}" alt="Benefit 4" loading="eager" fetchpriority="high" width="{{ current_icon_size | times: 2 }}" height="{{ current_icon_size | times: 2 }}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; cursor: default; image-rendering: -webkit-optimize-contrast;">
           </div>
         </div>
       {% endif %}

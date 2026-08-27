@@ -1,6 +1,7 @@
 {% doc %}
   Renders trust badge icons dynamically purely from Shopify CSV / Product Metafields or Theme Editor Block Settings.
   Supports trust_badge_image_1..4, trust_icon_1..4, and badge_image_1..4 keys.
+  Non-clickable, high-resolution rendering.
 
   @param {object} [product] - The Shopify product object
   @param {object} [block] - The Shopify block object with settings
@@ -24,16 +25,16 @@
     assign has_custom_metafields = true
   endif
 
-  # Image 1 (Product Custom Metafield FIRST)
+  # High resolution 600px image URLs for crisp rendering
   assign img_url_1 = blank
   if m_t1_val != blank
     assign t1_img = m_t1_val.preview_image | default: m_t1_val
-    assign img_url_1 = t1_img | image_url: width: 300
+    assign img_url_1 = t1_img | image_url: width: 600
   elsif has_custom_metafields == false
     if block.settings.trust_image_1 != blank
-      assign img_url_1 = block.settings.trust_image_1 | image_url: width: 300
+      assign img_url_1 = block.settings.trust_image_1 | image_url: width: 600
     elsif section.settings.trust_image_1 != blank
-      assign img_url_1 = section.settings.trust_image_1 | image_url: width: 300
+      assign img_url_1 = section.settings.trust_image_1 | image_url: width: 600
     endif
   endif
 
@@ -41,12 +42,12 @@
   assign img_url_2 = blank
   if m_t2_val != blank
     assign t2_img = m_t2_val.preview_image | default: m_t2_val
-    assign img_url_2 = t2_img | image_url: width: 300
+    assign img_url_2 = t2_img | image_url: width: 600
   elsif has_custom_metafields == false
     if block.settings.trust_image_2 != blank
-      assign img_url_2 = block.settings.trust_image_2 | image_url: width: 300
+      assign img_url_2 = block.settings.trust_image_2 | image_url: width: 600
     elsif section.settings.trust_image_2 != blank
-      assign img_url_2 = section.settings.trust_image_2 | image_url: width: 300
+      assign img_url_2 = section.settings.trust_image_2 | image_url: width: 600
     endif
   endif
 
@@ -54,12 +55,12 @@
   assign img_url_3 = blank
   if m_t3_val != blank
     assign t3_img = m_t3_val.preview_image | default: m_t3_val
-    assign img_url_3 = t3_img | image_url: width: 300
+    assign img_url_3 = t3_img | image_url: width: 600
   elsif has_custom_metafields == false
     if block.settings.trust_image_3 != blank
-      assign img_url_3 = block.settings.trust_image_3 | image_url: width: 300
+      assign img_url_3 = block.settings.trust_image_3 | image_url: width: 600
     elsif section.settings.trust_image_3 != blank
-      assign img_url_3 = section.settings.trust_image_3 | image_url: width: 300
+      assign img_url_3 = section.settings.trust_image_3 | image_url: width: 600
     endif
   endif
 
@@ -67,12 +68,12 @@
   assign img_url_4 = blank
   if m_t4_val != blank
     assign t4_img = m_t4_val.preview_image | default: m_t4_val
-    assign img_url_4 = t4_img | image_url: width: 300
+    assign img_url_4 = t4_img | image_url: width: 600
   elsif has_custom_metafields == false
     if block.settings.trust_image_4 != blank
-      assign img_url_4 = block.settings.trust_image_4 | image_url: width: 300
+      assign img_url_4 = block.settings.trust_image_4 | image_url: width: 600
     elsif section.settings.trust_image_4 != blank
-      assign img_url_4 = section.settings.trust_image_4 | image_url: width: 300
+      assign img_url_4 = section.settings.trust_image_4 | image_url: width: 600
     endif
   endif
 
@@ -96,37 +97,37 @@
 %}
 
 {% if uploaded_count > 0 %}
-  <div class="product-circle-features product-circle-features--trust" aria-label="Product Trust Badges" style="margin: 0.5rem 0; width: 100%; --kb-benefit-icon-size: {{ current_icon_size }}px;">
+  <div class="product-circle-features product-circle-features--trust" aria-label="Product Key Benefits" style="margin: 0.5rem 0; width: 100%; pointer-events: none; user-select: none; --kb-benefit-icon-size: {{ current_icon_size }}px;">
     <div class="product-circle-features__grid" style="display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 0.75rem; width: 100%;">
       
       {% if img_url_1 != blank and max_icons >= 1 %}
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px;">
-            <img src="{{ img_url_1 }}" alt="Trust Badge 1" loading="lazy" width="{{ current_icon_size }}" height="{{ current_icon_size }}" style="width: 100%; height: 100%; object-fit: contain;">
+        <div class="product-circle-features__item" style="pointer-events: none; cursor: default;">
+          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; pointer-events: none; cursor: default;">
+            <img src="{{ img_url_1 }}" alt="Benefit Badge 1" loading="eager" fetchpriority="high" width="{{ current_icon_size | times: 2 }}" height="{{ current_icon_size | times: 2 }}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; cursor: default; image-rendering: -webkit-optimize-contrast;">
           </div>
         </div>
       {% endif %}
 
       {% if img_url_2 != blank and max_icons >= 2 %}
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px;">
-            <img src="{{ img_url_2 }}" alt="Trust Badge 2" loading="lazy" width="{{ current_icon_size }}" height="{{ current_icon_size }}" style="width: 100%; height: 100%; object-fit: contain;">
+        <div class="product-circle-features__item" style="pointer-events: none; cursor: default;">
+          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; pointer-events: none; cursor: default;">
+            <img src="{{ img_url_2 }}" alt="Benefit Badge 2" loading="eager" fetchpriority="high" width="{{ current_icon_size | times: 2 }}" height="{{ current_icon_size | times: 2 }}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; cursor: default; image-rendering: -webkit-optimize-contrast;">
           </div>
         </div>
       {% endif %}
 
       {% if img_url_3 != blank and max_icons >= 3 %}
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px;">
-            <img src="{{ img_url_3 }}" alt="Trust Badge 3" loading="lazy" width="{{ current_icon_size }}" height="{{ current_icon_size }}" style="width: 100%; height: 100%; object-fit: contain;">
+        <div class="product-circle-features__item" style="pointer-events: none; cursor: default;">
+          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; pointer-events: none; cursor: default;">
+            <img src="{{ img_url_3 }}" alt="Benefit Badge 3" loading="eager" fetchpriority="high" width="{{ current_icon_size | times: 2 }}" height="{{ current_icon_size | times: 2 }}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; cursor: default; image-rendering: -webkit-optimize-contrast;">
           </div>
         </div>
       {% endif %}
 
       {% if img_url_4 != blank and max_icons >= 4 %}
-        <div class="product-circle-features__item">
-          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px;">
-            <img src="{{ img_url_4 }}" alt="Trust Badge 4" loading="lazy" width="{{ current_icon_size }}" height="{{ current_icon_size }}" style="width: 100%; height: 100%; object-fit: contain;">
+        <div class="product-circle-features__item" style="pointer-events: none; cursor: default;">
+          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; pointer-events: none; cursor: default;">
+            <img src="{{ img_url_4 }}" alt="Benefit Badge 4" loading="eager" fetchpriority="high" width="{{ current_icon_size | times: 2 }}" height="{{ current_icon_size | times: 2 }}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; cursor: default; image-rendering: -webkit-optimize-contrast;">
           </div>
         </div>
       {% endif %}
