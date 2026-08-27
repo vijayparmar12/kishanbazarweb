@@ -15,8 +15,9 @@
         "report_ghee": {
           "type": "lab_report",
           "settings": {
-            "product_title": "A2 Gir Cow Bilona Ghee",
-            "report_url": "",
+            "report_image": "shopify://shop_images/1_9a777d75-cec3-4fea-94d6-290bc81a8974.jpg",
+            "product_title": "RED CHILLI POWDER",
+            "report_url": "https://kisanbazaarorganic.com/wp-content/uploads/2026/03/Red-chilli-powder-lab-report-.pdf",
             "button_text": "Download PDF Report ↓"
           }
         },
