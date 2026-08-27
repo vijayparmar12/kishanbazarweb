@@ -109,7 +109,7 @@
             "badge_color": "#000000",
             "icon": "Gift",
             "icon_image": "shopify://shop_images/gemini-svg_28.svg",
-            "link": "",
+            "link": "shopify://collections/monsoon-special",
             "icon_background": "#23421f",
             "icon_color": "#f0d78a"
           }
@@ -123,7 +123,7 @@
             "badge_color": "#000000",
             "icon": "Gift",
             "icon_image": "shopify://shop_images/gemini-svg_37.svg",
-            "link": "",
+            "link": "shopify://collections/best-product",
             "icon_background": "#23421f",
             "icon_color": "#f0d78a"
           }
@@ -137,7 +137,7 @@
             "badge_color": "#000000",
             "icon": "Gift",
             "icon_image": "shopify://shop_images/gemini-svg_40.svg",
-            "link": "",
+            "link": "shopify://collections/daily-essential",
             "icon_background": "#23421f",
             "icon_color": "#f0d78a"
           }
