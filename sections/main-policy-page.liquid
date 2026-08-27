@@ -29,12 +29,15 @@
         {% case block.type %}
           {% when 'policy_clause' %}
             <article class="policy-clause-card" {{ block.shopify_attributes }}>
-              {% if block.settings.title != blank %}
+              {% assign clean_icon = block.settings.icon | strip %}
+              {% if block.settings.title != blank or clean_icon != blank %}
                 <div class="policy-clause__header">
-                  {% if block.settings.icon != blank %}
-                    <span class="policy-clause__icon">{{ block.settings.icon }}</span>
+                  {% if clean_icon != blank %}
+                    <span class="policy-clause__icon">{{ clean_icon }}</span>
                   {% endif %}
-                  <h2 class="policy-clause__title">{{ block.settings.title }}</h2>
+                  {% if block.settings.title != blank %}
+                    <h2 class="policy-clause__title">{{ block.settings.title }}</h2>
+                  {% endif %}
                 </div>
               {% endif %}
               {% if block.settings.content != blank %}
@@ -120,8 +123,8 @@
         {
           "type": "text",
           "id": "icon",
-          "label": "Clause Icon (Emoji/Text)",
-          "default": "📜"
+          "label": "Clause Icon (Optional Emoji/Text)",
+          "default": ""
         },
         {
           "type": "text",
