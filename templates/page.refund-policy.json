@@ -16,7 +16,7 @@
         "clause_1": {
           "type": "policy_clause",
           "settings": {
-            "icon": "📦",
+            "icon": "",
             "title": "1. Return & Refund Eligibility",
             "content": "<p>Due to the perishable and food-grade nature of our organic farm products (cold-stone ground attas, A2 bilona ghee, unrefined oils), returns are accepted under the following conditions:</p><ul><li><strong>Transit Damage & Leaks:</strong> Product packaging arrived damaged, leaked, or unsealed during transit.</li><li><strong>Incorrect Item Received:</strong> Wrong product variant, weight, or quantity delivered.</li><li><strong>Quality Concern:</strong> Unusable quality issue reported within 48 hours of delivery with photo/video proof.</li></ul>"
           }
@@ -24,7 +24,7 @@
         "clause_2": {
           "type": "policy_clause",
           "settings": {
-            "icon": "⏱️",
+            "icon": "",
             "title": "2. Non-Refundable Exceptions",
             "content": "<p>Refunds or returns cannot be processed under the following circumstances:</p><ul><li>Opened or consumed food items without verified quality defects.</li><li>Incorrect shipping address, pincode, or phone number provided at checkout.</li><li>Delivery failures caused by customer unavailability after 3 courier attempts.</li></ul>"
           }
@@ -32,7 +32,7 @@
         "clause_3": {
           "type": "policy_clause",
           "settings": {
-            "icon": "💸",
+            "icon": "",
             "title": "3. Refund Processing & Timelines",
             "content": "<p>Once your return or refund claim is verified by our team:</p><ul><li><strong>Prepaid Orders (UPI, Cards, NetBanking):</strong> Refund credited back to original payment source within 5–7 business days.</li><li><strong>Cash on Delivery (COD Orders):</strong> Refund transferred directly to your bank account or UPI ID within 48 hours of approval.</li></ul>"
           }
@@ -40,7 +40,7 @@
         "clause_4": {
           "type": "policy_clause",
           "settings": {
-            "icon": "❌",
+            "icon": "",
             "title": "4. Order Cancellation Policy",
             "content": "<p>Orders can be cancelled before they are dispatched from our Surat warehouse (usually within 4 hours of order placement). Once dispatched, orders cannot be cancelled in transit.</p>"
           }

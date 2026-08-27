@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
@@ -33,7 +24,7 @@
         "clause_2": {
           "type": "policy_clause",
           "settings": {
-            "icon": "⚙️",
+            "icon": "",
             "title": "2. How We Use Your Information",
             "content": "<p>Your personal data is used exclusively to deliver an exceptional shopping experience:</p><ul><li>Processing, packing, and dispatching your farm-fresh orders</li><li>Sending real-time SMS, WhatsApp, and Email delivery updates</li><li>Providing responsive customer care and handling enquiries</li><li>Sending optional seasonal farm offers (unsubscribe anytime)</li></ul>"
           }
@@ -41,7 +32,7 @@
         "clause_3": {
           "type": "policy_clause",
           "settings": {
-            "icon": "🛡️",
+            "icon": "",
             "title": "3. Data Encryption & Security",
             "content": "<p>Kishan Bazar uses 256-bit SSL encryption to safeguard all checkout transactions and personal data. Access to shipping information is restricted strictly to authorized logistics partners and support team members.</p>"
           }
@@ -49,7 +40,7 @@
         "clause_4": {
           "type": "policy_clause",
           "settings": {
-            "icon": "🍪",
+            "icon": "",
             "title": "4. Cookies & Preferences",
             "content": "<p>We use essential cookies to keep items in your cart, remember session preferences, and analyze website traffic. You can modify or disable cookies in your browser settings at any time.</p>"
           }
