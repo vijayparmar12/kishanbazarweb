@@ -1,40 +1,43 @@
 {% doc %}
   Renders the Collection Banner & Title section matching the reference design:
-  - Top full-width Collection Hero Banner Image (collection.image or custom desktop/mobile overrides with rounded corners)
+  - Top full-width Collection Hero Banner Image fetched automatically from collection metafield `custom.banner_image` (with fallbacks to collection.image / featured_image / section settings)
   - Prominent Collection Title below banner (e.g. STONE GROUND CHAKKI ATTA) with alignment, size, and style controls
   - Optional Collection Description below title
 {% enddoc %}
 
 {% liquid
-  assign banner_img = section.settings.custom_banner_desktop | default: collection.featured_image | default: collection.image
-  assign banner_mobile_img = section.settings.custom_banner_mobile | default: banner_img
+  assign metafield_banner = collection.metafields.custom.banner_image.value | default: collection.metafields.custom.banner_image
+  assign metafield_mobile = collection.metafields.custom.banner_mobile_image.value | default: collection.metafields.custom.banner_mobile_image
+  
+  assign banner_img = metafield_banner | default: section.settings.custom_banner_desktop | default: collection.image | default: collection.featured_image
+  assign banner_mobile_img = metafield_mobile | default: section.settings.custom_banner_mobile | default: banner_img
 %}
 
 <div class="collection-hero" id="CollectionHero-{{ section.id }}" style="--hero-radius: {{ section.settings.banner_border_radius | default: 24 }}px; --title-size-desktop: {{ section.settings.title_font_size | default: 32 }}px; --title-color: {{ section.settings.title_color | default: '#1b4317' }};">
   <div class="collection-hero__container">
     
-    <!-- 1. COLLECTION BANNER IMAGE -->
+    <!-- 1. COLLECTION BANNER IMAGE (FETSHED FROM custom.banner_image METAFIELD) -->
     {% if section.settings.show_collection_image and banner_img != blank %}
       <div class="collection-hero__banner-wrap">
         <picture class="collection-hero__picture">
           {% if banner_mobile_img != blank and banner_mobile_img != banner_img %}
-            <source media="(max-width: 768px)" srcset="{{ banner_mobile_img | image_url: width: 1000 }}">
+            <source media="(max-width: 768px)" srcset="{{ banner_mobile_img | image_url: width: 1200 }}">
           {% endif %}
           <img
             src="{{ banner_img | image_url: width: 2000 }}"
             alt="{{ collection.title | escape }}"
             class="collection-hero__image"
             loading="eager"
-            width="{{ banner_img.width }}"
-            height="{{ banner_img.height }}"
+            width="{{ banner_img.width | default: 1600 }}"
+            height="{{ banner_img.height | default: 600 }}"
           >
         </picture>
       </div>
     {% elsif section.settings.show_collection_image %}
-      <!-- Fallback placeholder banner if no collection image uploaded yet -->
+      <!-- Fallback placeholder banner if no banner image uploaded yet -->
       <div class="collection-hero__banner-wrap collection-hero__banner-wrap--placeholder">
         <div class="collection-hero__placeholder-content">
-          <span class="collection-hero__placeholder-badge">COLLECTION</span>
+          <span class="collection-hero__placeholder-badge">{{ collection.title | upcase }}</span>
         </div>
       </div>
     {% endif %}
@@ -65,11 +68,11 @@
   "settings": [
     {
       "type": "header",
-      "content": "Banner Image Settings"
+      "content": "Banner Image Settings (Auto-fetches custom.banner_image)"
     },
     { "type": "checkbox", "id": "show_collection_image", "label": "Show Collection Banner Image", "default": true },
-    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Custom Desktop Banner Image Override" },
-    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Custom Mobile Banner Image Override" },
+    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Default Desktop Banner Fallback" },
+    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Default Mobile Banner Fallback" },
     {
       "type": "range",
       "id": "banner_border_radius",
