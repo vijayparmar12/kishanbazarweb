@@ -15,7 +15,7 @@
         "clause_1": {
           "type": "policy_clause",
           "settings": {
-            "icon": "📜",
+            "icon": "",
             "title": "1. About KisanVeda",
             "content": "<p>KisanVeda is an online platform offering food and grocery products including organic groceries, grains, pulses, millets, atta, spices, oils, jaggery, dairy products and other products listed on our website.</p><p>Our goal is to make quality food products more accessible while building greater transparency and connection between consumers, farmers and food producers.</p>"
           }
@@ -23,7 +23,7 @@
         "clause_2": {
           "type": "policy_clause",
           "settings": {
-            "icon": "🏷️",
+            "icon": "",
             "title": "2. Use of Our Website",
             "content": "<p>You agree to use the KisanVeda website only for lawful purposes.</p><p>You must not:</p><ul><li>Use the website for fraudulent or unlawful activities.<br/></li><li>Attempt to gain unauthorized access to our website, systems or accounts.<br/></li><li>Copy, reproduce or misuse our website content, images, logos or other intellectual property without permission.<br/></li><li>Upload or transmit harmful software, viruses or malicious content.<br/></li><li>Provide false or misleading information while placing an order.<br/></li></ul><p>KisanVeda reserves the right to restrict or terminate access to the website if we believe these terms have been violated.</p>"
           }
@@ -31,7 +31,7 @@
         "clause_3": {
           "type": "policy_clause",
           "settings": {
-            "icon": "💳",
+            "icon": "",
             "title": "3. Product Information",
             "content": "<p>We make reasonable efforts to ensure that product names, descriptions, images, prices, weights and other information displayed on our website are accurate.</p><p>However:</p><ul><li>Actual product appearance may vary slightly from photographs.<br/></li><li>Natural products may vary in colour, texture, size and appearance from batch to batch.<br/></li><li>Product availability may change without prior notice.<br/></li><li>Packaging may be updated from time to time.<br/></li><li>Product information should always be checked on the product packaging and applicable labels.<br/></li></ul><p>We reserve the right to correct errors, inaccuracies or omissions in product information.</p>"
           }
@@ -39,9 +39,57 @@
         "clause_4": {
           "type": "policy_clause",
           "settings": {
-            "icon": "⚖️",
+            "icon": "",
             "title": "4. Prices",
             "content": "<ul><li>All prices displayed on the website are in <strong>Indian Rupees (₹)</strong> unless otherwise stated.</li><li>Prices may change from time to time. The price applicable to your order will be the price displayed at the time of checkout.</li><li>Applicable taxes, delivery charges or other charges, if any, will be displayed before order confirmation.</li></ul>"
+          }
+        },
+        "policy_clause_PCNMTt": {
+          "type": "policy_clause",
+          "settings": {
+            "icon": "",
+            "title": "5. Orders",
+            "content": "<p>Placing an order on our website constitutes a request to purchase the selected products.</p><p>An order is considered accepted once KisanVeda confirms the order.</p><p>We reserve the right to cancel or refuse an order in situations including:</p><ul><li>Product being unavailable.<br/></li><li>Incorrect product or pricing information.<br/></li><li>Suspected fraudulent activity.<br/></li><li>Incorrect or incomplete customer information.<br/></li><li>Delivery being unavailable to the provided location.<br/></li><li>Any circumstances beyond our reasonable control.<br/></li></ul><p>If an order is cancelled after payment has been received, the eligible amount will be refunded through the applicable payment method.</p><h2></h2>"
+          }
+        },
+        "policy_clause_UiPKMe": {
+          "type": "policy_clause",
+          "settings": {
+            "icon": "",
+            "title": "6. Payments",
+            "content": "<ul><li>Payments may be processed through third-party payment service providers.</li><li>KisanVeda does not store complete debit/credit card information unless specifically required and legally permitted.</li><li>You agree to provide accurate payment and billing information.</li></ul>"
+          }
+        },
+        "policy_clause_WAVCAk": {
+          "type": "policy_clause",
+          "settings": {
+            "icon": "",
+            "title": "7. Intellectual Property",
+            "content": "<p>All content on the KisanVeda website, including:</p><ul><li>Logo<br/></li><li>Brand name<br/></li><li>Product images<br/></li><li>Graphics<br/></li><li>Text<br/></li><li>Designs<br/></li><li>Website layout<br/></li><li>Videos<br/></li><li>Illustrations<br/></li><li>Product descriptions<br/></li></ul><p>is owned by or licensed to KisanVeda and is protected under applicable intellectual property laws.</p><p>You may not reproduce, copy, modify, distribute or commercially use our content without prior written permission.</p>"
+          }
+        },
+        "policy_clause_rzffYT": {
+          "type": "policy_clause",
+          "settings": {
+            "icon": "",
+            "title": "8. Third-Party Services",
+            "content": "<ul><li>Our website may use third-party services such as payment gateways, delivery partners, analytics services, communication platforms and other service providers.</li><li>Use of such services may be subject to the respective third party's terms and policies.v</li></ul>"
+          }
+        },
+        "policy_clause_7cnVXw": {
+          "type": "policy_clause",
+          "settings": {
+            "icon": "",
+            "title": "10. Limitation of Liability",
+            "content": "<p>To the extent permitted by applicable law, KisanVeda shall not be responsible for losses arising from:</p><ul><li>Temporary website unavailability.<br/></li><li>Incorrect information supplied by customers.<br/></li><li>Delays caused by third-party service providers.<br/></li><li>Events beyond our reasonable control.<br/></li><li>Improper storage or handling of products after delivery.<br/></li></ul><p>Nothing in these Terms shall exclude or limit any liability that cannot legally be excluded under applicable law.</p>"
+          }
+        },
+        "policy_clause_EXmDMa": {
+          "type": "policy_clause",
+          "settings": {
+            "icon": "",
+            "title": "11. Changes to These Terms",
+            "content": "<ul><li>KisanVeda may update these Terms of Use from time to time.</li><li>The updated version will be published on this page with the revised date.</li></ul>"
           }
         },
         "contact": {
@@ -60,6 +108,12 @@
         "clause_2",
         "clause_3",
         "clause_4",
+        "policy_clause_PCNMTt",
+        "policy_clause_UiPKMe",
+        "policy_clause_WAVCAk",
+        "policy_clause_rzffYT",
+        "policy_clause_7cnVXw",
+        "policy_clause_EXmDMa",
         "contact"
       ],
       "settings": {
