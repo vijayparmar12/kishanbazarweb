@@ -2,31 +2,68 @@
   Renders the Collection Banner & Title section matching the reference design:
   - Top full-width Collection Hero Banner Image
   - Priority:
-    1. collection.metafields.custom.banner_image (Specific collection metafield image)
-    2. section.settings.custom_banner_desktop (Default Banner Image for ALL collections set in Theme Editor)
+    1. collection.metafields.custom.banner_image (Specific collection metafield image if uploaded)
+    2. section.settings.custom_banner_desktop / default_banner_image (Global Default Banner Image uploaded in Theme Editor)
     3. collection.image / collection.featured_image
   - Prominent Collection Title below banner (e.g. STONE GROUND CHAKKI ATTA) with alignment, size, and style controls
 {% enddoc %}
 
 {% liquid
-  assign metafield_banner = collection.metafields.custom.banner_image.value | default: collection.metafields.custom.banner_image
-  assign metafield_mobile = collection.metafields.custom.banner_mobile_image.value | default: collection.metafields.custom.banner_mobile_image
-  
-  assign banner_img = metafield_banner
-  if banner_img == blank
-    assign banner_img = section.settings.custom_banner_desktop
-  endif
-  if banner_img == blank
-    assign banner_img = collection.image | default: collection.featured_image
+  # 1. Custom Metafield on Collection
+  assign meta_desk_raw = collection.metafields.custom.banner_image
+  assign meta_desk = meta_desk_raw.value | default: meta_desk_raw
+
+  assign meta_mob_raw = collection.metafields.custom.banner_mobile_image
+  assign meta_mob = meta_mob_raw.value | default: meta_mob_raw
+
+  # 2. Section Settings (Theme Editor Image Uploads)
+  assign sett_desk_raw = section.settings.custom_banner_desktop
+  assign sett_desk = sett_desk_raw.value | default: sett_desk_raw
+
+  assign sett_default_raw = section.settings.default_banner_image
+  assign sett_default = sett_default_raw.value | default: sett_default_raw
+
+  assign sett_mob_raw = section.settings.custom_banner_mobile
+  assign sett_mob = sett_mob_raw.value | default: sett_mob_raw
+
+  # Verify image objects actually contain image data
+  assign valid_meta_desk = blank
+  if meta_desk.width != blank or meta_desk.src != blank or meta_desk.preview_image != blank
+    assign valid_meta_desk = meta_desk.preview_image | default: meta_desk
   endif
 
-  assign banner_mobile_img = metafield_mobile
-  if banner_mobile_img == blank
-    assign banner_mobile_img = section.settings.custom_banner_mobile
+  assign valid_sett_desk = blank
+  if sett_desk.width != blank or sett_desk.src != blank or sett_desk.preview_image != blank
+    assign valid_sett_desk = sett_desk.preview_image | default: sett_desk
   endif
-  if banner_mobile_img == blank
-    assign banner_mobile_img = banner_img
+
+  assign valid_sett_default = blank
+  if sett_default.width != blank or sett_default.src != blank or sett_default.preview_image != blank
+    assign valid_sett_default = sett_default.preview_image | default: sett_default
   endif
+
+  assign valid_coll_img = blank
+  if collection.image.width != blank or collection.image.src != blank
+    assign valid_coll_img = collection.image
+  elsif collection.featured_image.width != blank or collection.featured_image.src != blank
+    assign valid_coll_img = collection.featured_image
+  endif
+
+  # Resolve final desktop banner image:
+  assign banner_img = valid_meta_desk | default: valid_sett_desk | default: valid_sett_default | default: valid_coll_img
+
+  # Mobile resolution
+  assign valid_meta_mob = blank
+  if meta_mob.width != blank or meta_mob.src != blank or meta_mob.preview_image != blank
+    assign valid_meta_mob = meta_mob.preview_image | default: meta_mob
+  endif
+
+  assign valid_sett_mob = blank
+  if sett_mob.width != blank or sett_mob.src != blank or sett_mob.preview_image != blank
+    assign valid_sett_mob = sett_mob.preview_image | default: sett_mob
+  endif
+
+  assign banner_mobile_img = valid_meta_mob | default: valid_sett_mob | default: banner_img
 %}
 
 <div class="collection-hero" id="CollectionHero-{{ section.id }}" style="--hero-radius: {{ section.settings.banner_border_radius | default: 24 }}px; --title-size-desktop: {{ section.settings.title_font_size | default: 32 }}px; --title-color: {{ section.settings.title_color | default: '#1b4317' }};">
@@ -84,11 +121,12 @@
   "settings": [
     {
       "type": "header",
-      "content": "Global Default Banner Settings (Applies to ALL Collections)"
+      "content": "Banner Image Settings"
     },
     { "type": "checkbox", "id": "show_collection_image", "label": "Show Collection Banner Image", "default": true },
-    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Default Desktop Banner Image (Used for all collections)" },
-    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Default Mobile Banner Image (Used for all collections)" },
+    { "type": "image_picker", "id": "default_banner_image", "label": "Global Default Desktop Banner (Shown when collection has no custom banner)" },
+    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Custom Desktop Banner Image Override" },
+    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Custom Mobile Banner Image Override" },
     {
       "type": "range",
       "id": "banner_border_radius",
