@@ -1,7 +1,7 @@
 {% doc %}
   Renders the horizontal slider for recommended organic products in Kishan Bazar.
   - Smooth snap slider with navigation buttons
-  - Green circular [ → ] More card that navigates to All Collections / All Products (/collections/all)
+  - Clean Green Circle [ → ] More Card (No Box / No Box Hover) that navigates to All Products (/collections/all)
 
   @param {object} product - Main product object
   @param {object} [collection] - Parent collection if available
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div class="product-recommendations-slider__track" data-slider-track>
+    <div class="product-recommendations-slider__track" data-slider-track style="align-items: stretch;">
       {% if rec_products.size > 0 %}
         {% assign count = 0 %}
         {% for rec_product in rec_products %}
@@ -63,16 +63,16 @@
           {% endunless %}
         {% endfor %}
 
-        <!-- GREEN CIRCLE [ → ] MORE END CARD (NAVIGATES TO ALL COLLECTIONS / ALL PRODUCTS) -->
-        <div class="product-recommendations-slider__slide product-recommendations-slider__slide--more">
-          <a href="{{ all_products_url }}" class="product-recommendations-slider__more-card" aria-label="View all products">
-            <div class="product-recommendations-slider__more-circle">
+        <!-- CLEAN GREEN CIRCLE [ → ] MORE ARROW (NO BOX / NO BOX HOVER) -->
+        <div class="product-recommendations-slider__slide product-recommendations-slider__slide--more" style="flex: 0 0 120px; max-width: 120px; display: flex; align-items: center; justify-content: center; scroll-snap-align: start;">
+          <a href="{{ all_products_url }}" class="product-recommendations-slider__more-card" aria-label="View all products" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.65rem; width: 100%; height: 100%; min-height: 200px; text-decoration: none; background: transparent; border: none; box-shadow: none; padding: 0; margin: 0; cursor: pointer;">
+            <div class="product-recommendations-slider__more-circle" style="width: 56px; height: 56px; border-radius: 50%; background-color: #1b4317; color: #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(27, 67, 23, 0.28); transition: transform 220ms ease;">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
             </div>
-            <span class="product-recommendations-slider__more-label">More</span>
+            <span class="product-recommendations-slider__more-label" style="font-size: 0.92rem; font-weight: 800; color: #1b4317; letter-spacing: 0.02em;">More</span>
           </a>
         </div>
       {% endif %}
