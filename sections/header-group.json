@@ -95,7 +95,7 @@
             "badge_color": "#000000",
             "icon": "Gift",
             "icon_image": "shopify://shop_images/download.svg",
-            "link": "",
+            "link": "shopify://collections/all",
             "icon_background": "#23421f",
             "icon_color": "#f0d78a"
           }
