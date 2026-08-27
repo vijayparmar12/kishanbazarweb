@@ -2,6 +2,7 @@
   Renders the 3-column mobile category grid at the top of the mobile drawer.
   Matching Two Brothers reference with icon ABOVE title.
   Excludes promotional/meta collection handles (monsoon, best-product, daily-essential).
+  Guarantees Atta/Aatta and core product categories always display.
 
   @param {section} section - Header section containing blocks.
 
@@ -21,15 +22,28 @@
         assign card_collection = block.settings.collection
         assign card_title = block.settings.title | default: card_collection.title
         assign card_handle = card_title | handleize
-        assign collection_handle = card_collection.handle | default: card_handle
+        assign collection_handle = card_collection.handle
       %}
-      {% unless exclude_handles contains card_handle or exclude_handles contains collection_handle %}
+
+      {% assign should_exclude = false %}
+      {% if card_handle != blank and exclude_handles contains card_handle %}
+        {% assign should_exclude = true %}
+      {% endif %}
+      {% if collection_handle != blank and exclude_handles contains collection_handle %}
+        {% assign should_exclude = true %}
+      {% endif %}
+
+      {% unless should_exclude %}
         {% liquid
           assign card_url = card_collection.url
 
-          if card_url == blank or card_collection == blank
+          if card_url == blank
             if collections[card_handle] != blank
               assign card_url = collections[card_handle].url
+            elsif collections['flour-atta'] != blank and card_handle contains 'atta'
+              assign card_url = collections['flour-atta'].url
+            elsif collections['atta'] != blank and card_handle contains 'atta'
+              assign card_url = collections['atta'].url
             elsif card_handle != blank
               assign card_url = '/collections/' | append: card_handle
             else
@@ -38,7 +52,12 @@
           endif
 
           assign count = count | plus: 1
-          assign rendered_handles = rendered_handles | append: card_handle | append: '|' | append: collection_handle | append: '|'
+          if collection_handle != blank
+            assign rendered_handles = rendered_handles | append: collection_handle | append: '|'
+          endif
+          if card_handle != blank
+            assign rendered_handles = rendered_handles | append: card_handle | append: '|'
+          endif
         %}
         <a href="{{ card_url }}" class="kb-mobile-cat-card" {{ block.shopify_attributes }}>
           <span class="kb-mobile-cat-card__media">
@@ -50,8 +69,8 @@
     {% endif %}
   {% endfor %}
 
-  <!-- 2. Store Collections fallback (excl. monsoon, best, daily-essential) -->
-  {% for collection in collections limit: 16 %}
+  <!-- 2. Store Collections fallback -->
+  {% for collection in collections limit: 20 %}
     {% unless exclude_handles contains collection.handle %}
       {% unless rendered_handles contains collection.handle %}
         {% assign count = count | plus: 1 %}
@@ -66,9 +85,20 @@
     {% endunless %}
   {% endfor %}
 
-  <!-- 3. Default Fallbacks if store has no collections yet -->
+  <!-- 3. Explicit Guarantee for Atta / Aatta if not rendered yet -->
+  {% unless rendered_handles contains 'atta' or rendered_handles contains 'aatta' or rendered_handles contains 'flour-atta' %}
+    {% assign atta_coll = collections['flour-atta'] | default: collections['atta'] | default: collections['aatta'] %}
+    <a href="{{ atta_coll.url | default: '/collections/flour-atta' }}" class="kb-mobile-cat-card">
+      <span class="kb-mobile-cat-card__media">
+        {% render 'category-icon', category: atta_coll, category_name: 'Atta', size: 48 %}
+      </span>
+      <span class="kb-mobile-cat-card__title">{{ atta_coll.title | default: 'Atta' }}</span>
+    </a>
+  {% endunless %}
+
+  <!-- 4. Default Fallbacks if store has no collections yet -->
   {% if count == 0 %}
-    {% assign defaults = 'Ghee,Oil,Atta,Jaggery,Immunity,Rice,Breakfast & Snacks,Grain & Pulses,Spices' | split: ',' %}
+    {% assign defaults = 'Atta,Ghee,Oil,Jaggery,Immunity,Rice,Breakfast & Snacks,Grain & Pulses,Spices' | split: ',' %}
     {% for item in defaults %}
       <a href="{{ routes.collections_url }}" class="kb-mobile-cat-card">
         <span class="kb-mobile-cat-card__media">

@@ -2,6 +2,7 @@
   Renders the Shop By Category mega menu.
   Displays ONLY categories added by the merchant in Shopify Admin or collections.
   Excludes promotional/meta collection handles (monsoon, best-product, daily-essential).
+  Guarantees Atta/Aatta and core product categories always display.
 
   @param {section} section - Header section containing category_card blocks.
 
@@ -28,15 +29,28 @@
           assign card_collection = block.settings.collection
           assign card_title = block.settings.title | default: card_collection.title
           assign card_handle = card_title | handleize
-          assign collection_handle = card_collection.handle | default: card_handle
+          assign collection_handle = card_collection.handle
         %}
-        {% unless exclude_handles contains card_handle or exclude_handles contains collection_handle %}
+
+        {% assign should_exclude = false %}
+        {% if card_handle != blank and exclude_handles contains card_handle %}
+          {% assign should_exclude = true %}
+        {% endif %}
+        {% if collection_handle != blank and exclude_handles contains collection_handle %}
+          {% assign should_exclude = true %}
+        {% endif %}
+
+        {% unless should_exclude %}
           {% liquid
             assign card_url = card_collection.url
 
-            if card_url == blank or card_collection == blank
+            if card_url == blank
               if collections[card_handle] != blank
                 assign card_url = collections[card_handle].url
+              elsif collections['flour-atta'] != blank and card_handle contains 'atta'
+                assign card_url = collections['flour-atta'].url
+              elsif collections['atta'] != blank and card_handle contains 'atta'
+                assign card_url = collections['atta'].url
               elsif card_handle != blank
                 assign card_url = '/collections/' | append: card_handle
               else
@@ -53,7 +67,12 @@
             endif
 
             assign category_count = category_count | plus: 1
-            assign rendered_handles = rendered_handles | append: card_handle | append: '|' | append: collection_handle | append: '|'
+            if collection_handle != blank
+              assign rendered_handles = rendered_handles | append: collection_handle | append: '|'
+            endif
+            if card_handle != blank
+              assign rendered_handles = rendered_handles | append: card_handle | append: '|'
+            endif
           %}
           <a class="kb-category-card" href="{{ card_url }}" {{ block.shopify_attributes }}>
             <span class="kb-category-card__media">
@@ -81,7 +100,7 @@
     {% endfor %}
 
     <!-- 2. Store Collections (excl. monsoon, best, daily-essential) -->
-    {% for collection in collections limit: 16 %}
+    {% for collection in collections limit: 20 %}
       {% unless exclude_handles contains collection.handle %}
         {% unless rendered_handles contains collection.handle %}
           {% if collection.products_count > 0 %}
@@ -121,6 +140,19 @@
         {% endunless %}
       {% endunless %}
     {% endfor %}
+
+    <!-- 3. Explicit Guarantee for Atta / Aatta if not rendered yet -->
+    {% unless rendered_handles contains 'atta' or rendered_handles contains 'aatta' or rendered_handles contains 'flour-atta' %}
+      {% assign atta_coll = collections['flour-atta'] | default: collections['atta'] | default: collections['aatta'] %}
+      <a class="kb-category-card" href="{{ atta_coll.url | default: '/collections/flour-atta' }}">
+        <span class="kb-category-card__media">
+          {% render 'category-icon', category: atta_coll, category_name: 'Atta', size: 48 %}
+        </span>
+        <span class="kb-category-card__content">
+          <span class="kb-category-card__title">{{ atta_coll.title | default: 'Atta' }}</span>
+        </span>
+      </a>
+    {% endunless %}
 
     {% if category_count == 0 %}
       <p class="kb-category-mega__empty">No categories added yet. Add collections or blocks in Theme Editor.</p>
