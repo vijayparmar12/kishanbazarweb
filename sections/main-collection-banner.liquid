@@ -1,12 +1,151 @@
-{% comment %}
-  Collection Banner Section (Disabled)
-{% endcomment %}
+{% doc %}
+  Renders the Collection Banner & Title section matching the reference design:
+  - Top full-width Collection Hero Banner Image (collection.image or custom desktop/mobile overrides with rounded corners)
+  - Prominent Collection Title below banner (e.g. STONE GROUND CHAKKI ATTA) with alignment, size, and style controls
+  - Optional Collection Description below title
+{% enddoc %}
+
+{% liquid
+  assign banner_img = section.settings.custom_banner_desktop | default: collection.featured_image | default: collection.image
+  assign banner_mobile_img = section.settings.custom_banner_mobile | default: banner_img
+%}
+
+<div class="collection-hero" id="CollectionHero-{{ section.id }}" style="--hero-radius: {{ section.settings.banner_border_radius | default: 24 }}px; --title-size-desktop: {{ section.settings.title_font_size | default: 32 }}px; --title-color: {{ section.settings.title_color | default: '#1b4317' }};">
+  <div class="collection-hero__container">
+    
+    <!-- 1. COLLECTION BANNER IMAGE -->
+    {% if section.settings.show_collection_image and banner_img != blank %}
+      <div class="collection-hero__banner-wrap">
+        <picture class="collection-hero__picture">
+          {% if banner_mobile_img != blank and banner_mobile_img != banner_img %}
+            <source media="(max-width: 768px)" srcset="{{ banner_mobile_img | image_url: width: 1000 }}">
+          {% endif %}
+          <img
+            src="{{ banner_img | image_url: width: 2000 }}"
+            alt="{{ collection.title | escape }}"
+            class="collection-hero__image"
+            loading="eager"
+            width="{{ banner_img.width }}"
+            height="{{ banner_img.height }}"
+          >
+        </picture>
+      </div>
+    {% elsif section.settings.show_collection_image %}
+      <!-- Fallback placeholder banner if no collection image uploaded yet -->
+      <div class="collection-hero__banner-wrap collection-hero__banner-wrap--placeholder">
+        <div class="collection-hero__placeholder-content">
+          <span class="collection-hero__placeholder-badge">COLLECTION</span>
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- 2. COLLECTION TITLE BELOW BANNER -->
+    {% if section.settings.show_collection_title %}
+      <div class="collection-hero__header collection-hero__header--{{ section.settings.title_alignment | default: 'center' }}">
+        <h1 class="collection-hero__title" style="text-transform: {{ section.settings.title_text_transform | default: 'uppercase' }}; font-weight: {{ section.settings.title_font_weight | default: '800' }};">
+          {{ collection.title }}
+        </h1>
+        
+        {% if section.settings.show_description and collection.description != blank %}
+          <div class="collection-hero__description">
+            {{ collection.description }}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
+</div>
 
 {% schema %}
 {
-  "name": "Collection Banner",
+  "name": "Collection Hero Banner",
   "tag": "section",
   "class": "section-collection-banner",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner Image Settings"
+    },
+    { "type": "checkbox", "id": "show_collection_image", "label": "Show Collection Banner Image", "default": true },
+    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Custom Desktop Banner Image Override" },
+    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Custom Mobile Banner Image Override" },
+    {
+      "type": "range",
+      "id": "banner_border_radius",
+      "label": "Banner Border Radius (px)",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Collection Title Settings (Below Banner)"
+    },
+    { "type": "checkbox", "id": "show_collection_title", "label": "Show Collection Title Below Banner", "default": true },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Title Alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "title_text_transform",
+      "label": "Title Text Transform",
+      "default": "uppercase",
+      "options": [
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "capitalize", "label": "Capitalize" },
+        { "value": "none", "label": "As Typed" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Desktop Title Font Size (px)",
+      "min": 18,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Text Color",
+      "default": "#1b4317"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title Font Weight",
+      "default": "800",
+      "options": [
+        { "value": "500", "label": "500 - Medium" },
+        { "value": "600", "label": "600 - SemiBold" },
+        { "value": "700", "label": "700 - Bold" },
+        { "value": "800", "label": "800 - ExtraBold" },
+        { "value": "900", "label": "900 - Black" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Collection Description Settings"
+    },
+    { "type": "checkbox", "id": "show_description", "label": "Show Collection Description", "default": false }
+  ],
+  "presets": [
+    {
+      "name": "Collection Hero Banner"
+    }
+  ]
 }
 {% endschema %}
