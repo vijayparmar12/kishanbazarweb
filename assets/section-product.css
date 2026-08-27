@@ -1084,11 +1084,12 @@
 
 
 
-/* 4 Feature Badges (Large 85px Size - Clean Spacing) */
-.product-circle-features {
-  margin: 0.2rem 0;
-  padding: 0;
-  width: 100%;
+/* Feature & Trust Badges (Matching 85px Size - Clean Spacing) */
+.product-circle-features,
+.product-circle-features--trust {
+  margin: 0.4rem 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
 }
 
 .product-circle-features__grid {
@@ -1123,30 +1124,31 @@
 }
 
 .product-circle-features__circle {
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  display: flex;
-  height: 85px;
-  justify-content: center;
-  padding: 0;
-  width: 85px;
-  margin: 0 auto;
+  align-items: center !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: flex !important;
+  height: 85px !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  width: 85px !important;
+  margin: 0 auto !important;
   pointer-events: none !important;
   cursor: default !important;
 }
 
 .product-circle-features__circle img {
-  border: none;
-  border-radius: 0;
-  display: block;
-  height: 85px;
-  width: 85px;
-  max-width: 100%;
-  object-fit: contain;
-  margin: 0 auto;
+  border: none !important;
+  border-radius: 0 !important;
+  display: block !important;
+  height: 85px !important;
+  width: 85px !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  margin: 0 auto !important;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: high-quality;
   transform: none !important;

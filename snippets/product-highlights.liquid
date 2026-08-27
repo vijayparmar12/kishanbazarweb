@@ -1,7 +1,6 @@
 {% doc %}
   Renders trust badge icons dynamically purely from Shopify CSV / Product Metafields or Theme Editor Block Settings.
-  Supports trust_badge_image_1..4, trust_icon_1..4, and badge_image_1..4 keys.
-  Non-clickable, high-resolution rendering.
+  Matches the exact 85px size, height, width, and flex grid spacing of the Benefit Icons above.
 
   @param {object} [product] - The Shopify product object
   @param {object} [block] - The Shopify block object with settings
@@ -92,42 +91,40 @@
   if img_url_4 != blank and max_icons >= 4
     assign uploaded_count = uploaded_count | plus: 1
   endif
-
-  assign current_icon_size = block.settings.icon_size | default: section.settings.icon_size | default: 64
 %}
 
 {% if uploaded_count > 0 %}
-  <div class="product-circle-features product-circle-features--trust" aria-label="Product Key Benefits" style="margin: 0.5rem 0; width: 100%; pointer-events: none; user-select: none; --kb-benefit-icon-size: {{ current_icon_size }}px;">
-    <div class="product-circle-features__grid" style="display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 0.75rem; width: 100%;">
+  <div class="product-circle-features product-circle-features--trust" aria-label="Product Trust Badges">
+    <div class="product-circle-features__grid">
       
       {% if img_url_1 != blank and max_icons >= 1 %}
-        <div class="product-circle-features__item" style="pointer-events: none; cursor: default;">
-          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; pointer-events: none; cursor: default;">
-            <img src="{{ img_url_1 }}" alt="Benefit Badge 1" loading="eager" fetchpriority="high" width="{{ current_icon_size | times: 2 }}" height="{{ current_icon_size | times: 2 }}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; cursor: default; image-rendering: -webkit-optimize-contrast;">
+        <div class="product-circle-features__item">
+          <div class="product-circle-features__circle product-circle-features__circle--img">
+            <img src="{{ img_url_1 }}" alt="Trust Badge 1" loading="eager" fetchpriority="high" width="170" height="170">
           </div>
         </div>
       {% endif %}
 
       {% if img_url_2 != blank and max_icons >= 2 %}
-        <div class="product-circle-features__item" style="pointer-events: none; cursor: default;">
-          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; pointer-events: none; cursor: default;">
-            <img src="{{ img_url_2 }}" alt="Benefit Badge 2" loading="eager" fetchpriority="high" width="{{ current_icon_size | times: 2 }}" height="{{ current_icon_size | times: 2 }}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; cursor: default; image-rendering: -webkit-optimize-contrast;">
+        <div class="product-circle-features__item">
+          <div class="product-circle-features__circle product-circle-features__circle--img">
+            <img src="{{ img_url_2 }}" alt="Trust Badge 2" loading="eager" fetchpriority="high" width="170" height="170">
           </div>
         </div>
       {% endif %}
 
       {% if img_url_3 != blank and max_icons >= 3 %}
-        <div class="product-circle-features__item" style="pointer-events: none; cursor: default;">
-          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; pointer-events: none; cursor: default;">
-            <img src="{{ img_url_3 }}" alt="Benefit Badge 3" loading="eager" fetchpriority="high" width="{{ current_icon_size | times: 2 }}" height="{{ current_icon_size | times: 2 }}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; cursor: default; image-rendering: -webkit-optimize-contrast;">
+        <div class="product-circle-features__item">
+          <div class="product-circle-features__circle product-circle-features__circle--img">
+            <img src="{{ img_url_3 }}" alt="Trust Badge 3" loading="eager" fetchpriority="high" width="170" height="170">
           </div>
         </div>
       {% endif %}
 
       {% if img_url_4 != blank and max_icons >= 4 %}
-        <div class="product-circle-features__item" style="pointer-events: none; cursor: default;">
-          <div class="product-circle-features__circle product-circle-features__circle--img" style="width: {{ current_icon_size }}px; height: {{ current_icon_size }}px; pointer-events: none; cursor: default;">
-            <img src="{{ img_url_4 }}" alt="Benefit Badge 4" loading="eager" fetchpriority="high" width="{{ current_icon_size | times: 2 }}" height="{{ current_icon_size | times: 2 }}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none; cursor: default; image-rendering: -webkit-optimize-contrast;">
+        <div class="product-circle-features__item">
+          <div class="product-circle-features__circle product-circle-features__circle--img">
+            <img src="{{ img_url_4 }}" alt="Trust Badge 4" loading="eager" fetchpriority="high" width="170" height="170">
           </div>
         </div>
       {% endif %}
