@@ -1,8 +1,6 @@
 {% doc %}
   Renders the 3-column mobile category grid at the top of the mobile drawer.
-  Matching Two Brothers reference with icon ABOVE title.
-  Excludes promotional/meta collection handles (monsoon, best-product, daily-essential).
-  Guarantees Atta/Aatta and core product categories always display.
+  Displays ONLY the category_card blocks chosen by the merchant in Shopify Theme Editor.
 
   @param {section} section - Header section containing blocks.
 
@@ -11,70 +9,54 @@
 {% enddoc %}
 
 <div class="kb-mobile-cat-grid">
+  {% assign custom_cards = section.blocks | where: 'type', 'category_card' %}
   {% assign count = 0 %}
-  {% assign rendered_handles = '|' %}
-  {% assign exclude_handles = 'monsoon,monsoon-special,best,best-product,best-sellers,daily,daily-essential,daily-essentials,offers,deals,value,all,frontpage' | split: ',' %}
 
-  <!-- 1. Custom Category Blocks from Theme Editor -->
-  {% for block in section.blocks %}
-    {% if block.type == 'category_card' %}
+  {% if custom_cards.size > 0 %}
+    <!-- 1. Display ONLY Category Cards explicitly selected by Merchant in Theme Editor -->
+    {% for block in custom_cards %}
       {% liquid
+        assign count = count | plus: 1
         assign card_collection = block.settings.collection
         assign card_title = block.settings.title | default: card_collection.title
         assign card_handle = card_title | handleize
-        assign collection_handle = card_collection.handle
+        assign card_url = card_collection.url
+
+        if card_url == blank or card_collection == blank
+          if collections[card_handle] != blank
+            assign card_url = collections[card_handle].url
+          elsif card_handle != blank
+            assign card_url = '/collections/' | append: card_handle
+          else
+            assign card_url = routes.all_products_collection_url
+          endif
+        endif
+
+        assign card_image = block.settings.image | default: card_collection.image
+        if card_image == blank and card_collection != blank
+          assign first_product = card_collection.products | first
+          if first_product != blank
+            assign card_image = first_product.featured_image
+          endif
+        endif
       %}
-
-      {% assign should_exclude = false %}
-      {% if card_handle != blank and exclude_handles contains card_handle %}
-        {% assign should_exclude = true %}
-      {% endif %}
-      {% if collection_handle != blank and exclude_handles contains collection_handle %}
-        {% assign should_exclude = true %}
-      {% endif %}
-
-      {% unless should_exclude %}
-        {% liquid
-          assign card_url = card_collection.url
-
-          if card_url == blank
-            if collections[card_handle] != blank
-              assign card_url = collections[card_handle].url
-            elsif collections['flour-atta'] != blank and card_handle contains 'atta'
-              assign card_url = collections['flour-atta'].url
-            elsif collections['atta'] != blank and card_handle contains 'atta'
-              assign card_url = collections['atta'].url
-            elsif card_handle != blank
-              assign card_url = '/collections/' | append: card_handle
-            else
-              assign card_url = routes.all_products_collection_url
-            endif
-          endif
-
-          assign count = count | plus: 1
-          if collection_handle != blank
-            assign rendered_handles = rendered_handles | append: collection_handle | append: '|'
-          endif
-          if card_handle != blank
-            assign rendered_handles = rendered_handles | append: card_handle | append: '|'
-          endif
-        %}
-        <a href="{{ card_url }}" class="kb-mobile-cat-card" {{ block.shopify_attributes }}>
-          <span class="kb-mobile-cat-card__media">
+      <a href="{{ card_url }}" class="kb-mobile-cat-card" {{ block.shopify_attributes }}>
+        <span class="kb-mobile-cat-card__media">
+          {% if card_image != blank %}
+            {{ card_image | image_url: width: 240 | image_tag: class: 'kb-mobile-cat-card__image', alt: card_title, loading: 'lazy' }}
+          {% else %}
             {% render 'category-icon', category: card_collection, category_name: card_title, size: 48 %}
-          </span>
-          <span class="kb-mobile-cat-card__title">{{ card_title }}</span>
-        </a>
-      {% endunless %}
-    {% endif %}
-  {% endfor %}
+          {% endif %}
+        </span>
+        <span class="kb-mobile-cat-card__title">{{ card_title }}</span>
+      </a>
+    {% endfor %}
 
-  <!-- 2. Store Collections fallback -->
-  {% for collection in collections limit: 20 %}
-    {% unless exclude_handles contains collection.handle %}
-      {% unless rendered_handles contains collection.handle %}
+  {% else %}
+    <!-- 2. Store Collections Fallback (Shown ONLY if no Theme Editor category_card blocks exist) -->
+    {% for collection in collections limit: 12 %}
+      {% unless collection.handle == 'all' %}
         {% assign count = count | plus: 1 %}
-        {% assign rendered_handles = rendered_handles | append: collection.handle | append: '|' %}
         <a href="{{ collection.url }}" class="kb-mobile-cat-card">
           <span class="kb-mobile-cat-card__media">
             {% render 'category-icon', category: collection, size: 48 %}
@@ -82,23 +64,12 @@
           <span class="kb-mobile-cat-card__title">{{ collection.title }}</span>
         </a>
       {% endunless %}
-    {% endunless %}
-  {% endfor %}
+    {% endfor %}
+  {% endif %}
 
-  <!-- 3. Explicit Guarantee for Atta / Aatta if not rendered yet -->
-  {% unless rendered_handles contains 'atta' or rendered_handles contains 'aatta' or rendered_handles contains 'flour-atta' %}
-    {% assign atta_coll = collections['flour-atta'] | default: collections['atta'] | default: collections['aatta'] %}
-    <a href="{{ atta_coll.url | default: '/collections/flour-atta' }}" class="kb-mobile-cat-card">
-      <span class="kb-mobile-cat-card__media">
-        {% render 'category-icon', category: atta_coll, category_name: 'Atta', size: 48 %}
-      </span>
-      <span class="kb-mobile-cat-card__title">{{ atta_coll.title | default: 'Atta' }}</span>
-    </a>
-  {% endunless %}
-
-  <!-- 4. Default Fallbacks if store has no collections yet -->
+  <!-- 3. Default Fallback if store has no collections yet -->
   {% if count == 0 %}
-    {% assign defaults = 'Atta,Ghee,Oil,Jaggery,Immunity,Rice,Breakfast & Snacks,Grain & Pulses,Spices' | split: ',' %}
+    {% assign defaults = 'Ghee,Oil,Atta,Jaggery,Immunity,Rice,Breakfast & Snacks,Grain & Pulses,Spices' | split: ',' %}
     {% for item in defaults %}
       <a href="{{ routes.collections_url }}" class="kb-mobile-cat-card">
         <span class="kb-mobile-cat-card__media">
