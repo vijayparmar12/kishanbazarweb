@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -8,15 +17,15 @@
           "settings": {
             "title": "🔒 Privacy & Data Protection Guarantee",
             "content": "Your privacy is paramount to us. We never sell, rent, trade, or compromise your personal information or contact details to third-party advertisers.",
-            "bg_color": "#F0FDF4",
-            "border_color": "#BBF7D0",
+            "bg_color": "#f0fdf4",
+            "border_color": "#bbf7d0",
             "text_color": "#166534"
           }
         },
         "clause_1": {
           "type": "policy_clause",
           "settings": {
-            "icon": "📥",
+            "icon": "",
             "title": "1. Information We Collect",
             "content": "<p>When you visit Kisan Bazar, create an account, or place an order for organic staples, we collect essential data to fulfill your request:</p><ul><li><strong>Contact Details:</strong> Full Name, Email Address, Mobile Number</li><li><strong>Delivery Details:</strong> Shipping & Billing Address, Pincode</li><li><strong>Transaction Logs:</strong> Order ID, Payment Method (we do NOT store credit card CVV or bank passwords)</li></ul>"
           }
@@ -51,7 +60,8 @@
             "title": "Data Privacy Requests or Questions?",
             "email": "privacy@kishanbazar.com",
             "phone": "+91 98765 43210",
-            "button_text": "Contact Data Officer"
+            "button_text": "Contact Data Officer",
+            "button_url": ""
           }
         }
       },
@@ -66,7 +76,8 @@
       "settings": {
         "eyebrow": "KISAN BAZAR POLICIES",
         "heading": "Privacy Policy",
-        "subheading": "Effective Date: August 12, 2026 • We respect and protect your personal information."
+        "subheading": "Effective Date: August 12, 2026 • We respect and protect your personal information.",
+        "show_page_content": true
       }
     }
   },

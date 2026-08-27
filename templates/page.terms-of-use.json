@@ -1,18 +1,17 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-policy-page",
       "blocks": {
-        "summary": {
-          "type": "policy_highlight",
-          "settings": {
-            "title": "⚡ Terms Overview",
-            "content": "By accessing or placing an order at Kisan Bazar, you agree to these Terms of Use. We reserve the right to update these terms at any time.",
-            "bg_color": "#F0FDF4",
-            "border_color": "#BBF7D0",
-            "text_color": "#166534"
-          }
-        },
         "clause_1": {
           "type": "policy_clause",
           "settings": {
@@ -51,12 +50,12 @@
             "title": "Questions About Our Terms of Use?",
             "email": "support@kishanbazar.com",
             "phone": "+91 98765 43210",
-            "button_text": "Contact Support Team"
+            "button_text": "Contact Support Team",
+            "button_url": ""
           }
         }
       },
       "block_order": [
-        "summary",
         "clause_1",
         "clause_2",
         "clause_3",
@@ -66,7 +65,8 @@
       "settings": {
         "eyebrow": "KISAN BAZAR POLICIES",
         "heading": "Terms of Use",
-        "subheading": "Effective Date: August 12, 2026 • Please read carefully before ordering."
+        "subheading": "Last Updated: 27 August 2026",
+        "show_page_content": true
       }
     }
   },
