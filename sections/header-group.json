@@ -327,9 +327,9 @@
       ],
       "settings": {
         "show_announcement": true,
-        "announcement_text": "Big Savings Alert! Get 10% OFF on orders above Rs.3000 | Use code: TBOF10",
-        "announcement_text_2": "Enjoy free shipping on orders above Rs.1499 | Shop now",
-        "announcement_text_3": "Farm-fresh staples delivered to your doorstep",
+        "announcement_text": "",
+        "announcement_text_2": "Enjoy free shipping on orders above Rs.1499",
+        "announcement_text_3": "",
         "announcement_background": "#23421f",
         "announcement_text_color": "#ffffff",
         "logo": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_04_21_23_PM.png",
