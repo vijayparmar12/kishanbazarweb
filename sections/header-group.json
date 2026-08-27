@@ -14,6 +14,15 @@
     "header": {
       "type": "header",
       "blocks": {
+        "mega_link_qpaiwH": {
+          "type": "mega_link",
+          "settings": {
+            "menu_group": "category",
+            "title": "Atta",
+            "link": "shopify://collections/frontpage",
+            "icon": ""
+          }
+        },
         "mega_link_Q8Mg8p": {
           "type": "mega_link",
           "settings": {
@@ -97,7 +106,10 @@
             "icon_image": "shopify://shop_images/download.svg",
             "link": "shopify://collections/all",
             "icon_background": "#23421f",
-            "icon_color": "#f0d78a"
+            "icon_color": "#f0d78a",
+            "max_price_filter": 999,
+            "enable_price_filter": true,
+            "auto_update_title": false
           }
         },
         "feature_icon_biPcJz": {
@@ -111,7 +123,10 @@
             "icon_image": "shopify://shop_images/gemini-svg_28.svg",
             "link": "shopify://collections/monsoon-special",
             "icon_background": "#23421f",
-            "icon_color": "#f0d78a"
+            "icon_color": "#f0d78a",
+            "max_price_filter": 999,
+            "enable_price_filter": true,
+            "auto_update_title": false
           }
         },
         "feature_icon_mzn3UJ": {
@@ -125,7 +140,10 @@
             "icon_image": "shopify://shop_images/gemini-svg_37.svg",
             "link": "shopify://collections/best-product",
             "icon_background": "#23421f",
-            "icon_color": "#f0d78a"
+            "icon_color": "#f0d78a",
+            "max_price_filter": 999,
+            "enable_price_filter": true,
+            "auto_update_title": false
           }
         },
         "feature_icon_RUCD4p": {
@@ -139,7 +157,10 @@
             "icon_image": "shopify://shop_images/gemini-svg_40.svg",
             "link": "shopify://collections/daily-essential",
             "icon_background": "#23421f",
-            "icon_color": "#f0d78a"
+            "icon_color": "#f0d78a",
+            "max_price_filter": 999,
+            "enable_price_filter": true,
+            "auto_update_title": false
           }
         },
         "feature_icon_JhK4rd": {
@@ -153,7 +174,10 @@
             "icon_image": "shopify://shop_images/gemini-svg_23.svg",
             "link": "",
             "icon_background": "#23421f",
-            "icon_color": "#f0d78a"
+            "icon_color": "#f0d78a",
+            "max_price_filter": 999,
+            "enable_price_filter": true,
+            "auto_update_title": false
           }
         },
         "mobile_nav_item_g3bfBd": {
@@ -286,6 +310,7 @@
         }
       },
       "block_order": [
+        "mega_link_qpaiwH",
         "mega_link_Q8Mg8p",
         "mega_link_fUDNM6",
         "mega_link_D4TtRC",
