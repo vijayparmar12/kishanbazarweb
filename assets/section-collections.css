@@ -89,6 +89,54 @@
   margin-top: var(--space-1);
 }
 
+/* Category Slider "More" Green Circular End Card */
+.categories__card--more {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  background-color: #f7fbf2 !important;
+  border: 2px dashed #bbf7d0 !important;
+  border-radius: 20px !important;
+  padding: 1rem !important;
+  box-sizing: border-box !important;
+  min-width: 140px !important;
+  flex: 0 0 140px !important;
+  scroll-snap-align: start !important;
+  transition: all 250ms ease !important;
+}
+
+.categories__card--more:hover {
+  background-color: #e8f5e9 !important;
+  border-color: #1b4317 !important;
+  transform: translateY(-4px) !important;
+}
+
+.categories__more-circle {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  background-color: #1b4317 !important;
+  color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: 0.5rem !important;
+  box-shadow: 0 4px 12px rgba(27, 67, 23, 0.22) !important;
+  transition: transform 250ms ease !important;
+}
+
+.categories__card--more:hover .categories__more-circle {
+  transform: scale(1.1) !important;
+}
+
+.categories__more-text {
+  font-size: 0.88rem !important;
+  font-weight: 800 !important;
+  color: #1b4317 !important;
+}
+
 .featured-collections__card:hover .featured-collections__image {
   transform: scale(1.05);
 }
