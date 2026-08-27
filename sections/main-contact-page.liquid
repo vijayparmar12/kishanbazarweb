@@ -1,8 +1,10 @@
 {% doc %}
-  Renders the Two Brothers style Contact Us page for Kishan Bazar.
+  Renders the Two Brothers style Contact Us page for Kisan Bazar:
+  - Top "CONTACT US" heading
   - Phone & WhatsApp Support card
+  - Our Location & Address card (displays full address, email, etc.)
+  - Google Map Embed Card placed BELOW the contact form with automatic Google Place URL to embed converter
   - Native Shopify "Send Us a Message" Contact Form
-  - Google Map Embed Card placed BELOW the contact form/message card
 {% enddoc %}
 
 <link rel="stylesheet" href="{{ 'section-contact-page.css' | asset_url }}">
@@ -16,8 +18,10 @@
   <div class="contact-page__container">
     <div class="contact-grid">
       
-      <!-- LEFT COLUMN: PHONE & WHATSAPP SUPPORT CARD -->
+      <!-- LEFT COLUMN: CONTACT INFO CARDS -->
       <div class="contact-cards-column">
+        
+        <!-- CARD 1: PHONE & WHATSAPP SUPPORT -->
         {% if section.settings.show_phone_card %}
           <div class="contact-card contact-card--support">
             <div class="contact-card__header">
@@ -45,6 +49,31 @@
             </div>
           </div>
         {% endif %}
+
+        <!-- CARD 2: LOCATION & ADDRESS CARD -->
+        {% if section.settings.show_address_card %}
+          <div class="contact-card contact-card--address">
+            <div class="contact-card__header">
+              <span class="contact-card__icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </span>
+              <h3 class="contact-card__title">{{ section.settings.address_heading | default: "Our Location & Address" }}</h3>
+            </div>
+            <div class="contact-card__body">
+              <div class="contact-card__address">{{ section.settings.address_text | default: "Bhagwati Ashish, Surat, Gujarat, India" }}</div>
+              {% if section.settings.email_address != blank %}
+                <div class="contact-card__email-wrap">
+                  <span class="contact-card__sublabel">Email:</span>
+                  <a href="mailto:{{ section.settings.email_address }}" class="contact-card__email">{{ section.settings.email_address }}</a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+
       </div>
 
       <!-- RIGHT COLUMN: CONTACT FORM ("Send Us a Message") -->
@@ -117,12 +146,14 @@
       <div class="contact-map-wrapper">
         <div class="contact-card contact-card--map">
           <div class="contact-map__overlay">
-            <a href="{{ section.settings.map_external_url | default: 'https://maps.google.com' }}" target="_blank" rel="noopener" class="contact-map__btn">
+            {% assign map_target = section.settings.map_external_url | default: section.settings.map_iframe_url | default: 'https://maps.google.com' %}
+            <a href="{{ map_target }}" target="_blank" rel="noopener" class="contact-map__btn">
               {{ section.settings.map_btn_text | default: "Open in Maps" }} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
+          {% assign raw_map = section.settings.map_iframe_url | default: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.41709511116!2d72.74109865045437!3d21.161026848206806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin' %}
           <iframe
-            src="{{ section.settings.map_iframe_url | default: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.41709511116!2d72.74109865045437!3d21.161026848206806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin' }}"
+            src="{{ raw_map }}"
             class="contact-map__iframe"
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
@@ -134,6 +165,41 @@
 
   </div>
 </div>
+
+<script>
+  (function() {
+    function sanitizeGoogleMapUrl(url) {
+      if (!url) return '';
+      url = url.trim();
+      // If it's already an embed URL
+      if (url.includes('/embed') || url.includes('output=embed')) {
+        return url;
+      }
+      // Extract coordinates @lat,lng e.g. @21.1667045,72.7949069
+      var coordMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+      if (coordMatch) {
+        return 'https://maps.google.com/maps?q=' + coordMatch[1] + ',' + coordMatch[2] + '&z=16&output=embed';
+      }
+      // Extract place name /maps/place/Bhagwati+Ashish/
+      var placeMatch = url.match(/maps\/place\/([^/@]+)/);
+      if (placeMatch) {
+        var name = decodeURIComponent(placeMatch[1].replace(/\+/g, ' '));
+        return 'https://maps.google.com/maps?q=' + encodeURIComponent(name) + '&z=16&output=embed';
+      }
+      // Fallback for search URL or place text
+      return 'https://maps.google.com/maps?q=' + encodeURIComponent(url) + '&z=16&output=embed';
+    }
+
+    var iframe = document.querySelector('.contact-map__iframe');
+    if (iframe) {
+      var rawSrc = iframe.getAttribute('src');
+      var cleanSrc = sanitizeGoogleMapUrl(rawSrc);
+      if (cleanSrc && cleanSrc !== rawSrc) {
+        iframe.src = cleanSrc;
+      }
+    }
+  })();
+</script>
 
 {% schema %}
 {
@@ -157,12 +223,20 @@
     { "type": "text", "id": "whatsapp_button_text", "label": "WhatsApp Button Text", "default": "WhatsApp" },
     {
       "type": "header",
+      "content": "Location & Address Card"
+    },
+    { "type": "checkbox", "id": "show_address_card", "label": "Show Address Card", "default": true },
+    { "type": "text", "id": "address_heading", "label": "Address Card Heading", "default": "Our Location & Address" },
+    { "type": "textarea", "id": "address_text", "label": "Complete Address Text", "default": "Bhagwati Ashish, Surat, Gujarat, India" },
+    { "type": "text", "id": "email_address", "label": "Email Address", "default": "info@twobrothersindia.com" },
+    {
+      "type": "header",
       "content": "Google Map Embed Card"
     },
     { "type": "checkbox", "id": "show_map", "label": "Show Map Embed Card", "default": true },
     { "type": "text", "id": "map_btn_text", "label": "Open in Maps Button Label", "default": "Open in Maps" },
     { "type": "url", "id": "map_external_url", "label": "Open in Maps Button Link" },
-    { "type": "textarea", "id": "map_iframe_url", "label": "Google Maps Iframe Embed Source URL" },
+    { "type": "textarea", "id": "map_iframe_url", "label": "Google Maps Link or Embed Source URL" },
     {
       "type": "header",
       "content": "Contact Form Settings"

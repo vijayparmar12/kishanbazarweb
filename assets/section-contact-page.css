@@ -145,10 +145,31 @@
   background-color: #143511;
 }
 
-/* General Support & Farm Visits Detail */
-.contact-card__email {
+/* Location & Address Card Details */
+.contact-card__address {
   font-size: 1.02rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+.contact-card__email-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.92rem;
+  margin-top: 0.4rem;
+}
+
+.contact-card__sublabel {
+  color: #64748b;
   font-weight: 600;
+}
+
+.contact-card__email {
+  font-size: 0.95rem;
+  font-weight: 700;
   color: #1b4317;
   text-decoration: underline;
   word-break: break-all;
