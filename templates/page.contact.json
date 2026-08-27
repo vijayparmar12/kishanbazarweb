@@ -16,20 +16,22 @@
         "show_phone_card": true,
         "phone_heading": "Phone & WhatsApp Support",
         "phone_number": "+91 93773 41042",
-        "email_address": "support@kishanbazar.com",
+        "email_address": "vijay9377341042@gmail.com",
         "phone_timing": "Monday to Saturday · 10:00 AM - 6:00 PM",
         "call_button_text": "Call Now",
-        "whatsapp_number": "919377341042",
+        "whatsapp_number": "+91 93773 41042",
         "whatsapp_button_text": "WhatsApp",
         "show_address_card": true,
         "address_heading": "Our Location & Address",
-        "address_text": "Bhagwati Ashish Complex, Surat, Gujarat, India",
+        "address_text": "Bhagwati Ashish, Surat, Gujarat, India",
         "show_map": true,
         "map_btn_text": "Open in Maps",
         "map_external_url": "https://www.google.com/maps/place/Bhagwati+Ashish/@21.1667045,72.7949069,17z",
-        "map_iframe_url": "https://www.google.com/maps/place/Bhagwati+Ashish/@21.1667045,72.7949069,17z",
+        "map_iframe_url": "https://www.google.com/maps/place/Bhagwati+Ashish+Complex/@21.1667045,72.7949069,17z/data=!3m1!4b1!4m6!3m5!1s0x3be04de5d1b0a8bb:0xa97f0f6f97b2b669!8m2!3d21.1667045!4d72.7949069!16s%2Fg%2F1q5blv8gx!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDgyNC4wIKXMDSoASAFQAw%3D%3D",
         "form_heading": "Send Us a Message",
-        "form_subheading": "Have a question? Fill in the form and our team will get back to you."
+        "form_subheading": "Have a question? Fill in the form and our team will get back to you.",
+        "form_btn_text": "Send Message",
+        "form_success_msg": "🌿 Thank you for reaching out! Your message has been received. Our team will contact you shortly."
       }
     }
   },
