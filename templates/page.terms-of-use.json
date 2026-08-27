@@ -11,61 +11,10 @@
   "sections": {
     "main": {
       "type": "main-policy-page",
-      "blocks": {
-        "clause_1": {
-          "type": "policy_clause",
-          "settings": {
-            "icon": "",
-            "title": "1. Acceptance & Eligibility",
-            "content": "<p>By browsing or purchasing from Kisan Bazar, you represent that you are at least 18 years old or visiting under the supervision of a parent or guardian.</p><p>We provide certified organic food staples, cold-pressed oils, and traditional Bilona ghee directly from verified Indian organic farms.</p>"
-          }
-        },
-        "clause_2": {
-          "type": "policy_clause",
-          "settings": {
-            "icon": "",
-            "title": "2. Product Information & Pricing",
-            "content": "<p>We strive to display accurate product descriptions, net weights, and pricing. All prices are listed in Indian Rupees (INR) and include applicable taxes unless specified otherwise.</p><p>Kishan Bazar reserves the right to modify prices or correct pricing errors without prior notice.</p>"
-          }
-        },
-        "clause_3": {
-          "type": "policy_clause",
-          "settings": {
-            "icon": "",
-            "title": "3. Orders & Payment Processing",
-            "content": "<p>Orders placed through our website are subject to acceptance and availability. We support secure UPI, credit/debit cards, net banking, and Cash on Delivery (COD).</p><p>In the event of payment failure or suspected fraud, we reserve the right to cancel or place the order on hold.</p>"
-          }
-        },
-        "clause_4": {
-          "type": "policy_clause",
-          "settings": {
-            "icon": "",
-            "title": "4. Intellectual Property & Brand Usage",
-            "content": "<p>All logos, imagery, product titles, and content published on Kisan Bazar are the exclusive property of Kisan Bazar. Unauthorized reproduction, distribution, or commercial use is strictly prohibited.</p>"
-          }
-        },
-        "contact": {
-          "type": "policy_contact",
-          "settings": {
-            "title": "Questions About Our Terms of Use?",
-            "email": "support@kishanbazar.com",
-            "phone": "+91 98765 43210",
-            "button_text": "Contact Support Team",
-            "button_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "clause_1",
-        "clause_2",
-        "clause_3",
-        "clause_4",
-        "contact"
-      ],
       "settings": {
         "eyebrow": "KISAN BAZAR POLICIES",
         "heading": "Terms of Use",
-        "subheading": "Last Updated: 27 August 2026",
+        "subheading": "",
         "show_page_content": true
       }
     }
