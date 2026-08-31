@@ -10,33 +10,44 @@
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
 
 {% liquid
-  # 1. Custom Metafield on Collection (Supports File Reference, GenericFile, MediaImage, and Image Drop e.g. oil.png)
-  assign m_desk = collection.metafields.custom.banner_image.value | default: collection.metafields.custom.banner_image | default: collection.metafields.custom.banner.value | default: collection.metafields.custom.banner | default: collection.metafields.custom.collection_banner.value | default: collection.metafields.custom.collection_banner
-  assign m_mob = collection.metafields.custom.banner_mobile_image.value | default: collection.metafields.custom.banner_mobile_image | default: collection.metafields.custom.mobile_banner.value | default: collection.metafields.custom.mobile_banner
+  # 1. Custom Metafields on Collection (Highest Priority - Supports MediaImage, GenericFile, FileReference e.g. oil.png)
+  assign meta_desk = collection.metafields.custom.banner_image | default: collection.metafields.custom.banner | default: collection.metafields.custom.collection_banner
+  assign meta_mob = collection.metafields.custom.banner_mobile_image | default: collection.metafields.custom.mobile_banner
 
   assign banner_img_src = blank
-  if m_desk != blank
-    if m_desk.preview_image != blank
-      assign banner_img_src = m_desk.preview_image | image_url: width: 2000
-    elsif m_desk.url != blank
-      assign banner_img_src = m_desk.url
-    elsif m_desk.src != blank
-      assign banner_img_src = m_desk.src
-    else
-      assign banner_img_src = m_desk | image_url: width: 2000
+  
+  if meta_desk != blank
+    assign m_val = meta_desk.value | default: meta_desk
+    
+    # Try all Shopify Liquid image/file filters
+    assign img_from_val = m_val.preview_image | default: m_val
+    assign banner_img_src = img_from_val | image_url: width: 2000 | default: blank
+    
+    if banner_img_src == blank or banner_img_src contains 'no-image' or banner_img_src contains 'assets/no-image'
+      if m_val.url != blank
+        assign banner_img_src = m_val.url
+      elsif m_val.src != blank
+        assign banner_img_src = m_val.src
+      else
+        assign banner_img_src = m_val | file_url
+      endif
     endif
   endif
 
   assign banner_mob_src = blank
-  if m_mob != blank
-    if m_mob.preview_image != blank
-      assign banner_mob_src = m_mob.preview_image | image_url: width: 1200
-    elsif m_mob.url != blank
-      assign banner_mob_src = m_mob.url
-    elsif m_mob.src != blank
-      assign banner_mob_src = m_mob.src
-    else
-      assign banner_mob_src = m_mob | image_url: width: 1200
+  if meta_mob != blank
+    assign m_mob_val = meta_mob.value | default: meta_mob
+    assign mob_from_val = m_mob_val.preview_image | default: m_mob_val
+    assign banner_mob_src = mob_from_val | image_url: width: 1200 | default: blank
+    
+    if banner_mob_src == blank or banner_mob_src contains 'no-image' or banner_mob_src contains 'assets/no-image'
+      if m_mob_val.url != blank
+        assign banner_mob_src = m_mob_val.url
+      elsif m_mob_val.src != blank
+        assign banner_mob_src = m_mob_val.src
+      else
+        assign banner_mob_src = m_mob_val | file_url
+      endif
     endif
   endif
 
@@ -49,12 +60,13 @@
     endif
   endif
 
-  # 3. Global All-Collection Banner Settings from Theme Editor Card
+  # 3. Global All-Collection Default Banner from Theme Editor (Fallback for collections without custom banners)
   if banner_img_src == blank
     assign sett_default_raw = section.settings.default_banner_image | default: section.settings.custom_banner_desktop
     assign sett_default = sett_default_raw.value | default: sett_default_raw
     if sett_default != blank
-      assign banner_img_src = sett_default.preview_image | default: sett_default | image_url: width: 2000
+      assign sett_img = sett_default.preview_image | default: sett_default
+      assign banner_img_src = sett_img | image_url: width: 2000
     endif
   endif
 
@@ -62,7 +74,8 @@
     assign sett_mob_raw = section.settings.default_banner_mobile | default: section.settings.custom_banner_mobile
     assign sett_mob = sett_mob_raw.value | default: sett_mob_raw
     if sett_mob != blank
-      assign banner_mob_src = sett_mob.preview_image | default: sett_mob | image_url: width: 1200
+      assign sett_mob_img = sett_mob.preview_image | default: sett_mob
+      assign banner_mob_src = sett_mob_img | image_url: width: 1200
     endif
   endif
 
@@ -77,6 +90,14 @@
 
   if banner_mob_src == blank
     assign banner_mob_src = banner_img_src
+  endif
+
+  # Ensure protocol is prepended on relative CDN URLs
+  if banner_img_src != blank and banner_img_src contains '//' == false and banner_img_src contains 'http' == false
+    assign banner_img_src = banner_img_src | prepend: 'https:'
+  endif
+  if banner_mob_src != blank and banner_mob_src contains '//' == false and banner_mob_src contains 'http' == false
+    assign banner_mob_src = banner_mob_src | prepend: 'https:'
   endif
 %}
 
