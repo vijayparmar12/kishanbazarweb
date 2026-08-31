@@ -1,5 +1,5 @@
 {% comment %}
-  Standard Page Template section with Top Banner Image (Above Title), Mobile Reset Container & Auto-Boxer Gallery Placed Right After Title
+  Standard Page Template section with Top Banner Image (Above Title), Mobile Reset Container & Auto-Boxer Gallery Placed BELOW Title
 {% endcomment %}
 
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
@@ -40,7 +40,7 @@
   </div>
 </div>
 
-<!-- AUTO-BOXER SCRIPT FOR NUMBERED RECIPES, CHAPTERS, AND MULTIPLE IMAGE SCROLL GALLERY RIGHT AFTER TITLE -->
+<!-- AUTO-BOXER SCRIPT FOR NUMBERED RECIPES, CHAPTERS, AND MULTIPLE IMAGE SCROLL GALLERY BELOW TITLE -->
 <script>
   (function() {
     function initAutoBoxer() {
@@ -56,7 +56,7 @@
       var children = Array.from(tempDiv.childNodes);
       var boxes = [];
       var currentBoxNodes = [];
-      var numRegex = /^(\d+)[\.\:\)]\s+/; // Matches "1. Haldi Wala Dudh", "2. Khapli Wheat Roti"
+      var numRegex = /^(\d+)[\.\:\)]\s*/; // Matches "1. Haldi Wala Dudh", "2. Khapli Wheat Roti"
 
       children.forEach(function(node) {
         var isHeading = false;
@@ -126,7 +126,7 @@
 
           boxEl.innerHTML = boxHTML;
 
-          // Convert images inside a box into a horizontal left-to-right scroll gallery placed RIGHT AFTER THE TITLE
+          // Convert images inside a box into a horizontal left-to-right scroll gallery placed DIRECTLY BELOW THE TITLE
           var imgs = Array.from(boxEl.querySelectorAll('img'));
           if (imgs.length >= 1) {
             var galleryWrap = document.createElement('div');
@@ -171,14 +171,25 @@
 
             galleryWrap.appendChild(galleryTrack);
 
-            // Insert gallery RIGHT AFTER THE TITLE / HEADING inside the box
-            var titleEl = boxEl.querySelector('.vedic-content-box__title, h1, h2, h3, h4, h5, h6, .vedic-content-box__subtitle');
+            // Find title element (heading, bold paragraph, or first element) to place gallery DIRECTLY BELOW TITLE
+            var titleEl = null;
+            var firstChild = boxEl.firstElementChild;
+            if (firstChild) {
+              var fcText = firstChild.textContent ? firstChild.textContent.trim() : '';
+              if (['h1','h2','h3','h4','h5','h6'].indexOf(firstChild.tagName.toLowerCase()) !== -1 || numRegex.test(fcText) || fcText.indexOf('Chapter') !== -1 || fcText.indexOf('Title:') === 0 || fcText.indexOf('Bhai') !== -1) {
+                titleEl = firstChild;
+              }
+            }
+            if (!titleEl) {
+              titleEl = boxEl.querySelector('.vedic-content-box__title, h1, h2, h3, h4, h5, h6, .vedic-content-box__subtitle');
+            }
+
             if (titleEl && titleEl.nextSibling) {
-              boxEl.insertBefore(galleryWrap, titleEl.nextSibling);
+              titleEl.parentNode.insertBefore(galleryWrap, titleEl.nextSibling);
             } else if (titleEl) {
               titleEl.parentNode.appendChild(galleryWrap);
             } else {
-              boxEl.insertBefore(galleryWrap, boxEl.firstChild);
+              boxEl.appendChild(galleryWrap);
             }
           }
 
@@ -201,7 +212,7 @@
       }
     }
 
-    if (document.readyState === 'loading') {
+    if (document.ready_state === 'loading') {
       document.addEventListener('DOMContentLoaded', initAutoBoxer);
     } else {
       initAutoBoxer();
