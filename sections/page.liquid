@@ -1,5 +1,5 @@
 {% comment %}
-  Standard Page Template section with Top Banner Image (Above Title) & Automatic Box CSS formatting for Every Title & Founder Note at Page Bottom
+  Standard Page Template section with Top Banner Image (Above Title) & Automatic Box CSS formatting for Every Heading and Founder Box at Page End
 {% endcomment %}
 
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
@@ -40,7 +40,7 @@
   </div>
 </div>
 
-<!-- AUTO-BOXER SCRIPT FOR EVERY TITLE & FOUNDER NOTE ALWAYS AT END -->
+<!-- AUTO-BOXER SCRIPT FOR PAGE CONTENT & FOUNDER BOX AT END -->
 <script>
   (function() {
     function initAutoBoxer() {
@@ -59,29 +59,22 @@
 
       children.forEach(function(node) {
         var isHeading = false;
-        var isFounderHeader = false;
         var textContent = node.textContent ? node.textContent.trim() : '';
 
         if (node.nodeType === 1) { // Element node
           var tagName = node.tagName.toLowerCase();
           if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].indexOf(tagName) !== -1) {
             isHeading = true;
-          } else if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('Name:') === 0) {
+          } else if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('Name:') === 0 || textContent.indexOf('A Note from Our Founder') !== -1 || textContent.indexOf('Note from Our Founder') !== -1) {
             isHeading = true;
           } else if (textContent.indexOf('Bhai') !== -1 || textContent.indexOf('Farmer') !== -1) {
             if (textContent.length < 60) {
               isHeading = true;
             }
           }
-
-          if (textContent.indexOf('Note from Our Founder') !== -1 || textContent.indexOf('Note From Our Founder') !== -1 || (textContent.indexOf('Founder') !== -1 && textContent.length < 40)) {
+        } else if (node.nodeType === 3) { // Text node
+          if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('A Note from Our Founder') !== -1 || (textContent.indexOf('Bhai') !== -1 && textContent.length < 60)) {
             isHeading = true;
-            isFounderHeader = true;
-          }
-        } else if (node.nodeType === 3) {
-          if (textContent.indexOf('Note from Our Founder') !== -1 || textContent.indexOf('Note From Our Founder') !== -1) {
-            isHeading = true;
-            isFounderHeader = true;
           }
         }
 
@@ -97,19 +90,25 @@
       }
 
       if (boxes.length > 0) {
-        container.innerHTML = '';
-        var normalBoxes = [];
+        var mainBoxes = [];
         var founderBox = null;
 
         boxes.forEach(function(nodes) {
           var boxEl = document.createElement('div');
-          var isFounder = false;
+          var textContent = '';
+          nodes.forEach(function(n) {
+            textContent += (n.textContent || '') + ' ';
+          });
+
+          var isFounder = (textContent.indexOf('A Note from Our Founder') !== -1 || textContent.indexOf('Note from Our Founder') !== -1);
+
+          if (isFounder) {
+            boxEl.className = 'vedic-content-box vedic-founder-box';
+          } else {
+            boxEl.className = 'vedic-content-box';
+          }
 
           nodes.forEach(function(n) {
-            var t = n.textContent ? n.textContent : '';
-            if (t.indexOf('Note from Our Founder') !== -1 || t.indexOf('Note From Our Founder') !== -1) {
-              isFounder = true;
-            }
             boxEl.appendChild(n.cloneNode(true));
           });
 
@@ -122,20 +121,18 @@
           boxEl.innerHTML = boxHTML;
 
           if (isFounder) {
-            boxEl.className = 'vedic-content-box vedic-content-box--founder';
             founderBox = boxEl;
           } else {
-            boxEl.className = 'vedic-content-box';
-            normalBoxes.push(boxEl);
+            mainBoxes.push(boxEl);
           }
         });
 
-        // 1. Render all normal story boxes FIRST
-        normalBoxes.forEach(function(b) {
+        container.innerHTML = '';
+        mainBoxes.forEach(function(b) {
           container.appendChild(b);
         });
 
-        // 2. Render Founder Box ALWAYS at the VERY END!
+        // ALWAYS append Founder Box at the VERY END of the page!
         if (founderBox) {
           container.appendChild(founderBox);
         }
