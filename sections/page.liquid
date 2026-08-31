@@ -1,5 +1,5 @@
 {% comment %}
-  Standard Page Template section with Top Banner Image (Above Title), Numbered Auto-Boxing & Multiple Image Left-to-Right Horizontal Scroll Gallery
+  Standard Page Template section with Top Banner Image (Above Title), Numbered Auto-Boxing & Touch/Mouse Drag Horizontal Gallery
 {% endcomment %}
 
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
@@ -148,6 +148,25 @@
               } else {
                 img.remove();
               }
+            });
+
+            // Enable Mouse Drag-to-Scroll on Desktop
+            var isDown = false;
+            var startX, scrollLeft;
+            galleryTrack.addEventListener('mousedown', function(e) {
+              isDown = true;
+              galleryTrack.classList.add('is-dragging');
+              startX = e.pageX - galleryTrack.offsetLeft;
+              scrollLeft = galleryTrack.scrollLeft;
+            });
+            galleryTrack.addEventListener('mouseleave', function() { isDown = false; galleryTrack.classList.remove('is-dragging'); });
+            galleryTrack.addEventListener('mouseup', function() { isDown = false; galleryTrack.classList.remove('is-dragging'); });
+            galleryTrack.addEventListener('mousemove', function(e) {
+              if (!isDown) return;
+              e.preventDefault();
+              var x = e.pageX - galleryTrack.offsetLeft;
+              var walk = (x - startX) * 2;
+              galleryTrack.scrollLeft = scrollLeft - walk;
             });
 
             galleryWrap.appendChild(galleryTrack);

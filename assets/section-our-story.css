@@ -1214,6 +1214,31 @@
   overflow: hidden !important;
   transition: transform 250ms ease, box-shadow 250ms ease !important;
   box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+@media screen and (max-width: 768px) {
+  .vedic-content-box {
+    padding: 1.15rem 0.85rem !important;
+    border-radius: 16px !important;
+    margin-bottom: 1.25rem !important;
+    overflow-x: hidden !important;
+  }
+
+  .vedic-content-box p,
+  .vedic-content-box ul,
+  .vedic-content-box ol,
+  .vedic-content-box li,
+  .vedic-content-box h1,
+  .vedic-content-box h2,
+  .vedic-content-box h3,
+  .vedic-content-box h4 {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    max-width: 100% !important;
+    font-size: 0.95rem !important;
+  }
 }
 
 .vedic-content-box:hover {
@@ -1223,7 +1248,7 @@
 
 .vedic-content-box__title {
   font-family: Georgia, serif !important;
-  font-size: clamp(1.4rem, 2.5vw, 2rem) !important;
+  font-size: clamp(1.3rem, 2.5vw, 2rem) !important;
   font-weight: 800 !important;
   color: #132D14 !important;
   margin: 0 0 0.85rem !important;
@@ -1311,28 +1336,37 @@
   box-shadow: 0 4px 14px rgba(35, 66, 31, 0.04) !important;
 }
 
-/* HORIZONTAL LEFT-TO-RIGHT SCROLL GALLERY FOR MULTIPLE RECIPE / CHAPTER IMAGES */
+/* HORIZONTAL LEFT-TO-RIGHT FINGER SCROLL GALLERY FOR MULTIPLE IMAGES */
 .vedic-box-gallery {
   width: 100% !important;
-  margin: 1.5rem 0 !important;
+  margin: 1.25rem 0 !important;
   position: relative !important;
+  overflow: hidden !important;
 }
 
 .vedic-box-gallery__track {
   display: flex !important;
   flex-wrap: nowrap !important;
-  gap: 1.15rem !important;
+  gap: 1rem !important;
   overflow-x: auto !important;
   scroll-snap-type: x mandatory !important;
   scroll-behavior: smooth !important;
+  touch-action: pan-x !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-x: contain !important;
   padding: 0.5rem 0.25rem 1rem !important;
   scrollbar-width: thin !important;
-  -webkit-overflow-scrolling: touch !important;
+  cursor: grab !important;
+}
+
+.vedic-box-gallery__track.is-dragging {
+  cursor: grabbing !important;
+  user-select: none !important;
 }
 
 .vedic-box-gallery__slide {
-  flex: 0 0 280px !important;
-  max-width: 280px !important;
+  flex: 0 0 250px !important;
+  max-width: 250px !important;
   scroll-snap-align: start !important;
   border-radius: 16px !important;
   overflow: hidden !important;
@@ -1340,6 +1374,9 @@
   box-shadow: 0 4px 14px rgba(35, 66, 31, 0.06) !important;
   background: #F4F8F0 !important;
   transition: transform 220ms ease, box-shadow 220ms ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .vedic-box-gallery__slide:hover {
@@ -1349,16 +1386,19 @@
 
 @media screen and (max-width: 768px) {
   .vedic-box-gallery__slide {
-    flex: 0 0 230px !important;
-    max-width: 230px !important;
+    flex: 0 0 210px !important;
+    max-width: 210px !important;
   }
 }
 
 .vedic-box-gallery__slide img {
   width: 100% !important;
-  height: 200px !important;
-  object-fit: cover !important;
+  height: 220px !important;
+  object-fit: contain !important;
   display: block !important;
-  margin: 0 !important;
+  margin: 0 auto !important;
   border-radius: 0 !important;
+  background: #F4F8F0 !important;
+  padding: 0.35rem !important;
+  box-sizing: border-box !important;
 }

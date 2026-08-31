@@ -4,7 +4,7 @@
   - Top Hero Banner Image (Desktop & Mobile, editable in Theme Editor)
   - Hero Badge, Title, Subtitle
   - Automatic Box CSS Container for Every Numbered Recipe / Chapter / Title!
-  - Multiple Image Horizontal Left-to-Right Scroll Gallery (Mobile & Web)
+  - Multiple Image Horizontal Left-to-Right Touch & Mouse Finger Scroll Gallery (Mobile & Web)
   - Story Cards with IMAGE ON TOP -> CONTENT BELOW IMAGE
   - Feature Pillars Grid (Icon, Title, Description)
   - Bottom Call-to-Action Banner (Heading, Subheading, Action Button)
@@ -278,6 +278,25 @@
               } else {
                 img.remove();
               }
+            });
+
+            // Enable Mouse Drag-to-Scroll on Desktop
+            var isDown = false;
+            var startX, scrollLeft;
+            galleryTrack.addEventListener('mousedown', function(e) {
+              isDown = true;
+              galleryTrack.classList.add('is-dragging');
+              startX = e.pageX - galleryTrack.offsetLeft;
+              scrollLeft = galleryTrack.scrollLeft;
+            });
+            galleryTrack.addEventListener('mouseleave', function() { isDown = false; galleryTrack.classList.remove('is-dragging'); });
+            galleryTrack.addEventListener('mouseup', function() { isDown = false; galleryTrack.classList.remove('is-dragging'); });
+            galleryTrack.addEventListener('mousemove', function(e) {
+              if (!isDown) return;
+              e.preventDefault();
+              var x = e.pageX - galleryTrack.offsetLeft;
+              var walk = (x - startX) * 2;
+              galleryTrack.scrollLeft = scrollLeft - walk;
             });
 
             galleryWrap.appendChild(galleryTrack);
