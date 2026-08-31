@@ -2,7 +2,7 @@
   Renders the live Judge.me / Shopify Reviews plugin widget for KishanVeda / Kishan Bazar.
   Features:
   - Custom brand button, star, and progress bar colors editable in Theme Editor
-  - Fixes Judge.me star icon rendering to prevent broken box glyphs [X]
+  - Renders vector SVG rating stars for main summary, histogram rows, and customer review items
   - Fixes header overlap by hiding sticky header completely when "Write a Review" modal popup is active
 {% enddoc %}
 
@@ -144,48 +144,51 @@
     background-color: var(--jdgm-bar-fill, #1B4317) !important;
   }
 
-  /* PROPER JUDGE.ME STAR RATING ICON OVERRIDES (FIXES BROKEN BOX GLYPHS [X]) */
+  /* PROPER JUDGE.ME STAR RATING VECTOR OVERRIDES */
   .jdgm-star,
   .jdgm-star *,
   .jdgm-rev__rating .jdgm-star,
   .jdgm-form-rating .jdgm-star,
   .jdgm-prev-badge .jdgm-star,
   .jdgm-histogram__star .jdgm-star {
-    font-family: 'JudgemeIcon', 'FontAwesome', Arial, sans-serif !important;
+    font-family: 'JudgemeIcon', Arial, sans-serif !important;
     color: var(--jdgm-star-color, #1B4317) !important;
     fill: var(--jdgm-star-color, #1B4317) !important;
-    display: inline-block !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     float: none !important;
-    font-style: normal !important;
-    font-weight: normal !important;
-    font-variant: normal !important;
-    text-transform: none !important;
     line-height: 1 !important;
     font-size: 1.15rem !important;
+    margin-right: 1px !important;
   }
 
-  /* Fallback: if Judge.me outputs broken unicode characters, render crisp ★ star glyphs */
+  .jdgm-star svg {
+    display: inline-block !important;
+    vertical-align: middle !important;
+  }
+
+  /* Fallback: if Judge.me relies on CSS content pseudo-elements */
   .jdgm-star.jdgm--on:before,
   .jdgm-star[data-score="1"]:before,
   .jdgm-star.jdgm-star--on:before,
-  .jdgm-star.jdgm--on,
-  .jdgm-star.jdgm-star--on {
+  span.jdgm-star.jdgm--on:before,
+  a.jdgm-star.jdgm--on:before {
     content: "\2605" !important; /* ★ Filled Star */
     color: var(--jdgm-star-color, #1B4317) !important;
   }
 
   .jdgm-star.jdgm--off:before,
   .jdgm-star.jdgm-star--off:before,
-  .jdgm-star.jdgm--off,
-  .jdgm-star.jdgm-star--off {
-    content: "\2606" !important; /* ☆ Empty Star */
+  span.jdgm-star.jdgm--off:before,
+  a.jdgm-star.jdgm--off:before {
+    content: "\2605" !important; /* ☆ Star */
     color: #D1D5DB !important;
   }
 
   .jdgm-star.jdgm--half:before,
   .jdgm-star.jdgm-star--half:before,
-  .jdgm-star.jdgm--half,
-  .jdgm-star.jdgm-star--half {
+  span.jdgm-star.jdgm--half:before {
     content: "\2605" !important;
     color: var(--jdgm-star-color, #1B4317) !important;
     opacity: 0.75 !important;
@@ -258,7 +261,9 @@
   .jdgm-histogram__star,
   .jdgm-histogram__count {
     white-space: nowrap !important;
-    display: inline-block !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
     font-size: 0.85rem !important;
   }
 
@@ -358,24 +363,20 @@
   </div>
 </section>
 
-<!-- SCRIPT TO CONTINUOUSLY MONITOR & FIX JUDGE.ME STAR ICONS & WRITE A REVIEW POPUP -->
+<!-- SCRIPT TO CONTINUOUSLY RENDER VECTOR SVG STARS & HIDE STICKY HEADER DURING REVIEW POPUP -->
 <script>
   (function() {
-    function fixJudgeMeStarIcons() {
-      var stars = document.querySelectorAll('.jdgm-star');
+    function injectVectorStarIcons() {
+      var stars = document.querySelectorAll('.jdgm-star, .jdgm-rev__rating .jdgm-star, .jdgm-histogram__star .jdgm-star, .jdgm-prev-badge .jdgm-star, .jdgm-rev-widg__summary .jdgm-star');
       stars.forEach(function(star) {
-        var txt = star.textContent ? star.textContent.trim() : '';
-        // Detect broken square glyphs or missing star icon
-        if (!txt || txt === '' || txt.charCodeAt(0) > 57000 || txt.indexOf('🌢') !== -1) {
-          if (star.classList.contains('jdgm--on') || star.classList.contains('jdgm-star--on') || star.getAttribute('data-score') === '1') {
-            star.innerHTML = '★';
-          } else if (star.classList.contains('jdgm--off') || star.classList.contains('jdgm-star--off')) {
-            star.innerHTML = '☆';
-          } else if (star.classList.contains('jdgm--half')) {
-            star.innerHTML = '★';
-          } else {
-            star.innerHTML = '★';
-          }
+        if (!star.querySelector('svg')) {
+          var isFilled = star.classList.contains('jdgm--on') || star.classList.contains('jdgm-star--on') || star.getAttribute('data-score') === '1' || star.classList.contains('jdgm-star-full');
+          var isHalf = star.classList.contains('jdgm--half') || star.classList.contains('jdgm-star--half');
+
+          var color = isFilled ? '#1B4317' : (isHalf ? '#1B4317' : '#E5E7EB');
+          var opacity = isHalf ? '0.75' : '1';
+
+          star.innerHTML = '<svg viewBox="0 0 20 20" width="16" height="16" style="display:inline-block; vertical-align:middle; fill:' + color + '; opacity:' + opacity + '; width:16px; height:16px;"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>';
         }
       });
     }
@@ -411,7 +412,7 @@
         });
       }
 
-      fixJudgeMeStarIcons();
+      injectVectorStarIcons();
     }
 
     document.addEventListener('click', function(e) {
@@ -427,7 +428,7 @@
 
     var observer = new MutationObserver(function() {
       checkJudgeMeFormState();
-      fixJudgeMeStarIcons();
+      injectVectorStarIcons();
     });
 
     if (document.body) {
@@ -436,7 +437,7 @@
 
     setInterval(function() {
       checkJudgeMeFormState();
-      fixJudgeMeStarIcons();
-    }, 250);
+      injectVectorStarIcons();
+    }, 200);
   })();
 </script>
