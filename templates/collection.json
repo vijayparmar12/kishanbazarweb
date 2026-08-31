@@ -13,7 +13,7 @@
       "type": "main-collection-banner",
       "settings": {
         "show_collection_image": true,
-        "custom_banner_desktop": "{{ collection.metafields.custom.custom_banner_image.value }}",
+        "custom_banner_desktop": "shopify://shop_images/GHEE_37d3d6cc-94ac-401d-9873-a6ca5a60ba48.png",
         "banner_border_radius": 24,
         "show_collection_title": true,
         "title_alignment": "center",
