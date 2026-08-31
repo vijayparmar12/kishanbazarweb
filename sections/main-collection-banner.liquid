@@ -1,15 +1,16 @@
 {% doc %}
-  Renders the Collection Banner & Title section matching the reference design:
-  - Top full-width Collection Hero Banner Image
-  - 100% Dynamic Priority:
-    1. collection.metafields.custom.banner_image (Specific collection metafield image e.g. atta.png)
-    2. collection.image (Collection main image from Shopify Admin)
-    3. section.settings.custom_banner_desktop / default_banner_image (Theme Editor default fallback image)
-    4. collection.products.first.featured_image (Product fallback for All Products)
+  Renders the Collection Banner & Title section:
+  - Dynamic Priority:
+    1. collection.metafields.custom.banner_image (Specific collection custom metafield image e.g. atta.png)
+    2. collection.image (Collection main image from Shopify Admin > Collections)
+    3. Global Default Banner Image from Theme Editor (Shown for All Collections / All Products)
+    4. Fallback product featured image
 {% enddoc %}
 
+<link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
+
 {% liquid
-  # 1. Custom Metafield on Collection (Supports File Reference, GenericFile, MediaImage, and Image Drop)
+  # 1. Custom Metafield on Collection (Specific collection override)
   assign m_desk = collection.metafields.custom.banner_image.value | default: collection.metafields.custom.banner_image | default: collection.metafields.custom.banner.value | default: collection.metafields.custom.banner | default: collection.metafields.custom.collection_banner.value | default: collection.metafields.custom.collection_banner
   assign m_mob = collection.metafields.custom.banner_mobile_image.value | default: collection.metafields.custom.banner_mobile_image | default: collection.metafields.custom.mobile_banner.value | default: collection.metafields.custom.mobile_banner
 
@@ -23,26 +24,7 @@
     assign valid_meta_mob = m_mob.preview_image | default: m_mob
   endif
 
-  # 2. Section Settings (Theme Editor Default Fallbacks)
-  assign sett_desk_raw = section.settings.custom_banner_desktop
-  assign sett_desk = sett_desk_raw.value | default: sett_desk_raw
-
-  assign sett_default_raw = section.settings.default_banner_image
-  assign sett_default = sett_default_raw.value | default: sett_default_raw
-
-  assign sett_mob_raw = section.settings.custom_banner_mobile
-  assign sett_mob = sett_mob_raw.value | default: sett_mob_raw
-
-  assign valid_sett_desk = blank
-  if sett_desk != blank
-    assign valid_sett_desk = sett_desk.preview_image | default: sett_desk
-  endif
-
-  assign valid_sett_default = blank
-  if sett_default != blank
-    assign valid_sett_default = sett_default.preview_image | default: sett_default
-  endif
-
+  # 2. Dynamic Collection Main Image (Shopify Admin > Collections > Collection Image)
   assign valid_coll_img = blank
   if collection.image != blank
     assign valid_coll_img = collection.image
@@ -50,6 +32,24 @@
     assign valid_coll_img = collection.featured_image
   endif
 
+  # 3. Global All-Collection Banner Settings from Theme Editor Card
+  assign sett_default_raw = section.settings.default_banner_image | default: section.settings.custom_banner_desktop
+  assign sett_default = sett_default_raw.value | default: sett_default_raw
+
+  assign sett_mob_raw = section.settings.default_banner_mobile | default: section.settings.custom_banner_mobile
+  assign sett_mob = sett_mob_raw.value | default: sett_mob_raw
+
+  assign valid_sett_default = blank
+  if sett_default != blank
+    assign valid_sett_default = sett_default.preview_image | default: sett_default
+  endif
+
+  assign valid_sett_mob = blank
+  if sett_mob != blank
+    assign valid_sett_mob = sett_mob.preview_image | default: sett_mob
+  endif
+
+  # 4. Fallback Product Image
   assign valid_prod_img = blank
   if collection.products.first.featured_image != blank
     assign valid_prod_img = collection.products.first.featured_image
@@ -57,26 +57,18 @@
     assign valid_prod_img = collections.all.products.first.featured_image
   endif
 
-  # Dynamic Resolution Priority:
-  # 1. Collection Metafield -> 2. Collection Main Image -> 3. Theme Setting Custom Banner -> 4. Theme Setting Default Banner -> 5. Product Image
-  assign banner_img = valid_meta_desk | default: valid_coll_img | default: valid_sett_desk | default: valid_sett_default | default: valid_prod_img
-
-  # Mobile resolution
-  assign valid_sett_mob = blank
-  if sett_mob != blank
-    assign valid_sett_mob = sett_mob.preview_image | default: sett_mob
-  endif
-
+  # Priority Resolution: Collection Metafield -> Collection Admin Image -> Theme Editor Global Banner -> Product Image
+  assign banner_img = valid_meta_desk | default: valid_coll_img | default: valid_sett_default | default: valid_prod_img
   assign banner_mobile_img = valid_meta_mob | default: valid_sett_mob | default: banner_img
 %}
 
-<div class="collection-hero" id="CollectionHero-{{ section.id }}" style="--hero-radius: {{ section.settings.banner_border_radius | default: 24 }}px; --title-size-desktop: {{ section.settings.title_font_size | default: 32 }}px; --title-color: {{ section.settings.title_color | default: '#1b4317' }};">
-  <div class="collection-hero__container">
+<div class="collection-hero" id="CollectionHero-{{ section.id }}" style="width: 100%; max-width: 1400px; margin: 1rem auto 1.5rem; padding: 0 1rem; box-sizing: border-box; --hero-radius: {{ section.settings.banner_border_radius | default: 24 }}px; --title-size-desktop: {{ section.settings.title_font_size | default: 32 }}px; --title-color: {{ section.settings.title_color | default: '#1b4317' }};">
+  <div class="collection-hero__container" style="width: 100%;">
     
-    <!-- 1. COLLECTION BANNER IMAGE -->
+    <!-- 1. COLLECTION BANNER IMAGE (DYNAMIC PER COLLECTION & GLOBAL FOR ALL COLLECTIONS) -->
     {% if section.settings.show_collection_image and banner_img != blank %}
-      <div class="collection-hero__banner-wrap">
-        <picture class="collection-hero__picture">
+      <div class="collection-hero__banner-wrap" style="width: 100%; border-radius: {{ section.settings.banner_border_radius | default: 24 }}px; overflow: hidden; box-shadow: 0 8px 24px rgba(35, 66, 31, 0.08);">
+        <picture class="collection-hero__picture" style="display: block; width: 100%;">
           {% if banner_mobile_img != blank and banner_mobile_img != banner_img %}
             <source media="(max-width: 768px)" srcset="{{ banner_mobile_img | image_url: width: 1200 }}">
           {% endif %}
@@ -85,29 +77,21 @@
             alt="{{ collection.title | default: 'All Products' | escape }}"
             class="collection-hero__image"
             loading="eager"
-            width="{{ banner_img.width | default: 1600 }}"
-            height="{{ banner_img.height | default: 600 }}"
+            style="width: 100%; height: auto; max-height: 480px; object-fit: cover; display: block; border-radius: {{ section.settings.banner_border_radius | default: 24 }}px;"
           >
         </picture>
-      </div>
-    {% elsif section.settings.show_collection_image %}
-      <!-- Fallback placeholder banner if no banner image uploaded yet -->
-      <div class="collection-hero__banner-wrap collection-hero__banner-wrap--placeholder">
-        <div class="collection-hero__placeholder-content">
-          <span class="collection-hero__placeholder-badge">{{ collection.title | default: 'ALL PRODUCTS' | upcase }}</span>
-        </div>
       </div>
     {% endif %}
 
     <!-- 2. COLLECTION TITLE BELOW BANNER -->
     {% if section.settings.show_collection_title %}
-      <div class="collection-hero__header collection-hero__header--{{ section.settings.title_alignment | default: 'center' }}">
-        <h1 class="collection-hero__title" style="text-transform: {{ section.settings.title_text_transform | default: 'uppercase' }}; font-weight: {{ section.settings.title_font_weight | default: '800' }};">
+      <div class="collection-hero__header collection-hero__header--{{ section.settings.title_alignment | default: 'center' }}" style="text-align: {{ section.settings.title_alignment | default: 'center' }}; margin-top: 1.5rem; margin-bottom: 1rem;">
+        <h1 class="collection-hero__title" style="color: {{ section.settings.title_color | default: '#1b4317' }}; font-family: Georgia, serif; font-size: clamp(1.6rem, 3.5vw, 2.5rem); text-transform: {{ section.settings.title_text_transform | default: 'uppercase' }}; font-weight: {{ section.settings.title_font_weight | default: '800' }}; margin: 0 0 0.5rem;">
           {{ collection.title | default: 'All Products' }}
         </h1>
         
         {% if section.settings.show_description and collection.description != blank %}
-          <div class="collection-hero__description">
+          <div class="collection-hero__description" style="color: #4b5563; font-size: 1rem; max-width: 750px; margin: 0 auto; line-height: 1.6;">
             {{ collection.description }}
           </div>
         {% endif %}
@@ -125,12 +109,13 @@
   "settings": [
     {
       "type": "header",
-      "content": "Banner Image Settings"
+      "content": "Global All-Collection Banner Settings"
     },
     { "type": "checkbox", "id": "show_collection_image", "label": "Show Collection Banner Image", "default": true },
-    { "type": "image_picker", "id": "default_banner_image", "label": "Global Default Desktop Banner (Shown when collection has no custom banner)" },
-    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Default Desktop Banner Image Fallback" },
-    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Default Mobile Banner Image Fallback" },
+    { "type": "image_picker", "id": "default_banner_image", "label": "Global All-Collection Desktop Banner (Shown for All Products & Collections)" },
+    { "type": "image_picker", "id": "default_banner_mobile", "label": "Global All-Collection Mobile Banner (Optional Mobile View)" },
+    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Alternative Desktop Banner Image Fallback" },
+    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Alternative Mobile Banner Image Fallback" },
     {
       "type": "range",
       "id": "banner_border_radius",
