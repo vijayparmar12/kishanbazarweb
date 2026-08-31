@@ -40,7 +40,7 @@
   </div>
 </div>
 
-<!-- AUTO-BOXER SCRIPT FOR EVERY FARMER & TITLE -->
+<!-- AUTO-BOXER SCRIPT FOR EVERY FARMER (Bhai, Patel, Shah, Singh, Kumar, etc.) & TITLE -->
 <script>
   (function() {
     function initAutoBoxer() {
@@ -57,24 +57,48 @@
       var boxes = [];
       var currentBoxNodes = [];
 
-      children.forEach(function(node) {
+      children.forEach(function(node, index) {
         var isHeading = false;
         var textContent = node.textContent ? node.textContent.trim() : '';
 
         if (node.nodeType === 1) { // Element node
           var tagName = node.tagName.toLowerCase();
+          
+          // 1. Standard HTML Headings (h1, h2, h3, h4, h5, h6)
           if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].indexOf(tagName) !== -1) {
             isHeading = true;
-          } else if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('Name:') === 0) {
+          } 
+          // 2. Explicit Title/Farmer Labels
+          else if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('Name:') === 0) {
             isHeading = true;
-          } else if (textContent.indexOf('Bhai') !== -1 || textContent.indexOf('Farmer') !== -1) {
-            if (textContent.length < 60) {
+          } 
+          // 3. Short Bold Person Name (e.g. <strong>Vipin Patel</strong> or <h3>Vipin Patel</h3>)
+          else if (node.querySelector('strong, b') && textContent.length > 2 && textContent.length < 70) {
+            if (textContent.indexOf('"') !== 0 && textContent.indexOf('—') !== 0 && textContent.indexOf('-') !== 0) {
               isHeading = true;
+            }
+          } 
+          // 4. Common Indian Farmer Surnames & Honorifics (Bhai, Patel, Shah, Singh, Kumar, Sharma, Verma, Devi, etc.)
+          else if (/\b(Bhai|Patel|Shah|Singh|Kumar|Sharma|Verma|Devi|Seth|Ji)\b/i.test(textContent) && textContent.length < 70) {
+            if (textContent.indexOf('"') !== 0 && textContent.indexOf('—') !== 0 && textContent.indexOf('-') !== 0) {
+              isHeading = true;
+            }
+          } 
+          // 5. Node followed by Subtitle with "|" or "Focus:" or "Crop:" (e.g. Navsari, Gujarat | Focus: ...)
+          else if (index < children.length - 1) {
+            var nextNode = children[index + 1];
+            var nextText = nextNode && nextNode.textContent ? nextNode.textContent.trim() : '';
+            if (nextText.indexOf('|') !== -1 || nextText.indexOf('Focus:') !== -1 || nextText.indexOf('Crop:') !== -1) {
+              if (textContent.length > 2 && textContent.length < 70 && textContent.indexOf('"') !== 0 && textContent.indexOf('—') !== 0) {
+                isHeading = true;
+              }
             }
           }
         } else if (node.nodeType === 3) { // Text node
-          if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || (textContent.indexOf('Bhai') !== -1 && textContent.length < 60)) {
-            isHeading = true;
+          if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || (/\b(Bhai|Patel|Shah|Singh|Kumar|Sharma)\b/i.test(textContent) && textContent.length < 70)) {
+            if (textContent.indexOf('"') !== 0 && textContent.indexOf('—') !== 0) {
+              isHeading = true;
+            }
           }
         }
 
