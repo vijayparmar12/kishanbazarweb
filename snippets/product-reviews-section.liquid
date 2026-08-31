@@ -2,7 +2,7 @@
   Renders the live Judge.me / Shopify Reviews plugin widget for KishanVeda / Kishan Bazar.
   Features:
   - Custom brand button, star, and progress bar colors editable in Theme Editor
-  - Fixes header overlap by hiding sticky header when "Write a Review" modal popup is active
+  - Fixes header overlap by hiding sticky header completely when "Write a Review" modal popup is active
 {% enddoc %}
 
 {% liquid
@@ -16,40 +16,49 @@
 %}
 
 <style>
-  /* REVIEW MODAL OVERLAP FIX: HIDE STICKY HEADER WHEN WRITE A REVIEW MODAL IS OPEN */
-  body:has(.jdgm-form-wrapper:not([style*="display: none"])),
-  body:has(.jdgm-form:not([style*="display: none"])),
-  body:has(.jdgm-rev-widg__form-wrapper:not([style*="display: none"])),
-  body.jdgm-form-open,
-  body.review-modal-open {
-    overflow: hidden !important;
-  }
-
-  body:has(.jdgm-form-wrapper:not([style*="display: none"])) header,
-  body:has(.jdgm-form-wrapper:not([style*="display: none"])) .header-wrapper,
-  body:has(.jdgm-form-wrapper:not([style*="display: none"])) .sticky-header,
-  body:has(.jdgm-form-wrapper:not([style*="display: none"])) #shopify-section-header,
+  /* JUDGE.ME WRITE A REVIEW MODAL: HIDE ALL STICKY HEADERS & ANNOUNCEMENT BARS */
+  body.jdgm-review-modal-active #shopify-section-header,
+  body.jdgm-review-modal-active #shopify-section-announcement-bar,
+  body.jdgm-review-modal-active header,
+  body.jdgm-review-modal-active .header-wrapper,
+  body.jdgm-review-modal-active .sticky-header,
+  body.jdgm-review-modal-active section-header,
+  body.jdgm-review-modal-active .announcement-bar-section,
+  body:has(.jdgm-form-wrapper) #shopify-section-header,
+  body:has(.jdgm-form-wrapper) #shopify-section-announcement-bar,
+  body:has(.jdgm-form-wrapper) header,
+  body:has(.jdgm-form-wrapper) .header-wrapper,
+  body:has(.jdgm-form-wrapper) .sticky-header,
+  body:has(.jdgm-form:not([style*="display: none"])) #shopify-section-header,
   body:has(.jdgm-form:not([style*="display: none"])) header,
   body:has(.jdgm-form:not([style*="display: none"])) .header-wrapper,
   body:has(.jdgm-form:not([style*="display: none"])) .sticky-header,
-  body:has(.jdgm-form:not([style*="display: none"])) #shopify-section-header,
+  body.review-modal-open #shopify-section-header,
   body.review-modal-open header,
   body.review-modal-open .header-wrapper,
-  body.review-modal-open .sticky-header,
-  body.review-modal-open #shopify-section-header {
+  body.review-modal-open .sticky-header {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;
+    height: 0 !important;
     pointer-events: none !important;
   }
 
-  /* Ensure Review Form Popup has maximum z-index (999999) above all page elements */
+  /* Ensure Review Form Popup has maximum z-index (99999999) above all page elements */
   .jdgm-form-wrapper,
   .jdgm-form,
   .jdgm-rev-widg__form-wrapper,
-  .jdgm-widget .jdgm-form {
-    z-index: 999999 !important;
-    position: relative !important;
+  .jdgm-widget .jdgm-form,
+  .jdgm-write-rev-btn + .jdgm-form {
+    z-index: 99999999 !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4) !important;
+    border-radius: 20px !important;
   }
 
   /* Section & Container Desktop Reset */
@@ -306,44 +315,57 @@
   </div>
 </section>
 
-<!-- SCRIPT TO HIDE HEADER WHEN WRITE A REVIEW MODAL IS OPEN -->
+<!-- SCRIPT TO CONTINUOUSLY MONITOR & HIDE STICKY HEADER WHEN WRITE A REVIEW POPUP IS ACTIVE -->
 <script>
   (function() {
-    function initReviewModalObserver() {
-      document.addEventListener('click', function(e) {
-        var btn = e.target.closest('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn');
-        if (btn) {
-          setTimeout(function() {
-            var form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper');
-            if (form && window.getComputedStyle(form).display !== 'none') {
-              document.body.classList.add('review-modal-open');
-            }
-          }, 150);
-        }
+    function checkJudgeMeFormState() {
+      var form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper');
+      var isFormOpen = false;
 
-        var cancelBtn = e.target.closest('.jdgm-cancel-rev, .jdgm-close-btn, .jdgm-form__close');
-        if (cancelBtn) {
-          document.body.classList.remove('review-modal-open');
+      if (form) {
+        var style = window.getComputedStyle(form);
+        if (style.display !== 'none' && style.visibility !== 'hidden' && (form.offsetWidth > 0 || form.offsetHeight > 0)) {
+          isFormOpen = true;
         }
-      });
+      }
 
-      // Observer to detect when Judge.me opens or closes the review modal
-      var observer = new MutationObserver(function() {
-        var form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper');
-        if (form && window.getComputedStyle(form).display !== 'none' && form.offsetHeight > 0) {
-          document.body.classList.add('review-modal-open');
-        } else {
-          document.body.classList.remove('review-modal-open');
-        }
-      });
+      var headers = document.querySelectorAll('#shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, section-header, .announcement-bar-section');
 
-      observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+      if (isFormOpen) {
+        document.body.classList.add('jdgm-review-modal-active');
+        headers.forEach(function(h) {
+          h.style.setProperty('display', 'none', 'important');
+          h.style.setProperty('opacity', '0', 'important');
+          h.style.setProperty('visibility', 'hidden', 'important');
+          h.style.setProperty('pointer-events', 'none', 'important');
+        });
+      } else {
+        document.body.classList.remove('jdgm-review-modal-active');
+        headers.forEach(function(h) {
+          h.style.removeProperty('display');
+          h.style.removeProperty('opacity');
+          h.style.removeProperty('visibility');
+          h.style.removeProperty('pointer-events');
+        });
+      }
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initReviewModalObserver);
-    } else {
-      initReviewModalObserver();
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn')) {
+        setTimeout(checkJudgeMeFormState, 50);
+        setTimeout(checkJudgeMeFormState, 200);
+        setTimeout(checkJudgeMeFormState, 500);
+      }
+      if (e.target.closest('.jdgm-cancel-rev, .jdgm-close-btn, .jdgm-form__close')) {
+        setTimeout(checkJudgeMeFormState, 50);
+      }
+    });
+
+    var observer = new MutationObserver(checkJudgeMeFormState);
+    if (document.body) {
+      observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
     }
+
+    setInterval(checkJudgeMeFormState, 250);
   })();
 </script>

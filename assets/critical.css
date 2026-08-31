@@ -140,89 +140,6 @@ p, .rte, .product-details-card, .product-tabs__content, .product-info__descripti
   border-radius: 50px !important;
 }
 
-/* 🚨 JUDGE.ME WRITE A REVIEW MODAL OVERLAP FIX: HIDE ALL HEADERS & ANNOUNCEMENT BARS 🚨 */
-html:has(.jdgm-form-wrapper:not([style*="display: none"])),
-html:has(.jdgm-form:not([style*="display: none"])),
-html:has(.jdgm-rev-widg__form-wrapper:not([style*="display: none"])),
-html:has(#jdgm-dialog:not([style*="display: none"])),
-html.review-modal-open,
-body:has(.jdgm-form-wrapper:not([style*="display: none"])),
-body:has(.jdgm-form:not([style*="display: none"])),
-body:has(.jdgm-rev-widg__form-wrapper:not([style*="display: none"])),
-body:has(#jdgm-dialog:not([style*="display: none"])),
-body.jdgm-form-open,
-body.review-modal-open {
-  overflow: hidden !important;
-}
-
-html:has(.jdgm-form-wrapper:not([style*="display: none"])) .kb-header,
-html:has(.jdgm-form-wrapper:not([style*="display: none"])) .kb-header-top-sticky,
-html:has(.jdgm-form-wrapper:not([style*="display: none"])) header,
-html:has(.jdgm-form-wrapper:not([style*="display: none"])) [id*="header"],
-html:has(.jdgm-form-wrapper:not([style*="display: none"])) .header-wrapper,
-html:has(.jdgm-form-wrapper:not([style*="display: none"])) sticky-header,
-html:has(.jdgm-form-wrapper:not([style*="display: none"])) .sticky-header,
-
-html:has(.jdgm-form:not([style*="display: none"])) .kb-header,
-html:has(.jdgm-form:not([style*="display: none"])) .kb-header-top-sticky,
-html:has(.jdgm-form:not([style*="display: none"])) header,
-html:has(.jdgm-form:not([style*="display: none"])) [id*="header"],
-html:has(.jdgm-form:not([style*="display: none"])) .header-wrapper,
-html:has(.jdgm-form:not([style*="display: none"])) sticky-header,
-html:has(.jdgm-form:not([style*="display: none"])) .sticky-header,
-
-body:has(.jdgm-form-wrapper:not([style*="display: none"])) .kb-header,
-body:has(.jdgm-form-wrapper:not([style*="display: none"])) .kb-header-top-sticky,
-body:has(.jdgm-form-wrapper:not([style*="display: none"])) header,
-body:has(.jdgm-form-wrapper:not([style*="display: none"])) [id*="header"],
-body:has(.jdgm-form-wrapper:not([style*="display: none"])) .header-wrapper,
-body:has(.jdgm-form-wrapper:not([style*="display: none"])) sticky-header,
-body:has(.jdgm-form-wrapper:not([style*="display: none"])) .sticky-header,
-
-body:has(.jdgm-form:not([style*="display: none"])) .kb-header,
-body:has(.jdgm-form:not([style*="display: none"])) .kb-header-top-sticky,
-body:has(.jdgm-form:not([style*="display: none"])) header,
-body:has(.jdgm-form:not([style*="display: none"])) [id*="header"],
-body:has(.jdgm-form:not([style*="display: none"])) .header-wrapper,
-body:has(.jdgm-form:not([style*="display: none"])) sticky-header,
-body:has(.jdgm-form:not([style*="display: none"])) .sticky-header,
-
-body.review-modal-open .kb-header,
-body.review-modal-open .kb-header-top-sticky,
-body.review-modal-open header,
-body.review-modal-open [id*="header"],
-body.review-modal-open .header-wrapper,
-body.review-modal-open sticky-header,
-body.review-modal-open .sticky-header,
-html.review-modal-open .kb-header,
-html.review-modal-open .kb-header-top-sticky,
-html.review-modal-open header,
-html.review-modal-open [id*="header"],
-html.review-modal-open .header-wrapper,
-html.review-modal-open sticky-header,
-html.review-modal-open .sticky-header {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  height: 0 !important;
-  min-height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  z-index: -9999 !important;
-}
-
-/* Force maximum z-index (2147483647) for Judge.me Review Form Modal */
-.jdgm-form-wrapper,
-.jdgm-form,
-.jdgm-rev-widg__form-wrapper,
-.jdgm-dialog,
-#jdgm-dialog,
-.jdgm-popup {
-  z-index: 2147483647 !important;
-  position: fixed !important;
-}
-
 /** Section layout utilities */
 .shopify-section {
   --content-width: min(
@@ -247,3 +164,43 @@ html.review-modal-open .sticky-header {
 }
 
 .shopify-section { --page-margin: 0px; }
+
+/* JUDGE.ME WRITE A REVIEW MODAL: HIDE ALL STICKY HEADERS & ANNOUNCEMENT BARS */
+body.jdgm-review-modal-active #shopify-section-header,
+body.jdgm-review-modal-active #shopify-section-announcement-bar,
+body.jdgm-review-modal-active header,
+body.jdgm-review-modal-active .header-wrapper,
+body.jdgm-review-modal-active .sticky-header,
+body.jdgm-review-modal-active section-header,
+body.jdgm-review-modal-active .announcement-bar-section,
+body:has(.jdgm-form-wrapper) #shopify-section-header,
+body:has(.jdgm-form-wrapper) #shopify-section-announcement-bar,
+body:has(.jdgm-form-wrapper) header,
+body:has(.jdgm-form-wrapper) .header-wrapper,
+body:has(.jdgm-form-wrapper) .sticky-header,
+body:has(.jdgm-form:not([style*="display: none"])) #shopify-section-header,
+body:has(.jdgm-form:not([style*="display: none"])) header,
+body:has(.jdgm-form:not([style*="display: none"])) .header-wrapper,
+body:has(.jdgm-form:not([style*="display: none"])) .sticky-header {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  pointer-events: none !important;
+}
+
+/* JUDGE.ME MODAL MAXIMUM Z-INDEX & CENTERED OVERLAY */
+.jdgm-form-wrapper,
+.jdgm-form,
+.jdgm-rev-widg__form-wrapper,
+.jdgm-write-rev-btn + .jdgm-form {
+  z-index: 99999999 !important;
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4) !important;
+  border-radius: 20px !important;
+}
