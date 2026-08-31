@@ -227,12 +227,59 @@
     closeCartDrawer();
   });
 
+  // Monitor Judge.me Write a Review Modal to 100% Hide Header
+  const handleJudgeMeModal = () => {
+    const form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form');
+    const isFormOpen = form && (
+      form.offsetWidth > 0 || 
+      form.offsetHeight > 0 || 
+      window.getComputedStyle(form).display !== 'none' ||
+      window.getComputedStyle(form).visibility !== 'hidden'
+    );
+
+    const isParamOpen = window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1;
+
+    if (isFormOpen || isParamOpen) {
+      document.documentElement.classList.add('jdgm-review-modal-active');
+      document.body.classList.add('jdgm-review-modal-active');
+      const headerEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header1, .kb-header2, [data-header-top-sticky], [data-premium-header], header');
+      headerEls.forEach(el => {
+        el.style.setProperty('display', 'none', 'important');
+        el.style.setProperty('opacity', '0', 'important');
+        el.style.setProperty('visibility', 'hidden', 'important');
+      });
+    } else {
+      document.documentElement.classList.remove('jdgm-review-modal-active');
+      document.body.classList.remove('jdgm-review-modal-active');
+      const headerEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header1, .kb-header2, [data-header-top-sticky], [data-premium-header], header');
+      headerEls.forEach(el => {
+        el.style.removeProperty('display');
+        el.style.removeProperty('opacity');
+        el.style.removeProperty('visibility');
+      });
+    }
+  };
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn')) {
+      setTimeout(handleJudgeMeModal, 10);
+      setTimeout(handleJudgeMeModal, 100);
+      setTimeout(handleJudgeMeModal, 300);
+    }
+  });
+
+  setInterval(handleJudgeMeModal, 150);
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAllHeaders);
-    document.addEventListener('DOMContentLoaded', syncCartState);
+    document.addEventListener('DOMContentLoaded', () => {
+      initAllHeaders();
+      syncCartState();
+      handleJudgeMeModal();
+    });
   } else {
     initAllHeaders();
     syncCartState();
+    handleJudgeMeModal();
   }
 
   document.addEventListener('shopify:section:load', initAllHeaders);

@@ -1,4 +1,32 @@
 /* STICKY TOP CONTAINER: ANNOUNCEMENT BAR + HEADER 1 (SEARCH/LOGO/ACTIONS) + HEADER 2 (NAV MENU BAR) */
+html.jdgm-review-modal-active .kb-header,
+html.jdgm-review-modal-active .kb-header-top-sticky,
+html.jdgm-review-modal-active .kb-header1,
+html.jdgm-review-modal-active .kb-header2,
+html.jdgm-review-modal-active .kb-header__announcement,
+html.jdgm-review-modal-active [data-header-top-sticky],
+html.jdgm-review-modal-active [data-premium-header],
+html.jdgm-review-modal-active header,
+body.jdgm-review-modal-active .kb-header,
+body.jdgm-review-modal-active .kb-header-top-sticky,
+body.jdgm-review-modal-active .kb-header1,
+body.jdgm-review-modal-active .kb-header2,
+body.jdgm-review-modal-active .kb-header__announcement,
+body.jdgm-review-modal-active [data-header-top-sticky],
+body.jdgm-review-modal-active [data-premium-header],
+body.jdgm-review-modal-active header {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  pointer-events: none !important;
+  z-index: -999999 !important;
+  position: static !important;
+}
+
 .kb-header {
   background-color: var(--kb-header-bg, #ffffff);
   background-image: none;
