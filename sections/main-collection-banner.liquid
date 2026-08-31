@@ -1,7 +1,7 @@
 {% doc %}
   Renders the Collection Banner & Title section:
   - Dynamic Priority:
-    1. collection.metafields.custom.banner_image (Specific collection custom metafield image e.g. atta.png)
+    1. collection.metafields.custom.banner_image (Specific collection custom metafield image e.g. oil.png)
     2. collection.image (Collection main image from Shopify Admin > Collections)
     3. Global Default Banner Image from Theme Editor (Shown for All Collections / All Products)
     4. Fallback product featured image
@@ -10,70 +10,88 @@
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
 
 {% liquid
-  # 1. Custom Metafield on Collection (Specific collection override)
+  # 1. Custom Metafield on Collection (Supports File Reference, GenericFile, MediaImage, and Image Drop e.g. oil.png)
   assign m_desk = collection.metafields.custom.banner_image.value | default: collection.metafields.custom.banner_image | default: collection.metafields.custom.banner.value | default: collection.metafields.custom.banner | default: collection.metafields.custom.collection_banner.value | default: collection.metafields.custom.collection_banner
   assign m_mob = collection.metafields.custom.banner_mobile_image.value | default: collection.metafields.custom.banner_mobile_image | default: collection.metafields.custom.mobile_banner.value | default: collection.metafields.custom.mobile_banner
 
-  assign valid_meta_desk = blank
+  assign banner_img_src = blank
   if m_desk != blank
-    assign valid_meta_desk = m_desk.preview_image | default: m_desk
+    if m_desk.preview_image != blank
+      assign banner_img_src = m_desk.preview_image | image_url: width: 2000
+    elsif m_desk.url != blank
+      assign banner_img_src = m_desk.url
+    elsif m_desk.src != blank
+      assign banner_img_src = m_desk.src
+    else
+      assign banner_img_src = m_desk | image_url: width: 2000
+    endif
   endif
 
-  assign valid_meta_mob = blank
+  assign banner_mob_src = blank
   if m_mob != blank
-    assign valid_meta_mob = m_mob.preview_image | default: m_mob
+    if m_mob.preview_image != blank
+      assign banner_mob_src = m_mob.preview_image | image_url: width: 1200
+    elsif m_mob.url != blank
+      assign banner_mob_src = m_mob.url
+    elsif m_mob.src != blank
+      assign banner_mob_src = m_mob.src
+    else
+      assign banner_mob_src = m_mob | image_url: width: 1200
+    endif
   endif
 
   # 2. Dynamic Collection Main Image (Shopify Admin > Collections > Collection Image)
-  assign valid_coll_img = blank
-  if collection.image != blank
-    assign valid_coll_img = collection.image
-  elsif collection.featured_image != blank
-    assign valid_coll_img = collection.featured_image
+  if banner_img_src == blank
+    if collection.image != blank
+      assign banner_img_src = collection.image | image_url: width: 2000
+    elsif collection.featured_image != blank
+      assign banner_img_src = collection.featured_image | image_url: width: 2000
+    endif
   endif
 
   # 3. Global All-Collection Banner Settings from Theme Editor Card
-  assign sett_default_raw = section.settings.default_banner_image | default: section.settings.custom_banner_desktop
-  assign sett_default = sett_default_raw.value | default: sett_default_raw
-
-  assign sett_mob_raw = section.settings.default_banner_mobile | default: section.settings.custom_banner_mobile
-  assign sett_mob = sett_mob_raw.value | default: sett_mob_raw
-
-  assign valid_sett_default = blank
-  if sett_default != blank
-    assign valid_sett_default = sett_default.preview_image | default: sett_default
+  if banner_img_src == blank
+    assign sett_default_raw = section.settings.default_banner_image | default: section.settings.custom_banner_desktop
+    assign sett_default = sett_default_raw.value | default: sett_default_raw
+    if sett_default != blank
+      assign banner_img_src = sett_default.preview_image | default: sett_default | image_url: width: 2000
+    endif
   endif
 
-  assign valid_sett_mob = blank
-  if sett_mob != blank
-    assign valid_sett_mob = sett_mob.preview_image | default: sett_mob
+  if banner_mob_src == blank
+    assign sett_mob_raw = section.settings.default_banner_mobile | default: section.settings.custom_banner_mobile
+    assign sett_mob = sett_mob_raw.value | default: sett_mob_raw
+    if sett_mob != blank
+      assign banner_mob_src = sett_mob.preview_image | default: sett_mob | image_url: width: 1200
+    endif
   endif
 
   # 4. Fallback Product Image
-  assign valid_prod_img = blank
-  if collection.products.first.featured_image != blank
-    assign valid_prod_img = collection.products.first.featured_image
-  elsif collections.all.products.first.featured_image != blank
-    assign valid_prod_img = collections.all.products.first.featured_image
+  if banner_img_src == blank
+    if collection.products.first.featured_image != blank
+      assign banner_img_src = collection.products.first.featured_image | image_url: width: 2000
+    elsif collections.all.products.first.featured_image != blank
+      assign banner_img_src = collections.all.products.first.featured_image | image_url: width: 2000
+    endif
   endif
 
-  # Priority Resolution: Collection Metafield -> Collection Admin Image -> Theme Editor Global Banner -> Product Image
-  assign banner_img = valid_meta_desk | default: valid_coll_img | default: valid_sett_default | default: valid_prod_img
-  assign banner_mobile_img = valid_meta_mob | default: valid_sett_mob | default: banner_img
+  if banner_mob_src == blank
+    assign banner_mob_src = banner_img_src
+  endif
 %}
 
 <div class="collection-hero" id="CollectionHero-{{ section.id }}" style="width: 100%; max-width: 1400px; margin: 1rem auto 1.5rem; padding: 0 1rem; box-sizing: border-box; --hero-radius: {{ section.settings.banner_border_radius | default: 24 }}px; --title-size-desktop: {{ section.settings.title_font_size | default: 32 }}px; --title-color: {{ section.settings.title_color | default: '#1b4317' }};">
   <div class="collection-hero__container" style="width: 100%;">
     
     <!-- 1. COLLECTION BANNER IMAGE (DYNAMIC PER COLLECTION & GLOBAL FOR ALL COLLECTIONS) -->
-    {% if section.settings.show_collection_image and banner_img != blank %}
+    {% if section.settings.show_collection_image and banner_img_src != blank %}
       <div class="collection-hero__banner-wrap" style="width: 100%; border-radius: {{ section.settings.banner_border_radius | default: 24 }}px; overflow: hidden; box-shadow: 0 8px 24px rgba(35, 66, 31, 0.08);">
         <picture class="collection-hero__picture" style="display: block; width: 100%;">
-          {% if banner_mobile_img != blank and banner_mobile_img != banner_img %}
-            <source media="(max-width: 768px)" srcset="{{ banner_mobile_img | image_url: width: 1200 }}">
+          {% if banner_mob_src != blank and banner_mob_src != banner_img_src %}
+            <source media="(max-width: 768px)" srcset="{{ banner_mob_src }}">
           {% endif %}
           <img
-            src="{{ banner_img | image_url: width: 2000 }}"
+            src="{{ banner_img_src }}"
             alt="{{ collection.title | default: 'All Products' | escape }}"
             class="collection-hero__image"
             loading="eager"
