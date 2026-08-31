@@ -1310,3 +1310,55 @@
   margin: 1.5rem 0 !important;
   box-shadow: 0 4px 14px rgba(35, 66, 31, 0.04) !important;
 }
+
+/* HORIZONTAL LEFT-TO-RIGHT SCROLL GALLERY FOR MULTIPLE RECIPE / CHAPTER IMAGES */
+.vedic-box-gallery {
+  width: 100% !important;
+  margin: 1.5rem 0 !important;
+  position: relative !important;
+}
+
+.vedic-box-gallery__track {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 1.15rem !important;
+  overflow-x: auto !important;
+  scroll-snap-type: x mandatory !important;
+  scroll-behavior: smooth !important;
+  padding: 0.5rem 0.25rem 1rem !important;
+  scrollbar-width: thin !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+.vedic-box-gallery__slide {
+  flex: 0 0 280px !important;
+  max-width: 280px !important;
+  scroll-snap-align: start !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(35, 66, 31, 0.12) !important;
+  box-shadow: 0 4px 14px rgba(35, 66, 31, 0.06) !important;
+  background: #F4F8F0 !important;
+  transition: transform 220ms ease, box-shadow 220ms ease !important;
+}
+
+.vedic-box-gallery__slide:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 24px rgba(35, 66, 31, 0.14) !important;
+}
+
+@media screen and (max-width: 768px) {
+  .vedic-box-gallery__slide {
+    flex: 0 0 230px !important;
+    max-width: 230px !important;
+  }
+}
+
+.vedic-box-gallery__slide img {
+  width: 100% !important;
+  height: 200px !important;
+  object-fit: cover !important;
+  display: block !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}

@@ -3,7 +3,8 @@
   Features:
   - Top Hero Banner Image (Desktop & Mobile, editable in Theme Editor)
   - Hero Badge, Title, Subtitle
-  - Automatic Box CSS Container for Every Chapter / Farmer / Title added in Page Content or Theme Editor Blocks!
+  - Automatic Box CSS Container for Every Numbered Recipe / Chapter / Title!
+  - Multiple Image Horizontal Left-to-Right Scroll Gallery (Mobile & Web)
   - Story Cards with IMAGE ON TOP -> CONTENT BELOW IMAGE
   - Feature Pillars Grid (Icon, Title, Description)
   - Bottom Call-to-Action Banner (Heading, Subheading, Action Button)
@@ -50,7 +51,7 @@
     </div>
   </header>
 
-  <!-- 3. PAGE CONTENT AUTO-BOXER CONTAINER (Renders Admin Page Content inside Box CSS for Every Chapter & Title!) -->
+  <!-- 3. PAGE CONTENT AUTO-BOXER CONTAINER -->
   {% if page.content != blank %}
     <section class="vedic-story-cards-section" style="padding: 2.5rem 1rem 1rem; max-width: 1100px; margin: 0 auto;">
       <div class="vedic-page-content-wrapper" data-auto-box-content>
@@ -59,7 +60,7 @@
     </section>
   {% endif %}
 
-  <!-- 4. STORY CARDS FROM THEME EDITOR BLOCKS: BOX CSS FOR EVERY TITLE -->
+  <!-- 4. STORY CARDS FROM THEME EDITOR BLOCKS -->
   {% assign story_blocks = section.blocks | where: 'type', 'story_card' %}
   {% if story_blocks.size > 0 %}
     <section class="vedic-story-cards-section" style="padding: 2rem 1rem 3rem; max-width: 1240px; margin: 0 auto;">
@@ -169,7 +170,7 @@
   {% endif %}
 </div>
 
-<!-- AUTO-BOXER SCRIPT FOR EVERY CHAPTER & TITLE -->
+<!-- AUTO-BOXER SCRIPT FOR NUMBERED RECIPES, CHAPTERS, AND MULTIPLE IMAGE SCROLL GALLERY -->
 <script>
   (function() {
     function initAutoBoxer() {
@@ -185,6 +186,7 @@
       var children = Array.from(tempDiv.childNodes);
       var boxes = [];
       var currentBoxNodes = [];
+      var numRegex = /^(\d+)[\.\:\)]\s+/; // Matches "1. Haldi Wala Dudh", "2. Khapli Wheat Roti"
 
       children.forEach(function(node) {
         var isHeading = false;
@@ -193,6 +195,8 @@
         if (node.nodeType === 1) { // Element node
           var tagName = node.tagName.toLowerCase();
           if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].indexOf(tagName) !== -1) {
+            isHeading = true;
+          } else if (numRegex.test(textContent) && textContent.length < 80) {
             isHeading = true;
           } else if (textContent.indexOf('Chapter') !== -1 && textContent.length < 80) {
             isHeading = true;
@@ -204,7 +208,7 @@
             }
           }
         } else if (node.nodeType === 3) { // Text node
-          if (textContent.indexOf('Chapter') !== -1 || textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('A Note from Our Founder') !== -1 || (textContent.indexOf('Bhai') !== -1 && textContent.length < 60)) {
+          if (numRegex.test(textContent) || textContent.indexOf('Chapter') !== -1 || textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('A Note from Our Founder') !== -1 || (textContent.indexOf('Bhai') !== -1 && textContent.length < 60)) {
             isHeading = true;
           }
         }
@@ -251,6 +255,34 @@
           boxHTML = boxHTML.replace(/Button:\s*([^<]+)/gi, '<a class="vedic-content-box__btn" href="/collections/all">$1</a>');
 
           boxEl.innerHTML = boxHTML;
+
+          // Convert multiple images inside a box into a horizontal left-to-right scroll gallery
+          var imgs = Array.from(boxEl.querySelectorAll('img'));
+          if (imgs.length >= 2) {
+            var galleryWrap = document.createElement('div');
+            galleryWrap.className = 'vedic-box-gallery';
+            var galleryTrack = document.createElement('div');
+            galleryTrack.className = 'vedic-box-gallery__track';
+
+            imgs.forEach(function(img) {
+              var slide = document.createElement('div');
+              slide.className = 'vedic-box-gallery__slide';
+              var imgClone = img.cloneNode(true);
+              imgClone.removeAttribute('style');
+              slide.appendChild(imgClone);
+              galleryTrack.appendChild(slide);
+
+              var parentP = img.closest('p, div, figure');
+              if (parentP && parentP !== boxEl && parentP.querySelectorAll('img').length === 1 && parentP.textContent.trim() === '') {
+                parentP.remove();
+              } else {
+                img.remove();
+              }
+            });
+
+            galleryWrap.appendChild(galleryTrack);
+            boxEl.appendChild(galleryWrap);
+          }
 
           if (isFounder) {
             founderBox = boxEl;
