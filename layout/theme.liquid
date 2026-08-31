@@ -49,6 +49,129 @@
     <link rel="icon" type="image/png" href="{{ 'logo.png' | asset_url }}">
     <link rel="apple-touch-icon" href="{{ 'logo.png' | asset_url }}">
 
+    <!-- CRITICAL JUDGE.ME MODAL HEADER HIDE CSS & IMMEDIATE URL CHECK SCRIPT -->
+    <style>
+      /* HIDE STICKY HEADER & ANNOUNCEMENT BAR WHEN JUDGE.ME WRITE A REVIEW IS OPEN */
+      html.jdgm-form-open #shopify-section-header,
+      html.jdgm-form-open #shopify-section-announcement-bar,
+      html.jdgm-form-open header,
+      html.jdgm-form-open .header-wrapper,
+      html.jdgm-form-open .sticky-header,
+      html.jdgm-form-open section-header,
+      html.jdgm-form-open .announcement-bar-section,
+      body.jdgm-form-open #shopify-section-header,
+      body.jdgm-form-open #shopify-section-announcement-bar,
+      body.jdgm-form-open header,
+      body.jdgm-form-open .header-wrapper,
+      body.jdgm-form-open .sticky-header,
+      body.jdgm-form-open section-header,
+      body.jdgm-form-open .announcement-bar-section,
+      body:has(.jdgm-form-wrapper) #shopify-section-header,
+      body:has(.jdgm-form-wrapper) #shopify-section-announcement-bar,
+      body:has(.jdgm-form-wrapper) header,
+      body:has(.jdgm-form-wrapper) .header-wrapper,
+      body:has(.jdgm-form-wrapper) .sticky-header,
+      body:has(.jdgm-form) #shopify-section-header,
+      body:has(.jdgm-form) #shopify-section-announcement-bar,
+      body:has(.jdgm-form) header,
+      body:has(.jdgm-form) .header-wrapper,
+      body:has(.jdgm-form) .sticky-header,
+      body:has(.jdgm-rev-widg__form-wrapper) #shopify-section-header,
+      body:has(.jdgm-rev-widg__form-wrapper) #shopify-section-announcement-bar,
+      body:has(.jdgm-rev-widg__form-wrapper) header {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        pointer-events: none !important;
+      }
+
+      /* CENTER JUDGE.ME MODAL DIALOG BELOW TOP HEADER */
+      .jdgm-form-wrapper,
+      .jdgm-form,
+      .jdgm-rev-widg__form-wrapper,
+      #jdgm-dialog,
+      .jdgm-dialog {
+        z-index: 999999999 !important;
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4) !important;
+        border-radius: 20px !important;
+      }
+    </style>
+
+    <script>
+      (function() {
+        function checkUrlAndForm() {
+          var href = window.location.href;
+          var isParamOpen = (href.indexOf('pb=') !== -1 || href.indexOf('write_review') !== -1 || href.indexOf('judgeme') !== -1);
+          
+          var form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, #jdgm-dialog, .jdgm-dialog');
+          var isFormVisible = form && (
+            form.offsetWidth > 0 || 
+            form.offsetHeight > 0 || 
+            window.getComputedStyle(form).display !== 'none'
+          );
+
+          if (isParamOpen || isFormVisible) {
+            document.documentElement.classList.add('jdgm-form-open');
+            if (document.body) {
+              document.body.classList.add('jdgm-form-open');
+              var headers = document.querySelectorAll('#shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, section-header');
+              headers.forEach(function(h) {
+                h.style.setProperty('display', 'none', 'important');
+                h.style.setProperty('opacity', '0', 'important');
+                h.style.setProperty('visibility', 'hidden', 'important');
+              });
+            }
+          } else {
+            document.documentElement.classList.remove('jdgm-form-open');
+            if (document.body) {
+              document.body.classList.remove('jdgm-form-open');
+              var headers = document.querySelectorAll('#shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, section-header');
+              headers.forEach(function(h) {
+                h.style.removeProperty('display');
+                h.style.removeProperty('opacity');
+                h.style.removeProperty('visibility');
+              });
+            }
+          }
+        }
+
+        // Run immediately in <head>
+        checkUrlAndForm();
+
+        // Run on DOM ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', checkUrlAndForm);
+        } else {
+          checkUrlAndForm();
+        }
+
+        // Event listener for click events
+        document.addEventListener('click', function(e) {
+          if (e.target.closest('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn')) {
+            setTimeout(checkUrlAndForm, 50);
+            setTimeout(checkUrlAndForm, 200);
+            setTimeout(checkUrlAndForm, 500);
+          }
+          if (e.target.closest('.jdgm-cancel-rev, .jdgm-close-btn, .jdgm-form__close')) {
+            setTimeout(checkUrlAndForm, 50);
+          }
+        });
+
+        // Continuous interval check
+        setInterval(checkUrlAndForm, 200);
+      })();
+    </script>
+
     {{ content_for_header }}
   </head>
 
