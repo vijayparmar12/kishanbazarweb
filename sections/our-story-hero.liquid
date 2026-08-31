@@ -1,81 +1,57 @@
 {% doc %}
-  Renders the cinematic hero section for the Our Story page.
+  Renders the Hero Banner section for the Our Story page.
+  Features:
+  - 100% clean full-width hero banner image (Desktop & Mobile, editable in Theme Editor)
+  - Perfect responsive aspect-ratio scaling for web and mobile
+  - Toggle switch for text overlay (enabled/disabled) so banner graphics display crystal clear without overlapping text!
 {% enddoc %}
 
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
 
-<section class="story-hero" id="StoryHero-{{ section.id }}" {{ section.shopify_attributes }}>
-  <div class="story-hero__media-wrap">
-    {% if section.settings.desktop_image != blank %}
-      {{
-        section.settings.desktop_image
-        | image_url: width: 2200
-        | image_tag:
-          class: 'story-hero__image story-hero__image--desktop',
-          loading: 'eager',
-          fetchpriority: 'high',
-          widths: '750, 1100, 1400, 1800, 2200',
-          alt: section.settings.heading | escape
-      }}
-    {% else %}
-      <img
-        class="story-hero__image story-hero__image--desktop"
-        src="{{ 'hero-banner.jpg.png' | asset_url }}"
-        alt="{{ section.settings.heading | escape }}"
-        width="1800"
-        height="900"
-        loading="eager"
-        fetchpriority="high"
-      >
-    {% endif %}
-
-    {% if section.settings.mobile_image != blank %}
-      {{
-        section.settings.mobile_image
-        | image_url: width: 900
-        | image_tag:
-          class: 'story-hero__image story-hero__image--mobile',
-          loading: 'eager',
-          fetchpriority: 'high',
-          widths: '480, 750, 900',
-          alt: section.settings.heading | escape
-      }}
-    {% else %}
-      <img
-        class="story-hero__image story-hero__image--mobile"
-        src="{{ 'hero-mobile.jpg.png' | asset_url }}"
-        alt="{{ section.settings.heading | escape }}"
-        width="600"
-        height="700"
-        loading="eager"
-      >
-    {% endif %}
-    <div class="story-hero__overlay" style="--overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
-  </div>
-
-  <div class="story-hero__content-wrap">
-    <div class="story-hero__container">
-      <span class="story-hero__label">{{ section.settings.label | default: 'OUR STORY' }}</span>
-      <h1 class="story-hero__heading">{{ section.settings.heading | default: 'Good Food Begins With Good Farming' }}</h1>
-      <p class="story-hero__subheading">
-        {{ section.settings.subheading | default: 'From Indian farms to your family, we are building a better way to discover honest, wholesome food.' }}
-      </p>
-
-      <div class="story-hero__actions">
-        {% if section.settings.primary_cta_text != blank %}
-          <a href="{{ section.settings.primary_cta_link | default: routes.all_products_collection_url }}" class="story-btn story-btn--primary">
-            {{ section.settings.primary_cta_text }}
-          </a>
+<section class="story-hero-section" id="StoryHero-{{ section.id }}" style="padding: 0 1rem; max-width: 1400px; margin: 1rem auto 2rem; box-sizing: border-box;" {{ section.shopify_attributes }}>
+  {% if section.settings.desktop_image != blank or section.settings.mobile_image != blank %}
+    <div class="story-hero__banner-wrap" style="position: relative; width: 100%; border-radius: {{ section.settings.banner_radius | default: 20 }}px; overflow: hidden; box-shadow: 0 8px 24px rgba(35, 66, 31, 0.08);">
+      <picture class="story-hero__picture" style="display: block; width: 100%;">
+        {% if section.settings.mobile_image != blank %}
+          <source media="(max-width: 768px)" srcset="{{ section.settings.mobile_image | image_url: width: 1200 }}">
         {% endif %}
+        {% assign banner_img = section.settings.desktop_image | default: section.settings.mobile_image %}
+        <img
+          src="{{ banner_img | image_url: width: 2200 }}"
+          alt="{{ section.settings.heading | default: 'Our Story' | escape }}"
+          class="story-hero__banner-img"
+          loading="eager"
+          fetchpriority="high"
+          style="width: 100%; height: auto; display: block; object-fit: contain; max-height: 550px;"
+        >
+      </picture>
 
-        {% if section.settings.secondary_cta_text != blank %}
-          <a href="{{ section.settings.secondary_cta_link | default: '#story-farmers' }}" class="story-btn story-btn--secondary">
-            {{ section.settings.secondary_cta_text }}
-          </a>
-        {% endif %}
-      </div>
+      {% if section.settings.show_text_overlay and section.settings.heading != blank %}
+        <div class="story-hero__overlay-content" style="position: absolute; inset: 0; background: rgba(15, 33, 17, {{ section.settings.overlay_opacity | divided_by: 100.0 }}); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem 1.5rem; color: #ffffff;">
+          {% if section.settings.label != blank %}
+            <span class="story-hero__label" style="background: rgba(255,255,255,0.2); color: #F59E0B; padding: 0.35rem 1rem; border-radius: 999px; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; display: inline-block;">
+              {{ section.settings.label }}
+            </span>
+          {% endif %}
+          <h1 class="story-hero__heading" style="color: #ffffff; font-family: Georgia, serif; font-size: clamp(2rem, 4.5vw, 3.5rem); font-weight: 900; margin: 0 0 1rem; line-height: 1.15;">
+            {{ section.settings.heading }}
+          </h1>
+          {% if section.settings.subheading != blank %}
+            <p class="story-hero__subheading" style="color: #E5E7EB; font-size: clamp(1rem, 1.8vw, 1.2rem); max-width: 700px; margin: 0 0 1.5rem; line-height: 1.6;">
+              {{ section.settings.subheading }}
+            </p>
+          {% endif %}
+        </div>
+      {% endif %}
     </div>
-  </div>
+  {% else %}
+    <!-- Default Fallback Banner -->
+    <div class="story-hero__banner-wrap" style="position: relative; width: 100%; border-radius: 20px; overflow: hidden; background: #F4F8F0; padding: 4rem 1.5rem; text-align: center; border: 1px solid rgba(35, 66, 31, 0.12);">
+      <span class="story-hero__label" style="background: #EAF2E5; color: #23421F; padding: 0.35rem 1rem; border-radius: 999px; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; display: inline-block;">OUR STORY</span>
+      <h1 class="story-hero__heading" style="color: #132D14; font-family: Georgia, serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; margin: 0 0 1rem;">Good Food Begins With Good Farming</h1>
+      <p style="color: #4B5563; max-width: 650px; margin: 0 auto;">From Indian farms to your family, we are building a better way to discover honest, wholesome food.</p>
+    </div>
+  {% endif %}
 </section>
 
 {% schema %}
@@ -84,6 +60,10 @@
   "tag": "section",
   "class": "section-our-story-hero",
   "settings": [
+    {
+      "type": "header",
+      "content": "Hero Banner Image Settings"
+    },
     {
       "type": "image_picker",
       "id": "desktop_image",
@@ -96,53 +76,49 @@
     },
     {
       "type": "range",
+      "id": "banner_radius",
+      "label": "Banner Border Radius (px)",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Text Overlay Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_text_overlay",
+      "label": "Show Text Overlay on top of Banner Image",
+      "default": false,
+      "info": "Uncheck if your uploaded banner image already has text graphics printed on it."
+    },
+    {
+      "type": "range",
       "id": "overlay_opacity",
-      "min": 10,
+      "min": 0,
       "max": 90,
       "step": 5,
       "unit": "%",
-      "label": "Overlay Opacity",
-      "default": 45
+      "label": "Dark Overlay Opacity",
+      "default": 35
     },
     {
       "type": "text",
       "id": "label",
-      "label": "Small Label",
-      "default": "OUR STORY"
+      "label": "Small Label Text"
     },
     {
       "type": "text",
       "id": "heading",
-      "label": "Main Heading",
-      "default": "Good Food Begins With Good Farming"
+      "label": "Main Heading Text"
     },
     {
       "type": "textarea",
       "id": "subheading",
-      "label": "Subheading",
-      "default": "From Indian farms to your family, we are building a better way to discover honest, wholesome food."
-    },
-    {
-      "type": "text",
-      "id": "primary_cta_text",
-      "label": "Primary CTA Text",
-      "default": "Explore Our Products"
-    },
-    {
-      "type": "url",
-      "id": "primary_cta_link",
-      "label": "Primary CTA Link"
-    },
-    {
-      "type": "text",
-      "id": "secondary_cta_text",
-      "label": "Secondary CTA Text",
-      "default": "Meet Our Farmers"
-    },
-    {
-      "type": "url",
-      "id": "secondary_cta_link",
-      "label": "Secondary CTA Link"
+      "label": "Subheading Text"
     }
   ],
   "presets": [
