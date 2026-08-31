@@ -1,5 +1,5 @@
 {% comment %}
-  Standard Page Template section with Top Banner Image (Above Title) & Automatic Box CSS formatting for every Title/Heading
+  Standard Page Template section with Top Banner Image (Above Title) & Automatic Box CSS formatting for Every Farmer / Title
 {% endcomment %}
 
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
@@ -40,6 +40,7 @@
   </div>
 </div>
 
+<!-- AUTO-BOXER SCRIPT FOR EVERY FARMER & TITLE -->
 <script>
   (function() {
     function initAutoBoxer() {
@@ -49,58 +50,65 @@
       var rawHTML = container.innerHTML;
       if (!rawHTML || rawHTML.trim() === '') return;
 
-      if (rawHTML.indexOf('Title:') !== -1 || rawHTML.indexOf('<h2') !== -1 || rawHTML.indexOf('<h3') !== -1 || rawHTML.indexOf('<h4') !== -1) {
-        var tempDiv = document.createElement('div');
-        tempDiv.innerHTML = rawHTML;
+      var tempDiv = document.createElement('div');
+      tempDiv.innerHTML = rawHTML;
 
-        var children = Array.from(tempDiv.childNodes);
-        var boxes = [];
-        var currentBoxNodes = [];
+      var children = Array.from(tempDiv.childNodes);
+      var boxes = [];
+      var currentBoxNodes = [];
 
-        children.forEach(function(node) {
-          var isHeading = false;
-          var textContent = node.textContent ? node.textContent.trim() : '';
+      children.forEach(function(node) {
+        var isHeading = false;
+        var textContent = node.textContent ? node.textContent.trim() : '';
 
-          if (node.nodeType === 1) {
-            var tagName = node.tagName.toLowerCase();
-            if (['h1', 'h2', 'h3', 'h4'].indexOf(tagName) !== -1 || textContent.indexOf('Title:') === 0) {
+        if (node.nodeType === 1) { // Element node
+          var tagName = node.tagName.toLowerCase();
+          if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].indexOf(tagName) !== -1) {
+            isHeading = true;
+          } else if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('Name:') === 0) {
+            isHeading = true;
+          } else if (textContent.indexOf('Bhai') !== -1 || textContent.indexOf('Farmer') !== -1) {
+            if (textContent.length < 60) {
               isHeading = true;
             }
-          } else if (node.nodeType === 3 && textContent.indexOf('Title:') === 0) {
+          }
+        } else if (node.nodeType === 3) { // Text node
+          if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || (textContent.indexOf('Bhai') !== -1 && textContent.length < 60)) {
             isHeading = true;
           }
+        }
 
-          if (isHeading && currentBoxNodes.length > 0) {
-            boxes.push(currentBoxNodes);
-            currentBoxNodes = [];
-          }
-          currentBoxNodes.push(node);
-        });
-
-        if (currentBoxNodes.length > 0) {
+        if (isHeading && currentBoxNodes.length > 0) {
           boxes.push(currentBoxNodes);
+          currentBoxNodes = [];
         }
+        currentBoxNodes.push(node);
+      });
 
-        if (boxes.length > 0) {
-          container.innerHTML = '';
-          boxes.forEach(function(nodes) {
-            var boxEl = document.createElement('div');
-            boxEl.className = 'vedic-content-box';
-            
-            nodes.forEach(function(n) {
-              boxEl.appendChild(n.cloneNode(true));
-            });
+      if (currentBoxNodes.length > 0) {
+        boxes.push(currentBoxNodes);
+      }
 
-            var boxHTML = boxEl.innerHTML;
-            boxHTML = boxHTML.replace(/Title:\s*([^<]+)/gi, '<h2 class="vedic-content-box__title">$1</h2>');
-            boxHTML = boxHTML.replace(/Subtitle:\s*([^<]+)/gi, '<span class="vedic-content-box__subtitle">$1</span>');
-            boxHTML = boxHTML.replace(/Content:\s*/gi, '');
-            boxHTML = boxHTML.replace(/Button:\s*([^<]+)/gi, '<a class="vedic-content-box__btn" href="/collections/all">$1</a>');
-
-            boxEl.innerHTML = boxHTML;
-            container.appendChild(boxEl);
+      if (boxes.length > 0) {
+        container.innerHTML = '';
+        boxes.forEach(function(nodes) {
+          var boxEl = document.createElement('div');
+          boxEl.className = 'vedic-content-box';
+          
+          nodes.forEach(function(n) {
+            boxEl.appendChild(n.cloneNode(true));
           });
-        }
+
+          // Style formatting inside box
+          var boxHTML = boxEl.innerHTML;
+          boxHTML = boxHTML.replace(/Title:\s*([^<]+)/gi, '<h2 class="vedic-content-box__title">$1</h2>');
+          boxHTML = boxHTML.replace(/Subtitle:\s*([^<]+)/gi, '<span class="vedic-content-box__subtitle">$1</span>');
+          boxHTML = boxHTML.replace(/Content:\s*/gi, '');
+          boxHTML = boxHTML.replace(/Button:\s*([^<]+)/gi, '<a class="vedic-content-box__btn" href="/collections/all">$1</a>');
+
+          boxEl.innerHTML = boxHTML;
+          container.appendChild(boxEl);
+        });
       }
     }
 
