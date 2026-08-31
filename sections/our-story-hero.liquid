@@ -3,7 +3,8 @@
   Features:
   - Top Hero Banner Image (Desktop & Mobile, editable in Theme Editor)
   - Page Title below Banner
-  - Page Content below Title with Automatic Box CSS for every heading, section, & image (e.g. A Note from Our Founder, My Personal Invitation, In News)!
+  - Page Content below Title with Automatic Box CSS for every heading/section
+  - "A Note from Our Founder" formatted into a separate dedicated box ALWAYS at the VERY END of the page!
 {% enddoc %}
 
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
@@ -54,7 +55,7 @@
     </h1>
   </div>
 
-  <!-- 3. PAGE CONTENT BELOW TITLE (Auto-boxed into separate Card Boxes!) -->
+  <!-- 3. PAGE CONTENT BELOW TITLE (Auto-boxed into separate Card Boxes with Founder Note ALWAYS at bottom!) -->
   {% if page.content != blank %}
     <div style="max-width: 1100px; margin: 0 auto;">
       <div class="rte vedic-page-content-wrapper" data-auto-box-content>
@@ -64,7 +65,7 @@
   {% endif %}
 </section>
 
-<!-- AUTO-BOXER SCRIPT FOR PAGE CONTENT SECTIONS & IMAGES -->
+<!-- AUTO-BOXER SCRIPT FOR PAGE CONTENT & FOUNDER NOTE ALWAYS AT END -->
 <script>
   (function() {
     function initAutoBoxer() {
@@ -83,26 +84,33 @@
 
       children.forEach(function(node) {
         var isHeading = false;
-        var isImageOnly = false;
+        var isFounderHeader = false;
         var textContent = node.textContent ? node.textContent.trim() : '';
 
         if (node.nodeType === 1) { // Element node
           var tagName = node.tagName.toLowerCase();
-          if (['h1', 'h2', 'h3', 'h4', 'h5'].indexOf(tagName) !== -1) {
+          if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].indexOf(tagName) !== -1) {
             isHeading = true;
-          } else if (node.querySelector && node.querySelector('img')) {
-            // Paragraph or container with image
-            if (textContent === '' || textContent.length < 20) {
-              isImageOnly = true;
+          } else if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('Name:') === 0) {
+            isHeading = true;
+          } else if (textContent.indexOf('Bhai') !== -1 || textContent.indexOf('Farmer') !== -1) {
+            if (textContent.length < 60) {
+              isHeading = true;
             }
-          } else if (textContent.indexOf('Title:') === 0 || textContent.indexOf('A Note from Our Founder') !== -1 || textContent.indexOf('My Personal Invitation') !== -1 || textContent.indexOf('IN NEWS') !== -1) {
-            isHeading = true;
           }
-        } else if (node.nodeType === 3 && (textContent.indexOf('Title:') === 0 || textContent.indexOf('A Note from Our Founder') !== -1 || textContent.indexOf('My Personal Invitation') !== -1 || textContent.indexOf('IN NEWS') !== -1)) {
-          isHeading = true;
+
+          if (textContent.indexOf('Note from Our Founder') !== -1 || textContent.indexOf('Note From Our Founder') !== -1 || (textContent.indexOf('Founder') !== -1 && textContent.length < 40)) {
+            isHeading = true;
+            isFounderHeader = true;
+          }
+        } else if (node.nodeType === 3) {
+          if (textContent.indexOf('Note from Our Founder') !== -1 || textContent.indexOf('Note From Our Founder') !== -1) {
+            isHeading = true;
+            isFounderHeader = true;
+          }
         }
 
-        if ((isHeading || isImageOnly) && currentBoxNodes.length > 0) {
+        if (isHeading && currentBoxNodes.length > 0) {
           boxes.push(currentBoxNodes);
           currentBoxNodes = [];
         }
@@ -115,15 +123,21 @@
 
       if (boxes.length > 0) {
         container.innerHTML = '';
+        var normalBoxes = [];
+        var founderBox = null;
+
         boxes.forEach(function(nodes) {
           var boxEl = document.createElement('div');
-          boxEl.className = 'vedic-content-box';
-          
+          var isFounder = false;
+
           nodes.forEach(function(n) {
+            var t = n.textContent ? n.textContent : '';
+            if (t.indexOf('Note from Our Founder') !== -1 || t.indexOf('Note From Our Founder') !== -1) {
+              isFounder = true;
+            }
             boxEl.appendChild(n.cloneNode(true));
           });
 
-          // Style formatting inside box
           var boxHTML = boxEl.innerHTML;
           boxHTML = boxHTML.replace(/Title:\s*([^<]+)/gi, '<h2 class="vedic-content-box__title">$1</h2>');
           boxHTML = boxHTML.replace(/Subtitle:\s*([^<]+)/gi, '<span class="vedic-content-box__subtitle">$1</span>');
@@ -131,8 +145,25 @@
           boxHTML = boxHTML.replace(/Button:\s*([^<]+)/gi, '<a class="vedic-content-box__btn" href="/collections/all">$1</a>');
 
           boxEl.innerHTML = boxHTML;
-          container.appendChild(boxEl);
+
+          if (isFounder) {
+            boxEl.className = 'vedic-content-box vedic-content-box--founder';
+            founderBox = boxEl;
+          } else {
+            boxEl.className = 'vedic-content-box';
+            normalBoxes.push(boxEl);
+          }
         });
+
+        // 1. Render all normal story boxes FIRST
+        normalBoxes.forEach(function(b) {
+          container.appendChild(b);
+        });
+
+        // 2. Render Founder Box ALWAYS at the VERY END!
+        if (founderBox) {
+          container.appendChild(founderBox);
+        }
       }
     }
 

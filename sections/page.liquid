@@ -1,5 +1,5 @@
 {% comment %}
-  Standard Page Template section with Top Banner Image (Above Title) & Automatic Box CSS formatting for Every Farmer / Title
+  Standard Page Template section with Top Banner Image (Above Title) & Automatic Box CSS formatting for Every Title & Founder Note at Page Bottom
 {% endcomment %}
 
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
@@ -40,7 +40,7 @@
   </div>
 </div>
 
-<!-- AUTO-BOXER SCRIPT FOR EVERY FARMER & TITLE -->
+<!-- AUTO-BOXER SCRIPT FOR EVERY TITLE & FOUNDER NOTE ALWAYS AT END -->
 <script>
   (function() {
     function initAutoBoxer() {
@@ -59,6 +59,7 @@
 
       children.forEach(function(node) {
         var isHeading = false;
+        var isFounderHeader = false;
         var textContent = node.textContent ? node.textContent.trim() : '';
 
         if (node.nodeType === 1) { // Element node
@@ -72,9 +73,15 @@
               isHeading = true;
             }
           }
-        } else if (node.nodeType === 3) { // Text node
-          if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || (textContent.indexOf('Bhai') !== -1 && textContent.length < 60)) {
+
+          if (textContent.indexOf('Note from Our Founder') !== -1 || textContent.indexOf('Note From Our Founder') !== -1 || (textContent.indexOf('Founder') !== -1 && textContent.length < 40)) {
             isHeading = true;
+            isFounderHeader = true;
+          }
+        } else if (node.nodeType === 3) {
+          if (textContent.indexOf('Note from Our Founder') !== -1 || textContent.indexOf('Note From Our Founder') !== -1) {
+            isHeading = true;
+            isFounderHeader = true;
           }
         }
 
@@ -91,15 +98,21 @@
 
       if (boxes.length > 0) {
         container.innerHTML = '';
+        var normalBoxes = [];
+        var founderBox = null;
+
         boxes.forEach(function(nodes) {
           var boxEl = document.createElement('div');
-          boxEl.className = 'vedic-content-box';
-          
+          var isFounder = false;
+
           nodes.forEach(function(n) {
+            var t = n.textContent ? n.textContent : '';
+            if (t.indexOf('Note from Our Founder') !== -1 || t.indexOf('Note From Our Founder') !== -1) {
+              isFounder = true;
+            }
             boxEl.appendChild(n.cloneNode(true));
           });
 
-          // Style formatting inside box
           var boxHTML = boxEl.innerHTML;
           boxHTML = boxHTML.replace(/Title:\s*([^<]+)/gi, '<h2 class="vedic-content-box__title">$1</h2>');
           boxHTML = boxHTML.replace(/Subtitle:\s*([^<]+)/gi, '<span class="vedic-content-box__subtitle">$1</span>');
@@ -107,8 +120,25 @@
           boxHTML = boxHTML.replace(/Button:\s*([^<]+)/gi, '<a class="vedic-content-box__btn" href="/collections/all">$1</a>');
 
           boxEl.innerHTML = boxHTML;
-          container.appendChild(boxEl);
+
+          if (isFounder) {
+            boxEl.className = 'vedic-content-box vedic-content-box--founder';
+            founderBox = boxEl;
+          } else {
+            boxEl.className = 'vedic-content-box';
+            normalBoxes.push(boxEl);
+          }
         });
+
+        // 1. Render all normal story boxes FIRST
+        normalBoxes.forEach(function(b) {
+          container.appendChild(b);
+        });
+
+        // 2. Render Founder Box ALWAYS at the VERY END!
+        if (founderBox) {
+          container.appendChild(founderBox);
+        }
       }
     }
 

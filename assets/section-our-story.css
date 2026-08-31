@@ -1275,3 +1275,51 @@
   margin: 1.25rem 0 !important;
   display: block !important;
 }
+
+/* Dedicated Founder's Note Box Styling */
+.vedic-content-box--founder {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F9FAF6 100%) !important;
+  border: 2px solid rgba(46, 93, 52, 0.22) !important;
+  border-radius: 24px !important;
+  padding: clamp(1.75rem, 3.5vw, 2.75rem) !important;
+  margin-top: 3.5rem !important;
+  margin-bottom: 2.5rem !important;
+  box-shadow: 0 12px 32px rgba(35, 66, 31, 0.1) !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+.vedic-content-box--founder::before {
+  content: "📜 A NOTE FROM OUR FOUNDER";
+  display: inline-block;
+  background: #2E5D34;
+  color: #FFFFFF;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 1.15rem;
+  border-radius: 999px;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 4px 12px rgba(46, 93, 52, 0.2);
+}
+
+.vedic-content-box--founder h2,
+.vedic-content-box--founder h3 {
+  color: #132D14 !important;
+  font-family: Georgia, serif !important;
+  font-size: clamp(1.5rem, 3vw, 2.25rem) !important;
+  font-weight: 900 !important;
+  margin-bottom: 1rem !important;
+}
+
+.vedic-content-box--founder blockquote {
+  background: #F4F8F0 !important;
+  border-left: 4px solid #2E5D34 !important;
+  border-radius: 0 14px 14px 0 !important;
+  padding: 1rem 1.35rem !important;
+  margin: 1.25rem 0 !important;
+  color: #1F4224 !important;
+  font-style: italic !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+}
