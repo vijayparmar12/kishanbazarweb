@@ -169,7 +169,7 @@
   {% endif %}
 </div>
 
-<!-- AUTO-BOXER SCRIPT FOR EVERY FARMER (Bhai, Patel, Shah, Singh, Kumar, etc.) & TITLE -->
+<!-- AUTO-BOXER SCRIPT FOR EVERY FARMER & TITLE -->
 <script>
   (function() {
     function initAutoBoxer() {
@@ -186,48 +186,24 @@
       var boxes = [];
       var currentBoxNodes = [];
 
-      children.forEach(function(node, index) {
+      children.forEach(function(node) {
         var isHeading = false;
         var textContent = node.textContent ? node.textContent.trim() : '';
 
         if (node.nodeType === 1) { // Element node
           var tagName = node.tagName.toLowerCase();
-          
-          // 1. Standard HTML Headings (h1, h2, h3, h4, h5, h6)
           if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].indexOf(tagName) !== -1) {
             isHeading = true;
-          } 
-          // 2. Explicit Title/Farmer Labels
-          else if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('Name:') === 0) {
+          } else if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('Name:') === 0) {
             isHeading = true;
-          } 
-          // 3. Short Bold Person Name (e.g. <strong>Vipin Patel</strong> or <h3>Vipin Patel</h3>)
-          else if (node.querySelector('strong, b') && textContent.length > 2 && textContent.length < 70) {
-            if (textContent.indexOf('"') !== 0 && textContent.indexOf('—') !== 0 && textContent.indexOf('-') !== 0) {
+          } else if (textContent.indexOf('Bhai') !== -1 || textContent.indexOf('Farmer') !== -1) {
+            if (textContent.length < 60) {
               isHeading = true;
-            }
-          } 
-          // 4. Common Indian Farmer Surnames & Honorifics (Bhai, Patel, Shah, Singh, Kumar, Sharma, Verma, Devi, etc.)
-          else if (/\b(Bhai|Patel|Shah|Singh|Kumar|Sharma|Verma|Devi|Seth|Ji)\b/i.test(textContent) && textContent.length < 70) {
-            if (textContent.indexOf('"') !== 0 && textContent.indexOf('—') !== 0 && textContent.indexOf('-') !== 0) {
-              isHeading = true;
-            }
-          } 
-          // 5. Node followed by Subtitle with "|" or "Focus:" or "Crop:" (e.g. Navsari, Gujarat | Focus: ...)
-          else if (index < children.length - 1) {
-            var nextNode = children[index + 1];
-            var nextText = nextNode && nextNode.textContent ? nextNode.textContent.trim() : '';
-            if (nextText.indexOf('|') !== -1 || nextText.indexOf('Focus:') !== -1 || nextText.indexOf('Crop:') !== -1) {
-              if (textContent.length > 2 && textContent.length < 70 && textContent.indexOf('"') !== 0 && textContent.indexOf('—') !== 0) {
-                isHeading = true;
-              }
             }
           }
         } else if (node.nodeType === 3) { // Text node
-          if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || (/\b(Bhai|Patel|Shah|Singh|Kumar|Sharma)\b/i.test(textContent) && textContent.length < 70)) {
-            if (textContent.indexOf('"') !== 0 && textContent.indexOf('—') !== 0) {
-              isHeading = true;
-            }
+          if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || (textContent.indexOf('Bhai') !== -1 && textContent.length < 60)) {
+            isHeading = true;
           }
         }
 
@@ -254,7 +230,7 @@
 
           // Style formatting inside box
           var boxHTML = boxEl.innerHTML;
-          boxHTML = boxHTML.replace(/Title:\s*([^<]+)/gi, '<h2 class="vedic-content-box__title">$1</h2>');
+          boxHTML = boxHTML.replace(/Title:\s*([^<]+)/gi, '<h2 class="vedic-content-box__title">$1=.</h2>');
           boxHTML = boxHTML.replace(/Subtitle:\s*([^<]+)/gi, '<span class="vedic-content-box__subtitle">$1</span>');
           boxHTML = boxHTML.replace(/Content:\s*/gi, '');
           boxHTML = boxHTML.replace(/Button:\s*([^<]+)/gi, '<a class="vedic-content-box__btn" href="/collections/all">$1</a>');
