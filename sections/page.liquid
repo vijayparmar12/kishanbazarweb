@@ -1,10 +1,10 @@
 {% comment %}
-  Standard Page Template section with Top Banner Image (Above Title), Numbered Auto-Boxing & Touch/Mouse Drag Horizontal Gallery
+  Standard Page Template section with Top Banner Image (Above Title), Mobile Reset Container & Auto-Boxer Horizontal Gallery
 {% endcomment %}
 
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
 
-<div class="page-width page-width--narrow section-{{ section.id }}-padding" style="max-width: 1100px; margin: 2rem auto; padding: 0 1rem; box-sizing: border-box;">
+<div class="vedic-page-container section-{{ section.id }}-padding" style="width: 100%; max-width: 1100px; margin: 1.5rem auto; padding: 0 0.85rem; box-sizing: border-box; overflow-x: hidden;">
   
   <!-- 1. TOP HERO BANNER IMAGE ABOVE TITLE (Editable in Theme Editor & Page Metafields) -->
   {% liquid
@@ -13,8 +13,8 @@
   %}
 
   {% if page_banner_desk != blank %}
-    <div class="vedic-story-banner-wrap" style="max-width: 1400px; margin: 0 auto 2rem; padding: 0; box-sizing: border-box;">
-      <picture class="vedic-story-picture">
+    <div class="vedic-story-banner-wrap" style="max-width: 1400px; margin: 0 auto 1.5rem; padding: 0; box-sizing: border-box; width: 100%;">
+      <picture class="vedic-story-picture" style="display: block; width: 100%;">
         {% if page_banner_mob != blank and page_banner_mob != page_banner_desk %}
           <source media="(max-width: 768px)" srcset="{{ page_banner_mob | image_url: width: 1200 }}">
         {% endif %}
@@ -30,12 +30,12 @@
   {% endif %}
 
   <!-- 2. PAGE TITLE -->
-  <h1 class="main-page-title page-title h0" style="color: #132D14; font-family: Georgia, serif; font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 900; text-align: center; margin-bottom: 2.5rem;">
+  <h1 class="main-page-title page-title h0" style="color: #132D14; font-family: Georgia, serif; font-size: clamp(1.75rem, 4.5vw, 3.2rem); font-weight: 900; text-align: center; margin-bottom: 2rem; width: 100%; box-sizing: border-box;">
     {{ page.title }}
   </h1>
 
   <!-- 3. PAGE CONTENT AUTO-BOXER WRAPPER -->
-  <div class="rte vedic-page-content-wrapper" data-auto-box-content>
+  <div class="rte vedic-page-content-wrapper" data-auto-box-content style="width: 100%; box-sizing: border-box; overflow-x: hidden;">
     {{ page.content }}
   </div>
 </div>
