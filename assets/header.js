@@ -127,6 +127,13 @@
       const placeholder = document.querySelector('[data-header-top-placeholder]');
       if (!topSticky) return;
 
+      if (document.body.classList.contains('jdgm-review-modal-active') || document.documentElement.classList.contains('jdgm-review-modal-active') || window.location.search.indexOf('pb=0') !== -1) {
+        topSticky.classList.remove('kb-header-top--fixed');
+        topSticky.style.setProperty('display', 'none', 'important');
+        if (placeholder) placeholder.style.setProperty('display', 'none', 'important');
+        return;
+      }
+
       if (window.scrollY > 5) {
         if (!topSticky.classList.contains('kb-header-top--fixed')) {
           topSticky.classList.add('kb-header-top--fixed');

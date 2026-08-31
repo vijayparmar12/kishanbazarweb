@@ -142,7 +142,7 @@
             }
           }
 
-          var headerElements = document.querySelectorAll('.kb-header, .kb-header-top-sticky, [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"]');
+          var headerElements = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"]');
 
           if (isFormVisible) {
             document.documentElement.classList.add('jdgm-review-modal-active');
@@ -153,6 +153,7 @@
             }
 
             headerElements.forEach(function(h) {
+              h.classList.remove('kb-header-top--fixed');
               h.style.setProperty('display', 'none', 'important');
               h.style.setProperty('opacity', '0', 'important');
               h.style.setProperty('visibility', 'hidden', 'important');
