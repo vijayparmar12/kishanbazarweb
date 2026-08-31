@@ -1330,7 +1330,7 @@
 .vedic-content-box img {
   width: 100% !important;
   height: auto !important;
-  max-height: 440px !important;
+  max-height: 540px !important;
   object-fit: contain !important;
   border-radius: 16px !important;
   margin: 1.25rem 0 !important;
@@ -1401,13 +1401,13 @@
 }
 
 .vedic-box-gallery__slide {
-  flex: 0 0 380px !important;
-  max-width: 380px !important;
+  flex: 0 0 440px !important;
+  max-width: 440px !important;
   scroll-snap-align: start !important;
-  border-radius: 18px !important;
+  border-radius: 20px !important;
   overflow: hidden !important;
   border: 1px solid rgba(35, 66, 31, 0.14) !important;
-  box-shadow: 0 6px 20px rgba(35, 66, 31, 0.08) !important;
+  box-shadow: 0 8px 24px rgba(35, 66, 31, 0.08) !important;
   background: #F4F8F0 !important;
   transition: transform 220ms ease, box-shadow 220ms ease !important;
   display: flex !important;
@@ -1417,19 +1417,19 @@
 
 .vedic-box-gallery__slide:hover {
   transform: translateY(-4px) !important;
-  box-shadow: 0 12px 30px rgba(35, 66, 31, 0.16) !important;
+  box-shadow: 0 14px 36px rgba(35, 66, 31, 0.16) !important;
 }
 
 @media screen and (max-width: 768px) {
   .vedic-box-gallery__slide {
-    flex: 0 0 290px !important;
-    max-width: 290px !important;
+    flex: 0 0 310px !important;
+    max-width: 310px !important;
   }
 }
 
 .vedic-box-gallery__slide img {
   width: 100% !important;
-  height: 280px !important;
+  height: 380px !important;
   object-fit: cover !important;
   display: block !important;
   margin: 0 auto !important;
@@ -1439,6 +1439,6 @@
 
 @media screen and (max-width: 768px) {
   .vedic-box-gallery__slide img {
-    height: 220px !important;
+    height: 300px !important;
   }
 }
