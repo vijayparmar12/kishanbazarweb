@@ -4,7 +4,7 @@
   - Top Hero Banner Image (Desktop & Mobile, editable in Theme Editor)
   - Hero Badge, Title, Subtitle
   - Automatic Box CSS Container for Every Numbered Recipe / Chapter / Title!
-  - Multiple Image Horizontal Left-to-Right Touch & Mouse Finger Scroll Gallery (Mobile & Web)
+  - Multiple Image Horizontal Left-to-Right Scroll Gallery Right After Title (Increased Image Size)
   - Story Cards with IMAGE ON TOP -> CONTENT BELOW IMAGE
   - Feature Pillars Grid (Icon, Title, Description)
   - Bottom Call-to-Action Banner (Heading, Subheading, Action Button)
@@ -256,9 +256,9 @@
 
           boxEl.innerHTML = boxHTML;
 
-          // Convert multiple images inside a box into a horizontal left-to-right scroll gallery
+          // Convert images inside a box into a horizontal left-to-right scroll gallery placed RIGHT AFTER THE TITLE
           var imgs = Array.from(boxEl.querySelectorAll('img'));
-          if (imgs.length >= 2) {
+          if (imgs.length >= 1) {
             var galleryWrap = document.createElement('div');
             galleryWrap.className = 'vedic-box-gallery';
             var galleryTrack = document.createElement('div');
@@ -300,7 +300,16 @@
             });
 
             galleryWrap.appendChild(galleryTrack);
-            boxEl.appendChild(galleryWrap);
+
+            // Insert gallery RIGHT AFTER THE TITLE / HEADING inside the box
+            var titleEl = boxEl.querySelector('.vedic-content-box__title, h1, h2, h3, h4, h5, h6, .vedic-content-box__subtitle');
+            if (titleEl && titleEl.nextSibling) {
+              boxEl.insertBefore(galleryWrap, titleEl.nextSibling);
+            } else if (titleEl) {
+              titleEl.parentNode.appendChild(galleryWrap);
+            } else {
+              boxEl.insertBefore(galleryWrap, boxEl.firstChild);
+            }
           }
 
           if (isFounder) {

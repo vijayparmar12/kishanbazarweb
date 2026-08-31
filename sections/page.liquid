@@ -1,5 +1,5 @@
 {% comment %}
-  Standard Page Template section with Top Banner Image (Above Title), Mobile Reset Container & Auto-Boxer Horizontal Gallery
+  Standard Page Template section with Top Banner Image (Above Title), Mobile Reset Container & Auto-Boxer Gallery Placed Right After Title
 {% endcomment %}
 
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
@@ -40,7 +40,7 @@
   </div>
 </div>
 
-<!-- AUTO-BOXER SCRIPT FOR NUMBERED RECIPES, CHAPTERS, AND MULTIPLE IMAGE SCROLL GALLERY -->
+<!-- AUTO-BOXER SCRIPT FOR NUMBERED RECIPES, CHAPTERS, AND MULTIPLE IMAGE SCROLL GALLERY RIGHT AFTER TITLE -->
 <script>
   (function() {
     function initAutoBoxer() {
@@ -126,9 +126,9 @@
 
           boxEl.innerHTML = boxHTML;
 
-          // Convert multiple images inside a box into a horizontal left-to-right scroll gallery
+          // Convert images inside a box into a horizontal left-to-right scroll gallery placed RIGHT AFTER THE TITLE
           var imgs = Array.from(boxEl.querySelectorAll('img'));
-          if (imgs.length >= 2) {
+          if (imgs.length >= 1) {
             var galleryWrap = document.createElement('div');
             galleryWrap.className = 'vedic-box-gallery';
             var galleryTrack = document.createElement('div');
@@ -170,7 +170,16 @@
             });
 
             galleryWrap.appendChild(galleryTrack);
-            boxEl.appendChild(galleryWrap);
+
+            // Insert gallery RIGHT AFTER THE TITLE / HEADING inside the box
+            var titleEl = boxEl.querySelector('.vedic-content-box__title, h1, h2, h3, h4, h5, h6, .vedic-content-box__subtitle');
+            if (titleEl && titleEl.nextSibling) {
+              boxEl.insertBefore(galleryWrap, titleEl.nextSibling);
+            } else if (titleEl) {
+              titleEl.parentNode.appendChild(galleryWrap);
+            } else {
+              boxEl.insertBefore(galleryWrap, boxEl.firstChild);
+            }
           }
 
           if (isFounder) {
