@@ -156,5 +156,62 @@
         });
       })();
     </script>
+
+    <!-- 🚨 JUDGE.ME WRITE A REVIEW MODAL: HIDE ALL STICKY HEADERS & ANNOUNCEMENT BARS 🚨 -->
+    <script>
+      (function() {
+        function checkReviewModal() {
+          var forms = document.querySelectorAll('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-modal');
+          var isOpen = false;
+
+          forms.forEach(function(f) {
+            if (f) {
+              var style = window.getComputedStyle(f);
+              if (style.display !== 'none' && style.visibility !== 'hidden' && f.offsetHeight > 0) {
+                isOpen = true;
+              }
+            }
+          });
+
+          if (!isOpen && document.querySelector('.jdgm-write-rev-btn.jdgm-btn--active, .jdgm-write-rev-btn[aria-expanded="true"]')) {
+            isOpen = true;
+          }
+
+          if (isOpen) {
+            document.documentElement.classList.add('review-modal-open');
+            document.body.classList.add('review-modal-open');
+          } else {
+            document.documentElement.classList.remove('review-modal-open');
+            document.body.classList.remove('review-modal-open');
+          }
+        }
+
+        document.addEventListener('click', function(e) {
+          if (e.target.closest('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn, [href*="write_review"]')) {
+            var count = 0;
+            var timer = setInterval(function() {
+              checkReviewModal();
+              count++;
+              if (count > 30) clearInterval(timer);
+            }, 100);
+          }
+
+          if (e.target.closest('.jdgm-cancel-rev, .jdgm-close-btn, .jdgm-form__close, .jdgm-modal-close')) {
+            setTimeout(checkReviewModal, 50);
+          }
+        });
+
+        if (window.MutationObserver) {
+          var obs = new MutationObserver(checkReviewModal);
+          if (document.body) {
+            obs.observe(document.body, { childList: true, subtree: true, attributes: true });
+          } else {
+            document.addEventListener('DOMContentLoaded', function() {
+              obs.observe(document.body, { childList: true, subtree: true, attributes: true });
+            });
+          }
+        }
+      })();
+    </script>
   </body>
 </html>
