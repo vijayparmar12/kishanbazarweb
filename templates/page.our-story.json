@@ -14,14 +14,10 @@
       "settings": {
         "desktop_image": "shopify://shop_images/our_story_banner.png",
         "mobile_image": "shopify://shop_images/our_story_banner.png",
-        "overlay_opacity": 45,
+        "overlay_opacity": 90,
         "label": "OUR STORY",
         "heading": "",
-        "subheading": "",
-        "primary_cta_text": "",
-        "primary_cta_link": "",
-        "secondary_cta_text": "",
-        "secondary_cta_link": ""
+        "subheading": ""
       }
     }
   },
