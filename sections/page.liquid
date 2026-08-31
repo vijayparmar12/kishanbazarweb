@@ -1,14 +1,40 @@
 {% comment %}
-  Standard Page Template section with Automatic Box CSS formatting for every Title/Heading
+  Standard Page Template section with Top Banner Image (Above Title) & Automatic Box CSS formatting for every Title/Heading
 {% endcomment %}
 
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
 
 <div class="page-width page-width--narrow section-{{ section.id }}-padding" style="max-width: 1100px; margin: 2rem auto; padding: 0 1rem; box-sizing: border-box;">
+  
+  <!-- 1. TOP HERO BANNER IMAGE ABOVE TITLE (Editable in Theme Editor & Page Metafields) -->
+  {% liquid
+    assign page_banner_desk = section.settings.banner_image_desktop | default: page.metafields.custom.banner_image.value | default: page.metafields.custom.banner_image
+    assign page_banner_mob = section.settings.banner_image_mobile | default: page.metafields.custom.banner_mobile_image.value | default: page.metafields.custom.banner_mobile_image | default: page_banner_desk
+  %}
+
+  {% if page_banner_desk != blank %}
+    <div class="vedic-story-banner-wrap" style="max-width: 1400px; margin: 0 auto 2rem; padding: 0; box-sizing: border-box;">
+      <picture class="vedic-story-picture">
+        {% if page_banner_mob != blank and page_banner_mob != page_banner_desk %}
+          <source media="(max-width: 768px)" srcset="{{ page_banner_mob | image_url: width: 1200 }}">
+        {% endif %}
+        <img
+          src="{{ page_banner_desk | image_url: width: 2000 }}"
+          alt="{{ page.title | escape }}"
+          class="vedic-story-banner-image"
+          loading="eager"
+          style="width: 100%; height: auto; display: block; border-radius: {{ section.settings.banner_radius | default: 20 }}px; max-height: 480px; object-fit: cover; box-shadow: 0 8px 24px rgba(35, 66, 31, 0.08);"
+        >
+      </picture>
+    </div>
+  {% endif %}
+
+  <!-- 2. PAGE TITLE -->
   <h1 class="main-page-title page-title h0" style="color: #132D14; font-family: Georgia, serif; font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 900; text-align: center; margin-bottom: 2.5rem;">
     {{ page.title }}
   </h1>
 
+  <!-- 3. PAGE CONTENT AUTO-BOXER WRAPPER -->
   <div class="rte vedic-page-content-wrapper" data-auto-box-content>
     {{ page.content }}
   </div>
@@ -91,6 +117,23 @@
   "name": "Page Content",
   "tag": "section",
   "class": "section-page",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Top Banner Image Settings (Above Title)"
+    },
+    { "type": "image_picker", "id": "banner_image_desktop", "label": "Top Hero Banner Image (Desktop)" },
+    { "type": "image_picker", "id": "banner_image_mobile", "label": "Top Hero Banner Image (Mobile)" },
+    {
+      "type": "range",
+      "id": "banner_radius",
+      "label": "Banner Border Radius (px)",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    }
+  ]
 }
 {% endschema %}
