@@ -1,17 +1,96 @@
 {% comment %}
-  This section is used in the page template to render store pages like About us
-  or Contact us.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/page
+  Standard Page Template section with Automatic Box CSS formatting for every Title/Heading
 {% endcomment %}
 
-<h1>{{ page.title }}</h1>
+<link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
 
-{{ page.content }}
+<div class="page-width page-width--narrow section-{{ section.id }}-padding" style="max-width: 1100px; margin: 2rem auto; padding: 0 1rem; box-sizing: border-box;">
+  <h1 class="main-page-title page-title h0" style="color: #132D14; font-family: Georgia, serif; font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 900; text-align: center; margin-bottom: 2.5rem;">
+    {{ page.title }}
+  </h1>
+
+  <div class="rte vedic-page-content-wrapper" data-auto-box-content>
+    {{ page.content }}
+  </div>
+</div>
+
+<script>
+  (function() {
+    function initAutoBoxer() {
+      var container = document.querySelector('[data-auto-box-content]');
+      if (!container) return;
+
+      var rawHTML = container.innerHTML;
+      if (!rawHTML || rawHTML.trim() === '') return;
+
+      if (rawHTML.indexOf('Title:') !== -1 || rawHTML.indexOf('<h2') !== -1 || rawHTML.indexOf('<h3') !== -1 || rawHTML.indexOf('<h4') !== -1) {
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = rawHTML;
+
+        var children = Array.from(tempDiv.childNodes);
+        var boxes = [];
+        var currentBoxNodes = [];
+
+        children.forEach(function(node) {
+          var isHeading = false;
+          var textContent = node.textContent ? node.textContent.trim() : '';
+
+          if (node.nodeType === 1) {
+            var tagName = node.tagName.toLowerCase();
+            if (['h1', 'h2', 'h3', 'h4'].indexOf(tagName) !== -1 || textContent.indexOf('Title:') === 0) {
+              isHeading = true;
+            }
+          } else if (node.nodeType === 3 && textContent.indexOf('Title:') === 0) {
+            isHeading = true;
+          }
+
+          if (isHeading && currentBoxNodes.length > 0) {
+            boxes.push(currentBoxNodes);
+            currentBoxNodes = [];
+          }
+          currentBoxNodes.push(node);
+        });
+
+        if (currentBoxNodes.length > 0) {
+          boxes.push(currentBoxNodes);
+        }
+
+        if (boxes.length > 0) {
+          container.innerHTML = '';
+          boxes.forEach(function(nodes) {
+            var boxEl = document.createElement('div');
+            boxEl.className = 'vedic-content-box';
+            
+            nodes.forEach(function(n) {
+              boxEl.appendChild(n.cloneNode(true));
+            });
+
+            var boxHTML = boxEl.innerHTML;
+            boxHTML = boxHTML.replace(/Title:\s*([^<]+)/gi, '<h2 class="vedic-content-box__title">$1</h2>');
+            boxHTML = boxHTML.replace(/Subtitle:\s*([^<]+)/gi, '<span class="vedic-content-box__subtitle">$1</span>');
+            boxHTML = boxHTML.replace(/Content:\s*/gi, '');
+            boxHTML = boxHTML.replace(/Button:\s*([^<]+)/gi, '<a class="vedic-content-box__btn" href="/collections/all">$1</a>');
+
+            boxEl.innerHTML = boxHTML;
+            container.appendChild(boxEl);
+          });
+        }
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAutoBoxer);
+    } else {
+      initAutoBoxer();
+    }
+  })();
+</script>
 
 {% schema %}
 {
-  "name": "t:general.page",
+  "name": "Page Content",
+  "tag": "section",
+  "class": "section-page",
   "settings": []
 }
 {% endschema %}

@@ -1200,3 +1200,78 @@
     transition: none !important;
   }
 }
+
+/* ==========================================================================
+   DYNAMIC BOX CSS FOR EVERY TITLE / HEADING SECTION
+   ========================================================================== */
+.vedic-content-box {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(35, 66, 31, 0.14) !important;
+  border-radius: 24px !important;
+  padding: clamp(1.5rem, 3vw, 2.5rem) !important;
+  margin-bottom: 2rem !important;
+  box-shadow: 0 8px 24px rgba(35, 66, 31, 0.06) !important;
+  overflow: hidden !important;
+  transition: transform 250ms ease, box-shadow 250ms ease !important;
+  box-sizing: border-box !important;
+}
+
+.vedic-content-box:hover {
+  box-shadow: 0 14px 36px rgba(35, 66, 31, 0.12) !important;
+  transform: translateY(-3px) !important;
+}
+
+.vedic-content-box__title {
+  font-family: Georgia, serif !important;
+  font-size: clamp(1.4rem, 2.5vw, 2rem) !important;
+  font-weight: 800 !important;
+  color: #132D14 !important;
+  margin: 0 0 0.85rem !important;
+  line-height: 1.3 !important;
+}
+
+.vedic-content-box__subtitle {
+  display: inline-block !important;
+  background: #EAF2E5 !important;
+  color: #23421F !important;
+  border: 1px solid rgba(35, 66, 31, 0.15) !important;
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  padding: 0.35rem 1rem !important;
+  border-radius: 999px !important;
+  margin-bottom: 1rem !important;
+}
+
+.vedic-content-box__btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: #2E5D34 !important;
+  color: #FFFFFF !important;
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  padding: 0.85rem 1.85rem !important;
+  border-radius: 999px !important;
+  text-decoration: none !important;
+  margin-top: 1.25rem !important;
+  box-shadow: 0 4px 14px rgba(46, 93, 52, 0.25) !important;
+  transition: all 200ms ease !important;
+}
+
+.vedic-content-box__btn:hover {
+  background-color: #1F4224 !important;
+  transform: translateY(-2px) !important;
+  color: #FFFFFF !important;
+}
+
+.vedic-content-box img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 440px !important;
+  object-fit: contain !important;
+  border-radius: 16px !important;
+  margin: 1.25rem 0 !important;
+  display: block !important;
+}
