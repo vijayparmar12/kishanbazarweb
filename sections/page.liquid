@@ -1,5 +1,5 @@
 {% comment %}
-  Standard Page Template section with Top Banner Image (Above Title), Mobile Reset Container & Auto-Boxer Gallery Placed BELOW Title
+  Standard Page Template section with Top Banner Image (Above Title), Mobile Reset Container & Auto-Boxer Gallery (Frameless Single Images)
 {% endcomment %}
 
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
@@ -40,7 +40,7 @@
   </div>
 </div>
 
-<!-- AUTO-BOXER SCRIPT FOR NUMBERED RECIPES, CHAPTERS, AND MULTIPLE IMAGE SCROLL GALLERY BELOW TITLE -->
+<!-- AUTO-BOXER SCRIPT FOR NUMBERED RECIPES, CHAPTERS, AND MULTIPLE IMAGE SCROLL GALLERY -->
 <script>
   (function() {
     function initAutoBoxer() {
@@ -126,9 +126,9 @@
 
           boxEl.innerHTML = boxHTML;
 
-          // Convert images inside a box into a horizontal left-to-right scroll gallery placed DIRECTLY BELOW THE TITLE
+          // Convert ONLY MULTIPLE (2 or more) images into a horizontal scroll gallery. Single images remain frameless & natural size.
           var imgs = Array.from(boxEl.querySelectorAll('img'));
-          if (imgs.length >= 1) {
+          if (imgs.length >= 2) {
             var galleryWrap = document.createElement('div');
             galleryWrap.className = 'vedic-box-gallery';
             var galleryTrack = document.createElement('div');
@@ -171,7 +171,7 @@
 
             galleryWrap.appendChild(galleryTrack);
 
-            // Find title element (heading, bold paragraph, or first element) to place gallery DIRECTLY BELOW TITLE
+            // Find title element to place gallery DIRECTLY BELOW TITLE
             var titleEl = null;
             var firstChild = boxEl.firstElementChild;
             if (firstChild) {
@@ -212,7 +212,7 @@
       }
     }
 
-    if (document.ready_state === 'loading') {
+    if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initAutoBoxer);
     } else {
       initAutoBoxer();
