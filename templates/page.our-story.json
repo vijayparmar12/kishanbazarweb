@@ -1,56 +1,31 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "our-story-hero",
       "settings": {
+        "desktop_image": "shopify://shop_images/our_story_banner.png",
+        "mobile_image": "shopify://shop_images/our_story_banner.png",
+        "overlay_opacity": 45,
         "label": "OUR STORY",
-        "heading": "Good Food Begins With Good Farming",
-        "subheading": "From Indian farms to your family, we are building a better way to discover honest, wholesome food.",
-        "primary_cta_text": "Explore Our Products",
-        "secondary_cta_text": "Meet Our Farmers"
-      }
-    },
-    "intro": {
-      "type": "our-story-introduction",
-      "settings": {
-        "eyebrow": "OUR PHILOSOPHY",
-        "heading": "Why We Started",
-        "quote": "Food should be simple, honest and close to its roots."
-      }
-    },
-    "values": {
-      "type": "our-story-values",
-      "settings": {
-        "eyebrow": "CORE GUIDING PRINCIPLES",
-        "heading": "Our Core Values",
-        "subheading": "The principles that guide every seed we sow, every batch we grind, and every parcel we deliver."
-      }
-    },
-    "farmers": {
-      "type": "our-story-farmers",
-      "settings": {
-        "eyebrow": "DIRECT FROM THE SOIL",
-        "heading": "People Behind Your Food",
-        "subheading": "We work closely with farmers and producers who care deeply about the food they grow.",
-        "cta_text": "Discover Our Farmers"
-      }
-    },
-    "cta": {
-      "type": "our-story-cta",
-      "settings": {
-        "eyebrow": "JOIN THE MOVEMENT",
-        "heading": "Be Part of Our Journey",
-        "description": "Every purchase helps us bring better food to more families while supporting the people who grow it.",
-        "primary_btn_text": "Shop Now",
-        "secondary_btn_text": "Join Our Community"
+        "heading": "",
+        "subheading": "",
+        "primary_cta_text": "",
+        "primary_cta_link": "",
+        "secondary_cta_text": "",
+        "secondary_cta_link": ""
       }
     }
   },
   "order": [
-    "hero",
-    "intro",
-    "values",
-    "farmers",
-    "cta"
+    "hero"
   ]
 }
