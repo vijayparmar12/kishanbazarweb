@@ -1,14 +1,15 @@
 {% doc %}
-  Renders the Hero Banner section for the Our Story page.
+  Renders the Hero Banner and Page Content for Our Story page.
   Features:
-  - 100% clean full-width hero banner image (Desktop & Mobile, editable in Theme Editor)
-  - Perfect responsive aspect-ratio scaling for web and mobile
-  - Toggle switch for text overlay (enabled/disabled) so banner graphics display crystal clear without overlapping text!
+  - Top Hero Banner Image (Desktop & Mobile, editable in Theme Editor)
+  - Page Title below Banner
+  - Page Content below Title with Automatic Box CSS for every heading, section, & image (e.g. A Note from Our Founder, My Personal Invitation, In News)!
 {% enddoc %}
 
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
 
 <section class="story-hero-section" id="StoryHero-{{ section.id }}" style="padding: 0 1rem; max-width: 1400px; margin: 1rem auto 2rem; box-sizing: border-box;" {{ section.shopify_attributes }}>
+  <!-- 1. TOP HERO BANNER IMAGE (Editable in Theme Editor) -->
   {% if section.settings.desktop_image != blank or section.settings.mobile_image != blank %}
     <div class="story-hero__banner-wrap" style="position: relative; width: 100%; border-radius: {{ section.settings.banner_radius | default: 20 }}px; overflow: hidden; box-shadow: 0 8px 24px rgba(35, 66, 31, 0.08);">
       <picture class="story-hero__picture" style="display: block; width: 100%;">
@@ -18,7 +19,7 @@
         {% assign banner_img = section.settings.desktop_image | default: section.settings.mobile_image %}
         <img
           src="{{ banner_img | image_url: width: 2200 }}"
-          alt="{{ section.settings.heading | default: 'Our Story' | escape }}"
+          alt="{{ section.settings.heading | default: page.title | escape }}"
           class="story-hero__banner-img"
           loading="eager"
           fetchpriority="high"
@@ -44,19 +45,108 @@
         </div>
       {% endif %}
     </div>
-  {% else %}
-    <!-- Default Fallback Banner -->
-    <div class="story-hero__banner-wrap" style="position: relative; width: 100%; border-radius: 20px; overflow: hidden; background: #F4F8F0; padding: 4rem 1.5rem; text-align: center; border: 1px solid rgba(35, 66, 31, 0.12);">
-      <span class="story-hero__label" style="background: #EAF2E5; color: #23421F; padding: 0.35rem 1rem; border-radius: 999px; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; display: inline-block;">OUR STORY</span>
-      <h1 class="story-hero__heading" style="color: #132D14; font-family: Georgia, serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; margin: 0 0 1rem;">Good Food Begins With Good Farming</h1>
-      <p style="color: #4B5563; max-width: 650px; margin: 0 auto;">From Indian farms to your family, we are building a better way to discover honest, wholesome food.</p>
+  {% endif %}
+
+  <!-- 2. PAGE TITLE BELOW BANNER -->
+  <div style="max-width: 1100px; margin: 2.5rem auto 1.5rem; text-align: center;">
+    <h1 class="main-page-title page-title h0" style="color: #132D14; font-family: Georgia, serif; font-size: clamp(2.2rem, 4.5vw, 3.4rem); font-weight: 900; margin: 0 0 0.5rem;">
+      {{ page.title }}
+    </h1>
+  </div>
+
+  <!-- 3. PAGE CONTENT BELOW TITLE (Auto-boxed into separate Card Boxes!) -->
+  {% if page.content != blank %}
+    <div style="max-width: 1100px; margin: 0 auto;">
+      <div class="rte vedic-page-content-wrapper" data-auto-box-content>
+        {{ page.content }}
+      </div>
     </div>
   {% endif %}
 </section>
 
+<!-- AUTO-BOXER SCRIPT FOR PAGE CONTENT SECTIONS & IMAGES -->
+<script>
+  (function() {
+    function initAutoBoxer() {
+      var container = document.querySelector('[data-auto-box-content]');
+      if (!container) return;
+
+      var rawHTML = container.innerHTML;
+      if (!rawHTML || rawHTML.trim() === '') return;
+
+      var tempDiv = document.createElement('div');
+      tempDiv.innerHTML = rawHTML;
+
+      var children = Array.from(tempDiv.childNodes);
+      var boxes = [];
+      var currentBoxNodes = [];
+
+      children.forEach(function(node) {
+        var isHeading = false;
+        var isImageOnly = false;
+        var textContent = node.textContent ? node.textContent.trim() : '';
+
+        if (node.nodeType === 1) { // Element node
+          var tagName = node.tagName.toLowerCase();
+          if (['h1', 'h2', 'h3', 'h4', 'h5'].indexOf(tagName) !== -1) {
+            isHeading = true;
+          } else if (node.querySelector && node.querySelector('img')) {
+            // Paragraph or container with image
+            if (textContent === '' || textContent.length < 20) {
+              isImageOnly = true;
+            }
+          } else if (textContent.indexOf('Title:') === 0 || textContent.indexOf('A Note from Our Founder') !== -1 || textContent.indexOf('My Personal Invitation') !== -1 || textContent.indexOf('IN NEWS') !== -1) {
+            isHeading = true;
+          }
+        } else if (node.nodeType === 3 && (textContent.indexOf('Title:') === 0 || textContent.indexOf('A Note from Our Founder') !== -1 || textContent.indexOf('My Personal Invitation') !== -1 || textContent.indexOf('IN NEWS') !== -1)) {
+          isHeading = true;
+        }
+
+        if ((isHeading || isImageOnly) && currentBoxNodes.length > 0) {
+          boxes.push(currentBoxNodes);
+          currentBoxNodes = [];
+        }
+        currentBoxNodes.push(node);
+      });
+
+      if (currentBoxNodes.length > 0) {
+        boxes.push(currentBoxNodes);
+      }
+
+      if (boxes.length > 0) {
+        container.innerHTML = '';
+        boxes.forEach(function(nodes) {
+          var boxEl = document.createElement('div');
+          boxEl.className = 'vedic-content-box';
+          
+          nodes.forEach(function(n) {
+            boxEl.appendChild(n.cloneNode(true));
+          });
+
+          // Style formatting inside box
+          var boxHTML = boxEl.innerHTML;
+          boxHTML = boxHTML.replace(/Title:\s*([^<]+)/gi, '<h2 class="vedic-content-box__title">$1</h2>');
+          boxHTML = boxHTML.replace(/Subtitle:\s*([^<]+)/gi, '<span class="vedic-content-box__subtitle">$1</span>');
+          boxHTML = boxHTML.replace(/Content:\s*/gi, '');
+          boxHTML = boxHTML.replace(/Button:\s*([^<]+)/gi, '<a class="vedic-content-box__btn" href="/collections/all">$1</a>');
+
+          boxEl.innerHTML = boxHTML;
+          container.appendChild(boxEl);
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAutoBoxer);
+    } else {
+      initAutoBoxer();
+    }
+  })();
+</script>
+
 {% schema %}
 {
-  "name": "Our Story Hero",
+  "name": "Our Story Hero & Content",
   "tag": "section",
   "class": "section-our-story-hero",
   "settings": [
@@ -86,14 +176,13 @@
     },
     {
       "type": "header",
-      "content": "Text Overlay Settings"
+      "content": "Text Overlay Settings (Optional)"
     },
     {
       "type": "checkbox",
       "id": "show_text_overlay",
       "label": "Show Text Overlay on top of Banner Image",
-      "default": false,
-      "info": "Uncheck if your uploaded banner image already has text graphics printed on it."
+      "default": false
     },
     {
       "type": "range",
@@ -123,7 +212,7 @@
   ],
   "presets": [
     {
-      "name": "Our Story Hero"
+      "name": "Our Story Hero & Content"
     }
   ]
 }
