@@ -1,5 +1,5 @@
 {% comment %}
-  Standard Page Template section with Top Banner Image (Above Title) & Automatic Box CSS formatting for Every Heading and Founder Box at Page End
+  Standard Page Template section with Top Banner Image (Above Title) & Automatic Box CSS formatting for Every Chapter / Farmer / Title
 {% endcomment %}
 
 <link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
@@ -40,7 +40,7 @@
   </div>
 </div>
 
-<!-- AUTO-BOXER SCRIPT FOR PAGE CONTENT & FOUNDER BOX AT END -->
+<!-- AUTO-BOXER SCRIPT FOR EVERY CHAPTER & TITLE -->
 <script>
   (function() {
     function initAutoBoxer() {
@@ -65,6 +65,8 @@
           var tagName = node.tagName.toLowerCase();
           if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].indexOf(tagName) !== -1) {
             isHeading = true;
+          } else if (textContent.indexOf('Chapter') !== -1 && textContent.length < 80) {
+            isHeading = true;
           } else if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('Name:') === 0 || textContent.indexOf('A Note from Our Founder') !== -1 || textContent.indexOf('Note from Our Founder') !== -1) {
             isHeading = true;
           } else if (textContent.indexOf('Bhai') !== -1 || textContent.indexOf('Farmer') !== -1) {
@@ -73,7 +75,7 @@
             }
           }
         } else if (node.nodeType === 3) { // Text node
-          if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('A Note from Our Founder') !== -1 || (textContent.indexOf('Bhai') !== -1 && textContent.length < 60)) {
+          if (textContent.indexOf('Chapter') !== -1 || textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('A Note from Our Founder') !== -1 || (textContent.indexOf('Bhai') !== -1 && textContent.length < 60)) {
             isHeading = true;
           }
         }
@@ -112,6 +114,7 @@
             boxEl.appendChild(n.cloneNode(true));
           });
 
+          // Formatting replacements inside box
           var boxHTML = boxEl.innerHTML;
           boxHTML = boxHTML.replace(/Title:\s*([^<]+)/gi, '<h2 class="vedic-content-box__title">$1</h2>');
           boxHTML = boxHTML.replace(/Subtitle:\s*([^<]+)/gi, '<span class="vedic-content-box__subtitle">$1</span>');

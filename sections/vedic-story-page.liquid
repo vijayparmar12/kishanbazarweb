@@ -3,7 +3,7 @@
   Features:
   - Top Hero Banner Image (Desktop & Mobile, editable in Theme Editor)
   - Hero Badge, Title, Subtitle
-  - Automatic Box CSS Container for Every Farmer / Title added in Page Content or Theme Editor Blocks!
+  - Automatic Box CSS Container for Every Chapter / Farmer / Title added in Page Content or Theme Editor Blocks!
   - Story Cards with IMAGE ON TOP -> CONTENT BELOW IMAGE
   - Feature Pillars Grid (Icon, Title, Description)
   - Bottom Call-to-Action Banner (Heading, Subheading, Action Button)
@@ -50,7 +50,7 @@
     </div>
   </header>
 
-  <!-- 3. PAGE CONTENT AUTO-BOXER CONTAINER (Renders Admin Page Content inside Box CSS for Every Farmer & Title!) -->
+  <!-- 3. PAGE CONTENT AUTO-BOXER CONTAINER (Renders Admin Page Content inside Box CSS for Every Chapter & Title!) -->
   {% if page.content != blank %}
     <section class="vedic-story-cards-section" style="padding: 2.5rem 1rem 1rem; max-width: 1100px; margin: 0 auto;">
       <div class="vedic-page-content-wrapper" data-auto-box-content>
@@ -169,7 +169,7 @@
   {% endif %}
 </div>
 
-<!-- AUTO-BOXER SCRIPT FOR EVERY FARMER & TITLE -->
+<!-- AUTO-BOXER SCRIPT FOR EVERY CHAPTER & TITLE -->
 <script>
   (function() {
     function initAutoBoxer() {
@@ -194,7 +194,9 @@
           var tagName = node.tagName.toLowerCase();
           if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].indexOf(tagName) !== -1) {
             isHeading = true;
-          } else if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('Name:') === 0) {
+          } else if (textContent.indexOf('Chapter') !== -1 && textContent.length < 80) {
+            isHeading = true;
+          } else if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('Name:') === 0 || textContent.indexOf('A Note from Our Founder') !== -1 || textContent.indexOf('Note from Our Founder') !== -1) {
             isHeading = true;
           } else if (textContent.indexOf('Bhai') !== -1 || textContent.indexOf('Farmer') !== -1) {
             if (textContent.length < 60) {
@@ -202,7 +204,7 @@
             }
           }
         } else if (node.nodeType === 3) { // Text node
-          if (textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || (textContent.indexOf('Bhai') !== -1 && textContent.length < 60)) {
+          if (textContent.indexOf('Chapter') !== -1 || textContent.indexOf('Title:') === 0 || textContent.indexOf('Farmer:') === 0 || textContent.indexOf('A Note from Our Founder') !== -1 || (textContent.indexOf('Bhai') !== -1 && textContent.length < 60)) {
             isHeading = true;
           }
         }
@@ -219,25 +221,53 @@
       }
 
       if (boxes.length > 0) {
-        container.innerHTML = '';
+        var mainBoxes = [];
+        var founderBox = null;
+
         boxes.forEach(function(nodes) {
           var boxEl = document.createElement('div');
-          boxEl.className = 'vedic-content-box';
-          
+          var textContent = '';
+          nodes.forEach(function(n) {
+            textContent += (n.textContent || '') + ' ';
+          });
+
+          var isFounder = (textContent.indexOf('A Note from Our Founder') !== -1 || textContent.indexOf('Note from Our Founder') !== -1);
+
+          if (isFounder) {
+            boxEl.className = 'vedic-content-box vedic-founder-box';
+          } else {
+            boxEl.className = 'vedic-content-box';
+          }
+
           nodes.forEach(function(n) {
             boxEl.appendChild(n.cloneNode(true));
           });
 
           // Style formatting inside box
           var boxHTML = boxEl.innerHTML;
-          boxHTML = boxHTML.replace(/Title:\s*([^<]+)/gi, '<h2 class="vedic-content-box__title">$1=.</h2>');
+          boxHTML = boxHTML.replace(/Title:\s*([^<]+)/gi, '<h2 class="vedic-content-box__title">$1</h2>');
           boxHTML = boxHTML.replace(/Subtitle:\s*([^<]+)/gi, '<span class="vedic-content-box__subtitle">$1</span>');
           boxHTML = boxHTML.replace(/Content:\s*/gi, '');
           boxHTML = boxHTML.replace(/Button:\s*([^<]+)/gi, '<a class="vedic-content-box__btn" href="/collections/all">$1</a>');
 
           boxEl.innerHTML = boxHTML;
-          container.appendChild(boxEl);
+
+          if (isFounder) {
+            founderBox = boxEl;
+          } else {
+            mainBoxes.push(boxEl);
+          }
         });
+
+        container.innerHTML = '';
+        mainBoxes.forEach(function(b) {
+          container.appendChild(b);
+        });
+
+        // ALWAYS append Founder Box at the VERY END of the page!
+        if (founderBox) {
+          container.appendChild(founderBox);
+        }
       }
     }
 
