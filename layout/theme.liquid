@@ -52,21 +52,34 @@
     <!-- GLOBAL JUDGE.ME WRITE A REVIEW MODAL BACKDROP BLUR & HEADER-HIDE -->
     <style>
       /* BLUR ALL BACKGROUND & OVERLAY WHEN WRITE A REVIEW IS OPEN */
-      body.jdgm-review-modal-active::before {
-        content: "" !important;
+      body.jdgm-review-modal-active #JdgmBlurOverlay,
+      html.jdgm-review-modal-active #JdgmBlurOverlay {
         position: fixed !important;
         inset: 0 !important;
         width: 100vw !important;
         height: 100vh !important;
-        background: rgba(0, 0, 0, 0.78) !important;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
+        background: rgba(0, 0, 0, 0.82) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
         z-index: 99999990 !important;
         display: block !important;
         pointer-events: all !important;
       }
 
       /* HIDE ALL HEADERS & ANNOUNCEMENT BARS 100% */
+      html.jdgm-review-modal-active .kb-header,
+      html.jdgm-review-modal-active .kb-header-top-sticky,
+      html.jdgm-review-modal-active [data-premium-header],
+      html.jdgm-review-modal-active #shopify-section-header-group,
+      html.jdgm-review-modal-active .shopify-section-group-header-group,
+      html.jdgm-review-modal-active #shopify-section-header,
+      html.jdgm-review-modal-active #shopify-section-announcement-bar,
+      html.jdgm-review-modal-active header,
+      html.jdgm-review-modal-active .header-wrapper,
+      html.jdgm-review-modal-active .sticky-header,
+      body.jdgm-review-modal-active .kb-header,
+      body.jdgm-review-modal-active .kb-header-top-sticky,
+      body.jdgm-review-modal-active [data-premium-header],
       body.jdgm-review-modal-active #shopify-section-header-group,
       body.jdgm-review-modal-active .shopify-section-group-header-group,
       body.jdgm-review-modal-active #shopify-section-header,
@@ -74,19 +87,7 @@
       body.jdgm-review-modal-active header,
       body.jdgm-review-modal-active [id*="header"],
       body.jdgm-review-modal-active .header-wrapper,
-      body.jdgm-review-modal-active .sticky-header,
-      body.jdgm-review-modal-active .kb-header,
-      body.jdgm-review-modal-active .announcement-bar-section,
-      body:has(.jdgm-form-wrapper:not([style*="display: none"])) #shopify-section-header-group,
-      body:has(.jdgm-form-wrapper:not([style*="display: none"])) #shopify-section-header,
-      body:has(.jdgm-form-wrapper:not([style*="display: none"])) header,
-      body:has(.jdgm-form-wrapper:not([style*="display: none"])) .header-wrapper,
-      body:has(.jdgm-form-wrapper:not([style*="display: none"])) .sticky-header,
-      body:has(.jdgm-form:not([style*="display: none"])) #shopify-section-header-group,
-      body:has(.jdgm-form:not([style*="display: none"])) #shopify-section-header,
-      body:has(.jdgm-form:not([style*="display: none"])) header,
-      body:has(.jdgm-form:not([style*="display: none"])) .header-wrapper,
-      body:has(.jdgm-form:not([style*="display: none"])) .sticky-header {
+      body.jdgm-review-modal-active .sticky-header {
         display: none !important;
         opacity: 0 !important;
         visibility: hidden !important;
@@ -96,6 +97,7 @@
         padding: 0 !important;
         pointer-events: none !important;
         z-index: -999999 !important;
+        position: static !important;
       }
 
       /* JUDGE.ME REVIEW MODAL POPUP CENTERED AT MAXIMUM Z-INDEX */
@@ -104,17 +106,17 @@
       .jdgm-rev-widg__form-wrapper,
       .jdgm-widget .jdgm-form,
       .jdgm-write-rev-btn + .jdgm-form {
-        z-index: 99999999 !important;
+        z-index: 100000000 !important;
         position: fixed !important;
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
-        width: min(92vw, 680px) !important;
-        max-height: 88vh !important;
+        width: min(94vw, 680px) !important;
+        max-height: 90vh !important;
         overflow-y: auto !important;
         background: #FFFFFF !important;
         border-radius: 24px !important;
-        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5) !important;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6) !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
         margin: 0 !important;
       }
@@ -123,7 +125,8 @@
     <script>
       (function() {
         function toggleReviewModalState() {
-          var form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper');
+          var form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form');
+          var overlay = document.getElementById('JdgmBlurOverlay');
           var isFormVisible = false;
 
           if (form) {
@@ -134,40 +137,54 @@
           }
 
           if (window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1) {
-            if (document.querySelector('.jdgm-write-rev-btn, .jdgm-btn')) {
+            if (document.querySelector('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn')) {
               isFormVisible = true;
             }
           }
 
-          var headerGroup = document.querySelectorAll('#shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"]');
+          var headerElements = document.querySelectorAll('.kb-header, .kb-header-top-sticky, [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"]');
 
           if (isFormVisible) {
+            document.documentElement.classList.add('jdgm-review-modal-active');
             document.body.classList.add('jdgm-review-modal-active');
-            headerGroup.forEach(function(h) {
+            if (overlay) {
+              overlay.style.display = 'block';
+              overlay.classList.add('is-active');
+            }
+
+            headerElements.forEach(function(h) {
               h.style.setProperty('display', 'none', 'important');
               h.style.setProperty('opacity', '0', 'important');
               h.style.setProperty('visibility', 'hidden', 'important');
               h.style.setProperty('pointer-events', 'none', 'important');
+              h.style.setProperty('z-index', '-999999', 'important');
             });
           } else {
+            document.documentElement.classList.remove('jdgm-review-modal-active');
             document.body.classList.remove('jdgm-review-modal-active');
-            headerGroup.forEach(function(h) {
+            if (overlay) {
+              overlay.style.display = 'none';
+              overlay.classList.remove('is-active');
+            }
+
+            headerElements.forEach(function(h) {
               h.style.removeProperty('display');
               h.style.removeProperty('opacity');
               h.style.removeProperty('visibility');
               h.style.removeProperty('pointer-events');
+              h.style.removeProperty('z-index');
             });
           }
         }
 
         document.addEventListener('click', function(e) {
           if (e.target.closest('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn, [href*="write-review"], [href*="pb=0"]')) {
-            setTimeout(toggleReviewModalState, 30);
-            setTimeout(toggleReviewModalState, 150);
-            setTimeout(toggleReviewModalState, 400);
+            setTimeout(toggleReviewModalState, 20);
+            setTimeout(toggleReviewModalState, 100);
+            setTimeout(toggleReviewModalState, 300);
           }
           if (e.target.closest('.jdgm-cancel-rev, .jdgm-close-btn, .jdgm-form__close, .jdgm-dialog__close')) {
-            setTimeout(toggleReviewModalState, 30);
+            setTimeout(toggleReviewModalState, 20);
           }
         });
 
@@ -176,7 +193,7 @@
           observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
         }
 
-        setInterval(toggleReviewModalState, 200);
+        setInterval(toggleReviewModalState, 150);
       })();
     </script>
 
@@ -184,6 +201,7 @@
   </head>
 
   <body class="template-{{ template.name | default: 'index' | handle }}{% if template.suffix %} template-suffix-{{ template.suffix | handle }}{% endif %}">
+    <div id="JdgmBlurOverlay" style="display: none;"></div>
     {% sections 'header-group' %}
 
     {% section 'customer-profile' %}

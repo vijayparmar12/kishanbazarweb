@@ -165,42 +165,71 @@ p, .rte, .product-details-card, .product-tabs__content, .product-info__descripti
 
 .shopify-section { --page-margin: 0px; }
 
-/* JUDGE.ME WRITE A REVIEW MODAL: HIDE ALL STICKY HEADERS & ANNOUNCEMENT BARS */
+/* JUDGE.ME WRITE A REVIEW MODAL: HIDE ALL STICKY HEADERS & ANNOUNCEMENT BARS 100% */
+html.jdgm-review-modal-active .kb-header,
+html.jdgm-review-modal-active .kb-header-top-sticky,
+html.jdgm-review-modal-active [data-premium-header],
+html.jdgm-review-modal-active #shopify-section-header-group,
+html.jdgm-review-modal-active .shopify-section-group-header-group,
+html.jdgm-review-modal-active #shopify-section-header,
+html.jdgm-review-modal-active #shopify-section-announcement-bar,
+html.jdgm-review-modal-active header,
+html.jdgm-review-modal-active .header-wrapper,
+html.jdgm-review-modal-active .sticky-header,
+body.jdgm-review-modal-active .kb-header,
+body.jdgm-review-modal-active .kb-header-top-sticky,
+body.jdgm-review-modal-active [data-premium-header],
+body.jdgm-review-modal-active #shopify-section-header-group,
+body.jdgm-review-modal-active .shopify-section-group-header-group,
 body.jdgm-review-modal-active #shopify-section-header,
 body.jdgm-review-modal-active #shopify-section-announcement-bar,
 body.jdgm-review-modal-active header,
+body.jdgm-review-modal-active [id*="header"],
 body.jdgm-review-modal-active .header-wrapper,
-body.jdgm-review-modal-active .sticky-header,
-body.jdgm-review-modal-active section-header,
-body.jdgm-review-modal-active .announcement-bar-section,
-body:has(.jdgm-form-wrapper) #shopify-section-header,
-body:has(.jdgm-form-wrapper) #shopify-section-announcement-bar,
-body:has(.jdgm-form-wrapper) header,
-body:has(.jdgm-form-wrapper) .header-wrapper,
-body:has(.jdgm-form-wrapper) .sticky-header,
-body:has(.jdgm-form:not([style*="display: none"])) #shopify-section-header,
-body:has(.jdgm-form:not([style*="display: none"])) header,
-body:has(.jdgm-form:not([style*="display: none"])) .header-wrapper,
-body:has(.jdgm-form:not([style*="display: none"])) .sticky-header {
+body.jdgm-review-modal-active .sticky-header {
   display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;
   height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
   pointer-events: none !important;
+  z-index: -999999 !important;
+  position: static !important;
+}
+
+/* BLUR ALL BACKGROUND BEHIND THE REVIEW MODAL */
+body.jdgm-review-modal-active #JdgmBlurOverlay,
+#JdgmBlurOverlay.is-active {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.82) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  z-index: 99999990 !important;
+  display: block !important;
 }
 
 /* JUDGE.ME MODAL MAXIMUM Z-INDEX & CENTERED OVERLAY */
 .jdgm-form-wrapper,
 .jdgm-form,
 .jdgm-rev-widg__form-wrapper,
+.jdgm-widget .jdgm-form,
 .jdgm-write-rev-btn + .jdgm-form {
-  z-index: 99999999 !important;
+  z-index: 100000000 !important;
   position: fixed !important;
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
+  width: min(94vw, 680px) !important;
   max-height: 90vh !important;
   overflow-y: auto !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4) !important;
-  border-radius: 20px !important;
+  background: #FFFFFF !important;
+  border-radius: 24px !important;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  margin: 0 !important;
 }
