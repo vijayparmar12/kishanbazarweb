@@ -283,6 +283,34 @@
             </div>
           {% endif %}
         </div>
+      {% elsif section.settings.show_global_product_banner and section.settings.global_product_banner_desktop != blank %}
+        {% liquid
+          assign g_desk = section.settings.global_product_banner_desktop
+          assign g_mob = section.settings.global_product_banner_mobile | default: g_desk
+          assign g_radius = section.settings.product_banner_radius | default: 24
+        %}
+        <div class="product-banners-grid" style="display: flex; flex-direction: column; width: 100%;">
+          <div class="product-banner-card product-banner-card--global" style="border-radius: {{ g_radius }}px; overflow: hidden; width: 100%; box-shadow: 0 8px 24px rgba(35, 66, 31, 0.08);">
+            {% if section.settings.global_product_banner_link != blank %}
+              <a href="{{ section.settings.global_product_banner_link }}" class="product-banner-link" style="display: block; width: 100%;">
+            {% endif %}
+            <picture class="product-banner-picture" style="display: block; width: 100%;">
+              {% if g_mob != blank and g_mob != g_desk %}
+                <source media="(max-width: 749px)" srcset="{{ g_mob | image_url: width: 900 }}">
+              {% endif %}
+              <img
+                src="{{ g_desk | image_url: width: 1800 }}"
+                class="product-banner-img"
+                loading="lazy"
+                alt="{{ product.title | escape }}"
+                style="width: 100%; height: auto; display: block; border-radius: {{ g_radius }}px; max-height: 520px; object-fit: cover;"
+              >
+            </picture>
+            {% if section.settings.global_product_banner_link != blank %}
+              </a>
+            {% endif %}
+          </div>
+        </div>
       {% endif %}
     {% endif %}
 
