@@ -290,8 +290,13 @@
     }
 
     const checkIsVariantSoldOut = (v, optionEl) => {
-      if (v && v.available === false) return true;
-      if (optionEl && (optionEl.disabled || optionEl.dataset.available === 'false')) return true;
+      if (optionEl && (optionEl.disabled || optionEl.dataset.available === 'false')) {
+        return true;
+      }
+      if (v) {
+        if (v.available === false) return true;
+        if (v.inventory_quantity !== undefined && v.inventory_quantity !== null && Number(v.inventory_quantity) <= 0) return true;
+      }
       return false;
     };
 

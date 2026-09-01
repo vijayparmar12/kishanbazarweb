@@ -28,18 +28,11 @@
   window._productVariantsMap = window._productVariantsMap || {};
   {% for v in all_item_variants %}
     {% assign v_compare = v.compare_at_price | default: 0 %}
-    {% assign is_v_avail = v.available %}
-    {% if v.title contains '5KG' or v.title contains '5kg' or v.sku == 'ATTA_K_3' or v.id == 53399955538229 %}
-      {% assign is_v_avail = false %}
-    {% elsif v.inventory_quantity != nil and v.inventory_quantity <= 0 %}
-      {% assign is_v_avail = false %}
-    {% endif %}
     window._variantComparePrices[{{ v.id }}] = {{ v_compare }};
     window._productVariantsMap[{{ v.id }}] = {
       id: {{ v.id }},
       title: {{ v.title | json }},
-      available: {{ is_v_avail | json }},
-      inventory_quantity: {{ v.inventory_quantity | default: 0 | json }}
+      available: {{ v.available | json }}
     };
   {% endfor %}
 </script>
@@ -79,13 +72,14 @@
       {% if total_variants > 1 or item.product.has_only_default_variant == false or variant.title != 'Default Title' %}
         <select class="kb-cart-item__variant-select" data-cart-item-variant-select data-line-key="{{ line_key }}" data-current-qty="{{ item.quantity }}" data-current-variant-id="{{ variant.id }}" style="padding: 4px 24px 4px 10px; border-radius: 8px; border: 1px solid #cbd5e1; background-color: #f8fafc; font-size: 13px; font-weight: 600; color: #334155; cursor: pointer;">
           {% for v in all_item_variants %}
+            {% assign is_opt_avail = v.available %}
             <option
               value="{{ v.id }}"
               data-variant-title="{{ v.title | escape }}"
               {% if v.id == variant.id %}selected{% endif %}
-              {% unless v.available %}disabled data-available="false" style="color: #ef4444; font-weight: 700;"{% else %}data-available="true"{% endunless %}
+              {% unless is_opt_avail %}disabled data-available="false" style="color: #ef4444; font-weight: 700;"{% else %}data-available="true"{% endunless %}
             >
-              {{ v.title }}{% unless v.available %} - (Sold Out){% endunless %}
+              {{ v.title }}{% unless is_opt_avail %} - (Sold Out){% endunless %}
             </option>
           {% endfor %}
         </select>
