@@ -196,6 +196,27 @@
             "show_shares": true
           }
         },
+        "video_At9qeD": {
+          "type": "video",
+          "settings": {
+            "product": "kisanveda-khapli-atta-stone-ground-emmer-wheat-flour",
+            "video": "shopify://files/videos/Every grain of wheat carries a story… 🌾A story of a farmer’s faith, hard work, and honesty..Tod.mp4",
+            "video_url": "",
+            "video_label": "SHOP BY VIDEOS",
+            "badge_text": "BESTSELLER",
+            "custom_title": "",
+            "subtitle": "Stone Ground • 1 Kg",
+            "selling_price": "",
+            "compare_price": "",
+            "button_text": "ADD TO CART",
+            "like_count": "1.2K",
+            "comment_count": "86",
+            "share_count": "120",
+            "show_likes": true,
+            "show_comments": true,
+            "show_shares": true
+          }
+        },
         "video_4": {
           "type": "video",
           "settings": {
@@ -221,6 +242,7 @@
         "video_1",
         "video_2",
         "video_3",
+        "video_At9qeD",
         "video_4"
       ],
       "settings": {
