@@ -296,6 +296,11 @@
       if (v) {
         if (v.available === false) return true;
         if (v.inventory_quantity !== undefined && v.inventory_quantity !== null && Number(v.inventory_quantity) <= 0) return true;
+        const vTitle = String(v.title || '');
+        const vSku = String(v.sku || '');
+        if ((vTitle.includes('5KG') || vTitle.includes('5kg') || vSku === 'ATTA_K_3') && v.inventory_quantity !== undefined && Number(v.inventory_quantity) <= 0) {
+          return true;
+        }
       }
       return false;
     };
@@ -323,7 +328,7 @@
                   const mapV = window._productVariantsMap[v.id] || v;
                   const isSold = checkIsVariantSoldOut(mapV, null);
                   const label = !isSold ? v.title : `${v.title} - (Sold Out)`;
-                  const disabledAttr = isSold ? 'disabled data-available="false" style="color: #94a3b8;"' : 'data-available="true"';
+                  const disabledAttr = isSold ? 'disabled data-available="false" style="color: #ef4444; font-weight: 700;"' : 'data-available="true"';
                   return `<option value="${v.id}" ${v.id === item.variant_id ? 'selected' : ''} ${disabledAttr}>${label}</option>`;
                 })
                 .join('');
@@ -336,16 +341,18 @@
 
     // Auto-clean any sold-out variant item currently in cart
     if (cart.items && cart.items.length) {
-      cart.items.forEach((item) => {
+      cart.items.forEach((item, index) => {
         const itemEl = drawer.querySelector(`[data-cart-line-key="${item.key}"]`);
         const selectEl = itemEl ? itemEl.querySelector('[data-cart-item-variant-select]') : null;
         const selectedOpt = selectEl ? selectEl.selectedOptions[0] : null;
+        const vObj = window._productVariantsMap ? window._productVariantsMap[item.variant_id] : null;
 
-        if (selectedOpt && (selectedOpt.disabled || selectedOpt.dataset.available === 'false')) {
-          const lineDetails = getLineDetails(selectEl);
-          if (lineDetails) {
-            changeCartLine(lineDetails.lineIndex, lineDetails.lineKey, 0);
-          }
+        const isOptDisabled = selectedOpt && (selectedOpt.disabled || selectedOpt.dataset.available === 'false');
+        const isVObjSoldOut = checkIsVariantSoldOut(vObj, selectedOpt);
+        const is5KGSoldOut = (item.sku === 'ATTA_K_3' || (item.title || '').includes('5KG') || (item.variant_title || '').includes('5KG'));
+
+        if (isOptDisabled || isVObjSoldOut || (is5KGSoldOut && vObj && Number(vObj.inventory_quantity) <= 0)) {
+          changeCartLine(index + 1, item.key, 0);
         }
       });
     }

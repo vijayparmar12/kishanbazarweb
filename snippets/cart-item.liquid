@@ -81,11 +81,18 @@
             {% if v.inventory_quantity != nil and v.inventory_quantity <= 0 %}
               {% assign is_opt_avail = false %}
             {% endif %}
+            {% if v.sku == 'ATTA_K_3' or v.title contains '5KG' or v.title contains '5kg' %}
+              {% if v.inventory_quantity != nil and v.inventory_quantity <= 0 %}
+                {% assign is_opt_avail = false %}
+              {% elsif v.available == false %}
+                {% assign is_opt_avail = false %}
+              {% endif %}
+            {% endif %}
             <option
               value="{{ v.id }}"
               data-variant-title="{{ v.title | escape }}"
               {% if v.id == variant.id %}selected{% endif %}
-              {% unless is_opt_avail %}disabled data-available="false" style="color: #94a3b8;"{% else %}data-available="true"{% endunless %}
+              {% unless is_opt_avail %}disabled data-available="false" style="color: #ef4444; font-weight: 700;"{% else %}data-available="true"{% endunless %}
             >
               {{ v.title }}{% unless is_opt_avail %} - (Sold Out){% endunless %}
             </option>
