@@ -51,6 +51,23 @@
     endif
   endif
 
+  # 1b. Check Section Setting Custom Desktop Banner Image Override
+  if banner_img_src == blank and section.settings.custom_banner_desktop != blank
+    assign sett_override_raw = section.settings.custom_banner_desktop
+    assign sett_override = sett_override_raw.value | default: sett_override_raw
+    if sett_override != blank
+      assign banner_img_src = sett_override.preview_image | default: sett_override | image_url: width: 2000
+    endif
+  endif
+
+  if banner_mob_src == blank and section.settings.custom_banner_mobile != blank
+    assign sett_mob_override_raw = section.settings.custom_banner_mobile
+    assign sett_mob_override = sett_mob_override_raw.value | default: sett_mob_override_raw
+    if sett_mob_override != blank
+      assign banner_mob_src = sett_mob_override.preview_image | default: sett_mob_override | image_url: width: 1200
+    endif
+  endif
+
   # 2. Dynamic Collection Main Image (Shopify Admin > Collections > Collection Image)
   if banner_img_src == blank
     if collection.image != blank
@@ -60,9 +77,9 @@
     endif
   endif
 
-  # 3. Default Fallback Desktop & Mobile Banner Images from Theme Editor Card (Shown when collection has no custom image)
+  # 3. Default Fallback Desktop & Mobile Banner Image Container from Theme Editor Card
   if banner_img_src == blank
-    assign fallback_desk_raw = section.settings.default_fallback_desktop_banner | default: section.settings.fallback_banner_desktop | default: section.settings.custom_banner_desktop | default: section.settings.default_banner_image
+    assign fallback_desk_raw = section.settings.default_fallback_desktop_banner | default: section.settings.fallback_banner_desktop | default: section.settings.default_banner_image
     assign fallback_desk = fallback_desk_raw.value | default: fallback_desk_raw
     if fallback_desk != blank
       assign fallback_img = fallback_desk.preview_image | default: fallback_desk
@@ -71,7 +88,7 @@
   endif
 
   if banner_mob_src == blank
-    assign fallback_mob_raw = section.settings.default_fallback_mobile_banner | default: section.settings.fallback_banner_mobile | default: section.settings.custom_banner_mobile | default: section.settings.default_banner_mobile
+    assign fallback_mob_raw = section.settings.default_fallback_mobile_banner | default: section.settings.fallback_banner_mobile | default: section.settings.default_banner_mobile
     assign fallback_mob = fallback_mob_raw.value | default: fallback_mob_raw
     if fallback_mob != blank
       assign fallback_mob_img = fallback_mob.preview_image | default: fallback_mob
@@ -92,12 +109,16 @@
     assign banner_mob_src = banner_img_src
   endif
 
-  # Ensure protocol is prepended on relative CDN URLs
-  if banner_img_src != blank and banner_img_src contains '//' == false and banner_img_src contains 'http' == false
-    assign banner_img_src = banner_img_src | prepend: 'https:'
+  # Ensure protocol is prepended on relative CDN URLs (Valid Liquid Syntax)
+  if banner_img_src != blank
+    unless banner_img_src contains '//' or banner_img_src contains 'http'
+      assign banner_img_src = banner_img_src | prepend: 'https:'
+    endunless
   endif
-  if banner_mob_src != blank and banner_mob_src contains '//' == false and banner_mob_src contains 'http' == false
-    assign banner_mob_src = banner_mob_src | prepend: 'https:'
+  if banner_mob_src != blank
+    unless banner_mob_src contains '//' or banner_mob_src contains 'http'
+      assign banner_mob_src = banner_mob_src | prepend: 'https:'
+    endunless
   endif
 %}
 
@@ -151,10 +172,10 @@
       "content": "Banner Image Settings"
     },
     { "type": "checkbox", "id": "show_collection_image", "label": "Show Collection Banner Image", "default": true },
-    { "type": "image_picker", "id": "default_fallback_desktop_banner", "label": "Default Fallback Desktop Banner Image (Shown when no collection image exists)" },
-    { "type": "image_picker", "id": "default_fallback_mobile_banner", "label": "Default Fallback Mobile Banner Image (Optional Mobile Fallback)" },
     { "type": "image_picker", "id": "custom_banner_desktop", "label": "Custom Desktop Banner Image Override" },
     { "type": "image_picker", "id": "custom_banner_mobile", "label": "Custom Mobile Banner Image Override" },
+    { "type": "image_picker", "id": "default_fallback_desktop_banner", "label": "Default Fallback Desktop Banner Image (Shown when no collection image exists)" },
+    { "type": "image_picker", "id": "default_fallback_mobile_banner", "label": "Default Fallback Mobile Banner Image (Optional Mobile Fallback)" },
     {
       "type": "range",
       "id": "banner_border_radius",
