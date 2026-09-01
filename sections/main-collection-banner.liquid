@@ -1,9 +1,9 @@
 {% doc %}
   Renders the Collection Banner & Title section:
-  - Dynamic Priority:
+  - Dynamic Resolution Priority:
     1. collection.metafields.custom.banner_image (Specific collection custom metafield image e.g. oil.png)
     2. collection.image (Collection main image from Shopify Admin > Collections)
-    3. Global Default Banner Image from Theme Editor (Shown for All Collections / All Products)
+    3. Fallback Desktop & Mobile Banner Images from Theme Editor (Shown when collection has no custom image)
     4. Fallback product featured image
 {% enddoc %}
 
@@ -60,22 +60,22 @@
     endif
   endif
 
-  # 3. Global All-Collection Default Banner from Theme Editor (Fallback for collections without custom banners)
+  # 3. Fallback Desktop & Mobile Banner Images from Theme Editor Section Card
   if banner_img_src == blank
-    assign sett_default_raw = section.settings.default_banner_image | default: section.settings.custom_banner_desktop
-    assign sett_default = sett_default_raw.value | default: sett_default_raw
-    if sett_default != blank
-      assign sett_img = sett_default.preview_image | default: sett_default
-      assign banner_img_src = sett_img | image_url: width: 2000
+    assign fallback_desk_raw = section.settings.fallback_banner_desktop | default: section.settings.default_banner_image | default: section.settings.custom_banner_desktop
+    assign fallback_desk = fallback_desk_raw.value | default: fallback_desk_raw
+    if fallback_desk != blank
+      assign fallback_img = fallback_desk.preview_image | default: fallback_desk
+      assign banner_img_src = fallback_img | image_url: width: 2000
     endif
   endif
 
   if banner_mob_src == blank
-    assign sett_mob_raw = section.settings.default_banner_mobile | default: section.settings.custom_banner_mobile
-    assign sett_mob = sett_mob_raw.value | default: sett_mob_raw
-    if sett_mob != blank
-      assign sett_mob_img = sett_mob.preview_image | default: sett_mob
-      assign banner_mob_src = sett_mob_img | image_url: width: 1200
+    assign fallback_mob_raw = section.settings.fallback_banner_mobile | default: section.settings.default_banner_mobile | default: section.settings.custom_banner_mobile
+    assign fallback_mob = fallback_mob_raw.value | default: fallback_mob_raw
+    if fallback_mob != blank
+      assign fallback_mob_img = fallback_mob.preview_image | default: fallback_mob
+      assign banner_mob_src = fallback_mob_img | image_url: width: 1200
     endif
   endif
 
@@ -104,7 +104,7 @@
 <div class="collection-hero" id="CollectionHero-{{ section.id }}" style="width: 100%; max-width: 1400px; margin: 1rem auto 1.5rem; padding: 0 1rem; box-sizing: border-box; --hero-radius: {{ section.settings.banner_border_radius | default: 24 }}px; --title-size-desktop: {{ section.settings.title_font_size | default: 32 }}px; --title-color: {{ section.settings.title_color | default: '#1b4317' }};">
   <div class="collection-hero__container" style="width: 100%;">
     
-    <!-- 1. COLLECTION BANNER IMAGE (DYNAMIC PER COLLECTION & GLOBAL FOR ALL COLLECTIONS) -->
+    <!-- 1. COLLECTION BANNER IMAGE (DYNAMIC PER COLLECTION & FALLBACK FROM THEME EDITOR) -->
     {% if section.settings.show_collection_image and banner_img_src != blank %}
       <div class="collection-hero__banner-wrap" style="width: 100%; border-radius: {{ section.settings.banner_border_radius | default: 24 }}px; overflow: hidden; box-shadow: 0 8px 24px rgba(35, 66, 31, 0.08);">
         <picture class="collection-hero__picture" style="display: block; width: 100%;">
@@ -148,13 +148,15 @@
   "settings": [
     {
       "type": "header",
-      "content": "Global All-Collection Banner Settings"
+      "content": "Banner Image Settings"
     },
     { "type": "checkbox", "id": "show_collection_image", "label": "Show Collection Banner Image", "default": true },
-    { "type": "image_picker", "id": "default_banner_image", "label": "Global All-Collection Desktop Banner (Shown for All Products & Collections)" },
-    { "type": "image_picker", "id": "default_banner_mobile", "label": "Global All-Collection Mobile Banner (Optional Mobile View)" },
-    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Alternative Desktop Banner Image Fallback" },
-    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Alternative Mobile Banner Image Fallback" },
+    { "type": "image_picker", "id": "fallback_banner_desktop", "label": "Fallback Desktop Banner Image (Shown when collection has no custom image)" },
+    { "type": "image_picker", "id": "fallback_banner_mobile", "label": "Fallback Mobile Banner Image (Optional Mobile Fallback)" },
+    { "type": "image_picker", "id": "default_banner_image", "label": "Global Default Desktop Banner" },
+    { "type": "image_picker", "id": "default_banner_mobile", "label": "Global Default Mobile Banner" },
+    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Custom Desktop Banner Image Override" },
+    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Custom Mobile Banner Image Override" },
     {
       "type": "range",
       "id": "banner_border_radius",
