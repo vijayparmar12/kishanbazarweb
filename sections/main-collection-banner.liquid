@@ -109,7 +109,7 @@
     assign banner_mob_src = banner_img_src
   endif
 
-  # Ensure protocol is prepended on relative CDN URLs (Valid Liquid Syntax)
+  # Ensure protocol is prepended on relative CDN URLs
   if banner_img_src != blank
     unless banner_img_src contains '//' or banner_img_src contains 'http'
       assign banner_img_src = banner_img_src | prepend: 'https:'
@@ -172,10 +172,10 @@
       "content": "Banner Image Settings"
     },
     { "type": "checkbox", "id": "show_collection_image", "label": "Show Collection Banner Image", "default": true },
-    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Custom Desktop Banner Image Override" },
-    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Custom Mobile Banner Image Override" },
-    { "type": "image_picker", "id": "default_fallback_desktop_banner", "label": "Default Fallback Desktop Banner Image (Shown when no collection image exists)" },
-    { "type": "image_picker", "id": "default_fallback_mobile_banner", "label": "Default Fallback Mobile Banner Image (Optional Mobile Fallback)" },
+    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Custom Desktop Banner Override" },
+    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Custom Mobile Banner Override" },
+    { "type": "image_picker", "id": "default_fallback_desktop_banner", "label": "Fallback Desktop Banner Image" },
+    { "type": "image_picker", "id": "default_fallback_mobile_banner", "label": "Fallback Mobile Banner Image" },
     {
       "type": "range",
       "id": "banner_border_radius",
