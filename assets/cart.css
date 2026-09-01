@@ -3207,4 +3207,46 @@ body.kb-cart-drawer-open {
     opacity: 1;
   }
 }
+
+/* CART ITEM QUANTITY INPUT NUMBER FORMATTING & DESKTOP TRASHBIN PLACEMENT */
+.kb-cart-item__qty-input {
+  width: 38px !important;
+  min-width: 38px !important;
+  max-width: 38px !important;
+  height: 28px !important;
+  line-height: 28px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #1b4317 !important;
+  text-align: center !important;
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: textfield !important;
+}
+
+.kb-cart-item__qty-input::-webkit-outer-spin-button,
+.kb-cart-item__qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+.kb-cart-item__remove-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: none !important;
+  border: none !important;
+  padding: 4px !important;
+  cursor: pointer !important;
+  color: #64748b !important;
+  transition: color 150ms ease !important;
+}
+
+.kb-cart-item__remove-btn:hover {
+  color: #ef4444 !important;
+}
 
