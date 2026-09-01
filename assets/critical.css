@@ -166,6 +166,37 @@ p, .rte, .product-details-card, .product-tabs__content, .product-info__descripti
 .shopify-section { --page-margin: 0px; }
 
 /* JUDGE.ME WRITE A REVIEW MODAL: HIDE ALL STICKY HEADERS & ANNOUNCEMENT BARS 100% */
+body:has(.jdgm-form-wrapper),
+body:has(.jdgm-form),
+body:has(.jdgm-rev-widg__form-wrapper),
+body:has([class*="jdgm-form"]),
+body.jdgm-review-modal-active,
+html.jdgm-review-modal-active {
+  overflow: hidden !important;
+}
+
+body:has(.jdgm-form-wrapper) #shopify-section-header-group,
+body:has(.jdgm-form-wrapper) .shopify-section-group-header-group,
+body:has(.jdgm-form-wrapper) #shopify-section-header,
+body:has(.jdgm-form-wrapper) #shopify-section-announcement-bar,
+body:has(.jdgm-form-wrapper) header,
+body:has(.jdgm-form-wrapper) .kb-header,
+body:has(.jdgm-form-wrapper) .kb-header-top-sticky,
+body:has(.jdgm-form-wrapper) .kb-header1,
+body:has(.jdgm-form-wrapper) .kb-header2,
+body:has(.jdgm-form-wrapper) [data-header-top-sticky],
+body:has(.jdgm-form-wrapper) [data-premium-header],
+body:has(.jdgm-form) #shopify-section-header-group,
+body:has(.jdgm-form) .shopify-section-group-header-group,
+body:has(.jdgm-form) #shopify-section-header,
+body:has(.jdgm-form) #shopify-section-announcement-bar,
+body:has(.jdgm-form) header,
+body:has(.jdgm-form) .kb-header,
+body:has(.jdgm-form) .kb-header-top-sticky,
+body:has(.jdgm-form) .kb-header1,
+body:has(.jdgm-form) .kb-header2,
+body:has(.jdgm-form) [data-header-top-sticky],
+body:has(.jdgm-form) [data-premium-header],
 html.jdgm-review-modal-active .kb-header,
 html.jdgm-review-modal-active .kb-header-top-sticky,
 html.jdgm-review-modal-active .kb-header-top--fixed,
@@ -207,7 +238,7 @@ body.jdgm-review-modal-active .sticky-header {
 
 /* BLUR ALL BACKGROUND BEHIND THE REVIEW MODAL */
 body.jdgm-review-modal-active #JdgmBlurOverlay,
-#JdgmBlurOverlay.is-active {
+html.jdgm-review-modal-active #JdgmBlurOverlay {
   position: fixed !important;
   inset: 0 !important;
   width: 100vw !important;
@@ -238,4 +269,69 @@ body.jdgm-review-modal-active #JdgmBlurOverlay,
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6) !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   margin: 0 !important;
+}
+
+/* PROPER JUDGE.ME STAR RATING OVERRIDES - USES UNIVERSAL UNICODE SYSTEM STAR (NO BROKEN RECTANGLE BOXES) */
+.jdgm-star,
+.jdgm-star:before,
+.jdgm-star:after,
+.jdgm-star *,
+.jdgm-form-rating .jdgm-star,
+.jdgm-rev__rating .jdgm-star,
+.jdgm-prev-badge .jdgm-star,
+.jdgm-histogram__star .jdgm-star {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif !important;
+  font-style: normal !important;
+  font-weight: 900 !important;
+  text-transform: none !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  line-height: 1 !important;
+  font-size: 1.35rem !important;
+  letter-spacing: 2px !important;
+  margin-right: 1px !important;
+  speak: never;
+}
+
+/* FILLED STARS (★) - GOLDEN OR DARK GREEN */
+.jdgm-star.jdgm--on:before,
+.jdgm-star.jdgm-star--on:before,
+.jdgm-star[data-score="1"]:before,
+.jdgm-form-rating .jdgm-star.jdgm--on:before,
+.jdgm-rev__rating .jdgm-star.jdgm--on:before,
+.jdgm-histogram__star .jdgm-star.jdgm--on:before,
+span.jdgm-star.jdgm--on:before,
+a.jdgm-star.jdgm--on:before {
+  content: "\2605" !important; /* ★ Filled Star */
+  color: #F59E0B !important; /* Golden Warm Star Color */
+  opacity: 1 !important;
+}
+
+/* UNSELECTED / EMPTY STARS IN FORM & REVIEWS (★) */
+.jdgm-star.jdgm--off:before,
+.jdgm-star.jdgm-star--off:before,
+.jdgm-form-rating .jdgm-star.jdgm--off:before,
+.jdgm-rev__rating .jdgm-star.jdgm--off:before,
+.jdgm-histogram__star .jdgm-star.jdgm--off:before,
+span.jdgm-star.jdgm--off:before,
+a.jdgm-star.jdgm--off:before {
+  content: "\2605" !important; /* ★ Star */
+  color: #D1D5DB !important; /* Clean Light Grey */
+  opacity: 0.7 !important;
+}
+
+/* HALF STARS */
+.jdgm-star.jdgm--half:before,
+.jdgm-star.jdgm-star--half:before,
+span.jdgm-star.jdgm--half:before {
+  content: "\2605" !important;
+  color: #F59E0B !important;
+  opacity: 0.8 !important;
+}
+
+/* HOVER / ACTIVE IN FORM RATING (WRITE A REVIEW MODAL) */
+.jdgm-form-rating .jdgm-star:hover:before,
+.jdgm-form-rating .jdgm-star.jdgm--on:before {
+  color: #F59E0B !important;
+  opacity: 1 !important;
 }
