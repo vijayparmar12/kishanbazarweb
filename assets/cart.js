@@ -296,16 +296,12 @@
       if (v) {
         if (v.available === false) return true;
         if (v.inventory_quantity !== undefined && v.inventory_quantity !== null && Number(v.inventory_quantity) <= 0) return true;
-        const vTitle = String(v.title || '');
-        const vSku = String(v.sku || '');
-        const vId = String(v.id || '');
-        if (vTitle.includes('5KG') || vTitle.includes('5kg') || vSku === 'ATTA_K_3' || vId === '53399955538229') {
+        const vTitle = String(v.title || '').trim();
+        const vSku = String(v.sku || '').trim();
+        const vId = String(v.id || '').trim();
+        if (vTitle === '5KG' || vTitle === '5kg' || vSku === 'ATTA_K_3' || vId === '53399955538229') {
           return true;
         }
-      }
-      if (optionEl) {
-        const text = optionEl.textContent || '';
-        if (text.includes('5KG') || text.includes('5kg')) return true;
       }
       return false;
     };
@@ -341,24 +337,6 @@
             }
           })
           .catch(() => {});
-      });
-    }
-
-    // Auto-clean any sold-out variant item currently in cart
-    if (cart.items && cart.items.length) {
-      cart.items.forEach((item, index) => {
-        const itemEl = drawer.querySelector(`[data-cart-line-key="${item.key}"]`);
-        const selectEl = itemEl ? itemEl.querySelector('[data-cart-item-variant-select]') : null;
-        const selectedOpt = selectEl ? selectEl.selectedOptions[0] : null;
-        const vObj = window._productVariantsMap ? window._productVariantsMap[item.variant_id] : null;
-
-        const isOptDisabled = selectedOpt && (selectedOpt.disabled || selectedOpt.dataset.available === 'false');
-        const isVObjSoldOut = checkIsVariantSoldOut(vObj, selectedOpt);
-        const is5KGSoldOut = (item.sku === 'ATTA_K_3' || (item.title || '').includes('5KG') || (item.variant_title || '').includes('5KG'));
-
-        if (isOptDisabled || isVObjSoldOut || (is5KGSoldOut && vObj && Number(vObj.inventory_quantity) <= 0)) {
-          changeCartLine(index + 1, item.key, 0);
-        }
       });
     }
   };
