@@ -220,22 +220,6 @@
         "banner_image_6": "{{ product.metafields.custom.custom_banner_6.value }}"
       }
     },
-    "1787546802eef3e65a": {
-      "type": "apps",
-      "settings": {}
-    },
-    "recommendations": {
-      "type": "product-recommendations",
-      "settings": {
-        "heading": "RECOMMENDED",
-        "eyebrow": "HANDPICKED ORGANIC STAPLES",
-        "collection": "",
-        "bg_color": "#faf7f2",
-        "heading_color": "#1b4317",
-        "eyebrow_color": "#d97706",
-        "products_limit": 4
-      }
-    },
     "1788239684d01dcd1d": {
       "type": "apps",
       "blocks": {
@@ -253,12 +237,23 @@
         "judge_me_reviews_review_widget_3jhPXT"
       ],
       "settings": {}
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "RECOMMENDED",
+        "eyebrow": "HANDPICKED ORGANIC STAPLES",
+        "collection": "",
+        "bg_color": "#faf7f2",
+        "heading_color": "#1b4317",
+        "eyebrow_color": "#d97706",
+        "products_limit": 4
+      }
     }
   },
   "order": [
     "main",
     "1788239684d01dcd1d",
-    "1787546802eef3e65a",
     "recommendations"
   ]
 }
