@@ -298,9 +298,14 @@
         if (v.inventory_quantity !== undefined && v.inventory_quantity !== null && Number(v.inventory_quantity) <= 0) return true;
         const vTitle = String(v.title || '');
         const vSku = String(v.sku || '');
-        if ((vTitle.includes('5KG') || vTitle.includes('5kg') || vSku === 'ATTA_K_3') && v.inventory_quantity !== undefined && Number(v.inventory_quantity) <= 0) {
+        const vId = String(v.id || '');
+        if (vTitle.includes('5KG') || vTitle.includes('5kg') || vSku === 'ATTA_K_3' || vId === '53399955538229') {
           return true;
         }
+      }
+      if (optionEl) {
+        const text = optionEl.textContent || '';
+        if (text.includes('5KG') || text.includes('5kg')) return true;
       }
       return false;
     };
