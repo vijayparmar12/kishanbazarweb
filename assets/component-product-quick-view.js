@@ -97,6 +97,27 @@ class ProductQuickViewManager {
     if (variant.featured_image && variant.featured_image.src && this.imgEl) {
       this.imgEl.src = variant.featured_image.src;
     }
+
+    // Check availability of selected variant
+    const isAvail = variant.available !== false && (variant.inventory_quantity === undefined || variant.inventory_quantity === null || Number(variant.inventory_quantity) > 0);
+
+    if (!isAvail) {
+      if (this.addBtn) {
+        this.addBtn.disabled = true;
+        this.addBtn.setAttribute('disabled', 'disabled');
+        this.addBtn.style.setProperty('opacity', '0.65', 'important');
+        this.addBtn.style.setProperty('cursor', 'not-allowed', 'important');
+        this.addBtn.textContent = 'SOLD OUT';
+      }
+    } else {
+      if (this.addBtn) {
+        this.addBtn.disabled = false;
+        this.addBtn.removeAttribute('disabled');
+        this.addBtn.style.setProperty('opacity', '1', 'important');
+        this.addBtn.style.setProperty('cursor', 'pointer', 'important');
+        this.addBtn.textContent = 'Add to cart';
+      }
+    }
   }
 
   async open(detail) {
@@ -148,18 +169,25 @@ class ProductQuickViewManager {
       this.imgEl.src = data.featured_image;
     }
 
-    // Populate variant select dropdown
+    // Populate variant select dropdown with real-time Shopify availability
     if (this.variantSelect && data.variants && data.variants.length > 0) {
+      let selectedVarId = preferredVariantId;
+      const initialMatch = data.variants.find((v) => String(v.id) === String(preferredVariantId));
+      if (!initialMatch) {
+        selectedVarId = data.variants[0].id;
+      }
+
       this.variantSelect.innerHTML = data.variants
         .map((v) => {
-          const label = v.title;
-          const isSelected = String(v.id) === String(preferredVariantId) || v === data.variants[0];
-          if (isSelected) this.currentVariantId = v.id;
-          return `<option value="${v.id}" ${isSelected ? 'selected' : ''}>${label}</option>`;
+          const isSold = v.available === false || (v.inventory_quantity !== undefined && v.inventory_quantity !== null && Number(v.inventory_quantity) <= 0);
+          const label = !isSold ? v.title : `${v.title} - (Sold Out)`;
+          const disabledAttr = isSold ? 'data-available="false" style="color: #ef4444; font-weight: 700;"' : 'data-available="true"';
+          const isSelected = String(v.id) === String(selectedVarId);
+          return `<option value="${v.id}" ${isSelected ? 'selected' : ''} ${disabledAttr}>${label}</option>`;
         })
         .join('');
 
-      this.selectVariant(this.currentVariantId);
+      this.selectVariant(selectedVarId);
     }
   }
 
@@ -170,6 +198,15 @@ class ProductQuickViewManager {
 
   async addToCart() {
     if (!this.currentVariantId) return;
+
+    const variant = this.productData?.variants?.find((v) => String(v.id) === String(this.currentVariantId));
+    if (variant) {
+      const isAvail = variant.available !== false && (variant.inventory_quantity === undefined || variant.inventory_quantity === null || Number(variant.inventory_quantity) > 0);
+      if (!isAvail) {
+        alert('Sorry, this variant is currently sold out.');
+        return;
+      }
+    }
 
     if (this.addBtn) {
       this.addBtn.disabled = true;
@@ -204,13 +241,17 @@ class ProductQuickViewManager {
           }
         }
         this.close();
+      } else {
+        const errData = await response.json().catch(() => ({}));
+        alert(`Cannot add to cart: ${errData.description || errData.message || 'Variant is sold out.'}`);
       }
     } catch (err) {
       console.error('Failed to add to cart:', err);
     } finally {
       if (this.addBtn) {
-        this.addBtn.disabled = false;
-        this.addBtn.textContent = 'Add to cart';
+        const isAvail = variant ? (variant.available !== false && (variant.inventory_quantity === undefined || variant.inventory_quantity === null || Number(variant.inventory_quantity) > 0)) : true;
+        this.addBtn.disabled = !isAvail;
+        this.addBtn.textContent = isAvail ? 'Add to cart' : 'SOLD OUT';
       }
     }
   }
