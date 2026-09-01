@@ -308,9 +308,9 @@
               if (allVariants.length <= 1) {
                 const currentV = allVariants.find((v) => v.id === item.variant_id);
                 const titleText = currentV && currentV.title !== 'Default Title' ? currentV.title : '';
-                const isSold = currentV && (currentV.available === false || (currentV.inventory_quantity !== undefined && currentV.inventory_quantity <= 0));
+                const isSold = currentV && currentV.available === false;
                 if (titleText) {
-                  container.innerHTML = `<span class="kb-cart-item__variant-pill">${titleText}${isSold ? ' <span class="kb-cart-item__sold-badge" style="color: #ef4444; font-weight: 700;">(Sold Out)</span>' : ''}</span>`;
+                  container.innerHTML = `<span class="kb-cart-item__variant-pill">${titleText}${isSold ? ' <span class="kb-cart-item__sold-badge" style="color: #ef4444; font-weight: 700; margin-left: 4px;">(Sold Out)</span>' : ''}</span>`;
                 } else if (isSold) {
                   container.innerHTML = `<span class="kb-cart-item__sold-badge" style="color: #ef4444; font-weight: 700;">(Sold Out)</span>`;
                 }
@@ -318,8 +318,8 @@
               }
               const optionsHtml = allVariants
                 .map((v) => {
-                  const isAvail = Boolean(v.available) && (v.inventory_quantity === undefined || v.inventory_quantity > 0);
-                  const label = isAvail ? v.title : `${v.title} - Sold Out`;
+                  const isAvail = v.available !== false;
+                  const label = isAvail ? v.title : `${v.title} - (Sold Out)`;
                   const disabledAttr = !isAvail ? 'disabled data-available="false" style="color: #94a3b8;"' : 'data-available="true"';
                   return `<option value="${v.id}" ${v.id === item.variant_id ? 'selected' : ''} ${disabledAttr}>${label}</option>`;
                 })
@@ -342,7 +342,7 @@
     const oldVariantId = select.dataset.currentVariantId;
 
     if (!isAvail) {
-      const variantTitle = selectedOption ? selectedOption.textContent : 'selected variant';
+      const variantTitle = selectedOption ? selectedOption.textContent.replace(/\s*-\s*\(Sold Out\)/i, '').trim() : 'selected variant';
       alert(`Sorry, ${variantTitle} is currently sold out and cannot be selected.`);
       if (oldVariantId) select.value = oldVariantId;
       return;
