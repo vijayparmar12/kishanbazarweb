@@ -290,19 +290,8 @@
     }
 
     const checkIsVariantSoldOut = (v, optionEl) => {
-      if (optionEl && (optionEl.disabled || optionEl.dataset.available === 'false')) {
-        return true;
-      }
-      if (v) {
-        if (v.available === false) return true;
-        if (v.inventory_quantity !== undefined && v.inventory_quantity !== null && Number(v.inventory_quantity) <= 0) return true;
-        const vTitle = String(v.title || '').trim();
-        const vSku = String(v.sku || '').trim();
-        const vId = String(v.id || '').trim();
-        if (vTitle === '5KG' || vTitle === '5kg' || vSku === 'ATTA_K_3' || vId === '53399955538229') {
-          return true;
-        }
-      }
+      if (v && v.available === false) return true;
+      if (optionEl && (optionEl.disabled || optionEl.dataset.available === 'false')) return true;
       return false;
     };
 
