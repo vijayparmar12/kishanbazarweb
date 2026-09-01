@@ -337,14 +337,17 @@
     const select = e.target.closest('[data-cart-item-variant-select]');
     if (!select) return;
 
+    const details = getLineDetails(select);
+    if (!details) return;
+
+    const { lineIndex, lineKey } = details;
     const selectedOption = select.selectedOptions[0];
     const isAvail = selectedOption && selectedOption.dataset.available !== 'false' && !selectedOption.disabled;
     const oldVariantId = select.dataset.currentVariantId;
-    const oldKey = select.dataset.lineKey;
     const qty = parseInt(select.dataset.currentQty, 10) || 1;
     const newVariantId = select.value;
 
-    if (!newVariantId || !oldKey || newVariantId === oldVariantId) return;
+    if (!newVariantId || !lineKey || newVariantId === oldVariantId) return;
 
     select.disabled = true;
     select.style.opacity = '0.5';
@@ -353,16 +356,7 @@
     if (!isAvail) {
       const variantTitle = selectedOption ? selectedOption.textContent.replace(/\s*-\s*\(Sold Out\)/i, '').trim() : 'selected variant';
       alert(`Sorry, ${variantTitle} is currently sold out and has been removed from your cart.`);
-      try {
-        await fetch(`${rootUrl}cart/change.js`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ id: oldKey, quantity: 0 })
-        });
-        await updateDrawerFromServer();
-      } catch (err) {
-        console.error(err);
-      }
+      await changeCartLine(lineIndex, lineKey, 0);
       return;
     }
 
@@ -378,28 +372,13 @@
         const errJson = await addRes.json().catch(() => ({}));
         const errMsg = errJson.description || errJson.message || 'Selected variant is sold out.';
         alert(`Cannot select variant: ${errMsg}. Item will be removed from cart.`);
-        // If variant is sold out in backend, remove line item from cart
-        await fetch(`${rootUrl}cart/change.js`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ id: oldKey, quantity: 0 })
-        });
-        await updateDrawerFromServer();
+        // Remove line item using changeCartLine helper
+        await changeCartLine(lineIndex, lineKey, 0);
         return;
       }
 
       // 2. Only if add succeeded, remove the old line item
-      await fetch(`${rootUrl}cart/change.js`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ id: oldKey, quantity: 0 })
-      });
-
-      // 3. Re-fetch cart with cache-busting timestamp & update drawer
-      const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
-      const updatedCart = await cartRes.json();
-      updateDrawer(updatedCart);
-      document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
+      await changeCartLine(lineIndex, lineKey, 0);
     } catch (err) {
       console.error('Error swapping cart variant:', err);
       if (oldVariantId) select.value = oldVariantId;
