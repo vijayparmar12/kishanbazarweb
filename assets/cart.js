@@ -455,6 +455,45 @@
     }
   };
 
+  const formatAndMergeAddedItem = async (addedData, existingCart) => {
+    try {
+      const freshCartResponse = await fetch(`${rootUrl}cart.js?_t=${Date.now()}_fresh`);
+      const freshCart = await freshCartResponse.json();
+      if (freshCart && freshCart.items && freshCart.items.length > 0) {
+        updateDrawer(freshCart);
+        return freshCart;
+      }
+    } catch (e) {}
+
+    const itemsArray = Array.isArray(addedData?.items) ? addedData.items : (addedData?.id ? [addedData] : []);
+    if (itemsArray.length === 0) return existingCart;
+
+    const formattedItems = itemsArray.map((item, idx) => ({
+      key: item.key || `${item.id}:${idx}`,
+      id: item.id,
+      variant_id: item.variant_id || item.id,
+      handle: item.handle || '',
+      product_title: item.product_title || item.title || 'Product',
+      variant_title: item.variant_title || item.title || '',
+      price: item.price || item.final_price || 0,
+      line_price: item.line_price || item.final_line_price || ((item.price || 0) * (item.quantity || 1)),
+      final_line_price: item.final_line_price || item.line_price || ((item.price || 0) * (item.quantity || 1)),
+      quantity: item.quantity || 1,
+      image: item.image || item.featured_image?.src || item.featured_image || '',
+      url: item.url || `/products/${item.handle || ''}`
+    }));
+
+    const mergedCart = {
+      ...(existingCart || {}),
+      item_count: formattedItems.reduce((sum, i) => sum + (i.quantity || 1), 0),
+      total_price: formattedItems.reduce((sum, i) => sum + (i.final_line_price || 0), 0),
+      items: formattedItems
+    };
+
+    updateDrawer(mergedCart);
+    return mergedCart;
+  };
+
   const addSingleVariantToCart = async (variantId, quantity = 1) => {
     try {
       const response = await fetch(`${rootUrl}cart/add.js`, {
@@ -469,9 +508,13 @@
         })
       });
       if (response.ok) {
-        const cart = await updateDrawerFromServer();
-        if (cart) showCartToast(cart);
-        openDrawer();
+        const addedData = await response.json();
+        await new Promise((r) => setTimeout(r, 120));
+        let cart = await updateDrawerFromServer();
+        if (!cart || !cart.items || cart.items.length === 0) {
+          cart = await formatAndMergeAddedItem(addedData, cart);
+        }
+        openDrawer(cart);
       }
     } catch (err) {
       console.error('Error adding variant to cart:', err);
@@ -1004,11 +1047,13 @@
 
           if (!addResponse.ok) throw new Error('Add to cart failed');
 
-          const updatedCart = await updateDrawerFromServer();
-          if (updatedCart) {
-            showCartToast(updatedCart);
+          const addedData = await addResponse.json();
+          await new Promise((r) => setTimeout(r, 120));
+          let updatedCart = await updateDrawerFromServer();
+          if (!updatedCart || !updatedCart.items || updatedCart.items.length === 0) {
+            updatedCart = await formatAndMergeAddedItem(addedData, updatedCart);
           }
-          openDrawer();
+          openDrawer(updatedCart);
         } catch (error) {
           console.error(error);
         } finally {
