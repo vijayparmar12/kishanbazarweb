@@ -300,9 +300,43 @@
       return false;
     };
 
+    // Hydrate cart item variant dropdown select boxes from product JSON
+    if (cart.items && cart.items.length) {
+      cart.items.forEach((item) => {
+        if (!item.handle) return;
+        fetch(`${rootUrl}products/${item.handle}.js`)
+          .then((res) => (res.ok ? res.json() : null))
+          .then((pData) => {
+            if (!pData || !pData.variants || pData.variants.length <= 1) return;
+            window._productVariantsMap = window._productVariantsMap || {};
+            pData.variants.forEach((v) => {
+              if (v.compare_at_price) {
+                window._variantComparePrices[v.id] = v.compare_at_price;
+              }
+              window._productVariantsMap[v.id] = v;
+            });
+            const allVariants = pData.variants;
+            const container = drawer.querySelector(`[data-cart-variant-container="${item.key}"]`);
+            if (container) {
+              const optionsHtml = allVariants
+                .map((v) => {
+                  const mapV = window._productVariantsMap[v.id] || v;
+                  const isSold = checkIsVariantSoldOut(mapV, null);
+                  const label = !isSold ? v.title : `${v.title} - (Sold Out)`;
+                  const disabledAttr = isSold ? 'disabled data-available="false" style="color: #94a3b8;"' : 'data-available="true"';
+                  return `<option value="${v.id}" ${v.id === item.variant_id ? 'selected' : ''} ${disabledAttr}>${label}</option>`;
+                })
+                .join('');
+              container.innerHTML = `<select class="kb-cart-item__variant-select" data-cart-item-variant-select data-line-key="${item.key}" data-current-qty="${item.quantity}" data-current-variant-id="${item.variant_id}" style="padding: 4px 24px 4px 10px; border-radius: 8px; border: 1px solid #cbd5e1; background-color: #f8fafc; font-size: 13px; font-weight: 600; color: #334155; cursor: pointer;">${optionsHtml}</select>`;
+            }
+          })
+          .catch(() => {});
+      });
+    }
+
     // Auto-clean any sold-out variant item currently in cart
     if (cart.items && cart.items.length) {
-      cart.items.forEach((item, index) => {
+      cart.items.forEach((item) => {
         const itemEl = drawer.querySelector(`[data-cart-line-key="${item.key}"]`);
         const selectEl = itemEl ? itemEl.querySelector('[data-cart-item-variant-select]') : null;
         const selectedOpt = selectEl ? selectEl.selectedOptions[0] : null;
