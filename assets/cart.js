@@ -289,6 +289,17 @@
       badgeEl.style.display = 'none';
     }
 
+    const checkIsVariantSoldOut = (v, optionEl) => {
+      if (optionEl && (optionEl.disabled || optionEl.dataset.available === 'false')) {
+        return true;
+      }
+      if (v) {
+        if (v.available === false) return true;
+        if (v.inventory_quantity !== undefined && v.inventory_quantity !== null && Number(v.inventory_quantity) <= 0) return true;
+      }
+      return false;
+    };
+
     // Hydrate cart item variant dropdown select boxes
     if (cart.items && cart.items.length) {
       cart.items.forEach((item) => {
@@ -310,7 +321,7 @@
               if (allVariants.length <= 1) {
                 const currentV = allVariants.find((v) => v.id === item.variant_id);
                 const titleText = currentV && currentV.title !== 'Default Title' ? currentV.title : '';
-                const isSold = currentV && currentV.available === false;
+                const isSold = currentV && checkIsVariantSoldOut(currentV, null);
                 if (titleText) {
                   container.innerHTML = `<span class="kb-cart-item__variant-pill">${titleText}${isSold ? ' <span class="kb-cart-item__sold-badge" style="color: #ef4444; font-weight: 700; margin-left: 4px;">(Sold Out)</span>' : ''}</span>`;
                 } else if (isSold) {
@@ -321,9 +332,9 @@
               const optionsHtml = allVariants
                 .map((v) => {
                   const mapV = window._productVariantsMap[v.id] || v;
-                  const isAvail = mapV.available !== false;
-                  const label = isAvail ? v.title : `${v.title} - (Sold Out)`;
-                  const disabledAttr = !isAvail ? 'disabled data-available="false" style="color: #94a3b8;"' : 'data-available="true"';
+                  const isSold = checkIsVariantSoldOut(mapV, null);
+                  const label = !isSold ? v.title : `${v.title} - (Sold Out)`;
+                  const disabledAttr = isSold ? 'disabled data-available="false" style="color: #94a3b8;"' : 'data-available="true"';
                   return `<option value="${v.id}" ${v.id === item.variant_id ? 'selected' : ''} ${disabledAttr}>${label}</option>`;
                 })
                 .join('');
@@ -355,10 +366,7 @@
     select.style.opacity = '0.5';
 
     const selectedVariantObj = window._productVariantsMap ? window._productVariantsMap[newVariantId] : null;
-    const isOptionAvail = selectedOption && selectedOption.dataset.available !== 'false' && !selectedOption.disabled;
-    const isObjAvail = selectedVariantObj ? selectedVariantObj.available !== false : true;
-
-    const isSoldOut = !isOptionAvail || !isObjAvail;
+    const isSoldOut = (selectedOption && (selectedOption.disabled || selectedOption.dataset.available === 'false')) || (selectedVariantObj && (selectedVariantObj.available === false || (selectedVariantObj.inventory_quantity !== undefined && Number(selectedVariantObj.inventory_quantity) <= 0)));
 
     // If selected option or variant object is sold out, remove line item from cart immediately
     if (isSoldOut) {
