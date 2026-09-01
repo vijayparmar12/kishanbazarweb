@@ -62,7 +62,7 @@
 
   # 3. Fallback Desktop & Mobile Banner Images from Theme Editor Section Card
   if banner_img_src == blank
-    assign fallback_desk_raw = section.settings.fallback_banner_desktop | default: section.settings.default_banner_image | default: section.settings.custom_banner_desktop
+    assign fallback_desk_raw = section.settings.custom_banner_desktop | default: section.settings.fallback_banner_desktop | default: section.settings.default_banner_image
     assign fallback_desk = fallback_desk_raw.value | default: fallback_desk_raw
     if fallback_desk != blank
       assign fallback_img = fallback_desk.preview_image | default: fallback_desk
@@ -71,7 +71,7 @@
   endif
 
   if banner_mob_src == blank
-    assign fallback_mob_raw = section.settings.fallback_banner_mobile | default: section.settings.default_banner_mobile | default: section.settings.custom_banner_mobile
+    assign fallback_mob_raw = section.settings.custom_banner_mobile | default: section.settings.fallback_banner_mobile | default: section.settings.default_banner_mobile
     assign fallback_mob = fallback_mob_raw.value | default: fallback_mob_raw
     if fallback_mob != blank
       assign fallback_mob_img = fallback_mob.preview_image | default: fallback_mob
@@ -151,12 +151,8 @@
       "content": "Banner Image Settings"
     },
     { "type": "checkbox", "id": "show_collection_image", "label": "Show Collection Banner Image", "default": true },
-    { "type": "image_picker", "id": "fallback_banner_desktop", "label": "Fallback Desktop Banner Image (Shown when collection has no custom image)" },
-    { "type": "image_picker", "id": "fallback_banner_mobile", "label": "Fallback Mobile Banner Image (Optional Mobile Fallback)" },
-    { "type": "image_picker", "id": "default_banner_image", "label": "Global Default Desktop Banner" },
-    { "type": "image_picker", "id": "default_banner_mobile", "label": "Global Default Mobile Banner" },
-    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Custom Desktop Banner Image Override" },
-    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Custom Mobile Banner Image Override" },
+    { "type": "image_picker", "id": "custom_banner_desktop", "label": "Fallback Desktop Banner Image (Default Collection Banner)" },
+    { "type": "image_picker", "id": "custom_banner_mobile", "label": "Fallback Mobile Banner Image (Optional Mobile Fallback)" },
     {
       "type": "range",
       "id": "banner_border_radius",
