@@ -441,7 +441,7 @@
             "description": "",
             "text_color": "#166534",
             "text_position": "top",
-            "link": ""
+            "link": "shopify://pages/the-framers"
           }
         },
         "story_card_KMnz4H": {
@@ -452,7 +452,7 @@
             "description": "",
             "text_color": "#166534",
             "text_position": "top",
-            "link": ""
+            "link": "shopify://pages/the-gaishala"
           }
         },
         "story_card_rUkxQq": {
@@ -463,7 +463,7 @@
             "description": "",
             "text_color": "#166534",
             "text_position": "top",
-            "link": ""
+            "link": "shopify://pages/lab-report"
           }
         },
         "story_card_pLEbmM": {
@@ -474,7 +474,7 @@
             "description": "",
             "text_color": "#166534",
             "text_position": "top",
-            "link": ""
+            "link": "shopify://pages/our-story-1"
           }
         },
         "story_card_QRP9rP": {
@@ -485,7 +485,7 @@
             "description": "",
             "text_color": "#166534",
             "text_position": "top",
-            "link": ""
+            "link": "shopify://pages/ancient-kitchen-recipes"
           }
         }
       },
