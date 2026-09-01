@@ -297,10 +297,12 @@
           .then((res) => (res.ok ? res.json() : null))
           .then((pData) => {
             if (!pData || !pData.variants) return;
+            window._productVariantsMap = window._productVariantsMap || {};
             pData.variants.forEach((v) => {
               if (v.compare_at_price) {
                 window._variantComparePrices[v.id] = v.compare_at_price;
               }
+              window._productVariantsMap[v.id] = v;
             });
             const allVariants = pData.variants || [];
             const container = drawer.querySelector(`[data-cart-variant-container="${item.key}"]`);
@@ -318,7 +320,8 @@
               }
               const optionsHtml = allVariants
                 .map((v) => {
-                  const isAvail = v.available !== false;
+                  const mapV = window._productVariantsMap[v.id] || v;
+                  const isAvail = mapV.available !== false;
                   const label = isAvail ? v.title : `${v.title} - (Sold Out)`;
                   const disabledAttr = !isAvail ? 'disabled data-available="false" style="color: #94a3b8;"' : 'data-available="true"';
                   return `<option value="${v.id}" ${v.id === item.variant_id ? 'selected' : ''} ${disabledAttr}>${label}</option>`;
@@ -342,7 +345,6 @@
 
     const { lineIndex, lineKey } = details;
     const selectedOption = select.selectedOptions[0];
-    const isAvail = selectedOption && selectedOption.dataset.available !== 'false' && !selectedOption.disabled;
     const oldVariantId = select.dataset.currentVariantId;
     const qty = parseInt(select.dataset.currentQty, 10) || 1;
     const newVariantId = select.value;
@@ -352,8 +354,14 @@
     select.disabled = true;
     select.style.opacity = '0.5';
 
-    // If selected option is explicitly marked sold out, remove line item from cart
-    if (!isAvail) {
+    const selectedVariantObj = window._productVariantsMap ? window._productVariantsMap[newVariantId] : null;
+    const isOptionAvail = selectedOption && selectedOption.dataset.available !== 'false' && !selectedOption.disabled;
+    const isObjAvail = selectedVariantObj ? selectedVariantObj.available !== false : true;
+
+    const isSoldOut = !isOptionAvail || !isObjAvail;
+
+    // If selected option or variant object is sold out, remove line item from cart immediately
+    if (isSoldOut) {
       const variantTitle = selectedOption ? selectedOption.textContent.replace(/\s*-\s*\(Sold Out\)/i, '').trim() : 'selected variant';
       alert(`Sorry, ${variantTitle} is currently sold out and has been removed from your cart.`);
       await changeCartLine(lineIndex, lineKey, 0);

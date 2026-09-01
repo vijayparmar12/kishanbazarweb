@@ -24,9 +24,16 @@
 
 <script>
   window._variantComparePrices = window._variantComparePrices || {};
+  window._productVariantsMap = window._productVariantsMap || {};
   {% for v in item.product.variants %}
     {% assign v_compare = v.compare_at_price | default: 0 %}
     window._variantComparePrices[{{ v.id }}] = {{ v_compare }};
+    window._productVariantsMap[{{ v.id }}] = {
+      id: {{ v.id }},
+      title: {{ v.title | json }},
+      available: {{ v.available | json }},
+      inventory_quantity: {{ v.inventory_quantity | default: 0 | json }}
+    };
   {% endfor %}
 </script>
 
