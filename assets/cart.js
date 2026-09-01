@@ -300,48 +300,19 @@
       return false;
     };
 
-    // Hydrate cart item variant dropdown select boxes
+    // Auto-clean any sold-out variant item currently in cart
     if (cart.items && cart.items.length) {
-      cart.items.forEach((item) => {
-        if (!item.handle) return;
-        fetch(`${rootUrl}products/${item.handle}.js`)
-          .then((res) => (res.ok ? res.json() : null))
-          .then((pData) => {
-            if (!pData || !pData.variants) return;
-            window._productVariantsMap = window._productVariantsMap || {};
-            pData.variants.forEach((v) => {
-              if (v.compare_at_price) {
-                window._variantComparePrices[v.id] = v.compare_at_price;
-              }
-              window._productVariantsMap[v.id] = v;
-            });
-            const allVariants = pData.variants || [];
-            const container = drawer.querySelector(`[data-cart-variant-container="${item.key}"]`);
-            if (container) {
-              if (allVariants.length <= 1) {
-                const currentV = allVariants.find((v) => v.id === item.variant_id);
-                const titleText = currentV && currentV.title !== 'Default Title' ? currentV.title : '';
-                const isSold = currentV && checkIsVariantSoldOut(currentV, null);
-                if (titleText) {
-                  container.innerHTML = `<span class="kb-cart-item__variant-pill">${titleText}${isSold ? ' <span class="kb-cart-item__sold-badge" style="color: #ef4444; font-weight: 700; margin-left: 4px;">(Sold Out)</span>' : ''}</span>`;
-                } else if (isSold) {
-                  container.innerHTML = `<span class="kb-cart-item__sold-badge" style="color: #ef4444; font-weight: 700;">(Sold Out)</span>`;
-                }
-                return;
-              }
-              const optionsHtml = allVariants
-                .map((v) => {
-                  const mapV = window._productVariantsMap[v.id] || v;
-                  const isSold = checkIsVariantSoldOut(mapV, null);
-                  const label = !isSold ? v.title : `${v.title} - (Sold Out)`;
-                  const disabledAttr = isSold ? 'disabled data-available="false" style="color: #94a3b8;"' : 'data-available="true"';
-                  return `<option value="${v.id}" ${v.id === item.variant_id ? 'selected' : ''} ${disabledAttr}>${label}</option>`;
-                })
-                .join('');
-              container.innerHTML = `<select class="kb-cart-item__variant-select" data-cart-item-variant-select data-line-key="${item.key}" data-current-qty="${item.quantity}" data-current-variant-id="${item.variant_id}">${optionsHtml}</select>`;
-            }
-          })
-          .catch(() => {});
+      cart.items.forEach((item, index) => {
+        const itemEl = drawer.querySelector(`[data-cart-line-key="${item.key}"]`);
+        const selectEl = itemEl ? itemEl.querySelector('[data-cart-item-variant-select]') : null;
+        const selectedOpt = selectEl ? selectEl.selectedOptions[0] : null;
+
+        if (selectedOpt && (selectedOpt.disabled || selectedOpt.dataset.available === 'false')) {
+          const lineDetails = getLineDetails(selectEl);
+          if (lineDetails) {
+            changeCartLine(lineDetails.lineIndex, lineDetails.lineKey, 0);
+          }
+        }
       });
     }
   };
@@ -365,8 +336,11 @@
     select.disabled = true;
     select.style.opacity = '0.5';
 
+    const isOptionDisabled = selectedOption && (selectedOption.disabled || selectedOption.dataset.available === 'false');
     const selectedVariantObj = window._productVariantsMap ? window._productVariantsMap[newVariantId] : null;
-    const isSoldOut = (selectedOption && (selectedOption.disabled || selectedOption.dataset.available === 'false')) || (selectedVariantObj && (selectedVariantObj.available === false || (selectedVariantObj.inventory_quantity !== undefined && Number(selectedVariantObj.inventory_quantity) <= 0)));
+    const isObjSoldOut = selectedVariantObj && (selectedVariantObj.available === false || (selectedVariantObj.inventory_quantity !== undefined && Number(selectedVariantObj.inventory_quantity) <= 0));
+
+    const isSoldOut = isOptionDisabled || isObjSoldOut;
 
     // If selected option or variant object is sold out, remove line item from cart immediately
     if (isSoldOut) {
