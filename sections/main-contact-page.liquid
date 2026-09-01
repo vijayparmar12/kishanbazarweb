@@ -107,6 +107,7 @@
           <p class="contact-form__subtitle">{{ section.settings.form_subheading | default: "Have a question? Fill in the form and our team will get back to you." }}</p>
 
           {% form 'contact', id: 'ContactForm-Page' %}
+            <input type="hidden" name="contact[tags]" value="Contact Form, Lead">
             {% if form.posted_successfully? %}
               <div class="contact-form__alert contact-form__alert--success" role="status">
                 {{ section.settings.form_success_msg | default: "🌿 Thank you for reaching out! Your message has been received. Our team will contact you shortly." }}
