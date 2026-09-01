@@ -120,73 +120,10 @@
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
         margin: 0 !important;
       }
-      /* GLOBAL PROPER JUDGE.ME STAR OVERRIDES - USES UNIVERSAL SYSTEM STARS & VECTOR SVGS (NO BROKEN BOXES) */
-      .jdgm-star,
-      .jdgm-star:before,
-      .jdgm-star:after,
-      .jdgm-star *,
-      .jdgm-form-rating .jdgm-star,
-      .jdgm-rev__rating .jdgm-star,
-      .jdgm-prev-badge .jdgm-star,
-      .jdgm-histogram__star .jdgm-star {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif !important;
-        font-style: normal !important;
-        font-weight: 900 !important;
-        text-transform: none !important;
-        text-decoration: none !important;
-        display: inline-block !important;
-        line-height: 1 !important;
-        font-size: 1.25rem !important;
-        letter-spacing: 1px !important;
-        margin-right: 1px !important;
-        speak: never;
-      }
-
-      .jdgm-star.jdgm--on:before,
-      .jdgm-star.jdgm-star--on:before,
-      .jdgm-star[data-score="1"]:before,
-      span.jdgm-star.jdgm--on:before,
-      a.jdgm-star.jdgm--on:before {
-        content: "\2605" !important;
-        color: #F59E0B !important;
-        opacity: 1 !important;
-      }
-
-      .jdgm-star.jdgm--off:before,
-      .jdgm-star.jdgm-star--off:before,
-      span.jdgm-star.jdgm--off:before,
-      a.jdgm-star.jdgm--off:before {
-        content: "\2605" !important;
-        color: #D1D5DB !important;
-        opacity: 0.65 !important;
-      }
-
-      .jdgm-star.jdgm--half:before,
-      .jdgm-star.jdgm-star--half:before,
-      span.jdgm-star.jdgm--half:before {
-        content: "\2605" !important;
-        color: #F59E0B !important;
-        opacity: 0.85 !important;
-      }
     </style>
 
     <script>
       (function() {
-        function fixAllJudgeMeStars() {
-          var stars = document.querySelectorAll('.jdgm-star, .jdgm-rev__rating .jdgm-star, .jdgm-histogram__star .jdgm-star, .jdgm-prev-badge .jdgm-star, .jdgm-form-rating .jdgm-star, .jdgm-rev-widg__summary .jdgm-star');
-          stars.forEach(function(star) {
-            if (!star.querySelector('svg')) {
-              var isFilled = star.classList.contains('jdgm--on') || star.classList.contains('jdgm-star--on') || star.getAttribute('data-score') === '1' || star.classList.contains('jdgm-star-full');
-              var isHalf = star.classList.contains('jdgm--half') || star.classList.contains('jdgm-star--half');
-
-              var color = (isFilled || isHalf) ? '#F59E0B' : '#D1D5DB';
-              var opacity = isHalf ? '0.75' : '1';
-
-              star.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="' + color + '" style="display:inline-block; vertical-align:middle; width:18px; height:18px; opacity:' + opacity + ';"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
-            }
-          });
-        }
-
         function toggleReviewModalState() {
           var form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form');
           var overlay = document.getElementById('JdgmBlurOverlay');
@@ -239,8 +176,6 @@
               h.style.removeProperty('z-index');
             });
           }
-
-          fixAllJudgeMeStars();
         }
 
         document.addEventListener('click', function(e) {
@@ -254,19 +189,12 @@
           }
         });
 
-        var observer = new MutationObserver(function() {
-          toggleReviewModalState();
-          fixAllJudgeMeStars();
-        });
-
+        var observer = new MutationObserver(toggleReviewModalState);
         if (document.body) {
           observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
         }
 
-        setInterval(function() {
-          toggleReviewModalState();
-          fixAllJudgeMeStars();
-        }, 150);
+        setInterval(toggleReviewModalState, 150);
       })();
     </script>
 
