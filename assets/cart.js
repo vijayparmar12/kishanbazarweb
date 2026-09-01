@@ -340,22 +340,31 @@
     const selectedOption = select.selectedOptions[0];
     const isAvail = selectedOption && selectedOption.dataset.available !== 'false' && !selectedOption.disabled;
     const oldVariantId = select.dataset.currentVariantId;
-
-    if (!isAvail) {
-      const variantTitle = selectedOption ? selectedOption.textContent.replace(/\s*-\s*\(Sold Out\)/i, '').trim() : 'selected variant';
-      alert(`Sorry, ${variantTitle} is currently sold out and cannot be selected.`);
-      if (oldVariantId) select.value = oldVariantId;
-      return;
-    }
-
-    const newVariantId = select.value;
     const oldKey = select.dataset.lineKey;
     const qty = parseInt(select.dataset.currentQty, 10) || 1;
+    const newVariantId = select.value;
 
     if (!newVariantId || !oldKey || newVariantId === oldVariantId) return;
 
     select.disabled = true;
     select.style.opacity = '0.5';
+
+    // If selected option is explicitly marked sold out, remove line item from cart
+    if (!isAvail) {
+      const variantTitle = selectedOption ? selectedOption.textContent.replace(/\s*-\s*\(Sold Out\)/i, '').trim() : 'selected variant';
+      alert(`Sorry, ${variantTitle} is currently sold out and has been removed from your cart.`);
+      try {
+        await fetch(`${rootUrl}cart/change.js`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ id: oldKey, quantity: 0 })
+        });
+        await updateDrawerFromServer();
+      } catch (err) {
+        console.error(err);
+      }
+      return;
+    }
 
     try {
       // 1. Attempt to add new variant FIRST
@@ -367,11 +376,15 @@
 
       if (!addRes.ok) {
         const errJson = await addRes.json().catch(() => ({}));
-        const errMsg = errJson.description || errJson.message || 'Selected variant is sold out or unavailable.';
-        alert(`Cannot change variant: ${errMsg}`);
-        if (oldVariantId) select.value = oldVariantId;
-        select.disabled = false;
-        select.style.opacity = '1';
+        const errMsg = errJson.description || errJson.message || 'Selected variant is sold out.';
+        alert(`Cannot select variant: ${errMsg}. Item will be removed from cart.`);
+        // If variant is sold out in backend, remove line item from cart
+        await fetch(`${rootUrl}cart/change.js`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ id: oldKey, quantity: 0 })
+        });
+        await updateDrawerFromServer();
         return;
       }
 
