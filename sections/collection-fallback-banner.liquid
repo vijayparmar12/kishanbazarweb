@@ -1,0 +1,114 @@
+{% doc %}
+  Renders a dedicated Fallback Hero Banner section for Collections that do NOT have a custom image.
+  Creates a standalone section card "Collection Fallback Banner" in Shopify Theme Editor.
+{% enddoc %}
+
+{% liquid
+  # Check if current collection has its own custom image (metafield or admin collection image)
+  assign meta_desk = collection.metafields.custom.banner_image | default: collection.metafields.custom.banner | default: collection.metafields.custom.collection_banner
+  assign has_custom_image = false
+
+  if meta_desk != blank or collection.image != blank
+    assign has_custom_image = true
+  endif
+
+  assign fallback_desk = section.settings.fallback_banner_desktop
+  assign fallback_mob = section.settings.fallback_banner_mobile | default: fallback_desk
+  assign banner_radius = section.settings.banner_border_radius | default: 24
+%}
+
+{% unless has_custom_image and section.settings.hide_if_collection_has_image %}
+  {% if section.settings.show_fallback_banner and fallback_desk != blank %}
+    <div class="collection-fallback-hero" id="CollectionFallbackHero-{{ section.id }}" style="width: 100%; max-width: 1400px; margin: 1rem auto 1.5rem; padding: 0 1rem; box-sizing: border-box;">
+      <div class="collection-fallback-hero__container" style="width: 100%;">
+        <div class="collection-fallback-hero__banner-wrap" style="width: 100%; border-radius: {{ banner_radius }}px; overflow: hidden; box-shadow: 0 8px 24px rgba(35, 66, 31, 0.08);">
+          {% if section.settings.fallback_banner_link != blank %}
+            <a href="{{ section.settings.fallback_banner_link }}" class="collection-fallback-hero__link" style="display: block; width: 100%;">
+          {% endif %}
+          <picture class="collection-fallback-hero__picture" style="display: block; width: 100%;">
+            {% if fallback_mob != blank and fallback_mob != fallback_desk %}
+              <source media="(max-width: 768px)" srcset="{{ fallback_mob | image_url: width: 1200 }}">
+            {% endif %}
+            <img
+              src="{{ fallback_desk | image_url: width: 2000 }}"
+              alt="{{ collection.title | default: 'Collection' | escape }}"
+              class="collection-fallback-hero__image"
+              loading="lazy"
+              style="width: 100%; height: auto; max-height: {{ section.settings.max_height | default: 480 }}px; object-fit: cover; display: block; border-radius: {{ banner_radius }}px;"
+            >
+          </picture>
+          {% if section.settings.fallback_banner_link != blank %}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endunless %}
+
+{% schema %}
+{
+  "name": "Collection Fallback Banner",
+  "tag": "section",
+  "class": "section-collection-fallback-banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Fallback Banner Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_fallback_banner",
+      "label": "Show Fallback Banner",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_if_collection_has_image",
+      "label": "Hide when Collection has its own Custom Image",
+      "default": true,
+      "info": "Automatically hides this fallback banner if the collection has an image assigned in Shopify Admin or Metafields."
+    },
+    {
+      "type": "image_picker",
+      "id": "fallback_banner_desktop",
+      "label": "Fallback Desktop Banner Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "fallback_banner_mobile",
+      "label": "Fallback Mobile Banner Image"
+    },
+    {
+      "type": "url",
+      "id": "fallback_banner_link",
+      "label": "Fallback Banner Link (Optional)"
+    },
+    {
+      "type": "range",
+      "id": "banner_border_radius",
+      "label": "Banner Border Radius (px)",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "max_height",
+      "label": "Max Banner Height (px)",
+      "min": 200,
+      "max": 700,
+      "step": 20,
+      "unit": "px",
+      "default": 480
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Fallback Banner"
+    }
+  ]
+}
+{% endschema %}
