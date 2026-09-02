@@ -178,46 +178,39 @@
     background-color: var(--jdgm-bar-fill, #1B4317) !important;
   }
 
-  /* HIGH-SPECIFICITY BULLETPROOF STAR RATING FOR JUDGE.ME - DOMINATES DYNAMIC APP STYLESHEETS */
-  @font-face {
-    font-family: 'judgemeStar';
-    src: url('https://cdn.judge.me/assets/judgemeStar.woff2') format('woff2'),
-         url('https://cdn.judge.me/assets/judgemeStar.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  html body .jdgm-widget .jdgm-star,
-  html body .jdgm-rev-widg .jdgm-star,
-  html body [class*="jdgm"] .jdgm-star,
+  /* JUDGE.ME BULLETPROOF SVG VECTOR STAR REPLACEMENT - 0% WEBFONT DEPENDENCY, ZERO SQUARE BOXES EVER */
   html body .jdgm-star,
   html body .jdgm-star:before,
   html body .jdgm-star:after,
-  html body .jdgm-form-rating .jdgm-star:before,
   html body .jdgm-rev__rating .jdgm-star:before,
   html body .jdgm-prev-badge .jdgm-star:before,
   html body .jdgm-histogram__star:before,
   html body .jdgm-histogram__star .jdgm-star:before,
-  html body .jdgm-histogram__star *,
-  html body .jdgm-star * {
-    content: "★" !important;
-    font-family: "Segoe UI Symbol", "Apple Color Emoji", "Noto Color Emoji", "judgemeStar", Arial, sans-serif !important;
+  html body .jdgm-form-rating .jdgm-star:before {
+    font-family: inherit !important;
     font-style: normal !important;
-    font-weight: 900 !important;
-    text-transform: none !important;
-    text-decoration: none !important;
-    display: inline-block !important;
-    line-height: 1 !important;
-    letter-spacing: 1px !important;
     speak: never;
   }
 
-  /* FILLED STARS (★) - GOLDEN YELLOW */
-  html body .jdgm-widget .jdgm-star.jdgm--on:before,
-  html body .jdgm-widget .jdgm-star.jdgm-star--on:before,
-  html body .jdgm-rev-widg .jdgm-star.jdgm--on:before,
-  html body [class*="jdgm"] .jdgm-star.jdgm--on:before,
+  /* Base Star Container Sizing */
+  html body .jdgm-star:before,
+  html body .jdgm-rev__rating .jdgm-star:before,
+  html body .jdgm-prev-badge .jdgm-star:before,
+  html body .jdgm-form-rating .jdgm-star:before {
+    content: "" !important;
+    display: inline-block !important;
+    width: 18px !important;
+    height: 18px !important;
+    margin: 0 1px !important;
+    vertical-align: middle !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: contain !important;
+  }
+
+  /* FILLED STAR SVG (GOLDEN #F59E0B) */
+  html body .jdgm-star.jdgm--on:before,
+  html body .jdgm-star.jdgm-star--on:before,
   html body .jdgm-star[data-score="1"]:before,
   html body .jdgm-form-rating .jdgm-star.jdgm--on:before,
   html body .jdgm-rev__rating .jdgm-star.jdgm--on:before,
@@ -225,38 +218,49 @@
   html body .jdgm-prev-badge .jdgm-star.jdgm--on:before,
   html body span.jdgm-star.jdgm--on:before,
   html body a.jdgm-star.jdgm--on:before {
-    content: "★" !important;
-    color: #F59E0B !important;
-    fill: #F59E0B !important;
+    content: "" !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F59E0B'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") !important;
     opacity: 1 !important;
   }
 
-  /* UNSELECTED / EMPTY STARS (★) - LIGHT GREY */
-  html body .jdgm-widget .jdgm-star.jdgm--off:before,
-  html body .jdgm-widget .jdgm-star.jdgm-star--off:before,
-  html body .jdgm-rev-widg .jdgm-star.jdgm--off:before,
-  html body [class*="jdgm"] .jdgm-star.jdgm--off:before,
+  /* EMPTY STAR SVG (GREY #D1D5DB) */
+  html body .jdgm-star.jdgm--off:before,
+  html body .jdgm-star.jdgm-star--off:before,
   html body .jdgm-form-rating .jdgm-star.jdgm--off:before,
   html body .jdgm-rev__rating .jdgm-star.jdgm--off:before,
   html body .jdgm-histogram__star .jdgm-star.jdgm--off:before,
   html body .jdgm-prev-badge .jdgm-star.jdgm--off:before,
   html body span.jdgm-star.jdgm--off:before,
   html body a.jdgm-star.jdgm--off:before {
-    content: "★" !important;
-    color: #D1D5DB !important;
-    fill: #D1D5DB !important;
+    content: "" !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23D1D5DB'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") !important;
     opacity: 0.7 !important;
   }
 
-  /* HALF STARS (★) - GOLDEN YELLOW */
+  /* HALF STAR SVG (GOLDEN #F59E0B) */
   html body .jdgm-star.jdgm--half:before,
   html body .jdgm-star.jdgm-star--half:before,
   html body .jdgm-rev__rating .jdgm-star.jdgm--half:before,
   html body span.jdgm-star.jdgm--half:before {
-    content: "★" !important;
-    color: #F59E0B !important;
-    fill: #F59E0B !important;
+    content: "" !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F59E0B'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") !important;
     opacity: 0.85 !important;
+  }
+
+  /* HISTOGRAM ROW STAR (5 ★, 4 ★, 3 ★, 2 ★, 1 ★) NEXT TO NUMBERS */
+  html body .jdgm-histogram__star:before,
+  html body .jdgm-histogram__row .jdgm-star:before {
+    content: "" !important;
+    display: inline-block !important;
+    width: 14px !important;
+    height: 14px !important;
+    margin-left: 2px !important;
+    margin-right: 4px !important;
+    vertical-align: middle !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F59E0B'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: contain !important;
   }
 
   /* HOVER / ACTIVE IN FORM RATING (WRITE A REVIEW MODAL) */
