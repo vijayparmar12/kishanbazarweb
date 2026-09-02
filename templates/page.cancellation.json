@@ -12,9 +12,9 @@
     "main": {
       "type": "main-policy-page",
       "settings": {
-        "eyebrow": "KISAN BAZAR POLICIES",
+        "eyebrow": "",
         "heading": "Cancellation Policy",
-        "subheading": "Last Updated: August 2026 • Orders can be cancelled prior to dispatch.",
+        "subheading": "",
         "show_page_content": true
       }
     }
