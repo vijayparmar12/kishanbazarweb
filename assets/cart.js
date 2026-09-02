@@ -608,14 +608,15 @@
     }
   };
 
-  const openDrawer = (cartData = null) => {
+  const openDrawer = async (cartData = null) => {
     const drawer = document.querySelector('[data-cart-drawer]');
     if (!drawer) return;
 
     if (cartData && Array.isArray(cartData.items) && cartData.items.length > 0) {
       updateDrawer(cartData);
     } else {
-      updateDrawerFromServer();
+      const cart = await updateDrawerFromServer();
+      if (cart) updateDrawer(cart);
     }
 
     drawer.hidden = false;
@@ -1149,12 +1150,11 @@
           if (!addResponse.ok) throw new Error('Add to cart failed');
 
           const addedData = await addResponse.json();
-          await new Promise((r) => setTimeout(r, 120));
           let updatedCart = await updateDrawerFromServer();
           if (!updatedCart || !updatedCart.items || updatedCart.items.length === 0) {
             updatedCart = await formatAndMergeAddedItem(addedData, updatedCart);
           }
-          openDrawer(updatedCart);
+          await openDrawer(updatedCart);
         } catch (error) {
           console.error(error);
         } finally {
