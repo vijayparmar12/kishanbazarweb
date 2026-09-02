@@ -56,12 +56,14 @@
     {% assign report_blocks = section.blocks | where: 'type', 'lab_report' %}
     {% assign pillar_blocks = section.blocks | where: 'type', 'quality_pillar' %}
 
-    <div class="lab-report-section-title">
-      <h2>{{ page.title | default: section.settings.grid_heading }}</h2>
-      {% if section.settings.grid_subheading != blank %}
-        <p>{{ section.settings.grid_subheading }}</p>
-      {% endif %}
-    </div>
+    {% if section.settings.grid_heading != blank %}
+      <div class="lab-report-section-title">
+        <h2>{{ section.settings.grid_heading }}</h2>
+        {% if section.settings.grid_subheading != blank %}
+          <p>{{ section.settings.grid_subheading }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
 
     <div class="lab-report-grid">
       {% if report_blocks.size > 0 %}
@@ -225,8 +227,7 @@
     {
       "type": "text",
       "id": "grid_heading",
-      "label": "Grid heading",
-      "default": "Certified Product Test Reports"
+      "label": "Grid heading (optional, leave blank to hide)"
     },
     {
       "type": "text",
