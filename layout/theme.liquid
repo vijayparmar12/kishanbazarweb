@@ -469,5 +469,103 @@
         });
       })();
     </script>
+
+    <style id="kishan-jdgm-star-fix">
+      /* Final Judge.me star override: removes failed icon-font square boxes. */
+      .jdgm-star {
+        display: inline-block !important;
+        width: 18px !important;
+        min-width: 18px !important;
+        height: 18px !important;
+        min-height: 18px !important;
+        margin: 0 1px !important;
+        overflow: hidden !important;
+        color: transparent !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 0 !important;
+        font-style: normal !important;
+        font-weight: 400 !important;
+        letter-spacing: 0 !important;
+        line-height: 1 !important;
+        text-indent: 0 !important;
+        vertical-align: middle !important;
+        speak: never !important;
+      }
+
+      .jdgm-star::before {
+        content: "" !important;
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        background: #f59e0b !important;
+        background-image: none !important;
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l3.09 6.26 6.91 1-5 4.87 1.18 6.87L12 17.77 5.82 21 7 14.13 2 9.26l6.91-1L12 2z'/%3E%3C/svg%3E") center / contain no-repeat !important;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l3.09 6.26 6.91 1-5 4.87 1.18 6.87L12 17.77 5.82 21 7 14.13 2 9.26l6.91-1L12 2z'/%3E%3C/svg%3E") center / contain no-repeat !important;
+      }
+
+      .jdgm-star::after {
+        content: none !important;
+        display: none !important;
+      }
+
+      .jdgm-star.jdgm--off::before,
+      .jdgm-star.jdgm-star--off::before {
+        background: #d1d5db !important;
+        opacity: 0.8 !important;
+      }
+
+      .jdgm-star.jdgm--half::before,
+      .jdgm-star.jdgm-star--half::before {
+        background: linear-gradient(90deg, #f59e0b 0 50%, #d1d5db 50% 100%) !important;
+      }
+
+      .jdgm-prev-badge__stars .jdgm-star {
+        width: 16px !important;
+        min-width: 16px !important;
+        height: 16px !important;
+        min-height: 16px !important;
+      }
+
+      .jdgm-histogram__star {
+        display: inline-flex !important;
+        width: auto !important;
+        min-width: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        margin-left: 2px !important;
+        margin-right: 4px !important;
+        align-items: center !important;
+        gap: 4px !important;
+        color: #111827 !important;
+        font-size: 0.85rem !important;
+        line-height: 1 !important;
+      }
+
+      .jdgm-histogram__star::before {
+        content: none !important;
+        display: none !important;
+      }
+
+      .jdgm-histogram__star::after {
+        content: "" !important;
+        display: inline-block !important;
+        width: 14px !important;
+        min-width: 14px !important;
+        height: 14px !important;
+        min-height: 14px !important;
+        background: #f59e0b !important;
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l3.09 6.26 6.91 1-5 4.87 1.18 6.87L12 17.77 5.82 21 7 14.13 2 9.26l6.91-1L12 2z'/%3E%3C/svg%3E") center / contain no-repeat !important;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l3.09 6.26 6.91 1-5 4.87 1.18 6.87L12 17.77 5.82 21 7 14.13 2 9.26l6.91-1L12 2z'/%3E%3C/svg%3E") center / contain no-repeat !important;
+      }
+
+      .jdgm-form-rating .jdgm-star {
+        width: 24px !important;
+        min-width: 24px !important;
+        height: 24px !important;
+        min-height: 24px !important;
+        cursor: pointer !important;
+      }
+    </style>
   </body>
 </html>
