@@ -19,6 +19,7 @@
             "custom_subtitle": "",
             "title_font_size_mobile": 23,
             "title_font_size_desktop": 28,
+            "title_line_height": 1.4,
             "title_color": "#23421f",
             "title_font_weight": "700",
             "subtitle_font_size_mobile": 13,
@@ -162,6 +163,9 @@
         "show_reviews": false,
         "show_recommendations": true,
         "recommendations_limit": 6,
+        "show_global_product_banner": true,
+        "global_product_banner_link": "",
+        "product_banner_radius": 24,
         "show_sticky_mobile_bar": true,
         "sticky_bar_btn_text": "ADD TO CART",
         "show_coins_banner": true,
@@ -222,20 +226,6 @@
     },
     "1788239684d01dcd1d": {
       "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_3jhPXT": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "review_data": "real_data",
-            "max_width": 1200,
-            "show_shop_reviews": false,
-            "empty_state": "empty_widget"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_3jhPXT"
-      ],
       "settings": {}
     },
     "recommendations": {
