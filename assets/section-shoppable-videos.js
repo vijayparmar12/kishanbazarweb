@@ -115,6 +115,7 @@ class ShoppableVideosSection {
         const subtitle = card.querySelector('.shoppable-videos__product-subtitle')?.textContent || '';
         const price = card.querySelector('.shoppable-videos__price-current')?.textContent || '₹199.00';
         const comparePrice = card.querySelector('.shoppable-videos__price-compare')?.textContent || '';
+        const variantAvailable = (card.dataset.variantAvailable || overlayEl?.dataset?.variantAvailable || 'true') !== 'false';
 
         const clone = mediaWrap.cloneNode(true);
         clone.querySelectorAll('.shoppable-videos__product-overlay, .shoppable-videos__top-overlay, .shoppable-videos__play').forEach(el => el.remove());
@@ -172,7 +173,7 @@ class ShoppableVideosSection {
             </div>
           </div>
           <div style="position: relative; height: 38px; flex-shrink: 0;">
-            <button type="button" class="shoppable-videos__modal-add-btn" style="background: #23421f; color: #ffffff; border: none; padding: 0.55rem 0.95rem; border-radius: 10px; font-weight: 800; font-size: 0.78rem; cursor: pointer; white-space: nowrap; flex-shrink: 0; box-shadow: 0 4px 12px rgba(35,66,31,0.25);">ADD TO CART</button>
+            <button type="button" class="shoppable-videos__modal-add-btn" ${variantAvailable ? '' : 'disabled'} style="background: #23421f; color: #ffffff; border: none; padding: 0.55rem 0.95rem; border-radius: 10px; font-weight: 800; font-size: 0.78rem; cursor: ${variantAvailable ? 'pointer' : 'not-allowed'}; white-space: nowrap; flex-shrink: 0; box-shadow: 0 4px 12px rgba(35,66,31,0.25); opacity: ${variantAvailable ? '1' : '0.65'};">${variantAvailable ? 'ADD TO CART' : 'SOLD OUT'}</button>
           </div>
         `;
         clone.appendChild(whiteProductBox);
@@ -220,6 +221,7 @@ class ShoppableVideosSection {
                 price: price,
                 comparePrice: comparePrice,
                 image: thumb,
+                variantAvailable,
               },
             })
           );
@@ -531,12 +533,15 @@ class ShoppableVideosSection {
         e.preventDefault();
         e.stopPropagation();
 
+        if (trigger.disabled) return;
+
         const handle = trigger.dataset.productHandle || '';
         const variantId = trigger.dataset.variantId || '';
         const title = trigger.dataset.productTitle || '';
         const price = trigger.dataset.productPrice || '';
         const comparePrice = trigger.dataset.productComparePrice || '';
         const image = trigger.dataset.productImage || '';
+        const variantAvailable = trigger.dataset.variantAvailable !== 'false';
 
         document.dispatchEvent(
           new CustomEvent('greenbasket:quick-view', {
@@ -547,6 +552,7 @@ class ShoppableVideosSection {
               price,
               comparePrice,
               image,
+              variantAvailable,
             },
           })
         );

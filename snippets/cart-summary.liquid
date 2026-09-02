@@ -69,8 +69,26 @@
         <div class="kb-cart-addons-track">
           {% assign addons_coll = settings.cart_addons_collection.products | default: collections.all.products %}
           {% for product in addons_coll limit: 6 %}
-            <div class="kb-cart-addon-card">
-              <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" class="kb-cart-addon-img" width="60" height="60" loading="lazy">
+            {% assign addon_variant = product.selected_or_first_available_variant %}
+            {% assign addon_available = addon_variant.available %}
+            {% if addon_variant.inventory_management != blank and addon_variant.inventory_policy == 'deny' and addon_variant.inventory_quantity <= 0 %}
+              {% assign addon_available = false %}
+            {% elsif addon_variant.inventory_quantity != blank and addon_variant.inventory_quantity <= 0 and addon_variant.inventory_policy != 'continue' %}
+              {% assign addon_available = false %}
+            {% endif %}
+            <div
+              class="kb-cart-addon-card"
+              data-fbt-card
+              data-product-handle="{{ product.handle }}"
+              data-variants-count="{{ product.variants.size }}"
+              data-add-variant-id="{{ addon_variant.id }}"
+              data-product-title="{{ product.title | escape }}"
+            >
+              {% if product.featured_image != blank %}
+                <img src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}" class="kb-cart-addon-img" width="60" height="60" loading="lazy">
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'kb-cart-addon-img' }}
+              {% endif %}
               <div class="kb-cart-addon-details">
                 <div class="kb-cart-addon-title">{{ product.title }}</div>
                 <div class="kb-cart-addon-price">
@@ -80,7 +98,17 @@
                   <span>{{ product.price | money }}</span>
                 </div>
               </div>
-              <button type="button" class="kb-cart-addon-add-btn" data-add-variant-id="{{ product.selected_or_first_available_variant.id }}">+ ADD</button>
+              <button
+                type="button"
+                class="kb-cart-addon-add-btn"
+                data-add-variant-id="{{ addon_variant.id }}"
+                data-product-handle="{{ product.handle }}"
+                data-product-title="{{ product.title | escape }}"
+                data-variants-count="{{ product.variants.size }}"
+                {% unless addon_available %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}
+              >
+                {% if addon_available %}+ ADD{% else %}SOLD OUT{% endif %}
+              </button>
             </div>
           {% endfor %}
         </div>

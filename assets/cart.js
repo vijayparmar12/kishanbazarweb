@@ -29,6 +29,44 @@
       console.error(e);
     }
   };
+
+  const checkIsVariantSoldOut = (variant, optionEl = null) => {
+    if (optionEl && (optionEl.disabled || optionEl.dataset.available === 'false')) {
+      return true;
+    }
+    if (!variant) return false;
+    if (variant.available === false) return true;
+    if (variant.inventory_management && variant.inventory_policy === 'deny' && Number(variant.inventory_quantity) <= 0) return true;
+    if (variant.inventory_quantity !== undefined && variant.inventory_quantity !== null && Number(variant.inventory_quantity) <= 0 && variant.inventory_policy !== 'continue') return true;
+    return false;
+  };
+
+  const getFormSelectedVariantAvailability = (form) => {
+    const checkedVariant = form.querySelector('[data-variant-radio]:checked');
+    if (checkedVariant && checkedVariant.dataset.available === 'false') return false;
+
+    const variantSelect = form.querySelector('[data-product-card-variant-select], [data-qv-variant-select]');
+    const selectedOption = variantSelect ? variantSelect.selectedOptions[0] : null;
+    if (selectedOption && checkIsVariantSoldOut(null, selectedOption)) return false;
+
+    if (form.dataset.available === 'false') return false;
+    return true;
+  };
+
+  const setSubmitButtonSoldOut = (button) => {
+    if (!button) return;
+    button.disabled = true;
+    button.setAttribute('disabled', 'disabled');
+    button.style.setProperty('opacity', '0.65', 'important');
+    button.style.setProperty('cursor', 'not-allowed', 'important');
+    const label = button.querySelector('[data-add-to-cart-text], span');
+    if (label) {
+      label.textContent = 'SOLD OUT';
+    } else {
+      button.textContent = 'SOLD OUT';
+    }
+  };
+
   window._chooseOptionQuantities = {};
 
   const renderChooseOptionList = (product, listEl) => {
@@ -39,7 +77,7 @@
       const variantTitle = v.title !== 'Default Title' ? v.title : '';
       const displayTitle = variantTitle ? `${product.title}` : product.title;
 
-      const isAvail = v.available !== false && (v.inventory_quantity === undefined || v.inventory_quantity > 0);
+      const isAvail = !checkIsVariantSoldOut(v);
       let actionBtnHtml = '';
       if (!isAvail) {
         actionBtnHtml = `<button type="button" disabled style="background: #94a3b8; color: #ffffff; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: not-allowed; opacity: 0.7;">Sold Out</button>`;
@@ -91,7 +129,11 @@
         window._chooseOptionQuantities = {};
 
         if (product.variants && product.variants.length) {
-          window._chooseOptionQuantities[product.variants[0].id] = 1;
+          const preferredVariant = product.variants.find((v) => String(v.id) === String(defaultVariantId));
+          const defaultVariant = (preferredVariant && !checkIsVariantSoldOut(preferredVariant)) ? preferredVariant : product.variants.find((v) => !checkIsVariantSoldOut(v));
+          if (defaultVariant) {
+            window._chooseOptionQuantities[defaultVariant.id] = 1;
+          }
         }
 
         renderChooseOptionList(product, listEl);
@@ -289,21 +331,9 @@
       badgeEl.style.display = 'none';
     }
 
-    const checkIsVariantSoldOut = (v, optionEl) => {
-      if (optionEl && (optionEl.disabled || optionEl.dataset.available === 'false')) {
-        return true;
-      }
-      if (v) {
-        if (v.available === false) return true;
-        if (v.inventory_management && v.inventory_policy === 'deny' && Number(v.inventory_quantity) <= 0) return true;
-        if (v.inventory_quantity !== undefined && v.inventory_quantity !== null && Number(v.inventory_quantity) <= 0 && v.inventory_policy !== 'continue') return true;
-      }
-      return false;
-    };
-
     // Hydrate cart item variant dropdown select boxes from product JSON
     if (cart.items && cart.items.length) {
-      cart.items.forEach((item) => {
+      cart.items.forEach((item, index) => {
         if (!item.handle) return;
         fetch(`${rootUrl}products/${item.handle}.js`)
           .then((res) => (res.ok ? res.json() : null))
@@ -322,13 +352,12 @@
               const isCurrentSoldOut = checkIsVariantSoldOut(currentV, null);
               if (isCurrentSoldOut) {
                 alert(`Sorry, ${item.product_title} (${item.variant_title || ''}) is sold out and has been removed from your cart.`);
-                changeCartLine(1, item.key, 0);
+                changeCartLine(index + 1, item.key, 0);
                 return;
               }
             }
 
-            const container = drawer.querySelector(`[data-cart-variant-container="${item.key}"]`);
-            if (container) {
+            document.querySelectorAll(`[data-cart-variant-container="${item.key}"]`).forEach((container) => {
               const optionsHtml = allVariants
                 .map((v) => {
                   const mapV = window._productVariantsMap[v.id] || v;
@@ -339,7 +368,7 @@
                 })
                 .join('');
               container.innerHTML = `<select class="kb-cart-item__variant-select" data-cart-item-variant-select data-line-key="${item.key}" data-current-qty="${item.quantity}" data-current-variant-id="${item.variant_id}" style="padding: 4px 24px 4px 10px; border-radius: 8px; border: 1px solid #cbd5e1; background-color: #f8fafc; font-size: 13px; font-weight: 600; color: #334155; cursor: pointer;">${optionsHtml}</select>`;
-            }
+            });
           })
           .catch(() => {});
       });
@@ -462,10 +491,37 @@
 
       const cart = await response.json();
       updateDrawer(cart);
+      await refreshCartPageFromServer(cart);
       setCartCount(cart.item_count);
       document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart } }));
     } catch (error) {
       console.error('Error changing cart line:', error);
+    }
+  };
+
+  const refreshCartPageFromServer = async (cartData = null) => {
+    const cartPage = document.querySelector('[data-main-cart]');
+    if (!cartPage) return;
+
+    const sectionId = cartPage.dataset.cartSectionId || 'main';
+    const cleanRoot = rootUrl.replace(/\/$/, '');
+
+    try {
+      const response = await fetch(`${cleanRoot}/cart?section_id=${encodeURIComponent(sectionId)}&_t=${Date.now()}`);
+      if (!response.ok) return;
+
+      const html = await response.text();
+      const parsed = new DOMParser().parseFromString(html, 'text/html');
+      const nextCartPage = parsed.querySelector('[data-main-cart]');
+      if (nextCartPage) {
+        cartPage.replaceWith(nextCartPage);
+        initTrackDragScroll();
+      }
+    } catch (error) {
+      console.error('Error refreshing cart page:', error);
+      if (cartData && cartData.item_count === 0) {
+        window.location.reload();
+      }
     }
   };
 
@@ -805,8 +861,16 @@
       const handle = btn.dataset.productHandle || fbtCard.dataset.productHandle;
       const defaultVariantId = btn.dataset.addVariantId || fbtCard.dataset.addVariantId;
 
+      if (btn.disabled || /sold out/i.test(btn.textContent || '')) return;
+
       if (handle) {
-        window.openChooseOptionModal(handle, defaultVariantId);
+        const drawer = document.querySelector('[data-cart-drawer]');
+        if (drawer && !drawer.classList.contains('is-open')) {
+          openDrawer();
+          window.setTimeout(() => window.openChooseOptionModal(handle, defaultVariantId), 80);
+        } else {
+          window.openChooseOptionModal(handle, defaultVariantId);
+        }
       } else if (defaultVariantId) {
         addSingleVariantToCart(defaultVariantId);
       }
@@ -869,7 +933,8 @@
       const itemsToAdd = [];
       Object.keys(window._chooseOptionQuantities || {}).forEach((varId) => {
         const q = window._chooseOptionQuantities[varId];
-        if (q > 0) {
+        const variant = window._chooseOptionCurrentProduct?.variants?.find((v) => String(v.id) === String(varId));
+        if (q > 0 && !checkIsVariantSoldOut(variant)) {
           itemsToAdd.push({ id: Number(varId), quantity: q });
         }
       });
@@ -1040,6 +1105,11 @@
         const originalSpan = submitButton?.querySelector('span');
         const originalText = originalSpan ? originalSpan.textContent : submitButton?.textContent;
 
+        if (submitButton?.disabled || getFormSelectedVariantAvailability(form) === false) {
+          setSubmitButtonSoldOut(submitButton);
+          return;
+        }
+
         if (submitButton) {
           submitButton.disabled = true;
           if (originalSpan) {
@@ -1185,6 +1255,9 @@
   const autoOpenCart = () => {
     initAddToCartForms();
     initTrackDragScroll();
+    if (document.querySelector('[data-main-cart]')) {
+      updateDrawerFromServer();
+    }
     if (window.location.search.includes('open_cart')) {
       window.setTimeout(() => {
         openDrawer();

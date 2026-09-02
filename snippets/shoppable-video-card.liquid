@@ -75,7 +75,7 @@
 %}
 
 <li class="shoppable-videos__slide" data-carousel-slide {{ shopify_attributes }}>
-  <article class="shoppable-videos__card{% if is_preview %} shoppable-videos__card--preview{% endif %}" data-shoppable-card {% if variant != blank %}data-variant-id="{{ variant.id }}"{% endif %} {% if card_product != blank %}data-product-handle="{{ card_product.handle }}"{% endif %}>
+  <article class="shoppable-videos__card{% if is_preview %} shoppable-videos__card--preview{% endif %}" data-shoppable-card {% if variant != blank %}data-variant-id="{{ variant.id }}"{% endif %} data-variant-available="{% if v_avail %}true{% else %}false{% endif %}" {% if card_product != blank %}data-product-handle="{{ card_product.handle }}"{% endif %}>
     
     <!-- Video Media Wrap -->
     <div class="shoppable-videos__media-wrap">
@@ -107,7 +107,7 @@
       </button>
 
       <!-- Floating Product Card Overlay -->
-      <div class="shoppable-videos__product-overlay" data-quick-view-trigger data-product-handle="{{ card_product.handle }}" data-variant-id="{{ variant.id }}" data-product-title="{{ p_title | escape }}" data-product-price="{{ selling_p }}" data-product-compare-price="{{ compare_p }}" data-product-image="{% if card_product.featured_image != blank %}{{ card_product.featured_image | image_url: width: 600 }}{% endif %}">
+      <div class="shoppable-videos__product-overlay" data-quick-view-trigger data-product-handle="{{ card_product.handle }}" data-variant-id="{{ variant.id }}" data-variant-available="{% if v_avail %}true{% else %}false{% endif %}" data-product-title="{{ p_title | escape }}" data-product-price="{{ selling_p }}" data-product-compare-price="{{ compare_p }}" data-product-image="{% if card_product.featured_image != blank %}{{ card_product.featured_image | image_url: width: 600 }}{% endif %}">
         <a href="javascript:void(0)" class="shoppable-videos__product-info-row" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 0.65rem;">
           <div class="shoppable-videos__product-image-box">
             {% if card_product.featured_image != blank %}
@@ -144,7 +144,7 @@
               {% assign is_sold = true %}
             {% endunless %}
           {% endif %}
-          <button type="button" class="shoppable-videos__buy-btn" data-quick-view-trigger data-product-handle="{{ card_product.handle }}" data-variant-id="{{ variant.id }}" data-product-title="{{ p_title | escape }}" data-product-price="{{ selling_p }}" data-product-compare-price="{{ compare_p }}" data-product-image="{% if card_product.featured_image != blank %}{{ card_product.featured_image | image_url: width: 600 }}{% endif %}" {% if is_sold %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endif %}>
+          <button type="button" class="shoppable-videos__buy-btn" data-quick-view-trigger data-product-handle="{{ card_product.handle }}" data-variant-id="{{ variant.id }}" data-variant-available="{% if v_avail %}true{% else %}false{% endif %}" data-product-title="{{ p_title | escape }}" data-product-price="{{ selling_p }}" data-product-compare-price="{{ compare_p }}" data-product-image="{% if card_product.featured_image != blank %}{{ card_product.featured_image | image_url: width: 600 }}{% endif %}" {% if is_sold %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endif %}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             <span>{% if is_sold %}SOLD OUT{% else %}{{ button_label }}{% endif %}</span>
           </button>

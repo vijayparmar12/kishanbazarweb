@@ -1,5 +1,4 @@
 {{ 'cart.css' | asset_url | stylesheet_tag }}
-<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 
 {% assign free_ship_val = settings.cart_free_shipping_threshold | default: 1499 | times: 100 %}
 {% assign discount_val = settings.cart_discount_threshold | default: 3000 | times: 100 %}
