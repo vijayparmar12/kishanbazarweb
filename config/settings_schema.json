@@ -181,6 +181,12 @@
       },
       {
         "type": "number",
+        "id": "cart_shipping_fee",
+        "label": "Shipping Charge when Free Shipping Not Reached (in ₹)",
+        "default": 99
+      },
+      {
+        "type": "number",
         "id": "cart_free_shipping_threshold",
         "label": "Free Shipping Threshold (in ₹)",
         "default": 1499
