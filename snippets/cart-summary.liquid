@@ -115,10 +115,22 @@
       </div>
     </div>
 
+    {% assign shipping_fee_num = section.settings.cart_shipping_fee | default: settings.cart_shipping_fee | default: 99 %}
+    {% assign shipping_fee_cents = shipping_fee_num | times: 100 %}
     <dl class="kb-cart-summary__totals">
       <div class="kb-cart-summary__line">
         <dt>Subtotal</dt>
-        <dd>{{ cart.original_total_price | default: cart.total_price | money }}</dd>
+        <dd>{{ cart.total_price | money }}</dd>
+      </div>
+      <div class="kb-cart-summary__line">
+        <dt>Shipping Charge</dt>
+        <dd>
+          {% if threshold_cents > 0 and cart.total_price >= threshold_cents %}
+            <span style="color: #166534; font-weight: 700;">FREE</span>
+          {% else %}
+            <span>+{{ shipping_fee_cents | money }}</span>
+          {% endif %}
+        </dd>
       </div>
       {% if cart.total_discount > 0 %}
         <div class="kb-cart-summary__line kb-cart-summary__line--discount">
@@ -128,7 +140,13 @@
       {% endif %}
       <div class="kb-cart-summary__line kb-cart-summary__line--grand">
         <dt>Estimated Total</dt>
-        <dd class="kb-cart-summary__grand-price">{{ cart.total_price | money }}</dd>
+        <dd class="kb-cart-summary__grand-price">
+          {% if threshold_cents > 0 and cart.total_price >= threshold_cents %}
+            {{ cart.total_price | money }}
+          {% else %}
+            {{ cart.total_price | plus: shipping_fee_cents | money }}
+          {% endif %}
+        </dd>
       </div>
     </dl>
 

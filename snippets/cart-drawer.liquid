@@ -5,6 +5,8 @@
 {% liquid
   assign cart_title_text = section.settings.cart_title_text | default: settings.cart_title_text | default: 'YOUR CART'
   assign free_shipping_threshold_num = section.settings.cart_free_shipping_threshold | default: settings.cart_free_shipping_threshold | default: 1499
+  assign shipping_fee_num = section.settings.cart_shipping_fee | default: settings.cart_shipping_fee | default: 99
+  assign shipping_fee_cents = shipping_fee_num | times: 100
   assign discount_threshold_num = section.settings.cart_discount_threshold | default: settings.cart_discount_threshold | default: 3000
   assign free_ship_val = free_shipping_threshold_num | times: 100
   assign discount_val = discount_threshold_num | times: 100
@@ -55,7 +57,7 @@
   endif
 %}
 
-<aside class="kb-cart-drawer" id="CartDrawer" hidden data-cart-drawer data-cart-drawer-mode="full" aria-label="{{ 'cart.title' | t }}">
+<aside class="kb-cart-drawer" id="CartDrawer" hidden data-cart-drawer data-free-shipping-threshold="{{ free_ship_val }}" data-shipping-fee="{{ shipping_fee_cents }}" data-cart-drawer-mode="full" aria-label="{{ 'cart.title' | t }}">
   <div class="kb-cart-drawer__overlay" data-cart-drawer-close></div>
   <div class="kb-cart-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle">
     <div class="kb-cart-drawer__header">
@@ -208,9 +210,14 @@
           <div class="kb-cart-estimated-label">
             <span class="kb-cart-estimated-tag-icon">₹</span>
             <strong>{{ estimated_total_label }}</strong>
+            <span class="kb-cart-shipping-note" data-cart-shipping-note style="{% if cart.total_price >= free_ship_val or cart.item_count == 0 %}display: none;{% endif %} font-size: 0.75rem; color: #b45309; margin-left: 6px; font-weight: 700;">(+₹{{ shipping_fee_num }} Shipping)</span>
           </div>
           <div class="kb-cart-estimated-prices">
-            <strong class="kb-cart-estimated-final" data-cart-drawer-subtotal>{{ cart.total_price | money }}</strong>
+            {% assign final_estimated_total = cart.total_price %}
+            {% if cart.total_price < free_ship_val and cart.item_count > 0 and shipping_fee_num > 0 %}
+              {% assign final_estimated_total = cart.total_price | plus: shipping_fee_cents %}
+            {% endif %}
+            <strong class="kb-cart-estimated-final" data-cart-drawer-subtotal>{{ final_estimated_total | money }}</strong>
             <s class="kb-cart-estimated-original" data-cart-drawer-original-total {% if total_saved <= 0 %}style="display: none;"{% endif %}>{{ cart_original_price | money }}</s>
           </div>
         </div>

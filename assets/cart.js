@@ -165,25 +165,28 @@
     const title = drawer.querySelector('#CartDrawerTitle');
     if (title) title.textContent = `YOUR CART (${cart.item_count})`;
 
+    const thresholdCents = parseInt(drawer.dataset.freeShippingThreshold, 10) || 149900;
+    const shippingFeeCents = parseInt(drawer.dataset.shippingFee, 10) || 9900;
+
     const status = drawer.querySelector('[data-cart-drawer-status]');
     if (status) {
-      if (cart.total_price >= 149900) {
+      if (cart.total_price >= thresholdCents) {
         status.textContent = "Hurray! You've unlocked FREE Shipping";
       } else {
-        const remaining = 149900 - cart.total_price;
+        const remaining = thresholdCents - cart.total_price;
         status.textContent = `Add ${formatMoney(remaining)} more for FREE Shipping`;
       }
     }
 
     const progressFill = drawer.querySelector('[data-cart-drawer-progress] .kb-cart-drawer__progress-fill');
     if (progressFill) {
-      let pct = (cart.total_price / 149900) * 100;
+      let pct = (cart.total_price / thresholdCents) * 100;
       progressFill.style.width = `${Math.min(100, Math.max(0, pct))}%`;
     }
 
     const marker1 = drawer.querySelector('.kb-cart-drawer__progress-marker--1');
     if (marker1) {
-      marker1.classList.toggle('is-active', cart.total_price >= 149900);
+      marker1.classList.toggle('is-active', cart.total_price >= thresholdCents);
     }
 
     const items = drawer.querySelector('[data-cart-drawer-items]');
@@ -267,7 +270,21 @@
       if (progress) progress.style.setProperty('display', 'block', 'important');
     }
     const subtotal = drawer.querySelector('[data-cart-drawer-subtotal]');
-    if (subtotal) subtotal.textContent = formatMoney(cart.total_price);
+    const shippingNote = drawer.querySelector('[data-cart-shipping-note]');
+    const shippingFeeNum = Math.round(shippingFeeCents / 100);
+
+    let estimatedTotalCents = cart.total_price;
+    if (cart.item_count > 0 && cart.total_price < thresholdCents && shippingFeeCents > 0) {
+      estimatedTotalCents += shippingFeeCents;
+      if (shippingNote) {
+        shippingNote.textContent = `(+₹${shippingFeeNum} Shipping)`;
+        shippingNote.style.display = 'inline';
+      }
+    } else {
+      if (shippingNote) shippingNote.style.display = 'none';
+    }
+
+    if (subtotal) subtotal.textContent = formatMoney(estimatedTotalCents);
 
     // Calculate dynamic savings across all line items (Rosier Foods Style)
     let totalCompare = 0;
