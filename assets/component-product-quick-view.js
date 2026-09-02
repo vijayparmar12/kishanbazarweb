@@ -97,6 +97,22 @@ class ProductQuickViewManager {
     if (variant.featured_image && variant.featured_image.src && this.imgEl) {
       this.imgEl.src = variant.featured_image.src;
     }
+
+    const isAvail = variant.available !== false && (variant.inventory_quantity === undefined || variant.inventory_quantity === null || variant.inventory_policy === 'continue' || variant.inventory_quantity > 0);
+
+    if (this.addBtn) {
+      if (!isAvail) {
+        this.addBtn.disabled = true;
+        this.addBtn.style.opacity = '0.65';
+        this.addBtn.style.cursor = 'not-allowed';
+        this.addBtn.textContent = 'SOLD OUT';
+      } else {
+        this.addBtn.disabled = false;
+        this.addBtn.style.opacity = '1';
+        this.addBtn.style.cursor = 'pointer';
+        this.addBtn.textContent = 'Proceed';
+      }
+    }
   }
 
   async open(detail) {
@@ -152,10 +168,11 @@ class ProductQuickViewManager {
     if (this.variantSelect && data.variants && data.variants.length > 0) {
       this.variantSelect.innerHTML = data.variants
         .map((v) => {
-          const label = v.title;
+          const isAvail = v.available !== false && (v.inventory_quantity === undefined || v.inventory_quantity === null || v.inventory_policy === 'continue' || v.inventory_quantity > 0);
+          const label = isAvail ? v.title : `${v.title} - (Sold Out)`;
           const isSelected = String(v.id) === String(preferredVariantId) || v === data.variants[0];
           if (isSelected) this.currentVariantId = v.id;
-          return `<option value="${v.id}" ${isSelected ? 'selected' : ''}>${label}</option>`;
+          return `<option value="${v.id}" ${isSelected ? 'selected' : ''} ${!isAvail ? 'disabled data-available="false" style="color: #ef4444;"' : 'data-available="true"'}>${label}</option>`;
         })
         .join('');
 

@@ -128,6 +128,16 @@
             item.image = imgUrl;
             needsSave = true;
           }
+          if (found.variants && found.variants.length > 0) {
+            const vObj = found.variants.find((v) => String(v.id) === String(item.variantId)) || found.variants[0];
+            if (vObj) {
+              const isAvail = vObj.available !== false && (vObj.inventory_quantity === undefined || vObj.inventory_quantity === null || vObj.inventory_policy === 'continue' || vObj.inventory_quantity > 0);
+              if (item.available !== isAvail) {
+                item.available = isAvail;
+                needsSave = true;
+              }
+            }
+          }
         }
       });
     }
@@ -167,6 +177,14 @@
       grid.innerHTML = filtered.map((item) => {
         const imgSrc = item.image || getLogoUrl();
         const compareHtml = item.comparePrice ? '<s class="compare-price">' + item.comparePrice + '</s>' : '';
+        const isAvail = item.available !== false;
+        const stockBadge = isAvail
+          ? '<span class="stock-badge in-stock" style="font-size: 0.78rem; font-weight: 700; color: #166534;">● In Stock</span>'
+          : '<span class="stock-badge out-stock" style="font-size: 0.78rem; font-weight: 700; color: #dc2626;">● Sold Out</span>';
+
+        const moveBtnHtml = isAvail
+          ? '<button type="button" class="kb-wishlist-btn kb-wishlist-btn--move-cart" data-move-to-cart data-variant-id="' + item.variantId + '"><span class="btn-text">MOVE TO CART</span><span class="btn-loader" style="display: none;">⏳</span></button>'
+          : '<button type="button" class="kb-wishlist-btn kb-wishlist-btn--move-cart" disabled style="opacity: 0.65; cursor: not-allowed; background: #94a3b8; color: #ffffff; border: none;" data-move-to-cart data-variant-id="' + item.variantId + '"><span class="btn-text">SOLD OUT</span></button>';
 
         return (
           '<article class="kb-wishlist-card" data-wishlist-card data-variant-id="' + item.variantId + '">' +
@@ -192,11 +210,9 @@
                 '</div>' +
                 '<div class="kb-wishlist-card__unit"><span>' + (item.variant || '1 kg') + '</span></div>' +
               '</div>' +
+              '<div style="margin-top: 4px; margin-bottom: 6px;">' + stockBadge + '</div>' +
               '<div class="kb-wishlist-card__actions">' +
-                '<button type="button" class="kb-wishlist-btn kb-wishlist-btn--move-cart" data-move-to-cart data-variant-id="' + item.variantId + '">' +
-                  '<span class="btn-text">MOVE TO CART</span>' +
-                  '<span class="btn-loader" style="display: none;">⏳</span>' +
-                '</button>' +
+                moveBtnHtml +
               '</div>' +
             '</div>' +
           '</article>'
@@ -217,6 +233,13 @@
   };
 
   const moveToCart = async (variantId, btnElement) => {
+    const items = getWishlist();
+    const targetItem = items.find((i) => String(i.variantId) === String(variantId));
+    if (targetItem && targetItem.available === false) {
+      alert(`Sorry, ${targetItem.title} (${targetItem.variant || ''}) is currently sold out.`);
+      return;
+    }
+
     if (btnElement) {
       const btnText = btnElement.querySelector('.btn-text');
       const btnLoader = btnElement.querySelector('.btn-loader');
@@ -226,13 +249,24 @@
     }
 
     try {
-      await fetch('/cart/add.js', {
+      const response = await fetch('/cart/add.js', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ items: [{ id: variantId, quantity: 1 }] })
       });
+      if (!response.ok) {
+        alert('Sorry, this variant is currently sold out and cannot be added to cart.');
+        if (btnElement) {
+          btnElement.disabled = false;
+          const btnText = btnElement.querySelector('.btn-text');
+          const btnLoader = btnElement.querySelector('.btn-loader');
+          if (btnText) btnText.style.display = 'inline';
+          if (btnLoader) btnLoader.style.display = 'none';
+        }
+        return;
+      }
     } catch (e) {
-      console.warn('Simulated Cart Add');
+      console.warn('Cart Add error', e);
     }
 
     removeFromWishlist(variantId);
@@ -253,6 +287,12 @@
     const items = getWishlist();
     if (!items || items.length === 0) return;
 
+    const availableItems = items.filter((i) => i.available !== false);
+    if (availableItems.length === 0) {
+      alert('All items in your wishlist are currently sold out.');
+      return;
+    }
+
     const moveAllBtn = document.querySelector('[data-move-all-to-cart]');
     if (moveAllBtn) {
       const btnText = moveAllBtn.querySelector('.btn-text');
@@ -263,19 +303,24 @@
     }
 
     try {
-      const cartItems = items.map((item) => ({ id: item.variantId, quantity: 1 }));
+      const cartItems = availableItems.map((item) => ({ id: item.variantId, quantity: 1 }));
       await fetch('/cart/add.js', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ items: cartItems })
       });
     } catch (e) {
       console.warn('Simulated Move All to Cart');
     }
 
-    saveWishlist([]);
+    const remainingSoldOut = items.filter((i) => i.available === false);
+    saveWishlist(remainingSoldOut);
     renderWishlist();
     closeWishlistDrawer();
+
+    if (remainingSoldOut.length > 0) {
+      alert(`${availableItems.length} available items moved to cart. ${remainingSoldOut.length} sold-out item(s) remain in your wishlist.`);
+    }
 
     try {
       const rootUrl = window.Shopify?.routes?.root || '/';

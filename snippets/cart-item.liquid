@@ -73,6 +73,11 @@
         <select class="kb-cart-item__variant-select" data-cart-item-variant-select data-line-key="{{ line_key }}" data-current-qty="{{ item.quantity }}" data-current-variant-id="{{ variant.id }}" style="padding: 4px 24px 4px 10px; border-radius: 8px; border: 1px solid #cbd5e1; background-color: #f8fafc; font-size: 13px; font-weight: 600; color: #334155; cursor: pointer;">
           {% for v in all_item_variants %}
             {% assign is_opt_avail = v.available %}
+            {% if v.inventory_management != blank and v.inventory_policy == 'deny' and v.inventory_quantity <= 0 %}
+              {% assign is_opt_avail = false %}
+            {% elsif v.inventory_quantity != blank and v.inventory_quantity <= 0 and v.inventory_policy != 'continue' %}
+              {% assign is_opt_avail = false %}
+            {% endif %}
             <option
               value="{{ v.id }}"
               data-variant-title="{{ v.title | escape }}"

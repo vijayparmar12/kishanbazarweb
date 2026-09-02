@@ -18,6 +18,13 @@
     endif
   endfor
   assign rating_already_rendered = false
+
+  assign current_v_avail = current_variant.available
+  if current_variant.inventory_management != blank and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity <= 0
+    assign current_v_avail = false
+  elsif current_variant.inventory_quantity != blank and current_variant.inventory_quantity <= 0 and current_variant.inventory_policy != 'continue'
+    assign current_v_avail = false
+  endif
 %}
 
 <div class="product-info" data-product-info>
@@ -140,7 +147,7 @@
 
         {% when 'stock_status' %}
           <div class="product-info__availability" data-product-availability-status {{ block.shopify_attributes }}>
-            {% if current_variant.available %}
+            {% if current_v_avail %}
               <span class="product-info__stock-dot is-in-stock"></span>
               <span class="product-info__stock-text">{{ block.settings.stock_text | default: "In Stock • Ready to Dispatch in 24 Hours" }}</span>
             {% else %}
@@ -182,6 +189,7 @@
                       data-discount="{% if variant_sale %}{{ variant_disc }}{% endif %}"
                       data-sku="{{ variant.sku | escape }}"
                       data-available="{% if v_avail %}true{% else %}false{% endif %}"
+                      {% if v_avail == false %}disabled{% endif %}
                       {% if variant.featured_media != blank %}data-image="{{ variant.featured_media | image_url: width: 1200 }}"{% endif %}
                       {% if variant == current_variant %}checked{% endif %}
                     >
@@ -199,12 +207,6 @@
           {% endif %}
 
         {% when 'buy_buttons' %}
-          {% assign current_v_avail = current_variant.available %}
-          {% if current_variant.inventory_management != blank and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity <= 0 %}
-            {% assign current_v_avail = false %}
-          {% elsif current_variant.inventory_quantity != blank and current_variant.inventory_quantity <= 0 and current_variant.inventory_policy != 'continue' %}
-            {% assign current_v_avail = false %}
-          {% endif %}
           {% form 'product', product, class: 'product-info__form', data-product-main-form: '' %}
             <input type="hidden" name="id" value="{{ current_variant.id }}" data-product-selected-variant-id>
             <input type="hidden" name="quantity" value="1" data-quantity-input>
@@ -250,7 +252,7 @@
                   type="button"
                   class="product-info__btn product-info__btn--buy-now"
                   data-buy-now-button
-                  {% unless current_variant.available %}disabled{% endunless %}
+                  {% unless current_v_avail %}disabled{% endunless %}
                 >
                   ⚡ BUY IT NOW (EXPRESS CHECKOUT)
                 </button>

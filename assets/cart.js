@@ -295,7 +295,8 @@
       }
       if (v) {
         if (v.available === false) return true;
-        if (v.inventory_quantity !== undefined && v.inventory_quantity !== null && Number(v.inventory_quantity) <= 0) return true;
+        if (v.inventory_management && v.inventory_policy === 'deny' && Number(v.inventory_quantity) <= 0) return true;
+        if (v.inventory_quantity !== undefined && v.inventory_quantity !== null && Number(v.inventory_quantity) <= 0 && v.inventory_policy !== 'continue') return true;
       }
       return false;
     };
@@ -356,15 +357,17 @@
 
     const isOptionDisabled = selectedOption && (selectedOption.disabled || selectedOption.dataset.available === 'false');
     const selectedVariantObj = window._productVariantsMap ? window._productVariantsMap[newVariantId] : null;
-    const isObjSoldOut = selectedVariantObj && (selectedVariantObj.available === false || (selectedVariantObj.inventory_quantity !== undefined && Number(selectedVariantObj.inventory_quantity) <= 0));
+    const isObjSoldOut = selectedVariantObj && (selectedVariantObj.available === false || (selectedVariantObj.inventory_quantity !== undefined && Number(selectedVariantObj.inventory_quantity) <= 0 && selectedVariantObj.inventory_policy !== 'continue'));
 
     const isSoldOut = isOptionDisabled || isObjSoldOut;
 
     // If selected option or variant object is sold out, remove line item from cart immediately
     if (isSoldOut) {
       const variantTitle = selectedOption ? selectedOption.textContent.replace(/\s*-\s*\(Sold Out\)/i, '').trim() : 'selected variant';
-      alert(`Sorry, ${variantTitle} is currently sold out and has been removed from your cart.`);
-      await changeCartLine(lineIndex, lineKey, 0);
+      alert(`Sorry, ${variantTitle} is currently sold out.`);
+      if (oldVariantId) select.value = oldVariantId;
+      select.disabled = false;
+      select.style.opacity = '1';
       return;
     }
 
@@ -379,9 +382,10 @@
       if (!addRes.ok) {
         const errJson = await addRes.json().catch(() => ({}));
         const errMsg = errJson.description || errJson.message || 'Selected variant is sold out.';
-        alert(`Cannot select variant: ${errMsg}. Item will be removed from cart.`);
-        // Remove line item using changeCartLine helper
-        await changeCartLine(lineIndex, lineKey, 0);
+        alert(`Cannot select variant: ${errMsg}`);
+        if (oldVariantId) select.value = oldVariantId;
+        select.disabled = false;
+        select.style.opacity = '1';
         return;
       }
 
@@ -443,7 +447,10 @@
       }
 
       if (!response.ok) {
-        console.error('Cart update failed with status:', response.status);
+        const errData = await response.json().catch(() => ({}));
+        const msg = errData.description || errData.message || 'Cannot add more of this variant to cart (stock limit reached).';
+        alert(msg);
+        updateDrawerFromServer();
         return;
       }
 
