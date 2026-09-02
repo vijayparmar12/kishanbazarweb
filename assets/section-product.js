@@ -287,7 +287,7 @@ function initVariantSelection(container) {
       const compare = radio.getAttribute('data-compare');
       const discount = radio.getAttribute('data-discount');
       const sku = radio.getAttribute('data-sku');
-      const available = radio.getAttribute('data-available') === 'true' && !radio.hasAttribute('disabled');
+      const available = radio.getAttribute('data-available') === 'true';
       const img = radio.getAttribute('data-image');
 
       // Update hidden input
@@ -355,6 +355,7 @@ function initVariantSelection(container) {
       const stickyBtnText = container.querySelector('[data-sticky-btn-text]');
       const stickyStepper = container.querySelector('[data-sticky-stepper], .sticky-mobile-bar__quantity-stepper');
       const stepper = container.querySelector('[data-card-inline-stepper]');
+      const buyNowBtn = container.querySelector('[data-buy-now-button]');
 
       if (available) {
         if (availabilityStatus) {
@@ -370,6 +371,13 @@ function initVariantSelection(container) {
           addToCartBtn.style.setProperty('cursor', 'pointer', 'important');
         }
         if (addToCartText) addToCartText.textContent = 'ADD TO CART';
+
+        if (buyNowBtn) {
+          buyNowBtn.removeAttribute('disabled');
+          buyNowBtn.disabled = false;
+          buyNowBtn.style.setProperty('opacity', '1', 'important');
+          buyNowBtn.style.setProperty('cursor', 'pointer', 'important');
+        }
 
         if (stickyBtn) {
           stickyBtn.removeAttribute('disabled');
@@ -396,6 +404,13 @@ function initVariantSelection(container) {
         }
         if (stepper) stepper.style.setProperty('display', 'none', 'important');
         if (addToCartText) addToCartText.textContent = 'SOLD OUT';
+
+        if (buyNowBtn) {
+          buyNowBtn.setAttribute('disabled', 'disabled');
+          buyNowBtn.disabled = true;
+          buyNowBtn.style.setProperty('opacity', '0.65', 'important');
+          buyNowBtn.style.setProperty('cursor', 'not-allowed', 'important');
+        }
 
         if (stickyBtn) {
           stickyBtn.setAttribute('disabled', 'disabled');

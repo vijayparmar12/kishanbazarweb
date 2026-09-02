@@ -189,7 +189,6 @@
                       data-discount="{% if variant_sale %}{{ variant_disc }}{% endif %}"
                       data-sku="{{ variant.sku | escape }}"
                       data-available="{% if v_avail %}true{% else %}false{% endif %}"
-                      {% if v_avail == false %}disabled{% endif %}
                       {% if variant.featured_media != blank %}data-image="{{ variant.featured_media | image_url: width: 1200 }}"{% endif %}
                       {% if variant == current_variant %}checked{% endif %}
                     >
@@ -402,7 +401,7 @@
                   {% if v_custom_badge != blank %}
                     <span class="product-info__variant-badge">{{ v_custom_badge }}</span>
                   {% endif %}
-                  <input type="radio" name="variant_id_option" value="{{ variant.id }}" data-variant-radio data-variant-id="{{ variant.id }}" data-variant-title="{{ variant.title | escape }}" data-price="{{ variant.price | money_without_trailing_zeros | escape }}" data-compare="{% if variant_sale %}{{ variant.compare_at_price | money_without_trailing_zeros | escape }}{% endif %}" data-discount="{% if variant_sale %}{{ variant_disc }}{% endif %}" data-sku="{{ variant.sku | escape }}" data-available="{% if v_avail %}true{% else %}false{% endif %}" {% if v_avail == false %}disabled{% endif %} {% if variant.featured_media != blank %}data-image="{{ variant.featured_media | image_url: width: 1200 }}"{% endif %} {% if variant == current_variant %}checked{% endif %}>
+                  <input type="radio" name="variant_id_option" value="{{ variant.id }}" data-variant-radio data-variant-id="{{ variant.id }}" data-variant-title="{{ variant.title | escape }}" data-price="{{ variant.price | money_without_trailing_zeros | escape }}" data-compare="{% if variant_sale %}{{ variant.compare_at_price | money_without_trailing_zeros | escape }}{% endif %}" data-discount="{% if variant_sale %}{{ variant_disc }}{% endif %}" data-sku="{{ variant.sku | escape }}" data-available="{% if v_avail %}true{% else %}false{% endif %}" {% if variant.featured_media != blank %}data-image="{{ variant.featured_media | image_url: width: 1200 }}"{% endif %} {% if variant == current_variant %}checked{% endif %}>
                   <span class="product-info__variant-card-inner">
                     <span class="product-info__variant-title">{{ variant.title }}{% if v_avail == false %} (Sold out){% endif %}</span>
                     <span class="product-info__variant-price">{{ variant.price | money_without_trailing_zeros }}</span>

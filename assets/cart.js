@@ -364,10 +364,8 @@
     // If selected option or variant object is sold out, remove line item from cart immediately
     if (isSoldOut) {
       const variantTitle = selectedOption ? selectedOption.textContent.replace(/\s*-\s*\(Sold Out\)/i, '').trim() : 'selected variant';
-      alert(`Sorry, ${variantTitle} is currently sold out.`);
-      if (oldVariantId) select.value = oldVariantId;
-      select.disabled = false;
-      select.style.opacity = '1';
+      alert(`Sorry, ${variantTitle} is currently sold out and has been removed from your cart.`);
+      await changeCartLine(lineIndex, lineKey, 0);
       return;
     }
 
@@ -382,10 +380,8 @@
       if (!addRes.ok) {
         const errJson = await addRes.json().catch(() => ({}));
         const errMsg = errJson.description || errJson.message || 'Selected variant is sold out.';
-        alert(`Cannot select variant: ${errMsg}`);
-        if (oldVariantId) select.value = oldVariantId;
-        select.disabled = false;
-        select.style.opacity = '1';
+        alert(`Cannot select variant: ${errMsg}. Item has been removed from your cart.`);
+        await changeCartLine(lineIndex, lineKey, 0);
         return;
       }
 

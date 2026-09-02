@@ -324,7 +324,6 @@
                       data-available="{{ v_avail }}"
                       data-inventory="{{ card_variant.inventory_quantity }}"
                       {% if card_variant == variant %}selected{% endif %}
-                      {% if v_avail == false %}disabled{% endif %}
                     >
                       {{ card_variant.title }}{% if v_avail == false %} (Sold out){% endif %}
                     </option>
