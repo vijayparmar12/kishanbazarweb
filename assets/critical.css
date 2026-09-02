@@ -126,9 +126,8 @@ p, .rte, .product-details-card, .product-tabs__content, .product-info__descripti
 
 .jdgm-star,
 .jdgm-star * {
-  color: #1B4317 !important;
-  fill: #1B4317 !important;
   display: inline-block !important;
+  font-family: "judgemeStar", "FontAwesome", "Segoe UI Symbol", sans-serif !important;
 }
 
 .jdgm-write-rev-btn,
