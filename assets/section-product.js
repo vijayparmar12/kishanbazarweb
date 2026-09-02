@@ -290,8 +290,18 @@ function initVariantSelection(container) {
       const compare = radio.getAttribute('data-compare');
       const discount = radio.getAttribute('data-discount');
       const sku = radio.getAttribute('data-sku');
-      const available = radio.getAttribute('data-available') === 'true';
+      const isRadioAvail = radio.getAttribute('data-available') === 'true';
+      const invQty = radio.getAttribute('data-inventory');
+      const invPolicy = radio.getAttribute('data-policy');
+      const invMgmt = radio.getAttribute('data-management');
       const img = radio.getAttribute('data-image');
+
+      let available = isRadioAvail;
+      if (invMgmt && invPolicy === 'deny' && parseInt(invQty, 10) <= 0) {
+        available = false;
+      } else if (invQty !== null && invQty !== '' && parseInt(invQty, 10) <= 0 && invPolicy !== 'continue') {
+        available = false;
+      }
 
       // Update hidden input
       if (selectedVariantIdInput && variantId) {
@@ -359,6 +369,7 @@ function initVariantSelection(container) {
       const stickyStepper = container.querySelector('[data-sticky-stepper], .sticky-mobile-bar__quantity-stepper');
       const stepper = container.querySelector('[data-card-inline-stepper]');
       const buyNowBtn = container.querySelector('[data-buy-now-button]');
+      const cartSvg = addToCartBtn ? addToCartBtn.querySelector('svg') : null;
 
       if (available) {
         if (availabilityStatus) {
@@ -372,14 +383,18 @@ function initVariantSelection(container) {
           addToCartBtn.disabled = false;
           addToCartBtn.style.setProperty('opacity', '1', 'important');
           addToCartBtn.style.setProperty('cursor', 'pointer', 'important');
+          addToCartBtn.style.removeProperty('background-color');
+          addToCartBtn.style.removeProperty('color');
         }
         if (addToCartText) addToCartText.textContent = 'ADD TO CART';
+        if (cartSvg) cartSvg.style.removeProperty('display');
 
         if (buyNowBtn) {
           buyNowBtn.removeAttribute('disabled');
           buyNowBtn.disabled = false;
           buyNowBtn.style.setProperty('opacity', '1', 'important');
           buyNowBtn.style.setProperty('cursor', 'pointer', 'important');
+          buyNowBtn.style.removeProperty('display');
         }
 
         if (stickyBtn) {
@@ -388,6 +403,7 @@ function initVariantSelection(container) {
           stickyBtn.textContent = 'ADD TO CART';
           stickyBtn.style.setProperty('opacity', '1', 'important');
           stickyBtn.style.setProperty('cursor', 'pointer', 'important');
+          stickyBtn.style.removeProperty('background-color');
         }
         if (stickyBtnText) stickyBtnText.textContent = 'ADD TO CART';
         if (stickyStepper) stickyStepper.style.setProperty('display', 'flex', 'important');
@@ -404,15 +420,19 @@ function initVariantSelection(container) {
           addToCartBtn.style.setProperty('opacity', '0.65', 'important');
           addToCartBtn.style.setProperty('cursor', 'not-allowed', 'important');
           addToCartBtn.style.setProperty('display', 'flex', 'important');
+          addToCartBtn.style.setProperty('background-color', '#475569', 'important');
+          addToCartBtn.style.setProperty('color', '#ffffff', 'important');
         }
         if (stepper) stepper.style.setProperty('display', 'none', 'important');
         if (addToCartText) addToCartText.textContent = 'SOLD OUT';
+        if (cartSvg) cartSvg.style.setProperty('display', 'none', 'important');
 
         if (buyNowBtn) {
           buyNowBtn.setAttribute('disabled', 'disabled');
           buyNowBtn.disabled = true;
           buyNowBtn.style.setProperty('opacity', '0.65', 'important');
           buyNowBtn.style.setProperty('cursor', 'not-allowed', 'important');
+          buyNowBtn.style.setProperty('display', 'none', 'important');
         }
 
         if (stickyBtn) {
@@ -421,6 +441,7 @@ function initVariantSelection(container) {
           stickyBtn.textContent = 'SOLD OUT';
           stickyBtn.style.setProperty('opacity', '0.65', 'important');
           stickyBtn.style.setProperty('cursor', 'not-allowed', 'important');
+          stickyBtn.style.setProperty('background-color', '#475569', 'important');
         }
         if (stickyBtnText) stickyBtnText.textContent = 'SOLD OUT';
         if (stickyStepper) stickyStepper.style.setProperty('display', 'none', 'important');
@@ -434,6 +455,17 @@ function initVariantSelection(container) {
       if (img) {
         const mainImg = container.querySelector('[data-gallery-main-image]');
         if (mainImg) mainImg.src = img;
+      }
+    });
+  });
+
+  // Attach touch/click listeners to variant pills for mobile devices
+  container.querySelectorAll('.product-info__variant-pill').forEach((pill) => {
+    pill.addEventListener('click', () => {
+      const radio = pill.querySelector('[data-variant-radio]');
+      if (radio && !radio.checked) {
+        radio.checked = true;
+        radio.dispatchEvent(new Event('change', { bubbles: true }));
       }
     });
   });
