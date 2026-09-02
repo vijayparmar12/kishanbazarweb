@@ -178,7 +178,7 @@
     background-color: var(--jdgm-bar-fill, #1B4317) !important;
   }
 
-  /* UNIVERSAL BULLETPROOF STAR RATING FOR JUDGE.ME - ZERO SQUARE BOXES EVER */
+  /* HIGH-SPECIFICITY BULLETPROOF STAR RATING FOR JUDGE.ME - DOMINATES DYNAMIC APP STYLESHEETS */
   @font-face {
     font-family: 'judgemeStar';
     src: url('https://cdn.judge.me/assets/judgemeStar.woff2') format('woff2'),
@@ -188,85 +188,82 @@
     font-display: swap;
   }
 
-  .jdgm-star,
-  .jdgm-star:before,
-  .jdgm-star:after,
-  .jdgm-form-rating .jdgm-star,
-  .jdgm-rev__rating .jdgm-star,
-  .jdgm-prev-badge .jdgm-star,
-  .jdgm-histogram__star,
-  .jdgm-histogram__star:before,
-  .jdgm-histogram__star .jdgm-star,
-  .jdgm-histogram__star *,
-  .jdgm-star * {
-    font-family: "Segoe UI Symbol", "Apple Color Emoji", "Noto Color Emoji", "judgemeStar", "FontAwesome", sans-serif !important;
+  html body .jdgm-widget .jdgm-star,
+  html body .jdgm-rev-widg .jdgm-star,
+  html body [class*="jdgm"] .jdgm-star,
+  html body .jdgm-star,
+  html body .jdgm-star:before,
+  html body .jdgm-star:after,
+  html body .jdgm-form-rating .jdgm-star:before,
+  html body .jdgm-rev__rating .jdgm-star:before,
+  html body .jdgm-prev-badge .jdgm-star:before,
+  html body .jdgm-histogram__star:before,
+  html body .jdgm-histogram__star .jdgm-star:before,
+  html body .jdgm-histogram__star *,
+  html body .jdgm-star * {
+    content: "★" !important;
+    font-family: "Segoe UI Symbol", "Apple Color Emoji", "Noto Color Emoji", "judgemeStar", Arial, sans-serif !important;
     font-style: normal !important;
     font-weight: 900 !important;
     text-transform: none !important;
     text-decoration: none !important;
     display: inline-block !important;
     line-height: 1 !important;
-    letter-spacing: 2px !important;
+    letter-spacing: 1px !important;
     speak: never;
   }
 
-  /* ALL JUDGE.ME STARS DEFAULT CONTENT -> SOLID UNICODE STAR (★) */
-  .jdgm-star:before,
-  .jdgm-histogram__star:before,
-  .jdgm-rev__rating .jdgm-star:before,
-  .jdgm-prev-badge .jdgm-star:before,
-  .jdgm-form-rating .jdgm-star:before {
-    content: "\2605" !important;
-  }
-
   /* FILLED STARS (★) - GOLDEN YELLOW */
-  .jdgm-star.jdgm--on:before,
-  .jdgm-star.jdgm-star--on:before,
-  .jdgm-star[data-score="1"]:before,
-  .jdgm-form-rating .jdgm-star.jdgm--on:before,
-  .jdgm-rev__rating .jdgm-star.jdgm--on:before,
-  .jdgm-histogram__star .jdgm-star.jdgm--on:before,
-  .jdgm-prev-badge .jdgm-star.jdgm--on:before,
-  span.jdgm-star.jdgm--on:before,
-  a.jdgm-star.jdgm--on:before {
-    content: "\2605" !important;
-    color: var(--jdgm-star-color, #F59E0B) !important;
-    fill: var(--jdgm-star-color, #F59E0B) !important;
+  html body .jdgm-widget .jdgm-star.jdgm--on:before,
+  html body .jdgm-widget .jdgm-star.jdgm-star--on:before,
+  html body .jdgm-rev-widg .jdgm-star.jdgm--on:before,
+  html body [class*="jdgm"] .jdgm-star.jdgm--on:before,
+  html body .jdgm-star[data-score="1"]:before,
+  html body .jdgm-form-rating .jdgm-star.jdgm--on:before,
+  html body .jdgm-rev__rating .jdgm-star.jdgm--on:before,
+  html body .jdgm-histogram__star .jdgm-star.jdgm--on:before,
+  html body .jdgm-prev-badge .jdgm-star.jdgm--on:before,
+  html body span.jdgm-star.jdgm--on:before,
+  html body a.jdgm-star.jdgm--on:before {
+    content: "★" !important;
+    color: #F59E0B !important;
+    fill: #F59E0B !important;
     opacity: 1 !important;
   }
 
   /* UNSELECTED / EMPTY STARS (★) - LIGHT GREY */
-  .jdgm-star.jdgm--off:before,
-  .jdgm-star.jdgm-star--off:before,
-  .jdgm-form-rating .jdgm-star.jdgm--off:before,
-  .jdgm-rev__rating .jdgm-star.jdgm--off:before,
-  .jdgm-histogram__star .jdgm-star.jdgm--off:before,
-  .jdgm-prev-badge .jdgm-star.jdgm--off:before,
-  span.jdgm-star.jdgm--off:before,
-  a.jdgm-star.jdgm--off:before {
-    content: "\2605" !important;
+  html body .jdgm-widget .jdgm-star.jdgm--off:before,
+  html body .jdgm-widget .jdgm-star.jdgm-star--off:before,
+  html body .jdgm-rev-widg .jdgm-star.jdgm--off:before,
+  html body [class*="jdgm"] .jdgm-star.jdgm--off:before,
+  html body .jdgm-form-rating .jdgm-star.jdgm--off:before,
+  html body .jdgm-rev__rating .jdgm-star.jdgm--off:before,
+  html body .jdgm-histogram__star .jdgm-star.jdgm--off:before,
+  html body .jdgm-prev-badge .jdgm-star.jdgm--off:before,
+  html body span.jdgm-star.jdgm--off:before,
+  html body a.jdgm-star.jdgm--off:before {
+    content: "★" !important;
     color: #D1D5DB !important;
     fill: #D1D5DB !important;
     opacity: 0.7 !important;
   }
 
   /* HALF STARS (★) - GOLDEN YELLOW */
-  .jdgm-star.jdgm--half:before,
-  .jdgm-star.jdgm-star--half:before,
-  .jdgm-star.jdgm--half:before,
-  .jdgm-star.jdgm-star--half:before,
-  span.jdgm-star.jdgm--half:before {
-    content: "\2605" !important;
-    color: var(--jdgm-star-color, #F59E0B) !important;
-    fill: var(--jdgm-star-color, #F59E0B) !important;
+  html body .jdgm-star.jdgm--half:before,
+  html body .jdgm-star.jdgm-star--half:before,
+  html body .jdgm-rev__rating .jdgm-star.jdgm--half:before,
+  html body span.jdgm-star.jdgm--half:before {
+    content: "★" !important;
+    color: #F59E0B !important;
+    fill: #F59E0B !important;
     opacity: 0.85 !important;
   }
 
   /* HOVER / ACTIVE IN FORM RATING (WRITE A REVIEW MODAL) */
-  .jdgm-form-rating .jdgm-star:hover:before,
-  .jdgm-form-rating .jdgm-star.jdgm--on:before {
-    content: "\2605" !important;
-    color: var(--jdgm-star-color, #F59E0B) !important;
+  html body .jdgm-form-rating .jdgm-star:hover:before,
+  html body .jdgm-form-rating .jdgm-star.jdgm--on:before {
+    content: "★" !important;
+    color: #F59E0B !important;
     opacity: 1 !important;
   }
 
