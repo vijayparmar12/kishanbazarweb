@@ -18,8 +18,82 @@
         --story-font: 'Montserrat', sans-serif !important;
       }
 
-      *, *::before, *::after, html, body, button, input, select, textarea, optgroup, option, h1, h2, h3, h4, h5, h6, p, a, span, label, td, th, li, ul, ol, nav, header, footer, section, div, article, main, aside, summary, details {
+      *:not([class*="jdgm"]):not([class*="jdgm"] *), *:not([class*="jdgm"])::before, *:not([class*="jdgm"])::after, html, body, button, input, select, textarea, optgroup, option, h1, h2, h3, h4, h5, h6, p, a, span:not([class*="jdgm"]), label, td, th, li, ul, ol, nav, header, footer, section, div, article, main, aside, summary, details {
         font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+      }
+
+      /* JUDGE.ME BULLETPROOF SVG VECTOR STAR REPLACEMENT (EXEMPT FROM GLOBAL FONT OVERRIDE) */
+      .jdgm-star,
+      .jdgm-star:before,
+      .jdgm-star:after,
+      .jdgm-star *,
+      .jdgm-histogram__star,
+      .jdgm-histogram__star:before,
+      .jdgm-rev__rating .jdgm-star,
+      .jdgm-prev-badge .jdgm-star,
+      [class*="jdgm-star"] {
+        font-family: inherit !important;
+      }
+
+      .jdgm-star:before,
+      .jdgm-rev__rating .jdgm-star:before,
+      .jdgm-prev-badge .jdgm-star:before,
+      .jdgm-form-rating .jdgm-star:before {
+        content: "" !important;
+        display: inline-block !important;
+        width: 18px !important;
+        height: 18px !important;
+        margin: 0 1px !important;
+        vertical-align: middle !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: contain !important;
+      }
+
+      /* FILLED STAR SVG (GOLDEN #F59E0B) */
+      .jdgm-star.jdgm--on:before,
+      .jdgm-star.jdgm-star--on:before,
+      .jdgm-star[data-score="1"]:before,
+      .jdgm-form-rating .jdgm-star.jdgm--on:before,
+      .jdgm-rev__rating .jdgm-star.jdgm--on:before,
+      .jdgm-histogram__star .jdgm-star.jdgm--on:before,
+      .jdgm-prev-badge .jdgm-star.jdgm--on:before,
+      span.jdgm-star.jdgm--on:before,
+      a.jdgm-star.jdgm--on:before {
+        content: "" !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F59E0B'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") !important;
+        opacity: 1 !important;
+      }
+
+      /* EMPTY STAR SVG (GREY #D1D5DB) */
+      .jdgm-star.jdgm--off:before,
+      .jdgm-star.jdgm-star--off:before,
+      .jdgm-form-rating .jdgm-star.jdgm--off:before,
+      .jdgm-rev__rating .jdgm-star.jdgm--off:before,
+      .jdgm-histogram__star .jdgm-star.jdgm--off:before,
+      .jdgm-prev-badge .jdgm-star.jdgm--off:before,
+      span.jdgm-star.jdgm--off:before,
+      a.jdgm-star.jdgm--off:before {
+        content: "" !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23D1D5DB'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") !important;
+        opacity: 0.7 !important;
+      }
+
+      /* HISTOGRAM ROW STAR (5 ★, 4 ★, 3 ★, 2 ★, 1 ★) NEXT TO NUMBERS */
+      .jdgm-histogram__star:before,
+      .jdgm-histogram__row .jdgm-star:before,
+      .jdgm-histogram__row:before {
+        content: "" !important;
+        display: inline-block !important;
+        width: 14px !important;
+        height: 14px !important;
+        margin-left: 2px !important;
+        margin-right: 4px !important;
+        vertical-align: middle !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F59E0B'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: contain !important;
       }
     </style>
 
