@@ -317,6 +317,16 @@
               window._productVariantsMap[v.id] = v;
             });
             const allVariants = pData.variants;
+            const currentV = allVariants.find((v) => String(v.id) === String(item.variant_id));
+            if (currentV) {
+              const isCurrentSoldOut = checkIsVariantSoldOut(currentV, null);
+              if (isCurrentSoldOut) {
+                alert(`Sorry, ${item.product_title} (${item.variant_title || ''}) is sold out and has been removed from your cart.`);
+                changeCartLine(1, item.key, 0);
+                return;
+              }
+            }
+
             const container = drawer.querySelector(`[data-cart-variant-container="${item.key}"]`);
             if (container) {
               const optionsHtml = allVariants
@@ -324,7 +334,7 @@
                   const mapV = window._productVariantsMap[v.id] || v;
                   const isSold = checkIsVariantSoldOut(mapV, null);
                   const label = !isSold ? v.title : `${v.title} - (Sold Out)`;
-                  const disabledAttr = isSold ? 'disabled data-available="false" style="color: #ef4444; font-weight: 700;"' : 'data-available="true"';
+                  const disabledAttr = isSold ? 'data-available="false" style="color: #ef4444; font-weight: 700;"' : 'data-available="true"';
                   return `<option value="${v.id}" ${v.id === item.variant_id ? 'selected' : ''} ${disabledAttr}>${label}</option>`;
                 })
                 .join('');

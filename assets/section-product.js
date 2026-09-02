@@ -2,12 +2,8 @@
    KISHAN BAZAR - PREMIUM SHOPIFY PRODUCT PAGE INTERACTIVE SCRIPT
    ========================================================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
-  initProductPage();
-});
-
 function initProductPage() {
-  const container = document.querySelector('[data-kishanbazar-product-page]');
+  const container = document.querySelector('[data-kishanbazar-product-page], .product-info, [data-product-info], .main-product') || document.body;
   if (!container) return;
 
   initGalleryZoomAndThumbnails(container);
@@ -19,6 +15,13 @@ function initProductPage() {
   initShareAndWishlist(container);
   initStickyMobileBar(container);
 }
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initProductPage);
+} else {
+  initProductPage();
+}
+document.addEventListener('shopify:section:load', initProductPage);
 
 /* ==========================================================================
    1. GALLERY THUMBNAILS & DESKTOP HOVER ZOOM LENS
@@ -434,6 +437,12 @@ function initVariantSelection(container) {
       }
     });
   });
+
+  // Automatically sync initial state of checked variant radio on load
+  const checkedRadio = container.querySelector('[data-variant-radio]:checked') || radioButtons[0];
+  if (checkedRadio) {
+    checkedRadio.dispatchEvent(new Event('change', { bubbles: true }));
+  }
 }
 
 /* ==========================================================================

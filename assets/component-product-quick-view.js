@@ -233,6 +233,14 @@ class ProductQuickViewManager {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  window.kbQuickView = new ProductQuickViewManager();
-});
+const initQuickView = () => {
+  if (!window.kbQuickView) {
+    window.kbQuickView = new ProductQuickViewManager();
+  }
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initQuickView);
+} else {
+  initQuickView();
+}
