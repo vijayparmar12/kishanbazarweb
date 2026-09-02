@@ -42,8 +42,9 @@
           <span>🛡️</span> {{ section.settings.badge }}
         </span>
       {% endif %}
-      {% if section.settings.heading != blank %}
-        <h1 class="lab-report-hero__heading">{{ section.settings.heading }}</h1>
+      {% assign hero_title = page.title | default: section.settings.heading %}
+      {% if hero_title != blank %}
+        <h1 class="lab-report-hero__heading">{{ hero_title }}</h1>
       {% endif %}
       {% if section.settings.subheading != blank %}
         <p class="lab-report-hero__subheading">{{ section.settings.subheading }}</p>
@@ -56,7 +57,7 @@
     {% assign pillar_blocks = section.blocks | where: 'type', 'quality_pillar' %}
 
     <div class="lab-report-section-title">
-      <h2>{{ section.settings.grid_heading | default: "Certified Product Test Reports" }}</h2>
+      <h2>{{ page.title | default: section.settings.grid_heading }}</h2>
       {% if section.settings.grid_subheading != blank %}
         <p>{{ section.settings.grid_subheading }}</p>
       {% endif %}
