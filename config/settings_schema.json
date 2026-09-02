@@ -177,8 +177,7 @@
       {
         "type": "text",
         "id": "cart_promo_bar_text",
-        "label": "Top Promo Banner Text (leave blank to hide)",
-        "default": "Get 10% OFF on orders above Rs. 3000 | TBOF10"
+        "label": "Top Promo Banner Text (leave blank to hide)"
       },
       {
         "type": "number",
