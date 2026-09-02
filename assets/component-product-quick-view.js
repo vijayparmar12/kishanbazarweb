@@ -202,7 +202,7 @@ class ProductQuickViewManager {
           const isAvail = this.isVariantAvailable(v);
           const label = isAvail ? v.title : `${v.title} - (Sold Out)`;
           const isSelected = String(v.id) === String(selectedVariant.id);
-          return `<option value="${v.id}" ${isSelected ? 'selected' : ''} ${!isAvail ? 'disabled data-available="false" style="color: #ef4444;"' : 'data-available="true"'}>${label}</option>`;
+          return `<option value="${v.id}" ${isSelected ? 'selected' : ''} ${!isAvail ? 'data-available="false" style="color: #ef4444; font-weight: 700;"' : 'data-available="true"'}>${label}</option>`;
         })
         .join('');
 
