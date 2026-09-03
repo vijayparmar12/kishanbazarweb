@@ -18,8 +18,26 @@
         --story-font: 'Montserrat', sans-serif !important;
       }
 
-      *, *::before, *::after, html, body, button, input, select, textarea, optgroup, option, h1, h2, h3, h4, h5, h6, p, a, span, label, td, th, li, ul, ol, nav, header, footer, section, div, article, main, aside, summary, details {
-        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+      html, body, button, input, select, textarea, optgroup, option, h1, h2, h3, h4, h5, h6, p, a, span:not([class*="jdgm"]), label, td, th, li, ul, ol, nav, header, footer, section, div:not([class*="jdgm"]), article, main, aside, summary, details {
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      /* Allow Judge.me star icons to render natively with JudgemeStar font */
+      .jdgm-star,
+      .jdgm-star:before,
+      .jdgm-star:after,
+      .jdgm-star *,
+      .jdgm-histogram__star,
+      .jdgm-histogram__star:before,
+      .jdgm-histogram__star:after,
+      .jdgm-histogram__star *,
+      .jdgm-rev__rating .jdgm-star,
+      .jdgm-form-rating .jdgm-star,
+      .jdgm-prev-badge .jdgm-star,
+      [class*="jdgm-star"],
+      [class*="jdgm-star"]:before,
+      [class*="jdgm-star"]:after {
+        font-family: 'JudgemeStar', 'judgemeStar', 'Segoe UI Symbol', sans-serif !important;
       }
     </style>
 
