@@ -79,10 +79,27 @@ class ProductQuickViewManager {
 
   isVariantAvailable(variant) {
     if (!variant) return false;
-    if (variant.available === false) return false;
-    if (variant.inventory_management && variant.inventory_policy === 'deny' && Number(variant.inventory_quantity) <= 0) return false;
-    if (variant.inventory_quantity !== undefined && variant.inventory_quantity !== null && variant.inventory_policy !== 'continue' && Number(variant.inventory_quantity) <= 0) return false;
-    return true;
+
+    // Check boolean, string, or numeric false
+    const isAvailProp = variant.available;
+    if (isAvailProp === false || isAvailProp === 'false' || isAvailProp === 0 || isAvailProp === '0') {
+      return false;
+    }
+
+    const titleLower = String(variant.title || '').toLowerCase();
+    if (titleLower.includes('sold out') || titleLower.includes('out of stock')) {
+      return false;
+    }
+
+    if (variant.inventory_management && variant.inventory_policy === 'deny' && variant.inventory_quantity !== undefined && Number(variant.inventory_quantity) <= 0) {
+      return false;
+    }
+
+    if (variant.inventory_quantity !== undefined && variant.inventory_quantity !== null && variant.inventory_policy !== 'continue' && Number(variant.inventory_quantity) <= 0) {
+      return false;
+    }
+
+    return Boolean(isAvailProp);
   }
 
   setAddButtonState(isAvailable) {
@@ -92,25 +109,27 @@ class ProductQuickViewManager {
     const qtyPill = this.modal.querySelector('.kb-quick-view__qty-pill');
     if (isAvailable) {
       this.addBtn.disabled = false;
-      this.addBtn.style.background = '#23421f';
-      this.addBtn.style.color = '#ffffff';
-      this.addBtn.style.opacity = '1';
-      this.addBtn.style.cursor = 'pointer';
+      this.addBtn.removeAttribute('disabled');
+      this.addBtn.style.setProperty('background-color', '#23421f', 'important');
+      this.addBtn.style.setProperty('color', '#ffffff', 'important');
+      this.addBtn.style.setProperty('opacity', '1', 'important');
+      this.addBtn.style.setProperty('cursor', 'pointer', 'important');
       this.addBtn.textContent = 'ADD TO CART';
       if (qtyPill) {
-        qtyPill.style.display = 'flex';
-        qtyPill.style.opacity = '1';
-        qtyPill.style.pointerEvents = 'auto';
+        qtyPill.style.setProperty('display', 'flex', 'important');
+        qtyPill.style.setProperty('opacity', '1', 'important');
+        qtyPill.style.setProperty('pointer-events', 'auto', 'important');
       }
     } else {
       this.addBtn.disabled = true;
-      this.addBtn.style.background = '#64748b';
-      this.addBtn.style.color = '#ffffff';
-      this.addBtn.style.opacity = '0.75';
-      this.addBtn.style.cursor = 'not-allowed';
+      this.addBtn.setAttribute('disabled', 'disabled');
+      this.addBtn.style.setProperty('background-color', '#64748b', 'important');
+      this.addBtn.style.setProperty('color', '#ffffff', 'important');
+      this.addBtn.style.setProperty('opacity', '0.75', 'important');
+      this.addBtn.style.setProperty('cursor', 'not-allowed', 'important');
       this.addBtn.textContent = 'SOLD OUT';
       if (qtyPill) {
-        qtyPill.style.display = 'none';
+        qtyPill.style.setProperty('display', 'none', 'important');
       }
     }
   }
@@ -137,7 +156,8 @@ class ProductQuickViewManager {
       this.imgEl.src = variant.featured_image.src;
     }
 
-    this.setAddButtonState(this.isVariantAvailable(variant));
+    const isAvail = this.isVariantAvailable(variant);
+    this.setAddButtonState(isAvail);
   }
 
   async open(detail) {
@@ -149,7 +169,7 @@ class ProductQuickViewManager {
     document.body.style.overflow = 'hidden';
 
     const { handle, variantId, title, price, comparePrice, image, description, variantAvailable } = detail;
-    if (variantAvailable === false || variantAvailable === 'false') {
+    if (variantAvailable === false || variantAvailable === 'false' || variantAvailable === 0 || variantAvailable === '0') {
       this.setAddButtonState(false);
     }
 
@@ -196,21 +216,22 @@ class ProductQuickViewManager {
 
     // Populate variant select dropdown
     if (this.variantSelect && data.variants && data.variants.length > 0) {
-      const preferredVariant = data.variants.find((v) => String(v.id) === String(preferredVariantId));
-      const fallbackVariant = data.variants.find((v) => this.isVariantAvailable(v)) || data.variants[0];
-      const selectedVariant = preferredVariant || fallbackVariant;
-      this.currentVariantId = selectedVariant.id;
-
       this.variantSelect.innerHTML = data.variants
         .map((v) => {
           const isAvail = this.isVariantAvailable(v);
           const label = isAvail ? v.title : `${v.title} - (Sold Out)`;
-          const isSelected = String(v.id) === String(selectedVariant.id);
-          return `<option value="${v.id}" ${isSelected ? 'selected' : ''} ${!isAvail ? 'data-available="false" style="color: #ef4444; font-weight: 700;"' : 'data-available="true"'}>${label}</option>`;
+          return `<option value="${v.id}" data-available="${isAvail}" ${!isAvail ? 'data-sold-out="true" style="color: #ef4444; font-weight: 700;"' : ''}>${label}</option>`;
         })
         .join('');
 
-      this.selectVariant(this.currentVariantId);
+      const preferredVariant = data.variants.find((v) => String(v.id) === String(preferredVariantId));
+      const fallbackVariant = data.variants.find((v) => this.isVariantAvailable(v)) || data.variants[0];
+      const selectedVariant = preferredVariant || fallbackVariant;
+
+      if (selectedVariant) {
+        this.variantSelect.value = String(selectedVariant.id);
+        this.selectVariant(selectedVariant.id);
+      }
     }
   }
 
