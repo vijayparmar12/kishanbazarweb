@@ -139,6 +139,7 @@
           "cart_title_text": "YOUR CART",
           "cart_promo_bar_text": "cart",
           "cart_free_shipping_threshold": 1000,
+          "cart_shipping_fee": 99,
           "cart_discount_threshold": 3000,
           "cart_coupons_modal_title": "Available Coupons & Offers",
           "cart_coupon_code": "",
@@ -157,13 +158,6 @@
     },
     "content_for_index": [],
     "blocks": {
-      "13047258039897440615": {
-        "type": "shopify://apps/judge-me-reviews/blocks/cart_drawer_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-        "disabled": false,
-        "settings": {
-          "widget_type": "testimonials-carousel"
-        }
-      },
       "12370671433297797528": {
         "type": "shopify://apps/wishy-wishlist-app/blocks/floating_wishlist/019df288-b721-7af8-8bd1-1c399b90c956",
         "disabled": true,
@@ -287,11 +281,6 @@
           "ref": true
         }
       },
-      "14060646107696862457": {
-        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-        "disabled": false,
-        "settings": {}
-      },
       "8529531577560427644": {
         "type": "shopify://apps/otp/blocks/otp-plus/47f9f75c-53b3-4e16-ba66-80a88d275a5b",
         "disabled": false,
@@ -317,6 +306,18 @@
           "agent_font_size": 14,
           "agent_activator_font_size": 13,
           "agent_border_radius": 16
+        }
+      },
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": true,
+        "settings": {}
+      },
+      "13047258039897440615": {
+        "type": "shopify://apps/judge-me-reviews/blocks/cart_drawer_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {
+          "widget_type": "testimonials-carousel"
         }
       }
     }
