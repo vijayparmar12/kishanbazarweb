@@ -224,40 +224,6 @@
         "banner_image_6": "{{ product.metafields.custom.custom_banner_6.value }}"
       }
     },
-    "1788239684d01dcd1d": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_snippet_widget_aD6N7E": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_snippet_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "reviews_selection": "all",
-            "products": [],
-            "filter_pinned": false,
-            "filter_featured": false,
-            "filter_custom_tags": "",
-            "min_star_rating": "inherit",
-            "show_review_media": true,
-            "max_reviews": 5,
-            "review_length": "medium",
-            "text_size": "medium",
-            "max_width": 1100,
-            "max_image_size": "small",
-            "arrows_visibility": "always_shown",
-            "transition_speed": 5,
-            "corner_styling": "inherit",
-            "text_color": "",
-            "card_color": "",
-            "stars_color": "",
-            "arrows_color": "",
-            "arrows_background_color": ""
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_snippet_widget_aD6N7E"
-      ],
-      "settings": {}
-    },
     "recommendations": {
       "type": "product-recommendations",
       "settings": {
@@ -269,11 +235,29 @@
         "eyebrow_color": "#d97706",
         "products_limit": 4
       }
+    },
+    "1788408506cab3cccd": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_qpPqHh": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "real_data",
+            "max_width": 1200,
+            "show_shop_reviews": true,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_qpPqHh"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "main",
-    "1788239684d01dcd1d",
-    "recommendations"
+    "recommendations",
+    "1788408506cab3cccd"
   ]
 }
