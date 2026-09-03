@@ -107,10 +107,7 @@
           <p class="contact-form__subtitle">{{ section.settings.form_subheading | default: "Have a question? Fill in the form and our team will get back to you." }}</p>
 
           {% form 'contact', id: 'ContactForm-Page' %}
-            <input type="hidden" name="contact[tags]" value="newsletter, contact, Contact Form">
-            <input type="hidden" name="contact[accepts_marketing]" value="true">
-            <input type="hidden" id="ContactForm-FullName" name="contact[name]" value="">
-            <input type="hidden" id="ContactForm-NoteInput" name="contact[note]" value="">
+            <input type="hidden" name="contact[tags]" value="Contact Form">
             {% if form.posted_successfully? %}
               <div class="contact-form__alert contact-form__alert--success" role="status">
                 {{ section.settings.form_success_msg | default: "🌿 Thank you for reaching out! Your message has been received. Our team will contact you shortly." }}
@@ -122,14 +119,9 @@
             {% endif %}
 
             <div class="contact-form__grid">
-              <div class="contact-form__field">
-                <label for="ContactForm-FirstName" class="contact-form__label">First Name <span class="required">*</span></label>
-                <input type="text" id="ContactForm-FirstName" name="contact[first_name]" class="contact-form__input" placeholder="e.g. Rahul" required>
-              </div>
-
-              <div class="contact-form__field">
-                <label for="ContactForm-LastName" class="contact-form__label">Last Name</label>
-                <input type="text" id="ContactForm-LastName" name="contact[last_name]" class="contact-form__input" placeholder="e.g. Sharma">
+              <div class="contact-form__field contact-form__field--full">
+                <label for="ContactForm-Name" class="contact-form__label">Full Name <span class="required">*</span></label>
+                <input type="text" id="ContactForm-Name" name="contact[Name]" class="contact-form__input" placeholder="e.g. Rahul Sharma" required>
               </div>
 
               <div class="contact-form__field">
@@ -178,9 +170,9 @@
               {{ section.settings.map_btn_text | default: "Open in Maps" }} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
-          {% assign raw_map = section.settings.map_iframe_url | default: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d119066.41709511116!2d72.74109865045437!3d21.161026848206806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be04e59411d1563%3A0xfe4558290938b042!2sSurat%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin' %}
+          {% assign default_embed = 'https://maps.google.com/maps?q=G-14,+Bhagwati+Ashish+Complex,+City+Light+Town,+Athwa,+Surat,+Gujarat+395007,+India&t=&z=15&ie=UTF8&iwloc=&output=embed' %}
           <iframe
-            src="{{ raw_map }}"
+            src="{{ default_embed }}"
             class="contact-map__iframe"
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
@@ -195,77 +187,19 @@
 
 <script>
   (function() {
-    function extractPlaceName(url) {
-      if (!url) return '';
-      var placeMatch = url.match(/maps\/place\/([^/@]+)/);
-      if (placeMatch) {
-        return decodeURIComponent(placeMatch[1].replace(/\+/g, ' '));
-      }
-      return '';
-    }
-
     function sanitizeGoogleMapUrl(url) {
-      if (!url) return '';
-      url = url.trim();
-      if (url.includes('/embed') || url.includes('output=embed')) {
-        return url;
-      }
-      var coordMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
-      if (coordMatch) {
-        return 'https://maps.google.com/maps?q=' + coordMatch[1] + ',' + coordMatch[2] + '&z=16&output=embed';
-      }
-      var placeName = extractPlaceName(url);
-      if (placeName) {
-        return 'https://maps.google.com/maps?q=' + encodeURIComponent(placeName) + '&z=16&output=embed';
-      }
-      return 'https://maps.google.com/maps?q=' + encodeURIComponent(url) + '&z=16&output=embed';
+      var addressEl = document.querySelector('[data-address-text]');
+      var addr = (addressEl && addressEl.textContent.trim()) || "G-14, Bhagwati Ashish Complex, City Light Town, Athwa, Surat, Gujarat 395007, India";
+      return 'https://maps.google.com/maps?q=' + encodeURIComponent(addr) + '&t=&z=15&ie=UTF8&iwloc=&output=embed';
     }
 
     var iframe = document.querySelector('.contact-map__iframe');
     if (iframe) {
       var rawSrc = iframe.getAttribute('src');
       var cleanSrc = sanitizeGoogleMapUrl(rawSrc);
-      if (cleanSrc && cleanSrc !== rawSrc) {
+      if (cleanSrc) {
         iframe.src = cleanSrc;
       }
-
-      var fetchedName = extractPlaceName(rawSrc);
-      var addressEl = document.querySelector('[data-address-text]');
-
-      // Update map target links for direct Google Maps Place search & location view
-      var mapLinks = document.querySelectorAll('[data-map-target-link]');
-      var finalNavUrl = '';
-      if (rawSrc && (rawSrc.includes('google.com/maps/place/') || rawSrc.includes('maps.app.goo.gl'))) {
-        finalNavUrl = rawSrc;
-      } else if (addressEl && addressEl.textContent.trim()) {
-        finalNavUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(addressEl.textContent.trim());
-      } else if (fetchedName) {
-        finalNavUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(fetchedName + ', Surat, Gujarat, India');
-      }
-      if (finalNavUrl) {
-        mapLinks.forEach(function(link) {
-          link.setAttribute('href', finalNavUrl);
-        });
-      }
-    var contactForm = document.getElementById('ContactForm-Page');
-    if (contactForm) {
-      contactForm.addEventListener('submit', function() {
-        var fn = (document.getElementById('ContactForm-FirstName') || {}).value || '';
-        var ln = (document.getElementById('ContactForm-LastName') || {}).value || '';
-        var phone = (document.getElementById('ContactForm-Phone') || {}).value || '';
-        var subject = (document.getElementById('ContactForm-Subject') || {}).value || '';
-        var msg = (document.getElementById('ContactForm-Message') || {}).value || '';
-
-        var fullNameInput = document.getElementById('ContactForm-FullName');
-        if (fullNameInput) {
-          fullNameInput.value = (fn + ' ' + ln).trim();
-        }
-
-        var noteInput = document.getElementById('ContactForm-NoteInput');
-        if (noteInput) {
-          noteInput.value = 'Contact Form Submission:\nSubject: ' + subject + '\nPhone: ' + phone + '\nMessage: ' + msg;
-        }
-      });
     }
   })();
 </script>
@@ -287,37 +221,37 @@
     { "type": "text", "id": "phone_heading", "label": "Card Heading", "default": "Phone & WhatsApp Support" },
     { "type": "text", "id": "phone_number", "label": "Phone Number Display", "default": "+91 93773 41042" },
     { "type": "text", "id": "email_address", "label": "Support Email Address", "default": "support@kishanbazar.com" },
-    { "type": "text", "id": "phone_timing", "label": "Support Hours Text", "default": "Monday to Saturday · 10:00 AM - 6:00 PM" },
-    { "type": "text", "id": "call_button_text", "label": "Call Now Button Text", "default": "Call Now" },
-    { "type": "text", "id": "whatsapp_number", "label": "WhatsApp Phone (With Country Code e.g. 919377341042)", "default": "919377341042" },
-    { "type": "text", "id": "whatsapp_button_text", "label": "WhatsApp Button Text", "default": "WhatsApp" },
+    { "type": "text", "id": "phone_timing", "label": "Support Timing", "default": "Monday to Saturday · 10:00 AM - 6:00 PM" },
+    { "type": "text", "id": "whatsapp_number", "label": "WhatsApp Phone Number (with Country Code e.g. +919377341042)", "default": "+919377341042" },
+    { "type": "text", "id": "call_button_text", "label": "Call Button Label", "default": "Call Now" },
+    { "type": "text", "id": "whatsapp_button_text", "label": "WhatsApp Button Label", "default": "WhatsApp" },
     {
       "type": "header",
       "content": "Location & Address Card"
     },
     { "type": "checkbox", "id": "show_address_card", "label": "Show Address Card", "default": true },
-    { "type": "text", "id": "address_heading", "label": "Address Card Heading", "default": "Our Location & Address" },
-    { "type": "textarea", "id": "address_text", "label": "Complete Address Text", "default": "G-14, Bhagwati Ashish Complex, City Light Town, Athwa, Surat, Gujarat 395007, India" },
+    { "type": "text", "id": "address_heading", "label": "Card Heading", "default": "Our Location & Address" },
+    { "type": "textarea", "id": "address_text", "label": "Complete Store Address", "default": "G-14, Bhagwati Ashish Complex, City Light Town, Athwa, Surat, Gujarat 395007, India" },
     {
       "type": "header",
-      "content": "Google Map Embed Card"
-    },
-    { "type": "checkbox", "id": "show_map", "label": "Show Map Embed Card", "default": true },
-    { "type": "text", "id": "map_btn_text", "label": "Open in Maps Button Label", "default": "Open in Maps" },
-    { "type": "url", "id": "map_external_url", "label": "Open in Maps Button Link (Optional override)" },
-    { "type": "textarea", "id": "map_iframe_url", "label": "Google Maps Link or Embed Source URL" },
-    {
-      "type": "header",
-      "content": "Contact Form Settings"
+      "content": "Send Us a Message Form Card"
     },
     { "type": "text", "id": "form_heading", "label": "Form Heading", "default": "Send Us a Message" },
-    { "type": "textarea", "id": "form_subheading", "label": "Form Subheading", "default": "Have a question? Fill in the form and our team will get back to you." },
-    { "type": "text", "id": "form_btn_text", "label": "Form Submit Button Text", "default": "Send Message" },
-    { "type": "textarea", "id": "form_success_msg", "label": "Form Success Message", "default": "🌿 Thank you for reaching out! Your message has been received. Our team will contact you shortly." }
+    { "type": "text", "id": "form_subheading", "label": "Form Subheading", "default": "Have a question? Fill in the form and our team will get back to you." },
+    { "type": "text", "id": "form_btn_text", "label": "Submit Button Text", "default": "Send Message" },
+    { "type": "text", "id": "form_success_msg", "label": "Success Message", "default": "🌿 Thank you for reaching out! Your message has been received. Our team will contact you shortly." },
+    {
+      "type": "header",
+      "content": "Google Map Embed Settings"
+    },
+    { "type": "checkbox", "id": "show_map", "label": "Show Map Section Below Form", "default": true },
+    { "type": "text", "id": "map_btn_text", "label": "Map Button Text", "default": "Open in Maps" },
+    { "type": "text", "id": "map_external_url", "label": "Direct Google Maps Location Link (Opens on button click)", "default": "https://maps.app.goo.gl/9Z3f..." },
+    { "type": "textarea", "id": "map_iframe_url", "label": "Google Maps Embed URL", "default": "https://maps.google.com/maps?q=G-14,+Bhagwati+Ashish+Complex,+City+Light+Town,+Athwa,+Surat,+Gujarat+395007,+India&t=&z=15&ie=UTF8&iwloc=&output=embed" }
   ],
   "presets": [
     {
-      "name": "Default Contact Us Page"
+      "name": "Contact Us Page"
     }
   ]
 }
