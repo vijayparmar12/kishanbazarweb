@@ -127,7 +127,7 @@ p, .rte, .product-details-card, .product-tabs__content, .product-info__descripti
 .jdgm-star,
 .jdgm-star * {
   display: inline-block !important;
-  font-family: 'JudgemeStar', 'judgemeStar', 'FontAwesome', 'Segoe UI Symbol', sans-serif !important;
+  font-family: "Segoe UI Symbol", "Segoe UI", -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Roboto", sans-serif !important;
 }
 
 .jdgm-write-rev-btn,
@@ -270,25 +270,7 @@ html.jdgm-review-modal-active #JdgmBlurOverlay {
   margin: 0 !important;
 }
 
-/* PROPER JUDGE.ME STAR RATING OVERRIDES - NATIVE JUDGEME FONT & UNICODE GOLDEN/DARK-GREEN STARS (NO BROKEN RECTANGLE BOXES) */
-@font-face {
-  font-family: 'JudgemeStar';
-  src: url('https://cdn.judge.me/assets/judgemeStar.woff2') format('woff2'),
-       url('https://cdn.judge.me/assets/judgemeStar.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'judgemeStar';
-  src: url('https://cdn.judge.me/assets/judgemeStar.woff2') format('woff2'),
-       url('https://cdn.judge.me/assets/judgemeStar.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
+/* PROPER JUDGE.ME STAR RATING OVERRIDES - BULLETPROOF SYSTEM UNICODE STARS (NO BROKEN SQUARE BOXES) */
 .jdgm-star,
 .jdgm-star:before,
 .jdgm-star:after,
@@ -310,9 +292,9 @@ html.jdgm-review-modal-active #JdgmBlurOverlay {
 [class*="jdgm-star"],
 [class*="jdgm-star"]:before,
 [class*="jdgm-star"]:after {
-  font-family: 'JudgemeStar', 'judgemeStar', 'Segoe UI Symbol', 'Apple Color Emoji', sans-serif !important;
+  font-family: "Segoe UI Symbol", "Segoe UI", -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Roboto", "Helvetica Neue", Arial, sans-serif !important;
   font-style: normal !important;
-  font-weight: normal !important;
+  font-weight: bold !important;
   text-transform: none !important;
   text-decoration: none !important;
   display: inline-block !important;
@@ -323,44 +305,36 @@ html.jdgm-review-modal-active #JdgmBlurOverlay {
   speak: never;
 }
 
-/* GENERAL STAR CONTENT FALLBACK (★) */
+/* FILLED / ON STARS (★) - GOLDEN OR DARK GREEN */
 .jdgm-star:before,
-.jdgm-histogram__star:before,
-.jdgm-histogram__star .jdgm-star:before,
-.jdgm-form-rating .jdgm-star:before,
-.jdgm-rev__rating .jdgm-star:before,
-.jdgm-prev-badge .jdgm-star:before,
-.jdgm-preview-badge .jdgm-star:before,
-[class*="jdgm-star"]:before {
-  content: "\2605" !important; /* ★ Universal Star */
-}
-
-/* FILLED STARS (★) - GOLDEN OR DARK GREEN */
 .jdgm-star.jdgm--on:before,
 .jdgm-star.jdgm-star--on:before,
 .jdgm-star[data-score="1"]:before,
 .jdgm-form-rating .jdgm-star.jdgm--on:before,
 .jdgm-rev__rating .jdgm-star.jdgm--on:before,
+.jdgm-rev__rating .jdgm-star:before,
 .jdgm-histogram__star .jdgm-star.jdgm--on:before,
 span.jdgm-star.jdgm--on:before,
 a.jdgm-star.jdgm--on:before {
-  content: "\2605" !important;
+  content: "\2605" !important; /* ★ Solid Star */
   color: #F59E0B !important; /* Golden Warm Star Color */
   fill: #F59E0B !important;
   opacity: 1 !important;
 }
 
-/* HISTOGRAM STAR COLOR - DARK GREEN (#1B4317) MATCHING APP SETTINGS */
+/* HISTOGRAM RATING STAR - DARK GREEN (#1B4317) MATCHING APP SETTINGS */
 .jdgm-histogram__star,
 .jdgm-histogram__star:before,
 .jdgm-histogram__star .jdgm-star,
 .jdgm-histogram__star .jdgm-star:before,
 .jdgm-histogram__star .jdgm-star.jdgm--on:before {
+  content: "\2605" !important;
   color: #1B4317 !important;
   fill: #1B4317 !important;
+  opacity: 1 !important;
 }
 
-/* UNSELECTED / EMPTY STARS IN FORM & REVIEWS (★) */
+/* UNSELECTED / EMPTY STARS IN FORM & REVIEWS (☆) */
 .jdgm-star.jdgm--off:before,
 .jdgm-star.jdgm-star--off:before,
 .jdgm-form-rating .jdgm-star.jdgm--off:before,
@@ -368,10 +342,10 @@ a.jdgm-star.jdgm--on:before {
 .jdgm-histogram__star .jdgm-star.jdgm--off:before,
 span.jdgm-star.jdgm--off:before,
 a.jdgm-star.jdgm--off:before {
-  content: "\2605" !important;
-  color: #D1D5DB !important;
-  fill: #D1D5DB !important;
-  opacity: 0.7 !important;
+  content: "\2606" !important; /* ☆ Outline Star */
+  color: #CCCCCC !important;
+  fill: #CCCCCC !important;
+  opacity: 0.8 !important;
 }
 
 /* HALF STARS */
@@ -387,6 +361,7 @@ span.jdgm-star.jdgm--half:before {
 /* HOVER / ACTIVE IN FORM RATING (WRITE A REVIEW MODAL) */
 .jdgm-form-rating .jdgm-star:hover:before,
 .jdgm-form-rating .jdgm-star.jdgm--on:before {
+  content: "\2605" !important;
   color: #F59E0B !important;
   opacity: 1 !important;
 }

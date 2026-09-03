@@ -1458,7 +1458,7 @@
 .jdgm-prev-badge .jdgm-star,
 .jdgm-histogram__star,
 .jdgm-histogram__star .jdgm-star {
-  font-family: 'JudgemeStar', 'judgemeStar', 'Segoe UI Symbol', sans-serif !important;
+  font-family: "Segoe UI Symbol", "Segoe UI", -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Roboto", sans-serif !important;
   display: inline-block !important;
   float: none !important;
 }
