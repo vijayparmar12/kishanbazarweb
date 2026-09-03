@@ -110,6 +110,7 @@
             <input type="hidden" name="contact[tags]" value="newsletter, contact, Contact Form">
             <input type="hidden" name="contact[accepts_marketing]" value="true">
             <input type="hidden" id="ContactForm-FullName" name="contact[name]" value="">
+            <input type="hidden" id="ContactForm-NoteInput" name="contact[note]" value="">
             {% if form.posted_successfully? %}
               <div class="contact-form__alert contact-form__alert--success" role="status">
                 {{ section.settings.form_success_msg | default: "🌿 Thank you for reaching out! Your message has been received. Our team will contact you shortly." }}
@@ -251,9 +252,18 @@
       contactForm.addEventListener('submit', function() {
         var fn = (document.getElementById('ContactForm-FirstName') || {}).value || '';
         var ln = (document.getElementById('ContactForm-LastName') || {}).value || '';
+        var phone = (document.getElementById('ContactForm-Phone') || {}).value || '';
+        var subject = (document.getElementById('ContactForm-Subject') || {}).value || '';
+        var msg = (document.getElementById('ContactForm-Message') || {}).value || '';
+
         var fullNameInput = document.getElementById('ContactForm-FullName');
         if (fullNameInput) {
           fullNameInput.value = (fn + ' ' + ln).trim();
+        }
+
+        var noteInput = document.getElementById('ContactForm-NoteInput');
+        if (noteInput) {
+          noteInput.value = 'Contact Form Submission:\nSubject: ' + subject + '\nPhone: ' + phone + '\nMessage: ' + msg;
         }
       });
     }
