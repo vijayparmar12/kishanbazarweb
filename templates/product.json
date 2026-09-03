@@ -230,7 +230,7 @@
         "judge_me_reviews_review_snippet_widget_aD6N7E": {
           "type": "shopify://apps/judge-me-reviews/blocks/review_snippet_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
-            "reviews_selection": "auto",
+            "reviews_selection": "all",
             "products": [],
             "filter_pinned": false,
             "filter_featured": false,
