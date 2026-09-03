@@ -220,7 +220,7 @@
         "video_4": {
           "type": "video",
           "settings": {
-            "product": "",
+            "product": "wood-pressed-castor-oil-अरंडी-का-तेल",
             "video_url": "",
             "video_label": "SHOP BY VIDEOS",
             "badge_text": "BESTSELLER",
@@ -619,7 +619,6 @@
   },
   "order": [
     "hero",
-    "categories",
     "shoppable_videos",
     "best_sellers",
     "beyond_products",

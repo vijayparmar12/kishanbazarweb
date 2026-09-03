@@ -326,15 +326,15 @@
 
       <div class="best-sellers__track" data-best-sellers-track>
         {% assign category_blocks = section.blocks | where: 'type', 'category_tab' %}
-        {% assign rendered_product_handles = '' %}
+        {% assign rendered_handles_str = '' %}
 
         {% comment %} 1. Render products from Category Tab Collections first {% endcomment %}
         {% for block in category_blocks %}
           {% if block.settings.collection != blank and block.settings.collection.products_count > 0 %}
             {% for product in block.settings.collection.products limit: 12 %}
-              {% unless rendered_product_handles contains product.handle %}
-                {% assign handle_with_comma = product.handle | append: ',' %}
-                {% assign rendered_product_handles = rendered_product_handles | append: handle_with_comma %}
+              {% assign handles_arr = rendered_handles_str | split: '|' %}
+              {% unless handles_arr contains product.handle %}
+                {% assign rendered_handles_str = rendered_handles_str | append: product.handle | append: '|' %}
 
                 {% capture prod_cat_str %}
                   {{ product.title | downcase }}
@@ -371,9 +371,9 @@
         {% endif %}
 
         {% for product in main_products limit: section.settings.maximum %}
-          {% unless rendered_product_handles contains product.handle %}
-            {% assign handle_with_comma = product.handle | append: ',' %}
-            {% assign rendered_product_handles = rendered_product_handles | append: handle_with_comma %}
+          {% assign handles_arr = rendered_handles_str | split: '|' %}
+          {% unless handles_arr contains product.handle %}
+            {% assign rendered_handles_str = rendered_handles_str | append: product.handle | append: '|' %}
 
             {% capture prod_cat_str %}
               {{ product.title | downcase }}
