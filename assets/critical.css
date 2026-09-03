@@ -127,7 +127,7 @@ p, .rte, .product-details-card, .product-tabs__content, .product-info__descripti
 .jdgm-star,
 .jdgm-star * {
   display: inline-block !important;
-  font-family: "judgemeStar", "FontAwesome", "Segoe UI Symbol", sans-serif !important;
+  font-family: 'JudgemeStar', 'judgemeStar', 'FontAwesome', 'Segoe UI Symbol', sans-serif !important;
 }
 
 .jdgm-write-rev-btn,
@@ -270,26 +270,69 @@ html.jdgm-review-modal-active #JdgmBlurOverlay {
   margin: 0 !important;
 }
 
-/* PROPER JUDGE.ME STAR RATING OVERRIDES - USES UNIVERSAL UNICODE SYSTEM STAR (NO BROKEN RECTANGLE BOXES) */
+/* PROPER JUDGE.ME STAR RATING OVERRIDES - NATIVE JUDGEME FONT & UNICODE GOLDEN/DARK-GREEN STARS (NO BROKEN RECTANGLE BOXES) */
+@font-face {
+  font-family: 'JudgemeStar';
+  src: url('https://cdn.judge.me/assets/judgemeStar.woff2') format('woff2'),
+       url('https://cdn.judge.me/assets/judgemeStar.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'judgemeStar';
+  src: url('https://cdn.judge.me/assets/judgemeStar.woff2') format('woff2'),
+       url('https://cdn.judge.me/assets/judgemeStar.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 .jdgm-star,
 .jdgm-star:before,
 .jdgm-star:after,
 .jdgm-star *,
 .jdgm-form-rating .jdgm-star,
+.jdgm-form-rating .jdgm-star:before,
 .jdgm-rev__rating .jdgm-star,
+.jdgm-rev__rating .jdgm-star:before,
 .jdgm-prev-badge .jdgm-star,
-.jdgm-histogram__star .jdgm-star {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif !important;
+.jdgm-prev-badge .jdgm-star:before,
+.jdgm-preview-badge .jdgm-star,
+.jdgm-preview-badge .jdgm-star:before,
+.jdgm-histogram__star,
+.jdgm-histogram__star:before,
+.jdgm-histogram__star:after,
+.jdgm-histogram__star *,
+.jdgm-histogram__star .jdgm-star,
+.jdgm-histogram__star .jdgm-star:before,
+[class*="jdgm-star"],
+[class*="jdgm-star"]:before,
+[class*="jdgm-star"]:after {
+  font-family: 'JudgemeStar', 'judgemeStar', 'Segoe UI Symbol', 'Apple Color Emoji', sans-serif !important;
   font-style: normal !important;
-  font-weight: 900 !important;
+  font-weight: normal !important;
   text-transform: none !important;
   text-decoration: none !important;
   display: inline-block !important;
   line-height: 1 !important;
-  font-size: 1.35rem !important;
-  letter-spacing: 2px !important;
+  font-size: 1.25rem !important;
+  letter-spacing: normal !important;
   margin-right: 1px !important;
   speak: never;
+}
+
+/* GENERAL STAR CONTENT FALLBACK (★) */
+.jdgm-star:before,
+.jdgm-histogram__star:before,
+.jdgm-histogram__star .jdgm-star:before,
+.jdgm-form-rating .jdgm-star:before,
+.jdgm-rev__rating .jdgm-star:before,
+.jdgm-prev-badge .jdgm-star:before,
+.jdgm-preview-badge .jdgm-star:before,
+[class*="jdgm-star"]:before {
+  content: "\2605" !important; /* ★ Universal Star */
 }
 
 /* FILLED STARS (★) - GOLDEN OR DARK GREEN */
@@ -301,9 +344,20 @@ html.jdgm-review-modal-active #JdgmBlurOverlay {
 .jdgm-histogram__star .jdgm-star.jdgm--on:before,
 span.jdgm-star.jdgm--on:before,
 a.jdgm-star.jdgm--on:before {
-  content: "\2605" !important; /* ★ Filled Star */
+  content: "\2605" !important;
   color: #F59E0B !important; /* Golden Warm Star Color */
+  fill: #F59E0B !important;
   opacity: 1 !important;
+}
+
+/* HISTOGRAM STAR COLOR - DARK GREEN (#1B4317) MATCHING APP SETTINGS */
+.jdgm-histogram__star,
+.jdgm-histogram__star:before,
+.jdgm-histogram__star .jdgm-star,
+.jdgm-histogram__star .jdgm-star:before,
+.jdgm-histogram__star .jdgm-star.jdgm--on:before {
+  color: #1B4317 !important;
+  fill: #1B4317 !important;
 }
 
 /* UNSELECTED / EMPTY STARS IN FORM & REVIEWS (★) */
@@ -314,8 +368,9 @@ a.jdgm-star.jdgm--on:before {
 .jdgm-histogram__star .jdgm-star.jdgm--off:before,
 span.jdgm-star.jdgm--off:before,
 a.jdgm-star.jdgm--off:before {
-  content: "\2605" !important; /* ★ Star */
-  color: #D1D5DB !important; /* Clean Light Grey */
+  content: "\2605" !important;
+  color: #D1D5DB !important;
+  fill: #D1D5DB !important;
   opacity: 0.7 !important;
 }
 
@@ -325,6 +380,7 @@ a.jdgm-star.jdgm--off:before {
 span.jdgm-star.jdgm--half:before {
   content: "\2605" !important;
   color: #F59E0B !important;
+  fill: #F59E0B !important;
   opacity: 0.8 !important;
 }
 
