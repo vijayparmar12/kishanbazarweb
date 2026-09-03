@@ -92,21 +92,25 @@ class ProductQuickViewManager {
     const qtyPill = this.modal.querySelector('.kb-quick-view__qty-pill');
     if (isAvailable) {
       this.addBtn.disabled = false;
+      this.addBtn.style.background = '#23421f';
+      this.addBtn.style.color = '#ffffff';
       this.addBtn.style.opacity = '1';
       this.addBtn.style.cursor = 'pointer';
-      this.addBtn.textContent = 'Proceed';
+      this.addBtn.textContent = 'ADD TO CART';
       if (qtyPill) {
+        qtyPill.style.display = 'flex';
         qtyPill.style.opacity = '1';
         qtyPill.style.pointerEvents = 'auto';
       }
     } else {
       this.addBtn.disabled = true;
-      this.addBtn.style.opacity = '0.65';
+      this.addBtn.style.background = '#64748b';
+      this.addBtn.style.color = '#ffffff';
+      this.addBtn.style.opacity = '0.75';
       this.addBtn.style.cursor = 'not-allowed';
       this.addBtn.textContent = 'SOLD OUT';
       if (qtyPill) {
-        qtyPill.style.opacity = '0.45';
-        qtyPill.style.pointerEvents = 'none';
+        qtyPill.style.display = 'none';
       }
     }
   }
@@ -268,7 +272,7 @@ class ProductQuickViewManager {
     } finally {
       if (this.addBtn && this.currentVariantAvailable) {
         this.addBtn.disabled = false;
-        this.addBtn.textContent = 'Proceed';
+        this.addBtn.textContent = 'ADD TO CART';
       }
     }
   }
