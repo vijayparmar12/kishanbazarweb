@@ -109,6 +109,7 @@
           {% form 'contact', id: 'ContactForm-Page' %}
             <input type="hidden" name="contact[tags]" value="newsletter, contact, Contact Form">
             <input type="hidden" name="contact[accepts_marketing]" value="true">
+            <input type="hidden" id="ContactForm-FullName" name="contact[name]" value="">
             {% if form.posted_successfully? %}
               <div class="contact-form__alert contact-form__alert--success" role="status">
                 {{ section.settings.form_success_msg | default: "🌿 Thank you for reaching out! Your message has been received. Our team will contact you shortly." }}
@@ -142,7 +143,7 @@
 
               <div class="contact-form__field contact-form__field--full">
                 <label for="ContactForm-Subject" class="contact-form__label">Subject <span class="required">*</span></label>
-                <select id="ContactForm-Subject" name="contact[subject]" class="contact-form__select" required>
+                <select id="ContactForm-Subject" name="contact[Subject]" class="contact-form__select" required>
                   <option value="" disabled selected>Select a Subject</option>
                   <option value="Product Enquiry">Product Enquiry</option>
                   <option value="Order Related">Order Related</option>
@@ -245,6 +246,16 @@
           link.setAttribute('href', finalNavUrl);
         });
       }
+    var contactForm = document.getElementById('ContactForm-Page');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function() {
+        var fn = (document.getElementById('ContactForm-FirstName') || {}).value || '';
+        var ln = (document.getElementById('ContactForm-LastName') || {}).value || '';
+        var fullNameInput = document.getElementById('ContactForm-FullName');
+        if (fullNameInput) {
+          fullNameInput.value = (fn + ' ' + ln).trim();
+        }
+      });
     }
   })();
 </script>
