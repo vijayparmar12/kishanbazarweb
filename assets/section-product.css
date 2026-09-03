@@ -1450,30 +1450,6 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02) !important;
 }
 
-/* Judge.me star font family & Histogram star styling */
-.jdgm-star,
-.jdgm-star *,
-.jdgm-rev__rating .jdgm-star,
-.jdgm-form-rating .jdgm-star,
-.jdgm-prev-badge .jdgm-star,
-.jdgm-histogram__star,
-.jdgm-histogram__star .jdgm-star {
-  font-family: "Segoe UI Symbol", "Segoe UI", -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Roboto", sans-serif !important;
-  display: inline-block !important;
-  float: none !important;
-}
-
-.jdgm-histogram__star,
-.jdgm-histogram__star .jdgm-star {
-  color: #1B4317 !important;
-  fill: #1B4317 !important;
-}
-
-/* Force #1B4317 Dark Green for Histogram Progress Bars */
-.jdgm-histogram__bar-content,
-.jdgm-rev-widg__summary-bar-fill {
-  background-color: #1B4317 !important;
-}
 
 @media (max-width: 768px) {
   .product-page-section--reviews {
