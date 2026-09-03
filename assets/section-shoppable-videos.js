@@ -79,6 +79,26 @@ class ShoppableVideosSection {
     }
   }
 
+  pauseAndMuteAllVideos(exceptVideo = null) {
+    document.querySelectorAll('video').forEach((v) => {
+      if (v !== exceptVideo) {
+        v.pause();
+        v.muted = true;
+      }
+    });
+
+    this.root.querySelectorAll(SELECTORS.card).forEach((card) => {
+      const cardVid = card.querySelector(SELECTORS.video);
+      const muteBtn = card.querySelector('[data-video-mute]');
+      if (cardVid && muteBtn && cardVid !== exceptVideo) {
+        const mutedIcon = muteBtn.querySelector('.shoppable-videos__icon-muted');
+        const unmutedIcon = muteBtn.querySelector('.shoppable-videos__icon-unmuted');
+        if (mutedIcon) mutedIcon.style.display = 'block';
+        if (unmutedIcon) unmutedIcon.style.display = 'none';
+      }
+    });
+  }
+
   bindModal() {
     const modal = this.root.querySelector('[data-video-modal]');
     if (!modal) return;
@@ -87,6 +107,7 @@ class ShoppableVideosSection {
     const closeBtns = modal.querySelectorAll('[data-modal-close]');
 
     const closeModal = () => {
+      this.pauseAndMuteAllVideos();
       modal.removeAttribute('open');
       document.body.classList.remove('shoppable-video-modal-open');
       if (modalBody) {
@@ -105,6 +126,9 @@ class ShoppableVideosSection {
       mediaWrap.addEventListener('click', (e) => {
         if (this.hasMoved) return;
         if (e.target.closest('[data-quick-view-trigger]') || e.target.closest('.shoppable-videos__product-info-row') || e.target.closest('[data-add-to-cart]') || e.target.closest('[data-video-mute]')) return;
+
+        // Pause & mute all background videos immediately so double audio never plays
+        this.pauseAndMuteAllVideos();
 
         // Extract Product details for Modal White Box
         const overlayEl = card.querySelector('.shoppable-videos__product-overlay');
@@ -433,8 +457,10 @@ class ShoppableVideosSection {
       video.muted = true;
       video.playsInline = true;
 
-      playBtn.addEventListener('click', () => {
+      playBtn.addEventListener('click', (e) => {
+        if (e) e.stopPropagation();
         if (video.paused) {
+          this.pauseAndMuteAllVideos(video);
           video.play().catch(() => {});
         } else {
           video.pause();
@@ -467,7 +493,14 @@ class ShoppableVideosSection {
       if (muteBtn) {
         muteBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          video.muted = !video.muted;
+          const willBeUnmuted = video.muted;
+          if (willBeUnmuted) {
+            this.pauseAndMuteAllVideos(video);
+            video.muted = false;
+            video.play().catch(() => {});
+          } else {
+            video.muted = true;
+          }
           const mutedIcon = muteBtn.querySelector('.shoppable-videos__icon-muted');
           const unmutedIcon = muteBtn.querySelector('.shoppable-videos__icon-unmuted');
           if (video.muted) {
