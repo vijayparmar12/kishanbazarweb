@@ -514,6 +514,8 @@ class ShoppableVideosSection {
             }
             if (this.autoplayEnabled) {
               video.play().catch(() => {});
+            } else {
+              video.pause();
             }
           } else {
             card.classList.remove('is-active');
