@@ -953,9 +953,297 @@
         { "type": "richtext", "id": "faq_2_q", "label": "Default Question 2" },
         { "type": "richtext", "id": "faq_2_a", "label": "Default Answer 2" },
         { "type": "richtext", "id": "faq_3_q", "label": "Default Question 3" },
+"limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "mobile_position",
+          "label": "📱 Mobile View Position",
+          "default": "below_title",
+          "options": [
+            { "value": "below_title", "label": "Below Product Title (Recommended)" },
+            { "value": "below_image", "label": "Below Product Gallery Image" },
+            { "value": "above_title", "label": "Above Product Title" },
+            { "value": "below_price", "label": "Below Price Box" }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "desktop_position",
+          "label": "💻 Desktop (Web) View Position",
+          "default": "below_title",
+          "options": [
+            { "value": "below_title", "label": "Below Product Title (Recommended)" },
+            { "value": "below_price", "label": "Below Price Box" },
+            { "value": "below_description", "label": "Below Product Description" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "score",
+          "label": "Fallback rating score",
+          "default": "4.9"
+        },
+        {
+          "type": "text",
+          "id": "review_count",
+          "label": "Fallback review count text",
+          "default": "128 Verified Ratings"
+        }
+      ]
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant Picker",
+      "limit": 1
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy Buttons & Add to Cart",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_quantity",
+          "label": "Show quantity selector",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_buy_now",
+          "label": "Show Buy It Now button",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "cart_btn_text",
+          "label": "Add to Cart button text",
+          "default": "ADD TO CART"
+        },
+        {
+          "type": "color",
+          "id": "cart_btn_bg",
+          "label": "Add to Cart button background",
+          "default": "#23421F"
+        },
+        {
+          "type": "color",
+          "id": "cart_btn_color",
+          "label": "Add to Cart button text color",
+          "default": "#FFFFFF"
+        }
+      ]
+    },
+    {
+      "type": "benefit_icons",
+      "name": "Circle Benefit Badges",
+      "limit": 1,
+      "settings": [
+        { "type": "range", "id": "icon_size", "label": "Benefit Icon Size (px)", "min": 40, "max": 96, "step": 2, "default": 72, "unit": "px" },
+        { "type": "image_picker", "id": "benefit_image_1", "label": "Benefit Icon 1 Image" },
+        { "type": "image_picker", "id": "benefit_image_2", "label": "Benefit Icon 2 Image" },
+        { "type": "image_picker", "id": "benefit_image_3", "label": "Benefit Icon 3 Image" },
+        { "type": "image_picker", "id": "benefit_image_4", "label": "Benefit Icon 4 Image" }
+      ]
+    },
+    {
+      "type": "stock_status",
+      "name": "Stock & Dispatch Status",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "stock_text",
+          "label": "In stock status text",
+          "default": "In Stock • Ready to Dispatch in 24 Hours"
+        }
+      ]
+    },
+    {
+      "type": "custom_badge",
+      "name": "Custom Tag Badge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge label",
+          "default": "ORGANIC & PURE"
+        },
+        {
+          "type": "color",
+          "id": "badge_bg",
+          "label": "Badge background color",
+          "default": "#23421F"
+        },
+        {
+          "type": "color",
+          "id": "badge_color",
+          "label": "Badge text color",
+          "default": "#FFFFFF"
+        }
+      ]
+    },
+    {
+      "type": "collapsible_tab",
+      "name": "Collapsible Tab Accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Tab Heading",
+          "default": "Shipping & Return Policy"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Tab Content",
+          "default": "<p>Free shipping on orders above ₹499. Dispatched within 24 hours.</p>"
+        }
+      ]
+    },
+    {
+      "type": "trust_badges",
+      "name": "Trust Badges Box",
+      "limit": 1,
+      "settings": [
+        { "type": "range", "id": "icon_size", "label": "Trust Icon Size (px)", "min": 40, "max": 96, "step": 2, "default": 70, "unit": "px" },
+        { "type": "image_picker", "id": "trust_image_1", "label": "Trust Badge 1 Image" },
+        { "type": "image_picker", "id": "trust_image_2", "label": "Trust Badge 2 Image" },
+        { "type": "image_picker", "id": "trust_image_3", "label": "Trust Badge 3 Image" },
+        { "type": "image_picker", "id": "trust_image_4", "label": "Trust Badge 4 Image" }
+      ]
+    },
+    {
+      "type": "product_video",
+      "name": "Product Video Card",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Section Heading",
+          "default": "Made with care, from source to finish"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Default Theme Video"
+        },
+        {
+          "type": "video_url",
+          "id": "video_url",
+          "label": "External Video URL (YouTube or Vimeo)",
+          "accept": ["youtube", "vimeo"]
+        }
+      ]
+    },
+    {
+      "type": "product_faq",
+      "name": "Product FAQ Accordions",
+      "limit": 2,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "FAQ Section Heading", "default": "FAQ" },
+        { "type": "richtext", "id": "faq_1_q", "label": "Default Question 1" },
+        { "type": "richtext", "id": "faq_1_a", "label": "Default Answer 1" },
+        { "type": "richtext", "id": "faq_2_q", "label": "Default Question 2" },
+        { "type": "richtext", "id": "faq_2_a", "label": "Default Answer 2" },
+        { "type": "richtext", "id": "faq_3_q", "label": "Default Question 3" },
         { "type": "richtext", "id": "faq_3_a", "label": "Default Answer 3" },
         { "type": "richtext", "id": "faq_4_q", "label": "Default Question 4" },
         { "type": "richtext", "id": "faq_4_a", "label": "Default Answer 4" }
+      ]
+    },
+    {
+      "type": "lab_report",
+      "name": "Lab Test Report Card",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Lab Test Report Content"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Heading Title",
+          "default": "Lab Test Report"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge Label Text",
+          "default": "VERIFIED"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Card Subtitle / Description",
+          "default": "NABL-accredited purity & nutrition analysis (PDF)"
+        },
+        {
+          "type": "text",
+          "id": "btn_text",
+          "label": "Download Button Text",
+          "default": "Download"
+        },
+        {
+          "type": "url",
+          "id": "pdf_url",
+          "label": "Fallback PDF Link URL",
+          "info": "Automatically overridden if product metafield custom.lab_test_report or custom.pdf_report is set."
+        },
+        {
+          "type": "header",
+          "content": "Card Styling & Colors"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background Color",
+          "default": "#FEF3C7"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border Color",
+          "default": "#FDE68A"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title Color",
+          "default": "#1E293B"
+        },
+        {
+          "type": "color",
+          "id": "subtitle_color",
+          "label": "Subtitle Color",
+          "default": "#475569"
+        },
+        {
+          "type": "color",
+          "id": "badge_bg",
+          "label": "Badge Background Color",
+          "default": "#0284C7"
+        },
+        {
+          "type": "color",
+          "id": "badge_color",
+          "label": "Badge Text Color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "btn_bg",
+          "label": "Download Button Background Color",
+          "default": "#064E3B"
+        },
+        {
+          "type": "color",
+          "id": "btn_color",
+          "label": "Download Button Text Color",
+          "default": "#FFFFFF"
+        }
       ]
     },
     {
@@ -978,6 +1266,7 @@
         { "type": "stock_status" },
         { "type": "variant_picker" },
         { "type": "buy_buttons" },
+        { "type": "lab_report" },
         { "type": "trust_badges" },
         { "type": "product_details_tabs" }
       ]

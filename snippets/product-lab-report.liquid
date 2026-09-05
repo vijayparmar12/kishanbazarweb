@@ -1,0 +1,101 @@
+{% doc %}
+  Renders a Lab Test Report card on the product page powered dynamically by product metafields (custom.lab_test_report or custom.pdf_report) or fallback block settings.
+
+  @param {object} product - The Shopify product object
+  @param {object} [block] - Optional block object containing settings
+
+  @example
+  {% render 'product-lab-report', product: product, block: block %}
+{% enddoc %}
+
+{% liquid
+  assign pdf_url = ''
+  
+  if product.metafields.custom.lab_test_report.value.url != blank
+    assign pdf_url = product.metafields.custom.lab_test_report.value.url
+  elsif product.metafields.custom.lab_test_report.value != blank
+    assign pdf_url = product.metafields.custom.lab_test_report.value
+  elsif product.metafields.custom.lab_test_report != blank
+    assign pdf_url = product.metafields.custom.lab_test_report
+  elsif product.metafields.custom.pdf_report.value.url != blank
+    assign pdf_url = product.metafields.custom.pdf_report.value.url
+  elsif product.metafields.custom.pdf_report.value != blank
+    assign pdf_url = product.metafields.custom.pdf_report.value
+  elsif product.metafields.custom.pdf_report != blank
+    assign pdf_url = product.metafields.custom.pdf_report
+  elsif product.metafields.custom.lab_report.value.url != blank
+    assign pdf_url = product.metafields.custom.lab_report.value.url
+  elsif product.metafields.custom.lab_report != blank
+    assign pdf_url = product.metafields.custom.lab_report
+  elsif block.settings.pdf_url != blank
+    assign pdf_url = block.settings.pdf_url
+  endif
+
+  assign card_title = block.settings.title | default: 'Lab Test Report'
+  assign card_badge = block.settings.badge_text | default: 'VERIFIED'
+  assign card_subtitle = block.settings.subtitle | default: 'NABL-accredited purity & nutrition analysis (PDF)'
+  assign card_btn_text = block.settings.btn_text | default: 'Download'
+
+  assign bg_color = block.settings.bg_color | default: '#FEF3C7'
+  assign border_color = block.settings.border_color | default: '#FDE68A'
+  assign title_color = block.settings.title_color | default: '#1E293B'
+  assign subtitle_color = block.settings.subtitle_color | default: '#475569'
+  assign badge_bg = block.settings.badge_bg | default: '#0284C7'
+  assign badge_color = block.settings.badge_color | default: '#FFFFFF'
+  assign btn_bg = block.settings.btn_bg | default: '#064E3B'
+  assign btn_color = block.settings.btn_color | default: '#FFFFFF'
+%}
+
+{% if pdf_url != blank or request.design_mode %}
+  <div
+    class="product-lab-report"
+    {% if block %}
+      {{ block.shopify_attributes }}
+    {% endif %}
+    style="
+      --lab-bg: {{ bg_color }};
+      --lab-border: {{ border_color }};
+      --lab-title-color: {{ title_color }};
+      --lab-sub-color: {{ subtitle_color }};
+      --lab-badge-bg: {{ badge_bg }};
+      --lab-badge-color: {{ badge_color }};
+      --lab-btn-bg: {{ btn_bg }};
+      --lab-btn-color: {{ btn_color }};
+    "
+  >
+    <div class="product-lab-report__main">
+      <div class="product-lab-report__icon-wrap">
+        <svg class="product-lab-report__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 2v7.31L4.75 20.5a2 2 0 0 0 1.71 3h11.08a2 2 0 0 0 1.71-3L14 9.31V2"/>
+          <path d="M8.5 2h7"/>
+          <path d="M7 16h10"/>
+        </svg>
+      </div>
+      <div class="product-lab-report__content">
+        <div class="product-lab-report__header">
+          <span class="product-lab-report__title">{{ card_title }}</span>
+          {% if card_badge != blank %}
+            <span class="product-lab-report__badge">{{ card_badge }}</span>
+          {% endif %}
+        </div>
+        <div class="product-lab-report__subtitle">{{ card_subtitle }}</div>
+      </div>
+    </div>
+
+    <div class="product-lab-report__action">
+      <a
+        href="{{ pdf_url | default: '#' }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="product-lab-report__btn"
+      >
+        <svg class="product-lab-report__btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        <span>{{ card_btn_text }}</span>
+      </a>
+    </div>
+  </div>
+{% endif %}

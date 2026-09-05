@@ -319,6 +319,11 @@
             {% render 'product-video-card', product: product, block: block %}
           </div>
 
+        {% when 'lab_report' %}
+          <div class="product-info__lab-report-block" {{ block.shopify_attributes }}>
+            {% render 'product-lab-report', product: product, block: block %}
+          </div>
+
       {% endcase %}
     {% endfor %}
   {% else %}
