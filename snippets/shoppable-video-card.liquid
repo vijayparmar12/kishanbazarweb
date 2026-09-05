@@ -80,7 +80,7 @@
     <!-- Video Media Wrap -->
     <div class="shoppable-videos__media-wrap">
       {% if hosted_video != blank %}
-        {{ hosted_video | video_tag: class: 'shoppable-videos__video', autoplay: false, loop: section.settings.loop, muted: true, playsinline: true, preload: 'none', controls: false, image_size: '720x' }}
+        {{ hosted_video | video_tag: class: 'shoppable-videos__video', loop: section.settings.loop, muted: true, playsinline: true, preload: 'none', controls: false, image_size: '720x' }}
       {% elsif mp4_url != blank %}
         <video class="shoppable-videos__video" muted playsinline preload="none" {% if section.settings.loop %}loop{% endif %} {% if poster != blank %}poster="{{ poster | image_url: width: 720 }}"{% elsif card_product.featured_image %}poster="{{ card_product.featured_image | image_url: width: 720 }}"{% endif %}>
           <source src="{{ mp4_url }}" type="video/mp4">

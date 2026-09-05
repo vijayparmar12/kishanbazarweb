@@ -51,7 +51,7 @@ class ShoppableVideosSection {
     this.viewport = root.querySelector(SELECTORS.viewport);
     this.prevBtn = root.querySelector(SELECTORS.prev);
     this.nextBtn = root.querySelector(SELECTORS.next);
-    this.autoplayEnabled = root.dataset.autoplay === 'true';
+    this.autoplayEnabled = false;
     this.infiniteLoop = root.dataset.infiniteLoop === 'true';
 
     this.isDragging = false;
