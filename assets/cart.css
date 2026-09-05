@@ -2781,15 +2781,27 @@ body.kb-cart-drawer-open {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background: none !important;
+  background: transparent !important;
   border: none !important;
   padding: 4px !important;
   cursor: pointer !important;
   color: #64748b !important;
-  transition: color 150ms ease !important;
+  flex-shrink: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transition: color 150ms ease, transform 150ms ease !important;
 }
 
 .kb-cart-item__remove-btn:hover {
   color: #ef4444 !important;
+  transform: scale(1.15) !important;
+}
+
+.kb-cart-item__remove-btn svg {
+  width: 18px !important;
+  height: 18px !important;
+  stroke: currentColor !important;
+  display: block !important;
 }
 

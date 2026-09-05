@@ -24,29 +24,41 @@
     if (items) {
       items.innerHTML = cart.items.length
         ? cart.items.map((item, index) => {
-            const hasCompare = item.original_line_price > item.final_line_price;
+            const compareUnit = (item.variant && item.variant.compare_at_price) || 0;
+            const compareVal = (compareUnit > 0 ? compareUnit * item.quantity : 0) || item.original_line_price;
+            const finalVal = item.final_line_price || item.line_price;
+            const hasCompare = compareVal > finalVal;
             const variantTitle = item.variant_title && item.variant_title !== 'Default Title' ? item.variant_title : '';
             return `
           <article class="kb-cart-item kb-cart-item--compact" data-cart-line-item data-cart-line-key="${item.key}" data-cart-line-index="${index + 1}">
-            <a class="kb-cart-item__media" href="${item.url}" aria-label="${item.product_title || ''}">
-              ${item.image ? `<img class="kb-cart-item__image" src="${item.image.src || item.image}" alt="${item.product_title || ''}" loading="lazy">` : ''}
-            </a>
-            <div class="kb-cart-item__body">
-              <h3 class="kb-cart-item__title"><a href="${item.url}">${item.product_title}</a></h3>
-              ${variantTitle ? `<p class="kb-cart-item__variant">${variantTitle}</p>` : ''}
-              <div class="kb-cart-item__pricing">
-                <span class="kb-cart-item__price" data-cart-line-price>${formatMoney(item.final_line_price || item.line_price)}</span>
-                ${hasCompare ? `<s class="kb-cart-item__compare">${formatMoney(item.original_line_price)}</s>` : ''}
+            <div class="kb-cart-item__media-wrap">
+              <a class="kb-cart-item__media-link" href="${item.url}" aria-label="${item.product_title || ''}">
+                ${item.image ? `<img class="kb-cart-item__image" src="${item.image.src || item.image}" alt="${item.product_title || ''}" loading="lazy">` : ''}
+              </a>
+            </div>
+
+            <div class="kb-cart-item__content">
+              <div class="kb-cart-item__header-row" style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; width: 100%;">
+                <h3 class="kb-cart-item__title" style="margin: 0; flex: 1; padding-right: 4px;"><a href="${item.url}">${item.product_title}</a></h3>
+                <button class="kb-cart-item__remove-btn" type="button" aria-label="Remove item" data-cart-remove title="Remove item" style="background: none; border: none; padding: 4px; cursor: pointer; color: #64748b; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </button>
               </div>
+
+              <div class="kb-cart-item__variant-container" data-cart-variant-container="${item.key}">
+                ${variantTitle ? `<span class="kb-cart-item__variant-pill">${variantTitle}</span>` : ''}
+              </div>
+
+              <div class="kb-cart-item__price-row">
+                <span class="kb-cart-item__price" data-cart-line-price>${formatMoney(finalVal)}</span>
+                ${hasCompare ? `<s class="kb-cart-item__compare">${formatMoney(compareVal)}</s>` : ''}
+              </div>
+
               <div class="kb-cart-item__actions">
                 <div class="kb-cart-item__control-pill">
-                  <button class="kb-cart-item__remove-btn" type="button" aria-label="Remove item" data-cart-remove>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="3 6 5 6 21 6"></polyline>
-                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                    </svg>
-                  </button>
-                  <span class="kb-cart-item__pill-divider"></span>
                   <button class="kb-cart-item__qty-btn" type="button" aria-label="Decrease quantity" data-cart-qty-minus>-</button>
                   <input class="kb-cart-item__qty-input" type="number" min="1" step="1" value="${item.quantity}" inputmode="numeric" data-cart-quantity-input>
                   <button class="kb-cart-item__qty-btn" type="button" aria-label="Increase quantity" data-cart-qty-plus>+</button>
