@@ -15,6 +15,15 @@
         "report_ghee": {
           "type": "lab_report",
           "settings": {
+            "report_image": "shopify://shop_images/ghee_1.webp",
+            "product_title": "A2 BILONA GHEE",
+            "report_url": "https://kisanbazaarorganic.com/wp-content/uploads/2026/03/Ghee-lab-report-.pdf",
+            "button_text": "Download PDF Report ↓"
+          }
+        },
+        "lab_report_kamM69": {
+          "type": "lab_report",
+          "settings": {
             "report_image": "shopify://shop_images/1_9a777d75-cec3-4fea-94d6-290bc81a8974.jpg",
             "product_title": "RED CHILLI POWDER",
             "report_url": "https://kisanbazaarorganic.com/wp-content/uploads/2026/03/Red-chilli-powder-lab-report-.pdf",
@@ -69,6 +78,7 @@
       },
       "block_order": [
         "report_ghee",
+        "lab_report_kamM69",
         "report_atta",
         "report_oil",
         "lab_report_rEXgnk",
