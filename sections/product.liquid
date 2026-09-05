@@ -147,18 +147,25 @@
     {% assign current_v_avail = false %}
   {% endif %}
 
-  <!-- Sticky Bottom Buy Bar on Mobile (Two Brothers Style: Add To Cart + Quantity Stepper) -->
+  <!-- Sticky Bottom Buy Bar on Mobile (ADD TO CART + BUY NOW initially, stepper after ADD TO CART) -->
   <div class="sticky-mobile-bar" data-sticky-mobile-bar aria-hidden="false">
     <div class="sticky-mobile-bar__content">
-      <button type="button" class="sticky-mobile-bar__btn" data-sticky-add-to-cart-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
-        {% if current_v_avail %}{{ section.settings.sticky_bar_btn_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}
+      <!-- Add to Cart Button -->
+      <button type="button" class="sticky-mobile-bar__btn sticky-mobile-bar__btn--add" data-sticky-add-to-cart-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
+        <span data-sticky-btn-text>{% if current_v_avail %}{{ section.settings.sticky_bar_btn_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}</span>
       </button>
 
-      <div class="sticky-mobile-bar__quantity-stepper" data-sticky-stepper {% unless current_v_avail %}style="display: none !important;"{% endunless %}>
+      <!-- Stepper [- 1 +] Pill (Initially Hidden, appears after ADD TO CART click) -->
+      <div class="sticky-mobile-bar__quantity-stepper" data-sticky-stepper style="display: none !important;">
         <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-minus aria-label="Decrease quantity">-</button>
         <span class="sticky-mobile-bar__qval" data-sticky-quantity-val>1</span>
         <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-plus aria-label="Increase quantity">+</button>
       </div>
+
+      <!-- Buy Now Button (Initially visible beside ADD TO CART) -->
+      <button type="button" class="sticky-mobile-bar__btn sticky-mobile-bar__btn--buy" data-sticky-buy-now-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
+        BUY NOW
+      </button>
     </div>
   </div>
 </div>

@@ -1995,25 +1995,37 @@ input[type="submit"].jdgm-btn:hover {
 }
 
 .sticky-mobile-bar__btn {
-  background-color: #1b4317;
   border: none;
   border-radius: 10px;
-  box-shadow: 0 4px 14px rgba(27, 67, 23, 0.28);
-  color: #ffffff;
   cursor: pointer;
-  flex: 1 1 60%;
-  font-size: 0.92rem;
+  flex: 1 1 50%;
+  font-size: 0.88rem;
   font-weight: 800;
   letter-spacing: 0.04em;
-  padding: 0.85rem 1rem;
+  padding: 0.85rem 0.5rem;
   text-align: center;
   text-transform: uppercase;
   transition: transform 0.15s ease, background-color 0.15s ease;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sticky-mobile-bar__btn--add {
+  background-color: #1b4317 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(27, 67, 23, 0.28);
+}
+
+.sticky-mobile-bar__btn--buy {
+  background-color: #d97706 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.28);
 }
 
 .sticky-mobile-bar__btn:active {
   transform: scale(0.98);
-  background-color: #143511;
 }
 
 .sticky-mobile-bar__quantity-stepper {
@@ -2023,7 +2035,7 @@ input[type="submit"].jdgm-btn:hover {
   border-radius: 10px;
   box-sizing: border-box;
   display: flex;
-  flex: 0 0 38%;
+  flex: 1 1 50%;
   height: 46px;
   justify-content: space-between;
   padding: 0 0.5rem;
