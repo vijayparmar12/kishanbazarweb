@@ -9,7 +9,7 @@
 
   background: var(--shoppable-videos-bg, #eef2e4);
   overflow: hidden;
-  padding: 0.75rem 0 1.25rem 0 !important;
+  padding: 0.15rem 0 0.35rem 0 !important;
   position: relative;
 }
 
@@ -281,7 +281,6 @@
   width: 100%;
   border-radius: 24px !important;
   overflow: hidden !important;
-}
 }
 
 .shoppable-videos__play {

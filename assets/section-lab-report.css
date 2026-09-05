@@ -217,8 +217,6 @@
   box-shadow: 0 4px 14px rgba(35, 66, 31, 0.18);
   margin-top: auto;
 }
-  box-sizing: border-box;
-}
 
 .lab-report-card__btn:hover {
   background: #183015;

@@ -1,7 +1,7 @@
 .beyond-products {
   width: 100%;
-  padding-top: 0.5rem !important;
-  padding-bottom: 1rem !important;
+  padding-top: 0.15rem !important;
+  padding-bottom: 0.35rem !important;
   padding-left: max(var(--container-padding, 1rem), calc((100% - var(--container-width, 1280px)) / 2));
   padding-right: max(var(--container-padding, 1rem), calc((100% - var(--container-width, 1280px)) / 2));
   box-sizing: border-box;
@@ -25,7 +25,8 @@
 .beyond-products__heading-banner-wrap {
   width: 100% !important;
   max-width: 100% !important;
-  height: 180px;
+  height: auto !important;
+  max-height: 110px !important;
   display: block !important;
   margin: 0 auto 0.25rem auto !important;
   padding: 0 !important;

@@ -6,8 +6,8 @@
   border-bottom: none !important;
   max-width: 100%;
   width: 100%;
-  padding-top: 0.5rem !important;
-  padding-bottom: 0.75rem !important;
+  padding-top: 0.15rem !important;
+  padding-bottom: 0.35rem !important;
   padding-left: max(var(--container-padding, 1.25rem), calc((100% - var(--container-width, 1280px)) / 2)) !important;
   padding-right: max(var(--container-padding, 1.25rem), calc((100% - var(--container-width, 1280px)) / 2)) !important;
   position: relative;
@@ -33,15 +33,17 @@
   align-items: center !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 0.35rem !important;
+  gap: 0.25rem !important;
   justify-content: center !important;
   margin-top: 0 !important;
-  margin-bottom: 0.35rem !important;
+  margin-bottom: 0.25rem !important;
   position: relative !important;
   z-index: 2 !important;
   width: 100% !important;
   box-sizing: border-box !important;
   padding: 0 !important;
+}
+
 .best-sellers__cta-container,
 .categories__cta-container,
 .best-sellers__shop-more-btn,
@@ -88,17 +90,12 @@
 .best-sellers__cta-container .best-sellers__shop-more-btn:hover .cta-arrow {
   transform: translateX(4px) !important;
 }
-  background: transparent;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0;
-  margin-bottom: 0.25rem !important;
-}
 
 .best-sellers__heading-banner-wrap {
   width: 100% !important;
   max-width: 100% !important;
-  height: 180px;
+  height: auto !important;
+  max-height: 140px !important;
   display: block !important;
   margin: 0 auto 0.25rem auto !important;
   padding: 0 !important;
