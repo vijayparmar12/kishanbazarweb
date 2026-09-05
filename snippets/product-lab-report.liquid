@@ -9,43 +9,65 @@
 {% enddoc %}
 
 {% liquid
-  assign pdf_url = ''
+  assign raw_url = ''
   
   assign mf1 = product.metafields.custom.lab_test_report
   assign mf2 = product.metafields.custom.pdf_report
   assign mf3 = product.metafields.custom.lab_report
 
-  if mf1.value.url != blank
-    assign pdf_url = mf1.value.url
-  elsif mf1.value != blank
-    assign pdf_url = mf1.value
-  elsif mf1.url != blank
-    assign pdf_url = mf1.url
-  elsif mf1 != blank
-    assign pdf_url = mf1
-  elsif mf2.value.url != blank
-    assign pdf_url = mf2.value.url
-  elsif mf2.value != blank
-    assign pdf_url = mf2.value
-  elsif mf2.url != blank
-    assign pdf_url = mf2.url
+  if mf1 != blank
+    if mf1.value.url != blank
+      assign raw_url = mf1.value.url
+    elsif mf1.value != blank
+      assign raw_url = mf1.value
+    elsif mf1.url != blank
+      assign raw_url = mf1.url
+    else
+      assign raw_url = mf1
+    endif
   elsif mf2 != blank
-    assign pdf_url = mf2
-  elsif mf3.value.url != blank
-    assign pdf_url = mf3.value.url
-  elsif mf3.value != blank
-    assign pdf_url = mf3.value
-  elsif mf3.url != blank
-    assign pdf_url = mf3.url
+    if mf2.value.url != blank
+      assign raw_url = mf2.value.url
+    elsif mf2.value != blank
+      assign raw_url = mf2.value
+    elsif mf2.url != blank
+      assign raw_url = mf2.url
+    else
+      assign raw_url = mf2
+    endif
   elsif mf3 != blank
-    assign pdf_url = mf3
+    if mf3.value.url != blank
+      assign raw_url = mf3.value.url
+    elsif mf3.value != blank
+      assign raw_url = mf3.value
+    elsif mf3.url != blank
+      assign raw_url = mf3.url
+    else
+      assign raw_url = mf3
+    endif
   elsif block.settings.pdf_url != blank
-    assign pdf_url = block.settings.pdf_url
+    assign raw_url = block.settings.pdf_url
   endif
 
+  # Ensure clean string URL extraction if raw_url is a Link object or JSON string
+  assign pdf_url = raw_url | strip
   if pdf_url.url != blank
     assign pdf_url = pdf_url.url
   endif
+
+  assign pdf_url_str = pdf_url | append: ''
+  if pdf_url_str contains '"url":' or pdf_url_str contains '{"url"'
+    assign parts = pdf_url_str | split: '"url":'
+    assign url_part = parts[1] | split: '"'
+    if url_part[1] != blank
+      assign pdf_url = url_part[1]
+    elsif url_part[0] != blank
+      assign pdf_url = url_part[0]
+    endif
+  endif
+
+  # Strip any residual JSON quotes or braces
+  assign pdf_url = pdf_url | replace: '"', '' | replace: '}', '' | replace: '{', '' | strip
 
   assign card_title = block.settings.title | default: 'Lab Test Report'
   assign card_badge = block.settings.badge_text | default: 'VERIFIED'
@@ -100,7 +122,7 @@
 
     <div class="product-lab-report__action">
       <a
-        href="{% if pdf_url.url != blank %}{{ pdf_url.url }}{% elsif pdf_url != blank %}{{ pdf_url }}{% else %}#{% endif %}"
+        href="{{ pdf_url | default: '#' }}"
         target="_blank"
         rel="noopener noreferrer"
         class="product-lab-report__btn"
