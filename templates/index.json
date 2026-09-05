@@ -220,7 +220,7 @@
         "video_4": {
           "type": "video",
           "settings": {
-            "product": "wood-pressed-castor-oil-अरंडी-का-तेल",
+            "product": "",
             "video_url": "",
             "video_label": "SHOP BY VIDEOS",
             "badge_text": "BESTSELLER",
@@ -264,7 +264,7 @@
         "background_color": "#eef2e4",
         "heading_color": "#2e5d34",
         "default_button_text": "Add to cart",
-        "autoplay": false,
+        "autoplay": true,
         "loop": true,
         "show_arrows": true,
         "infinite_loop": false
@@ -297,9 +297,7 @@
           "type": "card_benefit_icons",
           "settings": {
             "show_benefit_icons": true,
-            "icon_size": 72,
-            "benefit_image_1": "shopify://shop_images/1_1_555885c8-1f8f-4a33-a480-1e451151a50b.png",
-            "benefit_image_2": "shopify://shop_images/2_6d0f5203-c03b-471d-97b5-109576d4357e.png"
+            "icon_size": 72
           }
         },
         "card_variant_selector_P9HiVz": {
@@ -605,7 +603,7 @@
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
         "heading_image_flip": false,
-        "heading_box_height_desktop": 180,
+        "heading_box_height_desktop": 100,
         "heading_box_height_mobile": 80,
         "heading_image_max_width": 1140,
         "heading_image_mobile_max_width": 360,
@@ -619,6 +617,7 @@
   },
   "order": [
     "hero",
+    "categories",
     "shoppable_videos",
     "best_sellers",
     "beyond_products",
