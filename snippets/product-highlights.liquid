@@ -10,6 +10,16 @@
 {% enddoc %}
 
 {% liquid
+  assign trust_block = block
+  if trust_block == blank
+    for b in section.blocks
+      if b.type == 'trust_badges'
+        assign trust_block = b
+        break
+      endif
+    endfor
+  endif
+
   assign c_meta = product.metafields.custom
   assign alt_meta = product.metafields['product.metafields.custom']
 
@@ -30,8 +40,8 @@
     assign t1_img = m_t1_val.preview_image | default: m_t1_val
     assign img_url_1 = t1_img | image_url: width: 600
   elsif has_custom_metafields == false
-    if block.settings.trust_image_1 != blank
-      assign img_url_1 = block.settings.trust_image_1 | image_url: width: 600
+    if trust_block.settings.trust_image_1 != blank
+      assign img_url_1 = trust_block.settings.trust_image_1 | image_url: width: 600
     elsif section.settings.trust_image_1 != blank
       assign img_url_1 = section.settings.trust_image_1 | image_url: width: 600
     endif
@@ -43,8 +53,8 @@
     assign t2_img = m_t2_val.preview_image | default: m_t2_val
     assign img_url_2 = t2_img | image_url: width: 600
   elsif has_custom_metafields == false
-    if block.settings.trust_image_2 != blank
-      assign img_url_2 = block.settings.trust_image_2 | image_url: width: 600
+    if trust_block.settings.trust_image_2 != blank
+      assign img_url_2 = trust_block.settings.trust_image_2 | image_url: width: 600
     elsif section.settings.trust_image_2 != blank
       assign img_url_2 = section.settings.trust_image_2 | image_url: width: 600
     endif
@@ -56,8 +66,8 @@
     assign t3_img = m_t3_val.preview_image | default: m_t3_val
     assign img_url_3 = t3_img | image_url: width: 600
   elsif has_custom_metafields == false
-    if block.settings.trust_image_3 != blank
-      assign img_url_3 = block.settings.trust_image_3 | image_url: width: 600
+    if trust_block.settings.trust_image_3 != blank
+      assign img_url_3 = trust_block.settings.trust_image_3 | image_url: width: 600
     elsif section.settings.trust_image_3 != blank
       assign img_url_3 = section.settings.trust_image_3 | image_url: width: 600
     endif
@@ -69,8 +79,8 @@
     assign t4_img = m_t4_val.preview_image | default: m_t4_val
     assign img_url_4 = t4_img | image_url: width: 600
   elsif has_custom_metafields == false
-    if block.settings.trust_image_4 != blank
-      assign img_url_4 = block.settings.trust_image_4 | image_url: width: 600
+    if trust_block.settings.trust_image_4 != blank
+      assign img_url_4 = trust_block.settings.trust_image_4 | image_url: width: 600
     elsif section.settings.trust_image_4 != blank
       assign img_url_4 = section.settings.trust_image_4 | image_url: width: 600
     endif
