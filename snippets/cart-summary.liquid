@@ -152,15 +152,17 @@
 
     <!-- Sticky Checkout Footer (Matching Cart Drawer Image 2) -->
     <div class="kb-cart-drawer__footer" style="padding: 0; background: transparent; border: none; box-shadow: none; margin-top: 16px;">
-      <a href="/checkout" class="kb-cart-drawer__checkout-btn" style="text-decoration: none; display: flex;">
-        <span class="kb-cart-drawer__checkout-label">{{ checkout_label }}</span>
-        <span class="kb-cart-drawer__payment-badges">
-          <span class="kb-pay-badge kb-pay-badge--paytm">Paytm</span>
-          <span class="kb-pay-badge kb-pay-badge--gpay">GPay</span>
-          <span class="kb-pay-badge kb-pay-badge--phonepe">Pe</span>
-          <span class="kb-pay-badge kb-pay-badge--cards">💳</span>
-        </span>
-      </a>
+      <form action="{{ routes.cart_url }}" method="post" id="cart-summary-checkout-form" style="width: 100%;">
+        <button type="submit" name="checkout" class="kb-cart-drawer__checkout-btn" style="width: 100%; border: none; cursor: pointer; text-decoration: none; display: flex; font-family: inherit;">
+          <span class="kb-cart-drawer__checkout-label">{{ checkout_label }}</span>
+          <span class="kb-cart-drawer__payment-badges">
+            <span class="kb-pay-badge kb-pay-badge--paytm">Paytm</span>
+            <span class="kb-pay-badge kb-pay-badge--gpay">GPay</span>
+            <span class="kb-pay-badge kb-pay-badge--phonepe">Pe</span>
+            <span class="kb-pay-badge kb-pay-badge--cards">💳</span>
+          </span>
+        </button>
+      </form>
       <div class="kb-cart-drawer__credit">Powered by <strong>Shopflo</strong></div>
     </div>
   </div>

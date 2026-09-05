@@ -223,12 +223,14 @@
         </div>
       </div>
 
-      <a href="/checkout" class="kb-cart-drawer__checkout-btn">
-        <div class="kb-cart-drawer__checkout-left">
-          <span class="kb-cart-drawer__checkout-label">{{ checkout_label }}</span>
-          <span class="kb-cart-drawer__checkout-subtext">Free Shipping on Orders Above ₹{{ free_shipping_threshold_num }}</span>
-        </div>
-      </a>
+      <form action="{{ routes.cart_url }}" method="post" id="cart-drawer-checkout-form" style="width: 100%;">
+        <button type="submit" name="checkout" class="kb-cart-drawer__checkout-btn" style="width: 100%; border: none; cursor: pointer; text-align: left; font-family: inherit;">
+          <div class="kb-cart-drawer__checkout-left">
+            <span class="kb-cart-drawer__checkout-label">{{ checkout_label }}</span>
+            <span class="kb-cart-drawer__checkout-subtext">Free Shipping on Orders Above ₹{{ free_shipping_threshold_num }}</span>
+          </div>
+        </button>
+      </form>
     </div>
 
     <!-- Choose Option Variant Drawer Modal Popup (Overlaying Directly On Top Of Cart Drawer) -->
