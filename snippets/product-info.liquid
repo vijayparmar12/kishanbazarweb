@@ -11,10 +11,12 @@
 
 {% liquid
   assign has_separate_rating_block = false
+  assign has_lab_report_block = false
   for b in section.blocks
     if b.type == 'rating' or b.type contains 'judge' or b.type contains 'preview_badge'
       assign has_separate_rating_block = true
-      break
+    elsif b.type == 'lab_report'
+      assign has_lab_report_block = true
     endif
   endfor
   assign rating_already_rendered = false
@@ -254,6 +256,9 @@
               </div>
             </div>
           {% endform %}
+          {% unless has_lab_report_block %}
+            {% render 'product-lab-report', product: product %}
+          {% endunless %}
 
         {% when 'description' %}
           {% if product.description != blank %}

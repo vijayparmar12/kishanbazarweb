@@ -11,24 +11,40 @@
 {% liquid
   assign pdf_url = ''
   
-  if product.metafields.custom.lab_test_report.value.url != blank
-    assign pdf_url = product.metafields.custom.lab_test_report.value.url
-  elsif product.metafields.custom.lab_test_report.value != blank
-    assign pdf_url = product.metafields.custom.lab_test_report.value
-  elsif product.metafields.custom.lab_test_report != blank
-    assign pdf_url = product.metafields.custom.lab_test_report
-  elsif product.metafields.custom.pdf_report.value.url != blank
-    assign pdf_url = product.metafields.custom.pdf_report.value.url
-  elsif product.metafields.custom.pdf_report.value != blank
-    assign pdf_url = product.metafields.custom.pdf_report.value
-  elsif product.metafields.custom.pdf_report != blank
-    assign pdf_url = product.metafields.custom.pdf_report
-  elsif product.metafields.custom.lab_report.value.url != blank
-    assign pdf_url = product.metafields.custom.lab_report.value.url
-  elsif product.metafields.custom.lab_report != blank
-    assign pdf_url = product.metafields.custom.lab_report
+  assign mf1 = product.metafields.custom.lab_test_report
+  assign mf2 = product.metafields.custom.pdf_report
+  assign mf3 = product.metafields.custom.lab_report
+
+  if mf1.value.url != blank
+    assign pdf_url = mf1.value.url
+  elsif mf1.value != blank
+    assign pdf_url = mf1.value
+  elsif mf1.url != blank
+    assign pdf_url = mf1.url
+  elsif mf1 != blank
+    assign pdf_url = mf1
+  elsif mf2.value.url != blank
+    assign pdf_url = mf2.value.url
+  elsif mf2.value != blank
+    assign pdf_url = mf2.value
+  elsif mf2.url != blank
+    assign pdf_url = mf2.url
+  elsif mf2 != blank
+    assign pdf_url = mf2
+  elsif mf3.value.url != blank
+    assign pdf_url = mf3.value.url
+  elsif mf3.value != blank
+    assign pdf_url = mf3.value
+  elsif mf3.url != blank
+    assign pdf_url = mf3.url
+  elsif mf3 != blank
+    assign pdf_url = mf3
   elsif block.settings.pdf_url != blank
     assign pdf_url = block.settings.pdf_url
+  endif
+
+  if pdf_url.url != blank
+    assign pdf_url = pdf_url.url
   endif
 
   assign card_title = block.settings.title | default: 'Lab Test Report'
@@ -84,7 +100,7 @@
 
     <div class="product-lab-report__action">
       <a
-        href="{{ pdf_url | default: '#' }}"
+        href="{% if pdf_url.url != blank %}{{ pdf_url.url }}{% elsif pdf_url != blank %}{{ pdf_url }}{% else %}#{% endif %}"
         target="_blank"
         rel="noopener noreferrer"
         class="product-lab-report__btn"

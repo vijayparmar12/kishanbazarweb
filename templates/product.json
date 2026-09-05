@@ -68,6 +68,23 @@
             "cart_btn_color": "#ffffff"
           }
         },
+        "lab_report_card": {
+          "type": "lab_report",
+          "settings": {
+            "title": "Lab Test Report",
+            "badge_text": "VERIFIED",
+            "subtitle": "NABL-accredited purity & nutrition analysis (PDF)",
+            "btn_text": "Download",
+            "bg_color": "#FEF3C7",
+            "border_color": "#FDE68A",
+            "title_color": "#1E293B",
+            "subtitle_color": "#475569",
+            "badge_bg": "#0284C7",
+            "badge_color": "#FFFFFF",
+            "btn_bg": "#064E3B",
+            "btn_color": "#FFFFFF"
+          }
+        },
         "variant_picker_fTExdk": {
           "type": "variant_picker",
           "settings": {}
@@ -150,6 +167,7 @@
         "benefit_icons_TeMKQk",
         "price_cXRV6V",
         "buy_buttons_jrQJdY",
+        "lab_report_card",
         "variant_picker_fTExdk",
         "trust_badges_WhXaki",
         "product_video_g8Vgf7",
