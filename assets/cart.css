@@ -1853,11 +1853,11 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-fbt-floating-arrow--prev {
-  left: -8px !important;
+  left: 6px !important;
 }
 
 .kb-cart-fbt-floating-arrow--next {
-  right: -8px !important;
+  right: 6px !important;
 }
 
 .kb-cart-addons-track {
