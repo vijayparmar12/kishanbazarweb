@@ -9,55 +9,47 @@
 {% enddoc %}
 
 {% liquid
-  assign raw_url = ''
+  assign pdf_url = ''
   
-  assign mf1 = product.metafields.custom.lab_test_report
-  assign mf2 = product.metafields.custom.pdf_report
-  assign mf3 = product.metafields.custom.lab_report
+  # Try all potential custom metafield keys & types (File, Link, URL, Text)
+  assign m_1 = product.metafields.custom.lab_test_report.value | default: product.metafields.custom.lab_test_report
+  assign m_2 = product.metafields.custom.pdf_report.value | default: product.metafields.custom.pdf_report
+  assign m_3 = product.metafields.custom.lab_report.value | default: product.metafields.custom.lab_report
+  assign m_4 = product.metafields.custom.test_report.value | default: product.metafields.custom.test_report
+  assign m_5 = product.metafields.custom.lab_test.value | default: product.metafields.custom.lab_test
+  assign m_6 = product.metafields.custom.pdf_link.value | default: product.metafields.custom.pdf_link
 
-  if mf1 != blank
-    if mf1.value.url != blank
-      assign raw_url = mf1.value.url
-    elsif mf1.value != blank
-      assign raw_url = mf1.value
-    elsif mf1.url != blank
-      assign raw_url = mf1.url
-    else
-      assign raw_url = mf1
-    endif
-  elsif mf2 != blank
-    if mf2.value.url != blank
-      assign raw_url = mf2.value.url
-    elsif mf2.value != blank
-      assign raw_url = mf2.value
-    elsif mf2.url != blank
-      assign raw_url = mf2.url
-    else
-      assign raw_url = mf2
-    endif
-  elsif mf3 != blank
-    if mf3.value.url != blank
-      assign raw_url = mf3.value.url
-    elsif mf3.value != blank
-      assign raw_url = mf3.value
-    elsif mf3.url != blank
-      assign raw_url = mf3.url
-    else
-      assign raw_url = mf3
-    endif
+  assign chosen_mf = blank
+  if m_1 != blank
+    assign chosen_mf = m_1
+  elsif m_2 != blank
+    assign chosen_mf = m_2
+  elsif m_3 != blank
+    assign chosen_mf = m_3
+  elsif m_4 != blank
+    assign chosen_mf = m_4
+  elsif m_5 != blank
+    assign chosen_mf = m_5
+  elsif m_6 != blank
+    assign chosen_mf = m_6
   elsif block.settings.pdf_url != blank
-    assign raw_url = block.settings.pdf_url
+    assign chosen_mf = block.settings.pdf_url
   endif
 
-  # Ensure clean string URL extraction if raw_url is a Link object or JSON string
-  assign pdf_url = raw_url | strip
-  if pdf_url.url != blank
-    assign pdf_url = pdf_url.url
+  # Now extract clean string URL from chosen_mf
+  if chosen_mf != blank
+    if chosen_mf.url != blank
+      assign pdf_url = chosen_mf.url
+    elsif chosen_mf.preview_image != blank
+      assign pdf_url = chosen_mf | file_url
+    else
+      assign pdf_url = chosen_mf | append: ''
+    endif
   endif
 
-  assign pdf_url_str = pdf_url | append: ''
-  if pdf_url_str contains '"url":' or pdf_url_str contains '{"url"'
-    assign parts = pdf_url_str | split: '"url":'
+  # Parse JSON string if chosen_mf was a raw Link object representation
+  if pdf_url contains '"url":' or pdf_url contains '{"url"'
+    assign parts = pdf_url | split: '"url":'
     assign url_part = parts[1] | split: '"'
     if url_part[1] != blank
       assign pdf_url = url_part[1]
@@ -66,7 +58,7 @@
     endif
   endif
 
-  # Strip any residual JSON quotes or braces
+  # Clean up residual quotes or braces and trim whitespace
   assign pdf_url = pdf_url | replace: '"', '' | replace: '}', '' | replace: '{', '' | strip
 
   assign card_title = block.settings.title | default: 'Lab Test Report'
