@@ -91,7 +91,7 @@
           %}
           <span class="kb-cart-drawer__progress-fill" style="width: {{ fill_pct }}%"></span>
           
-          <div class="kb-cart-drawer__marker kb-cart-drawer__marker--1 kb-cart-drawer__progress-marker--1 {% if cart.total_price >= free_ship_val %}is-active{% endif %}" style="left: 95%">
+          <div class="kb-cart-drawer__marker kb-cart-drawer__marker--1 kb-cart-drawer__progress-marker--1 {% if cart.total_price >= free_ship_val %}is-active{% endif %}" style="right: 18px; left: auto; transform: translateY(-50%);">
             <span class="kb-cart-drawer__marker-top">₹{{ free_shipping_threshold_num }}</span>
             <div class="kb-cart-drawer__marker-box">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
