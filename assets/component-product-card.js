@@ -70,6 +70,18 @@
           addBtn.style.setProperty('display', 'none', 'important');
           stepper.style.setProperty('display', 'flex', 'important');
           countSpan.textContent = String(qtyInCart);
+
+          // Sync sticky mobile bar if on main product form
+          if (form.matches('[data-product-main-form]')) {
+            const stickyAddBtn = document.querySelector('[data-sticky-add-to-cart-btn]');
+            const stickyStepper = document.querySelector('[data-sticky-stepper]');
+            const stickyQtyVal = document.querySelector('[data-sticky-quantity-val]');
+            if (stickyAddBtn && stickyStepper) {
+              stickyAddBtn.style.setProperty('display', 'none', 'important');
+              stickyStepper.style.setProperty('display', 'flex', 'important');
+              if (stickyQtyVal) stickyQtyVal.textContent = String(qtyInCart);
+            }
+          }
         } else if (stepper && addBtn) {
           form.classList.remove('is-in-cart');
           if (container) container.classList.remove('is-in-cart');
@@ -81,6 +93,16 @@
           addBtn.style.setProperty('cursor', 'pointer', 'important');
           const labelSpan = addBtn.querySelector('span');
           if (labelSpan) labelSpan.textContent = 'ADD TO CART';
+
+          // Sync sticky mobile bar if on main product form
+          if (form.matches('[data-product-main-form]')) {
+            const stickyAddBtn = document.querySelector('[data-sticky-add-to-cart-btn]');
+            const stickyStepper = document.querySelector('[data-sticky-stepper]');
+            if (stickyAddBtn && stickyStepper) {
+              stickyStepper.style.setProperty('display', 'none', 'important');
+              stickyAddBtn.style.setProperty('display', 'flex', 'important');
+            }
+          }
         }
       });
     } catch (e) {
