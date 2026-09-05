@@ -1472,30 +1472,40 @@ body.kb-cart-drawer-open {
 
 .kb-cart-item__content {
   position: relative !important;
-  padding-right: 28px !important;
   display: flex !important;
   flex-direction: column !important;
+  padding-right: 0 !important;
+}
+
+.kb-cart-item__header-row {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  width: 100% !important;
 }
 
 .kb-cart-item__remove-btn {
-  position: absolute !important;
-  top: 0 !important;
-  right: 0 !important;
+  position: relative !important;
+  top: auto !important;
+  right: auto !important;
   background: transparent !important;
   border: none !important;
-  color: #94a3b8 !important;
+  color: #64748b !important;
   font-size: 1.2rem !important;
   cursor: pointer !important;
-  padding: 0 !important;
+  padding: 4px !important;
   line-height: 1 !important;
-  transition: color 150ms ease !important;
-  display: flex !important;
+  transition: color 150ms ease, transform 150ms ease !important;
+  display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
+  flex-shrink: 0 !important;
 }
 
 .kb-cart-item__remove-btn:hover {
-  color: #dc2626 !important;
+  color: #ef4444 !important;
+  transform: scale(1.15) !important;
 }
 
 .kb-cart-item__title {
@@ -2152,23 +2162,23 @@ body.kb-cart-drawer-open {
     justify-content: space-between !important;
     flex: 1 1 auto !important;
     min-width: 0 !important;
-    padding-right: 28px !important;
+    padding-right: 0 !important;
   }
 
   .kb-cart-item__remove-btn {
-    position: absolute !important;
-    top: -2px !important;
-    right: 0 !important;
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
     background: transparent !important;
     border: none !important;
     color: #64748b !important;
     padding: 4px !important;
     cursor: pointer !important;
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
+    flex-shrink: 0 !important;
     transition: color 0.2s ease, transform 0.2s ease !important;
-    z-index: 10 !important;
   }
 
   .kb-cart-item__remove-btn:hover {
