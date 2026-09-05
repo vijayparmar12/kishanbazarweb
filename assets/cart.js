@@ -1,6 +1,5 @@
 (() => {
   const rootUrl = window.Shopify?.routes?.root || '/';
-  const STORAGE_KEY_ADDRESS = 'kb_checkout_address';
 
   const formatMoney = (value) => {
     const amount = Math.round(Number(value || 0) / 100);
@@ -11,23 +10,6 @@
     document.querySelectorAll('[data-cart-count]').forEach((badge) => {
       badge.textContent = String(count);
     });
-  };
-
-  const getSavedAddress = () => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY_ADDRESS);
-      return stored ? JSON.parse(stored) : null;
-    } catch (e) {
-      return null;
-    }
-  };
-
-  const saveAddress = (data) => {
-    try {
-      localStorage.setItem(STORAGE_KEY_ADDRESS, JSON.stringify(data));
-    } catch (e) {
-      console.error(e);
-    }
   };
 
   const checkIsVariantSoldOut = (variant, optionEl = null) => {
@@ -647,60 +629,6 @@
     document.documentElement.classList.remove('kb-cart-drawer-open');
   };
 
-  const openExpressCheckout = (step = 'auto') => {
-    const modal = document.querySelector('[data-express-checkout]');
-    if (!modal) {
-      window.location.href = `${rootUrl}checkout`;
-      return;
-    }
-    closeDrawer();
-
-    modal.hidden = false;
-    modal.classList.add('is-open');
-    document.documentElement.classList.add('kb-cart-drawer-open');
-
-    const address = getSavedAddress();
-    if (step === 'address' || (!address && step === 'auto')) {
-      showCheckoutStep('address');
-    } else {
-      populateAddressSummary(address);
-      showCheckoutStep('summary');
-    }
-  };
-
-  const closeExpressCheckout = () => {
-    const modal = document.querySelector('[data-express-checkout]');
-    if (!modal) return;
-    modal.hidden = true;
-    modal.classList.remove('is-open');
-    document.documentElement.classList.remove('kb-cart-drawer-open');
-  };
-
-  const showCheckoutStep = (stepName) => {
-    const modal = document.querySelector('[data-express-checkout]');
-    if (!modal) return;
-
-    modal.querySelectorAll('[data-checkout-step]').forEach((el) => {
-      el.style.display = el.dataset.checkoutStep === stepName ? 'block' : 'none';
-    });
-  };
-
-  const populateAddressSummary = (addr) => {
-    if (!addr) return;
-    document.querySelectorAll('[data-summary-name], [data-display-name]').forEach((el) => {
-      el.textContent = addr.name;
-    });
-    document.querySelectorAll('[data-summary-address], [data-display-address]').forEach((el) => {
-      el.textContent = `${addr.flat}, ${addr.city}, ${addr.state}, India, ${addr.pincode}`;
-    });
-    document.querySelectorAll('[data-summary-contact], [data-display-contact]').forEach((el) => {
-      el.textContent = `${addr.phone} • ${addr.email}`;
-    });
-    document.querySelectorAll('[data-summary-tag], [data-display-tag]').forEach((el) => {
-      el.textContent = addr.tag || 'Home';
-    });
-  };
-
   // Global Event Delegation for all Cart Actions
   document.addEventListener('click', (event) => {
     // 1. Minus quantity button
@@ -765,46 +693,7 @@
       return;
     }
 
-    // 6. Trigger Express Checkout
-    const expressBtn = event.target.closest('[data-trigger-express-checkout]');
-    if (expressBtn) {
-      window.location.href = '/checkout';
-      return;
-    }
 
-    // 7. Express checkout close button / backdrop
-    if (event.target.closest('[data-express-close]')) {
-      closeExpressCheckout();
-      return;
-    }
-
-    // 8. Go to address step
-    if (event.target.closest('[data-goto-address-step]')) {
-      showCheckoutStep('address');
-      return;
-    }
-
-    // 9. Go to summary step
-    if (event.target.closest('[data-goto-summary-step]')) {
-      const address = getSavedAddress();
-      if (!address) {
-        const form = document.querySelector('[data-address-form]');
-        if (form) form.style.display = 'block';
-      } else {
-        populateAddressSummary(address);
-        showCheckoutStep('summary');
-      }
-      return;
-    }
-
-    // 10. Toggle New Address Form
-    if (event.target.closest('[data-toggle-address-form]')) {
-      const form = document.querySelector('[data-address-form]');
-      if (form) {
-        form.style.display = form.style.display === 'none' ? 'block' : 'none';
-      }
-      return;
-    }
 
     // 11. Add-ons Tabs switching
     const tabBtn = event.target.closest('[data-cart-tab], [data-express-tab]');
@@ -991,72 +880,6 @@
       return;
     }
 
-    // 12. Final Proceed to Pay button click
-    if (event.target.closest('[data-final-proceed-to-pay]')) {
-      const address = getSavedAddress();
-      const activeCoupon = sessionStorage.getItem('kb_active_coupon') || 'TBOF10';
-      let checkoutUrl = `${rootUrl}checkout`;
-      if (address) {
-        const params = new URLSearchParams({
-          'checkout[shipping_address][first_name]': address.name.split(' ')[0] || '',
-          'checkout[shipping_address][last_name]': address.name.split(' ').slice(1).join(' ') || '',
-          'checkout[shipping_address][address1]': address.flat || '',
-          'checkout[shipping_address][city]': address.city || '',
-          'checkout[shipping_address][province]': address.state || '',
-          'checkout[shipping_address][zip]': address.pincode || '',
-          'checkout[shipping_address][phone]': address.phone || '',
-          'discount': activeCoupon
-        });
-        checkoutUrl += `?${params.toString()}`;
-      } else {
-        checkoutUrl += `?discount=${encodeURIComponent(activeCoupon)}`;
-      }
-      window.location.href = checkoutUrl;
-      return;
-    }
-  });
-
-  // Handle Address Form Submission
-  document.addEventListener('submit', (event) => {
-    if (event.target.matches('[data-address-form]')) {
-      event.preventDefault();
-      const form = event.target;
-      const formData = new FormData(form);
-      const addressData = {
-        name: formData.get('name'),
-        phone: formData.get('phone'),
-        email: formData.get('email'),
-        flat: formData.get('flat'),
-        city: formData.get('city'),
-        state: formData.get('state'),
-        pincode: formData.get('pincode'),
-        tag: formData.get('tag') || 'Home'
-      };
-      saveAddress(addressData);
-      populateAddressSummary(addressData);
-
-      const list = document.querySelector('[data-address-list]');
-      if (list) {
-        list.innerHTML = `
-          <div class="kb-express-address-card is-selected" data-address-id="saved">
-            <div class="kb-express-address-header">
-              <label class="kb-express-radio-label">
-                <input type="radio" name="selected_address" value="saved" checked class="kb-express-radio">
-                <span class="kb-express-tag">${addressData.tag}</span>
-              </label>
-              <button type="button" class="kb-express-edit-address-btn" data-toggle-address-form>&hellip;</button>
-            </div>
-            <div class="kb-express-address-content">
-              <strong class="kb-express-address-name">${addressData.name}</strong>
-              <p class="kb-express-address-text">${addressData.flat}, ${addressData.city}, ${addressData.state}, India, ${addressData.pincode}</p>
-              <p class="kb-express-address-contact">${addressData.phone}, ${addressData.email}</p>
-            </div>
-          </div>`;
-      }
-
-      form.style.display = 'none';
-      showCheckoutStep('summary');
-    }
   });
 
   // Handle direct text input changes
@@ -1071,27 +894,11 @@
 
       changeCartLine(details.lineIndex, details.lineKey, nextQty);
     }
-    if (event.target.closest('[data-address-form]')) {
-      const form = event.target.closest('[data-address-form]');
-      const formData = new FormData(form);
-      const addressData = {
-        name: formData.get('name'),
-        phone: formData.get('phone'),
-        email: formData.get('email'),
-        flat: formData.get('flat'),
-        city: formData.get('city'),
-        state: formData.get('state'),
-        pincode: formData.get('pincode'),
-        tag: formData.get('tag') || 'Home'
-      };
-      saveAddress(addressData);
-    }
   });
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       closeDrawer();
-      closeExpressCheckout();
     }
   });
 
