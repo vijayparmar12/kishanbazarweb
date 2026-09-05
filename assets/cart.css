@@ -1151,7 +1151,7 @@ body.kb-cart-drawer-open {
 
 /* Modern Cart Drawer & Pill Item Styles */
 .kb-cart-drawer__panel {
-  width: min(440px, 100vw) !important;
+  width: min(540px, 100vw) !important;
   display: flex !important;
   flex-direction: column !important;
   height: 100vh !important;
