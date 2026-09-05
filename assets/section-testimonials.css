@@ -7,8 +7,8 @@
   color: #1e293b;
   width: 100% !important;
   max-width: 100% !important;
-  padding-top: 0.15rem !important;
-  padding-bottom: 0.35rem !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 1rem !important;
   padding-left: max(var(--container-padding, 1.25rem), calc((100% - var(--container-width, 1280px)) / 2)) !important;
   padding-right: max(var(--container-padding, 1.25rem), calc((100% - var(--container-width, 1280px)) / 2)) !important;
   position: relative;
@@ -31,24 +31,13 @@
 .testimonials__heading-banner-wrap {
   width: 100% !important;
   max-width: 100% !important;
-  height: auto !important;
-  max-height: 130px !important;
+  height: 180px;
   display: block !important;
   margin: 0 auto 0.25rem auto !important;
   padding: 0 !important;
   position: relative !important;
   overflow: hidden !important;
   border-radius: 12px !important;
-}
-
-.testimonials__judgeme-container:empty,
-.jdgm-carousel-wrapper:empty,
-.testimonials__judgeme-container:not(:has(.jdgm-carousel-item)) {
-  display: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  height: 0 !important;
-  min-height: 0 !important;
 }
 
 @media (max-width: 749px) {

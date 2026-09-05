@@ -457,6 +457,15 @@
     letter-spacing: 0.04em !important;
   }
 }
+  font-weight: 800;
+  justify-content: center;
+  letter-spacing: 0.04em;
+  min-height: 2.75rem;
+  padding: 0.65rem 1rem;
+  text-transform: uppercase;
+  transition: background-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  width: 100%;
+}
 
 .product-card__add:hover:not(:disabled) {
   background: #105936;

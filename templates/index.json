@@ -264,7 +264,7 @@
         "background_color": "#eef2e4",
         "heading_color": "#2e5d34",
         "default_button_text": "Add to cart",
-        "autoplay": true,
+        "autoplay": false,
         "loop": true,
         "show_arrows": true,
         "infinite_loop": false

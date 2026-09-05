@@ -459,6 +459,10 @@ class ShoppableVideosSection {
 
       playBtn.addEventListener('click', (e) => {
         if (e) e.stopPropagation();
+        if (video.preload === 'none' && !video.dataset.loaded) {
+          video.load();
+          video.dataset.loaded = 'true';
+        }
         if (video.paused) {
           this.pauseAndMuteAllVideos(video);
           video.play().catch(() => {});
@@ -541,11 +545,11 @@ class ShoppableVideosSection {
 
           if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
             card.classList.add('is-active');
-            if (video.preload === 'none' && !video.dataset.loaded) {
-              video.load();
-              video.dataset.loaded = 'true';
-            }
             if (this.autoplayEnabled) {
+              if (video.preload === 'none' && !video.dataset.loaded) {
+                video.load();
+                video.dataset.loaded = 'true';
+              }
               video.play().catch(() => {});
             } else {
               video.pause();
