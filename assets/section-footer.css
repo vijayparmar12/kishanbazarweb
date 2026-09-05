@@ -223,21 +223,31 @@
 
 .site-footer__social-bar {
   width: 100%;
-  margin-top: 1.25rem;
+  margin-top: 0.85rem;
   margin-bottom: 0.5rem;
   display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
   z-index: 20;
+}
+
+.site-footer__social-bar--desktop {
+  display: flex !important;
+}
+
+.site-footer__social-bar--desktop .site-footer__social-row {
+  justify-content: flex-start !important;
+  margin: 0 !important;
+}
+
+.site-footer__social-bar--mobile {
+  display: none !important;
 }
 
 .site-footer__social-row {
   display: flex;
   gap: 0.85rem;
-  justify-content: flex-start !important;
   align-items: center;
-  margin: 0.85rem 0 0 0 !important;
+  margin: 0;
   width: 100%;
   position: relative !important;
   z-index: 20 !important;
@@ -492,9 +502,21 @@
     margin-bottom: 0.5rem !important;
   }
 
-  .site-footer__social-row {
-    margin-top: 0.5rem !important;
-    margin-bottom: 0 !important;
+  .site-footer__social-bar--desktop {
+    display: none !important;
+  }
+
+  .site-footer__social-bar--mobile {
+    display: flex !important;
+    width: 100% !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    justify-content: center !important;
+  }
+
+  .site-footer__social-bar--mobile .site-footer__social-row {
+    justify-content: center !important;
+    margin: 0 auto !important;
   }
 
   .site-footer__company-details {
