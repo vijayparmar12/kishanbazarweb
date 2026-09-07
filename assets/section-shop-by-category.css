@@ -165,3 +165,77 @@
     min-width: 240px;
   }
 }
+
+/* End of Carousel "More" Arrow Card (Shown in Mobile View & Webview) */
+.shop-by-category__slide--more-card {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 140px !important;
+  width: 140px !important;
+  min-width: 140px !important;
+  max-width: 160px !important;
+  scroll-snap-align: start !important;
+}
+
+@media (max-width: 749px) {
+  .shop-by-category__slide--more-card {
+    flex: 0 0 130px !important;
+    width: 130px !important;
+    min-width: 130px !important;
+    max-width: 140px !important;
+  }
+}
+
+.shop-by-category__more-card-link {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.6rem !important;
+  text-decoration: none !important;
+  padding: 1.5rem 1rem !important;
+  transition: transform 220ms ease !important;
+  cursor: pointer !important;
+  width: 100% !important;
+  height: 100% !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.shop-by-category__more-card-link:hover,
+.shop-by-category__more-card-link:active {
+  transform: translateY(-3px) scale(1.05) !important;
+}
+
+.shop-by-category__more-card-circle {
+  width: 54px !important;
+  height: 54px !important;
+  border-radius: 50% !important;
+  background-color: #1b4317 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 14px rgba(27, 67, 23, 0.3) !important;
+  transition: background-color 200ms ease, box-shadow 200ms ease, transform 200ms ease !important;
+}
+
+.shop-by-category__more-card-link:hover .shop-by-category__more-card-circle,
+.shop-by-category__more-card-link:active .shop-by-category__more-card-circle {
+  background-color: #143311 !important;
+  box-shadow: 0 6px 18px rgba(20, 51, 17, 0.45) !important;
+  transform: scale(1.08);
+}
+
+.shop-by-category__more-card-text {
+  font-size: 0.92rem !important;
+  font-weight: 800 !important;
+  color: #1b4317 !important;
+  letter-spacing: 0.02em !important;
+  transition: color 200ms ease !important;
+  text-transform: uppercase;
+}
+
+.shop-by-category__more-card-link:hover .shop-by-category__more-card-text,
+.shop-by-category__more-card-link:active .shop-by-category__more-card-text {
+  color: #143311 !important;
+}

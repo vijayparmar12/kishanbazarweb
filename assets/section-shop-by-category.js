@@ -16,7 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
           track.scrollBy({ left: -320, behavior: 'smooth' });
         });
         nextBtn.addEventListener('click', () => {
-          track.scrollBy({ left: 320, behavior: 'smooth' });
+          const maxScroll = track.scrollWidth - track.clientWidth;
+          const currentScroll = track.scrollLeft;
+          if (currentScroll >= maxScroll - 20) {
+            const targetUrl = section.dataset.allProductsUrl || '/collections/all';
+            window.location.href = targetUrl;
+          } else {
+            track.scrollBy({ left: 320, behavior: 'smooth' });
+          }
         });
       }
 
@@ -32,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let visibleCount = 0;
 
             slides.forEach((slide) => {
+              if (slide.classList.contains('shop-by-category__slide--more-card')) return;
               const categories = slide.dataset.productCategories ? slide.dataset.productCategories.toLowerCase() : slide.textContent.toLowerCase();
 
               if (filterRaw === 'all' || filterRaw === 'all products' || keywords.includes('all')) {

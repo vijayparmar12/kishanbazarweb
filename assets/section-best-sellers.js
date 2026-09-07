@@ -11,7 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
         track.scrollBy({ left: -320, behavior: 'smooth' });
       });
       nextBtn.addEventListener('click', () => {
-        track.scrollBy({ left: 320, behavior: 'smooth' });
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        const currentScroll = track.scrollLeft;
+        if (currentScroll >= maxScroll - 20) {
+          const targetUrl = section.dataset.allProductsUrl || '/collections/all';
+          window.location.href = targetUrl;
+        } else {
+          track.scrollBy({ left: 320, behavior: 'smooth' });
+        }
       });
     }
 

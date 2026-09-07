@@ -9,6 +9,17 @@
   {% assign displayed_collection = collections['all'] %}
 {% endif %}
 
+{% assign more_url = section.settings.cta_url %}
+{% if more_url == blank %}
+  {% assign more_url = displayed_collection.url %}
+{% endif %}
+{% if more_url == blank %}
+  {% assign more_url = routes.all_products_collection_url %}
+{% endif %}
+{% if more_url == blank %}
+  {% assign more_url = '/collections/all' %}
+{% endif %}
+
 {% style %}
   #BestSellers-{{ section.id }} {
     {% if section.settings.background_image != blank %}
@@ -196,7 +207,7 @@
   {% endif %}
 {% endstyle %}
 
-<section id="BestSellers-{{ section.id }}" class="home-section best-sellers{% if section.settings.show_tabs %} best-sellers--with-tabs{% endif %}" data-best-sellers>
+<section id="BestSellers-{{ section.id }}" class="home-section best-sellers{% if section.settings.show_tabs %} best-sellers--with-tabs{% endif %}" data-best-sellers data-all-products-url="{{ more_url }}">
   <div class="best-sellers__illustration-bg" aria-hidden="true">
     <svg viewBox="0 0 1440 180" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
       <path d="M0 120C240 70 480 150 720 100C960 50 1200 130 1440 90V180H0V120Z" fill="rgba(35, 66, 31, 0.03)"/>
@@ -400,7 +411,7 @@
 
         <!-- End of Track "More" Circle Card (Matching Google Deals / User Reference Image) -->
         <div class="best-sellers__slide best-sellers__slide--more-card">
-          <a href="{{ section.settings.cta_url | default: displayed_collection.url | default: routes.all_products_collection_url }}" class="best-sellers__more-card-link" aria-label="View all products">
+          <a href="{{ more_url }}" class="best-sellers__more-card-link" aria-label="View all products">
             <div class="best-sellers__more-card-circle">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>

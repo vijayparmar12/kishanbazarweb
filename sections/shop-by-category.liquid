@@ -6,7 +6,7 @@
   {% assign displayed_collection = collections['all'] %}
 {% endif %}
 
-<div id="ShopByCategory-{{ section.id }}" class="shop-by-category" data-shop-by-category>
+<div id="ShopByCategory-{{ section.id }}" class="shop-by-category" data-shop-by-category data-all-products-url="{{ routes.all_products_collection_url }}">
   <div class="shop-by-category__head">
     {% if section.settings.heading_image_desktop != blank or section.settings.heading_image_mobile != blank %}
       <div class="shop-by-category__heading-banner-wrap">
@@ -167,6 +167,19 @@
           </div>
         {% endunless %}
       {% endfor %}
+
+      <!-- End of Track "More" Circle Card -->
+      <div class="shop-by-category__slide shop-by-category__slide--more-card">
+        <a href="{{ routes.all_products_collection_url }}" class="shop-by-category__more-card-link" aria-label="View all products">
+          <div class="shop-by-category__more-card-circle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+          <span class="shop-by-category__more-card-text">More</span>
+        </a>
+      </div>
     </div>
   </div>
 </div>
