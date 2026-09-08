@@ -375,10 +375,15 @@
           {% endif %}
         {% endfor %}
 
-        {% comment %} 2. Render remaining products from main collection {% endcomment %}
-        {% assign main_products = displayed_collection.products %}
-        {% if main_products == blank or main_products.size == 0 %}
-          {% assign main_products = collections['all'].products %}
+        {% comment %} 2. Render remaining products from main collection or manual product selection {% endcomment %}
+        {% assign selected_prods = section.settings.products %}
+        {% if selected_prods != blank and selected_prods.count > 0 %}
+          {% assign main_products = selected_prods %}
+        {% else %}
+          {% assign main_products = displayed_collection.products %}
+          {% if main_products == blank or main_products.size == 0 %}
+            {% assign main_products = collections['all'].products %}
+          {% endif %}
         {% endif %}
 
         {% for product in main_products limit: section.settings.maximum %}
@@ -471,6 +476,7 @@
     { "type": "range", "id": "heading_box_height_mobile", "label": "Mobile Heading Box Fixed Height (px)", "min": 40, "max": 250, "step": 10, "default": 110, "unit": "px" },
     { "type": "range", "id": "heading_image_max_width", "label": "Desktop Heading Image Max Width (px)", "min": 200, "max": 1200, "step": 20, "default": 640, "unit": "px" },
     { "type": "range", "id": "heading_image_mobile_max_width", "label": "Mobile Heading Image Max Width (px)", "min": 150, "max": 800, "step": 10, "default": 360, "unit": "px" },
+    { "type": "product_list", "id": "products", "label": "Select Products Manually (Optional)", "info": "Pick specific products to display in the Theme Editor. Overrides collection if selected.", "limit": 12 },
     { "type": "collection", "id": "collection", "label": "Collection" },
     { "type": "image_picker", "id": "background_image", "label": "Custom Background Image" },
     { "type": "image_picker", "id": "background_image_mobile", "label": "Custom Mobile Background Image (Optional)" },
