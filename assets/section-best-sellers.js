@@ -1,12 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('[data-best-sellers]').forEach((section) => {
+  function initBestSellersSection(section) {
     const track = section.querySelector('[data-best-sellers-track]');
     const prevBtn = section.querySelector('[data-best-sellers-prev]');
     const nextBtn = section.querySelector('[data-best-sellers-next]');
     const tabs = section.querySelectorAll('[data-best-sellers-tab]');
     const slides = section.querySelectorAll('[data-best-sellers-slide], .best-sellers__slide');
+    const maxProducts = parseInt(section.dataset.maxProducts || '4', 10);
 
-    if (prevBtn && nextBtn && track) {
+    if (prevBtn && nextBtn && track && !prevBtn.dataset.bound) {
+      prevBtn.dataset.bound = 'true';
       prevBtn.addEventListener('click', () => {
         track.scrollBy({ left: -320, behavior: 'smooth' });
       });
@@ -22,46 +24,71 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    if (tabs.length > 0 && slides.length > 0) {
-      tabs.forEach((tab) => {
-        tab.addEventListener('click', () => {
-          tabs.forEach((t) => t.classList.remove('is-active'));
-          tab.classList.add('is-active');
+    function filterSlides(filterRaw) {
+      const keywords = filterRaw ? filterRaw.toLowerCase().trim().split(/\s+/).filter(Boolean) : ['all'];
+      let visibleCount = 0;
 
-          const filterRaw = tab.dataset.categoryFilter ? tab.dataset.categoryFilter.toLowerCase().trim() : 'all';
-          const keywords = filterRaw.split(/\s+/).filter(Boolean);
+      slides.forEach((slide) => {
+        if (slide.classList.contains('best-sellers__slide--more-card')) return;
+        const categories = slide.dataset.productCategories ? slide.dataset.productCategories.toLowerCase() : slide.textContent.toLowerCase();
 
-          let visibleCount = 0;
-          slides.forEach((slide) => {
-            if (slide.classList.contains('best-sellers__slide--more-card')) return;
-            const categories = slide.dataset.productCategories ? slide.dataset.productCategories.toLowerCase() : slide.textContent.toLowerCase();
-
-            let isMatch = false;
-            if (filterRaw === 'all' || filterRaw === 'all products' || keywords.includes('all')) {
-              isMatch = true;
-            } else {
-              isMatch = keywords.some((kw) => {
-                let stem = kw;
-                if (stem.endsWith('s') && stem.length > 3 && !stem.endsWith('ss')) {
-                  stem = stem.slice(0, -1);
-                }
-                return categories.includes(kw) || categories.includes(stem);
-              });
+        let isMatch = false;
+        if (!filterRaw || filterRaw === 'all' || filterRaw === 'all products' || keywords.includes('all')) {
+          isMatch = true;
+        } else {
+          isMatch = keywords.some((kw) => {
+            let stem = kw;
+            if (stem.endsWith('s') && stem.length > 3 && !stem.endsWith('ss')) {
+              stem = stem.slice(0, -1);
             }
-
-            if (isMatch && visibleCount < 4) {
-              slide.style.display = 'block';
-              visibleCount++;
-            } else {
-              slide.style.display = 'none';
-            }
+            return categories.includes(kw) || categories.includes(stem);
           });
+        }
 
-          if (track) {
-            track.scrollTo({ left: 0, behavior: 'smooth' });
-          }
-        });
+        if (isMatch && visibleCount < maxProducts) {
+          slide.style.display = 'block';
+          visibleCount++;
+        } else {
+          slide.style.display = 'none';
+        }
       });
+
+      if (track) {
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+      }
+    }
+
+    if (tabs.length > 0) {
+      tabs.forEach((tab) => {
+        if (!tab.dataset.bound) {
+          tab.dataset.bound = 'true';
+          tab.addEventListener('click', () => {
+            tabs.forEach((t) => t.classList.remove('is-active'));
+            tab.classList.add('is-active');
+            const filterRaw = tab.dataset.categoryFilter ? tab.dataset.categoryFilter.toLowerCase().trim() : 'all';
+            filterSlides(filterRaw);
+          });
+        }
+      });
+
+      const activeTab = section.querySelector('[data-best-sellers-tab].is-active') || tabs[0];
+      if (activeTab) {
+        const initialFilter = activeTab.dataset.categoryFilter ? activeTab.dataset.categoryFilter.toLowerCase().trim() : 'all';
+        filterSlides(initialFilter);
+      }
+    } else {
+      filterSlides('all');
+    }
+  }
+
+  // Init all best sellers sections present on load
+  document.querySelectorAll('[data-best-sellers]').forEach(initBestSellersSection);
+
+  // Re-init on Shopify Theme Editor section load/change
+  document.addEventListener('shopify:section:load', (e) => {
+    const sec = e.target.querySelector('[data-best-sellers]') || e.target;
+    if (sec && sec.matches && sec.matches('[data-best-sellers]')) {
+      initBestSellersSection(sec);
     }
   });
 
