@@ -271,11 +271,25 @@
         "eyebrow_color": "#d97706",
         "products_limit": 4
       }
+    },
+    "17888602284d5dbeb4": {
+      "type": "apps",
+      "blocks": {
+        "razorpay_cod_magic_checkout_affordability_block_PAbJRw": {
+          "type": "shopify://apps/razorpay-cod-magic-checkout/blocks/affordability-block/c13c688d-5c45-4054-b95f-1edd63faa705",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "razorpay_cod_magic_checkout_affordability_block_PAbJRw"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "main",
     "1788408506cab3cccd",
-    "recommendations"
+    "recommendations",
+    "17888602284d5dbeb4"
   ]
 }
