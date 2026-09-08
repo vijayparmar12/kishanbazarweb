@@ -150,13 +150,16 @@
     endif
   endif
 
-  # Default fallback URL if pdf_url is blank
-  if pdf_url == blank
-    assign pdf_url = '/pages/lab-report'
+  # Show card ONLY if a valid PDF URL exists for this product (or in Theme Editor design mode)
+  assign show_card = false
+  if pdf_url != blank
+    assign show_card = true
+  elsif request.design_mode
+    assign show_card = true
+    assign pdf_url = '#'
   endif
 
   # Check section level visibility toggle
-  assign show_card = true
   if section and section.settings.show_lab_report == false
     unless request.design_mode
       assign show_card = false
