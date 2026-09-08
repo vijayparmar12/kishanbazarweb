@@ -11,139 +11,84 @@
 {% liquid
   assign pdf_url = ''
 
-  # Candidate product metafields (order of priority)
-  assign mf_1 = product.metafields.custom.lab_test_report
-  assign mf_2 = product.metafields.custom.pdf_report
-  assign mf_3 = product.metafields.custom.lab_report
-  assign mf_4 = product.metafields.custom.test_report
-  assign mf_5 = product.metafields.custom.lab_test
-  assign mf_6 = product.metafields.custom.pdf_link
-  assign mf_7 = product.metafields.custom.lab_report_pdf
-  assign mf_8 = product.metafields.custom.lab_test_report_link
+  # 1. Check custom.lab_test_report (As configured in Shopify admin)
+  assign mf_val1 = product.metafields.custom.lab_test_report.value
+  assign mf_obj1 = product.metafields.custom.lab_test_report
 
-  # Helper logic to extract valid URL from a metafield object (Link drop, File drop, URL, String, JSON)
-  if mf_1 != blank
-    if mf_1.value.url != blank
-      assign pdf_url = mf_1.value.url
-    elsif mf_1.url != blank
-      assign pdf_url = mf_1.url
-    elsif mf_1.value.target != blank
-      assign pdf_url = mf_1.value.target
-    elsif mf_1.value != blank
-      assign temp_file = mf_1.value | file_url
-      if temp_file contains 'cdn.shopify.com' or temp_file contains '/files/'
-        assign pdf_url = temp_file
+  if mf_val1.url != blank
+    assign pdf_url = mf_val1.url
+  elsif mf_obj1.url != blank
+    assign pdf_url = mf_obj1.url
+  elsif mf_val1.target != blank
+    assign pdf_url = mf_val1.target
+  elsif mf_val1 != blank
+    assign file_check1 = mf_val1 | file_url
+    if file_check1 contains 'cdn.shopify.com' or file_check1 contains '/files/'
+      assign pdf_url = file_check1
+    else
+      assign str_check1 = mf_val1 | append: ''
+      if str_check1 contains 'http://' or str_check1 contains 'https://' or str_check1 contains '//' or str_check1 contains '/files/' or str_check1 contains '.pdf'
+        assign pdf_url = str_check1
+      endif
+    endif
+  endif
+
+  # 2. Check custom.pdf_report
+  if pdf_url == blank
+    assign mf_val2 = product.metafields.custom.pdf_report.value
+    assign mf_obj2 = product.metafields.custom.pdf_report
+    if mf_val2.url != blank
+      assign pdf_url = mf_val2.url
+    elsif mf_obj2.url != blank
+      assign pdf_url = mf_obj2.url
+    elsif mf_val2 != blank
+      assign file_check2 = mf_val2 | file_url
+      if file_check2 contains 'cdn.shopify.com' or file_check2 contains '/files/'
+        assign pdf_url = file_check2
       else
-        assign temp_str = mf_1.value | append: ''
-        if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
-          assign pdf_url = temp_str
+        assign str_check2 = mf_val2 | append: ''
+        if str_check2 contains 'http://' or str_check2 contains 'https://' or str_check2 contains '//' or str_check2 contains '/files/' or str_check2 contains '.pdf'
+          assign pdf_url = str_check2
         endif
       endif
     endif
   endif
 
-  if pdf_url == blank and mf_2 != blank
-    if mf_2.value.url != blank
-      assign pdf_url = mf_2.value.url
-    elsif mf_2.url != blank
-      assign pdf_url = mf_2.url
-    elsif mf_2.value != blank
-      assign temp_file = mf_2.value | file_url
-      if temp_file contains 'cdn.shopify.com' or temp_file contains '/files/'
-        assign pdf_url = temp_file
+  # 3. Check custom.lab_report
+  if pdf_url == blank
+    assign mf_val3 = product.metafields.custom.lab_report.value
+    assign mf_obj3 = product.metafields.custom.lab_report
+    if mf_val3.url != blank
+      assign pdf_url = mf_val3.url
+    elsif mf_obj3.url != blank
+      assign pdf_url = mf_obj3.url
+    elsif mf_val3 != blank
+      assign file_check3 = mf_val3 | file_url
+      if file_check3 contains 'cdn.shopify.com' or file_check3 contains '/files/'
+        assign pdf_url = file_check3
       else
-        assign temp_str = mf_2.value | append: ''
-        if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
-          assign pdf_url = temp_str
+        assign str_check3 = mf_val3 | append: ''
+        if str_check3 contains 'http://' or str_check3 contains 'https://' or str_check3 contains '//' or str_check3 contains '/files/' or str_check3 contains '.pdf'
+          assign pdf_url = str_check3
         endif
       endif
     endif
   endif
 
-  if pdf_url == blank and mf_3 != blank
-    if mf_3.value.url != blank
-      assign pdf_url = mf_3.value.url
-    elsif mf_3.url != blank
-      assign pdf_url = mf_3.url
-    elsif mf_3.value != blank
-      assign temp_file = mf_3.value | file_url
-      if temp_file contains 'cdn.shopify.com' or temp_file contains '/files/'
-        assign pdf_url = temp_file
-      else
-        assign temp_str = mf_3.value | append: ''
-        if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
-          assign pdf_url = temp_str
-        endif
+  # 4. Check custom.test_report, custom.lab_test, custom.pdf_link, custom.report_url, custom.lab_report_pdf, custom.lab_test_report_link
+  if pdf_url == blank
+    assign mf_val4 = product.metafields.custom.test_report.value | default: product.metafields.custom.lab_test.value | default: product.metafields.custom.pdf_link.value | default: product.metafields.custom.report_url.value | default: product.metafields.custom.lab_report_pdf.value | default: product.metafields.custom.lab_test_report_link.value
+    if mf_val4.url != blank
+      assign pdf_url = mf_val4.url
+    elsif mf_val4 != blank
+      assign str_check4 = mf_val4 | append: ''
+      if str_check4 contains 'http://' or str_check4 contains 'https://' or str_check4 contains '//' or str_check4 contains '/files/' or str_check4 contains '.pdf'
+        assign pdf_url = str_check4
       endif
     endif
   endif
 
-  if pdf_url == blank and mf_4 != blank
-    if mf_4.value.url != blank
-      assign pdf_url = mf_4.value.url
-    elsif mf_4.url != blank
-      assign pdf_url = mf_4.url
-    elsif mf_4.value != blank
-      assign temp_str = mf_4.value | append: ''
-      if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
-        assign pdf_url = temp_str
-      endif
-    endif
-  endif
-
-  if pdf_url == blank and mf_5 != blank
-    if mf_5.value.url != blank
-      assign pdf_url = mf_5.value.url
-    elsif mf_5.url != blank
-      assign pdf_url = mf_5.url
-    elsif mf_5.value != blank
-      assign temp_str = mf_5.value | append: ''
-      if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
-        assign pdf_url = temp_str
-      endif
-    endif
-  endif
-
-  if pdf_url == blank and mf_6 != blank
-    if mf_6.value.url != blank
-      assign pdf_url = mf_6.value.url
-    elsif mf_6.url != blank
-      assign pdf_url = mf_6.url
-    elsif mf_6.value != blank
-      assign temp_str = mf_6.value | append: ''
-      if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
-        assign pdf_url = temp_str
-      endif
-    endif
-  endif
-
-  if pdf_url == blank and mf_7 != blank
-    if mf_7.value.url != blank
-      assign pdf_url = mf_7.value.url
-    elsif mf_7.url != blank
-      assign pdf_url = mf_7.url
-    elsif mf_7.value != blank
-      assign temp_str = mf_7.value | append: ''
-      if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
-        assign pdf_url = temp_str
-      endif
-    endif
-  endif
-
-  if pdf_url == blank and mf_8 != blank
-    if mf_8.value.url != blank
-      assign pdf_url = mf_8.value.url
-    elsif mf_8.url != blank
-      assign pdf_url = mf_8.url
-    elsif mf_8.value != blank
-      assign temp_str = mf_8.value | append: ''
-      if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
-        assign pdf_url = temp_str
-      endif
-    endif
-  endif
-
-  # Fallback: Parse embedded JSON string if Link object was converted to JSON string
+  # 5. Extract clean URL substring if embedded in JSON or text
   if pdf_url contains '"url":' or pdf_url contains '{"url"' or pdf_url contains '"url"'
     assign json_clean = pdf_url | replace: '"', ' ' | replace: '}', ' ' | replace: '{', ' '
     assign words = json_clean | split: ' '
@@ -155,90 +100,132 @@
     endfor
   endif
 
-  # Clean up residual quotes or braces and trim whitespace
-  assign pdf_url = pdf_url | replace: '"', '' | replace: '}', '' | replace: '{', '' | strip
+  assign pdf_url = pdf_url | strip
 
   # Fallback to block setting if pdf_url is blank
-  if pdf_url == blank and block.settings.pdf_url != blank
+  if pdf_url == blank and block and block.settings.pdf_url != blank
     assign pdf_url = block.settings.pdf_url
   endif
 
-  # Default fallback page if pdf_url is still blank (or when rendered on product page)
-  assign display_card = false
-  if pdf_url != blank
-    assign display_card = true
-  elsif block != blank
+  # Default fallback URL if pdf_url is blank
+  if pdf_url == blank
     assign pdf_url = '/pages/lab-report'
-    assign display_card = true
-  elsif request.design_mode
-    assign display_card = true
   endif
 
-  assign card_title = block.settings.title | default: 'Lab Test Report'
-  assign card_badge = block.settings.badge_text | default: 'VERIFIED'
-  assign card_subtitle = block.settings.subtitle | default: 'NABL-accredited purity & nutrition analysis (PDF)'
-  assign card_btn_text = block.settings.btn_text | default: 'Download'
+  # Card settings resolution
+  assign card_title = 'Lab Test Report'
+  if block and block.settings.title != blank
+    assign card_title = block.settings.title
+  endif
 
-  assign bg_color = block.settings.bg_color | default: '#FEF3C7'
-  assign border_color = block.settings.border_color | default: '#FDE68A'
-  assign title_color = block.settings.title_color | default: '#1E293B'
-  assign subtitle_color = block.settings.subtitle_color | default: '#475569'
-  assign badge_bg = block.settings.badge_bg | default: '#0284C7'
-  assign badge_color = block.settings.badge_color | default: '#FFFFFF'
-  assign btn_bg = block.settings.btn_bg | default: '#064E3B'
-  assign btn_color = block.settings.btn_color | default: '#FFFFFF'
+  assign card_badge = 'VERIFIED'
+  if block and block.settings.badge_text != blank
+    assign card_badge = block.settings.badge_text
+  endif
+
+  assign card_subtitle = 'NABL-accredited purity & nutrition analysis (PDF)'
+  if block and block.settings.subtitle != blank
+    assign card_subtitle = block.settings.subtitle
+  endif
+
+  assign card_btn_text = 'Download'
+  if block and block.settings.btn_text != blank
+    assign card_btn_text = block.settings.btn_text
+  endif
+
+  assign bg_color = '#FEF3C7'
+  if block and block.settings.bg_color != blank
+    assign bg_color = block.settings.bg_color
+  endif
+
+  assign border_color = '#FDE68A'
+  if block and block.settings.border_color != blank
+    assign border_color = block.settings.border_color
+  endif
+
+  assign title_color = '#1E293B'
+  if block and block.settings.title_color != blank
+    assign title_color = block.settings.title_color
+  endif
+
+  assign subtitle_color = '#475569'
+  if block and block.settings.subtitle_color != blank
+    assign subtitle_color = block.settings.subtitle_color
+  endif
+
+  assign badge_bg = '#0284C7'
+  if block and block.settings.badge_bg != blank
+    assign badge_bg = block.settings.badge_bg
+  endif
+
+  assign badge_color = '#FFFFFF'
+  if block and block.settings.badge_color != blank
+    assign badge_color = block.settings.badge_color
+  endif
+
+  assign btn_bg = '#064E3B'
+  if block and block.settings.btn_bg != blank
+    assign btn_bg = block.settings.btn_bg
+  endif
+
+  assign btn_color = '#FFFFFF'
+  if block and block.settings.btn_color != blank
+    assign btn_color = block.settings.btn_color
+  endif
 %}
 
-{% if display_card %}
-  <div
-    class="product-lab-report"
-    {% if block %}
-      {{ block.shopify_attributes }}
-    {% endif %}
-    style="
-      --lab-bg: {{ bg_color }};
-      --lab-border: {{ border_color }};
-      --lab-title-color: {{ title_color }};
-      --lab-sub-color: {{ subtitle_color }};
-      --lab-badge-bg: {{ badge_bg }};
-      --lab-badge-color: {{ badge_color }};
-      --lab-btn-bg: {{ btn_bg }};
-      --lab-btn-color: {{ btn_color }};
-    "
-  >
-    <div class="product-lab-report__main">
-      <div class="product-lab-report__icon-wrap">
-        <svg class="product-lab-report__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10 2v7.31L4.75 20.5a2 2 0 0 0 1.71 3h11.08a2 2 0 0 0 1.71-3L14 9.31V2"/>
-          <path d="M8.5 2h7"/>
-          <path d="M7 16h10"/>
-        </svg>
-      </div>
-      <div class="product-lab-report__content">
-        <div class="product-lab-report__header">
-          <span class="product-lab-report__title">{{ card_title }}</span>
-          {% if card_badge != blank %}
-            <span class="product-lab-report__badge">{{ card_badge }}</span>
-          {% endif %}
-        </div>
-        <div class="product-lab-report__subtitle">{{ card_subtitle }}</div>
-      </div>
+<div
+  class="product-lab-report"
+  {% if block %}
+    {{ block.shopify_attributes }}
+  {% endif %}
+  style="
+    --lab-bg: {{ bg_color }};
+    --lab-border: {{ border_color }};
+    --lab-title-color: {{ title_color }};
+    --lab-sub-color: {{ subtitle_color }};
+    --lab-badge-bg: {{ badge_bg }};
+    --lab-badge-color: {{ badge_color }};
+    --lab-btn-bg: {{ btn_bg }};
+    --lab-btn-color: {{ btn_color }};
+    margin: 1.25rem 0 !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  "
+>
+  <div class="product-lab-report__main">
+    <div class="product-lab-report__icon-wrap">
+      <svg class="product-lab-report__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 2v7.31L4.75 20.5a2 2 0 0 0 1.71 3h11.08a2 2 0 0 0 1.71-3L14 9.31V2"/>
+        <path d="M8.5 2h7"/>
+        <path d="M7 16h10"/>
+      </svg>
     </div>
-
-    <div class="product-lab-report__action">
-      <a
-        href="{{ pdf_url | default: '/pages/lab-report' }}"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="product-lab-report__btn"
-      >
-        <svg class="product-lab-report__btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="7 10 12 15 17 10"/>
-          <line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
-        <span>{{ card_btn_text }}</span>
-      </a>
+    <div class="product-lab-report__content">
+      <div class="product-lab-report__header">
+        <span class="product-lab-report__title">{{ card_title }}</span>
+        {% if card_badge != blank %}
+          <span class="product-lab-report__badge">{{ card_badge }}</span>
+        {% endif %}
+      </div>
+      <div class="product-lab-report__subtitle">{{ card_subtitle }}</div>
     </div>
   </div>
-{% endif %}
+
+  <div class="product-lab-report__action">
+    <a
+      href="{{ pdf_url }}"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="product-lab-report__btn"
+    >
+      <svg class="product-lab-report__btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      <span>{{ card_btn_text }}</span>
+    </a>
+  </div>
+</div>
