@@ -416,7 +416,12 @@
         "heading_box_height_mobile": 130,
         "heading_image_max_width": 1200,
         "heading_image_mobile_max_width": 800,
-        "products": [],
+        "products": [
+          "a2-desi-cow-vedic-bilona-ghee-देसी-वैदिक-बिलोना-घी",
+          "castor-oil-अरंडी-का-तेल",
+          "coconut-oil-नारियल-का-तेल",
+          "coriander-powder-धनिया-पाउडर"
+        ],
         "collection": "",
         "background_color": "#ffffff",
         "maximum": 4,
