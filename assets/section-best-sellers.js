@@ -31,26 +31,29 @@ document.addEventListener('DOMContentLoaded', () => {
           const filterRaw = tab.dataset.categoryFilter ? tab.dataset.categoryFilter.toLowerCase().trim() : 'all';
           const keywords = filterRaw.split(/\s+/).filter(Boolean);
 
+          let visibleCount = 0;
           slides.forEach((slide) => {
             if (slide.classList.contains('best-sellers__slide--more-card')) return;
             const categories = slide.dataset.productCategories ? slide.dataset.productCategories.toLowerCase() : slide.textContent.toLowerCase();
 
+            let isMatch = false;
             if (filterRaw === 'all' || filterRaw === 'all products' || keywords.includes('all')) {
-              slide.style.display = 'block';
+              isMatch = true;
             } else {
-              const matches = keywords.some((kw) => {
+              isMatch = keywords.some((kw) => {
                 let stem = kw;
                 if (stem.endsWith('s') && stem.length > 3 && !stem.endsWith('ss')) {
                   stem = stem.slice(0, -1);
                 }
                 return categories.includes(kw) || categories.includes(stem);
               });
+            }
 
-              if (matches) {
-                slide.style.display = 'block';
-              } else {
-                slide.style.display = 'none';
-              }
+            if (isMatch && visibleCount < 5) {
+              slide.style.display = 'block';
+              visibleCount++;
+            } else {
+              slide.style.display = 'none';
             }
           });
 

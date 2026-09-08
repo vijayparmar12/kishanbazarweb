@@ -97,7 +97,7 @@
         "heading_image_mobile_max_width": 460,
         "collection": "",
         "background_color": "#ffffff",
-        "maximum": 8,
+        "maximum": 5,
         "show_tabs": false,
         "show_cta_btn": true,
         "cta_label": "Shop More",
