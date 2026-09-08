@@ -102,9 +102,13 @@
 
   assign pdf_url = pdf_url | strip
 
-  # Fallback to block setting if pdf_url is blank
-  if pdf_url == blank and block and block.settings.pdf_url != blank
-    assign pdf_url = block.settings.pdf_url
+  # Fallback to block / section setting if pdf_url is blank
+  if pdf_url == blank
+    if block and block.settings.pdf_url != blank
+      assign pdf_url = block.settings.pdf_url
+    elsif section and section.settings.lab_report_pdf_url != blank
+      assign pdf_url = section.settings.lab_report_pdf_url
+    endif
   endif
 
   # Default fallback URL if pdf_url is blank
@@ -112,120 +116,154 @@
     assign pdf_url = '/pages/lab-report'
   endif
 
-  # Card settings resolution
+  # Check section level visibility toggle
+  assign show_card = true
+  if section and section.settings.show_lab_report == false
+    unless request.design_mode
+      assign show_card = false
+    endunless
+  endif
+
+  # Card settings resolution (Block Settings -> Section Settings -> Defaults)
   assign card_title = 'Lab Test Report'
   if block and block.settings.title != blank
     assign card_title = block.settings.title
+  elsif section and section.settings.lab_report_title != blank
+    assign card_title = section.settings.lab_report_title
   endif
 
   assign card_badge = 'VERIFIED'
   if block and block.settings.badge_text != blank
     assign card_badge = block.settings.badge_text
+  elsif section and section.settings.lab_report_badge != blank
+    assign card_badge = section.settings.lab_report_badge
   endif
 
   assign card_subtitle = 'NABL-accredited purity & nutrition analysis (PDF)'
   if block and block.settings.subtitle != blank
     assign card_subtitle = block.settings.subtitle
+  elsif section and section.settings.lab_report_subtitle != blank
+    assign card_subtitle = section.settings.lab_report_subtitle
   endif
 
   assign card_btn_text = 'Download'
   if block and block.settings.btn_text != blank
     assign card_btn_text = block.settings.btn_text
+  elsif section and section.settings.lab_report_btn_text != blank
+    assign card_btn_text = section.settings.lab_report_btn_text
   endif
 
   assign bg_color = '#FEF3C7'
   if block and block.settings.bg_color != blank
     assign bg_color = block.settings.bg_color
+  elsif section and section.settings.lab_report_bg_color != blank
+    assign bg_color = section.settings.lab_report_bg_color
   endif
 
   assign border_color = '#FDE68A'
   if block and block.settings.border_color != blank
     assign border_color = block.settings.border_color
+  elsif section and section.settings.lab_report_border_color != blank
+    assign border_color = section.settings.lab_report_border_color
   endif
 
   assign title_color = '#1E293B'
   if block and block.settings.title_color != blank
     assign title_color = block.settings.title_color
+  elsif section and section.settings.lab_report_title_color != blank
+    assign title_color = section.settings.lab_report_title_color
   endif
 
   assign subtitle_color = '#475569'
   if block and block.settings.subtitle_color != blank
     assign subtitle_color = block.settings.subtitle_color
+  elsif section and section.settings.lab_report_subtitle_color != blank
+    assign subtitle_color = section.settings.lab_report_subtitle_color
   endif
 
   assign badge_bg = '#0284C7'
   if block and block.settings.badge_bg != blank
     assign badge_bg = block.settings.badge_bg
+  elsif section and section.settings.lab_report_badge_bg != blank
+    assign badge_bg = section.settings.lab_report_badge_bg
   endif
 
   assign badge_color = '#FFFFFF'
   if block and block.settings.badge_color != blank
     assign badge_color = block.settings.badge_color
+  elsif section and section.settings.lab_report_badge_color != blank
+    assign badge_color = section.settings.lab_report_badge_color
   endif
 
   assign btn_bg = '#064E3B'
   if block and block.settings.btn_bg != blank
     assign btn_bg = block.settings.btn_bg
+  elsif section and section.settings.lab_report_btn_bg != blank
+    assign btn_bg = section.settings.lab_report_btn_bg
   endif
 
   assign btn_color = '#FFFFFF'
   if block and block.settings.btn_color != blank
     assign btn_color = block.settings.btn_color
+  elsif section and section.settings.lab_report_btn_color != blank
+    assign btn_color = section.settings.lab_report_btn_color
   endif
 %}
 
-<div
-  class="product-lab-report"
-  {% if block %}
-    {{ block.shopify_attributes }}
-  {% endif %}
-  style="
-    --lab-bg: {{ bg_color }};
-    --lab-border: {{ border_color }};
-    --lab-title-color: {{ title_color }};
-    --lab-sub-color: {{ subtitle_color }};
-    --lab-badge-bg: {{ badge_bg }};
-    --lab-badge-color: {{ badge_color }};
-    --lab-btn-bg: {{ btn_bg }};
-    --lab-btn-color: {{ btn_color }};
-    margin: 1.25rem 0 !important;
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  "
->
-  <div class="product-lab-report__main">
-    <div class="product-lab-report__icon-wrap">
-      <svg class="product-lab-report__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10 2v7.31L4.75 20.5a2 2 0 0 0 1.71 3h11.08a2 2 0 0 0 1.71-3L14 9.31V2"/>
-        <path d="M8.5 2h7"/>
-        <path d="M7 16h10"/>
-      </svg>
-    </div>
-    <div class="product-lab-report__content">
-      <div class="product-lab-report__header">
-        <span class="product-lab-report__title">{{ card_title }}</span>
-        {% if card_badge != blank %}
-          <span class="product-lab-report__badge">{{ card_badge }}</span>
-        {% endif %}
+{% if show_card %}
+  <div
+    class="product-lab-report"
+    {% if block %}
+      {{ block.shopify_attributes }}
+    {% endif %}
+    style="
+      --lab-bg: {{ bg_color }};
+      --lab-border: {{ border_color }};
+      --lab-title-color: {{ title_color }};
+      --lab-sub-color: {{ subtitle_color }};
+      --lab-badge-bg: {{ badge_bg }};
+      --lab-badge-color: {{ badge_color }};
+      --lab-btn-bg: {{ btn_bg }};
+      --lab-btn-color: {{ btn_color }};
+      margin: 1.25rem 0 !important;
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    "
+  >
+    <div class="product-lab-report__main">
+      <div class="product-lab-report__icon-wrap">
+        <svg class="product-lab-report__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 2v7.31L4.75 20.5a2 2 0 0 0 1.71 3h11.08a2 2 0 0 0 1.71-3L14 9.31V2"/>
+          <path d="M8.5 2h7"/>
+          <path d="M7 16h10"/>
+        </svg>
       </div>
-      <div class="product-lab-report__subtitle">{{ card_subtitle }}</div>
+      <div class="product-lab-report__content">
+        <div class="product-lab-report__header">
+          <span class="product-lab-report__title">{{ card_title }}</span>
+          {% if card_badge != blank %}
+            <span class="product-lab-report__badge">{{ card_badge }}</span>
+          {% endif %}
+        </div>
+        <div class="product-lab-report__subtitle">{{ card_subtitle }}</div>
+      </div>
+    </div>
+
+    <div class="product-lab-report__action">
+      <a
+        href="{{ pdf_url }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="product-lab-report__btn"
+      >
+        <svg class="product-lab-report__btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        <span>{{ card_btn_text }}</span>
+      </a>
     </div>
   </div>
-
-  <div class="product-lab-report__action">
-    <a
-      href="{{ pdf_url }}"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="product-lab-report__btn"
-    >
-      <svg class="product-lab-report__btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-        <polyline points="7 10 12 15 17 10"/>
-        <line x1="12" y1="15" x2="12" y2="3"/>
-      </svg>
-      <span>{{ card_btn_text }}</span>
-    </a>
-  </div>
-</div>
+{% endif %}

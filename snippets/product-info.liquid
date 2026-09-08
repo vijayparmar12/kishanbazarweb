@@ -257,7 +257,7 @@
             </div>
           {% endform %}
           {% unless has_lab_report_block %}
-            {% render 'product-lab-report', product: product %}
+            {% render 'product-lab-report', product: product, section: section %}
           {% endunless %}
 
         {% when 'description' %}
@@ -326,7 +326,7 @@
 
         {% when 'lab_report' %}
           <div class="product-info__lab-report-block" {{ block.shopify_attributes }}>
-            {% render 'product-lab-report', product: product, block: block %}
+            {% render 'product-lab-report', product: product, block: block, section: section %}
           </div>
 
       {% endcase %}
