@@ -342,7 +342,7 @@
         {% comment %} 1. Render products from Category Tab Collections first {% endcomment %}
         {% for block in category_blocks %}
           {% if block.settings.collection != blank and block.settings.collection.products_count > 0 %}
-            {% for product in block.settings.collection.products limit: 5 %}
+            {% for product in block.settings.collection.products limit: 4 %}
               {% assign handles_arr = rendered_handles_str | split: '|' %}
               {% unless handles_arr contains product.handle %}
                 {% assign rendered_handles_str = rendered_handles_str | append: product.handle | append: '|' %}
@@ -475,7 +475,7 @@
     { "type": "image_picker", "id": "background_image", "label": "Custom Background Image" },
     { "type": "image_picker", "id": "background_image_mobile", "label": "Custom Mobile Background Image (Optional)" },
     { "type": "color", "id": "background_color", "label": "Background Color", "default": "#FFFFFF" },
-    { "type": "range", "id": "maximum", "label": "Maximum products", "min": 2, "max": 16, "step": 1, "default": 5 },
+    { "type": "range", "id": "maximum", "label": "Maximum products", "min": 2, "max": 16, "step": 1, "default": 4 },
     { "type": "checkbox", "id": "show_tabs", "label": "Show category filter tabs (Ghee, Oil, Atta, etc.)", "default": true },
     { "type": "checkbox", "id": "show_cta_btn", "label": "Show 'Shop More' button", "default": true },
     { "type": "text", "id": "cta_label", "label": "Button text label", "default": "Shop More" },

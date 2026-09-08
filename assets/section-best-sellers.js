@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
               });
             }
 
-            if (isMatch && visibleCount < 5) {
+            if (isMatch && visibleCount < 4) {
               slide.style.display = 'block';
               visibleCount++;
             } else {
