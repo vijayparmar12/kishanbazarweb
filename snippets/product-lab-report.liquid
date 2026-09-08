@@ -10,56 +10,169 @@
 
 {% liquid
   assign pdf_url = ''
-  
-  # Try all potential custom metafield keys & types (File, Link, URL, Text)
-  assign m_1 = product.metafields.custom.lab_test_report.value | default: product.metafields.custom.lab_test_report
-  assign m_2 = product.metafields.custom.pdf_report.value | default: product.metafields.custom.pdf_report
-  assign m_3 = product.metafields.custom.lab_report.value | default: product.metafields.custom.lab_report
-  assign m_4 = product.metafields.custom.test_report.value | default: product.metafields.custom.test_report
-  assign m_5 = product.metafields.custom.lab_test.value | default: product.metafields.custom.lab_test
-  assign m_6 = product.metafields.custom.pdf_link.value | default: product.metafields.custom.pdf_link
 
-  assign chosen_mf = blank
-  if m_1 != blank
-    assign chosen_mf = m_1
-  elsif m_2 != blank
-    assign chosen_mf = m_2
-  elsif m_3 != blank
-    assign chosen_mf = m_3
-  elsif m_4 != blank
-    assign chosen_mf = m_4
-  elsif m_5 != blank
-    assign chosen_mf = m_5
-  elsif m_6 != blank
-    assign chosen_mf = m_6
-  elsif block.settings.pdf_url != blank
-    assign chosen_mf = block.settings.pdf_url
-  endif
+  # Candidate product metafields (order of priority)
+  assign mf_1 = product.metafields.custom.lab_test_report
+  assign mf_2 = product.metafields.custom.pdf_report
+  assign mf_3 = product.metafields.custom.lab_report
+  assign mf_4 = product.metafields.custom.test_report
+  assign mf_5 = product.metafields.custom.lab_test
+  assign mf_6 = product.metafields.custom.pdf_link
+  assign mf_7 = product.metafields.custom.lab_report_pdf
+  assign mf_8 = product.metafields.custom.lab_test_report_link
 
-  # Now extract clean string URL from chosen_mf
-  if chosen_mf != blank
-    if chosen_mf.url != blank
-      assign pdf_url = chosen_mf.url
-    elsif chosen_mf.preview_image != blank
-      assign pdf_url = chosen_mf | file_url
-    else
-      assign pdf_url = chosen_mf | append: ''
+  # Helper logic to extract valid URL from a metafield object (Link drop, File drop, URL, String, JSON)
+  if mf_1 != blank
+    if mf_1.value.url != blank
+      assign pdf_url = mf_1.value.url
+    elsif mf_1.url != blank
+      assign pdf_url = mf_1.url
+    elsif mf_1.value.target != blank
+      assign pdf_url = mf_1.value.target
+    elsif mf_1.value != blank
+      assign temp_file = mf_1.value | file_url
+      if temp_file contains 'cdn.shopify.com' or temp_file contains '/files/'
+        assign pdf_url = temp_file
+      else
+        assign temp_str = mf_1.value | append: ''
+        if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
+          assign pdf_url = temp_str
+        endif
+      endif
     endif
   endif
 
-  # Parse JSON string if chosen_mf was a raw Link object representation
-  if pdf_url contains '"url":' or pdf_url contains '{"url"'
-    assign parts = pdf_url | split: '"url":'
-    assign url_part = parts[1] | split: '"'
-    if url_part[1] != blank
-      assign pdf_url = url_part[1]
-    elsif url_part[0] != blank
-      assign pdf_url = url_part[0]
+  if pdf_url == blank and mf_2 != blank
+    if mf_2.value.url != blank
+      assign pdf_url = mf_2.value.url
+    elsif mf_2.url != blank
+      assign pdf_url = mf_2.url
+    elsif mf_2.value != blank
+      assign temp_file = mf_2.value | file_url
+      if temp_file contains 'cdn.shopify.com' or temp_file contains '/files/'
+        assign pdf_url = temp_file
+      else
+        assign temp_str = mf_2.value | append: ''
+        if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
+          assign pdf_url = temp_str
+        endif
+      endif
     endif
+  endif
+
+  if pdf_url == blank and mf_3 != blank
+    if mf_3.value.url != blank
+      assign pdf_url = mf_3.value.url
+    elsif mf_3.url != blank
+      assign pdf_url = mf_3.url
+    elsif mf_3.value != blank
+      assign temp_file = mf_3.value | file_url
+      if temp_file contains 'cdn.shopify.com' or temp_file contains '/files/'
+        assign pdf_url = temp_file
+      else
+        assign temp_str = mf_3.value | append: ''
+        if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
+          assign pdf_url = temp_str
+        endif
+      endif
+    endif
+  endif
+
+  if pdf_url == blank and mf_4 != blank
+    if mf_4.value.url != blank
+      assign pdf_url = mf_4.value.url
+    elsif mf_4.url != blank
+      assign pdf_url = mf_4.url
+    elsif mf_4.value != blank
+      assign temp_str = mf_4.value | append: ''
+      if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
+        assign pdf_url = temp_str
+      endif
+    endif
+  endif
+
+  if pdf_url == blank and mf_5 != blank
+    if mf_5.value.url != blank
+      assign pdf_url = mf_5.value.url
+    elsif mf_5.url != blank
+      assign pdf_url = mf_5.url
+    elsif mf_5.value != blank
+      assign temp_str = mf_5.value | append: ''
+      if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
+        assign pdf_url = temp_str
+      endif
+    endif
+  endif
+
+  if pdf_url == blank and mf_6 != blank
+    if mf_6.value.url != blank
+      assign pdf_url = mf_6.value.url
+    elsif mf_6.url != blank
+      assign pdf_url = mf_6.url
+    elsif mf_6.value != blank
+      assign temp_str = mf_6.value | append: ''
+      if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
+        assign pdf_url = temp_str
+      endif
+    endif
+  endif
+
+  if pdf_url == blank and mf_7 != blank
+    if mf_7.value.url != blank
+      assign pdf_url = mf_7.value.url
+    elsif mf_7.url != blank
+      assign pdf_url = mf_7.url
+    elsif mf_7.value != blank
+      assign temp_str = mf_7.value | append: ''
+      if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
+        assign pdf_url = temp_str
+      endif
+    endif
+  endif
+
+  if pdf_url == blank and mf_8 != blank
+    if mf_8.value.url != blank
+      assign pdf_url = mf_8.value.url
+    elsif mf_8.url != blank
+      assign pdf_url = mf_8.url
+    elsif mf_8.value != blank
+      assign temp_str = mf_8.value | append: ''
+      if temp_str contains 'http://' or temp_str contains 'https://' or temp_str contains '//' or temp_str contains '/files/' or temp_str contains '.pdf'
+        assign pdf_url = temp_str
+      endif
+    endif
+  endif
+
+  # Fallback: Parse embedded JSON string if Link object was converted to JSON string
+  if pdf_url contains '"url":' or pdf_url contains '{"url"' or pdf_url contains '"url"'
+    assign json_clean = pdf_url | replace: '"', ' ' | replace: '}', ' ' | replace: '{', ' '
+    assign words = json_clean | split: ' '
+    for word in words
+      if word contains 'http://' or word contains 'https://' or word contains '//cdn' or word contains '/files/'
+        assign pdf_url = word | strip
+        break
+      endif
+    endfor
   endif
 
   # Clean up residual quotes or braces and trim whitespace
   assign pdf_url = pdf_url | replace: '"', '' | replace: '}', '' | replace: '{', '' | strip
+
+  # Fallback to block setting if pdf_url is blank
+  if pdf_url == blank and block.settings.pdf_url != blank
+    assign pdf_url = block.settings.pdf_url
+  endif
+
+  # Default fallback page if pdf_url is still blank (or when rendered on product page)
+  assign display_card = false
+  if pdf_url != blank
+    assign display_card = true
+  elsif block != blank
+    assign pdf_url = '/pages/lab-report'
+    assign display_card = true
+  elsif request.design_mode
+    assign display_card = true
+  endif
 
   assign card_title = block.settings.title | default: 'Lab Test Report'
   assign card_badge = block.settings.badge_text | default: 'VERIFIED'
@@ -76,7 +189,7 @@
   assign btn_color = block.settings.btn_color | default: '#FFFFFF'
 %}
 
-{% if pdf_url != blank or request.design_mode %}
+{% if display_card %}
   <div
     class="product-lab-report"
     {% if block %}
@@ -114,7 +227,7 @@
 
     <div class="product-lab-report__action">
       <a
-        href="{{ pdf_url | default: '#' }}"
+        href="{{ pdf_url | default: '/pages/lab-report' }}"
         target="_blank"
         rel="noopener noreferrer"
         class="product-lab-report__btn"
