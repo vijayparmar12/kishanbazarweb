@@ -11,9 +11,9 @@
 {% liquid
   assign pdf_url = ''
 
-  # 1. Check custom.lab_test_report (As configured in Shopify admin)
-  assign mf_val1 = product.metafields.custom.lab_test_report.value
-  assign mf_obj1 = product.metafields.custom.lab_test_report
+  # 1. Check custom.custom_lab_test_report or custom.lab_test_report (As configured in Shopify admin)
+  assign mf_val1 = product.metafields.custom.custom_lab_test_report.value | default: product.metafields.custom.lab_test_report.value
+  assign mf_obj1 = product.metafields.custom.custom_lab_test_report | default: product.metafields.custom.lab_test_report
 
   if mf_val1.url != blank
     assign pdf_url = mf_val1.url
@@ -33,10 +33,10 @@
     endif
   endif
 
-  # 2. Check custom.pdf_report
+  # 2. Check custom.custom_pdf_report or custom.pdf_report
   if pdf_url == blank
-    assign mf_val2 = product.metafields.custom.pdf_report.value
-    assign mf_obj2 = product.metafields.custom.pdf_report
+    assign mf_val2 = product.metafields.custom.custom_pdf_report.value | default: product.metafields.custom.pdf_report.value
+    assign mf_obj2 = product.metafields.custom.custom_pdf_report | default: product.metafields.custom.pdf_report
     if mf_val2.url != blank
       assign pdf_url = mf_val2.url
     elsif mf_obj2.url != blank
@@ -54,10 +54,10 @@
     endif
   endif
 
-  # 3. Check custom.lab_report
+  # 3. Check custom.custom_lab_report or custom.lab_report
   if pdf_url == blank
-    assign mf_val3 = product.metafields.custom.lab_report.value
-    assign mf_obj3 = product.metafields.custom.lab_report
+    assign mf_val3 = product.metafields.custom.custom_lab_report.value | default: product.metafields.custom.lab_report.value
+    assign mf_obj3 = product.metafields.custom.custom_lab_report | default: product.metafields.custom.lab_report
     if mf_val3.url != blank
       assign pdf_url = mf_val3.url
     elsif mf_obj3.url != blank
@@ -75,9 +75,9 @@
     endif
   endif
 
-  # 4. Check custom.test_report, custom.lab_test, custom.pdf_link, custom.report_url, custom.lab_report_pdf, custom.lab_test_report_link
+  # 4. Check custom.custom_test_report, custom.test_report, custom.lab_test, custom.pdf_link, custom.report_url, custom.lab_report_pdf, custom.lab_test_report_link
   if pdf_url == blank
-    assign mf_val4 = product.metafields.custom.test_report.value | default: product.metafields.custom.lab_test.value | default: product.metafields.custom.pdf_link.value | default: product.metafields.custom.report_url.value | default: product.metafields.custom.lab_report_pdf.value | default: product.metafields.custom.lab_test_report_link.value
+    assign mf_val4 = product.metafields.custom.custom_test_report.value | default: product.metafields.custom.test_report.value | default: product.metafields.custom.lab_test.value | default: product.metafields.custom.pdf_link.value | default: product.metafields.custom.report_url.value | default: product.metafields.custom.lab_report_pdf.value | default: product.metafields.custom.lab_test_report_link.value
     if mf_val4.url != blank
       assign pdf_url = mf_val4.url
     elsif mf_val4 != blank
@@ -104,7 +104,9 @@
 
   # Fallback to block / section setting if pdf_url is blank
   if pdf_url == blank
-    if block and block.settings.pdf_url != blank
+    if block and block.settings.pdf_file != blank
+      assign pdf_url = block.settings.pdf_file | file_url
+    elsif block and block.settings.pdf_url != blank
       assign pdf_url = block.settings.pdf_url
     elsif section and section.settings.lab_report_pdf_url != blank
       assign pdf_url = section.settings.lab_report_pdf_url
