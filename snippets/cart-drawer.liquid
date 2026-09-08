@@ -210,14 +210,9 @@
           <div class="kb-cart-estimated-label">
             <span class="kb-cart-estimated-tag-icon">₹</span>
             <strong>{{ estimated_total_label }}</strong>
-            <span class="kb-cart-shipping-note" data-cart-shipping-note style="{% if cart.total_price >= free_ship_val or cart.item_count == 0 %}display: none;{% endif %} font-size: 0.75rem; color: #b45309; margin-left: 6px; font-weight: 700;">(+₹{{ shipping_fee_num }} Shipping)</span>
           </div>
           <div class="kb-cart-estimated-prices">
-            {% assign final_estimated_total = cart.total_price %}
-            {% if cart.total_price < free_ship_val and cart.item_count > 0 and shipping_fee_num > 0 %}
-              {% assign final_estimated_total = cart.total_price | plus: shipping_fee_cents %}
-            {% endif %}
-            <strong class="kb-cart-estimated-final" data-cart-drawer-subtotal>{{ final_estimated_total | money }}</strong>
+            <strong class="kb-cart-estimated-final" data-cart-drawer-subtotal>{{ cart.total_price | money }}</strong>
             <s class="kb-cart-estimated-original" data-cart-drawer-original-total {% if total_saved <= 0 %}style="display: none;"{% endif %}>{{ cart_original_price | money }}</s>
           </div>
         </div>

@@ -253,21 +253,7 @@
       if (progress) progress.style.setProperty('display', 'block', 'important');
     }
     const subtotal = drawer.querySelector('[data-cart-drawer-subtotal]');
-    const shippingNote = drawer.querySelector('[data-cart-shipping-note]');
-    const shippingFeeNum = Math.round(shippingFeeCents / 100);
-
-    let estimatedTotalCents = cart.total_price;
-    if (cart.item_count > 0 && cart.total_price < thresholdCents && shippingFeeCents > 0) {
-      estimatedTotalCents += shippingFeeCents;
-      if (shippingNote) {
-        shippingNote.textContent = `(+₹${shippingFeeNum} Shipping)`;
-        shippingNote.style.display = 'inline';
-      }
-    } else {
-      if (shippingNote) shippingNote.style.display = 'none';
-    }
-
-    if (subtotal) subtotal.textContent = formatMoney(estimatedTotalCents);
+    if (subtotal) subtotal.textContent = formatMoney(cart.total_price);
 
     // Calculate dynamic savings across all line items (Rosier Foods Style)
     let totalCompare = 0;
