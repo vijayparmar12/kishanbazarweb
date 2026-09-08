@@ -11,24 +11,61 @@
 {% liquid
   assign pdf_url = ''
 
-  # 1. Check custom.custom_lab_test_report or custom.lab_test_report (As configured in Shopify admin)
-  assign mf_val1 = product.metafields.custom.custom_lab_test_report.value | default: product.metafields.custom.lab_test_report.value
-  assign mf_obj1 = product.metafields.custom.custom_lab_test_report | default: product.metafields.custom.lab_test_report
+  # 0. Dynamic scan of product.metafields.custom for any key containing lab, pdf, report, or test
+  for mf_entry in product.metafields.custom
+    assign mf_key = mf_entry[0] | downcase
+    if mf_key contains 'lab' or mf_key contains 'pdf' or mf_key contains 'report' or mf_key contains 'test'
+      assign mf_item = mf_entry[1]
+      assign mf_val = mf_item.value | default: mf_item
+      
+      if mf_val.url != blank
+        assign pdf_url = mf_val.url
+        break
+      elsif mf_item.url != blank
+        assign pdf_url = mf_item.url
+        break
+      elsif mf_val.target != blank
+        assign pdf_url = mf_val.target
+        break
+      elsif mf_val.text != blank and mf_val.text contains 'http'
+        assign pdf_url = mf_val.text
+        break
+      elsif mf_val != blank
+        assign file_chk = mf_val | file_url
+        if file_chk contains 'cdn.shopify.com' or file_chk contains '/files/'
+          assign pdf_url = file_chk
+          break
+        else
+          assign str_chk = mf_val | append: ''
+          if str_chk contains 'http://' or str_chk contains 'https://' or str_chk contains '//' or str_chk contains '/files/' or str_chk contains '.pdf'
+            assign pdf_url = str_chk
+            break
+          endif
+        endif
+      endif
+    endif
+  endfor
 
-  if mf_val1.url != blank
-    assign pdf_url = mf_val1.url
-  elsif mf_obj1.url != blank
-    assign pdf_url = mf_obj1.url
-  elsif mf_val1.target != blank
-    assign pdf_url = mf_val1.target
-  elsif mf_val1 != blank
-    assign file_check1 = mf_val1 | file_url
-    if file_check1 contains 'cdn.shopify.com' or file_check1 contains '/files/'
-      assign pdf_url = file_check1
-    else
-      assign str_check1 = mf_val1 | append: ''
-      if str_check1 contains 'http://' or str_check1 contains 'https://' or str_check1 contains '//' or str_check1 contains '/files/' or str_check1 contains '.pdf'
-        assign pdf_url = str_check1
+  # 1. Direct explicit check for custom_lab_test_report1, lab_test_report1, custom_lab_test_report, lab_test_report
+  if pdf_url == blank
+    assign mf_val1 = product.metafields.custom.custom_lab_test_report1.value | default: product.metafields.custom.lab_test_report1.value | default: product.metafields.custom.custom_lab_test_report.value | default: product.metafields.custom.lab_test_report.value
+    assign mf_obj1 = product.metafields.custom.custom_lab_test_report1 | default: product.metafields.custom.lab_test_report1 | default: product.metafields.custom.custom_lab_test_report | default: product.metafields.custom.lab_test_report
+
+    if mf_val1.url != blank
+      assign pdf_url = mf_val1.url
+    elsif mf_obj1.url != blank
+      assign pdf_url = mf_obj1.url
+    elsif mf_val1.target != blank
+      assign pdf_url = mf_val1.target
+    elsif mf_val1 != blank
+      assign file_check1 = mf_val1 | file_url
+      if file_check1 contains 'cdn.shopify.com' or file_check1 contains '/files/'
+        assign pdf_url = file_check1
+      else
+        assign str_check1 = mf_val1 | append: ''
+        if str_check1 contains 'http://' or str_check1 contains 'https://' or str_check1 contains '//' or str_check1 contains '/files/' or str_check1 contains '.pdf'
+          assign pdf_url = str_check1
+        endif
       endif
     endif
   endif
