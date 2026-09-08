@@ -329,90 +329,117 @@
     </div>
   {% endfor %}
 
-  {% if displayed_collection != blank and displayed_collection.products_count > 0 %}
+  {% assign selected_prods = section.settings.products %}
+  {% if selected_prods != blank and selected_prods.count > 0 or displayed_collection != blank and displayed_collection.products_count > 0 %}
     <div class="best-sellers__carousel-wrapper">
       <button type="button" class="best-sellers__arrow best-sellers__arrow--prev" data-best-sellers-prev aria-label="Previous products">
         {% render 'icon', name: 'arrow', size: 18 %}
       </button>
 
       <div class="best-sellers__track" data-best-sellers-track>
-        {% assign category_blocks = section.blocks | where: 'type', 'category_tab' %}
         {% assign rendered_handles_str = '' %}
 
-        {% comment %} 1. Render products from Category Tab Collections first {% endcomment %}
-        {% for block in category_blocks %}
-          {% if block.settings.collection != blank and block.settings.collection.products_count > 0 %}
-            {% for product in block.settings.collection.products limit: 4 %}
-              {% assign handles_arr = rendered_handles_str | split: '|' %}
-              {% unless handles_arr contains product.handle %}
-                {% assign rendered_handles_str = rendered_handles_str | append: product.handle | append: '|' %}
-
-                {% capture prod_cat_str %}
-                  {{ product.title | downcase }}
-                  {{ product.type | downcase }}
-                  {{ block.settings.title | downcase }}
-                  {{ block.settings.collection.title | downcase }}
-                  {{ block.settings.collection.handle | downcase }}
-                  {% for tag in product.tags %}{{ tag | downcase }} {% endfor %}
-                  {% for col in product.collections %}{{ col.title | downcase }} {{ col.handle | downcase }} {% endfor %}
-                {% endcapture %}
-
-                <div class="best-sellers__slide" data-best-sellers-slide data-product-categories="{{ prod_cat_str | escape }}">
-                  {% render 'product-card',
-                    product: product,
-                    card_blocks: section.blocks,
-                    show_badge: section.settings.show_badge,
-                    show_wishlist: section.settings.show_wishlist,
-                    show_subtitle: section.settings.show_subtitle,
-                    show_rating: section.settings.show_rating,
-                    show_benefit_icons: section.settings.show_benefit_icons,
-                    show_variant_selector: section.settings.show_variant_selector,
-                    show_add_to_cart: section.settings.show_add_to_cart
-                  %}
-                </div>
-              {% endunless %}
-            {% endfor %}
-          {% endif %}
-        {% endfor %}
-
-        {% comment %} 2. Render remaining products from main collection or manual product selection {% endcomment %}
-        {% assign selected_prods = section.settings.products %}
         {% if selected_prods != blank and selected_prods.count > 0 %}
-          {% assign main_products = selected_prods %}
+          {% for product in selected_prods limit: section.settings.maximum %}
+            {% assign handles_arr = rendered_handles_str | split: '|' %}
+            {% unless handles_arr contains product.handle %}
+              {% assign rendered_handles_str = rendered_handles_str | append: product.handle | append: '|' %}
+
+              {% capture prod_cat_str %}
+                {{ product.title | downcase }}
+                {{ product.type | downcase }}
+                {% for tag in product.tags %}{{ tag | downcase }} {% endfor %}
+                {% for col in product.collections %}{{ col.title | downcase }} {{ col.handle | downcase }} {% endfor %}
+              {% endcapture %}
+
+              <div class="best-sellers__slide" data-best-sellers-slide data-product-categories="{{ prod_cat_str | escape }}">
+                {% render 'product-card',
+                  product: product,
+                  card_blocks: section.blocks,
+                  show_badge: section.settings.show_badge,
+                  show_wishlist: section.settings.show_wishlist,
+                  show_subtitle: section.settings.show_subtitle,
+                  show_rating: section.settings.show_rating,
+                  show_benefit_icons: section.settings.show_benefit_icons,
+                  show_variant_selector: section.settings.show_variant_selector,
+                  show_add_to_cart: section.settings.show_add_to_cart
+                %}
+              </div>
+            {% endunless %}
+          {% endfor %}
         {% else %}
+          {% assign category_blocks = section.blocks | where: 'type', 'category_tab' %}
+
+          {% comment %} 1. Render products from Category Tab Collections first {% endcomment %}
+          {% for block in category_blocks %}
+            {% if block.settings.collection != blank and block.settings.collection.products_count > 0 %}
+              {% for product in block.settings.collection.products limit: 4 %}
+                {% assign handles_arr = rendered_handles_str | split: '|' %}
+                {% unless handles_arr contains product.handle %}
+                  {% assign rendered_handles_str = rendered_handles_str | append: product.handle | append: '|' %}
+
+                  {% capture prod_cat_str %}
+                    {{ product.title | downcase }}
+                    {{ product.type | downcase }}
+                    {{ block.settings.title | downcase }}
+                    {{ block.settings.collection.title | downcase }}
+                    {{ block.settings.collection.handle | downcase }}
+                    {% for tag in product.tags %}{{ tag | downcase }} {% endfor %}
+                    {% for col in product.collections %}{{ col.title | downcase }} {{ col.handle | downcase }} {% endfor %}
+                  {% endcapture %}
+
+                  <div class="best-sellers__slide" data-best-sellers-slide data-product-categories="{{ prod_cat_str | escape }}">
+                    {% render 'product-card',
+                      product: product,
+                      card_blocks: section.blocks,
+                      show_badge: section.settings.show_badge,
+                      show_wishlist: section.settings.show_wishlist,
+                      show_subtitle: section.settings.show_subtitle,
+                      show_rating: section.settings.show_rating,
+                      show_benefit_icons: section.settings.show_benefit_icons,
+                      show_variant_selector: section.settings.show_variant_selector,
+                      show_add_to_cart: section.settings.show_add_to_cart
+                    %}
+                  </div>
+                {% endunless %}
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+
+          {% comment %} 2. Render remaining products from main collection {% endcomment %}
           {% assign main_products = displayed_collection.products %}
           {% if main_products == blank or main_products.size == 0 %}
             {% assign main_products = collections['all'].products %}
           {% endif %}
+
+          {% for product in main_products limit: section.settings.maximum %}
+            {% assign handles_arr = rendered_handles_str | split: '|' %}
+            {% unless handles_arr contains product.handle %}
+              {% assign rendered_handles_str = rendered_handles_str | append: product.handle | append: '|' %}
+
+              {% capture prod_cat_str %}
+                {{ product.title | downcase }}
+                {{ product.type | downcase }}
+                {% for tag in product.tags %}{{ tag | downcase }} {% endfor %}
+                {% for col in product.collections %}{{ col.title | downcase }} {{ col.handle | downcase }} {% endfor %}
+              {% endcapture %}
+
+              <div class="best-sellers__slide" data-best-sellers-slide data-product-categories="{{ prod_cat_str | escape }}">
+                {% render 'product-card',
+                  product: product,
+                  card_blocks: section.blocks,
+                  show_badge: section.settings.show_badge,
+                  show_wishlist: section.settings.show_wishlist,
+                  show_subtitle: section.settings.show_subtitle,
+                  show_rating: section.settings.show_rating,
+                  show_benefit_icons: section.settings.show_benefit_icons,
+                  show_variant_selector: section.settings.show_variant_selector,
+                  show_add_to_cart: section.settings.show_add_to_cart
+                %}
+              </div>
+            {% endunless %}
+          {% endfor %}
         {% endif %}
-
-        {% for product in main_products limit: section.settings.maximum %}
-          {% assign handles_arr = rendered_handles_str | split: '|' %}
-          {% unless handles_arr contains product.handle %}
-            {% assign rendered_handles_str = rendered_handles_str | append: product.handle | append: '|' %}
-
-            {% capture prod_cat_str %}
-              {{ product.title | downcase }}
-              {{ product.type | downcase }}
-              {% for tag in product.tags %}{{ tag | downcase }} {% endfor %}
-              {% for col in product.collections %}{{ col.title | downcase }} {{ col.handle | downcase }} {% endfor %}
-            {% endcapture %}
-
-            <div class="best-sellers__slide" data-best-sellers-slide data-product-categories="{{ prod_cat_str | escape }}">
-              {% render 'product-card',
-                product: product,
-                card_blocks: section.blocks,
-                show_badge: section.settings.show_badge,
-                show_wishlist: section.settings.show_wishlist,
-                show_subtitle: section.settings.show_subtitle,
-                show_rating: section.settings.show_rating,
-                show_benefit_icons: section.settings.show_benefit_icons,
-                show_variant_selector: section.settings.show_variant_selector,
-                show_add_to_cart: section.settings.show_add_to_cart
-              %}
-            </div>
-          {% endunless %}
-        {% endfor %}
 
         <!-- End of Track "More" Circle Card (Matching Google Deals / User Reference Image) -->
         <div class="best-sellers__slide best-sellers__slide--more-card">
