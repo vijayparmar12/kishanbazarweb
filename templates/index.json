@@ -15,28 +15,42 @@
         "mobile_hero_slide_AeVwdM": {
           "type": "mobile_hero_slide",
           "settings": {
-            "image": "shopify://shop_images/image-optimizer-preview-origin.png",
+            "image": "shopify://shop_images/hero_banner.webp",
             "link": ""
           }
         },
         "mobile_hero_slide_VMx9iy": {
           "type": "mobile_hero_slide",
           "settings": {
-            "image": "shopify://shop_images/person-fishing-on-the-beach-is-silhouetted-at-sunset.jpg",
+            "image": "shopify://shop_images/GHEE.webp",
+            "link": ""
+          }
+        },
+        "mobile_hero_slide_76YbfF": {
+          "type": "mobile_hero_slide",
+          "settings": {
+            "image": "shopify://shop_images/our_story.webp",
             "link": ""
           }
         },
         "right_top_slide_KyU4Gc": {
           "type": "right_top_slide",
           "settings": {
-            "image": "shopify://shop_images/image-optimizer-preview-origin.png",
+            "image": "shopify://shop_images/hero_banner.webp",
             "link": ""
           }
         },
         "right_top_slide_mX9id6": {
           "type": "right_top_slide",
           "settings": {
-            "image": "shopify://shop_images/person-fishing-on-the-beach-is-silhouetted-at-sunset.jpg",
+            "image": "shopify://shop_images/GHEE.webp",
+            "link": ""
+          }
+        },
+        "right_top_slide_HPbTmW": {
+          "type": "right_top_slide",
+          "settings": {
+            "image": "shopify://shop_images/our_story.webp",
             "link": ""
           }
         }
@@ -44,10 +58,13 @@
       "block_order": [
         "mobile_hero_slide_AeVwdM",
         "mobile_hero_slide_VMx9iy",
+        "mobile_hero_slide_76YbfF",
         "right_top_slide_KyU4Gc",
-        "right_top_slide_mX9id6"
+        "right_top_slide_mX9id6",
+        "right_top_slide_HPbTmW"
       ],
       "settings": {
+        "autoplay_speed": 4,
         "mobile_aspect_ratio": "3 / 2"
       }
     },
