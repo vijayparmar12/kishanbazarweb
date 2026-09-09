@@ -81,7 +81,7 @@ body.jdgm-review-modal-active header {
   background: var(--kb-header-bg, #ffffff);
   color: var(--kb-nav-text, #23421f);
   width: 100%;
-  border-bottom: 1px solid #e5e7eb !important;
+  border-bottom: none !important;
   padding: 0.6rem 0 !important;
 }
 
@@ -92,7 +92,7 @@ body.jdgm-review-modal-active header {
   background: var(--kb-header-bg, #ffffff);
   color: var(--kb-nav-text, #23421f);
   width: 100%;
-  border-bottom: 1px solid #f1f5f9 !important;
+  border-bottom: none !important;
   padding: 0.5rem 0 !important;
 }
 
@@ -1579,7 +1579,13 @@ body.kb-header-menu-open {
   }
 }
 
-/* Seamless Section Connection & Clean White Backgrounds */
+/* Seamless Section Connection & Soft Warm Homepage Background Matching Brand */
+body.template-index,
+body.template-index main,
+body.template-index #MainContent {
+  background-color: #FAF7F2 !important;
+}
+
 body,
 main,
 #MainContent,
@@ -1595,7 +1601,6 @@ main,
 .home-hero-split,
 .home-video,
 .shoppable-videos {
-  background-color: #ffffff !important;
   border-top: none !important;
   border-bottom: none !important;
   border-block: none !important;
