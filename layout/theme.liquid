@@ -61,7 +61,6 @@
     {{ 'component-quantity-selector.css' | asset_url | stylesheet_tag }}
     {{ 'cart.css' | asset_url | stylesheet_tag }}
     {{ 'component-product-quick-view.css' | asset_url | stylesheet_tag }}
-    {{ 'component-wishlist.css' | asset_url | stylesheet_tag }}
     {{ 'section-our-story.css' | asset_url | stylesheet_tag }}
 
     {% # Social, title, etc. %}
@@ -315,7 +314,6 @@
     <div id="JdgmBlurOverlay" style="display: none;"></div>
     {% sections 'header-group' %}
 
-    {% section 'wishlist-drawer' %}
     {% render 'predictive-search-drawer' %}
     
     {% section 'cart-drawer' %}
@@ -327,7 +325,13 @@
     <script src="{{ 'header.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-product-quick-view.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'component-wishlist.js' | asset_url }}" defer="defer"></script>
+    <script>
+      window.KBWishlistAssets = {
+        css: "{{ 'component-wishlist.css' | asset_url }}",
+        js: "{{ 'component-wishlist.js' | asset_url }}"
+      };
+    </script>
+    <script src="{{ 'wishlist-init.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-button.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-input.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-modal.js' | asset_url }}" defer="defer"></script>

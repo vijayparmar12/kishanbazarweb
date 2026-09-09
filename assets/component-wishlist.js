@@ -332,6 +332,54 @@
       const cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
       if (cartTrigger) cartTrigger.click();
     }
+  const toggleWishlistItem = async (wishlistBtn) => {
+    if (!wishlistBtn) return;
+    const variantId = wishlistBtn.dataset.variantId || (wishlistBtn.dataset.productHandle ? 'var-' + wishlistBtn.dataset.productHandle : 'var-' + Date.now());
+    const handle = wishlistBtn.dataset.productHandle || '';
+    const title = wishlistBtn.dataset.productTitle || 'Kishan Bazar Item';
+    const price = wishlistBtn.dataset.productPrice || '₹1,875.00';
+    const comparePrice = wishlistBtn.dataset.productCompare || '';
+    const discount = wishlistBtn.dataset.productDiscount || '';
+    const variant = wishlistBtn.dataset.productVariant || '1 kg';
+    let image = wishlistBtn.dataset.productImage || getProductCardImage(wishlistBtn);
+
+    let items = getWishlist();
+    const existingIndex = items.findIndex((i) => {
+      if (variantId && i.variantId && String(i.variantId) === String(variantId)) return true;
+      if (handle && i.handle && i.handle === handle) return true;
+      return false;
+    });
+
+    const drawer = document.querySelector('[data-wishlist-drawer]');
+
+    if (existingIndex > -1) {
+      items.splice(existingIndex, 1);
+      wishlistBtn.classList.remove('is-active');
+      wishlistBtn.setAttribute('aria-pressed', 'false');
+
+      const toastRemovedText = drawer ? drawer.dataset.toastRemoved : 'Item has been successfully removed from your wishlist';
+      showWishlistToast(toastRemovedText);
+    } else {
+      items.unshift({
+        variantId,
+        handle: handle || 'product-' + Date.now(),
+        title,
+        price,
+        comparePrice,
+        discount,
+        variant,
+        image: image || ''
+      });
+      wishlistBtn.classList.add('is-active');
+      wishlistBtn.setAttribute('aria-pressed', 'true');
+
+      const toastAddedText = drawer ? drawer.dataset.toastAdded : 'Item has been successfully added to your wishlist';
+      showWishlistToast(toastAddedText);
+      openWishlistDrawer();
+    }
+    saveWishlist(items);
+    await syncProductImages();
+    renderWishlist();
   };
 
   // Event Delegation
@@ -340,52 +388,7 @@
     const wishlistBtn = event.target.closest('[data-wishlist-button]');
     if (wishlistBtn) {
       event.preventDefault();
-      const variantId = wishlistBtn.dataset.variantId || (wishlistBtn.dataset.productHandle ? 'var-' + wishlistBtn.dataset.productHandle : 'var-' + Date.now());
-      const handle = wishlistBtn.dataset.productHandle || '';
-      const title = wishlistBtn.dataset.productTitle || 'Kishan Bazar Item';
-      const price = wishlistBtn.dataset.productPrice || '₹1,875.00';
-      const comparePrice = wishlistBtn.dataset.productCompare || '';
-      const discount = wishlistBtn.dataset.productDiscount || '';
-      const variant = wishlistBtn.dataset.productVariant || '1 kg';
-      let image = wishlistBtn.dataset.productImage || getProductCardImage(wishlistBtn);
-
-      let items = getWishlist();
-      const existingIndex = items.findIndex((i) => {
-        if (variantId && i.variantId && String(i.variantId) === String(variantId)) return true;
-        if (handle && i.handle && i.handle === handle) return true;
-        return false;
-      });
-
-      const drawer = document.querySelector('[data-wishlist-drawer]');
-
-      if (existingIndex > -1) {
-        items.splice(existingIndex, 1);
-        wishlistBtn.classList.remove('is-active');
-        wishlistBtn.setAttribute('aria-pressed', 'false');
-
-        const toastRemovedText = drawer ? drawer.dataset.toastRemoved : 'Item has been successfully removed from your wishlist';
-        showWishlistToast(toastRemovedText);
-      } else {
-        items.unshift({
-          variantId,
-          handle: handle || 'product-' + Date.now(),
-          title,
-          price,
-          comparePrice,
-          discount,
-          variant,
-          image: image || ''
-        });
-        wishlistBtn.classList.add('is-active');
-        wishlistBtn.setAttribute('aria-pressed', 'true');
-
-        const toastAddedText = drawer ? drawer.dataset.toastAdded : 'Item has been successfully added to your wishlist';
-        showWishlistToast(toastAddedText);
-        openWishlistDrawer();
-      }
-      saveWishlist(items);
-      await syncProductImages();
-      renderWishlist();
+      await toggleWishlistItem(wishlistBtn);
       return;
     }
 
@@ -443,6 +446,17 @@
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') closeWishlistDrawer();
   });
+
+  window.KBWishlist = {
+    open: openWishlistDrawer,
+    close: closeWishlistDrawer,
+    render: renderWishlist,
+    toast: showWishlistToast,
+    toggleItem: toggleWishlistItem,
+    getWishlist: getWishlist,
+    saveWishlist: saveWishlist,
+    updateBadges: updateBadges
+  };
 
   document.addEventListener('DOMContentLoaded', async () => {
     await syncProductImages();
