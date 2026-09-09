@@ -650,7 +650,6 @@
 /* Desktop / Web View Specific Layout - Matching Reference Image (4 Complete Cards + Thin Border + Side Scroll Buttons + Soft Organic Background) */
 @media screen and (min-width: 48.01rem) {
   .best-sellers {
-    background-color: #FAF7F2 !important;
     padding-top: 1.5rem !important;
     padding-bottom: 2rem !important;
   }

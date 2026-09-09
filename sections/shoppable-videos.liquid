@@ -8,6 +8,10 @@
       background-size: cover !important;
       background-position: center top !important;
       background-repeat: no-repeat !important;
+    {% elsif section.settings.background_color != blank %}
+      background-color: {{ section.settings.background_color }} !important;
+    {% else %}
+      background-color: #EAF2E6 !important;
     {% endif %}
   }
   @media (max-width: 48rem) {

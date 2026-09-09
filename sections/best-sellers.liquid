@@ -27,12 +27,10 @@
       background-size: cover !important;
       background-position: center top !important;
       background-repeat: no-repeat !important;
-    {% elsif section.settings.background_color != blank and section.settings.background_color != '#F8F4EB' and section.settings.background_color != '#f8f4eb' %}
+    {% elsif section.settings.background_color != blank %}
       background-color: {{ section.settings.background_color }} !important;
     {% else %}
-      background: #ffffff !important;
-      background-color: #ffffff !important;
-      background-image: none !important;
+      background-color: #FBF7F0 !important;
     {% endif %}
   }
 
