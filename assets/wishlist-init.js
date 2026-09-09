@@ -38,19 +38,28 @@
     return new Promise((resolve) => {
       if (!url) return resolve();
       if (type === 'css') {
-        if (document.querySelector('link[href*="component-wishlist.css"]')) return resolve();
+        if (document.querySelector('link[data-kb-wishlist-css]')) return resolve();
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = url;
+        link.setAttribute('data-kb-wishlist-css', 'true');
         link.onload = resolve;
         link.onerror = resolve;
         document.head.appendChild(link);
       } else if (type === 'js') {
-        if (document.querySelector('script[src*="component-wishlist.js"]') || window.KBWishlist) return resolve();
+        if (window.KBWishlist) return resolve();
+        const existingScript = document.querySelector('script[data-kb-wishlist-js]');
+        if (existingScript) {
+          if (window.KBWishlist) return resolve();
+          existingScript.addEventListener('load', resolve);
+          existingScript.addEventListener('error', resolve);
+          return;
+        }
         const script = document.createElement('script');
         script.src = url;
-        script.onload = resolve;
-        script.onerror = resolve;
+        script.setAttribute('data-kb-wishlist-js', 'true');
+        script.onload = () => resolve();
+        script.onerror = () => resolve();
         document.body.appendChild(script);
       }
     });
@@ -111,15 +120,10 @@
     }
 
     if (wishlistCardBtn) {
-      if (!window.KBWishlist) {
-        event.preventDefault();
-        event.stopPropagation();
-        await ensureWishlistLoaded();
-        if (window.KBWishlist && window.KBWishlist.toggleItem) {
-          window.KBWishlist.toggleItem(wishlistCardBtn);
-        } else {
-          wishlistCardBtn.click();
-        }
+      event.preventDefault();
+      await ensureWishlistLoaded();
+      if (window.KBWishlist && window.KBWishlist.toggleItem) {
+        window.KBWishlist.toggleItem(wishlistCardBtn);
       }
     }
   }, true);
