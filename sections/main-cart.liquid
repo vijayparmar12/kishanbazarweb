@@ -2,19 +2,21 @@
   Redirects /cart page to open the slide-out Cart Drawer directly.
 {% enddoc %}
 
-<noscript>
-  <meta http-equiv="refresh" content="0; url={{ routes.root_url }}?open_cart=true">
-</noscript>
+{% unless request.design_mode %}
+  <noscript>
+    <meta http-equiv="refresh" content="0; url={{ routes.root_url }}?open_cart=true">
+  </noscript>
 
-<script>
-  if (!window.Shopify || !window.Shopify.designMode) {
-    window.location.replace({{ routes.root_url | append: '?open_cart=true' | json }});
-  }
-</script>
+  <script>
+    if (!window.Shopify || !window.Shopify.designMode) {
+      window.location.replace({{ routes.root_url | append: '?open_cart=true' | json }});
+    }
+  </script>
+{% endunless %}
 
 {{ 'cart.css' | asset_url | stylesheet_tag }}
 
-<div class="kb-main-cart-fallback-wrap" style="max-width: 540px; margin: 2rem auto; padding: 0 1rem;">
+<div class="kb-main-cart-fallback-wrap" style="max-width: 580px; margin: 1.5rem auto; padding: 0 1rem;">
   {% render 'cart-drawer' %}
 </div>
 

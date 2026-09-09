@@ -2,13 +2,17 @@
   Redirects the /cart page to the homepage so the storefront uses the cart drawer only.
 {% enddoc %}
 
-<noscript>
-  <meta http-equiv="refresh" content="0; url={{ routes.root_url }}?open_cart=true">
-</noscript>
+{% unless request.design_mode %}
+  <noscript>
+    <meta http-equiv="refresh" content="0; url={{ routes.root_url }}?open_cart=true">
+  </noscript>
 
-<script>
-  window.location.replace({{ routes.root_url | append: '?open_cart=true' | json }});
-</script>
+  <script>
+    if (!window.Shopify || !window.Shopify.designMode) {
+      window.location.replace({{ routes.root_url | append: '?open_cart=true' | json }});
+    }
+  </script>
+{% endunless %}
 
 {% schema %}
 {
