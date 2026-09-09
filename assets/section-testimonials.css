@@ -30,11 +30,10 @@
 
 .testimonials__heading-banner-wrap {
   width: 100% !important;
-  max-width: 600px !important;
-  height: 110px !important;
-  max-height: 120px !important;
+  max-width: 100% !important;
+  height: auto;
   display: block !important;
-  margin: 0 auto 0.15rem auto !important;
+  margin: 0 auto 0.25rem auto !important;
   padding: 0 !important;
   position: relative !important;
   overflow: hidden !important;
@@ -43,8 +42,7 @@
 
 @media (max-width: 749px) {
   .testimonials__heading-banner-wrap {
-    height: 75px !important;
-    max-height: 85px !important;
+    height: auto !important;
   }
 }
 
