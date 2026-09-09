@@ -1,21 +1,25 @@
 <link rel="stylesheet" href="{{ 'section-hero.css' | asset_url }}">
 <script src="{{ 'section-hero.js' | asset_url }}" defer="defer"></script>
 
+{% assign slide_blocks = section.blocks | where: 'type', 'slide' %}
+{% if slide_blocks.size == 0 %}
+  {% assign slide_blocks = section.blocks | where: 'type', 'right_top_slide' %}
+{% endif %}
+
 <section class="home-hero-split" data-home-hero>
 
+  <!-- Wide Main Hero Banner (Full Width Desktop Auto Slider, Rounded Corners) -->
   <div class="home-hero-split__container">
-    <!-- Wide Main Hero Banner (Full Width Desktop Auto Slider, Rounded Corners) -->
     <div class="home-hero-split__item home-hero-split__item--main" data-hero-top-slider>
       <div class="home-hero-split__slider">
-        {% assign slide_blocks = section.blocks | where: 'type', 'right_top_slide' %}
-
         {% if slide_blocks.size > 0 %}
           {% for block in slide_blocks %}
+            {% assign desktop_img = block.settings.image | default: block.settings.desktop_image %}
             <div class="home-hero-split__slide{% if forloop.first %} is-active{% endif %}" data-hero-slide {{ block.shopify_attributes }}>
               <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Slide {{ forloop.index }}">
-                {% if block.settings.image != blank %}
+                {% if desktop_img != blank %}
                   {{
-                    block.settings.image
+                    desktop_img
                     | image_url: width: 2200
                     | image_tag:
                       class: 'home-hero-split__image',
@@ -30,7 +34,7 @@
             </div>
           {% endfor %}
         {% else %}
-          <!-- Slide 1: Main Banner -->
+          <!-- Default Fallback Desktop Slides if no blocks added -->
           <div class="home-hero-split__slide is-active" data-hero-slide>
             <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Banner 1">
               {% if section.settings.left_image != blank %}
@@ -41,7 +45,6 @@
             </a>
           </div>
 
-          <!-- Slide 2: Second Banner -->
           {% if section.settings.right_top_image != blank %}
             <div class="home-hero-split__slide" data-hero-slide>
               <a href="{{ section.settings.right_top_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Banner 2">
@@ -50,7 +53,6 @@
             </div>
           {% endif %}
 
-          <!-- Slide 3: Third Banner -->
           {% if section.settings.right_top_image_2 != blank %}
             <div class="home-hero-split__slide" data-hero-slide>
               <a href="{{ section.settings.right_top_link_2 | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Banner 3">
@@ -59,7 +61,6 @@
             </div>
           {% endif %}
 
-          <!-- Slide 4: Fourth Banner -->
           {% if section.settings.right_top_image_3 != blank %}
             <div class="home-hero-split__slide" data-hero-slide>
               <a href="{{ section.settings.right_top_link_3 | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Banner 4">
@@ -68,7 +69,6 @@
             </div>
           {% endif %}
 
-          <!-- Slide 5: Fifth Banner -->
           {% if section.settings.right_bottom_image != blank %}
             <div class="home-hero-split__slide" data-hero-slide>
               <a href="{% if section.settings.right_bottom_link != blank %}{{ section.settings.right_bottom_link }}{% else %}/pages/our-story{% endif %}" class="home-hero-split__link" aria-label="Hero Banner 5">
@@ -108,32 +108,27 @@
   <div class="home-hero-split__mobile-slider" data-hero-mobile-slider style="--kb-mobile-hero-aspect: {{ section.settings.mobile_aspect_ratio | default: '3 / 2' }};">
     <div class="home-hero-split__mobile-slides-track">
       {% assign mobile_slides = section.blocks | where: 'type', 'mobile_hero_slide' %}
+      {% if mobile_slides.size == 0 %}
+        {% assign mobile_slides = slide_blocks %}
+      {% endif %}
 
       {% if mobile_slides.size > 0 %}
         {% for block in mobile_slides %}
+          {% assign mob_img = block.settings.mobile_image | default: block.settings.image %}
           <div class="home-hero-split__mobile-slide{% if forloop.first %} is-active{% endif %}" data-hero-mobile-slide {{ block.shopify_attributes }}>
             <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Mobile Hero Slide {{ forloop.index }}">
-              {% if block.settings.image != blank %}
-                {{ block.settings.image | image_url: width: 1000 | image_tag: class: 'home-hero-split__image', loading: 'eager' }}
+              {% if mob_img != blank %}
+                {{ mob_img | image_url: width: 1000 | image_tag: class: 'home-hero-split__image', loading: 'eager' }}
               {% elsif section.settings.left_image != blank and forloop.first %}
                 {{ section.settings.left_image | image_url: width: 1000 | image_tag: class: 'home-hero-split__image', loading: 'eager' }}
               {% else %}
                 <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Mobile Banner {{ forloop.index }}" width="800" height="450" loading="eager">
               {% endif %}
             </a>
-            {% if block.settings.button_text != blank %}
-              <div class="home-hero-split__actions-wrapper">
-                <div class="home-hero-split__actions-mobile">
-                  <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="home-hero-btn home-hero-btn--primary" style="{% if block.settings.button_bg != blank %}background: {{ block.settings.button_bg }};{% endif %}{% if block.settings.button_color != blank %}color: {{ block.settings.button_color }};{% endif %}">
-                    {{ block.settings.button_text }}
-                  </a>
-                </div>
-              </div>
-            {% endif %}
           </div>
         {% endfor %}
       {% else %}
-        <!-- Mobile Slide 1: Main Hero Banner -->
+        <!-- Mobile Slide Fallbacks -->
         <div class="home-hero-split__mobile-slide is-active" data-hero-mobile-slide>
           <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Slide 1">
             {% if section.settings.left_image != blank %}
@@ -142,68 +137,21 @@
               <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Kishan Bazar Organic Kitchen" width="800" height="450" loading="eager">
             {% endif %}
           </a>
-          <div class="home-hero-split__actions-wrapper">
-            <div class="home-hero-split__actions-mobile">
-              <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-btn home-hero-btn--primary">
-                {{ section.settings.shop_btn_text | default: 'SHOP ESSENTIALS' }}
-              </a>
-            </div>
-          </div>
         </div>
-
-        <!-- Mobile Slide 2: Monsoon Flavours -->
-        <div class="home-hero-split__mobile-slide" data-hero-mobile-slide>
-          <a href="{{ section.settings.right_top_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Slide 2">
-            {% if section.settings.right_top_image != blank %}
-              {{ section.settings.right_top_image | image_url: width: 900 | image_tag: class: 'home-hero-split__image', loading: 'lazy' }}
-            {% else %}
-              <img class="home-hero-split__image" src="{{ 'hero-mobile.jpg.png' | asset_url }}" alt="Monsoon Special Flavours" width="800" height="450" loading="lazy">
-            {% endif %}
-          </a>
-          <div class="home-hero-split__actions-wrapper">
-            <div class="home-hero-split__actions-mobile">
-              <a href="{{ section.settings.right_top_link | default: routes.all_products_collection_url }}" class="home-hero-btn home-hero-btn--primary">
-                SHOP MONSOON SPECIAL
-              </a>
-            </div>
+        {% if section.settings.right_top_image != blank %}
+          <div class="home-hero-split__mobile-slide" data-hero-mobile-slide>
+            <a href="{{ section.settings.right_top_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Slide 2">
+              {{ section.settings.right_top_image | image_url: width: 1000 | image_tag: class: 'home-hero-split__image', loading: 'lazy' }}
+            </a>
           </div>
-        </div>
-
-        <!-- Mobile Slide 3: Farm Fresh Organic Offer -->
-        <div class="home-hero-split__mobile-slide" data-hero-mobile-slide>
-          <a href="{{ section.settings.right_top_link_2 | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Slide 3">
-            {% if section.settings.right_top_image_2 != blank %}
-              {{ section.settings.right_top_image_2 | image_url: width: 900 | image_tag: class: 'home-hero-split__image', loading: 'lazy' }}
-            {% else %}
-              <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Farm Fresh Organic Offer" width="800" height="450" loading="lazy">
-            {% endif %}
-          </a>
-          <div class="home-hero-split__actions-wrapper">
-            <div class="home-hero-split__actions-mobile">
-              <a href="{{ section.settings.right_top_link_2 | default: routes.all_products_collection_url }}" class="home-hero-btn home-hero-btn--primary">
-                EXPLORE OFFER
-              </a>
-            </div>
+        {% endif %}
+        {% if section.settings.right_top_image_2 != blank %}
+          <div class="home-hero-split__mobile-slide" data-hero-mobile-slide>
+            <a href="{{ section.settings.right_top_link_2 | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Slide 3">
+              {{ section.settings.right_top_image_2 | image_url: width: 1000 | image_tag: class: 'home-hero-split__image', loading: 'lazy' }}
+            </a>
           </div>
-        </div>
-
-        <!-- Mobile Slide 4: Our Story Banner -->
-        <div class="home-hero-split__mobile-slide" data-hero-mobile-slide>
-          <a href="{% if section.settings.right_bottom_link != blank %}{{ section.settings.right_bottom_link }}{% else %}/pages/our-story{% endif %}" class="home-hero-split__link" aria-label="Hero Slide 4">
-            {% if section.settings.right_bottom_image != blank %}
-              {{ section.settings.right_bottom_image | image_url: width: 900 | image_tag: class: 'home-hero-split__image', loading: 'lazy' }}
-            {% else %}
-              <img class="home-hero-split__image" src="{{ 'hero-mobile.jpg.png' | asset_url }}" alt="Our Story" width="800" height="450" loading="lazy">
-            {% endif %}
-          </a>
-          <div class="home-hero-split__actions-wrapper">
-            <div class="home-hero-split__actions-mobile">
-              <a href="{% if section.settings.story_link != blank %}{{ section.settings.story_link }}{% else %}/pages/our-story{% endif %}" class="home-hero-btn home-hero-btn--secondary">
-                {{ section.settings.story_btn_text | default: 'OUR STORY' }}
-              </a>
-            </div>
-          </div>
-        </div>
+        {% endif %}
       {% endif %}
     </div>
 
@@ -215,9 +163,12 @@
         {% endfor %}
       {% else %}
         <button type="button" class="home-hero-split__mobile-dot is-active" data-hero-mobile-dot="0" aria-label="Go to slide 1"></button>
-        <button type="button" class="home-hero-split__mobile-dot" data-hero-mobile-dot="1" aria-label="Go to slide 2"></button>
-        <button type="button" class="home-hero-split__mobile-dot" data-hero-mobile-dot="2" aria-label="Go to slide 3"></button>
-        <button type="button" class="home-hero-split__mobile-dot" data-hero-mobile-dot="3" aria-label="Go to slide 4"></button>
+        {% if section.settings.right_top_image != blank %}
+          <button type="button" class="home-hero-split__mobile-dot" data-hero-mobile-dot="1" aria-label="Go to slide 2"></button>
+        {% endif %}
+        {% if section.settings.right_top_image_2 != blank %}
+          <button type="button" class="home-hero-split__mobile-dot" data-hero-mobile-dot="2" aria-label="Go to slide 3"></button>
+        {% endif %}
       {% endif %}
     </div>
   </div>
@@ -225,93 +176,27 @@
 
 {% schema %}
 {
-  "name": "Hero",
+  "name": "Hero Slider",
   "tag": "section",
   "class": "section-hero",
   "settings": [
     {
       "type": "header",
-      "content": "Left Main Banner (66% Width)"
+      "content": "Hero Banner Carousel Settings"
     },
     {
-      "type": "image_picker",
-      "id": "left_image",
-      "label": "Left Main Image"
-    },
-    {
-      "type": "url",
-      "id": "left_link",
-      "label": "Left Main Link"
-    },
-    {
-      "type": "text",
-      "id": "shop_btn_text",
-      "label": "Shop Button Text",
-      "default": "SHOP ESSENTIALS"
-    },
-    {
-      "type": "text",
-      "id": "story_btn_text",
-      "label": "Mobile Story Button Text",
-      "default": "OUR STORY"
-    },
-    {
-      "type": "url",
-      "id": "story_link",
-      "label": "Our Story Link",
-      "info": "Link to video section or about page"
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Auto-play Speed (seconds)",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "default": 4,
+      "unit": "s"
     },
     {
       "type": "header",
-      "content": "Right Top Auto Slider (Above Image Part)"
-    },
-    {
-      "type": "image_picker",
-      "id": "right_top_image",
-      "label": "Right Top Slide 1 Image"
-    },
-    {
-      "type": "url",
-      "id": "right_top_link",
-      "label": "Right Top Slide 1 Link"
-    },
-    {
-      "type": "image_picker",
-      "id": "right_top_image_2",
-      "label": "Right Top Slide 2 Image"
-    },
-    {
-      "type": "url",
-      "id": "right_top_link_2",
-      "label": "Right Top Slide 2 Link"
-    },
-    {
-      "type": "image_picker",
-      "id": "right_top_image_3",
-      "label": "Right Top Slide 3 Image"
-    },
-    {
-      "type": "url",
-      "id": "right_top_link_3",
-      "label": "Right Top Slide 3 Link"
-    },
-    {
-      "type": "header",
-      "content": "Right Bottom Banner"
-    },
-    {
-      "type": "image_picker",
-      "id": "right_bottom_image",
-      "label": "Right Bottom Image"
-    },
-    {
-      "type": "url",
-      "id": "right_bottom_link",
-      "label": "Right Bottom Link"
-    },
-    {
-      "type": "header",
-      "content": "Mobile View Customization"
+      "content": "Mobile View Settings"
     },
     {
       "type": "select",
@@ -329,8 +214,29 @@
   ],
   "blocks": [
     {
+      "type": "slide",
+      "name": "Hero Banner Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Desktop Slide Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Slide Image (Optional)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Slide Link"
+        }
+      ]
+    },
+    {
       "type": "right_top_slide",
-      "name": "Right Top Slide",
+      "name": "Slide",
       "settings": [
         {
           "type": "image_picker",
@@ -354,41 +260,20 @@
           "label": "Mobile Slide Image"
         },
         {
-          "type": "text",
-          "id": "button_text",
-          "label": "Button Text",
-          "default": "SHOP NOW"
-        },
-        {
           "type": "url",
           "id": "link",
-          "label": "Button / Slide Link"
-        },
-        {
-          "type": "color",
-          "id": "button_bg",
-          "label": "Button Background Color",
-          "default": "#23421F"
-        },
-        {
-          "type": "color",
-          "id": "button_color",
-          "label": "Button Text Color",
-          "default": "#FFFFFF"
+          "label": "Slide Link"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Hero",
+      "name": "Hero Slider",
       "blocks": [
-        { "type": "right_top_slide" },
-        { "type": "right_top_slide" },
-        { "type": "mobile_hero_slide", "settings": { "button_text": "SHOP ESSENTIALS" } },
-        { "type": "mobile_hero_slide", "settings": { "button_text": "SHOP MONSOON SPECIAL" } },
-        { "type": "mobile_hero_slide", "settings": { "button_text": "EXPLORE OFFER" } },
-        { "type": "mobile_hero_slide", "settings": { "button_text": "OUR STORY" } }
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" }
       ]
     }
   ]
