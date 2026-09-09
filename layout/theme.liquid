@@ -314,6 +314,7 @@
     <div id="JdgmBlurOverlay" style="display: none;"></div>
     {% sections 'header-group' %}
 
+    {% section 'wishlist-drawer' %}
     {% render 'predictive-search-drawer' %}
     
     {% section 'cart-drawer' %}
@@ -326,12 +327,80 @@
     <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-product-quick-view.js' | asset_url }}" defer="defer"></script>
     <script>
-      window.KBWishlistAssets = {
-        css: "{{ 'component-wishlist.css' | asset_url }}",
-        js: "{{ 'component-wishlist.js' | asset_url }}"
-      };
+      (function() {
+        // 1. Instantly update Wishlist Badge count from LocalStorage on page load without downloading wishlist app JS/CSS
+        function syncWishlistBadgeOnLoad() {
+          try {
+            var raw = localStorage.getItem('kb_wishlist_items');
+            var items = raw ? JSON.parse(raw) : [];
+            var count = Array.isArray(items) ? items.length : 0;
+            document.querySelectorAll('[data-wishlist-count-badge], .kb-header__action--wishlist .kb-header__badge').forEach(function(el) {
+              el.textContent = String(count);
+            });
+          } catch(e) {}
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', syncWishlistBadgeOnLoad);
+        } else {
+          syncWishlistBadgeOnLoad();
+        }
+
+        // 2. On-demand loader for Wishlist application (loads component-wishlist.css & component-wishlist.js ONLY when customer opens/interacts with wishlist)
+        function loadWishlistApp(callback) {
+          if (window.kbWishlistLoaded) {
+            if (callback) callback();
+            return;
+          }
+          if (window.kbWishlistLoading) {
+            if (callback) {
+              window.addEventListener('kb:wishlist:loaded', callback, { once: true });
+            }
+            return;
+          }
+          window.kbWishlistLoading = true;
+
+          // Inject Wishlist CSS
+          if (!document.querySelector('link[href*="component-wishlist.css"]')) {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = "{{ 'component-wishlist.css' | asset_url }}";
+            document.head.appendChild(link);
+          }
+
+          // Inject Wishlist JS
+          var script = document.createElement('script');
+          script.src = "{{ 'component-wishlist.js' | asset_url }}";
+          script.defer = true;
+          script.onload = function() {
+            window.kbWishlistLoaded = true;
+            window.kbWishlistLoading = false;
+            window.dispatchEvent(new CustomEvent('kb:wishlist:loaded'));
+            if (callback) callback();
+          };
+          document.body.appendChild(script);
+        }
+
+        window.loadWishlistApp = loadWishlistApp;
+
+        // 3. Click interceptor to load wishlist application on customer demand
+        document.addEventListener('click', function(event) {
+          var trigger = event.target.closest('[data-wishlist-drawer-trigger], .kb-header__action--wishlist, [data-wishlist-button]');
+          if (trigger && !window.kbWishlistLoaded) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            loadWishlistApp(function() {
+              if (trigger.matches('[data-wishlist-drawer-trigger], .kb-header__action--wishlist')) {
+                if (window.openWishlistDrawer) window.openWishlistDrawer();
+              } else if (trigger.matches('[data-wishlist-button]')) {
+                trigger.click();
+              }
+            });
+          }
+        }, true);
+      })();
     </script>
-    <script src="{{ 'wishlist-init.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-button.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-input.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-modal.js' | asset_url }}" defer="defer"></script>

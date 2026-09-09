@@ -68,14 +68,7 @@
       <div class="kb-cart-tab-panel is-active" data-tab-panel="frequently">
         <div class="kb-cart-addons-track">
           {% assign addons_coll = settings.cart_addons_collection.products | default: collections.all.products %}
-          {% assign fbt_limit = settings.cart_addons_limit | default: 6 %}
-          {% assign cart_handles = cart.items | map: 'product' | map: 'handle' %}
-          {% assign fbt_count = 0 %}
-          {% for product in addons_coll %}
-            {% if cart_handles contains product.handle %}
-              {% continue %}
-            {% endif %}
-            {% assign fbt_count = fbt_count | plus: 1 %}
+          {% for product in addons_coll limit: 6 %}
             {% assign addon_variant = product.selected_or_first_available_variant %}
             {% assign addon_available = addon_variant.available %}
             {% if addon_variant.inventory_management != blank and addon_variant.inventory_policy == 'deny' and addon_variant.inventory_quantity <= 0 %}
@@ -117,9 +110,6 @@
                 {% if addon_available %}+ ADD{% else %}SOLD OUT{% endif %}
               </button>
             </div>
-            {% if fbt_count >= fbt_limit %}
-              {% break %}
-            {% endif %}
           {% endfor %}
         </div>
       </div>
