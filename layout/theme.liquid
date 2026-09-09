@@ -61,8 +61,6 @@
     {{ 'component-quantity-selector.css' | asset_url | stylesheet_tag }}
     {{ 'cart.css' | asset_url | stylesheet_tag }}
     {{ 'component-product-quick-view.css' | asset_url | stylesheet_tag }}
-    {{ 'customer-auth.css' | asset_url | stylesheet_tag }}
-    {{ 'customer-profile.css' | asset_url | stylesheet_tag }}
     {{ 'component-wishlist.css' | asset_url | stylesheet_tag }}
     {{ 'section-our-story.css' | asset_url | stylesheet_tag }}
 
@@ -317,7 +315,6 @@
     <div id="JdgmBlurOverlay" style="display: none;"></div>
     {% sections 'header-group' %}
 
-    {% section 'customer-profile' %}
     {% section 'wishlist-drawer' %}
     {% render 'predictive-search-drawer' %}
     
@@ -330,8 +327,6 @@
     <script src="{{ 'header.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-product-quick-view.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'customer-auth.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'customer-profile.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-wishlist.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-button.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-input.js' | asset_url }}" defer="defer"></script>

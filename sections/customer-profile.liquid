@@ -2,6 +2,11 @@
   Renders the main customer profile editable information form, tab panels, and modal overlay.
 {% enddoc %}
 
+{{ 'customer-auth.css' | asset_url | stylesheet_tag }}
+{{ 'customer-profile.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'customer-auth.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'customer-profile.js' | asset_url }}" defer="defer"></script>
+
 <aside class="kb-profile-modal" id="CustomerProfileModal" hidden data-profile-modal aria-label="Customer Profile Dashboard">
   <div class="kb-profile-modal__overlay" data-close-profile></div>
   
