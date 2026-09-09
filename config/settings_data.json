@@ -11,6 +11,7 @@
   "current": {
     "type_primary_font": "montserrat_n6",
     "max_page_width": "110rem",
+    "cart_addons_limit": 5,
     "sections": {
       "customer-login-modal": {
         "type": "customer-login-modal",
