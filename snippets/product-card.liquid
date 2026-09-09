@@ -33,9 +33,9 @@
   <div class="product-card__media">
     <a href="{{ product.url }}" class="product-card__image-link" aria-label="View {{ product.title | escape }}">
       {% if product.featured_image != blank %}
-        {{ product.featured_image | image_url: width: 760 | image_tag: class: 'product-card__image', loading: 'lazy', widths: '260, 420, 560, 760' }}
+        {{ product.featured_image | image_url: width: 760 | image_tag: class: 'product-card__image', loading: 'lazy', decoding: 'async', widths: '260, 420, 560, 760' }}
         {% if product.images[1] != blank %}
-          {{ product.images[1] | image_url: width: 760 | image_tag: class: 'product-card__image product-card__image--hover', loading: 'lazy', widths: '260, 420, 560, 760' }}
+          {{ product.images[1] | image_url: width: 760 | image_tag: class: 'product-card__image product-card__image--hover', loading: 'lazy', decoding: 'async', widths: '260, 420, 560, 760' }}
         {% endif %}
       {% else %}
         {{ 'product-1' | placeholder_svg_tag: 'product-card__image product-card__placeholder' }}
