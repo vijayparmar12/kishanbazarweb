@@ -11,10 +11,50 @@
   "sections": {
     "main": {
       "type": "main-cart",
-      "settings": {}
+      "settings": {
+        "free_shipping_threshold": 1500
+      }
+    },
+    "cart_drawer_bAxqpt": {
+      "type": "cart-drawer",
+      "blocks": {
+        "coupon_offer_eVAbCM": {
+          "type": "coupon_offer",
+          "settings": {
+            "code": "TBOF10",
+            "discount_title": "Save ₹709",
+            "discount_sub": "10% OFF on orders above ₹3000"
+          }
+        }
+      },
+      "block_order": [
+        "coupon_offer_eVAbCM"
+      ],
+      "name": "Cart Drawer Settings",
+      "settings": {
+        "cart_title_text": "YOUR CART",
+        "cart_promo_bar_text": "",
+        "cart_free_shipping_threshold": 1499,
+        "cart_shipping_fee": 99,
+        "cart_discount_threshold": 3000,
+        "cart_coupons_modal_title": "Available Coupons & Offers",
+        "cart_coupon_code": "",
+        "cart_savings_label": "",
+        "cart_savings_ribbon_suffix": "Saved so far!",
+        "cart_estimated_total_label": "Estimated Total",
+        "cart_addons_heading": "Frequently Bought Together",
+        "cart_addons_collection": "",
+        "cart_addons_limit": 6,
+        "cart_checkout_btn_text": "Checkout",
+        "cart_show_payment_badges": true,
+        "cart_credit_branding_text": "Powered by Shopflo",
+        "cart_choose_option_title": "Choose Option",
+        "cart_choose_option_confirm_btn": "Confirm"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "cart_drawer_bAxqpt"
   ]
 }
