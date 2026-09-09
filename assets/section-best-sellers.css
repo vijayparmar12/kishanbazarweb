@@ -488,7 +488,7 @@
 }
 
 .best-sellers__arrow--prev {
-  left: max(0.5rem, calc((100% - var(--container-width, 1280px)) / 2 - 20px)) !important;
+  left: 10px !important;
 }
 
 .best-sellers__arrow--prev .icon {
@@ -496,7 +496,7 @@
 }
 
 .best-sellers__arrow--next {
-  right: max(0.5rem, calc((100% - var(--container-width, 1280px)) / 2 - 20px)) !important;
+  right: 10px !important;
 }
 
 .best-sellers__track {
@@ -658,7 +658,7 @@
     position: relative !important;
     max-width: 1360px !important;
     margin: 0 auto !important;
-    padding: 0 46px !important;
+    padding: 0 64px !important;
     box-sizing: border-box !important;
   }
 
@@ -742,10 +742,10 @@
   }
 
   .best-sellers__arrow--prev {
-    left: 2px !important;
+    left: 10px !important;
   }
 
   .best-sellers__arrow--next {
-    right: 2px !important;
+    right: 10px !important;
   }
 }
