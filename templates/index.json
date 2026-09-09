@@ -12,6 +12,20 @@
     "hero": {
       "type": "hero",
       "blocks": {
+        "mobile_hero_slide_AeVwdM": {
+          "type": "mobile_hero_slide",
+          "settings": {
+            "image": "shopify://shop_images/image-optimizer-preview-origin.png",
+            "link": ""
+          }
+        },
+        "mobile_hero_slide_VMx9iy": {
+          "type": "mobile_hero_slide",
+          "settings": {
+            "image": "shopify://shop_images/person-fishing-on-the-beach-is-silhouetted-at-sunset.jpg",
+            "link": ""
+          }
+        },
         "right_top_slide_KyU4Gc": {
           "type": "right_top_slide",
           "settings": {
@@ -28,23 +42,12 @@
         }
       },
       "block_order": [
+        "mobile_hero_slide_AeVwdM",
+        "mobile_hero_slide_VMx9iy",
         "right_top_slide_KyU4Gc",
         "right_top_slide_mX9id6"
       ],
       "settings": {
-        "left_image": "shopify://shop_images/hero_banner.png",
-        "left_link": "",
-        "shop_btn_text": "SHOP ESSENTIALS",
-        "story_btn_text": "OUR STORY",
-        "story_link": "/pages/our-story",
-        "right_top_image": "shopify://shop_images/a908ecaa3abf4d022332e442e3e95200.png",
-        "right_top_link": "",
-        "right_top_image_2": "shopify://shop_images/7173417e-956b-4250-a30f-3fc5e2e614ab.jpg",
-        "right_top_link_2": "",
-        "right_top_image_3": "shopify://shop_images/slider3.png",
-        "right_top_link_3": "",
-        "right_bottom_image": "shopify://shop_images/our_story.png",
-        "right_bottom_link": "/pages/our-story",
         "mobile_aspect_ratio": "3 / 2"
       }
     },
