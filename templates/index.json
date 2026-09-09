@@ -319,6 +319,7 @@
         },
         "card_benefit_icons_D4fXYB": {
           "type": "card_benefit_icons",
+          "disabled": true,
           "settings": {
             "show_benefit_icons": true,
             "icon_size": 72
