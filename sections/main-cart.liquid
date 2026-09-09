@@ -1,30 +1,9 @@
 {{ 'cart.css' | asset_url | stylesheet_tag }}
 
 {% assign free_ship_val = settings.cart_free_shipping_threshold | default: 1499 | times: 100 %}
-{% assign discount_val = settings.cart_discount_threshold | default: 3000 | times: 100 %}
-{% assign promo_text = settings.cart_promo_bar_text | default: '🎉 Get 10% OFF on orders above ₹3000 | TBOF10' %}
 
 <section class="kb-cart-page" data-main-cart data-cart-section-id="{{ section.id }}">
-  <nav class="kb-cart-page__breadcrumbs" aria-label="Breadcrumb">
-    <a href="{{ routes.root_url }}">Home</a>
-    <span aria-hidden="true">/</span>
-    <span class="kb-cart-page__breadcrumb-current">Shopping Cart</span>
-  </nav>
-
-  <header class="kb-cart-page__header">
-    <div class="kb-cart-page__header-title-wrap">
-      <h1 class="kb-cart-page__title">Shopping Cart</h1>
-      <span class="kb-cart-page__count-badge">{{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %}</span>
-    </div>
-    <p class="kb-cart-page__subtitle">Pure, farm-fresh organic staples delivered directly to your doorstep.</p>
-  </header>
-
   {% if cart.item_count > 0 %}
-    <!-- Promo Bar matching Cart Drawer (Image 2) -->
-    <div class="kb-cart-drawer__promo-top-bar" style="border-radius: 12px; margin-bottom: 16px;">
-      {{ promo_text }}
-    </div>
-
     <!-- Free Shipping Progress Bar matching Cart Drawer (Image 2) -->
     <div class="kb-cart-drawer__progress" data-cart-drawer-progress style="margin-bottom: 24px;">
       <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status>
