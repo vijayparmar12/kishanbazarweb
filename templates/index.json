@@ -657,7 +657,7 @@
       "settings": {
         "heading_image_desktop": "shopify://shop_images/new_review.webp",
         "heading_box_bg_size": "cover",
-        "heading_box_bg_size_mobile": "contain",
+        "heading_box_bg_size_mobile": "cover",
         "heading_image_flip": false,
         "heading_box_height_desktop": 100,
         "heading_box_height_mobile": 80,
