@@ -22,16 +22,8 @@
 
 {% style %}
   #BestSellers-{{ section.id }} {
-    {% if section.settings.background_image != blank %}
-      background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
-      background-size: cover !important;
-      background-position: center top !important;
-      background-repeat: no-repeat !important;
-    {% elsif section.settings.background_color != blank %}
-      background-color: {{ section.settings.background_color }} !important;
-    {% else %}
-      background-color: #FBF7F0 !important;
-    {% endif %}
+    background-color: {{ section.settings.background_color | default: '#F7F2E6' }} !important;
+    background-image: none !important;
   }
 
   #BestSellers-{{ section.id }} .best-sellers__head {
@@ -128,13 +120,6 @@
   }
 
   @media screen and (max-width: 749px) {
-    #BestSellers-{{ section.id }} {
-      {% if section.settings.background_image_mobile != blank %}
-        background-image: url('{{ section.settings.background_image_mobile | image_url: width: 1200 }}') !important;
-        background-size: cover !important;
-        background-position: center top !important;
-      {% endif %}
-    }
     #BestSellers-{{ section.id }} .best-sellers__heading-banner-wrap {
       max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
       height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
@@ -478,9 +463,7 @@
     { "type": "range", "id": "heading_image_mobile_max_width", "label": "Mobile Heading Image Max Width (px)", "min": 150, "max": 800, "step": 10, "default": 360, "unit": "px" },
     { "type": "product_list", "id": "products", "label": "Select Products Manually (Optional)", "info": "Pick specific products to display in the Theme Editor. Overrides collection if selected.", "limit": 12 },
     { "type": "collection", "id": "collection", "label": "Collection" },
-    { "type": "image_picker", "id": "background_image", "label": "Custom Background Image" },
-    { "type": "image_picker", "id": "background_image_mobile", "label": "Custom Mobile Background Image (Optional)" },
-    { "type": "color", "id": "background_color", "label": "Background Color", "default": "#FFFFFF" },
+    { "type": "color", "id": "background_color", "label": "Background Color", "default": "#F7F2E6" },
     { "type": "range", "id": "maximum", "label": "Maximum products", "min": 2, "max": 16, "step": 1, "default": 4 },
     { "type": "checkbox", "id": "show_tabs", "label": "Show category filter tabs (Ghee, Oil, Atta, etc.)", "default": true },
     { "type": "checkbox", "id": "show_cta_btn", "label": "Show 'Shop More' button", "default": true },

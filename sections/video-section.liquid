@@ -4,28 +4,9 @@
 {% style %}
   #VideoSection-{{ section.id }} {
     position: relative;
-    background-color: {{ section.settings.bg_color | default: '#FAF7F2' }};
-    {% if section.settings.background_image != blank %}
-      background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}');
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-    {% endif %}
+    background-color: {{ section.settings.bg_color | default: '#FAF7F2' }} !important;
+    background-image: none !important;
   }
-
-  {% if section.settings.background_image != blank and section.settings.overlay_opacity > 0 %}
-    #VideoSection-{{ section.id }}::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
-      pointer-events: none;
-      z-index: 1;
-    }
-  {% endif %}
 
   #VideoSection-{{ section.id }} .home-video__head {
     margin-bottom: 0.25rem !important;
@@ -204,12 +185,6 @@
   "tag": "section",
   "class": "section-video",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "background_image",
-      "label": "Section Background Image",
-      "info": "Upload custom background image from Shopify."
-    },
     { "type": "image_picker", "id": "heading_image_desktop", "label": "Heading Box Background Image (Desktop)", "info": "Upload graphic image to use as background for the Heading Box on Desktop" },
     { "type": "image_picker", "id": "heading_image_mobile", "label": "Heading Box Background Image (Mobile)", "info": "Upload graphic image to use as background for the Heading Box on Mobile" },
     {

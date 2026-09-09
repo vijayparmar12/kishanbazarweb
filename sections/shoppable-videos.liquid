@@ -3,23 +3,9 @@
 
 {% style %}
   #ShoppableVideos-{{ section.id }} {
-    {% if section.settings.background_image != blank %}
-      background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
-      background-size: cover !important;
-      background-position: center top !important;
-      background-repeat: no-repeat !important;
-    {% elsif section.settings.background_color != blank %}
-      background-color: {{ section.settings.background_color }} !important;
-    {% else %}
-      background-color: #EAF2E6 !important;
-    {% endif %}
+    background-color: {{ section.settings.background_color | default: '#EAF2E6' }} !important;
+    background-image: none !important;
   }
-  @media (max-width: 48rem) {
-    #ShoppableVideos-{{ section.id }} {
-      background-size: 100% auto !important;
-      background-position: bottom center !important;
-      background-repeat: no-repeat !important;
-    }
   #ShoppableVideos-{{ section.id }} .shoppable-videos__header {
     margin-bottom: 0.25rem !important;
     margin-top: 0 !important;
@@ -454,12 +440,6 @@
       "label": "t:sections.shoppable_videos.settings.bulk_video_csv.label",
       "info": "t:sections.shoppable_videos.settings.bulk_video_csv.info",
       "placeholder": "t:sections.shoppable_videos.settings.bulk_video_csv.placeholder"
-    },
-    {
-      "type": "image_picker",
-      "id": "background_image",
-      "label": "Section Background Image",
-      "info": "Upload custom background image from Shopify for Shoppable Videos Section."
     },
     {
       "type": "color",

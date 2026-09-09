@@ -4,16 +4,8 @@
 {% style %}
   #Testimonials-{{ section.id }} {
     scroll-margin-top: 140px !important;
-    {% if section.settings.background_image != blank %}
-      background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
-      background-size: cover !important;
-      background-position: center top !important;
-      background-repeat: no-repeat !important;
-    {% elsif section.settings.background_color != blank %}
-      background-color: {{ section.settings.background_color }} !important;
-    {% else %}
-      background-color: #FAF5EC !important;
-    {% endif %}
+    background-color: {{ section.settings.background_color | default: '#FAF5EC' }} !important;
+    background-image: none !important;
   }
   #Testimonials-{{ section.id }} .testimonials__card {
     border-color: {{ section.settings.card_border_color | default: '#23421F' }} !important;
@@ -244,7 +236,6 @@
   "tag": "section",
   "class": "section-testimonials-carousel",
   "settings": [
-    { "type": "image_picker", "id": "background_image", "label": "Section Background Image" },
     { "type": "image_picker", "id": "heading_image_desktop", "label": "Heading Image (Desktop)" },
     { "type": "image_picker", "id": "heading_image_mobile", "label": "Heading Image (Mobile)" },
     {

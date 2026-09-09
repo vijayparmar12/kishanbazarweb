@@ -3,12 +3,9 @@
 
 {% style %}
   #Categories-{{ section.id }} {
-    {% if section.settings.background_image != blank %}
-      background-image: url('{{ section.settings.background_image | image_url: width: 2200 }}') !important;
-      background-size: cover !important;
-      background-position: center center !important;
-      background-repeat: no-repeat !important;
-    {% endif %}
+    background-color: {{ section.settings.background_color | default: '#FBF7F0' }} !important;
+    background-image: none !important;
+  }
   #Categories-{{ section.id }} .home-section__head {
     margin-bottom: 0.25rem !important;
     margin-top: 0 !important;
@@ -221,12 +218,7 @@
   "tag": "section",
   "class": "section-categories",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "background_image",
-      "label": "Section Background Image",
-      "info": "Upload custom background image from Shopify for Categories Section."
-    },
+    { "type": "color", "id": "background_color", "label": "Background Color", "default": "#FBF7F0" },
     { "type": "image_picker", "id": "heading_image_desktop", "label": "Heading Box Background Image (Desktop)", "info": "Upload graphic image to use as background for the Heading Box on Desktop" },
     { "type": "image_picker", "id": "heading_image_mobile", "label": "Heading Box Background Image (Mobile)", "info": "Upload graphic image to use as background for the Heading Box on Mobile" },
     {
