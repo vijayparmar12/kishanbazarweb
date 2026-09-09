@@ -1085,4 +1085,7 @@
   } else {
     autoOpenCart();
   }
+
+  window.kbCartLoaded = true;
+  window.dispatchEvent(new CustomEvent('kb:cart:loaded'));
 })();
