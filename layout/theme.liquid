@@ -58,7 +58,6 @@
     {{ 'component-modal.css' | asset_url | stylesheet_tag }}
     {{ 'component-popup.css' | asset_url | stylesheet_tag }}
     {{ 'component-product-card.css' | asset_url | stylesheet_tag }}
-    {{ 'section-membership.css' | asset_url | stylesheet_tag }}
     {{ 'component-quantity-selector.css' | asset_url | stylesheet_tag }}
     {{ 'cart.css' | asset_url | stylesheet_tag }}
     {{ 'component-product-quick-view.css' | asset_url | stylesheet_tag }}
@@ -322,20 +321,6 @@
     {% section 'wishlist-drawer' %}
     {% render 'predictive-search-drawer' %}
     
-    <aside class="kb-membership-modal" id="MembershipModal" hidden data-membership-modal>
-      <div class="kb-membership-modal__backdrop" data-close-membership></div>
-      <div class="kb-membership-modal__container">
-        <div class="kb-membership-modal__content">
-          {% section 'header' %}
-          {% section 'membership-hero' %}
-          {% section 'membership-plans' %}
-          {% section 'membership-faq' %}
-          {% section 'membership-cta' %}
-          {% sections 'footer-group' %}
-        </div>
-      </div>
-    </aside>
-
     {% section 'cart-drawer' %}
     {% render 'product-quick-view-modal' %}
 
@@ -354,7 +339,6 @@
     <script src="{{ 'component-popup.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-product-card.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-quantity-selector.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'section-membership.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'section-our-story.js' | asset_url }}" defer="defer"></script>
 
     <script>

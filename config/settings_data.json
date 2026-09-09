@@ -114,25 +114,6 @@
           "feature_row_background": "#faf6ec"
         }
       },
-      "membership-hero": {
-        "type": "membership-hero",
-        "settings": {
-          "title": "Become a Kishan Bazar Collective Member",
-          "subtitle": "Exclusive savings, early access to seasonal harvests, premium organic staples, and member-only rewards."
-        }
-      },
-      "membership-plans": {
-        "type": "membership-plans",
-        "settings": {}
-      },
-      "membership-faq": {
-        "type": "membership-faq",
-        "settings": {}
-      },
-      "membership-cta": {
-        "type": "membership-cta",
-        "settings": {}
-      },
       "cart-drawer": {
         "type": "cart-drawer",
         "settings": {

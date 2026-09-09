@@ -219,12 +219,6 @@
       },
       {
         "type": "text",
-        "id": "cart_membership_heading",
-        "label": "Membership Tab Label",
-        "default": "Membership"
-      },
-      {
-        "type": "text",
         "id": "cart_addons_heading",
         "label": "Addons Section Heading",
         "default": "Frequently Bought Together"
