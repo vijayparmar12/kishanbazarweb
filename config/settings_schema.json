@@ -229,6 +229,15 @@
         "label": "Addons Collection"
       },
       {
+        "type": "range",
+        "id": "cart_addons_limit",
+        "label": "Frequently Bought Together Products Limit",
+        "min": 4,
+        "max": 6,
+        "step": 1,
+        "default": 6
+      },
+      {
         "type": "header",
         "content": "Checkout Button & Branding"
       },

@@ -155,7 +155,14 @@
                 {% endif %}
               {% endfor %}
             {% endif %}
-            {% for product in addons_coll limit: 250 %}
+            {% assign fbt_limit = section.settings.cart_addons_limit | default: settings.cart_addons_limit | default: 6 %}
+            {% assign cart_handles = cart.items | map: 'product' | map: 'handle' %}
+            {% assign fbt_count = 0 %}
+            {% for product in addons_coll %}
+              {% if cart_handles contains product.handle %}
+                {% continue %}
+              {% endif %}
+              {% assign fbt_count = fbt_count | plus: 1 %}
               <div
                 class="kb-cart-addon-card"
                 data-fbt-card
@@ -191,6 +198,9 @@
                   + ADD
                 </button>
               </div>
+              {% if fbt_count >= fbt_limit %}
+                {% break %}
+              {% endif %}
             {% endfor %}
           </div>
         </div>
