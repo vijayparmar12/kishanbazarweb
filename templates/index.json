@@ -262,34 +262,13 @@
             "show_comments": true,
             "show_shares": true
           }
-        },
-        "video_4": {
-          "type": "video",
-          "settings": {
-            "product": "",
-            "video_url": "",
-            "video_label": "SHOP BY VIDEOS",
-            "badge_text": "BESTSELLER",
-            "custom_title": "",
-            "subtitle": "Stone Ground • 1 Kg",
-            "selling_price": "",
-            "compare_price": "",
-            "button_text": "ADD TO CART",
-            "like_count": "1.2K",
-            "comment_count": "86",
-            "share_count": "120",
-            "show_likes": true,
-            "show_comments": true,
-            "show_shares": true
-          }
         }
       },
       "block_order": [
         "video_1",
         "video_2",
         "video_3",
-        "video_At9qeD",
-        "video_4"
+        "video_At9qeD"
       ],
       "settings": {
         "heading_image_desktop": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_02_13_40_PM.png",
@@ -307,7 +286,7 @@
         "metafield_collection": "",
         "show_demo_video": false,
         "bulk_video_csv": "# product-handle,https://video-url.mp4\n# organic-ghee,https://cdn.shopify.com/s/files/1/YOUR_SHOP/files/video1.mp4",
-        "background_color": "#eef2e4",
+        "background_color": "#EAF2E6",
         "heading_color": "#2e5d34",
         "default_button_text": "Add to cart",
         "autoplay": true,
@@ -463,7 +442,7 @@
         "heading_image_mobile_max_width": 800,
         "products": [],
         "collection": "",
-        "background_color": "#ffffff",
+        "background_color": "#F7F2E6",
         "maximum": 4,
         "show_tabs": true,
         "show_cta_btn": true,
@@ -658,7 +637,7 @@
         "heading": "",
         "subheading": "",
         "card_border_color": "#23421f",
-        "card_bg_color": "#ffffff"
+        "card_bg_color": "#FAF5EC"
       }
     }
   },
