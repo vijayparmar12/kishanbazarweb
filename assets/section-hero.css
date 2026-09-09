@@ -67,27 +67,25 @@
   display: flex;
   gap: 1.25rem;
   width: 100%;
-  max-width: var(--container-width, 1280px);
+  max-width: var(--container-width, 1360px);
   margin: 0 auto;
   align-items: stretch;
   height: 480px; /* Fixed Total Section Height */
 }
 
-/* Left Main Banner (66% Width, 100% Height) */
+/* Left Main Banner (100% Width Full Banner Slider on Desktop Webview) */
 .home-hero-split__item--main {
-  flex: 0 0 calc(66% - 0.625rem);
-  width: calc(66% - 0.625rem);
-  height: 100%;
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
 }
 
-/* Right Stacked Column (34% Width, 2 Stacked Sub-Cards) */
+/* Right Stacked Column (Hidden on Desktop Webview so Banner is 100% Wide) */
 .home-hero-split__right-stack {
-  flex: 0 0 calc(34% - 0.625rem);
-  width: calc(34% - 0.625rem);
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  height: 100%;
+  display: none !important;
 }
 
 /* Right Stacked Sub Cards (Each 50% Height) */
@@ -230,17 +228,19 @@
 /* Slide Indicator Dots */
 .home-hero-split__dots {
   position: absolute;
-  bottom: 10px;
-  right: 12px;
+  bottom: 16px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   z-index: 10;
   background: rgba(0, 0, 0, 0.35);
-  padding: 4px 8px;
+  padding: 6px 12px;
   border-radius: 999px;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .home-hero-split__dot {
@@ -255,8 +255,8 @@
 }
 
 .home-hero-split__dot.is-active {
-  background: #f0d78a;
-  width: 16px;
+  background: #ffffff;
+  width: 18px;
   border-radius: 999px;
 }
 

@@ -4,161 +4,102 @@
 <section class="home-hero-split" data-home-hero>
 
   <div class="home-hero-split__container">
-    <!-- Left Main Banner (66% Width, Full Height) -->
-    <div class="home-hero-split__item home-hero-split__item--main">
-      <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Main Hero Banner">
-        {% if section.settings.left_image != blank %}
-          {{
-            section.settings.left_image
-            | image_url: width: 1800
-            | image_tag:
-              class: 'home-hero-split__image',
-              loading: 'eager',
-              fetchpriority: 'high',
-              widths: '750, 1100, 1400, 1800'
-          }}
-        {% else %}
-          <img
-            class="home-hero-split__image"
-            src="{{ 'hero-banner.jpg.png' | asset_url }}"
-            alt="Kishan Bazar Organic Kitchen"
-            width="1400"
-            height="700"
-            loading="eager"
-            fetchpriority="high"
-          >
-        {% endif %}
-      </a>
+    <!-- Wide Main Hero Banner (Full Width Desktop Auto Slider, Rounded Corners) -->
+    <div class="home-hero-split__item home-hero-split__item--main" data-hero-top-slider>
+      <div class="home-hero-split__slider">
+        {% assign slide_blocks = section.blocks | where: 'type', 'right_top_slide' %}
 
-      <!-- Overlay Action Buttons (Desktop 1 Button, Mobile 2 Buttons) -->
-      <div class="home-hero-split__actions-wrapper">
-        <!-- Desktop Action Button -->
-        <div class="home-hero-split__actions-desktop">
-          <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-btn home-hero-btn--primary">
-            {{ section.settings.shop_btn_text | default: 'SHOP ESSENTIALS' }}
-          </a>
-        </div>
-
-        <!-- Mobile Action Buttons -->
-        <div class="home-hero-split__actions-mobile">
-          <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-btn home-hero-btn--primary">
-            {{ section.settings.shop_btn_text | default: 'SHOP ESSENTIALS' }}
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Right Stacked Column (34% Width, 2 Stacked Cards) -->
-    <div class="home-hero-split__right-stack">
-      <!-- Right Top Sub-Banner: AUTO-PLAY SLIDER (Changes Every 4.5 Seconds) -->
-      <div class="home-hero-split__item home-hero-split__item--sub home-hero-split__item--top-slider" data-hero-top-slider>
-        <div class="home-hero-split__slider">
-          {% assign slide_blocks = section.blocks | where: 'type', 'right_top_slide' %}
-
-          {% if slide_blocks.size > 0 %}
-            {% for block in slide_blocks %}
-              <div class="home-hero-split__slide{% if forloop.first %} is-active{% endif %}" data-hero-slide {{ block.shopify_attributes }}>
-                <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Top Slide {{ forloop.index }}">
-                  {% if block.settings.image != blank %}
-                    {{
-                      block.settings.image
-                      | image_url: width: 900
-                      | image_tag:
-                        class: 'home-hero-split__image',
-                        loading: 'eager',
-                        widths: '480, 750, 900'
-                    }}
-                  {% else %}
-                    <img
-                      class="home-hero-split__image"
-                      src="{{ 'hero-mobile.jpg.png' | asset_url }}"
-                      alt="Monsoon Special Flavours Slide {{ forloop.index }}"
-                      width="600"
-                      height="350"
-                      loading="eager"
-                    >
-                  {% endif %}
-                </a>
-              </div>
-            {% endfor %}
-          {% else %}
-            <!-- Default Auto Slides (using section settings & asset images) -->
-            {% assign default_slides_count = 0 %}
-
-            <!-- Slide 1 -->
-            <div class="home-hero-split__slide is-active" data-hero-slide>
-              <a href="{{ section.settings.right_top_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Top Slide 1">
-                {% if section.settings.right_top_image != blank %}
-                  {{ section.settings.right_top_image | image_url: width: 900 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '480, 750, 900' }}
+        {% if slide_blocks.size > 0 %}
+          {% for block in slide_blocks %}
+            <div class="home-hero-split__slide{% if forloop.first %} is-active{% endif %}" data-hero-slide {{ block.shopify_attributes }}>
+              <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Slide {{ forloop.index }}">
+                {% if block.settings.image != blank %}
+                  {{
+                    block.settings.image
+                    | image_url: width: 2200
+                    | image_tag:
+                      class: 'home-hero-split__image',
+                      loading: 'eager',
+                      fetchpriority: 'high',
+                      widths: '750, 1100, 1400, 1800, 2200'
+                  }}
                 {% else %}
-                  <img class="home-hero-split__image" src="{{ 'hero-mobile.jpg.png' | asset_url }}" alt="Monsoon Special Flavours" width="600" height="350" loading="eager">
+                  <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Hero Slide {{ forloop.index }}" width="1400" height="700" loading="eager">
                 {% endif %}
               </a>
             </div>
+          {% endfor %}
+        {% else %}
+          <!-- Slide 1: Main Banner -->
+          <div class="home-hero-split__slide is-active" data-hero-slide>
+            <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Banner 1">
+              {% if section.settings.left_image != blank %}
+                {{ section.settings.left_image | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'eager', fetchpriority: 'high', widths: '750, 1100, 1400, 1800, 2200' }}
+              {% else %}
+                <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Kishan Bazar Organic Kitchen" width="1400" height="700" loading="eager">
+              {% endif %}
+            </a>
+          </div>
 
-            <!-- Slide 2 -->
-            {% if section.settings.right_top_image_2 != blank or section.settings.right_top_image == blank %}
-              <div class="home-hero-split__slide" data-hero-slide>
-                <a href="{{ section.settings.right_top_link_2 | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Top Slide 2">
-                  {% if section.settings.right_top_image_2 != blank %}
-                    {{ section.settings.right_top_image_2 | image_url: width: 900 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '480, 750, 900' }}
-                  {% else %}
-                    <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Farm Fresh Organic Offer" width="600" height="350" loading="eager">
-                  {% endif %}
-                </a>
-              </div>
-            {% endif %}
-
-            <!-- Slide 3 -->
-            {% if section.settings.right_top_image_3 != blank %}
-              <div class="home-hero-split__slide" data-hero-slide>
-                <a href="{{ section.settings.right_top_link_3 | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Right Top Slide 3">
-                  {{ section.settings.right_top_image_3 | image_url: width: 900 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '480, 750, 900' }}
-                </a>
-              </div>
-            {% endif %}
+          <!-- Slide 2: Second Banner -->
+          {% if section.settings.right_top_image != blank %}
+            <div class="home-hero-split__slide" data-hero-slide>
+              <a href="{{ section.settings.right_top_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Banner 2">
+                {{ section.settings.right_top_image | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '750, 1100, 1400, 1800, 2200' }}
+              </a>
+            </div>
           {% endif %}
-        </div>
 
-        <!-- Dot Navigation Indicators -->
-        <div class="home-hero-split__dots" role="tablist" aria-label="Hero Top Right Slides">
-          {% if slide_blocks.size > 0 %}
-            {% for block in slide_blocks %}
-              <button type="button" class="home-hero-split__dot{% if forloop.first %} is-active{% endif %}" data-hero-dot data-hero-dot-index="{{ forloop.index0 }}" aria-label="Go to Slide {{ forloop.index }}" role="tab"></button>
-            {% endfor %}
-          {% else %}
-            <button type="button" class="home-hero-split__dot is-active" data-hero-dot data-hero-dot-index="0" aria-label="Go to Slide 1" role="tab"></button>
-            <button type="button" class="home-hero-split__dot" data-hero-dot data-hero-dot-index="1" aria-label="Go to Slide 2" role="tab"></button>
-            {% if section.settings.right_top_image_3 != blank %}
-              <button type="button" class="home-hero-split__dot" data-hero-dot data-hero-dot-index="2" aria-label="Go to Slide 3" role="tab"></button>
-            {% endif %}
+          <!-- Slide 3: Third Banner -->
+          {% if section.settings.right_top_image_2 != blank %}
+            <div class="home-hero-split__slide" data-hero-slide>
+              <a href="{{ section.settings.right_top_link_2 | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Banner 3">
+                {{ section.settings.right_top_image_2 | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '750, 1100, 1400, 1800, 2200' }}
+              </a>
+            </div>
           {% endif %}
-        </div>
+
+          <!-- Slide 4: Fourth Banner -->
+          {% if section.settings.right_top_image_3 != blank %}
+            <div class="home-hero-split__slide" data-hero-slide>
+              <a href="{{ section.settings.right_top_link_3 | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Banner 4">
+                {{ section.settings.right_top_image_3 | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '750, 1100, 1400, 1800, 2200' }}
+              </a>
+            </div>
+          {% endif %}
+
+          <!-- Slide 5: Fifth Banner -->
+          {% if section.settings.right_bottom_image != blank %}
+            <div class="home-hero-split__slide" data-hero-slide>
+              <a href="{% if section.settings.right_bottom_link != blank %}{{ section.settings.right_bottom_link }}{% else %}/pages/our-story{% endif %}" class="home-hero-split__link" aria-label="Hero Banner 5">
+                {{ section.settings.right_bottom_image | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '750, 1100, 1400, 1800, 2200' }}
+              </a>
+            </div>
+          {% endif %}
+        {% endif %}
       </div>
 
-      <!-- Right Bottom Sub-Banner (Our Story Banner on Webview) -->
-      <div class="home-hero-split__item home-hero-split__item--sub">
-        <a href="{% if section.settings.right_bottom_link != blank %}{{ section.settings.right_bottom_link }}{% else %}/pages/our-story{% endif %}" class="home-hero-split__link" aria-label="Our Story Banner">
-          {% if section.settings.right_bottom_image != blank %}
-            {{
-              section.settings.right_bottom_image
-              | image_url: width: 900
-              | image_tag:
-                class: 'home-hero-split__image',
-                loading: 'eager',
-                widths: '480, 750, 900'
-            }}
-          {% else %}
-            <img
-              class="home-hero-split__image"
-              src="{{ 'hero-mobile.jpg.png' | asset_url }}"
-              alt="Our Story - Organic Farm Fresh Kitchen"
-              width="600"
-              height="350"
-              loading="eager"
-            >
+      <!-- Centered Bottom Dot Navigation Indicators -->
+      <div class="home-hero-split__dots" role="tablist" aria-label="Desktop Wide Hero Slides">
+        {% if slide_blocks.size > 0 %}
+          {% for block in slide_blocks %}
+            <button type="button" class="home-hero-split__dot{% if forloop.first %} is-active{% endif %}" data-hero-dot data-hero-dot-index="{{ forloop.index0 }}" aria-label="Go to Slide {{ forloop.index }}" role="tab"></button>
+          {% endfor %}
+        {% else %}
+          <button type="button" class="home-hero-split__dot is-active" data-hero-dot data-hero-dot-index="0" aria-label="Go to Slide 1" role="tab"></button>
+          {% if section.settings.right_top_image != blank %}
+            <button type="button" class="home-hero-split__dot" data-hero-dot data-hero-dot-index="1" aria-label="Go to Slide 2" role="tab"></button>
           {% endif %}
-        </a>
+          {% if section.settings.right_top_image_2 != blank %}
+            <button type="button" class="home-hero-split__dot" data-hero-dot data-hero-dot-index="2" aria-label="Go to Slide 3" role="tab"></button>
+          {% endif %}
+          {% if section.settings.right_top_image_3 != blank %}
+            <button type="button" class="home-hero-split__dot" data-hero-dot data-hero-dot-index="3" aria-label="Go to Slide 4" role="tab"></button>
+          {% endif %}
+          {% if section.settings.right_bottom_image != blank %}
+            <button type="button" class="home-hero-split__dot" data-hero-dot data-hero-dot-index="4" aria-label="Go to Slide 5" role="tab"></button>
+          {% endif %}
+        {% endif %}
       </div>
     </div>
   </div>
