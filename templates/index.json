@@ -11,6 +11,26 @@
   "sections": {
     "hero": {
       "type": "hero",
+      "blocks": {
+        "right_top_slide_KyU4Gc": {
+          "type": "right_top_slide",
+          "settings": {
+            "image": "shopify://shop_images/image-optimizer-preview-origin.png",
+            "link": ""
+          }
+        },
+        "right_top_slide_mX9id6": {
+          "type": "right_top_slide",
+          "settings": {
+            "image": "shopify://shop_images/person-fishing-on-the-beach-is-silhouetted-at-sunset.jpg",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "right_top_slide_KyU4Gc",
+        "right_top_slide_mX9id6"
+      ],
       "settings": {
         "left_image": "shopify://shop_images/hero_banner.png",
         "left_link": "",
