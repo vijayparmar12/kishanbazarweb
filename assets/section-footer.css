@@ -592,10 +592,20 @@
     width: 100%;
   }
 
+  .site-footer__desktop-col--left .site-footer__logo-link {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .site-footer__desktop-col--left .site-footer__logo {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
   .site-footer__desktop-col--left .site-footer__brand-text {
     width: 100% !important;
     max-width: 100% !important;
-    margin-top: 0.85rem !important;
+    margin-top: 0.35rem !important;
     font-size: 0.92rem !important;
     line-height: 1.65 !important;
     color: #23421f !important;
