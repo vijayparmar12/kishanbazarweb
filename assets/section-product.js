@@ -727,7 +727,6 @@ function initShareAndWishlist(container) {
 function initStickyMobileBar(container) {
   const stickyBar = container.querySelector('[data-sticky-mobile-bar]');
   const stickyAddBtn = container.querySelector('[data-sticky-add-to-cart-btn]');
-  const stickyBuyNowBtn = container.querySelector('[data-sticky-buy-now-btn]');
   const stickyMinusBtn = container.querySelector('[data-sticky-quantity-minus]');
   const stickyPlusBtn = container.querySelector('[data-sticky-quantity-plus]');
   const stickyQtyVal = container.querySelector('[data-sticky-quantity-val]');
@@ -736,11 +735,8 @@ function initStickyMobileBar(container) {
   const mainForm = container.querySelector('[data-product-main-form]');
   const mainQtyInput = container.querySelector('[data-quantity-input]');
   const mainAddBtn = container.querySelector('[data-add-to-cart-button]');
-  const mainBuyNowBtn = container.querySelector('[data-buy-now-button]');
   const mainStepper = container.querySelector('[data-card-inline-stepper]');
   const mainInlineCount = container.querySelector('[data-inline-count]');
-
-  if (!stickyBar || !mainForm) return;
 
   function updateQuantity(newQty) {
     if (newQty < 1) {
@@ -791,16 +787,23 @@ function initStickyMobileBar(container) {
 
       if (mainAddBtn) {
         mainAddBtn.click();
-      } else {
+      } else if (mainForm) {
         mainForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
       }
     });
   }
 
   async function performBuyNow(btn) {
-    const variantInput = mainForm.querySelector('[name="id"]');
-    const variantId = variantInput ? variantInput.value : null;
-    const qty = mainQtyInput ? (parseInt(mainQtyInput.value, 10) || 1) : 1;
+    const variantInput = (mainForm && mainForm.querySelector('[name="id"]')) || container.querySelector('[name="id"]') || container.querySelector('[data-product-selected-variant-id]');
+    let variantId = variantInput ? variantInput.value : null;
+
+    if (!variantId) {
+      const selectedRadio = container.querySelector('[data-variant-radio]:checked');
+      if (selectedRadio) variantId = selectedRadio.getAttribute('data-variant-id');
+    }
+
+    const qtyInput = (mainForm && mainForm.querySelector('[data-quantity-input]')) || container.querySelector('[data-quantity-input]');
+    const qty = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
 
     if (!variantId) return;
 
@@ -809,48 +812,52 @@ function initStickyMobileBar(container) {
       btn.textContent = 'REDIRECTING...';
     }
 
+    const rootUrl = window.Shopify?.routes?.root || '/';
+    const checkoutUrl = `${rootUrl}checkout`;
+
     try {
-      const rootUrl = window.Shopify?.routes?.root || '/';
-      await fetch(`${rootUrl}cart/add.js`, {
+      const response = await fetch(`${rootUrl}cart/add.js`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({ id: parseInt(variantId, 10), quantity: qty })
       });
-      window.location.href = '/checkout';
+
+      if (response.ok) {
+        window.location.href = checkoutUrl;
+      } else {
+        window.location.href = `${rootUrl}cart/${variantId}:${qty}`;
+      }
     } catch (err) {
-      window.location.href = '/checkout';
+      window.location.href = `${rootUrl}cart/${variantId}:${qty}`;
     }
   }
 
-  if (stickyBuyNowBtn) {
-    stickyBuyNowBtn.addEventListener('click', (e) => {
+  const allBuyNowBtns = container.querySelectorAll('[data-buy-now-button], [data-sticky-buy-now-btn]');
+  allBuyNowBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
       e.preventDefault();
-      performBuyNow(stickyBuyNowBtn);
+      e.stopPropagation();
+      performBuyNow(btn);
     });
-  }
-
-  if (mainBuyNowBtn) {
-    mainBuyNowBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      performBuyNow(mainBuyNowBtn);
-    });
-  }
+  });
 
   // Handle Desktop Web View Scroll Visibility
-  const handleStickyScroll = () => {
-    if (window.innerWidth > 768) {
-      const rect = mainForm.getBoundingClientRect();
-      if (rect.bottom < 100) {
-        stickyBar.classList.add('is-visible');
+  if (stickyBar && mainForm) {
+    const handleStickyScroll = () => {
+      if (window.innerWidth > 768) {
+        const rect = mainForm.getBoundingClientRect();
+        if (rect.bottom < 100) {
+          stickyBar.classList.add('is-visible');
+        } else {
+          stickyBar.classList.remove('is-visible');
+        }
       } else {
         stickyBar.classList.remove('is-visible');
       }
-    } else {
-      stickyBar.classList.remove('is-visible');
-    }
-  };
+    };
 
-  window.addEventListener('scroll', handleStickyScroll, { passive: true });
-  window.addEventListener('resize', handleStickyScroll, { passive: true });
-  handleStickyScroll();
+    window.addEventListener('scroll', handleStickyScroll, { passive: true });
+    window.addEventListener('resize', handleStickyScroll, { passive: true });
+    handleStickyScroll();
+  }
 }
