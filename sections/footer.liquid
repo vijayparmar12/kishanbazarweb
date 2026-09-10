@@ -79,6 +79,10 @@
               {% endif %}
             </a>
           {% endif %}
+
+          {% if brand_block.settings.about_text != blank %}
+            <div class="site-footer__brand-text">{{ brand_block.settings.about_text | newline_to_br }}</div>
+          {% endif %}
         {% endif %}
       </div>
 
