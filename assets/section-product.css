@@ -1589,17 +1589,9 @@
 /* HIDE STICKY BOTTOM BUY BAR WHEN JUDGE.ME REVIEW MODAL / FORM IS ACTIVE */
 body.jdgm-review-modal-active .sticky-mobile-bar,
 html.jdgm-review-modal-active .sticky-mobile-bar,
-body:has([class*="jdgm-form"]) .sticky-mobile-bar,
-body:has(.jdgm-form) .sticky-mobile-bar,
-body:has(.jdgm-form-wrapper) .sticky-mobile-bar,
-body:has(.jdgm-rev-widg__form) .sticky-mobile-bar,
-body:has(.jdgm-rev-widg__form-wrapper) .sticky-mobile-bar,
 body:has(#JdgmBlurOverlay) .sticky-mobile-bar,
 body.jdgm-review-modal-active [data-sticky-mobile-bar],
 html.jdgm-review-modal-active [data-sticky-mobile-bar],
-body:has([class*="jdgm-form"]) [data-sticky-mobile-bar],
-body:has(.jdgm-form) [data-sticky-mobile-bar],
-body:has(.jdgm-form-wrapper) [data-sticky-mobile-bar],
 body:has(#JdgmBlurOverlay) [data-sticky-mobile-bar] {
   display: none !important;
   opacity: 0 !important;

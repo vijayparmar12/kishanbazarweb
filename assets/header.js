@@ -123,25 +123,23 @@
     });
 
     const isJudgeMeModalActive = () => {
-      if (document.body.classList.contains('jdgm-review-modal-active') || document.documentElement.classList.contains('jdgm-review-modal-active') || window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1) {
-        return true;
-      }
-      var overlay = document.getElementById('JdgmBlurOverlay');
+      const overlay = document.getElementById('JdgmBlurOverlay');
       if (overlay) {
-        var oStyle = window.getComputedStyle(overlay);
-        if (oStyle.display !== 'none' && oStyle.visibility !== 'hidden' && (overlay.offsetWidth > 0 || overlay.offsetHeight > 0)) {
+        const oStyle = window.getComputedStyle(overlay);
+        if (oStyle.display !== 'none' && oStyle.visibility !== 'hidden' && overlay.offsetWidth > 0) {
           return true;
         }
       }
-      var forms = document.querySelectorAll('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form, [class*="jdgm-form"], .jdgm-write-rev-btn[aria-expanded="true"]');
-      for (var i = 0; i < forms.length; i++) {
-        var f = forms[i];
-        if (f) {
-          var fStyle = window.getComputedStyle(f);
-          if (fStyle.display !== 'none' && fStyle.visibility !== 'hidden' && (f.offsetWidth > 0 || f.offsetHeight > 0)) {
-            return true;
-          }
-        }
+      const expandedBtn = document.querySelector('.jdgm-write-rev-btn[aria-expanded="true"]');
+      if (expandedBtn) return true;
+
+      const activeForm = document.querySelector('.jdgm-form-wrapper:not([style*="display: none"]), .jdgm-rev-widg__form-wrapper:not([style*="display: none"])');
+      if (activeForm && activeForm.offsetHeight > 100) {
+        return true;
+      }
+
+      if (window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1) {
+        return true;
       }
       return false;
     };
@@ -268,22 +266,20 @@
     closeCartDrawer();
   });
 
-  // Monitor Judge.me Write a Review Modal to 100% Hide Header and Sticky Cart Bar
+  // Monitor Judge.me Write a Review Modal to Hide Header and Sticky Cart Bar
   const handleJudgeMeModal = () => {
-    const form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form, [class*="jdgm-form"]');
     const overlay = document.getElementById('JdgmBlurOverlay');
-    const isFormOpen = (form && (
-      form.offsetWidth > 0 || 
-      form.offsetHeight > 0 || 
-      window.getComputedStyle(form).display !== 'none' ||
-      window.getComputedStyle(form).visibility !== 'hidden'
-    )) || (overlay && window.getComputedStyle(overlay).display !== 'none');
-
+    const isOverlayOpen = overlay && window.getComputedStyle(overlay).display !== 'none' && overlay.offsetWidth > 0;
+    const isBtnExpanded = !!document.querySelector('.jdgm-write-rev-btn[aria-expanded="true"]');
+    const activeForm = document.querySelector('.jdgm-form-wrapper:not([style*="display: none"]), .jdgm-rev-widg__form-wrapper:not([style*="display: none"])');
+    const isFormOpen = activeForm && activeForm.offsetHeight > 100;
     const isParamOpen = window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1;
+
+    const shouldHide = isOverlayOpen || isBtnExpanded || isFormOpen || isParamOpen;
 
     const targetEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]');
 
-    if (isFormOpen || isParamOpen) {
+    if (shouldHide) {
       document.documentElement.classList.add('jdgm-review-modal-active');
       document.body.classList.add('jdgm-review-modal-active');
       targetEls.forEach(el => {
