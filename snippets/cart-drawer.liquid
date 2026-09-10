@@ -155,7 +155,7 @@
                 {% endif %}
               {% endfor %}
             {% endif %}
-            {% assign fbt_limit = section.settings.cart_addons_limit | default: settings.cart_addons_limit | default: 6 %}
+            {% assign fbt_limit = section.settings.cart_addons_limit | default: settings.cart_addons_limit | default: 4 %}
             {% assign cart_handles = cart.items | map: 'product' | map: 'handle' %}
             {% assign fbt_count = 0 %}
             {% for product in addons_coll %}

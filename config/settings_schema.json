@@ -233,9 +233,9 @@
         "id": "cart_addons_limit",
         "label": "Frequently Bought Together Products Limit",
         "min": 4,
-        "max": 6,
+        "max": 12,
         "step": 1,
-        "default": 6
+        "default": 4
       },
       {
         "type": "header",
