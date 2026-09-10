@@ -2097,11 +2097,10 @@ body.jdgm-review-modal-active .sticky-mobile-bar,
 html.jdgm-review-modal-active .sticky-mobile-bar,
 body.jdgm-review-modal-active [data-sticky-mobile-bar],
 html.jdgm-review-modal-active [data-sticky-mobile-bar] {
-  filter: blur(10px) !important;
-  -webkit-filter: blur(10px) !important;
-  z-index: 100 !important;
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
   pointer-events: none !important;
-  user-select: none !important;
 }
 
 .sticky-mobile-bar__inner {

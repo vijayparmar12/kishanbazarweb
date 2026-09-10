@@ -92,25 +92,12 @@
         pointer-events: all !important;
       }
 
-      body.jdgm-review-modal-active:before {
-        content: '';
-        position: fixed !important;
-        inset: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        background: rgba(0, 0, 0, 0.6) !important;
-        backdrop-filter: blur(10px) !important;
-        -webkit-backdrop-filter: blur(10px) !important;
-        z-index: 9999990 !important;
-        pointer-events: all !important;
-      }
-
+      /* HIDE HEADER AND STICKY BOTTOM BAR ONLY WHEN WRITE A REVIEW FORM IS ACTIVELY OPEN */
       body.jdgm-review-modal-active,
       html.jdgm-review-modal-active {
         overflow: hidden !important;
       }
 
-      /* BLUR HEADERS, STICKY BOTTOM BAR, AND PRODUCT PAGE CONTENT WHEN REVIEW MODAL IS OPEN */
       html.jdgm-review-modal-active .kb-header,
       html.jdgm-review-modal-active .kb-header-top-sticky,
       html.jdgm-review-modal-active [data-premium-header],
@@ -123,8 +110,6 @@
       html.jdgm-review-modal-active .sticky-header,
       html.jdgm-review-modal-active .sticky-mobile-bar,
       html.jdgm-review-modal-active [data-sticky-mobile-bar],
-      html.jdgm-review-modal-active .kishanbazar-product-page,
-      html.jdgm-review-modal-active main,
       body.jdgm-review-modal-active .kb-header,
       body.jdgm-review-modal-active .kb-header-top-sticky,
       body.jdgm-review-modal-active [data-premium-header],
@@ -137,15 +122,12 @@
       body.jdgm-review-modal-active .header-wrapper,
       body.jdgm-review-modal-active .sticky-header,
       body.jdgm-review-modal-active .sticky-mobile-bar,
-      body.jdgm-review-modal-active [data-sticky-mobile-bar],
-      body.jdgm-review-modal-active .kishanbazar-product-page,
-      body.jdgm-review-modal-active main {
-        filter: blur(10px) !important;
-        -webkit-filter: blur(10px) !important;
-        z-index: 100 !important;
+      body.jdgm-review-modal-active [data-sticky-mobile-bar] {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
         pointer-events: none !important;
-        user-select: none !important;
-        transition: filter 0.3s ease !important;
+        z-index: -999999 !important;
       }
 
       /* JUDGE.ME REVIEW MODAL POPUP CENTERED AT MAXIMUM Z-INDEX */

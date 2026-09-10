@@ -25,12 +25,10 @@ body.jdgm-review-modal-active .shopify-section-group-header-group,
 body.jdgm-review-modal-active #shopify-section-header,
 body.jdgm-review-modal-active #shopify-section-announcement-bar,
 body.jdgm-review-modal-active header {
-  filter: blur(10px) !important;
-  -webkit-filter: blur(10px) !important;
-  z-index: 100 !important;
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
   pointer-events: none !important;
-  user-select: none !important;
-  transition: filter 0.3s ease !important;
 }
 
 .kb-header {
