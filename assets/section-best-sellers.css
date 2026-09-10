@@ -749,3 +749,43 @@
     right: 10px !important;
   }
 }
+
+/* Centered SHOP ALL Button below Best Sellers Products (Mobile & Web) */
+.best-sellers__shop-all-wrapper {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+  text-align: center !important;
+}
+
+.best-sellers__shop-all-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: #1e3d20 !important;
+  color: #ffffff !important;
+  font-family: var(--font-primary--family, 'Montserrat', sans-serif) !important;
+  font-size: 0.85rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  padding: 0.75rem 2.25rem !important;
+  border-radius: 6px !important;
+  text-decoration: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(30, 61, 32, 0.2) !important;
+  transition: background-color 200ms ease, box-shadow 200ms ease !important;
+  line-height: 1.2 !important;
+  box-sizing: border-box !important;
+}
+
+.best-sellers__shop-all-btn:hover {
+  background-color: #163018 !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 16px rgba(30, 61, 32, 0.3) !important;
+  text-decoration: none !important;
+}
