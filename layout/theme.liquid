@@ -240,31 +240,24 @@
     <script>
       (function() {
         function toggleReviewModalState() {
-          var form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form, [class*="jdgm-form"], .jdgm-write-rev-btn[aria-expanded="true"]');
+          var form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form');
           var overlay = document.getElementById('JdgmBlurOverlay');
           var isFormVisible = false;
 
           if (form) {
             var style = window.getComputedStyle(form);
-            if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0' && (form.offsetWidth > 0 || form.offsetHeight > 0)) {
+            if (style.display !== 'none' && style.visibility !== 'hidden' && (form.offsetWidth > 0 || form.offsetHeight > 0)) {
               isFormVisible = true;
             }
           }
 
-          if (!isFormVisible && overlay) {
-            var oStyle = window.getComputedStyle(overlay);
-            if (oStyle.display !== 'none' && oStyle.visibility !== 'hidden' && oStyle.opacity !== '0' && (overlay.offsetWidth > 0 || overlay.offsetHeight > 0)) {
-              isFormVisible = true;
-            }
-          }
-
-          if (!isFormVisible && (window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1)) {
+          if (window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1) {
             if (document.querySelector('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn')) {
               isFormVisible = true;
             }
           }
 
-          var headerElements = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, .kb-header1, .kb-header2, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]');
+          var headerElements = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]');
 
           if (isFormVisible) {
             document.documentElement.classList.add('jdgm-review-modal-active');
@@ -301,13 +294,10 @@
         }
 
         document.addEventListener('click', function(e) {
-          if (e.target.closest('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn, [href*="write-review"], [href*="pb=0"], [class*="jdgm"]')) {
-            document.documentElement.classList.add('jdgm-review-modal-active');
-            document.body.classList.add('jdgm-review-modal-active');
-            setTimeout(toggleReviewModalState, 10);
-            setTimeout(toggleReviewModalState, 50);
-            setTimeout(toggleReviewModalState, 150);
-            setTimeout(toggleReviewModalState, 350);
+          if (e.target.closest('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn, [href*="write-review"], [href*="pb=0"]')) {
+            setTimeout(toggleReviewModalState, 20);
+            setTimeout(toggleReviewModalState, 100);
+            setTimeout(toggleReviewModalState, 300);
           }
           if (e.target.closest('.jdgm-cancel-rev, .jdgm-close-btn, .jdgm-form__close, .jdgm-dialog__close')) {
             setTimeout(toggleReviewModalState, 20);
@@ -315,15 +305,8 @@
         });
 
         var observer = new MutationObserver(toggleReviewModalState);
-        var initObs = function() {
-          if (document.body) {
-            observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class', 'aria-expanded'] });
-          }
-        };
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', initObs);
-        } else {
-          initObs();
+        if (document.body) {
+          observer.observe(document.body, { childList: true });
         }
       })();
     </script>
