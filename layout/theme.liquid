@@ -251,14 +251,14 @@
             }
           }
 
-          if (overlay) {
+          if (!isFormVisible && overlay) {
             var oStyle = window.getComputedStyle(overlay);
             if (oStyle.display !== 'none' && oStyle.visibility !== 'hidden' && oStyle.opacity !== '0' && (overlay.offsetWidth > 0 || overlay.offsetHeight > 0)) {
               isFormVisible = true;
             }
           }
 
-          if (window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1) {
+          if (!isFormVisible && (window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1)) {
             if (document.querySelector('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn')) {
               isFormVisible = true;
             }
