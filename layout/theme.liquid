@@ -75,7 +75,7 @@
     <link rel="icon" type="image/png" href="{{ 'logo.png' | asset_url }}">
     <link rel="apple-touch-icon" href="{{ 'logo.png' | asset_url }}">
 
-    <!-- GLOBAL JUDGE.ME WRITE A REVIEW MODAL BACKDROP BLUR & HEADER-HIDE -->
+    <!-- GLOBAL JUDGE.ME WRITE A REVIEW MODAL BACKDROP BLUR & UNBLURRED FORM -->
     <style>
       /* BLUR ALL BACKGROUND & OVERLAY WHEN WRITE A REVIEW IS OPEN */
       body.jdgm-review-modal-active #JdgmBlurOverlay,
@@ -84,20 +84,33 @@
         inset: 0 !important;
         width: 100vw !important;
         height: 100vh !important;
-        background: rgba(0, 0, 0, 0.82) !important;
-        backdrop-filter: blur(16px) !important;
-        -webkit-backdrop-filter: blur(16px) !important;
+        background: rgba(0, 0, 0, 0.65) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
         z-index: 99999990 !important;
         display: block !important;
         pointer-events: all !important;
       }
 
-      /* HIDE ALL HEADERS & ANNOUNCEMENT BARS 100% WHEN JUDGE.ME MODAL IS OPEN */
+      body.jdgm-review-modal-active:before {
+        content: '';
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background: rgba(0, 0, 0, 0.6) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        z-index: 9999990 !important;
+        pointer-events: all !important;
+      }
+
       body.jdgm-review-modal-active,
       html.jdgm-review-modal-active {
         overflow: hidden !important;
       }
 
+      /* BLUR HEADERS, STICKY BOTTOM BAR, AND PRODUCT PAGE CONTENT WHEN REVIEW MODAL IS OPEN */
       html.jdgm-review-modal-active .kb-header,
       html.jdgm-review-modal-active .kb-header-top-sticky,
       html.jdgm-review-modal-active [data-premium-header],
@@ -108,6 +121,10 @@
       html.jdgm-review-modal-active header,
       html.jdgm-review-modal-active .header-wrapper,
       html.jdgm-review-modal-active .sticky-header,
+      html.jdgm-review-modal-active .sticky-mobile-bar,
+      html.jdgm-review-modal-active [data-sticky-mobile-bar],
+      html.jdgm-review-modal-active .kishanbazar-product-page,
+      html.jdgm-review-modal-active main,
       body.jdgm-review-modal-active .kb-header,
       body.jdgm-review-modal-active .kb-header-top-sticky,
       body.jdgm-review-modal-active [data-premium-header],
@@ -118,17 +135,16 @@
       body.jdgm-review-modal-active header,
       body.jdgm-review-modal-active [id*="header"],
       body.jdgm-review-modal-active .header-wrapper,
-      body.jdgm-review-modal-active .sticky-header {
-        display: none !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-        height: 0 !important;
-        min-height: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
+      body.jdgm-review-modal-active .sticky-header,
+      body.jdgm-review-modal-active .sticky-mobile-bar,
+      body.jdgm-review-modal-active [data-sticky-mobile-bar],
+      body.jdgm-review-modal-active .kishanbazar-product-page,
+      body.jdgm-review-modal-active main {
+        filter: blur(8px) !important;
+        -webkit-filter: blur(8px) !important;
         pointer-events: none !important;
-        z-index: -999999 !important;
-        position: static !important;
+        user-select: none !important;
+        transition: filter 0.3s ease !important;
       }
 
       /* JUDGE.ME REVIEW MODAL POPUP CENTERED AT MAXIMUM Z-INDEX */

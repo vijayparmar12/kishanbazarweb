@@ -158,15 +158,10 @@
       if (isJudgeMeModalActive()) {
         document.body.classList.add('jdgm-review-modal-active');
         document.documentElement.classList.add('jdgm-review-modal-active');
-        allHeaderAndStickyEls.forEach((h) => {
-          h.classList.remove('kb-header-top--fixed');
-          h.style.setProperty('display', 'none', 'important');
-          h.style.setProperty('opacity', '0', 'important');
-          h.style.setProperty('visibility', 'hidden', 'important');
-          h.style.setProperty('pointer-events', 'none', 'important');
-          h.style.setProperty('z-index', '-999999', 'important');
-        });
         return;
+      } else {
+        document.body.classList.remove('jdgm-review-modal-active');
+        document.documentElement.classList.remove('jdgm-review-modal-active');
       }
 
       if (!topSticky) return;
@@ -282,23 +277,9 @@
     if (shouldHide) {
       document.documentElement.classList.add('jdgm-review-modal-active');
       document.body.classList.add('jdgm-review-modal-active');
-      targetEls.forEach(el => {
-        el.style.setProperty('display', 'none', 'important');
-        el.style.setProperty('opacity', '0', 'important');
-        el.style.setProperty('visibility', 'hidden', 'important');
-        el.style.setProperty('pointer-events', 'none', 'important');
-        el.style.setProperty('z-index', '-999999', 'important');
-      });
     } else {
       document.documentElement.classList.remove('jdgm-review-modal-active');
       document.body.classList.remove('jdgm-review-modal-active');
-      targetEls.forEach(el => {
-        el.style.removeProperty('display');
-        el.style.removeProperty('opacity');
-        el.style.removeProperty('visibility');
-        el.style.removeProperty('pointer-events');
-        el.style.removeProperty('z-index');
-      });
     }
   };
 
