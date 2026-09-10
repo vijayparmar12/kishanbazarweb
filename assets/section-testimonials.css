@@ -157,7 +157,7 @@
   touch-action: pan-x pan-y;
   cursor: grab;
   scrollbar-width: none;
-  padding: 0.5rem 0 0.75rem !important;
+  padding: 0.5rem 1.5rem 0.75rem 0.25rem !important;
   box-sizing: border-box !important;
 }
 
@@ -217,8 +217,8 @@
 
 @media (hover: hover) and (min-width: 768px) {
   .testimonials__card:hover {
-    box-shadow: 0 16px 36px rgba(35, 66, 31, 0.16);
-    transform: translateY(-4px) !important;
+    box-shadow: 0 10px 24px rgba(35, 66, 31, 0.12);
+    transform: none !important;
   }
 }
 

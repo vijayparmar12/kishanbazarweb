@@ -75,12 +75,12 @@
 }
 
 .product-card:hover .product-card__image {
-  transform: scale(1.06);
+  transform: none;
 }
 
 .product-card:hover .product-card__image--hover {
   opacity: 1;
-  transform: scale(1.06);
+  transform: none;
 }
 
 .product-card__placeholder {
