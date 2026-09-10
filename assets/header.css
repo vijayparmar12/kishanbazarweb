@@ -12,6 +12,8 @@ html.jdgm-review-modal-active .shopify-section-group-header-group,
 html.jdgm-review-modal-active #shopify-section-header,
 html.jdgm-review-modal-active #shopify-section-announcement-bar,
 html.jdgm-review-modal-active header,
+html.jdgm-review-modal-active .sticky-mobile-bar,
+html.jdgm-review-modal-active [data-sticky-mobile-bar],
 body.jdgm-review-modal-active .kb-header,
 body.jdgm-review-modal-active .kb-header-top-sticky,
 body.jdgm-review-modal-active .kb-header-top--fixed,
@@ -24,7 +26,9 @@ body.jdgm-review-modal-active #shopify-section-header-group,
 body.jdgm-review-modal-active .shopify-section-group-header-group,
 body.jdgm-review-modal-active #shopify-section-header,
 body.jdgm-review-modal-active #shopify-section-announcement-bar,
-body.jdgm-review-modal-active header {
+body.jdgm-review-modal-active header,
+body.jdgm-review-modal-active .sticky-mobile-bar,
+body.jdgm-review-modal-active [data-sticky-mobile-bar] {
   display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;

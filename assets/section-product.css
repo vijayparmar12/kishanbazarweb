@@ -1584,9 +1584,20 @@
     font-size: 1.25rem !important;
     margin-bottom: 0.75rem !important;
   }
+/* HIDE STICKY BOTTOM BUY BAR WHEN JUDGE.ME REVIEW MODAL / FORM IS ACTIVE */
+body.jdgm-review-modal-active .sticky-mobile-bar,
+html.jdgm-review-modal-active .sticky-mobile-bar,
+body:has(#JdgmBlurOverlay) .sticky-mobile-bar,
+body.jdgm-review-modal-active [data-sticky-mobile-bar],
+html.jdgm-review-modal-active [data-sticky-mobile-bar],
+body:has(#JdgmBlurOverlay) [data-sticky-mobile-bar] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(100%) !important;
+  z-index: -999999 !important;
 }
-
-
 
 /* Remove card box style from star rating under title & enforce strict left positioning */
 .product-info .jdgm-widget,
