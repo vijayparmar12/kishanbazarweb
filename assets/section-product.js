@@ -466,11 +466,13 @@ function initVariantSelection(container) {
       // Update Sticky Bar
       if (stickyPrice && price) stickyPrice.textContent = price;
       if (stickyVariant && title) stickyVariant.textContent = title;
+      const stickyImg = container.querySelector('[data-sticky-bar-img]');
 
       // Update image if specified
       if (img) {
         const mainImg = container.querySelector('[data-gallery-main-image]');
         if (mainImg) mainImg.src = img;
+        if (stickyImg) stickyImg.src = img;
       }
     });
   });
@@ -833,4 +835,22 @@ function initStickyMobileBar(container) {
       performBuyNow(mainBuyNowBtn);
     });
   }
+
+  // Handle Desktop Web View Scroll Visibility
+  const handleStickyScroll = () => {
+    if (window.innerWidth > 768) {
+      const rect = mainForm.getBoundingClientRect();
+      if (rect.bottom < 100) {
+        stickyBar.classList.add('is-visible');
+      } else {
+        stickyBar.classList.remove('is-visible');
+      }
+    } else {
+      stickyBar.classList.remove('is-visible');
+    }
+  };
+
+  window.addEventListener('scroll', handleStickyScroll, { passive: true });
+  window.addEventListener('resize', handleStickyScroll, { passive: true });
+  handleStickyScroll();
 }

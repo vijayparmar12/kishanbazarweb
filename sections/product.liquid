@@ -147,25 +147,43 @@
     {% assign current_v_avail = false %}
   {% endif %}
 
-  <!-- Sticky Bottom Buy Bar on Mobile (ADD TO CART + BUY NOW initially, stepper after ADD TO CART) -->
+  {% assign current_variant = product.selected_or_first_available_variant %}
+  {% assign sticky_img = product.featured_image %}
+  {% if current_variant.featured_image %}
+    {% assign sticky_img = current_variant.featured_image %}
+  {% endif %}
+
+  <!-- Sticky Bottom Buy Bar (Mobile & Desktop Web View) -->
   <div class="sticky-mobile-bar" data-sticky-mobile-bar aria-hidden="false">
-    <div class="sticky-mobile-bar__content">
-      <!-- Add to Cart Button -->
-      <button type="button" class="sticky-mobile-bar__btn sticky-mobile-bar__btn--add" data-sticky-add-to-cart-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
-        <span data-sticky-btn-text>{% if current_v_avail %}{{ section.settings.sticky_bar_btn_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}</span>
-      </button>
-
-      <!-- Stepper [- 1 +] Pill (Initially Hidden, appears after ADD TO CART click) -->
-      <div class="sticky-mobile-bar__quantity-stepper" data-sticky-stepper style="display: none !important;">
-        <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-minus aria-label="Decrease quantity">-</button>
-        <span class="sticky-mobile-bar__qval" data-sticky-quantity-val>1</span>
-        <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-plus aria-label="Increase quantity">+</button>
+    <div class="sticky-mobile-bar__inner">
+      <div class="sticky-mobile-bar__product-info">
+        <img src="{{ sticky_img | image_url: width: 140 }}" alt="{{ product.title | escape }}" class="sticky-mobile-bar__product-img" data-sticky-bar-img width="50" height="50" loading="lazy">
+        <div class="sticky-mobile-bar__product-details">
+          <div class="sticky-mobile-bar__product-title">{{ product.title }}</div>
+          <div class="sticky-mobile-bar__product-meta">
+            <span class="sticky-mobile-bar__product-price" data-sticky-bar-price>{{ current_variant.price | money }}</span>
+            <span class="sticky-mobile-bar__product-variant" data-sticky-bar-variant>{% if current_variant.title != 'Default Title' %}{{ current_variant.title }}{% endif %}</span>
+          </div>
+        </div>
       </div>
+      <div class="sticky-mobile-bar__content">
+        <!-- Add to Cart Button -->
+        <button type="button" class="sticky-mobile-bar__btn sticky-mobile-bar__btn--add" data-sticky-add-to-cart-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
+          <span data-sticky-btn-text>{% if current_v_avail %}{{ section.settings.sticky_bar_btn_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}</span>
+        </button>
 
-      <!-- Buy Now Button (Initially visible beside ADD TO CART) -->
-      <button type="button" class="sticky-mobile-bar__btn sticky-mobile-bar__btn--buy" data-sticky-buy-now-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
-        BUY NOW
-      </button>
+        <!-- Stepper [- 1 +] Pill (Initially Hidden, appears after ADD TO CART click) -->
+        <div class="sticky-mobile-bar__quantity-stepper" data-sticky-stepper style="display: none !important;">
+          <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-minus aria-label="Decrease quantity">-</button>
+          <span class="sticky-mobile-bar__qval" data-sticky-quantity-val>1</span>
+          <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-plus aria-label="Increase quantity">+</button>
+        </div>
+
+        <!-- Buy Now Button (Initially visible beside ADD TO CART) -->
+        <button type="button" class="sticky-mobile-bar__btn sticky-mobile-bar__btn--buy" data-sticky-buy-now-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
+          BUY NOW
+        </button>
+      </div>
     </div>
   </div>
 </div>

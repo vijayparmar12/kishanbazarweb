@@ -2055,8 +2055,8 @@ input[type="submit"].jdgm-btn:hover {
 }
 
 /* ==========================================================================
-   STICKY MOBILE ADD TO CART BAR
-   ==========================================================================/* Sticky Add to Cart Bar on Mobile (Two Brothers Style: Add To Cart + Quantity Stepper) */
+   STICKY MOBILE & DESKTOP ADD TO CART BAR
+   ========================================================================== */
 .sticky-mobile-bar {
   background-color: #ffffff;
   border-top: 1px solid #efe8da;
@@ -2070,13 +2070,71 @@ input[type="submit"].jdgm-btn:hover {
   display: block;
 }
 
+.sticky-mobile-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.sticky-mobile-bar__product-info {
+  display: none;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.sticky-mobile-bar__product-img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.sticky-mobile-bar__product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sticky-mobile-bar__product-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+  max-width: 320px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sticky-mobile-bar__product-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+}
+
+.sticky-mobile-bar__product-price {
+  font-weight: 800;
+  color: #1b4317;
+}
+
+.sticky-mobile-bar__product-variant {
+  color: #6b7280;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
 .sticky-mobile-bar__content {
   align-items: center;
   display: flex;
   gap: 0.75rem;
   justify-content: space-between;
-  margin: 0 auto;
+  margin: 0;
   max-width: 600px;
+  width: 100%;
 }
 
 .sticky-mobile-bar__btn {
@@ -2095,6 +2153,7 @@ input[type="submit"].jdgm-btn:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 130px;
 }
 
 .sticky-mobile-bar__btn--add {
@@ -2124,6 +2183,7 @@ input[type="submit"].jdgm-btn:hover {
   height: 46px;
   justify-content: space-between;
   padding: 0 0.5rem;
+  min-width: 130px;
 }
 
 .sticky-mobile-bar__qbtn {
@@ -2146,9 +2206,42 @@ input[type="submit"].jdgm-btn:hover {
   font-weight: 800;
 }
 
+@media screen and (max-width: 48rem) {
+  .sticky-mobile-bar__inner {
+    justify-content: center;
+  }
+  .sticky-mobile-bar__content {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .sticky-mobile-bar__product-info {
+    display: none !important;
+  }
+}
+
 @media screen and (min-width: 48.01rem) {
   .sticky-mobile-bar {
-    display: none !important;
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    padding: 0.75rem 2rem;
+  }
+
+  .sticky-mobile-bar.is-visible {
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  .sticky-mobile-bar__product-info {
+    display: flex;
+  }
+
+  .sticky-mobile-bar__content {
+    width: auto;
+    justify-content: flex-end;
   }
 }
 
