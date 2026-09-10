@@ -283,6 +283,7 @@
       "block_order": [
         "razorpay_cod_magic_checkout_affordability_block_PAbJRw"
       ],
+      "disabled": true,
       "settings": {}
     }
   },
