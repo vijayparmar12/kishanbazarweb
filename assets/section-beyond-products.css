@@ -1,12 +1,19 @@
 .beyond-products {
   width: 100%;
-  padding-top: 0.5rem !important;
-  padding-bottom: 1rem !important;
+  padding-top: 1.5rem !important;
+  padding-bottom: 2rem !important;
   padding-left: max(var(--container-padding, 1rem), calc((100% - var(--container-width, 1280px)) / 2));
   padding-right: max(var(--container-padding, 1rem), calc((100% - var(--container-width, 1280px)) / 2));
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
+}
+
+@media (min-width: 990px) {
+  .beyond-products {
+    padding-top: 3.5rem !important;
+    padding-bottom: 4rem !important;
+  }
 }
 
 .beyond-products__inner {
@@ -17,9 +24,15 @@
 
 .beyond-products__header {
   text-align: center;
-  margin-bottom: 0.25rem !important;
+  margin-bottom: 1.25rem !important;
   margin-top: 0 !important;
   padding: 0 !important;
+}
+
+@media (min-width: 990px) {
+  .beyond-products__header {
+    margin-bottom: 2.25rem !important;
+  }
 }
 
 .beyond-products__heading-banner-wrap {
@@ -75,6 +88,17 @@
   box-sizing: border-box !important;
 }
 
+@media (min-width: 990px) {
+  .beyond-products__track {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.5rem !important;
+    overflow-x: visible !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+}
+
 .beyond-products__track::-webkit-scrollbar {
   display: none !important;
 }
@@ -85,6 +109,15 @@
   min-width: clamp(240px, 22vw, 290px) !important;
   scroll-snap-align: start !important;
   box-sizing: border-box !important;
+}
+
+@media (min-width: 990px) {
+  .beyond-products__slide {
+    flex: 1 1 0% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
 }
 
 .beyond-products__card {
@@ -201,6 +234,12 @@
   justify-content: center;
   gap: 0.5rem;
   margin-top: 1.25rem;
+}
+
+@media (min-width: 990px) {
+  .beyond-products__dots {
+    display: none !important;
+  }
 }
 
 .beyond-products__dot {
