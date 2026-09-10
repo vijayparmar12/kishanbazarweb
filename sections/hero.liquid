@@ -6,6 +6,18 @@
   {% assign slide_blocks = section.blocks | where: 'type', 'right_top_slide' %}
 {% endif %}
 
+{% assign mobile_slides = section.blocks | where: 'type', 'mobile_hero_slide' %}
+{% if mobile_slides.size == 0 %}
+  {% assign mobile_slides = slide_blocks %}
+{% endif %}
+
+{% comment %} Mobile LCP Hero Image Preload for <2.5s LCP {% endcomment %}
+{% assign first_mob_block = mobile_slides | first %}
+{% assign first_mob_img = first_mob_block.settings.mobile_image | default: first_mob_block.settings.image | default: section.settings.left_image %}
+{% if first_mob_img != blank %}
+  <link rel="preload" as="image" href="{{ first_mob_img | image_url: width: 750 }}" imagesrcset="{{ first_mob_img | image_url: width: 360 }} 360w, {{ first_mob_img | image_url: width: 480 }} 480w, {{ first_mob_img | image_url: width: 600 }} 600w, {{ first_mob_img | image_url: width: 750 }} 750w, {{ first_mob_img | image_url: width: 900 }} 900w" imagesizes="100vw" fetchpriority="high">
+{% endif %}
+
 <section class="home-hero-split" data-home-hero>
 
   <!-- Wide Main Hero Banner (Full Width Desktop Auto Slider, Rounded Corners) -->
@@ -54,7 +66,7 @@
           {% if section.settings.right_top_image != blank %}
             <div class="home-hero-split__slide" data-hero-slide>
               <a href="{{ section.settings.right_top_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Banner 2">
-                {{ section.settings.right_top_image | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '750, 1100, 1400, 1800, 2200' }}
+                {{ section.settings.right_top_image | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'lazy', widths: '750, 1100, 1400, 1800, 2200' }}
               </a>
             </div>
           {% endif %}
@@ -62,7 +74,7 @@
           {% if section.settings.right_top_image_2 != blank %}
             <div class="home-hero-split__slide" data-hero-slide>
               <a href="{{ section.settings.right_top_link_2 | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Banner 3">
-                {{ section.settings.right_top_image_2 | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '750, 1100, 1400, 1800, 2200' }}
+                {{ section.settings.right_top_image_2 | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'lazy', widths: '750, 1100, 1400, 1800, 2200' }}
               </a>
             </div>
           {% endif %}
@@ -70,7 +82,7 @@
           {% if section.settings.right_top_image_3 != blank %}
             <div class="home-hero-split__slide" data-hero-slide>
               <a href="{{ section.settings.right_top_link_3 | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Banner 4">
-                {{ section.settings.right_top_image_3 | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '750, 1100, 1400, 1800, 2200' }}
+                {{ section.settings.right_top_image_3 | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'lazy', widths: '750, 1100, 1400, 1800, 2200' }}
               </a>
             </div>
           {% endif %}
@@ -78,7 +90,7 @@
           {% if section.settings.right_bottom_image != blank %}
             <div class="home-hero-split__slide" data-hero-slide>
               <a href="{% if section.settings.right_bottom_link != blank %}{{ section.settings.right_bottom_link }}{% else %}/pages/our-story{% endif %}" class="home-hero-split__link" aria-label="Hero Banner 5">
-                {{ section.settings.right_bottom_image | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'eager', widths: '750, 1100, 1400, 1800, 2200' }}
+                {{ section.settings.right_bottom_image | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'lazy', widths: '750, 1100, 1400, 1800, 2200' }}
               </a>
             </div>
           {% endif %}
@@ -113,11 +125,6 @@
   <!-- Mobile Dedicated All-Image Auto-Play Slider (Mobile View Only) -->
   <div class="home-hero-split__mobile-slider" data-hero-mobile-slider style="--kb-mobile-hero-aspect: {{ section.settings.mobile_aspect_ratio | default: '3 / 2' }};">
     <div class="home-hero-split__mobile-slides-track">
-      {% assign mobile_slides = section.blocks | where: 'type', 'mobile_hero_slide' %}
-      {% if mobile_slides.size == 0 %}
-        {% assign mobile_slides = slide_blocks %}
-      {% endif %}
-
       {% if mobile_slides.size > 0 %}
         {% for block in mobile_slides %}
           {% assign mob_img = block.settings.mobile_image | default: block.settings.image %}
@@ -130,11 +137,31 @@
           <div class="home-hero-split__mobile-slide{% if forloop.first %} is-active{% endif %}" data-hero-mobile-slide {{ block.shopify_attributes }}>
             <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Mobile Hero Slide {{ forloop.index }}">
               {% if mob_img != blank %}
-                {{ mob_img | image_url: width: 1000 | image_tag: class: 'home-hero-split__image', loading: mob_loading, fetchpriority: mob_priority }}
+                {{
+                  mob_img
+                  | image_url: width: 750
+                  | image_tag:
+                    class: 'home-hero-split__image',
+                    loading: mob_loading,
+                    fetchpriority: mob_priority,
+                    widths: '360, 480, 600, 750, 900',
+                    sizes: '100vw',
+                    alt: 'Mobile Hero Slide ' | append: forloop.index
+                }}
               {% elsif section.settings.left_image != blank and forloop.first %}
-                {{ section.settings.left_image | image_url: width: 1000 | image_tag: class: 'home-hero-split__image', loading: mob_loading, fetchpriority: mob_priority }}
+                {{
+                  section.settings.left_image
+                  | image_url: width: 750
+                  | image_tag:
+                    class: 'home-hero-split__image',
+                    loading: mob_loading,
+                    fetchpriority: mob_priority,
+                    widths: '360, 480, 600, 750, 900',
+                    sizes: '100vw',
+                    alt: 'Mobile Hero Slide 1'
+                }}
               {% else %}
-                <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Mobile Banner {{ forloop.index }}" width="800" height="450" loading="{{ mob_loading }}">
+                <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Mobile Banner {{ forloop.index }}" width="750" height="420" loading="{{ mob_loading }}" fetchpriority="{{ mob_priority }}">
               {% endif %}
             </a>
           </div>
