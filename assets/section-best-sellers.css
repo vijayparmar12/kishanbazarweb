@@ -272,16 +272,24 @@
   align-items: center;
 }
 
+@media (min-width: 750px) {
+  .best-sellers__tabs-wrapper {
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
 .best-sellers__tabs {
   display: flex;
   align-items: center;
-  justify-content: flex-start !important;
+  justify-content: flex-start;
   text-align: left;
   gap: clamp(1.25rem, 4vw, 2.75rem);
   position: relative;
   z-index: 1;
-  overflow-x: auto !important;
-  flex-wrap: nowrap !important;
+  overflow-x: auto;
+  flex-wrap: nowrap;
   scrollbar-width: none;
   -ms-overflow-style: none;
   -webkit-overflow-scrolling: touch;
@@ -289,6 +297,14 @@
   padding: 0.5rem 0 0.75rem;
   max-width: 100%;
   margin: 0;
+}
+
+@media (min-width: 750px) {
+  .best-sellers__tabs {
+    justify-content: center !important;
+    margin: 0 auto !important;
+    overflow-x: visible !important;
+  }
 }
 
 .best-sellers__tabs::-webkit-scrollbar {
