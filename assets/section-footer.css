@@ -575,7 +575,7 @@
 
   .site-footer__inner--desktop {
     display: grid !important;
-    grid-template-columns: 240px 1fr 320px !important;
+    grid-template-columns: 320px 1fr 320px !important;
     gap: 2.5rem !important;
     align-items: start !important;
     max-width: 1280px !important;
@@ -589,6 +589,18 @@
     align-items: flex-start;
     justify-content: flex-start;
     padding-top: 0.5rem;
+    width: 100%;
+  }
+
+  .site-footer__desktop-col--left .site-footer__brand-text {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-top: 0.85rem !important;
+    font-size: 0.92rem !important;
+    line-height: 1.65 !important;
+    color: #23421f !important;
+    text-align: justify !important;
+    text-justify: inter-word !important;
   }
 
   .site-footer__desktop-col--center {
@@ -604,62 +616,18 @@
   }
 
   .site-footer__desktop-news-title {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     font-weight: 900;
     color: #23421f;
     letter-spacing: 0.05em;
-    margin: 0 0 0.35rem 0;
+    margin: 0 0 0.85rem 0;
     text-transform: uppercase;
+    text-align: center;
   }
 
-  .site-footer__desktop-news-sub {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #475569;
-    margin: 0 0 1.15rem 0;
-  }
-
-  .site-footer__desktop-news-form {
-    width: 100%;
-    max-width: 440px;
+  .site-footer__newsletter-boxes--desktop-center {
+    max-width: 320px;
     margin: 0 auto;
-  }
-
-  .site-footer__desktop-news-input-wrap {
-    display: flex;
-    align-items: center;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 8px;
-    background: #ffffff;
-    padding: 4px 8px 4px 16px;
-    height: 48px;
-    box-sizing: border-box;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  }
-
-  .site-footer__desktop-news-input {
-    border: none !important;
-    background: transparent !important;
-    outline: none !important;
-    font-size: 0.9rem !important;
-    color: #23421f !important;
-    flex: 1 1 auto !important;
-    width: 100% !important;
-    padding: 0 !important;
-  }
-
-  .site-footer__desktop-news-btn {
-    border: none !important;
-    background: transparent !important;
-    font-size: 1.3rem !important;
-    color: #23421f !important;
-    cursor: pointer !important;
-    padding: 0 8px !important;
-    transition: transform 200ms ease;
-  }
-
-  .site-footer__desktop-news-btn:hover {
-    transform: translateX(3px);
   }
 
   .site-footer__desktop-links-row {
@@ -740,21 +708,30 @@
   }
 
   .site-footer__desktop-col--right {
-    text-align: right;
-    font-size: 0.85rem;
-    line-height: 1.6;
-    color: #475569;
+    text-align: justify !important;
+    text-justify: inter-word !important;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #23421f;
     padding-top: 0.5rem;
+  }
+
+  .site-footer__desktop-company-details {
+    text-align: justify !important;
+    text-justify: inter-word !important;
   }
 
   .site-footer__desktop-address {
     margin-bottom: 0.75rem;
-    color: #334155;
+    color: #23421f;
     font-weight: 500;
+    text-align: justify !important;
+    text-justify: inter-word !important;
   }
 
   .site-footer__desktop-contact-line {
     margin: 0 0 0.35rem 0;
+    text-align: justify !important;
   }
 
   .site-footer__desktop-contact-line a {
