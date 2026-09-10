@@ -176,6 +176,7 @@
               {% endif %}
               <div class="product-card__actions">
                 <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form data-available="{% if default_v_avail %}true{% else %}false{% endif %}">
+                  <input type="hidden" name="return_to" value="/cart">
                   {% if product.has_only_default_variant == false and show_variant_selector != false %}
                     <div class="product-card__variant-wrap">
                       <select class="product-card__variant-select" name="id" aria-label="Select variant for {{ product.title | escape }}" data-product-card-variant-select style="{% if variant_block.settings.border_color != blank %}border-color: {{ variant_block.settings.border_color }};{% endif %}{% if variant_block.settings.bg_color != blank %}background-color: {{ variant_block.settings.bg_color }};{% endif %}{% if variant_block.settings.text_color != blank %}color: {{ variant_block.settings.text_color }};{% endif %}">

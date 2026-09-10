@@ -212,6 +212,7 @@
 
         {% when 'buy_buttons' %}
           {% form 'product', product, class: 'product-info__form', data-product-main-form: '', data-product-card-form: '' %}
+            <input type="hidden" name="return_to" value="/cart">
             <input type="hidden" name="id" value="{{ current_variant.id }}" data-product-selected-variant-id>
             <input type="hidden" name="quantity" value="1" data-quantity-input>
             <div class="product-info__purchase-row" {{ block.shopify_attributes }} style="width: 100%;">

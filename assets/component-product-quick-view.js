@@ -270,16 +270,7 @@ class ProductQuickViewManager {
         const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
         const updatedCart = await cartRes.json();
         document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
-        if (window.openDrawer) {
-          window.openDrawer(updatedCart);
-        } else {
-          const drawer = document.getElementById('CartDrawer');
-          if (drawer) {
-            drawer.removeAttribute('hidden');
-            drawer.classList.add('is-open');
-          }
-        }
-        this.close();
+        window.location.href = `${rootUrl}cart?open_cart=true`;
       } else {
         const errorData = await response.json().catch(() => ({}));
         const message = errorData.description || errorData.message || 'This variant is unavailable.';

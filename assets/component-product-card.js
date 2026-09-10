@@ -142,15 +142,12 @@
         countSpan.textContent = '1';
       }
 
-      // Fetch updated cart with cache-busting timestamp, dispatch custom event, and IMMEDIATELY open cart drawer
+      // Fetch updated cart, dispatch custom event, and redirect to cart section
       const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
       const updatedCart = await cartRes.json();
       document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
-      if (window.openDrawer) {
-        window.openDrawer(updatedCart);
-      } else if (window.showCartToast) {
-        window.showCartToast(updatedCart);
-      }
+      
+      window.location.href = `${rootUrl}cart?open_cart=true`;
     } catch (err) {
       console.error(err);
     } finally {

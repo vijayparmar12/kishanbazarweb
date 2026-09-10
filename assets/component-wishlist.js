@@ -277,10 +277,10 @@
       const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
       const updatedCart = await cartRes.json();
       document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
-      if (window.openDrawer) window.openDrawer(updatedCart);
+      window.location.href = `${rootUrl}cart?open_cart=true`;
     } catch (err) {
-      const cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
-      if (cartTrigger) cartTrigger.click();
+      const rootUrl = window.Shopify?.routes?.root || '/';
+      window.location.href = `${rootUrl}cart?open_cart=true`;
     }
   };
 
@@ -328,10 +328,10 @@
       const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
       const updatedCart = await cartRes.json();
       document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
-      if (window.openDrawer) window.openDrawer(updatedCart);
+      window.location.href = `${rootUrl}cart?open_cart=true`;
     } catch (err) {
-      const cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
-      if (cartTrigger) cartTrigger.click();
+      const rootUrl = window.Shopify?.routes?.root || '/';
+      window.location.href = `${rootUrl}cart?open_cart=true`;
     }
   };
 

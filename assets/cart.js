@@ -944,11 +944,8 @@
           if (!addResponse.ok) throw new Error('Add to cart failed');
 
           const addedData = await addResponse.json();
-          let updatedCart = await updateDrawerFromServer();
-          if (!updatedCart || !updatedCart.items || updatedCart.items.length === 0) {
-            updatedCart = await formatAndMergeAddedItem(addedData, updatedCart);
-          }
-          await openDrawer(updatedCart);
+          const rootUrl = window.Shopify?.routes?.root || '/';
+          window.location.href = `${rootUrl}cart?open_cart=true`;
         } catch (error) {
           console.error(error);
         } finally {
