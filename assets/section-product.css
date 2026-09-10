@@ -2093,6 +2093,17 @@ input[type="submit"].jdgm-btn:hover {
   transform: translateY(0) !important;
 }
 
+body.jdgm-review-modal-active .sticky-mobile-bar,
+html.jdgm-review-modal-active .sticky-mobile-bar,
+body.jdgm-review-modal-active [data-sticky-mobile-bar],
+html.jdgm-review-modal-active [data-sticky-mobile-bar] {
+  filter: blur(10px) !important;
+  -webkit-filter: blur(10px) !important;
+  z-index: 100 !important;
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
 .sticky-mobile-bar__inner {
   display: flex;
   align-items: center;
