@@ -100,6 +100,22 @@ function initGalleryZoomAndThumbnails(container) {
     });
   });
 
+  // Main Image Navigation Arrow Handlers
+  const mainPrev = container.querySelector('[data-gallery-main-prev]');
+  const mainNext = container.querySelector('[data-gallery-main-next]');
+  if (mainPrev) {
+    mainPrev.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setActiveImage(currentIndex - 1);
+    });
+  }
+  if (mainNext) {
+    mainNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setActiveImage(currentIndex + 1);
+    });
+  }
+
   // Dot Indicator Click Handlers
   dots.forEach((dot, idx) => {
     dot.addEventListener('click', () => {
