@@ -562,3 +562,213 @@
   opacity: 0.95;
   width: 100% !important;
 }
+
+/* ==========================================================================
+   Desktop 3-Column Footer Layout (min-width: 990px)
+   Matches reference design: Logo Left, 3-Line Newsletter/Links/Social Middle, Contact Right
+   ========================================================================== */
+
+@media (min-width: 990px) {
+  .site-footer__inner--mobile {
+    display: none !important;
+  }
+
+  .site-footer__inner--desktop {
+    display: grid !important;
+    grid-template-columns: 240px 1fr 320px !important;
+    gap: 2.5rem !important;
+    align-items: start !important;
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+    padding: 1rem 1.5rem 0.5rem 1.5rem !important;
+  }
+
+  .site-footer__desktop-col--left {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 0.5rem;
+  }
+
+  .site-footer__desktop-col--center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .site-footer__desktop-newsletter {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  .site-footer__desktop-news-title {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #23421f;
+    letter-spacing: 0.05em;
+    margin: 0 0 0.35rem 0;
+    text-transform: uppercase;
+  }
+
+  .site-footer__desktop-news-sub {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #475569;
+    margin: 0 0 1.15rem 0;
+  }
+
+  .site-footer__desktop-news-form {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .site-footer__desktop-news-input-wrap {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 4px 8px 4px 16px;
+    height: 48px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .site-footer__desktop-news-input {
+    border: none !important;
+    background: transparent !important;
+    outline: none !important;
+    font-size: 0.9rem !important;
+    color: #23421f !important;
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .site-footer__desktop-news-btn {
+    border: none !important;
+    background: transparent !important;
+    font-size: 1.3rem !important;
+    color: #23421f !important;
+    cursor: pointer !important;
+    padding: 0 8px !important;
+    transition: transform 200ms ease;
+  }
+
+  .site-footer__desktop-news-btn:hover {
+    transform: translateX(3px);
+  }
+
+  .site-footer__desktop-links-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .site-footer__desktop-link-group {
+    position: relative;
+    padding: 0.25rem 0;
+  }
+
+  .site-footer__desktop-link-head {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: #23421f;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .site-footer__desktop-link-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    padding: 0.85rem 1.25rem;
+    display: none;
+    z-index: 50;
+    min-width: 180px;
+    text-align: left;
+    border: 1px solid #e2e8f0;
+  }
+
+  .site-footer__desktop-link-group:hover .site-footer__desktop-link-dropdown {
+    display: block;
+  }
+
+  .site-footer__desktop-link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .site-footer__desktop-link-list li {
+    margin-bottom: 0.45rem;
+  }
+
+  .site-footer__desktop-link-list a {
+    color: #23421f;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .site-footer__desktop-link-list a:hover {
+    text-decoration: underline;
+  }
+
+  .site-footer__desktop-divider {
+    color: #cbd5e1;
+    font-weight: 300;
+    font-size: 1.1rem;
+  }
+
+  .site-footer__desktop-social-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .site-footer__desktop-col--right {
+    text-align: right;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #475569;
+    padding-top: 0.5rem;
+  }
+
+  .site-footer__desktop-address {
+    margin-bottom: 0.75rem;
+    color: #334155;
+    font-weight: 500;
+  }
+
+  .site-footer__desktop-contact-line {
+    margin: 0 0 0.35rem 0;
+  }
+
+  .site-footer__desktop-contact-line a {
+    color: #23421f;
+    text-decoration: none;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 989px) {
+  .site-footer__inner--desktop {
+    display: none !important;
+  }
+
+  .site-footer__inner--mobile {
+    display: grid !important;
+  }
+}
