@@ -2091,16 +2091,19 @@ input[type="submit"].jdgm-btn:hover {
    STICKY MOBILE & DESKTOP ADD TO CART BAR
    ========================================================================== */
 .sticky-mobile-bar {
-  background-color: #ffffff;
-  border-top: 1px solid #efe8da;
-  bottom: 0;
-  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.12);
-  left: 0;
-  padding: 0.65rem 1rem;
-  position: fixed;
-  right: 0;
-  z-index: 9999;
-  display: block;
+  background-color: #ffffff !important;
+  border-top: 1px solid #efe8da !important;
+  bottom: 0 !important;
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.12) !important;
+  left: 0 !important;
+  padding: 0.65rem 1rem !important;
+  position: fixed !important;
+  right: 0 !important;
+  z-index: 999999 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 .sticky-mobile-bar__inner {

@@ -841,23 +841,8 @@ function initStickyMobileBar(container) {
     });
   });
 
-  // Handle Desktop Web View Scroll Visibility
-  if (stickyBar && mainForm) {
-    const handleStickyScroll = () => {
-      if (window.innerWidth > 768) {
-        const rect = mainForm.getBoundingClientRect();
-        if (rect.bottom < 100) {
-          stickyBar.classList.add('is-visible');
-        } else {
-          stickyBar.classList.remove('is-visible');
-        }
-      } else {
-        stickyBar.classList.remove('is-visible');
-      }
-    };
-
-    window.addEventListener('scroll', handleStickyScroll, { passive: true });
-    window.addEventListener('resize', handleStickyScroll, { passive: true });
-    handleStickyScroll();
+  // Ensure Sticky Bar is Always Visible on Mobile and Desktop
+  if (stickyBar) {
+    stickyBar.classList.add('is-visible');
   }
 }
