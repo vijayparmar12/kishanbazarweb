@@ -162,6 +162,9 @@
           <div class="sticky-mobile-bar__product-title">{{ product.title }}</div>
           <div class="sticky-mobile-bar__product-meta">
             <span class="sticky-mobile-bar__product-price" data-sticky-bar-price>{{ current_variant.price | money }}</span>
+            <s class="sticky-mobile-bar__product-compare-price" data-sticky-bar-compare-price style="{% unless current_variant.compare_at_price > current_variant.price %}display: none;{% endunless %} color: #9ca3af; font-size: 0.85rem; font-weight: 500; text-decoration: line-through; margin-left: 0.35rem;">
+              {{ current_variant.compare_at_price | money }}
+            </s>
             <span class="sticky-mobile-bar__product-variant" data-sticky-bar-variant>{% if current_variant.title != 'Default Title' %}{{ current_variant.title }}{% endif %}</span>
           </div>
         </div>

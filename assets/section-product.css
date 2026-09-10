@@ -2253,10 +2253,17 @@ input[type="submit"].jdgm-btn:hover {
   }
   .sticky-mobile-bar__content {
     width: 100%;
+    display: flex;
+    gap: 0.75rem;
     justify-content: space-between;
   }
   .sticky-mobile-bar__product-info {
     display: none !important;
+  }
+  .sticky-mobile-bar__btn--add,
+  .sticky-mobile-bar__btn--buy {
+    display: flex !important;
+    flex: 1 1 50%;
   }
 }
 
@@ -2282,6 +2289,16 @@ input[type="submit"].jdgm-btn:hover {
   .sticky-mobile-bar__content {
     width: auto;
     justify-content: flex-end;
+  }
+
+  /* Desktop Web View: Show ONLY ADD TO CART button in sticky bar */
+  .sticky-mobile-bar__btn--buy {
+    display: none !important;
+  }
+
+  .sticky-mobile-bar__btn--add {
+    min-width: 180px;
+    padding: 0.85rem 1.75rem;
   }
 }
 
