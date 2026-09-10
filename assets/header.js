@@ -123,13 +123,27 @@
     });
 
     const isJudgeMeModalActive = () => {
-      if (document.body.classList.contains('jdgm-review-modal-active') || document.documentElement.classList.contains('jdgm-review-modal-active') || window.location.search.indexOf('pb=0') !== -1) {
+      if (document.body.classList.contains('jdgm-review-modal-active') || document.documentElement.classList.contains('jdgm-review-modal-active')) {
         return true;
       }
-      var form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form, [class*="jdgm-form"]');
-      if (form) {
-        var style = window.getComputedStyle(form);
-        if (style.display !== 'none' && style.visibility !== 'hidden' && (form.offsetWidth > 0 || form.offsetHeight > 0)) {
+      if (window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1) {
+        return true;
+      }
+      const overlay = document.getElementById('JdgmBlurOverlay');
+      if (overlay) {
+        const oStyle = window.getComputedStyle(overlay);
+        if (oStyle.display !== 'none' && oStyle.visibility !== 'hidden' && (overlay.offsetWidth > 0 || overlay.offsetHeight > 0)) {
+          return true;
+        }
+      }
+      const activeBtn = document.querySelector('.jdgm-write-rev-btn[aria-expanded="true"]');
+      if (activeBtn) return true;
+
+      const forms = document.querySelectorAll('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form, [class*="jdgm-form"]');
+      for (let i = 0; i < forms.length; i++) {
+        const f = forms[i];
+        const fStyle = window.getComputedStyle(f);
+        if (fStyle.display !== 'none' && fStyle.visibility !== 'hidden' && (f.offsetWidth > 0 || f.offsetHeight > 0)) {
           return true;
         }
       }
@@ -148,12 +162,13 @@
       if (isJudgeMeModalActive()) {
         document.body.classList.add('jdgm-review-modal-active');
         document.documentElement.classList.add('jdgm-review-modal-active');
-        document.querySelectorAll('#shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .kb-header-top-sticky, [data-header-top-sticky]').forEach((h) => {
+        document.querySelectorAll('.kb-header, .kb-header1, .kb-header2, .kb-header-top-sticky, .kb-header-top--fixed, .kb-header__announcement, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]').forEach((h) => {
           h.classList.remove('kb-header-top--fixed');
           h.style.setProperty('display', 'none', 'important');
           h.style.setProperty('opacity', '0', 'important');
           h.style.setProperty('visibility', 'hidden', 'important');
           h.style.setProperty('pointer-events', 'none', 'important');
+          h.style.setProperty('z-index', '-999999', 'important');
         });
         return;
       }
