@@ -90,12 +90,7 @@
 
 @media (min-width: 990px) {
   .beyond-products__track {
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
     gap: 1.5rem !important;
-    overflow-x: visible !important;
-    padding: 0 !important;
-    width: 100% !important;
   }
 }
 
@@ -113,10 +108,9 @@
 
 @media (min-width: 990px) {
   .beyond-products__slide {
-    flex: 1 1 0% !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
+    flex: 0 0 clamp(260px, 23vw, 295px) !important;
+    width: clamp(260px, 23vw, 295px) !important;
+    min-width: clamp(260px, 23vw, 295px) !important;
   }
 }
 
@@ -230,16 +224,7 @@
 }
 
 .beyond-products__dots {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1.25rem;
-}
-
-@media (min-width: 990px) {
-  .beyond-products__dots {
-    display: none !important;
-  }
+  display: none !important;
 }
 
 .beyond-products__dot {
