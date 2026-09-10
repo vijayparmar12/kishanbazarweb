@@ -2262,11 +2262,10 @@ input[type="submit"].jdgm-btn:hover {
 
 @media screen and (min-width: 48.01rem) {
   .sticky-mobile-bar {
-    display: block;
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(100%);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
     padding: 0.75rem 2rem;
   }
 
@@ -2283,6 +2282,15 @@ input[type="submit"].jdgm-btn:hover {
   .sticky-mobile-bar__content {
     width: auto;
     justify-content: flex-end;
+  }
+}
+
+body.template-product {
+  padding-bottom: 70px;
+}
+@media screen and (min-width: 48.01rem) {
+  body.template-product {
+    padding-bottom: 80px;
   }
 }
 
