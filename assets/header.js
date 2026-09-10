@@ -132,37 +132,34 @@
       const overlay = document.getElementById('JdgmBlurOverlay');
       if (overlay) {
         const oStyle = window.getComputedStyle(overlay);
-        if (oStyle.display !== 'none' && oStyle.visibility !== 'hidden' && (overlay.offsetWidth > 0 || overlay.offsetHeight > 0)) {
+        if (oStyle.display !== 'none' && oStyle.visibility !== 'hidden' && oStyle.opacity !== '0' && (overlay.offsetWidth > 0 || overlay.offsetHeight > 0)) {
           return true;
         }
       }
-      const activeBtn = document.querySelector('.jdgm-write-rev-btn[aria-expanded="true"]');
-      if (activeBtn) return true;
-
+      const writeBtn = document.querySelector('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn');
+      if (writeBtn && (writeBtn.getAttribute('aria-expanded') === 'true' || writeBtn.classList.contains('jdgm-write-rev-btn--active'))) {
+        return true;
+      }
       const forms = document.querySelectorAll('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form, [class*="jdgm-form"]');
       for (let i = 0; i < forms.length; i++) {
         const f = forms[i];
-        const fStyle = window.getComputedStyle(f);
-        if (fStyle.display !== 'none' && fStyle.visibility !== 'hidden' && (f.offsetWidth > 0 || f.offsetHeight > 0)) {
-          return true;
+        if (f) {
+          const fStyle = window.getComputedStyle(f);
+          if (fStyle.display !== 'none' && fStyle.visibility !== 'hidden' && fStyle.opacity !== '0' && (f.offsetWidth > 0 || f.offsetHeight > 0)) {
+            return true;
+          }
         }
       }
       return false;
     };
 
     const syncTopHeaderSticky = () => {
-      const topSticky = document.querySelector('[data-header-top-sticky], .kb-header-top-sticky');
-      const placeholder = document.querySelector('[data-header-top-placeholder]');
-
-      if (placeholder) {
-        placeholder.style.display = 'none';
-        placeholder.style.height = '0px';
-      }
+      const allHeaderAndStickyEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, .kb-header1, .kb-header2, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]');
 
       if (isJudgeMeModalActive()) {
         document.body.classList.add('jdgm-review-modal-active');
         document.documentElement.classList.add('jdgm-review-modal-active');
-        document.querySelectorAll('.kb-header, .kb-header1, .kb-header2, .kb-header-top-sticky, .kb-header-top--fixed, .kb-header__announcement, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]').forEach((h) => {
+        allHeaderAndStickyEls.forEach((h) => {
           h.classList.remove('kb-header-top--fixed');
           h.style.setProperty('display', 'none', 'important');
           h.style.setProperty('opacity', '0', 'important');
@@ -171,6 +168,14 @@
           h.style.setProperty('z-index', '-999999', 'important');
         });
         return;
+      }
+
+      const topSticky = document.querySelector('[data-header-top-sticky], .kb-header-top-sticky');
+      const placeholder = document.querySelector('[data-header-top-placeholder]');
+
+      if (placeholder) {
+        placeholder.style.display = 'none';
+        placeholder.style.height = '0px';
       }
 
       if (!topSticky) return;
@@ -272,20 +277,10 @@
 
   // Monitor Judge.me Write a Review Modal to 100% Hide Header and Sticky Cart Bar
   const handleJudgeMeModal = () => {
-    const form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form, [class*="jdgm-form"]');
-    const overlay = document.getElementById('JdgmBlurOverlay');
-    const isFormOpen = (form && (
-      form.offsetWidth > 0 || 
-      form.offsetHeight > 0 || 
-      window.getComputedStyle(form).display !== 'none' ||
-      window.getComputedStyle(form).visibility !== 'hidden'
-    )) || (overlay && window.getComputedStyle(overlay).display !== 'none');
-
-    const isParamOpen = window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1;
-
+    const isModalActive = isJudgeMeModalActive();
     const targetEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]');
 
-    if (isFormOpen || isParamOpen) {
+    if (isModalActive) {
       document.documentElement.classList.add('jdgm-review-modal-active');
       document.body.classList.add('jdgm-review-modal-active');
       targetEls.forEach(el => {
@@ -307,6 +302,19 @@
       });
     }
   };
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn, [href*="write-review"], [href*="pb=0"], [class*="jdgm"]')) {
+      document.documentElement.classList.add('jdgm-review-modal-active');
+      document.body.classList.add('jdgm-review-modal-active');
+      setTimeout(handleJudgeMeModal, 10);
+      setTimeout(handleJudgeMeModal, 50);
+      setTimeout(handleJudgeMeModal, 150);
+      setTimeout(handleJudgeMeModal, 350);
+    }
+  });
+
+  setInterval(handleJudgeMeModal, 150);
 
   document.addEventListener('click', (e) => {
     if (e.target.closest('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn')) {

@@ -167,29 +167,9 @@
       body:has(.jdgm-form) .kb-header-top-sticky,
       body:has(.jdgm-form) .kb-header-top--fixed,
       body:has(.jdgm-form) .kb-header1,
-      body:has(#JdgmBlurOverlay) .kb-header,
-      body:has(#JdgmBlurOverlay) .kb-header-top-sticky,
-      body:has(#JdgmBlurOverlay) .kb-header-top--fixed,
-      body:has(#JdgmBlurOverlay) .kb-header1,
-      body:has(#JdgmBlurOverlay) .kb-header2,
-      body:has(#JdgmBlurOverlay) [data-header-top-sticky],
-      body:has(#JdgmBlurOverlay) [data-premium-header],
-      body:has(#JdgmBlurOverlay) #shopify-section-header-group,
-      body:has(#JdgmBlurOverlay) .shopify-section-group-header-group,
-      body:has(#JdgmBlurOverlay) #shopify-section-header,
-      body:has(#JdgmBlurOverlay) #shopify-section-announcement-bar,
-      body:has(#JdgmBlurOverlay) header,
-      body:has(#JdgmBlurOverlay) .sticky-mobile-bar,
-      body:has(#JdgmBlurOverlay) [data-sticky-mobile-bar],
-      body:has(.jdgm-form) .kb-header,
-      body:has(.jdgm-form) .kb-header-top-sticky,
-      body:has(.jdgm-form) .kb-header-top--fixed,
-      body:has(.jdgm-form) .kb-header1,
       body:has(.jdgm-form) .kb-header2,
       body:has(.jdgm-form) [data-header-top-sticky],
       body:has(.jdgm-form) [data-premium-header],
-      body:has(.jdgm-form) header,
-      body:has(.jdgm-form) .sticky-mobile-bar,
       body:has([class*="jdgm-form"]) #shopify-section-header-group,
       body:has([class*="jdgm-form"]) .shopify-section-group-header-group,
       body:has([class*="jdgm-form"]) #shopify-section-header,
@@ -202,14 +182,8 @@
       body:has([class*="jdgm-form"]) .kb-header2,
       body:has([class*="jdgm-form"]) [data-header-top-sticky],
       body:has([class*="jdgm-form"]) [data-premium-header],
-      body:has([class*="jdgm-form"]) .sticky-mobile-bar,
-      body:has([class*="jdgm-form"]) [data-sticky-mobile-bar],
       html.jdgm-review-modal-active .kb-header,
       html.jdgm-review-modal-active .kb-header-top-sticky,
-      html.jdgm-review-modal-active .kb-header-top--fixed,
-      html.jdgm-review-modal-active .kb-header1,
-      html.jdgm-review-modal-active .kb-header2,
-      html.jdgm-review-modal-active [data-header-top-sticky],
       html.jdgm-review-modal-active [data-premium-header],
       html.jdgm-review-modal-active #shopify-section-header-group,
       html.jdgm-review-modal-active .shopify-section-group-header-group,
@@ -218,14 +192,8 @@
       html.jdgm-review-modal-active header,
       html.jdgm-review-modal-active .header-wrapper,
       html.jdgm-review-modal-active .sticky-header,
-      html.jdgm-review-modal-active .sticky-mobile-bar,
-      html.jdgm-review-modal-active [data-sticky-mobile-bar],
       body.jdgm-review-modal-active .kb-header,
       body.jdgm-review-modal-active .kb-header-top-sticky,
-      body.jdgm-review-modal-active .kb-header-top--fixed,
-      body.jdgm-review-modal-active .kb-header1,
-      body.jdgm-review-modal-active .kb-header2,
-      body.jdgm-review-modal-active [data-header-top-sticky],
       body.jdgm-review-modal-active [data-premium-header],
       body.jdgm-review-modal-active #shopify-section-header-group,
       body.jdgm-review-modal-active .shopify-section-group-header-group,
@@ -234,9 +202,7 @@
       body.jdgm-review-modal-active header,
       body.jdgm-review-modal-active [id*="header"],
       body.jdgm-review-modal-active .header-wrapper,
-      body.jdgm-review-modal-active .sticky-header,
-      body.jdgm-review-modal-active .sticky-mobile-bar,
-      body.jdgm-review-modal-active [data-sticky-mobile-bar] {
+      body.jdgm-review-modal-active .sticky-header {
         display: none !important;
         opacity: 0 !important;
         visibility: hidden !important;
@@ -274,13 +240,20 @@
     <script>
       (function() {
         function toggleReviewModalState() {
-          var form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form');
+          var form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form, [class*="jdgm-form"], .jdgm-write-rev-btn[aria-expanded="true"]');
           var overlay = document.getElementById('JdgmBlurOverlay');
           var isFormVisible = false;
 
           if (form) {
             var style = window.getComputedStyle(form);
-            if (style.display !== 'none' && style.visibility !== 'hidden' && (form.offsetWidth > 0 || form.offsetHeight > 0)) {
+            if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0' && (form.offsetWidth > 0 || form.offsetHeight > 0)) {
+              isFormVisible = true;
+            }
+          }
+
+          if (overlay) {
+            var oStyle = window.getComputedStyle(overlay);
+            if (oStyle.display !== 'none' && oStyle.visibility !== 'hidden' && oStyle.opacity !== '0' && (overlay.offsetWidth > 0 || overlay.offsetHeight > 0)) {
               isFormVisible = true;
             }
           }
@@ -291,7 +264,7 @@
             }
           }
 
-          var headerElements = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]');
+          var headerElements = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, .kb-header1, .kb-header2, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]');
 
           if (isFormVisible) {
             document.documentElement.classList.add('jdgm-review-modal-active');
@@ -328,10 +301,13 @@
         }
 
         document.addEventListener('click', function(e) {
-          if (e.target.closest('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn, [href*="write-review"], [href*="pb=0"]')) {
-            setTimeout(toggleReviewModalState, 20);
-            setTimeout(toggleReviewModalState, 100);
-            setTimeout(toggleReviewModalState, 300);
+          if (e.target.closest('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn, [href*="write-review"], [href*="pb=0"], [class*="jdgm"]')) {
+            document.documentElement.classList.add('jdgm-review-modal-active');
+            document.body.classList.add('jdgm-review-modal-active');
+            setTimeout(toggleReviewModalState, 10);
+            setTimeout(toggleReviewModalState, 50);
+            setTimeout(toggleReviewModalState, 150);
+            setTimeout(toggleReviewModalState, 350);
           }
           if (e.target.closest('.jdgm-cancel-rev, .jdgm-close-btn, .jdgm-form__close, .jdgm-dialog__close')) {
             setTimeout(toggleReviewModalState, 20);
@@ -339,8 +315,15 @@
         });
 
         var observer = new MutationObserver(toggleReviewModalState);
-        if (document.body) {
-          observer.observe(document.body, { childList: true });
+        var initObs = function() {
+          if (document.body) {
+            observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class', 'aria-expanded'] });
+          }
+        };
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initObs);
+        } else {
+          initObs();
         }
       })();
     </script>
