@@ -137,7 +137,7 @@
             alt="{{ collection.title | default: 'All Products' | escape }}"
             class="collection-hero__image"
             loading="eager"
-            style="width: 100%; height: auto; max-height: {{ section.settings.desktop_banner_max_height | default: 650 }}px; aspect-ratio: 2 / 1; object-fit: cover; display: block; border-radius: {{ section.settings.banner_border_radius | default: 24 }}px;"
+            style="width: 100%; height: auto; max-height: none; object-fit: contain; display: block; border-radius: {{ section.settings.banner_border_radius | default: 24 }}px;"
           >
         </picture>
       </div>

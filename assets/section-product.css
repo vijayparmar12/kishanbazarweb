@@ -2183,8 +2183,7 @@ input[type="submit"].jdgm-btn:hover {
   width: 100%;
   height: auto;
   max-height: none;
-  aspect-ratio: 2 / 1;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 20px;
 }
 

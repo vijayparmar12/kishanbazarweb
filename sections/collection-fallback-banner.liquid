@@ -34,7 +34,7 @@
               alt="{{ collection.title | default: 'Collection' | escape }}"
               class="collection-fallback-hero__image"
               loading="lazy"
-              style="width: 100%; height: auto; max-height: {{ section.settings.max_height | default: 480 }}px; object-fit: cover; display: block; border-radius: {{ banner_radius }}px;"
+              style="width: 100%; height: auto; max-height: none; object-fit: contain; display: block; border-radius: {{ banner_radius }}px;"
             >
           </picture>
           {% if section.settings.fallback_banner_link != blank %}

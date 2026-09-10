@@ -29,9 +29,8 @@
   width: 100%;
   height: auto;
   display: block;
-  object-fit: cover;
-  aspect-ratio: 2 / 1;
-  max-height: 650px;
+  object-fit: contain;
+  max-height: none;
 }
 
 .collection-hero__header {
