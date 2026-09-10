@@ -304,10 +304,8 @@
 
         var observer = new MutationObserver(toggleReviewModalState);
         if (document.body) {
-          observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
+          observer.observe(document.body, { childList: true });
         }
-
-        setInterval(toggleReviewModalState, 150);
       })();
     </script>
 
@@ -532,63 +530,32 @@
 
     <script>
       (function() {
-        var isReplacing = false;
-
-        function replaceRupeeText(node) {
-          if (!node) return;
-          if (node.nodeType === 3) {
-            var text = node.nodeValue;
-            if (text) {
-              var newText = text;
-              if (/\bRs\.?\s*/i.test(newText)) {
-                newText = newText.replace(/\bRs\.?\s*/gi, '₹');
+        function runReplace(scope) {
+          var root = scope || document;
+          var targets = root.querySelectorAll ? root.querySelectorAll('.product-card__price, .product-info__price-box, [data-product-price-selling], [data-product-price-mrp], .product-info__prices, .cart-drawer, .kb-cart-item, [data-price], [data-compare], .price, .money') : [];
+          targets.forEach(function(el) {
+            if (el.children && el.children.length > 0) {
+              for (var i = 0; i < el.childNodes.length; i++) {
+                var n = el.childNodes[i];
+                if (n.nodeType === 3 && n.nodeValue) {
+                  var v = n.nodeValue.replace(/\bRs\.?\s*/gi, '₹').replace(/(\d+)\.00\b/g, '$1');
+                  if (v !== n.nodeValue) n.nodeValue = v;
+                }
               }
-              if (/(\d+)\.00\b/.test(newText)) {
-                newText = newText.replace(/(\d+)\.00\b/g, '$1');
-              }
-              if (newText !== text) {
-                node.nodeValue = newText;
-              }
+            } else if (el.textContent) {
+              var v = el.textContent.replace(/\bRs\.?\s*/gi, '₹').replace(/(\d+)\.00\b/g, '$1');
+              if (v !== el.textContent) el.textContent = v;
             }
-          } else if (node.nodeType === 1 && !['SCRIPT', 'STYLE', 'INPUT', 'TEXTAREA', 'OPTION'].includes(node.tagName)) {
-            for (var i = 0; i < node.childNodes.length; i++) {
-              replaceRupeeText(node.childNodes[i]);
-            }
-          }
-        }
-
-        function runReplace() {
-          if (document.body && !isReplacing) {
-            isReplacing = true;
-            replaceRupeeText(document.body);
-            isReplacing = false;
-          }
+          });
         }
 
         if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', runReplace);
+          document.addEventListener('DOMContentLoaded', function() { runReplace(); });
         } else {
           runReplace();
         }
 
-        var observer = new MutationObserver(function(mutations) {
-          if (isReplacing) return;
-          isReplacing = true;
-          mutations.forEach(function(mutation) {
-            if (mutation.addedNodes) {
-              mutation.addedNodes.forEach(function(node) {
-                replaceRupeeText(node);
-              });
-            }
-          });
-          isReplacing = false;
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-          if (document.body) {
-            observer.observe(document.body, { childList: true, subtree: true });
-          }
-        });
+        document.addEventListener('kb:cart:updated', function() { runReplace(); });
       })();
     </script>
   </body>

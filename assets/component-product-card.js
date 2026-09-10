@@ -318,5 +318,4 @@
   // Initial cart sync on DOM Ready & Cart Updates
   document.addEventListener('DOMContentLoaded', syncCartState);
   document.addEventListener('kb:cart:updated', syncCartState);
-  syncCartState();
 })();
