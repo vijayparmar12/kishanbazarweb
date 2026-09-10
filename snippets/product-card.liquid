@@ -160,7 +160,8 @@
           {% when 'card_benefit_icons' %}
             {% if hide_benefit_icons != true %}
               <div {{ block.shopify_attributes }}>
-                {% render 'product-circle-features', product: product, block: block, limit: 3 %}
+                {% assign card_eager = eager | default: eager_loading | default: false %}
+                {% render 'product-circle-features', product: product, block: block, limit: 3, eager: card_eager %}
               </div>
             {% endif %}
 
@@ -286,7 +287,8 @@
       {% endif %}
 
       {% if show_benefit_icons != false %}
-        {% render 'product-circle-features', product: product, limit: 3 %}
+        {% assign card_eager = eager | default: eager_loading | default: false %}
+        {% render 'product-circle-features', product: product, limit: 3, eager: card_eager %}
       {% endif %}
 
       <div class="product-card__actions">

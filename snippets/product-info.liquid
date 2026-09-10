@@ -118,7 +118,7 @@
 
         {% when 'benefit_icons' %}
           <div class="product-info__benefits-block" {{ block.shopify_attributes }}>
-            {% render 'product-circle-features', product: product, block: block, limit: 4 %}
+            {% render 'product-circle-features', product: product, block: block, limit: 4, eager: true %}
           </div>
 
         {% when 'price' %}
@@ -356,7 +356,7 @@
     </div>
 
     <div class="product-info__body-block">
-      {% render 'product-circle-features', product: product, limit: 4 %}
+      {% render 'product-circle-features', product: product, limit: 4, eager: true %}
       <div class="product-info__price-box">
         <div class="product-info__prices">
           <span class="product-info__price-selling" data-product-price-selling>{{ current_variant.price | money_without_trailing_zeros }}</span>

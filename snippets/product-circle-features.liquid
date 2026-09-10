@@ -4,9 +4,10 @@
 
   @param {object} [product] - The Shopify product object
   @param {number} [limit] - Maximum icons to render
+  @param {boolean} [eager] - Whether to load icons eagerly (default: false)
 
   @example
-  {% render 'product-circle-features', product: product %}
+  {% render 'product-circle-features', product: product, limit: 3 %}
 {% enddoc %}
 
 {% liquid
@@ -19,80 +20,57 @@
   assign m_b3_val = c_meta.badge_image_3.value | default: alt_meta.badge_image_3.value | default: c_meta.feature_icon_3.value | default: c_meta.custom_badge_image_3.value
   assign m_b4_val = c_meta.badge_image_4.value | default: alt_meta.badge_image_4.value | default: c_meta.feature_icon_4.value | default: c_meta.custom_badge_image_4.value
 
-  # High-resolution 600px images
-  assign img_url_1 = blank
-  if m_b1_val != blank
-    assign b1_img = m_b1_val.preview_image | default: m_b1_val
-    assign img_url_1 = b1_img | image_url: width: 600
-  endif
-
-  assign img_url_2 = blank
-  if m_b2_val != blank
-    assign b2_img = m_b2_val.preview_image | default: m_b2_val
-    assign img_url_2 = b2_img | image_url: width: 600
-  endif
-
-  assign img_url_3 = blank
-  if m_b3_val != blank
-    assign b3_img = m_b3_val.preview_image | default: m_b3_val
-    assign img_url_3 = b3_img | image_url: width: 600
-  endif
-
-  assign img_url_4 = blank
-  if m_b4_val != blank
-    assign b4_img = m_b4_val.preview_image | default: m_b4_val
-    assign img_url_4 = b4_img | image_url: width: 600
-  endif
-
   assign max_icons = limit | default: block.settings.max_icons | default: 4
 
   assign uploaded_count = 0
-  if img_url_1 != blank
+  if m_b1_val != blank
     assign uploaded_count = uploaded_count | plus: 1
   endif
-  if img_url_2 != blank and max_icons >= 2
+  if m_b2_val != blank and max_icons >= 2
     assign uploaded_count = uploaded_count | plus: 1
   endif
-  if img_url_3 != blank and max_icons >= 3
+  if m_b3_val != blank and max_icons >= 3
     assign uploaded_count = uploaded_count | plus: 1
   endif
-  if img_url_4 != blank and max_icons >= 4
+  if m_b4_val != blank and max_icons >= 4
     assign uploaded_count = uploaded_count | plus: 1
   endif
+
+  assign is_eager = eager | default: false
 %}
 
 {% if uploaded_count > 0 %}
   <div class="product-circle-features" aria-label="Product Key Benefits">
     <div class="product-circle-features__grid">
       
-      {% if img_url_1 != blank and max_icons >= 1 %}
+      {% if m_b1_val != blank and max_icons >= 1 %}
         <div class="product-circle-features__item">
           <div class="product-circle-features__circle product-circle-features__circle--img">
-            <img src="{{ img_url_1 }}" alt="Benefit 1" loading="eager" fetchpriority="high" width="170" height="170">
+            {% render 'benefit-icon', image: m_b1_val, alt: 'Benefit 1', eager: is_eager, size: 72 %}
           </div>
         </div>
       {% endif %}
 
-      {% if img_url_2 != blank and max_icons >= 2 %}
+      {% if m_b2_val != blank and max_icons >= 2 %}
         <div class="product-circle-features__item">
           <div class="product-circle-features__circle product-circle-features__circle--img">
-            <img src="{{ img_url_2 }}" alt="Benefit 2" loading="eager" fetchpriority="high" width="170" height="170">
+            {% render 'benefit-icon', image: m_b2_val, alt: 'Benefit 2', eager: is_eager, size: 72 %}
           </div>
         </div>
       {% endif %}
 
-      {% if img_url_3 != blank and max_icons >= 3 %}
+      {% if m_b3_val != blank and max_icons >= 3 %}
         <div class="product-circle-features__item">
           <div class="product-circle-features__circle product-circle-features__circle--img">
-            <img src="{{ img_url_3 }}" alt="Benefit 3" loading="eager" fetchpriority="high" width="170" height="170">
+            {% render 'benefit-icon', image: m_b3_val, alt: 'Benefit 3', eager: is_eager, size: 72 %}
           </div>
         </div>
       {% endif %}
 
-      {% if img_url_4 != blank and max_icons >= 4 %}
+      {% if m_b4_val != blank and max_icons >= 4 %}
         <div class="product-circle-features__item">
           <div class="product-circle-features__circle product-circle-features__circle--img">
-            <img src="{{ img_url_4 }}" alt="Benefit 4" loading="eager" fetchpriority="high" width="170" height="170">
+            {% render 'benefit-icon', image: m_b4_val, alt: 'Benefit 4', eager: is_eager, size: 72 %}
           </div>
         </div>
       {% endif %}
