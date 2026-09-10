@@ -124,26 +124,18 @@
 
     const isJudgeMeModalActive = () => {
       const overlay = document.getElementById('JdgmBlurOverlay');
-      if (overlay && window.getComputedStyle(overlay).display !== 'none' && overlay.offsetWidth > 0) {
-        return true;
+      if (overlay) {
+        const oStyle = window.getComputedStyle(overlay);
+        if (oStyle.display !== 'none' && oStyle.visibility !== 'hidden' && overlay.offsetWidth > 0) {
+          return true;
+        }
       }
-      const expandedBtn = document.querySelector('.jdgm-write-rev-btn[aria-expanded="true"], [data-jdgm-write-review][aria-expanded="true"]');
+      const expandedBtn = document.querySelector('.jdgm-write-rev-btn[aria-expanded="true"]');
       if (expandedBtn) return true;
 
-      const forms = document.querySelectorAll('.jdgm-form-wrapper, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form');
-      for (let i = 0; i < forms.length; i++) {
-        const f = forms[i];
-        if (f) {
-          const style = window.getComputedStyle(f);
-          const inlineStyle = (f.getAttribute('style') || '').toLowerCase();
-          const parentStyle = (f.parentElement?.getAttribute('style') || '').toLowerCase();
-          
-          if (!inlineStyle.includes('display: none') && !inlineStyle.includes('display:none') && 
-              !parentStyle.includes('display: none') && !parentStyle.includes('display:none') && 
-              style.display !== 'none' && style.visibility !== 'hidden' && f.offsetHeight > 80) {
-            return true;
-          }
-        }
+      const activeForm = document.querySelector('.jdgm-form-wrapper:not([style*="display: none"]), .jdgm-rev-widg__form-wrapper:not([style*="display: none"])');
+      if (activeForm && activeForm.offsetHeight > 100) {
+        return true;
       }
 
       if (window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1) {
@@ -161,7 +153,7 @@
         placeholder.style.height = '0px';
       }
 
-      const allHeaderAndStickyEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, .kb-header1, .kb-header2, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]');
+      const allHeaderAndStickyEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, .kb-header1, .kb-header2, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"]');
 
       if (isJudgeMeModalActive()) {
         document.body.classList.add('jdgm-review-modal-active');
@@ -276,9 +268,16 @@
 
   // Monitor Judge.me Write a Review Modal to Hide Header and Sticky Cart Bar
   const handleJudgeMeModal = () => {
-    const shouldHide = isJudgeMeModalActive();
+    const overlay = document.getElementById('JdgmBlurOverlay');
+    const isOverlayOpen = overlay && window.getComputedStyle(overlay).display !== 'none' && overlay.offsetWidth > 0;
+    const isBtnExpanded = !!document.querySelector('.jdgm-write-rev-btn[aria-expanded="true"]');
+    const activeForm = document.querySelector('.jdgm-form-wrapper:not([style*="display: none"]), .jdgm-rev-widg__form-wrapper:not([style*="display: none"])');
+    const isFormOpen = activeForm && activeForm.offsetHeight > 100;
+    const isParamOpen = window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1;
 
-    const targetEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]');
+    const shouldHide = isOverlayOpen || isBtnExpanded || isFormOpen || isParamOpen;
+
+    const targetEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"]');
 
     if (shouldHide) {
       document.documentElement.classList.add('jdgm-review-modal-active');
