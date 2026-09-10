@@ -123,55 +123,39 @@
     });
 
     const isJudgeMeModalActive = () => {
-      if (document.body.classList.contains('jdgm-review-modal-active') || document.documentElement.classList.contains('jdgm-review-modal-active')) {
+      if (document.body.classList.contains('jdgm-review-modal-active') || document.documentElement.classList.contains('jdgm-review-modal-active') || window.location.search.indexOf('pb=0') !== -1) {
         return true;
       }
-      if (window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1) {
-        return true;
-      }
-      var overlay = document.getElementById('JdgmBlurOverlay');
-      if (overlay) {
-        var oStyle = window.getComputedStyle(overlay);
-        if (oStyle.display !== 'none' && oStyle.visibility !== 'hidden' && (overlay.offsetWidth > 0 || overlay.offsetHeight > 0)) {
+      var form = document.querySelector('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form, [class*="jdgm-form"]');
+      if (form) {
+        var style = window.getComputedStyle(form);
+        if (style.display !== 'none' && style.visibility !== 'hidden' && (form.offsetWidth > 0 || form.offsetHeight > 0)) {
           return true;
-        }
-      }
-      var forms = document.querySelectorAll('.jdgm-form-wrapper, .jdgm-form, .jdgm-rev-widg__form-wrapper, .jdgm-rev-widg__form, [class*="jdgm-form"], .jdgm-write-rev-btn[aria-expanded="true"]');
-      for (var i = 0; i < forms.length; i++) {
-        var f = forms[i];
-        if (f) {
-          var fStyle = window.getComputedStyle(f);
-          if (fStyle.display !== 'none' && fStyle.visibility !== 'hidden' && (f.offsetWidth > 0 || f.offsetHeight > 0)) {
-            return true;
-          }
         }
       }
       return false;
     };
 
     const syncTopHeaderSticky = () => {
-      const allHeaderAndStickyEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, .kb-header1, .kb-header2, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]');
-
-      if (isJudgeMeModalActive()) {
-        document.body.classList.add('jdgm-review-modal-active');
-        document.documentElement.classList.add('jdgm-review-modal-active');
-        allHeaderAndStickyEls.forEach((h) => {
-          h.classList.remove('kb-header-top--fixed');
-          h.style.setProperty('display', 'none', 'important');
-          h.style.setProperty('opacity', '0', 'important');
-          h.style.setProperty('visibility', 'hidden', 'important');
-          h.style.setProperty('pointer-events', 'none', 'important');
-          h.style.setProperty('z-index', '-999999', 'important');
-        });
-        return;
-      }
-
       const topSticky = document.querySelector('[data-header-top-sticky], .kb-header-top-sticky');
       const placeholder = document.querySelector('[data-header-top-placeholder]');
 
       if (placeholder) {
         placeholder.style.display = 'none';
         placeholder.style.height = '0px';
+      }
+
+      if (isJudgeMeModalActive()) {
+        document.body.classList.add('jdgm-review-modal-active');
+        document.documentElement.classList.add('jdgm-review-modal-active');
+        document.querySelectorAll('#shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .kb-header-top-sticky, [data-header-top-sticky]').forEach((h) => {
+          h.classList.remove('kb-header-top--fixed');
+          h.style.setProperty('display', 'none', 'important');
+          h.style.setProperty('opacity', '0', 'important');
+          h.style.setProperty('visibility', 'hidden', 'important');
+          h.style.setProperty('pointer-events', 'none', 'important');
+        });
+        return;
       }
 
       if (!topSticky) return;
