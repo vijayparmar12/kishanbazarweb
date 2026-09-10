@@ -416,6 +416,14 @@
       </button>
     </div>
 
+    {% if section.settings.show_cta_btn %}
+      <!-- Centered SHOP ALL Button (Mobile & Desktop) -->
+      <div class="best-sellers__shop-all-wrapper">
+        <a href="{{ more_url }}" class="best-sellers__shop-all-btn">
+          {{ section.settings.cta_label | default: 'SHOP ALL' }}
+        </a>
+      </div>
+    {% endif %}
   {% else %}
     <p class="home-section__empty">Products will appear here after they are published to the Online Store.</p>
   {% endif %}

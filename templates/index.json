@@ -177,7 +177,7 @@
         "background_color": "#fbf7f0",
         "maximum": 4,
         "show_tabs": false,
-        "show_cta_btn": true,
+        "show_cta_btn": false,
         "cta_label": "Shop More",
         "cta_url": "",
         "cta_bg_color": "#1b4317",

@@ -768,7 +768,13 @@
 
 /* Centered SHOP ALL Button below Best Sellers Products (Mobile & Web) */
 .best-sellers__shop-all-wrapper {
-  display: none !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+  text-align: center !important;
 }
 
 .best-sellers__shop-all-btn {
