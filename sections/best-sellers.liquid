@@ -338,8 +338,7 @@
                     {{ block.settings.title | downcase }}
                     {{ block.settings.collection.title | downcase }}
                     {{ block.settings.collection.handle | downcase }}
-                    {% for tag in product.tags %}{{ tag | downcase }} {% endfor %}
-                    {% for col in product.collections %}{{ col.title | downcase }} {{ col.handle | downcase }} {% endfor %}
+                    {{ product.tags | join: ' ' | downcase }}
                   {% endcapture %}
 
                   <div class="best-sellers__slide" data-best-sellers-slide data-product-categories="{{ prod_cat_str | escape }}">
@@ -379,8 +378,7 @@
             {% capture prod_cat_str %}
               {{ product.title | downcase }}
               {{ product.type | downcase }}
-              {% for tag in product.tags %}{{ tag | downcase }} {% endfor %}
-              {% for col in product.collections %}{{ col.title | downcase }} {{ col.handle | downcase }} {% endfor %}
+              {{ product.tags | join: ' ' | downcase }}
             {% endcapture %}
 
             <div class="best-sellers__slide" data-best-sellers-slide data-product-categories="{{ prod_cat_str | escape }}">

@@ -121,14 +121,20 @@
       {% if mobile_slides.size > 0 %}
         {% for block in mobile_slides %}
           {% assign mob_img = block.settings.mobile_image | default: block.settings.image %}
+          {% assign mob_loading = 'lazy' %}
+          {% assign mob_priority = 'low' %}
+          {% if forloop.first %}
+            {% assign mob_loading = 'eager' %}
+            {% assign mob_priority = 'high' %}
+          {% endif %}
           <div class="home-hero-split__mobile-slide{% if forloop.first %} is-active{% endif %}" data-hero-mobile-slide {{ block.shopify_attributes }}>
             <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Mobile Hero Slide {{ forloop.index }}">
               {% if mob_img != blank %}
-                {{ mob_img | image_url: width: 1000 | image_tag: class: 'home-hero-split__image', loading: 'eager' }}
+                {{ mob_img | image_url: width: 1000 | image_tag: class: 'home-hero-split__image', loading: mob_loading, fetchpriority: mob_priority }}
               {% elsif section.settings.left_image != blank and forloop.first %}
-                {{ section.settings.left_image | image_url: width: 1000 | image_tag: class: 'home-hero-split__image', loading: 'eager' }}
+                {{ section.settings.left_image | image_url: width: 1000 | image_tag: class: 'home-hero-split__image', loading: mob_loading, fetchpriority: mob_priority }}
               {% else %}
-                <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Mobile Banner {{ forloop.index }}" width="800" height="450" loading="eager">
+                <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Mobile Banner {{ forloop.index }}" width="800" height="450" loading="{{ mob_loading }}">
               {% endif %}
             </a>
           </div>
