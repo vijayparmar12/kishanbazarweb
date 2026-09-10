@@ -90,7 +90,8 @@
   margin: 0 0 0.85rem 0;
   max-width: 26rem;
   opacity: 0.95;
-  text-align: left !important;
+  text-align: justify !important;
+  text-justify: inter-word;
 }
 
 .site-footer__brand-contact {
