@@ -1501,7 +1501,7 @@
 }
 
 /* ==========================================================================
-   SECTION 6: CUSTOMER REVIEWS & RATINGS DASHBOARD (Judge.me Single Box Card)
+   SECTION 6: CUSTOMER REVIEWS & RATINGS DASHBOARD (Judge.me Padding Only)
    ========================================================================== */
 .product-reviews,
 [id^="ProductReviews"] {
@@ -1517,24 +1517,37 @@
 }
 
 .product-page-section--reviews {
-  margin: 1.5rem 0 !important;
+  margin: 1rem 0 !important;
   padding: 0 !important;
   width: 100% !important;
   box-sizing: border-box !important;
 }
 
-/* Single Box Container Card for Reviews Section */
+/* Remove all box cards / borders / shadows / backgrounds - ONLY PADDING */
 .product-reviews__container,
-.product-reviews-box-card {
-  background-color: #ffffff !important;
-  border: 1px solid #e5e7eb !important;
-  border-radius: 18px !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
-  padding: 2rem 1.75rem !important;
+.product-reviews-box-card,
+.product-reviews,
+.jdgm-rev-widg,
+.jdgm-widget:not(.jdgm-preview-badge),
+.jdgm-review-widget,
+.shopify-app-block:has(.jdgm-rev-widg),
+.shopify-app-block:has(.jdgm-widget:not(.jdgm-preview-badge)),
+.shopify-block:has(.jdgm-rev-widg),
+.shopify-block:has(.jdgm-widget:not(.jdgm-preview-badge)),
+[data-shopify-editor-block]:has(.jdgm-rev-widg),
+[data-shopify-editor-block]:has(.jdgm-widget:not(.jdgm-preview-badge)) {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
   width: 100% !important;
-  max-width: 100% !important;
+  max-width: 1200px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
   box-sizing: border-box !important;
-  margin: 0 auto !important;
+  padding: 1.5rem 1.25rem !important;
 }
 
 .product-reviews__main-title {
@@ -1542,61 +1555,34 @@
   font-size: 1.5rem !important;
   font-weight: 800 !important;
   letter-spacing: -0.01em !important;
-  margin: 0 0 1.25rem 0 !important;
+  margin: 0 0 1rem 0 !important;
   text-align: center !important;
   text-transform: uppercase !important;
 }
 
-/* Judge.me Live Plugin Review Widget Integration */
-.jdgm-rev-widg,
-.jdgm-widget,
-.jdgm-review-widget {
-  font-family: inherit !important;
-  text-align: left !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.product-reviews__container .jdgm-rev-widg,
-.product-reviews__container .jdgm-widget,
-.product-reviews__container .jdgm-review-widget,
-.product-reviews-box-card .jdgm-rev-widg,
-.product-reviews-box-card .jdgm-widget,
-.product-reviews-box-card .jdgm-review-widget {
-  background: transparent !important;
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-/* Standalone Judge.me Widget Single Box (when rendered outside container) */
-.jdgm-rev-widg:not(.product-reviews__container .jdgm-rev-widg):not(.product-reviews-box-card .jdgm-rev-widg) {
-  border-radius: 18px !important;
-  border: 1px solid #e5e7eb !important;
-  background-color: #ffffff !important;
-  padding: 2rem 1.75rem !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
-  margin: 1.5rem auto !important;
-}
-
 @media (max-width: 768px) {
   .product-page-section--reviews {
-    margin: 1rem 0 !important;
+    margin: 0.75rem 0 !important;
   }
 
   .product-reviews__container,
   .product-reviews-box-card,
-  .jdgm-rev-widg:not(.product-reviews__container .jdgm-rev-widg):not(.product-reviews-box-card .jdgm-rev-widg) {
-    padding: 1.25rem 0.85rem !important;
-    border-radius: 14px !important;
+  .product-reviews,
+  .jdgm-rev-widg,
+  .jdgm-widget:not(.jdgm-preview-badge),
+  .jdgm-review-widget,
+  .shopify-app-block:has(.jdgm-rev-widg),
+  .shopify-app-block:has(.jdgm-widget:not(.jdgm-preview-badge)),
+  .shopify-block:has(.jdgm-rev-widg),
+  .shopify-block:has(.jdgm-widget:not(.jdgm-preview-badge)),
+  [data-shopify-editor-block]:has(.jdgm-rev-widg),
+  [data-shopify-editor-block]:has(.jdgm-widget:not(.jdgm-preview-badge)) {
+    padding: 1.25rem 1rem !important;
   }
 
   .product-reviews__main-title {
     font-size: 1.25rem !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.75rem !important;
   }
 }
 
