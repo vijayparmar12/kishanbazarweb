@@ -30,7 +30,8 @@
   height: auto;
   display: block;
   object-fit: cover;
-  max-height: 480px;
+  aspect-ratio: 2 / 1;
+  max-height: 650px;
 }
 
 .collection-hero__header {
