@@ -153,7 +153,7 @@
         placeholder.style.height = '0px';
       }
 
-      const allHeaderAndStickyEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, .kb-header1, .kb-header2, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]');
+      const allHeaderAndStickyEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, .kb-header1, .kb-header2, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"]');
 
       if (isJudgeMeModalActive()) {
         document.body.classList.add('jdgm-review-modal-active');
@@ -277,7 +277,7 @@
 
     const shouldHide = isOverlayOpen || isBtnExpanded || isFormOpen || isParamOpen;
 
-    const targetEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"], .sticky-mobile-bar, [data-sticky-mobile-bar]');
+    const targetEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"]');
 
     if (shouldHide) {
       document.documentElement.classList.add('jdgm-review-modal-active');
