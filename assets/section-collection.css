@@ -6,9 +6,9 @@
 
 /* Collection Hero Banner Section (Matching Reference Design) */
 .collection-hero {
-  max-width: var(--container-width, 1400px);
+  max-width: var(--hero-max-width, 1920px);
   margin: 0 auto;
-  padding: 1rem var(--container-padding, 1.25rem);
+  padding: 0.5rem 1rem 1.25rem;
   box-sizing: border-box;
   width: 100%;
 }
@@ -16,26 +16,28 @@
 .collection-hero__banner-wrap,
 .collection-fallback-hero__banner-wrap {
   width: 100%;
-  border-radius: var(--hero-radius, 24px);
+  border-radius: var(--hero-radius, 16px);
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  margin-bottom: 1.5rem;
-  background-color: #f4f7f4;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.25rem;
+  background-color: transparent;
 }
 
 .collection-hero__picture,
 .collection-fallback-hero__picture {
   display: block;
   width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .collection-hero__image,
 .collection-fallback-hero__image {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
-  max-height: none;
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  display: block !important;
+  object-fit: contain !important;
 }
 
 .collection-hero__header {
