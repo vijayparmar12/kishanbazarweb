@@ -18,7 +18,7 @@
   <link rel="preload" as="image" href="{{ first_mob_img | image_url: width: 750 }}" imagesrcset="{{ first_mob_img | image_url: width: 360 }} 360w, {{ first_mob_img | image_url: width: 480 }} 480w, {{ first_mob_img | image_url: width: 600 }} 600w, {{ first_mob_img | image_url: width: 750 }} 750w, {{ first_mob_img | image_url: width: 900 }} 900w" imagesizes="100vw" fetchpriority="high">
 {% endif %}
 
-<section class="home-hero-split" data-home-hero>
+<section class="home-hero-split" data-home-hero style="--hero-height-desktop: {{ section.settings.desktop_hero_height | default: 650 }}px; --container-width: {{ section.settings.desktop_max_width | default: 1920 }}px;">
 
   <!-- Wide Main Hero Banner (Full Width Desktop Auto Slider, Rounded Corners) -->
   <div class="home-hero-split__container">
@@ -232,6 +232,26 @@
       "step": 1,
       "default": 4,
       "unit": "s"
+    },
+    {
+      "type": "range",
+      "id": "desktop_hero_height",
+      "label": "Desktop Web View Banner Height (px)",
+      "min": 400,
+      "max": 900,
+      "step": 20,
+      "default": 650,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_max_width",
+      "label": "Desktop Banner Max Width (px)",
+      "min": 1200,
+      "max": 2000,
+      "step": 50,
+      "default": 1920,
+      "unit": "px"
     },
     {
       "type": "header",

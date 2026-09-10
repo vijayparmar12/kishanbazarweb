@@ -67,10 +67,10 @@
   display: flex;
   gap: 1.25rem;
   width: 100%;
-  max-width: var(--container-width, 1360px);
+  max-width: var(--container-width, 1920px);
   margin: 0 auto;
   align-items: stretch;
-  height: 480px; /* Fixed Total Section Height */
+  height: var(--hero-height-desktop, 650px);
 }
 
 /* Left Main Banner (100% Width Full Banner Slider on Desktop Webview) */
