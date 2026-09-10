@@ -416,7 +416,7 @@
       </button>
     </div>
 
-    {% if section.settings.show_cta_btn %}
+    {% if section.settings.show_cta_btn and section.settings.show_tabs != true %}
       <!-- Centered SHOP ALL Button (Mobile & Desktop) -->
       <div class="best-sellers__shop-all-wrapper">
         <a href="{{ more_url }}" class="best-sellers__shop-all-btn">
