@@ -7,7 +7,7 @@
     4. Fallback product featured image
 {% enddoc %}
 
-<link rel="stylesheet" href="{{ 'section-our-story.css' | asset_url }}">
+<link rel="stylesheet" href="{{ 'section-collection.css' | asset_url }}">
 
 {% liquid
   # 1. Custom Metafields on Collection (Highest Priority - Supports MediaImage, GenericFile, FileReference e.g. oil.png)
@@ -137,7 +137,6 @@
             alt="{{ collection.title | default: 'All Products' | escape }}"
             class="collection-hero__image"
             loading="eager"
-            style="width: 100%; height: auto; max-height: none; object-fit: contain; display: block; border-radius: {{ section.settings.banner_border_radius | default: 24 }}px;"
           >
         </picture>
       </div>

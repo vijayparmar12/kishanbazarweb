@@ -3,6 +3,8 @@
   Creates a standalone section card "Collection Fallback Banner" in Shopify Theme Editor.
 {% enddoc %}
 
+<link rel="stylesheet" href="{{ 'section-collection.css' | asset_url }}">
+
 {% liquid
   # Check if current collection has its own custom image (metafield or admin collection image)
   assign meta_desk = collection.metafields.custom.banner_image | default: collection.metafields.custom.banner | default: collection.metafields.custom.collection_banner
