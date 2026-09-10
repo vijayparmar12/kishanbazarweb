@@ -2270,17 +2270,20 @@ input[type="submit"].jdgm-btn:hover {
 
   .sticky-mobile-bar__content {
     width: auto;
+    display: flex;
+    gap: 0.75rem;
     justify-content: flex-end;
   }
 
-  /* Desktop Web View: Show ONLY ADD TO CART button in sticky bar */
+  /* Desktop Web View: Show BOTH ADD TO CART and BUY NOW buttons */
   .sticky-mobile-bar__btn--buy {
-    display: none !important;
+    display: flex !important;
+    min-width: 150px;
   }
 
   .sticky-mobile-bar__btn--add {
-    min-width: 180px;
-    padding: 0.85rem 1.75rem;
+    min-width: 150px;
+    padding: 0.85rem 1.25rem;
   }
 }
 
