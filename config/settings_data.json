@@ -11,6 +11,7 @@
   "current": {
     "type_primary_font": "montserrat_n6",
     "max_page_width": "110rem",
+    "cart_free_shipping_threshold": 1499,
     "cart_addons_limit": 4,
     "sections": {
       "customer-login-modal": {
