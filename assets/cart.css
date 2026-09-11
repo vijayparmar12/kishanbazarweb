@@ -2797,4 +2797,20 @@ body.kb-cart-drawer-open {
   stroke: currentColor !important;
   display: block !important;
 }
+
+/* Hide Header and Footer on Cart Page */
+.template-cart #shopify-section-header-group,
+.template-cart .shopify-section-group-header-group,
+.template-cart #shopify-section-footer-group,
+.template-cart .shopify-section-group-footer-group,
+.template-cart header,
+.template-cart footer,
+body[class*="cart"] #shopify-section-header-group,
+body[class*="cart"] .shopify-section-group-header-group,
+body[class*="cart"] #shopify-section-footer-group,
+body[class*="cart"] .shopify-section-group-footer-group,
+body[class*="cart"] header,
+body[class*="cart"] footer {
+  display: none !important;
+}
 

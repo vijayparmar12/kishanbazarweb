@@ -266,7 +266,9 @@
 
   <body class="template-{{ template.name | default: 'index' | handle }}{% if template.suffix %} template-suffix-{{ template.suffix | handle }}{% endif %}">
     <div id="JdgmBlurOverlay" style="display: none;"></div>
-    {% sections 'header-group' %}
+    {% unless template.name == 'cart' %}
+      {% sections 'header-group' %}
+    {% endunless %}
 
     {% section 'wishlist-drawer' %}
     {% render 'predictive-search-drawer' %}
@@ -275,7 +277,9 @@
 
     {{ content_for_layout }}
 
-    {% sections 'footer-group' %}
+    {% unless template.name == 'cart' %}
+      {% sections 'footer-group' %}
+    {% endunless %}
     <script src="{{ 'header.js' | asset_url }}" defer="defer"></script>
     {% if template.name == 'cart' or request.design_mode %}
       {{ 'cart.css' | asset_url | stylesheet_tag }}
