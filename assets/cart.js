@@ -578,20 +578,16 @@
   };
 
   const openDrawer = async (cartData = null) => {
-    const drawer = document.querySelector('[data-cart-drawer]');
-    if (!drawer) return;
-
-    if (cartData && Array.isArray(cartData.items) && cartData.items.length > 0) {
+    if (window.location.pathname.indexOf('/cart') === -1) {
+      window.location.href = rootUrl + 'cart';
+      return;
+    }
+    if (cartData && Array.isArray(cartData.items)) {
       updateDrawer(cartData);
     } else {
       const cart = await updateDrawerFromServer();
       if (cart) updateDrawer(cart);
     }
-
-    drawer.hidden = false;
-    drawer.classList.add('is-open');
-    document.documentElement.classList.add('kb-cart-drawer-open');
-    initTrackDragScroll();
   };
 
   window.openDrawer = openDrawer;
@@ -609,11 +605,7 @@
   };
 
   const closeDrawer = () => {
-    const drawer = document.querySelector('[data-cart-drawer]');
-    if (!drawer) return;
-    drawer.hidden = true;
-    drawer.classList.remove('is-open');
-    document.documentElement.classList.remove('kb-cart-drawer-open');
+    // No-op for drawer closing
   };
 
   // Global Event Delegation for all Cart Actions
@@ -663,20 +655,6 @@
       if (!details) return;
 
       changeCartLine(details.lineIndex, details.lineKey, 0);
-      return;
-    }
-
-    // 4. Cart drawer trigger (open cart)
-    const trigger = event.target.closest('[data-cart-drawer-trigger], a[href$="/cart"], a[href*="/cart?"]');
-    if (trigger) {
-      event.preventDefault();
-      openDrawer();
-      return;
-    }
-
-    // 5. Cart drawer close button / backdrop
-    if (event.target.closest('[data-cart-drawer-close]')) {
-      closeDrawer();
       return;
     }
 

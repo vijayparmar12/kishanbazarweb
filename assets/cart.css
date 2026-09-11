@@ -472,13 +472,7 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-drawer {
-  position: fixed;
-  inset: 0;
-  z-index: 999999 !important;
-}
-
-.kb-cart-drawer[hidden] {
-  display: none;
+  display: none !important;
 }
 
 .kb-cart-drawer__overlay {
