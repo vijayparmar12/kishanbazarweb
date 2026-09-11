@@ -249,17 +249,20 @@
         document.addEventListener('click', function(e) {
           if (e.target.closest('.jdgm-write-rev-btn, .jdgm-btn, .jdgm-all-reviews-rating-actions__write-btn, [href*="write-review"], [href*="pb=0"]')) {
             setTimeout(toggleReviewModalState, 20);
-            setTimeout(toggleReviewModalState, 100);
-            setTimeout(toggleReviewModalState, 300);
+            setTimeout(toggleReviewModalState, 120);
+            setTimeout(toggleReviewModalState, 350);
           }
           if (e.target.closest('.jdgm-cancel-rev, .jdgm-close-btn, .jdgm-form__close, .jdgm-dialog__close')) {
             setTimeout(toggleReviewModalState, 20);
           }
         });
 
-        var observer = new MutationObserver(toggleReviewModalState);
-        if (document.body) {
-          observer.observe(document.body, { childList: true });
+        if (window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1) {
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', toggleReviewModalState);
+          } else {
+            toggleReviewModalState();
+          }
         }
       })();
     </script>

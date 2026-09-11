@@ -182,9 +182,19 @@
       }
     };
 
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          syncTopHeaderSticky();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
     syncTopHeaderSticky();
-    window.addEventListener('scroll', syncTopHeaderSticky, { passive: true });
-    setInterval(syncTopHeaderSticky, 150);
+    window.addEventListener('scroll', onScroll, { passive: true });
   };
 
   const initAllHeaders = () => {
@@ -272,8 +282,6 @@
 
     const shouldHide = isOverlayOpen || isBtnExpanded || isFormOpen || isParamOpen;
 
-    const targetEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"]');
-
     if (shouldHide) {
       document.documentElement.classList.add('jdgm-review-modal-active');
       document.body.classList.add('jdgm-review-modal-active');
@@ -290,8 +298,6 @@
       setTimeout(handleJudgeMeModal, 300);
     }
   });
-
-  setInterval(handleJudgeMeModal, 150);
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {

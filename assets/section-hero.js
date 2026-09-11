@@ -194,18 +194,19 @@
     initMobileHeroSlider(section);
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('[data-home-hero]').forEach(initAllHero);
+    });
+  } else {
     document.querySelectorAll('[data-home-hero]').forEach(initAllHero);
-  });
+  }
 
   // Shopify Theme Editor Section Load Event Support
   document.addEventListener('shopify:section:load', (e) => {
     const heroSection = e.target.querySelector('[data-home-hero]') || e.target;
-    if (heroSection && heroSection.matches('[data-home-hero]')) {
+    if (heroSection && heroSection.matches && heroSection.matches('[data-home-hero]')) {
       initAllHero(heroSection);
     }
   });
-
-  // Fallback direct execution
-  document.querySelectorAll('[data-home-hero]').forEach(initAllHero);
 })();

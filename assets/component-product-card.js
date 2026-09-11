@@ -6,11 +6,14 @@
   const rootUrl = window.Shopify?.routes?.root || '/';
 
   // Helper to fetch current cart and sync product card stepper UI across the page
-  const syncCartState = async () => {
-    try {
-      const res = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
-      if (!res.ok) return;
-      const cart = await res.json();
+  let syncTimer = null;
+  const syncCartState = () => {
+    if (syncTimer) clearTimeout(syncTimer);
+    syncTimer = setTimeout(async () => {
+      try {
+        const res = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
+        if (!res.ok) return;
+        const cart = await res.json();
 
       // Create map of variantId -> quantity
       const cartVariantQtyMap = {};
@@ -108,6 +111,7 @@
     } catch (e) {
       console.error('Cart sync error:', e);
     }
+    }, 40);
   };
 
   // 1. Listen for Form Submissions (Clicking ADD TO CART)
