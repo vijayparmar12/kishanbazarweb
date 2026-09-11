@@ -2814,10 +2814,10 @@ body[class*="cart"] footer {
   display: none !important;
 }
 
-/* Cart Page Backdrop Blur & Styling */
+/* Cart Page Background & Styling */
 body.template-cart,
 body[class*="cart"] {
-  background-color: #122013 !important;
+  background-color: #faf8f5 !important;
 }
 
 .kb-cart-header-close-btn:hover {
@@ -2826,10 +2826,24 @@ body[class*="cart"] {
   transform: scale(1.05);
 }
 
+.kb-cart-fbt-header-arrow:hover {
+  background: #166534 !important;
+  color: #ffffff !important;
+  border-color: #166534 !important;
+}
+
 .kb-cart-page-sticky-summary {
   position: sticky !important;
   bottom: 0 !important;
   z-index: 10 !important;
   background: #ffffff !important;
+}
+
+@media (max-width: 480px) {
+  .kb-cart-drawer__promo-copy {
+    font-size: 0.72rem !important;
+    line-height: 1.25 !important;
+    white-space: normal !important;
+  }
 }
 

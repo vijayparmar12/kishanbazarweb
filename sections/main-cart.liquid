@@ -1,7 +1,6 @@
 {% doc %}
-  Main Cart Section - Dedicated Cart Page with backdrop blur, sticky checkout summary,
-  FBT directly after products without dashed border, single-line free shipping title,
-  and header cross icon.
+  Main Cart Section - Dedicated Cart Page with white background, sticky checkout summary,
+  FBT directly after products with header arrows (no overlap), and mobile-responsive free shipping title.
 {% enddoc %}
 
 {{ 'cart.css' | asset_url | stylesheet_tag }}
@@ -41,14 +40,11 @@
   endif
 %}
 
-<!-- Blurred Page Backdrop Overlay -->
-<div class="kb-cart-blur-backdrop" style="position: fixed; inset: 0; background: rgba(18, 32, 19, 0.45); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 1; pointer-events: none;"></div>
-
-<div class="kb-cart-page-wrapper" style="position: relative; z-index: 2; min-height: 100vh; padding: 1.25rem 0.85rem 4rem;">
+<div class="kb-cart-page-wrapper" style="position: relative; min-height: 100vh; padding: 1.25rem 0.85rem 4rem; background: #faf8f5;">
   <div class="kb-cart-page-container" style="max-width: 620px; margin: 0 auto;" data-main-cart data-cart-section-id="{{ section.id }}" data-free-shipping-threshold="{{ free_ship_val }}" data-shipping-fee="{{ shipping_fee_num | times: 100 }}">
     
     <!-- YOUR CART (X) HEADER WITH CROSS ICON -->
-    <div class="kb-cart-page-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; background: #ffffff; padding: 0.85rem 1.25rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid rgba(35, 66, 31, 0.08);">
+    <div class="kb-cart-page-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; background: #ffffff; padding: 0.85rem 1.25rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid rgba(35, 66, 31, 0.08);">
       <h1 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #132d14; text-transform: uppercase; letter-spacing: 0.03em;">
         YOUR CART ({{ display_item_count }})
       </h1>
@@ -61,11 +57,11 @@
     </div>
 
     {% if cart.item_count > 0 or is_design_mode %}
-      <div class="kb-cart-page-card" style="background: #ffffff; border-radius: 20px; padding: 1.25rem; box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15); border: 1px solid rgba(35, 66, 31, 0.1); display: flex; flex-direction: column; gap: 1.25rem; position: relative;">
+      <div class="kb-cart-page-card" style="background: #ffffff; border-radius: 20px; padding: 1.25rem; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06); border: 1px solid rgba(35, 66, 31, 0.1); display: flex; flex-direction: column; gap: 1.25rem; position: relative;">
         
-        <!-- FREE SHIPPING PROGRESS BANNER (Single Line Title) -->
+        <!-- FREE SHIPPING PROGRESS BANNER (Mobile Reduced Size, Fully Displayed) -->
         <div class="kb-cart-drawer__progress" data-cart-drawer-progress style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 14px; padding: 0.85rem 1rem; margin: 0;">
-          <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status style="font-weight: 800; color: #166534; margin: 0 0 0.5rem 0; font-size: clamp(0.68rem, 3.1vw, 0.85rem); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+          <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status style="font-weight: 800; color: #166534; margin: 0 0 0.5rem 0; font-size: 0.78rem; text-align: center; line-height: 1.3;">
             {% if cart.total_price >= free_ship_val or is_design_mode %}
               Hurray! You've unlocked FREE Shipping
             {% else %}
@@ -153,13 +149,16 @@
           {% endfor %}
         </div>
 
-        <!-- FREQUENTLY BOUGHT TOGETHER (FBT) - Directly After Products, Dashed Border Removed -->
-        <div class="kb-cart-drawer__addons-block" style="margin-top: 0.5rem; background: transparent; padding: 0.5rem 0; border: none;">
-          <div style="font-weight: 800; font-size: 0.95rem; color: #166534; margin-bottom: 0.75rem;">Frequently Bought Together</div>
-          <div class="kb-cart-tab-panel is-active" data-tab-panel="frequently" style="position: relative;">
-            <button type="button" class="kb-cart-fbt-floating-arrow kb-cart-fbt-floating-arrow--prev" data-fbt-prev aria-label="Scroll left">&lsaquo;</button>
-            <button type="button" class="kb-cart-fbt-floating-arrow kb-cart-fbt-floating-arrow--next" data-fbt-next aria-label="Scroll right">&rsaquo;</button>
-
+        <!-- FREQUENTLY BOUGHT TOGETHER (FBT) - Header Navigation Arrows (No Button Overlap) -->
+        <div class="kb-cart-drawer__addons-block" style="margin-top: 0.5rem; background: transparent; padding: 0.5rem 0; border: none; position: relative;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+            <div style="font-weight: 800; font-size: 0.95rem; color: #166534;">Frequently Bought Together</div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <button type="button" class="kb-cart-fbt-header-arrow" data-fbt-prev aria-label="Scroll left" style="width: 28px; height: 28px; border-radius: 50%; background: #ffffff; border: 1px solid #cbd5e1; color: #166534; font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 150ms ease;">&lsaquo;</button>
+              <button type="button" class="kb-cart-fbt-header-arrow" data-fbt-next aria-label="Scroll right" style="width: 28px; height: 28px; border-radius: 50%; background: #ffffff; border: 1px solid #cbd5e1; color: #166534; font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 150ms ease;">&rsaquo;</button>
+            </div>
+          </div>
+          <div class="kb-cart-tab-panel is-active" data-tab-panel="frequently">
             <div class="kb-cart-addons-track">
               {% assign addons_coll = collections['all'].products %}
               {% if addons_coll == blank or addons_coll.size == 0 %}
@@ -265,7 +264,7 @@
       </div>
     {% else %}
       <!-- EMPTY CART CARD -->
-      <div class="kb-cart-page__empty-card" style="text-align: center; padding: 4rem 2rem; background: #ffffff; border-radius: 20px; border: 1px solid rgba(35, 66, 31, 0.1); box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);">
+      <div class="kb-cart-page__empty-card" style="text-align: center; padding: 4rem 2rem; background: #ffffff; border-radius: 20px; border: 1px solid rgba(35, 66, 31, 0.1); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);">
         <h2 style="font-size: 1.6rem; color: #132d14; margin-bottom: 0.5rem; font-weight: 800;">Your Cart is Empty</h2>
         <p style="color: #64748b; margin-bottom: 1.5rem;">Explore our natural organic products and add items to your cart.</p>
         <a href="/collections/all" style="display: inline-block; background: #1b4317; color: #ffffff; padding: 0.85rem 2rem; border-radius: 12px; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.04em;">Start Shopping</a>
