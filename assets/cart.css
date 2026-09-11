@@ -2813,4 +2813,23 @@ body[class*="cart"] header,
 body[class*="cart"] footer {
   display: none !important;
 }
+
+/* Cart Page Backdrop Blur & Styling */
+body.template-cart,
+body[class*="cart"] {
+  background-color: #122013 !important;
+}
+
+.kb-cart-header-close-btn:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+  transform: scale(1.05);
+}
+
+.kb-cart-page-sticky-summary {
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 10 !important;
+  background: #ffffff !important;
+}
 

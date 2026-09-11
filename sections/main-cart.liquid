@@ -1,7 +1,7 @@
 {% doc %}
-  Main Cart Section - Dedicated Cart Page displaying full cart details matching Image 1:
-  YOUR CART Header, Free Shipping Progress Bar, Line Items with Variant Selectors & Steppers,
-  Green Savings Pill (Rs. X Saved so far!), Estimated Total Box, and Checkout Button.
+  Main Cart Section - Dedicated Cart Page with backdrop blur, sticky checkout summary,
+  FBT directly after products without dashed border, single-line free shipping title,
+  and header cross icon.
 {% enddoc %}
 
 {{ 'cart.css' | asset_url | stylesheet_tag }}
@@ -41,25 +41,31 @@
   endif
 %}
 
-<div class="kb-cart-page-wrapper" style="background: #faf8f5; min-height: 80vh; padding: 2rem 1rem 4rem;">
-  <div class="kb-cart-page-container" style="max-width: 680px; margin: 0 auto;" data-main-cart data-cart-section-id="{{ section.id }}" data-free-shipping-threshold="{{ free_ship_val }}" data-shipping-fee="{{ shipping_fee_num | times: 100 }}">
+<!-- Blurred Page Backdrop Overlay -->
+<div class="kb-cart-blur-backdrop" style="position: fixed; inset: 0; background: rgba(18, 32, 19, 0.45); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 1; pointer-events: none;"></div>
+
+<div class="kb-cart-page-wrapper" style="position: relative; z-index: 2; min-height: 100vh; padding: 1.25rem 0.85rem 4rem;">
+  <div class="kb-cart-page-container" style="max-width: 620px; margin: 0 auto;" data-main-cart data-cart-section-id="{{ section.id }}" data-free-shipping-threshold="{{ free_ship_val }}" data-shipping-fee="{{ shipping_fee_num | times: 100 }}">
     
-    <!-- YOUR CART (X) HEADER -->
-    <div class="kb-cart-page-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-      <h1 style="margin: 0; font-size: 1.4rem; font-weight: 800; color: #132d14; text-transform: uppercase; letter-spacing: 0.03em;">
+    <!-- YOUR CART (X) HEADER WITH CROSS ICON -->
+    <div class="kb-cart-page-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; background: #ffffff; padding: 0.85rem 1.25rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid rgba(35, 66, 31, 0.08);">
+      <h1 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #132d14; text-transform: uppercase; letter-spacing: 0.03em;">
         YOUR CART ({{ display_item_count }})
       </h1>
-      {% if cart.item_count > 0 %}
-        <a href="/collections/all" style="font-size: 0.85rem; font-weight: 700; color: #23421f; text-decoration: underline;">Continue Shopping</a>
-      {% endif %}
+      <a href="javascript:void(0)" onclick="if(history.length > 1) { history.back(); } else { window.location.href = '/collections/all'; }" class="kb-cart-header-close-btn" aria-label="Close cart" style="width: 34px; height: 34px; border-radius: 50%; background: #f1f5f9; color: #334155; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: background 150ms ease;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </a>
     </div>
 
     {% if cart.item_count > 0 or is_design_mode %}
-      <div class="kb-cart-page-card" style="background: #ffffff; border-radius: 20px; padding: 1.25rem; box-shadow: 0 10px 30px rgba(35, 66, 31, 0.08); border: 1px solid rgba(35, 66, 31, 0.1); display: flex; flex-direction: column; gap: 1.25rem;">
+      <div class="kb-cart-page-card" style="background: #ffffff; border-radius: 20px; padding: 1.25rem; box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15); border: 1px solid rgba(35, 66, 31, 0.1); display: flex; flex-direction: column; gap: 1.25rem; position: relative;">
         
-        <!-- FREE SHIPPING PROGRESS BANNER (Matching Image 1) -->
-        <div class="kb-cart-drawer__progress" data-cart-drawer-progress style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 14px; padding: 1rem; margin: 0;">
-          <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status style="font-weight: 800; color: #166534; margin: 0 0 0.5rem 0; font-size: 0.95rem; text-align: center;">
+        <!-- FREE SHIPPING PROGRESS BANNER (Single Line Title) -->
+        <div class="kb-cart-drawer__progress" data-cart-drawer-progress style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 14px; padding: 0.85rem 1rem; margin: 0;">
+          <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status style="font-weight: 800; color: #166534; margin: 0 0 0.5rem 0; font-size: clamp(0.68rem, 3.1vw, 0.85rem); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
             {% if cart.total_price >= free_ship_val or is_design_mode %}
               Hurray! You've unlocked FREE Shipping
             {% else %}
@@ -83,15 +89,15 @@
               
               <div class="kb-cart-drawer__marker kb-cart-drawer__marker--1 kb-cart-drawer__progress-marker--1 is-active" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center;">
                 <span class="kb-cart-drawer__marker-top" style="font-size: 0.72rem; font-weight: 800; color: #166534; margin-bottom: 2px;">₹{{ free_shipping_threshold_num }}</span>
-                <div class="kb-cart-drawer__marker-box" style="width: 26px; height: 26px; border-radius: 50%; background: #166534; color: #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(22, 101, 52, 0.3);">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <div class="kb-cart-drawer__marker-box" style="width: 24px; height: 24px; border-radius: 50%; background: #166534; color: #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(22, 101, 52, 0.3);">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
                     <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
                     <circle cx="5.5" cy="18.5" r="2.5"></circle>
                     <circle cx="18.5" cy="18.5" r="2.5"></circle>
                   </svg>
                 </div>
-                <span class="kb-cart-drawer__marker-bottom" style="font-size: 0.65rem; font-weight: 800; color: #166534; text-transform: uppercase; margin-top: 2px;">FREE SHIPPING</span>
+                <span class="kb-cart-drawer__marker-bottom" style="font-size: 0.62rem; font-weight: 800; color: #166534; text-transform: uppercase; margin-top: 2px;">FREE SHIPPING</span>
               </div>
             </div>
           </div>
@@ -102,7 +108,7 @@
           {% for item in cart.items %}
             {% render 'cart-item', item: item, line_index: forloop.index, compact: false %}
           {% else %}
-            {% comment %} Demo preview items for Theme Editor (Image 3 Fix) {% endcomment %}
+            {% comment %} Demo preview items for Theme Editor {% endcomment %}
             <article class="kb-cart-item" style="display: grid; grid-template-columns: 80px 1fr; gap: 12px; padding: 12px; background: #faf8f5; border-radius: 14px; border: 1px solid rgba(35,66,31,0.08);">
               <div style="width: 80px; height: 80px; border-radius: 10px; overflow: hidden; background: #fff;">
                 {{ 'product-1' | placeholder_svg_tag: 'kb-cart-item__placeholder' }}
@@ -147,45 +153,8 @@
           {% endfor %}
         </div>
 
-        <!-- GREEN SAVINGS PILL (Matching Image 1: Rs. 260.00 Saved so far!) -->
-        {% liquid
-          assign display_savings = total_saved
-          if is_design_mode and display_savings <= 0
-            assign display_savings = 26000
-          endif
-        %}
-        <div class="kb-cart-savings-ribbon-wrap" style="width: 100%;">
-          <div class="kb-cart-savings-ribbon" data-cart-savings-ribbon style="background: #1b4317; color: #ffffff; border-radius: 12px; padding: 0.85rem 1rem; text-align: center; font-weight: 800; font-size: 1rem; {% if display_savings <= 0 %}display: none;{% else %}display: block;{% endif %}">
-            <span><strong data-cart-total-saved-amount>{% if display_savings > 0 %}{{ display_savings | money }}{% else %}₹260.00{% endif %}</strong> Saved so far!</span>
-          </div>
-        </div>
-
-        <!-- ESTIMATED TOTAL BOX (Matching Image 1) -->
-        <div class="kb-cart-estimated-total-box" style="border: 1.5px solid rgba(35, 66, 31, 0.15); border-radius: 14px; padding: 1rem; display: flex; align-items: center; justify-content: space-between; background: #ffffff;">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 32px; height: 32px; border-radius: 8px; background: #1b4317; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem;">₹</div>
-            <strong style="font-size: 1rem; color: #132d14; font-weight: 800;">Estimated Total</strong>
-          </div>
-          <div style="text-align: right;">
-            <strong data-cart-drawer-subtotal style="font-size: 1.25rem; color: #132d14; font-weight: 900; display: block;">
-              {% if cart.total_price > 0 %}{{ cart.total_price | money }}{% else %}₹1,700.00{% endif %}
-            </strong>
-            <s data-cart-drawer-original-total style="font-size: 0.85rem; color: #94a3b8; font-weight: 500; {% if display_savings <= 0 %}display: none;{% else %}display: inline;{% endif %}">
-              {% if cart_original_price > 0 %}{{ cart_original_price | money }}{% else %}₹1,960.00{% endif %}
-            </s>
-          </div>
-        </div>
-
-        <!-- CHECKOUT BUTTON (Matching Image 1) -->
-        <form action="{{ routes.cart_url }}" method="post" id="cart-page-checkout-form" style="width: 100%;">
-          <button type="submit" name="checkout" style="width: 100%; border: none; cursor: pointer; background: #1b4317; color: #ffffff; border-radius: 14px; padding: 1rem; text-align: center; box-shadow: 0 6px 20px rgba(27, 67, 23, 0.3); transition: background-color 200ms ease;">
-            <div style="font-size: 1.15rem; font-weight: 900; letter-spacing: 0.03em; text-transform: uppercase;">{{ checkout_label }}</div>
-            <div style="font-size: 0.78rem; font-weight: 600; opacity: 0.9; margin-top: 2px;">Free Shipping on Orders Above ₹{{ free_shipping_threshold_num }}</div>
-          </button>
-        </form>
-
-        <!-- FREQUENTLY BOUGHT TOGETHER ADDONS CAROUSEL -->
-        <div class="kb-cart-drawer__addons-block" style="margin-top: 0.5rem; background: #fbfdfa; padding: 1rem; border-radius: 14px; border: 1px dashed #23421f;">
+        <!-- FREQUENTLY BOUGHT TOGETHER (FBT) - Directly After Products, Dashed Border Removed -->
+        <div class="kb-cart-drawer__addons-block" style="margin-top: 0.5rem; background: transparent; padding: 0.5rem 0; border: none;">
           <div style="font-weight: 800; font-size: 0.95rem; color: #166534; margin-bottom: 0.75rem;">Frequently Bought Together</div>
           <div class="kb-cart-tab-panel is-active" data-tab-panel="frequently" style="position: relative;">
             <button type="button" class="kb-cart-fbt-floating-arrow kb-cart-fbt-floating-arrow--prev" data-fbt-prev aria-label="Scroll left">&lsaquo;</button>
@@ -251,10 +220,52 @@
           </div>
         </div>
 
+        <!-- STICKY SUMMARY FOOTER (Savings Ribbon + Estimated Total + Checkout Button) -->
+        {% liquid
+          assign display_savings = total_saved
+          if is_design_mode and display_savings <= 0
+            assign display_savings = 26000
+          endif
+        %}
+        <div class="kb-cart-page-sticky-summary" style="position: sticky; bottom: 0; background: #ffffff; padding: 0.85rem 0 0.25rem 0; z-index: 10; border-top: 1px solid rgba(35, 66, 31, 0.08); display: flex; flex-direction: column; gap: 0.85rem; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 -10px 25px rgba(255,255,255,0.95);">
+          
+          <!-- GREEN SAVINGS PILL -->
+          <div class="kb-cart-savings-ribbon-wrap" style="width: 100%;">
+            <div class="kb-cart-savings-ribbon" data-cart-savings-ribbon style="background: #1b4317; color: #ffffff; border-radius: 12px; padding: 0.85rem 1rem; text-align: center; font-weight: 800; font-size: 1rem; {% if display_savings <= 0 %}display: none;{% else %}display: block;{% endif %}">
+              <span><strong data-cart-total-saved-amount>{% if display_savings > 0 %}{{ display_savings | money }}{% else %}₹260.00{% endif %}</strong> Saved so far!</span>
+            </div>
+          </div>
+
+          <!-- ESTIMATED TOTAL BOX -->
+          <div class="kb-cart-estimated-total-box" style="border: 1.5px solid rgba(35, 66, 31, 0.15); border-radius: 14px; padding: 0.85rem 1rem; display: flex; align-items: center; justify-content: space-between; background: #ffffff;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 32px; height: 32px; border-radius: 8px; background: #1b4317; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem;">₹</div>
+              <strong style="font-size: 1rem; color: #132d14; font-weight: 800;">Estimated Total</strong>
+            </div>
+            <div style="text-align: right;">
+              <strong data-cart-drawer-subtotal style="font-size: 1.25rem; color: #132d14; font-weight: 900; display: block;">
+                {% if cart.total_price > 0 %}{{ cart.total_price | money }}{% else %}₹1,700.00{% endif %}
+              </strong>
+              <s data-cart-drawer-original-total style="font-size: 0.85rem; color: #94a3b8; font-weight: 500; {% if display_savings <= 0 %}display: none;{% else %}display: inline;{% endif %}">
+                {% if cart_original_price > 0 %}{{ cart_original_price | money }}{% else %}₹1,960.00{% endif %}
+              </s>
+            </div>
+          </div>
+
+          <!-- CHECKOUT BUTTON -->
+          <form action="{{ routes.cart_url }}" method="post" id="cart-page-checkout-form" style="width: 100%;">
+            <button type="submit" name="checkout" style="width: 100%; border: none; cursor: pointer; background: #1b4317; color: #ffffff; border-radius: 14px; padding: 1rem; text-align: center; box-shadow: 0 6px 20px rgba(27, 67, 23, 0.3); transition: background-color 200ms ease;">
+              <div style="font-size: 1.15rem; font-weight: 900; letter-spacing: 0.03em; text-transform: uppercase;">{{ checkout_label }}</div>
+              <div style="font-size: 0.78rem; font-weight: 600; opacity: 0.9; margin-top: 2px;">Free Shipping on Orders Above ₹{{ free_shipping_threshold_num }}</div>
+            </button>
+          </form>
+
+        </div>
+
       </div>
     {% else %}
       <!-- EMPTY CART CARD -->
-      <div class="kb-cart-page__empty-card" style="text-align: center; padding: 4rem 2rem; background: #ffffff; border-radius: 20px; border: 1px solid rgba(35, 66, 31, 0.1);">
+      <div class="kb-cart-page__empty-card" style="text-align: center; padding: 4rem 2rem; background: #ffffff; border-radius: 20px; border: 1px solid rgba(35, 66, 31, 0.1); box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);">
         <h2 style="font-size: 1.6rem; color: #132d14; margin-bottom: 0.5rem; font-weight: 800;">Your Cart is Empty</h2>
         <p style="color: #64748b; margin-bottom: 1.5rem;">Explore our natural organic products and add items to your cart.</p>
         <a href="/collections/all" style="display: inline-block; background: #1b4317; color: #ffffff; padding: 0.85rem 2rem; border-radius: 12px; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.04em;">Start Shopping</a>
@@ -264,7 +275,7 @@
 </div>
 
 <!-- Inline Modals for Choose Option & Coupons -->
-<aside class="kb-choose-option-modal" id="ChooseOptionModalCartPage" hidden data-choose-option-modal>
+<aside class="kb-choose-option-modal" id="ChooseOptionModalCartPage" hidden data-choose-option-modal style="z-index: 9999999;">
   <div class="kb-choose-option-modal__backdrop" data-close-choose-option></div>
   <div class="kb-choose-option-modal__container">
     <div class="kb-choose-option-modal__header">
@@ -281,7 +292,7 @@
   </div>
 </aside>
 
-<aside class="kb-coupons-modal" id="CouponsModalCartPage" hidden data-coupons-modal>
+<aside class="kb-coupons-modal" id="CouponsModalCartPage" hidden data-coupons-modal style="z-index: 9999999;">
   <div class="kb-coupons-modal__backdrop" data-close-coupons-modal></div>
   <div class="kb-coupons-modal__container">
     <div class="kb-coupons-modal__header">
