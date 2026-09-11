@@ -235,13 +235,15 @@
               <div style="width: 22px; height: 22px; border-radius: 6px; background: #1b4317; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.75rem; flex-shrink: 0;">₹</div>
               <strong style="font-size: 0.86rem; color: #334155; font-weight: 700;">Estimated Total</strong>
             </div>
-            <div style="text-align: right; display: flex; align-items: baseline; gap: 6px;">
-              <s data-cart-drawer-original-total style="font-size: 0.76rem; color: #94a3b8; font-weight: 500; text-decoration: line-through; {% if display_savings <= 0 %}display: none;{% else %}display: inline;{% endif %}">
-                {% if cart_original_price > 0 %}{{ cart_original_price | money }}{% else %}₹1,960.00{% endif %}
-              </s>
-              <strong data-cart-drawer-subtotal style="font-size: 1.05rem; color: #1b4317; font-weight: 900; display: inline-block;">
+            <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 1px;">
+              <!-- 1. Selling Price First (Top Row) -->
+              <strong data-cart-drawer-subtotal style="font-size: 1.02rem; color: #1b4317; font-weight: 900; line-height: 1.2; display: block;">
                 {% if cart.total_price > 0 %}{{ cart.total_price | money }}{% else %}₹1,700.00{% endif %}
               </strong>
+              <!-- 2. Crossed-Out Original Price Below Row -->
+              <s data-cart-drawer-original-total style="font-size: 0.78rem; color: #94a3b8; font-weight: 500; text-decoration: line-through; line-height: 1.2; {% if display_savings <= 0 %}display: none;{% else %}display: block;{% endif %}">
+                {% if cart_original_price > 0 %}{{ cart_original_price | money }}{% else %}₹1,960.00{% endif %}
+              </s>
             </div>
           </div>
 

@@ -298,7 +298,7 @@
     const badgeEl = drawer.querySelector('[data-cart-drawer-save-badge]');
     if (origPriceEl) {
       if (totalSaved > 0) {
-        origPriceEl.style.display = 'inline';
+        origPriceEl.style.display = 'block';
         origPriceEl.textContent = formatMoney(totalCompare);
       } else {
         origPriceEl.style.display = 'none';
