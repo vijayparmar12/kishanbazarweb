@@ -313,11 +313,13 @@
     transform: scale(1.02);
   }
 
+  .home-hero-split__mobile-slide:first-child,
   .home-hero-split__mobile-slide.is-active {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: scale(1);
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: scale(1) !important;
+    z-index: 2 !important;
   }
 
   .home-hero-split__mobile-slide .home-hero-split__image {

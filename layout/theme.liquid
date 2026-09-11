@@ -62,6 +62,9 @@
     <link rel="stylesheet" href="{{ 'component-modal.css' | asset_url }}" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ 'component-popup.css' | asset_url }}" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ 'component-product-quick-view.css' | asset_url }}" media="print" onload="this.media='all'">
+    {% if template.name == 'index' %}
+      {{ 'section-hero.css' | asset_url | stylesheet_tag: preload: true }}
+    {% endif %}
     {% if template.name == 'page' and template.suffix == 'our-story' %}
       {{ 'section-our-story.css' | asset_url | stylesheet_tag }}
     {% endif %}

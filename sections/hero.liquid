@@ -15,7 +15,7 @@
 {% assign first_mob_block = mobile_slides | first %}
 {% assign first_mob_img = first_mob_block.settings.mobile_image | default: first_mob_block.settings.image | default: section.settings.left_image %}
 {% if first_mob_img != blank %}
-  <link rel="preload" as="image" href="{{ first_mob_img | image_url: width: 750 }}" imagesrcset="{{ first_mob_img | image_url: width: 360 }} 360w, {{ first_mob_img | image_url: width: 480 }} 480w, {{ first_mob_img | image_url: width: 600 }} 600w, {{ first_mob_img | image_url: width: 750 }} 750w, {{ first_mob_img | image_url: width: 900 }} 900w" imagesizes="100vw" fetchpriority="high">
+  <link rel="preload" as="image" href="{{ first_mob_img | image_url: width: 600 }}" imagesrcset="{{ first_mob_img | image_url: width: 360 }} 360w, {{ first_mob_img | image_url: width: 480 }} 480w, {{ first_mob_img | image_url: width: 600 }} 600w, {{ first_mob_img | image_url: width: 750 }} 750w" imagesizes="100vw" fetchpriority="high">
 {% endif %}
 
 <section class="home-hero-split" data-home-hero style="--hero-height-desktop: {{ section.settings.desktop_hero_height | default: 650 }}px; --container-width: {{ section.settings.desktop_max_width | default: 1920 }}px;">
