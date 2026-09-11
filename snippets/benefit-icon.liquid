@@ -3,6 +3,7 @@
 
   @param {object|string} image - Shopify image drop, file drop, or URL string
   @param {string} [alt] - Optional accessibility alt text
+  @param {string} [type] - Optional explicit icon type keyword
   @param {boolean} [eager] - Whether to load eagerly (default: false)
   @param {number} [size] - Display icon size in pixels (default: 72)
   @param {string} [class] - Additional CSS classes
@@ -11,13 +12,37 @@
   {% render 'benefit-icon', image: product.metafields.custom.badge_image_1.value, alt: 'Organic', eager: true %}
 {% enddoc %}
 
-{% if image != blank %}
-  {% assign icon_display_size = size | default: 72 %}
-  {% assign retina_size = icon_display_size | times: 2 %}
+{% liquid
+  assign icon_display_size = size | default: 72
+  assign retina_size = icon_display_size | times: 2
 
-  {% assign img_drop = image.preview_image | default: image %}
-  {% assign img_src_str = img_drop.src | default: img_drop | append: '' %}
+  assign img_drop = image.preview_image | default: image
+  assign img_src_str = img_drop.src | default: img_drop | append: '' | downcase
+  assign alt_str = alt | default: img_drop.alt | append: '' | downcase
+  assign explicit_type = type | downcase
 
+  # Detect matching benefit type keyword for reusable vector SVG rendering
+  assign detected_type = blank
+  if explicit_type != blank
+    assign detected_type = explicit_type
+  elsif alt_str contains 'natural' or img_src_str contains 'natural' or img_src_str contains '1.2' or img_src_str contains '1.3' or img_src_str contains 'badge_1'
+    assign detected_type = 'natural'
+  elsif alt_str contains 'organic' or alt_str contains 'farm' or img_src_str contains 'organic' or img_src_str contains '2_' or img_src_str contains 'badge_2'
+    assign detected_type = 'organic'
+  elsif alt_str contains 'press' or alt_str contains 'ground' or alt_str contains 'cold' or img_src_str contains 'cold' or img_src_str contains 'download_1' or img_src_str contains 'badge_3'
+    assign detected_type = 'cold_pressed'
+  elsif alt_str contains 'bilona' or alt_str contains 'ghee' or alt_str contains 'pure' or img_src_str contains 'bilona' or img_src_str contains 'badge_4'
+    assign detected_type = 'pure_bilona'
+  elsif alt_str contains 'chemical' or alt_str contains 'preservative' or img_src_str contains 'chemical'
+    assign detected_type = 'chemical_free'
+  elsif alt_str contains 'lab' or alt_str contains 'test' or alt_str contains 'verify' or img_src_str contains 'lab'
+    assign detected_type = 'lab_tested'
+  endif
+%}
+
+{% if detected_type != blank %}
+  {% render 'icon-benefit', type: detected_type, size: icon_display_size, class: class %}
+{% elsif image != blank %}
   {% assign is_svg_file = false %}
   {% if img_src_str contains '.svg' %}
     {% assign is_svg_file = true %}
