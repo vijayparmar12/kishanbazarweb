@@ -115,6 +115,7 @@
         },
         "card_subtitle_kBDzzL": {
           "type": "card_subtitle",
+          "disabled": true,
           "settings": {
             "subtitle_color": "#6b7280"
           }
@@ -342,6 +343,7 @@
         },
         "card_subtitle_tfahix": {
           "type": "card_subtitle",
+          "disabled": true,
           "settings": {
             "subtitle_color": "#6b7280"
           }
