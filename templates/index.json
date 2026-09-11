@@ -97,6 +97,8 @@
       ],
       "settings": {
         "autoplay_speed": 4,
+        "desktop_hero_height": 650,
+        "desktop_max_width": 1920,
         "mobile_aspect_ratio": "3 / 2"
       }
     },
@@ -125,6 +127,7 @@
         },
         "card_benefit_icons_qPwcFa": {
           "type": "card_benefit_icons",
+          "disabled": true,
           "settings": {
             "show_benefit_icons": true,
             "icon_size": 72
@@ -351,6 +354,7 @@
         },
         "card_benefit_icons_D4fXYB": {
           "type": "card_benefit_icons",
+          "disabled": true,
           "settings": {
             "show_benefit_icons": true,
             "icon_size": 72
