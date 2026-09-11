@@ -1,7 +1,8 @@
 {% doc %}
-  Renders a high-performance SVG or raster product benefit icon badge.
+  Renders a high-performance SVG or raster product benefit icon badge via icon-benefit snippet.
 
   @param {object|string} image - Shopify image drop, file drop, or URL string
+  @param {string} [name] - Benefit type name
   @param {string} [alt] - Optional accessibility alt text
   @param {boolean} [eager] - Whether to load eagerly (default: false)
   @param {number} [size] - Display icon size in pixels (default: 72)
@@ -11,35 +12,4 @@
   {% render 'benefit-icon', image: product.metafields.custom.badge_image_1.value, alt: 'Organic', eager: true %}
 {% enddoc %}
 
-{% if image != blank %}
-  {% assign icon_display_size = size | default: 72 %}
-  {% assign retina_size = icon_display_size | times: 2 %}
-
-  {% assign img_drop = image.preview_image | default: image %}
-  {% assign img_src_str = img_drop.src | default: img_drop | append: '' %}
-
-  {% assign is_svg_file = false %}
-  {% if img_src_str contains '.svg' %}
-    {% assign is_svg_file = true %}
-  {% endif %}
-
-  {% assign final_img_url = blank %}
-  {% if is_svg_file %}
-    {% assign final_img_url = img_drop | image_url %}
-  {% else %}
-    {% assign final_img_url = img_drop | image_url: width: retina_size %}
-  {% endif %}
-
-  {% assign img_alt_text = alt | default: img_drop.alt | default: 'Product Benefit' | escape %}
-
-  <img
-    src="{{ final_img_url }}"
-    alt="{{ img_alt_text }}"
-    width="{{ icon_display_size }}"
-    height="{{ icon_display_size }}"
-    loading="{% if eager %}eager{% else %}lazy{% endif %}"
-    fetchpriority="{% if eager %}high{% else %}low{% endif %}"
-    class="kb-benefit-icon-img {{ class }}"
-    style="object-fit: contain; display: block; max-width: 100%; height: auto;"
-  >
-{% endif %}
+{% render 'icon-benefit', image: image, name: name, alt: alt, eager: eager, size: size, class: class %}
