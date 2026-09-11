@@ -1,3 +1,19 @@
+{% doc %}
+  Renders a product card component with responsive image handling and badge determination.
+
+  @param {object} product - The Shopify product object
+  @param {boolean} [eager] - Whether to load primary product image eagerly (default: false)
+  @param {boolean} [show_wishlist] - Whether to show wishlist icon
+  @param {boolean} [show_subtitle] - Whether to show product subtitle
+  @param {boolean} [show_rating] - Whether to show rating stars
+  @param {boolean} [show_benefit_icons] - Whether to show benefit circle icons
+  @param {boolean} [show_variant_selector] - Whether to show variant dropdown
+  @param {boolean} [show_add_to_cart] - Whether to show add to cart button
+
+  @example
+  {% render 'product-card', product: product, eager: false %}
+{% enddoc %}
+
 {% liquid
   assign variant = product.selected_or_first_available_variant
   assign compare_price = variant.compare_at_price
@@ -27,15 +43,24 @@
   elsif tag_str contains 'trending'
     assign badge_label = 'TRENDING'
   endif
+
+  assign card_is_eager = eager | default: eager_loading | default: false
+  if card_is_eager
+    assign img_loading = 'eager'
+    assign img_fetchpriority = 'high'
+  else
+    assign img_loading = 'lazy'
+    assign img_fetchpriority = 'auto'
+  endif
 %}
 
 <article class="product-card" data-product-card data-product-handle="{{ product.handle }}">
   <div class="product-card__media">
     <a href="{{ product.url }}" class="product-card__image-link" aria-label="View {{ product.title | escape }}">
       {% if product.featured_image != blank %}
-        {{ product.featured_image | image_url: width: 760 | image_tag: class: 'product-card__image', loading: 'lazy', decoding: 'async', widths: '200, 300, 420, 560, 760', sizes: '(max-width: 749px) 50vw, (max-width: 989px) 33vw, 280px' }}
+        {{ product.featured_image | image_url: width: 720 | image_tag: class: 'product-card__image', loading: img_loading, fetchpriority: img_fetchpriority, decoding: 'async', widths: '200, 300, 420, 560, 720', sizes: '(max-width: 480px) 50vw, (max-width: 749px) 50vw, (max-width: 989px) 33vw, (max-width: 1400px) 25vw, 280px', alt: product.featured_image.alt | default: product.title | escape }}
         {% if product.images[1] != blank %}
-          {{ product.images[1] | image_url: width: 760 | image_tag: class: 'product-card__image product-card__image--hover', loading: 'lazy', decoding: 'async', widths: '200, 300, 420, 560, 760', sizes: '(max-width: 749px) 50vw, (max-width: 989px) 33vw, 280px' }}
+          {{ product.images[1] | image_url: width: 720 | image_tag: class: 'product-card__image product-card__image--hover', loading: 'lazy', fetchpriority: 'low', decoding: 'async', widths: '200, 300, 420, 560, 720', sizes: '(max-width: 480px) 50vw, (max-width: 749px) 50vw, (max-width: 989px) 33vw, (max-width: 1400px) 25vw, 280px', alt: product.images[1].alt | default: product.title | escape }}
         {% endif %}
       {% else %}
         {{ 'product-1' | placeholder_svg_tag: 'product-card__image product-card__placeholder' }}
