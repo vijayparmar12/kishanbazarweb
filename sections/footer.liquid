@@ -17,28 +17,13 @@
   }
 {% endstyle %}
 
+{% assign brand_block = section.blocks | where: 'type', 'brand' | first %}
+{% assign contact_block = section.blocks | where: 'type', 'contact' | first %}
+{% assign link_blocks = section.blocks | where: 'type', 'link_column' %}
 {% assign social_blocks = section.blocks | where: 'type', 'social_link' %}
 
-{% assign brand_email = '' %}
-{% assign brand_phone = '' %}
-{% assign brand_phone_label = '' %}
-{% assign brand_email_label = '' %}
-{% for b in section.blocks %}
-  {% if b.type == 'brand' %}
-    {% if b.settings.email != blank %}
-      {% assign brand_email = b.settings.email %}
-    {% endif %}
-    {% if b.settings.phone != blank %}
-      {% assign brand_phone = b.settings.phone %}
-    {% endif %}
-    {% if b.settings.phone_label != blank %}
-      {% assign brand_phone_label = b.settings.phone_label %}
-    {% endif %}
-    {% if b.settings.email_label != blank %}
-      {% assign brand_email_label = b.settings.email_label %}
-    {% endif %}
-  {% endif %}
-{% endfor %}
+{% assign brand_email = brand_block.settings.email | default: contact_block.settings.email %}
+{% assign brand_phone = brand_block.settings.phone | default: contact_block.settings.phone %}
 
 <footer class="site-footer" data-site-footer>
   <div class="site-footer__content-layer">
