@@ -327,9 +327,30 @@
     });
   }
 
+  const startTestimonials = () => {
+    const containers = document.querySelectorAll('.testimonials-section__cards-scroll, [data-testimonials-container]');
+    if (!containers.length) return;
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            initTestimonialsCarousel();
+            observer.disconnect();
+          }
+        });
+      }, { rootMargin: '300px' });
+      containers.forEach((c) => observer.observe(c));
+    } else if ('requestIdleCallback' in window) {
+      requestIdleCallback(initTestimonialsCarousel, { timeout: 3000 });
+    } else {
+      setTimeout(initTestimonialsCarousel, 1500);
+    }
+  };
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initTestimonialsCarousel);
+    document.addEventListener('DOMContentLoaded', startTestimonials);
   } else {
-    initTestimonialsCarousel();
+    startTestimonials();
   }
 })();

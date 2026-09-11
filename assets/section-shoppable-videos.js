@@ -601,11 +601,31 @@ class ShoppableVideosSection {
 }
 
 const init = () => {
-  document.querySelectorAll(SELECTORS.section).forEach((section) => {
+  const sections = document.querySelectorAll(SELECTORS.section);
+  if (!sections.length) return;
+
+  const loadSection = (section) => {
     if (section.dataset.initialized) return;
     section.dataset.initialized = 'true';
     new ShoppableVideosSection(section);
-  });
+  };
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          loadSection(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '300px' });
+
+    sections.forEach((sec) => {
+      if (!sec.dataset.initialized) observer.observe(sec);
+    });
+  } else {
+    sections.forEach(loadSection);
+  }
 };
 
 if (document.readyState === 'loading') {

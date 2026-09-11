@@ -303,8 +303,21 @@ const initQuickView = () => {
   }
 };
 
+const setupQuickViewTriggers = () => {
+  const triggers = document.querySelectorAll('[data-quick-view]');
+  triggers.forEach((el) => {
+    el.addEventListener('pointerenter', initQuickView, { once: true, passive: true });
+    el.addEventListener('click', initQuickView, { once: true, passive: true });
+  });
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(initQuickView, { timeout: 4000 });
+  } else {
+    setTimeout(initQuickView, 2500);
+  }
+};
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initQuickView);
+  document.addEventListener('DOMContentLoaded', setupQuickViewTriggers);
 } else {
-  initQuickView();
+  setupQuickViewTriggers();
 }
