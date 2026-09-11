@@ -121,36 +121,204 @@ class ShoppableVideosSection {
 
     this.root.querySelectorAll(SELECTORS.card).forEach((card) => {
       const mediaWrap = card.querySelector('.shoppable-videos__media-wrap');
-      const video = card.querySelector(SELECTORS.video);
-      const muteBtn = card.querySelector('[data-video-mute]');
-
-      if (!mediaWrap || !video) return;
+      if (!mediaWrap) return;
 
       mediaWrap.addEventListener('click', (e) => {
         if (this.hasMoved) return;
         if (e.target.closest('[data-quick-view-trigger]') || e.target.closest('.shoppable-videos__product-info-row') || e.target.closest('[data-add-to-cart]') || e.target.closest('[data-video-mute]')) return;
 
-        this.pauseAndMuteAllVideos(video);
-        if (video.paused) {
-          video.muted = false;
-          if (muteBtn) {
-            const mutedIcon = muteBtn.querySelector('.shoppable-videos__icon-muted');
-            const unmutedIcon = muteBtn.querySelector('.shoppable-videos__icon-unmuted');
-            if (mutedIcon) mutedIcon.style.display = 'none';
-            if (unmutedIcon) unmutedIcon.style.display = 'block';
-          }
-          video.play().catch(() => {
-            video.muted = true;
-            video.play();
-          });
-        } else {
-          video.pause();
+        // Pause & mute all background videos immediately so double audio never plays
+        this.pauseAndMuteAllVideos();
+
+        // Extract Product details for Modal White Box
+        const overlayEl = card.querySelector('.shoppable-videos__product-overlay');
+        const handle = card.dataset.productHandle || overlayEl?.dataset?.productHandle || '';
+        const variantId = card.dataset.variantId || overlayEl?.dataset?.variantId || '';
+        const thumb = card.querySelector('.shoppable-videos__product-thumb')?.src || '';
+        const title = card.querySelector('.shoppable-videos__product-name')?.textContent || 'Organic Product';
+        const subtitle = card.querySelector('.shoppable-videos__product-subtitle')?.textContent || '';
+        const price = card.querySelector('.shoppable-videos__price-current')?.textContent || '₹199.00';
+        const comparePrice = card.querySelector('.shoppable-videos__price-compare')?.textContent || '';
+        const variantAvailable = (card.dataset.variantAvailable || overlayEl?.dataset?.variantAvailable || 'true') !== 'false';
+
+        const clone = mediaWrap.cloneNode(true);
+        clone.querySelectorAll('.shoppable-videos__product-overlay, .shoppable-videos__top-overlay, .shoppable-videos__play').forEach(el => el.remove());
+
+        // Build Top Left Volume Mute Button
+        const topLeftMute = document.createElement('div');
+        topLeftMute.className = 'shoppable-videos__modal-top-left';
+        topLeftMute.style.cssText = 'position: absolute; top: 14px; left: 14px; z-index: 120;';
+        topLeftMute.innerHTML = `
+          <button type="button" class="shoppable-videos__modal-ctrl-btn" data-modal-mute-btn aria-label="Mute / Unmute" style="width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; display: grid; place-items: center;">
+            <svg data-unmute-icon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            <svg data-mute-icon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+          </button>
+        `;
+        clone.appendChild(topLeftMute);
+
+        // Build Top Right Close Button
+        const topRightClose = document.createElement('div');
+        topRightClose.className = 'shoppable-videos__modal-top-right';
+        topRightClose.style.cssText = 'position: absolute; top: 14px; right: 14px; z-index: 120;';
+        topRightClose.innerHTML = `
+          <button type="button" class="shoppable-videos__modal-ctrl-btn" data-modal-close aria-label="Close video" style="width: 38px; height: 38px; border-radius: 50%; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); color: #ffffff; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; display: grid; place-items: center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        `;
+        clone.appendChild(topRightClose);
+
+        // Build Centered Play / Pause Button Overlay
+        const centerPlayBtn = document.createElement('button');
+        centerPlayBtn.type = 'button';
+        centerPlayBtn.className = 'shoppable-videos__modal-center-play';
+        centerPlayBtn.setAttribute('data-modal-play-btn', '');
+        centerPlayBtn.setAttribute('aria-label', 'Play or Pause Video');
+        centerPlayBtn.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 110; width: 58px; height: 58px; border-radius: 50%; background: rgba(255,255,255,0.92); color: #132d14; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(0,0,0,0.35); transition: transform 200ms ease, opacity 250ms ease;';
+        centerPlayBtn.innerHTML = `
+          <svg data-play-icon width="24" height="24" viewBox="0 0 24 24" fill="#132d14" style="display: none; margin-left: 2px;"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+          <svg data-pause-icon width="22" height="22" viewBox="0 0 24 24" fill="#132d14" style="display: inline-block;"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+        `;
+        clone.appendChild(centerPlayBtn);
+
+        // Build Bottom White Product Box Card
+        const whiteProductBox = document.createElement('div');
+        whiteProductBox.className = 'shoppable-videos__modal-white-box';
+        whiteProductBox.style.cssText = 'position: absolute; bottom: 12px; left: 12px; right: 12px; z-index: 100; background: #ffffff; border-radius: 16px; padding: 10px 12px; box-shadow: 0 12px 30px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid rgba(35,66,31,0.12); cursor: pointer;';
+        whiteProductBox.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; cursor: pointer;">
+            ${thumb ? `<img src="${thumb}" alt="${title}" style="width: 50px; height: 50px; border-radius: 10px; object-fit: cover; flex-shrink: 0; border: 1px solid #f0f0f0;">` : ''}
+            <div style="min-width: 0; flex: 1;">
+              <h4 style="margin: 0 0 2px; font-size: 0.86rem; font-weight: 800; color: #132d14; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${title}</h4>
+              ${subtitle ? `<p style="margin: 0 0 3px; font-size: 0.75rem; color: #52604d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${subtitle}</p>` : ''}
+              <div style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 900; color: #23421f;">
+                <span>${price}</span>
+                ${comparePrice ? `<s style="font-size: 0.76rem; color: #94a3b8; font-weight: 500;">${comparePrice}</s>` : ''}
+              </div>
+            </div>
+          </div>
+          <div style="position: relative; height: 38px; flex-shrink: 0;">
+            <button type="button" class="shoppable-videos__modal-add-btn" ${variantAvailable ? '' : 'disabled'} style="background: #23421f; color: #ffffff; border: none; padding: 0.55rem 0.95rem; border-radius: 10px; font-weight: 800; font-size: 0.78rem; cursor: ${variantAvailable ? 'pointer' : 'not-allowed'}; white-space: nowrap; flex-shrink: 0; box-shadow: 0 4px 12px rgba(35,66,31,0.25); opacity: ${variantAvailable ? '1' : '0.65'};">${variantAvailable ? 'ADD TO CART' : 'SOLD OUT'}</button>
+          </div>
+        `;
+        clone.appendChild(whiteProductBox);
+
+        if (modalBody) {
+          modalBody.innerHTML = '';
+          modalBody.appendChild(clone);
         }
+
+        const modalVideo = clone.querySelector('video');
+        const playBtn = clone.querySelector('[data-modal-play-btn]');
+        const playIcon = playBtn?.querySelector('[data-play-icon]');
+        const pauseIcon = playBtn?.querySelector('[data-pause-icon]');
+        const muteBtn = clone.querySelector('[data-modal-mute-btn]');
+        const muteIcon = muteBtn?.querySelector('[data-mute-icon]');
+        const unmuteIcon = muteBtn?.querySelector('[data-unmute-icon]');
+        const modalCloseBtn = clone.querySelector('[data-modal-close]');
+
+        const triggerChooseOptionModal = (ev) => {
+          if (ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+          }
+
+          // Close video player modal
+          const modalEl = this.root.querySelector('[data-video-modal]');
+          if (modalEl) {
+            modalEl.removeAttribute('open');
+            document.body.classList.remove('shoppable-video-modal-open');
+            if (modalBody) {
+              const v = modalBody.querySelector('video');
+              if (v) v.pause();
+              modalBody.innerHTML = '';
+            }
+          }
+
+          // Open Quick View Product Details Modal (Screenshot 1)
+          const targetHandle = handle || 'khapli-atta';
+          document.dispatchEvent(
+            new CustomEvent('greenbasket:quick-view', {
+              detail: {
+                handle: targetHandle,
+                variantId: variantId,
+                title: title,
+                price: price,
+                comparePrice: comparePrice,
+                image: thumb,
+                variantAvailable,
+              },
+            })
+          );
+        };
+
+        // Attach event listener directly to white product box & button
+        whiteProductBox.addEventListener('click', triggerChooseOptionModal);
+
+        if (modalCloseBtn) {
+          modalCloseBtn.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            const modalEl = this.root.querySelector('[data-video-modal]');
+            if (modalEl) {
+              modalEl.removeAttribute('open');
+              document.body.classList.remove('shoppable-video-modal-open');
+              if (modalBody) {
+                const v = modalBody.querySelector('video');
+                if (v) v.pause();
+                modalBody.innerHTML = '';
+              }
+            }
+          });
+        }
+
+        if (modalVideo) {
+          modalVideo.muted = false;
+          modalVideo.play().then(() => {
+            if (playIcon) playIcon.style.display = 'none';
+            if (pauseIcon) pauseIcon.style.display = 'inline-block';
+            setTimeout(() => {
+              if (!modalVideo.paused && playBtn) playBtn.style.opacity = '0';
+            }, 1200);
+          }).catch(() => {});
+
+          const togglePlay = (ev) => {
+            if (ev) ev.stopPropagation();
+            if (modalVideo.paused) {
+              modalVideo.play();
+              if (playIcon) playIcon.style.display = 'none';
+              if (pauseIcon) pauseIcon.style.display = 'inline-block';
+              if (playBtn) playBtn.style.opacity = '1';
+              setTimeout(() => {
+                if (!modalVideo.paused && playBtn) playBtn.style.opacity = '0';
+              }, 1200);
+            } else {
+              modalVideo.pause();
+              if (playIcon) playIcon.style.display = 'inline-block';
+              if (pauseIcon) pauseIcon.style.display = 'none';
+              if (playBtn) playBtn.style.opacity = '1';
+            }
+          };
+
+          if (playBtn) playBtn.addEventListener('click', togglePlay);
+          modalVideo.addEventListener('click', togglePlay);
+
+          if (muteBtn) {
+            muteBtn.addEventListener('click', (ev) => {
+              ev.stopPropagation();
+              modalVideo.muted = !modalVideo.muted;
+              if (muteIcon && unmuteIcon) {
+                muteIcon.style.display = modalVideo.muted ? 'none' : 'inline-block';
+                unmuteIcon.style.display = modalVideo.muted ? 'inline-block' : 'none';
+              }
+            });
+          }
+        }
+
+        document.dispatchEvent(new CustomEvent('kb:cart:updated'));
+
+        document.body.classList.add('shoppable-video-modal-open');
+        modal.setAttribute('open', '');
       });
     });
-
-  bindModal() {
-    // Simplified: Video starts directly inline on click
   }
 
   updateActiveSlideOnScroll() {

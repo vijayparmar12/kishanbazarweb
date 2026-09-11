@@ -90,13 +90,14 @@
   }
 
   .shoppable-videos__card {
-    transform: none !important;
-    opacity: 1 !important;
-    transition: none !important;
+    transform: scale(0.84) !important;
+    opacity: 0.75 !important;
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease !important;
+    transform-origin: center center !important;
   }
 
   .shoppable-videos__card.is-active {
-    transform: none !important;
+    transform: scale(1) !important;
     opacity: 1 !important;
   }
 
