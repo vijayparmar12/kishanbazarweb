@@ -2826,10 +2826,11 @@ body[class*="cart"] {
   transform: scale(1.05);
 }
 
-.kb-cart-fbt-header-arrow:hover {
-  background: #166534 !important;
-  color: #ffffff !important;
-  border-color: #166534 !important;
+.kb-cart-fbt-header-arrow,
+.kb-cart-fbt-floating-arrow,
+[data-fbt-prev],
+[data-fbt-next] {
+  display: none !important;
 }
 
 .kb-cart-page-sticky-summary {
