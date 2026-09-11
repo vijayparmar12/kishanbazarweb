@@ -14,8 +14,8 @@
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <style>
       :root {
         --font-family-base: 'Montserrat', sans-serif !important;
@@ -54,11 +54,11 @@
     {{ 'variables.css' | asset_url | stylesheet_tag }}
     {{ 'component-icon.css' | asset_url | stylesheet_tag }}
     {{ 'component-button.css' | asset_url | stylesheet_tag }}
-    {{ 'component-input.css' | asset_url | stylesheet_tag }}
-    {{ 'component-badge.css' | asset_url | stylesheet_tag }}
-    {{ 'component-card.css' | asset_url | stylesheet_tag }}
-    {{ 'component-product-card.css' | asset_url | stylesheet_tag }}
-    {{ 'component-quantity-selector.css' | asset_url | stylesheet_tag }}
+    {{ 'component-product-card.css' | asset_url | stylesheet_tag: preload: true }}
+    <link rel="stylesheet" href="{{ 'component-input.css' | asset_url }}" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ 'component-badge.css' | asset_url }}" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ 'component-card.css' | asset_url }}" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="{{ 'component-quantity-selector.css' | asset_url }}" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ 'component-modal.css' | asset_url }}" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ 'component-popup.css' | asset_url }}" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ 'component-product-quick-view.css' | asset_url }}" media="print" onload="this.media='all'">

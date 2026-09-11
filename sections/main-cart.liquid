@@ -187,10 +187,10 @@
                     <div class="kb-cart-addon-info-meta">
                       <div class="kb-cart-addon-title">{{ product.title }}</div>
                       <div class="kb-cart-addon-price">
+                        <span class="kb-cart-addon-current">{{ product.price | money }}</span>
                         {% if product.compare_at_price > product.price %}
                           <s class="kb-cart-addon-compare">{{ product.compare_at_price | money }}</s>
                         {% endif %}
-                        <span>{{ product.price | money }}</span>
                       </div>
                     </div>
                   </div>
