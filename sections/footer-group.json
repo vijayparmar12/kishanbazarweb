@@ -139,6 +139,7 @@
         "youtube",
         "social_link_6JWrQg"
       ],
+      "disabled": true,
       "settings": {
         "footer_text_color": "#23421f",
         "footer_bottom_image": "shopify://shop_images/footer2.png",
