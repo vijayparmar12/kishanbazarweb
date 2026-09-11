@@ -85,7 +85,16 @@
     header.dataset.premiumHeaderInitialized = 'true';
 
     const input = header.querySelector('[data-typing-search]');
-    startTypingPlaceholder(input, parsePlaceholders(header));
+    const placeholders = parsePlaceholders(header);
+    if (input && placeholders.length > 0) {
+      input.setAttribute('placeholder', placeholders[0]);
+      const startTyping = () => startTypingPlaceholder(input, placeholders);
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(startTyping, { timeout: 3000 });
+      } else {
+        setTimeout(startTyping, 2500);
+      }
+    }
 
     header.querySelector('[data-search-clear]')?.addEventListener('click', () => {
       if (!input) return;

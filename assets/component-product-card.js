@@ -321,7 +321,18 @@
     syncCartState();
   });
 
-  // Initial cart sync on DOM Ready & Cart Updates
-  document.addEventListener('DOMContentLoaded', syncCartState);
+  // Initial cart sync on Idle & Cart Updates
+  const initCartSync = () => {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(syncCartState, { timeout: 2000 });
+    } else {
+      setTimeout(syncCartState, 1200);
+    }
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCartSync);
+  } else {
+    initCartSync();
+  }
   document.addEventListener('kb:cart:updated', syncCartState);
 })();
