@@ -110,14 +110,6 @@
         window._chooseOptionCurrentProduct = product;
         window._chooseOptionQuantities = {};
 
-        if (product.variants && product.variants.length) {
-          const preferredVariant = product.variants.find((v) => String(v.id) === String(defaultVariantId));
-          const defaultVariant = (preferredVariant && !checkIsVariantSoldOut(preferredVariant)) ? preferredVariant : product.variants.find((v) => !checkIsVariantSoldOut(v));
-          if (defaultVariant) {
-            window._chooseOptionQuantities[defaultVariant.id] = 1;
-          }
-        }
-
         renderChooseOptionList(product, listEl);
 
         modal.hidden = false;
