@@ -11,72 +11,6 @@
   "type": "footer",
   "name": "t:general.footer",
   "sections": {
-    "beyond_products_9zXfzr": {
-      "type": "beyond-products",
-      "blocks": {
-        "story_card_WmBTcJ": {
-          "type": "story_card",
-          "settings": {
-            "title": "From Native Geographies to Ideal Growing Seasons",
-            "description": "We take care of every factor when sourcing local ingredients.",
-            "text_color": "#166534",
-            "text_position": "top",
-            "link": ""
-          }
-        },
-        "story_card_nQJBKe": {
-          "type": "story_card",
-          "settings": {
-            "title": "What Do We Look For?",
-            "description": "Not high yield. Not lower cost. Just flavour, nutrition, and soul.",
-            "text_color": "#166534",
-            "text_position": "top",
-            "link": ""
-          }
-        },
-        "story_card_yfx6C8": {
-          "type": "story_card",
-          "settings": {
-            "title": "Impurities, Out. Goodness, In.",
-            "description": "Only the best seeds & purest milk make the cut.",
-            "text_color": "#166534",
-            "text_position": "top",
-            "link": ""
-          }
-        },
-        "story_card_HNpPiY": {
-          "type": "story_card",
-          "settings": {
-            "title": "A2 Milk of Gir Cows & Native Seeds",
-            "description": "We dare you to find better native ingredients.",
-            "text_color": "#166534",
-            "text_position": "top",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "story_card_WmBTcJ",
-        "story_card_nQJBKe",
-        "story_card_yfx6C8",
-        "story_card_HNpPiY"
-      ],
-      "name": "Beyond Our Products",
-      "settings": {
-        "heading_box_bg_size": "cover",
-        "heading_box_bg_size_mobile": "cover",
-        "heading_image_flip": false,
-        "heading_box_height_desktop": 180,
-        "heading_box_height_mobile": 110,
-        "heading_image_max_width": 640,
-        "heading_image_mobile_max_width": 360,
-        "subheading": "Native Ingredients. No Substitutes.",
-        "heading": "Beyond Our Products",
-        "bg_color": "#F8F4EB",
-        "subheading_color": "#8B4513",
-        "heading_color": "#23421F"
-      }
-    },
     "footer": {
       "type": "footer",
       "blocks": {
@@ -217,7 +151,6 @@
     }
   },
   "order": [
-    "beyond_products_9zXfzr",
     "footer"
   ]
 }
