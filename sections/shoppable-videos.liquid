@@ -108,9 +108,9 @@
     endif
   endfor
 
-  if section.settings.enable_product_metafields != false
-    assign meta_col = section.settings.metafield_collection | default: collections['all']
-    if meta_col != blank and meta_col.products_count > 0
+  if section.settings.enable_product_metafields and section.settings.metafield_collection != blank
+    assign meta_col = section.settings.metafield_collection
+    if meta_col.products_count > 0
       for product in meta_col.products limit: 50
         assign meta_video = product.metafields.custom.video.value | default: product.metafields.custom.video | default: product.metafields.custom.video_url.value | default: product.metafields.custom.video_url | default: product.metafields.custom.short_video.value | default: product.metafields.custom.short_video | default: product.metafields.custom.reels.value | default: product.metafields.custom.reels | default: product.metafields.custom.video_file.value | default: product.metafields.custom.video_file
         if meta_video != blank
@@ -292,9 +292,9 @@
               %}
             {% endfor %}
 
-            {% if section.settings.enable_product_metafields != false %}
-              {% assign meta_col = section.settings.metafield_collection | default: collections['all'] %}
-              {% if meta_col != blank and meta_col.products_count > 0 %}
+            {% if section.settings.enable_product_metafields and section.settings.metafield_collection != blank %}
+              {% assign meta_col = section.settings.metafield_collection %}
+              {% if meta_col.products_count > 0 %}
                 {% for product in meta_col.products limit: 50 %}
                   {% assign meta_video = product.metafields.custom.video.value | default: product.metafields.custom.video | default: product.metafields.custom.video_url.value | default: product.metafields.custom.video_url | default: product.metafields.custom.short_video.value | default: product.metafields.custom.short_video | default: product.metafields.custom.reels.value | default: product.metafields.custom.reels | default: product.metafields.custom.video_file.value | default: product.metafields.custom.video_file %}
                   {% assign meta_poster = product.metafields.custom.video_poster.value | default: product.metafields.custom.video_poster | default: product.metafields.custom.cover_image.value | default: product.metafields.custom.cover_image %}
