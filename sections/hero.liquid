@@ -11,11 +11,17 @@
   {% assign mobile_slides = slide_blocks %}
 {% endif %}
 
-{% comment %} Mobile LCP Hero Image Preload for <2.5s LCP {% endcomment %}
+{% comment %} Mobile & Desktop Responsive LCP Image Preloading {% endcomment %}
 {% assign first_mob_block = mobile_slides | first %}
 {% assign first_mob_img = first_mob_block.settings.mobile_image | default: first_mob_block.settings.image | default: section.settings.left_image %}
 {% if first_mob_img != blank %}
-  <link rel="preload" as="image" href="{{ first_mob_img | image_url: width: 600 }}" imagesrcset="{{ first_mob_img | image_url: width: 360 }} 360w, {{ first_mob_img | image_url: width: 480 }} 480w, {{ first_mob_img | image_url: width: 600 }} 600w, {{ first_mob_img | image_url: width: 750 }} 750w" imagesizes="100vw" fetchpriority="high">
+  <link rel="preload" as="image" href="{{ first_mob_img | image_url: width: 600 }}" imagesrcset="{{ first_mob_img | image_url: width: 360 }} 360w, {{ first_mob_img | image_url: width: 480 }} 480w, {{ first_mob_img | image_url: width: 600 }} 600w, {{ first_mob_img | image_url: width: 750 }} 750w" imagesizes="100vw" fetchpriority="high" media="(max-width: 768px)">
+{% endif %}
+
+{% assign first_desk_block = slide_blocks | first %}
+{% assign first_desk_img = first_desk_block.settings.image | default: first_desk_block.settings.desktop_image %}
+{% if first_desk_img != blank %}
+  <link rel="preload" as="image" href="{{ first_desk_img | image_url: width: 1400 }}" imagesrcset="{{ first_desk_img | image_url: width: 1100 }} 1100w, {{ first_desk_img | image_url: width: 1400 }} 1400w, {{ first_desk_img | image_url: width: 1800 }} 1800w, {{ first_desk_img | image_url: width: 2200 }} 2200w" imagesizes="100vw" fetchpriority="high" media="(min-width: 769px)">
 {% endif %}
 
 <section class="home-hero-split" data-home-hero style="--hero-height-desktop: {{ section.settings.desktop_hero_height | default: 650 }}px; --container-width: {{ section.settings.desktop_max_width | default: 1920 }}px;">
