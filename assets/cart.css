@@ -2617,20 +2617,20 @@ body.kb-cart-drawer-open {
   position: relative !important;
   z-index: 3 !important;
   margin-top: 0 !important;
-  margin-bottom: 10px !important;
+  margin-bottom: 6px !important;
 }
 
 .kb-cart-savings-ribbon {
   position: relative !important;
-  background: #166534 !important; /* Brand Deep Green */
+  background: #1b4317 !important; /* Brand Deep Green */
   color: #ffffff !important;
   text-align: center !important;
-  padding: 8px 16px !important;
-  font-weight: 800 !important;
-  font-size: 0.88rem !important;
-  letter-spacing: 0.02em !important;
-  border-radius: 10px !important;
-  box-shadow: 0 4px 12px rgba(22, 101, 52, 0.15) !important;
+  padding: 6px 12px !important;
+  font-weight: 700 !important;
+  font-size: 0.82rem !important;
+  letter-spacing: 0.01em !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(27, 67, 23, 0.12) !important;
   width: 100% !important;
   box-sizing: border-box !important;
 }
@@ -2644,11 +2644,11 @@ body.kb-cart-drawer-open {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  padding: 14px 16px !important;
-  background: #ffffff !important;
-  border: 1.5px solid #d4e5d2 !important;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 14px rgba(22, 101, 52, 0.04) !important;
+  padding: 7px 12px !important;
+  background: #f8fafc !important;
+  border: 1px solid rgba(27, 67, 23, 0.14) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
   box-sizing: border-box !important;
   position: relative !important;
   z-index: 1 !important;
@@ -2657,50 +2657,50 @@ body.kb-cart-drawer-open {
 .kb-cart-estimated-label {
   display: flex !important;
   align-items: center !important;
-  gap: 10px !important;
-  font-weight: 800 !important;
-  font-size: 0.98rem !important;
-  color: #1e293b !important;
+  gap: 7px !important;
+  font-weight: 700 !important;
+  font-size: 0.86rem !important;
+  color: #334155 !important;
 }
 
 .kb-cart-estimated-tag-icon {
-  width: 24px !important;
-  height: 24px !important;
+  width: 22px !important;
+  height: 22px !important;
   border-radius: 6px !important;
-  background: #1e293b !important;
+  background: #1b4317 !important;
   color: #ffffff !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 0.85rem !important;
+  font-size: 0.75rem !important;
   font-weight: 900 !important;
   flex-shrink: 0 !important;
 }
 
 .kb-cart-estimated-prices {
   display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-end !important;
-  justify-content: center !important;
-  gap: 2px !important;
+  flex-direction: row !important;
+  align-items: baseline !important;
+  justify-content: flex-end !important;
+  gap: 6px !important;
   text-align: right !important;
 }
 
 .kb-cart-estimated-final {
-  color: #0f172a !important;
+  color: #1b4317 !important;
   font-weight: 900 !important;
-  font-size: 1.05rem !important;
+  font-size: 1.02rem !important;
   line-height: 1.2 !important;
-  display: block !important;
+  display: inline-block !important;
 }
 
 .kb-cart-estimated-original {
   color: #94a3b8 !important;
   font-weight: 500 !important;
-  font-size: 0.82rem !important;
+  font-size: 0.76rem !important;
   text-decoration: line-through !important;
   line-height: 1.2 !important;
-  display: block !important;
+  display: inline-block !important;
 }
 
 .kb-cart-estimated-badge {

@@ -220,36 +220,36 @@
             assign display_savings = 26000
           endif
         %}
-        <div class="kb-cart-page-sticky-summary" style="position: sticky; bottom: 0; background: #ffffff; padding: 0.85rem 0 0.25rem 0; z-index: 10; border-top: 1px solid rgba(35, 66, 31, 0.08); display: flex; flex-direction: column; gap: 0.85rem; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 -10px 25px rgba(255,255,255,0.95);">
+        <div class="kb-cart-page-sticky-summary" style="position: sticky; bottom: 0; background: #ffffff; padding: 0.45rem 0 0.15rem 0; z-index: 10; border-top: 1px solid rgba(35, 66, 31, 0.08); display: flex; flex-direction: column; gap: 0.45rem; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 -10px 25px rgba(255,255,255,0.95);">
           
-          <!-- GREEN SAVINGS PILL -->
+          <!-- SLEEK GREEN SAVINGS PILL -->
           <div class="kb-cart-savings-ribbon-wrap" style="width: 100%;">
-            <div class="kb-cart-savings-ribbon" data-cart-savings-ribbon style="background: #1b4317; color: #ffffff; border-radius: 12px; padding: 0.85rem 1rem; text-align: center; font-weight: 800; font-size: 1rem; {% if display_savings <= 0 %}display: none;{% else %}display: block;{% endif %}">
-              <span><strong data-cart-total-saved-amount>{% if display_savings > 0 %}{{ display_savings | money }}{% else %}₹260.00{% endif %}</strong> Saved so far!</span>
+            <div class="kb-cart-savings-ribbon" data-cart-savings-ribbon style="background: #1b4317; color: #ffffff; border-radius: 8px; padding: 0.38rem 0.75rem; text-align: center; font-weight: 700; font-size: 0.82rem; letter-spacing: 0.01em; {% if display_savings <= 0 %}display: none;{% else %}display: flex; align-items: center; justify-content: center; gap: 4px;{% endif %}">
+              <span>🎉 <strong data-cart-total-saved-amount>{% if display_savings > 0 %}{{ display_savings | money }}{% else %}₹260.00{% endif %}</strong> Saved so far!</span>
             </div>
           </div>
 
-          <!-- ESTIMATED TOTAL BOX -->
-          <div class="kb-cart-estimated-total-box" style="border: 1.5px solid rgba(35, 66, 31, 0.15); border-radius: 14px; padding: 0.85rem 1rem; display: flex; align-items: center; justify-content: space-between; background: #ffffff;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <div style="width: 32px; height: 32px; border-radius: 8px; background: #1b4317; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem;">₹</div>
-              <strong style="font-size: 1rem; color: #132d14; font-weight: 800;">Estimated Total</strong>
+          <!-- COMPACT ESTIMATED TOTAL BOX -->
+          <div class="kb-cart-estimated-total-box" style="border: 1px solid rgba(35, 66, 31, 0.14); border-radius: 10px; padding: 0.45rem 0.75rem; display: flex; align-items: center; justify-content: space-between; background: #f8fafc;">
+            <div style="display: flex; align-items: center; gap: 7px;">
+              <div style="width: 22px; height: 22px; border-radius: 6px; background: #1b4317; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.75rem; flex-shrink: 0;">₹</div>
+              <strong style="font-size: 0.86rem; color: #334155; font-weight: 700;">Estimated Total</strong>
             </div>
-            <div style="text-align: right;">
-              <strong data-cart-drawer-subtotal style="font-size: 1.25rem; color: #132d14; font-weight: 900; display: block;">
-                {% if cart.total_price > 0 %}{{ cart.total_price | money }}{% else %}₹1,700.00{% endif %}
-              </strong>
-              <s data-cart-drawer-original-total style="font-size: 0.85rem; color: #94a3b8; font-weight: 500; {% if display_savings <= 0 %}display: none;{% else %}display: inline;{% endif %}">
+            <div style="text-align: right; display: flex; align-items: baseline; gap: 6px;">
+              <s data-cart-drawer-original-total style="font-size: 0.76rem; color: #94a3b8; font-weight: 500; text-decoration: line-through; {% if display_savings <= 0 %}display: none;{% else %}display: inline;{% endif %}">
                 {% if cart_original_price > 0 %}{{ cart_original_price | money }}{% else %}₹1,960.00{% endif %}
               </s>
+              <strong data-cart-drawer-subtotal style="font-size: 1.05rem; color: #1b4317; font-weight: 900; display: inline-block;">
+                {% if cart.total_price > 0 %}{{ cart.total_price | money }}{% else %}₹1,700.00{% endif %}
+              </strong>
             </div>
           </div>
 
-          <!-- CHECKOUT BUTTON -->
+          <!-- REFINED CHECKOUT BUTTON -->
           <form action="{{ routes.cart_url }}" method="post" id="cart-page-checkout-form" style="width: 100%;">
-            <button type="submit" name="checkout" style="width: 100%; border: none; cursor: pointer; background: #1b4317; color: #ffffff; border-radius: 14px; padding: 1rem; text-align: center; box-shadow: 0 6px 20px rgba(27, 67, 23, 0.3); transition: background-color 200ms ease;">
-              <div style="font-size: 1.15rem; font-weight: 900; letter-spacing: 0.03em; text-transform: uppercase;">{{ checkout_label }}</div>
-              <div style="font-size: 0.78rem; font-weight: 600; opacity: 0.9; margin-top: 2px;">Free Shipping on Orders Above ₹{{ free_shipping_threshold_num }}</div>
+            <button type="submit" name="checkout" style="width: 100%; border: none; cursor: pointer; background: #1b4317; color: #ffffff; border-radius: 10px; padding: 0.65rem 1rem; text-align: center; box-shadow: 0 4px 14px rgba(27, 67, 23, 0.25); transition: background-color 200ms ease;">
+              <div style="font-size: 0.95rem; font-weight: 900; letter-spacing: 0.03em; text-transform: uppercase;">{{ checkout_label }}</div>
+              <div style="font-size: 0.7rem; font-weight: 500; opacity: 0.9; margin-top: 1px;">Free Shipping on Orders Above ₹{{ free_shipping_threshold_num }}</div>
             </button>
           </form>
 
