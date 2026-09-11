@@ -274,13 +274,23 @@
 
     try {
       const rootUrl = window.Shopify?.routes?.root || '/';
-      const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
+      const cleanRoot = rootUrl.replace(/\/$/, '');
+      const cartRes = await fetch(`${cleanRoot}/cart.js?_t=${Date.now()}`);
       const updatedCart = await cartRes.json();
       document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
-      window.location.href = `${rootUrl}cart?open_cart=true`;
+      if (typeof window.openDrawer === 'function') {
+        window.openDrawer(updatedCart);
+      } else {
+        window.location.href = `${cleanRoot}/cart`;
+      }
     } catch (err) {
       const rootUrl = window.Shopify?.routes?.root || '/';
-      window.location.href = `${rootUrl}cart?open_cart=true`;
+      const cleanRoot = rootUrl.replace(/\/$/, '');
+      if (typeof window.openDrawer === 'function') {
+        window.openDrawer();
+      } else {
+        window.location.href = `${cleanRoot}/cart`;
+      }
     }
   };
 
@@ -325,13 +335,23 @@
 
     try {
       const rootUrl = window.Shopify?.routes?.root || '/';
-      const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
+      const cleanRoot = rootUrl.replace(/\/$/, '');
+      const cartRes = await fetch(`${cleanRoot}/cart.js?_t=${Date.now()}`);
       const updatedCart = await cartRes.json();
       document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
-      window.location.href = `${rootUrl}cart?open_cart=true`;
+      if (typeof window.openDrawer === 'function') {
+        window.openDrawer(updatedCart);
+      } else {
+        window.location.href = `${cleanRoot}/cart`;
+      }
     } catch (err) {
       const rootUrl = window.Shopify?.routes?.root || '/';
-      window.location.href = `${rootUrl}cart?open_cart=true`;
+      const cleanRoot = rootUrl.replace(/\/$/, '');
+      if (typeof window.openDrawer === 'function') {
+        window.openDrawer();
+      } else {
+        window.location.href = `${cleanRoot}/cart`;
+      }
     }
   };
 

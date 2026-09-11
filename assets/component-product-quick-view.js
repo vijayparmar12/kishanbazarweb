@@ -267,10 +267,17 @@ class ProductQuickViewManager {
 
       if (response.ok) {
         const rootUrl = window.Shopify?.routes?.root || '/';
-        const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
+        const cleanRoot = rootUrl.replace(/\/$/, '');
+        const cartRes = await fetch(`${cleanRoot}/cart.js?_t=${Date.now()}`);
         const updatedCart = await cartRes.json();
         document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
-        window.location.href = `${rootUrl}cart?open_cart=true`;
+        
+        this.close();
+        if (typeof window.openDrawer === 'function') {
+          window.openDrawer(updatedCart);
+        } else {
+          window.location.href = `${cleanRoot}/cart`;
+        }
       } else {
         const errorData = await response.json().catch(() => ({}));
         const message = errorData.description || errorData.message || 'This variant is unavailable.';

@@ -142,12 +142,17 @@
         countSpan.textContent = '1';
       }
 
-      // Fetch updated cart, dispatch custom event, and redirect to cart section
-      const cartRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
+      // Fetch updated cart, dispatch custom event, and open cart drawer / navigate to cart
+      const cleanRoot = rootUrl.replace(/\/$/, '');
+      const cartRes = await fetch(`${cleanRoot}/cart.js?_t=${Date.now()}`);
       const updatedCart = await cartRes.json();
       document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
       
-      window.location.href = `${rootUrl}cart?open_cart=true`;
+      if (typeof window.openDrawer === 'function') {
+        window.openDrawer(updatedCart);
+      } else {
+        window.location.href = `${cleanRoot}/cart`;
+      }
     } catch (err) {
       console.error(err);
     } finally {
