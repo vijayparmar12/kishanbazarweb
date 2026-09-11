@@ -418,7 +418,7 @@
             "title": "Oil",
             "collection": "oil",
             "icon_image": "shopify://shop_images/ghee_oil_bottle_icon_0cb4e5b1-185b-4361-8598-a0558425969a.svg",
-            "active_icon_image": "shopify://shop_images/bottle_icon_3e563c.svg",
+            "active_icon_image": "shopify://shop_images/oil_bottle_exact.svg",
             "icon_type": "oil"
           }
         },
