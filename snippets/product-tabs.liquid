@@ -53,10 +53,7 @@
 <section class="product-tabs-section" aria-label="Product Details">
   <div class="product-details-card">
     <div class="product-details-card__header">
-      <svg class="product-details-card__leaf-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.4 19 2c1 2 2 4.1 2 9a9 9 0 0 1-10 9Z"/>
-        <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-      </svg>
+      {%- render 'icon', name: 'leaf', size: 22, class: 'product-details-card__leaf-icon' -%}
       <h3 class="product-details-card__title">{{ details_card_title }}</h3>
     </div>
 
@@ -68,9 +65,7 @@
           <summary class="product-accordion-item__header">
             <span class="product-accordion-item__title">{{ title_desc }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
-              <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+              {%- render 'icon', name: 'chevron-down', size: 18, class: 'product-accordion-item__arrow' -%}
             </span>
           </summary>
           <div class="product-accordion-item__content rte">
@@ -104,9 +99,7 @@
           <summary class="product-accordion-item__header">
             <span class="product-accordion-item__title">{{ title_ingredients }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
-              <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+              {%- render 'icon', name: 'chevron-down', size: 18, class: 'product-accordion-item__arrow' -%}
             </span>
           </summary>
           <div class="product-accordion-item__content rte">
@@ -140,9 +133,7 @@
           <summary class="product-accordion-item__header">
             <span class="product-accordion-item__title">{{ title_usage }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
-              <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+              {%- render 'icon', name: 'chevron-down', size: 18, class: 'product-accordion-item__arrow' -%}
             </span>
           </summary>
           <div class="product-accordion-item__content rte">
@@ -176,9 +167,7 @@
           <summary class="product-accordion-item__header">
             <span class="product-accordion-item__title">{{ title_benefits }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
-              <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+              {%- render 'icon', name: 'chevron-down', size: 18, class: 'product-accordion-item__arrow' -%}
             </span>
           </summary>
           <div class="product-accordion-item__content rte">
@@ -212,9 +201,7 @@
           <summary class="product-accordion-item__header">
             <span class="product-accordion-item__title">{{ title_storage }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
-              <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+              {%- render 'icon', name: 'chevron-down', size: 18, class: 'product-accordion-item__arrow' -%}
             </span>
           </summary>
           <div class="product-accordion-item__content rte">
@@ -248,9 +235,7 @@
           <summary class="product-accordion-item__header">
             <span class="product-accordion-item__title">{{ title_mfr }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
-              <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+              {%- render 'icon', name: 'chevron-down', size: 18, class: 'product-accordion-item__arrow' -%}
             </span>
           </summary>
           <div class="product-accordion-item__content rte">
@@ -284,9 +269,7 @@
           <summary class="product-accordion-item__header">
             <span class="product-accordion-item__title">{{ title_origin }}</span>
             <span class="product-accordion-item__icon" aria-hidden="true">
-              <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+              {%- render 'icon', name: 'chevron-down', size: 18, class: 'product-accordion-item__arrow' -%}
             </span>
           </summary>
           <div class="product-accordion-item__content">
@@ -306,9 +289,7 @@
           <summary class="product-accordion-item__header">
             <span class="product-accordion-item__title">{{ title_shelflife }}</span>/span>
             <span class="product-accordion-item__icon" aria-hidden="true">
-              <svg class="product-accordion-item__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1b4317" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+              {%- render 'icon', name: 'chevron-down', size: 18, class: 'product-accordion-item__arrow' -%}
             </span>
           </summary>
           <div class="product-accordion-item__content">

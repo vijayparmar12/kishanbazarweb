@@ -1414,7 +1414,9 @@
 .product-accordion-item__arrow {
   width: 18px;
   height: 18px;
+  color: #1b4317;
   stroke: #1b4317;
+  stroke-width: 2.2;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: block;
 }
@@ -1423,6 +1425,12 @@
 .product-accordion-item[open] .product-accordion-item__arrow,
 .product-info__collapsible-tab[open] .product-accordion-item__arrow {
   transform: rotate(180deg);
+}
+
+.product-details-card__leaf-icon {
+  color: #1b4317;
+  stroke-width: 2.2;
+  flex-shrink: 0;
 }
 
 .product-accordion-item__content {
