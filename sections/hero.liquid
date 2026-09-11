@@ -38,10 +38,6 @@
                 {% if desktop_img != blank %}
                   {% assign img_loading = 'lazy' %}
                   {% assign img_priority = 'auto' %}
-                  {% if forloop.first %}
-                    {% assign img_loading = 'eager' %}
-                    {% assign img_priority = 'high' %}
-                  {% endif %}
                   {{
                     desktop_img
                     | image_url: width: 2200
@@ -49,10 +45,11 @@
                       class: 'home-hero-split__image',
                       loading: img_loading,
                       fetchpriority: img_priority,
+                      decoding: 'async',
                       widths: '750, 1100, 1400, 1800, 2200'
                   }}
                 {% else %}
-                  <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Hero Slide {{ forloop.index }}" width="1400" height="700" loading="eager">
+                  <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Hero Slide {{ forloop.index }}" width="1400" height="700" loading="lazy" decoding="async">
                 {% endif %}
               </a>
             </div>
@@ -62,9 +59,9 @@
           <div class="home-hero-split__slide is-active" data-hero-slide>
             <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Banner 1">
               {% if section.settings.left_image != blank %}
-                {{ section.settings.left_image | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'eager', fetchpriority: 'high', widths: '750, 1100, 1400, 1800, 2200' }}
+                {{ section.settings.left_image | image_url: width: 2200 | image_tag: class: 'home-hero-split__image', loading: 'lazy', decoding: 'async', widths: '750, 1100, 1400, 1800, 2200' }}
               {% else %}
-                <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Kishan Bazar Organic Kitchen" width="1400" height="700" loading="eager">
+                <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Kishan Bazar Organic Kitchen" width="1400" height="700" loading="lazy" decoding="async">
               {% endif %}
             </a>
           </div>
@@ -135,11 +132,7 @@
         {% for block in mobile_slides %}
           {% assign mob_img = block.settings.mobile_image | default: block.settings.image %}
           {% assign mob_loading = 'lazy' %}
-          {% assign mob_priority = 'low' %}
-          {% if forloop.first %}
-            {% assign mob_loading = 'eager' %}
-            {% assign mob_priority = 'high' %}
-          {% endif %}
+          {% assign mob_priority = 'auto' %}
           <div class="home-hero-split__mobile-slide{% if forloop.first %} is-active{% endif %}" data-hero-mobile-slide {{ block.shopify_attributes }}>
             <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Mobile Hero Slide {{ forloop.index }}">
               {% if mob_img != blank %}
@@ -150,6 +143,7 @@
                     class: 'home-hero-split__image',
                     loading: mob_loading,
                     fetchpriority: mob_priority,
+                    decoding: 'async',
                     widths: '360, 480, 600, 750, 900',
                     sizes: '100vw',
                     alt: 'Mobile Hero Slide ' | append: forloop.index
@@ -162,12 +156,13 @@
                     class: 'home-hero-split__image',
                     loading: mob_loading,
                     fetchpriority: mob_priority,
+                    decoding: 'async',
                     widths: '360, 480, 600, 750, 900',
                     sizes: '100vw',
                     alt: 'Mobile Hero Slide 1'
                 }}
               {% else %}
-                <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Mobile Banner {{ forloop.index }}" width="750" height="420" loading="{{ mob_loading }}" fetchpriority="{{ mob_priority }}">
+                <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Mobile Banner {{ forloop.index }}" width="750" height="420" loading="{{ mob_loading }}" fetchpriority="{{ mob_priority }}" decoding="async">
               {% endif %}
             </a>
           </div>
@@ -177,9 +172,9 @@
         <div class="home-hero-split__mobile-slide is-active" data-hero-mobile-slide>
           <a href="{{ section.settings.left_link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Slide 1">
             {% if section.settings.left_image != blank %}
-              {{ section.settings.left_image | image_url: width: 1000 | image_tag: class: 'home-hero-split__image', loading: 'eager' }}
+              {{ section.settings.left_image | image_url: width: 1000 | image_tag: class: 'home-hero-split__image', loading: 'lazy', decoding: 'async' }}
             {% else %}
-              <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Kishan Bazar Organic Kitchen" width="800" height="450" loading="eager">
+              <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Kishan Bazar Organic Kitchen" width="800" height="450" loading="lazy" decoding="async">
             {% endif %}
           </a>
         </div>
