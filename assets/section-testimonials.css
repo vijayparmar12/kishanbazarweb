@@ -173,7 +173,7 @@
   display: flex !important;
   align-items: stretch !important;
   align-content: stretch !important;
-  gap: 0.6rem !important;
+  gap: 0.5rem !important;
   width: 100% !important;
   will-change: scroll-position;
 }
@@ -185,13 +185,13 @@
   box-shadow: 0 4px 14px rgba(35, 66, 31, 0.08);
   display: flex !important;
   flex-direction: column !important;
-  flex: 0 0 calc((100% - 0.5rem) / 2) !important;
-  width: calc((100% - 0.5rem) / 2) !important;
+  flex: 0 0 calc((100% - 0.4rem) / 2) !important;
+  width: calc((100% - 0.4rem) / 2) !important;
   min-width: 0 !important;
-  height: auto !important;
-  min-height: 0 !important;
-  max-height: none !important;
-  padding: 0.55rem 0.5rem 0.5rem !important;
+  height: 295px !important;
+  min-height: 295px !important;
+  max-height: 295px !important;
+  padding: 0.6rem 0.5rem 0.5rem !important;
   text-align: left;
   transition: border-color 300ms ease, box-shadow 300ms ease;
   margin: 0 !important;
@@ -205,22 +205,33 @@
 
 @media (min-width: 750px) {
   .testimonials__card {
-    flex: 0 0 calc((100% - 3 * 0.6rem) / 4) !important;
-    width: calc((100% - 3 * 0.6rem) / 4) !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
+    flex: 0 0 calc((100% - 3 * 0.5rem) / 4) !important;
+    width: calc((100% - 3 * 0.5rem) / 4) !important;
+    height: 310px !important;
+    min-height: 310px !important;
+    max-height: 310px !important;
     padding: 0.65rem 0.55rem 0.55rem !important;
   }
 }
 
 @media (min-width: 990px) {
   .testimonials__card {
-    flex: 0 0 calc((100% - 4 * 0.6rem) / 5) !important;
-    width: calc((100% - 4 * 0.6rem) / 5) !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
+    flex: 0 0 calc((100% - 4 * 0.5rem) / 5) !important;
+    width: calc((100% - 4 * 0.5rem) / 5) !important;
+    height: 310px !important;
+    min-height: 310px !important;
+    max-height: 310px !important;
+    padding: 0.65rem 0.55rem 0.55rem !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .testimonials__card {
+    flex: 0 0 calc((100% - 5 * 0.5rem) / 6) !important;
+    width: calc((100% - 5 * 0.5rem) / 6) !important;
+    height: 310px !important;
+    min-height: 310px !important;
+    max-height: 310px !important;
     padding: 0.65rem 0.55rem 0.55rem !important;
   }
 }
@@ -278,27 +289,26 @@
 
 .testimonials__card-headline {
   color: #1e3d20;
-  font-size: 0.85rem !important;
+  font-size: 0.82rem !important;
   font-weight: 700 !important;
-  line-height: 1.2 !important;
-  margin: 0 0 0.35rem 0 !important;
+  line-height: 1.25 !important;
+  margin: 0 0 0.4rem 0 !important;
   font-family: Georgia, serif, inherit;
   letter-spacing: -0.01em;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .testimonials__card-media {
   width: 100% !important;
-  aspect-ratio: 1 / 1 !important;
-  height: auto !important;
-  min-height: 0 !important;
-  max-height: none !important;
-  border-radius: 10px !important;
+  height: 125px !important;
+  min-height: 125px !important;
+  max-height: 125px !important;
+  border-radius: 8px !important;
   overflow: hidden !important;
-  margin-bottom: 0.35rem !important;
+  margin-bottom: 0.4rem !important;
   background: #f1f5f9;
   flex-shrink: 0 !important;
 }
@@ -362,7 +372,7 @@
 
 .testimonials__author-name {
   color: #1e3d20;
-  font-size: 0.82rem !important;
+  font-size: 0.8rem !important;
   font-weight: 700 !important;
   font-family: Georgia, serif, inherit;
   text-decoration: underline;
@@ -372,7 +382,7 @@
 
 .testimonials__author-role {
   color: #64748b;
-  font-size: 0.68rem !important;
+  font-size: 0.65rem !important;
   font-weight: 600 !important;
   margin-top: 0.05rem !important;
   font-family: inherit;
@@ -380,8 +390,10 @@
 }
 
 .testimonials__expand-btn {
-  width: 22px !important;
-  height: 22px !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
   border-radius: 50% !important;
   border: 1px solid #23421f !important;
   color: #23421f !important;
@@ -395,8 +407,9 @@
 }
 
 .testimonials__expand-btn svg {
-  width: 11px !important;
-  height: 11px !important;
+  width: 9px !important;
+  height: 9px !important;
+  stroke-width: 2.2 !important;
 }
 
 .testimonials__expand-btn:hover,
