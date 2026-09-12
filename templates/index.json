@@ -479,7 +479,7 @@
         "products": [],
         "collection": "",
         "background_color": "#f7f2e6",
-        "maximum": 4,
+        "maximum": 6,
         "show_tabs": true,
         "show_cta_btn": false,
         "cta_label": "Shop More",
