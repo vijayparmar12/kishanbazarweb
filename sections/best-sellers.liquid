@@ -190,7 +190,7 @@
   {% endif %}
 {% endstyle %}
 
-<section id="BestSellers-{{ section.id }}" class="home-section best-sellers{% if section.settings.show_tabs %} best-sellers--with-tabs{% endif %}" data-best-sellers data-max-products="{{ section.settings.maximum | default: 5 }}" data-all-products-url="{{ more_url }}">
+<section id="BestSellers-{{ section.id }}" class="home-section best-sellers{% if section.settings.show_tabs %} best-sellers--with-tabs{% endif %}" data-best-sellers data-max-products="{{ section.settings.maximum | default: 6 }}" data-all-products-url="{{ more_url }}">
   <div class="best-sellers__illustration-bg" aria-hidden="true">
     <svg viewBox="0 0 1440 180" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
       <path d="M0 120C240 70 480 150 720 100C960 50 1200 130 1440 90V180H0V120Z" fill="rgba(35, 66, 31, 0.03)"/>
@@ -473,7 +473,7 @@
     { "type": "product_list", "id": "products", "label": "Select Products Manually (Optional)", "info": "Pick specific products to display in the Theme Editor. Overrides collection if selected.", "limit": 12 },
     { "type": "collection", "id": "collection", "label": "Collection" },
     { "type": "color", "id": "background_color", "label": "Background Color", "default": "#F7F2E6" },
-    { "type": "range", "id": "maximum", "label": "Maximum products", "min": 2, "max": 16, "step": 1, "default": 5 },
+    { "type": "range", "id": "maximum", "label": "Maximum products", "min": 2, "max": 16, "step": 1, "default": 6 },
     { "type": "checkbox", "id": "show_tabs", "label": "Show category filter tabs (Ghee, Oil, Atta, etc.)", "default": true },
     { "type": "checkbox", "id": "show_cta_btn", "label": "Show 'Shop More' button", "default": true },
     { "type": "text", "id": "cta_label", "label": "Button text label", "default": "Shop More" },

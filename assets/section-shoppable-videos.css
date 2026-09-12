@@ -111,13 +111,13 @@
 
 @media screen and (min-width: 750px) {
   .shoppable-videos {
-    --shoppable-cards-visible: 3;
+    --shoppable-cards-visible: 4;
   }
 }
 
 @media screen and (min-width: 992px) {
   .shoppable-videos {
-    --shoppable-cards-visible: 5;
+    --shoppable-cards-visible: 6;
   }
 }
 
