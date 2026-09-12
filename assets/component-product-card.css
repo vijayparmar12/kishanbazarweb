@@ -336,14 +336,14 @@
 
 .product-card__form {
   display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 0.35rem !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 0.45rem !important;
   width: 100% !important;
 }
 
 .product-card__variant-wrap {
-  flex: 0 0 34% !important;
+  flex: 1 1 100% !important;
   min-width: 0 !important;
   margin-bottom: 0 !important;
   width: 100% !important;
@@ -356,7 +356,7 @@
   background-color: #ffffff !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2323421F'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") !important;
   background-repeat: no-repeat !important;
-  background-position: right 0.65rem center !important;
+  background-position: right 0.75rem center !important;
   background-size: 1rem !important;
   border: 1.5px solid #23421f !important;
   border-radius: 8px !important;
@@ -364,11 +364,11 @@
   cursor: pointer !important;
   display: block !important;
   font-family: inherit !important;
-  font-size: 0.82rem !important;
+  font-size: 0.84rem !important;
   font-weight: 700 !important;
-  height: 40px !important;
-  min-height: 40px !important;
-  padding: 0.4rem 1.6rem 0.4rem 0.5rem !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0.35rem 2rem 0.35rem 0.65rem !important;
   width: 100% !important;
   box-sizing: border-box !important;
   text-overflow: ellipsis !important;
@@ -377,7 +377,7 @@
 }
 
 .product-card__btn-container {
-  flex: 1 1 66% !important;
+  flex: 1 1 100% !important;
   min-width: 0 !important;
   height: 40px !important;
   min-height: 40px !important;
