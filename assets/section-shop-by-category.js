@@ -28,10 +28,27 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (tabs.length > 0 && slides.length > 0) {
+        const shopAllBtn = section.querySelector('[data-shop-all-btn]');
+
+        const updateShopAllUrl = (activeTab) => {
+          if (!shopAllBtn || !activeTab) return;
+          const colUrl = activeTab.dataset.collectionUrl || section.dataset.allProductsUrl || '/collections/all';
+          shopAllBtn.setAttribute('href', colUrl);
+        };
+
+        // Initialize URL for pre-selected active tab
+        const initialActiveTab = section.querySelector('[data-category-tab].is-active');
+        if (initialActiveTab) {
+          updateShopAllUrl(initialActiveTab);
+        }
+
         tabs.forEach((tab) => {
           tab.addEventListener('click', () => {
             tabs.forEach((t) => t.classList.remove('is-active'));
             tab.classList.add('is-active');
+
+            // Dynamically update the SHOP ALL button URL based on clicked tab
+            updateShopAllUrl(tab);
 
             const filterRaw = tab.dataset.categoryFilter ? tab.dataset.categoryFilter.toLowerCase().trim() : 'all';
             const keywords = filterRaw.split(/\s+/).filter(Boolean);

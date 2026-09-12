@@ -39,7 +39,7 @@
     <div class="shop-by-category__tabs-wrapper">
       <div class="shop-by-category__tabs" role="tablist" aria-label="Filter products by category">
         {% if section.settings.show_all_tab %}
-          <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="all">
+          <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="all" data-collection-url="{{ routes.all_products_collection_url }}">
             <span class="shop-by-category__tab-icon">
               {% if section.settings.all_tab_icon != blank %}
                 {{ section.settings.all_tab_icon | image_url: width: 100 | image_tag: class: 'shop-by-category__tab-img', loading: 'lazy' }}
@@ -60,7 +60,12 @@
                 {{ block.settings.collection.handle | downcase }}
               {% endif %}
             {% endcapture %}
-            <button class="shop-by-category__tab{% if forloop.first and section.settings.show_all_tab == false %} is-active{% endif %}" type="button" role="tab" data-category-tab data-category-filter="{{ filter_terms | strip | escape }}" {{ block.shopify_attributes }}>
+            {% assign tab_col_url = block.settings.collection.url %}
+            {% if tab_col_url == blank %}
+              {% assign tab_handle = block.settings.title | handleize %}
+              {% assign tab_col_url = '/collections/' | append: tab_handle %}
+            {% endif %}
+            <button class="shop-by-category__tab{% if forloop.first and section.settings.show_all_tab == false %} is-active{% endif %}" type="button" role="tab" data-category-tab data-category-filter="{{ filter_terms | strip | escape }}" data-collection-url="{{ tab_col_url }}" {{ block.shopify_attributes }}>
               <span class="shop-by-category__tab-icon">
                 {% if block.settings.active_icon_image != blank and block.settings.icon_image != blank %}
                   {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'shop-by-category__tab-img shop-by-category__tab-img--normal', loading: 'lazy', alt: block.settings.title }}
@@ -74,19 +79,19 @@
             </button>
           {% endfor %}
         {% else %}
-          <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="atta aatta">
+          <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="atta aatta" data-collection-url="/collections/atta">
             <span class="shop-by-category__tab-label">Atta</span>
           </button>
-          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="breakfast">
+          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="breakfast" data-collection-url="/collections/breakfast">
             <span class="shop-by-category__tab-label">BreakFast</span>
           </button>
-          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="ghee">
+          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="ghee" data-collection-url="/collections/ghee">
             <span class="shop-by-category__tab-label">Ghee</span>
           </button>
-          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="oil">
+          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="oil" data-collection-url="/collections/oil">
             <span class="shop-by-category__tab-label">Oil</span>
           </button>
-          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="spices">
+          <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="spices" data-collection-url="/collections/spices">
             <span class="shop-by-category__tab-label">Spices</span>
           </button>
         {% endif %}
@@ -181,6 +186,13 @@
         </a>
       </div>
     </div>
+  </div>
+
+  <!-- Centered SHOP ALL Button (Dynamically updates link based on active category tab) -->
+  <div class="shop-by-category__shop-all-wrapper">
+    <a href="{{ routes.all_products_collection_url }}" class="shop-by-category__shop-all-btn" data-shop-all-btn aria-label="Shop All Products">
+      SHOP ALL
+    </a>
   </div>
 </div>
 
