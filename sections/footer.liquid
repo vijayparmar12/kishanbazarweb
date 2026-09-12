@@ -160,9 +160,6 @@
       <div class="site-footer__desktop-col site-footer__desktop-col--right">
         {% if contact_block != blank %}
           <div class="site-footer__desktop-company-details">
-            <h3 class="site-footer__desktop-news-title site-footer__desktop-contact-title">
-              {{ contact_block.settings.heading | default: 'COMPANY & CONTACT' | upcase }}
-            </h3>
             {% if contact_block.settings.address_text != blank %}
               <div class="site-footer__desktop-address">{{ contact_block.settings.address_text | newline_to_br }}</div>
             {% endif %}
