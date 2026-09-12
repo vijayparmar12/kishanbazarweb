@@ -68,6 +68,12 @@
           {% if brand_block.settings.about_text != blank %}
             <div class="site-footer__brand-text">{{ brand_block.settings.about_text | newline_to_br }}</div>
           {% endif %}
+
+          {% if section.settings.copyright_text != blank %}
+            {% assign current_year = 'now' | date: '%Y' %}
+            {% assign copyright_text = section.settings.copyright_text | replace: '[year]', current_year | replace: '[shop]', shop.name %}
+            <div class="site-footer__desktop-copyright">{{ copyright_text }}</div>
+          {% endif %}
         {% endif %}
       </div>
 
