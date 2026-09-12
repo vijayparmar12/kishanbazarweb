@@ -193,21 +193,22 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(18, 18, 18, 0.78);
+  background: #ffffff;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(35, 66, 31, 0.15);
   border-radius: 10px;
   padding: 6px 8px;
   text-decoration: none;
-  color: #ffffff;
-  transition: background 200ms ease, transform 200ms ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #1e3d20;
+  transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
 }
 
 .shoppable-videos__product-pill:hover {
-  background: rgba(18, 18, 18, 0.95);
+  background: #f8faf7;
   transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
 .shoppable-videos__product-thumb {
@@ -217,7 +218,7 @@
   object-fit: cover;
   flex-shrink: 0;
   background: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #e2e8f0;
 }
 
 .shoppable-videos__product-info {
@@ -230,7 +231,7 @@
 .shoppable-videos__product-title {
   font-size: 0.75rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #1e3d20;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -240,8 +241,8 @@
 
 .shoppable-videos__product-price {
   font-size: 0.7rem;
-  font-weight: 600;
-  color: #e2e8f0;
+  font-weight: 700;
+  color: #166534;
   margin: 2px 0 0 0;
   line-height: 1;
 }
@@ -388,20 +389,20 @@ body.shoppable-modal-active {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(18, 18, 18, 0.85);
+  background: #ffffff;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(35, 66, 31, 0.2);
   border-radius: 12px;
   padding: 8px 12px;
   text-decoration: none;
-  color: #ffffff;
+  color: #1e3d20;
   transition: background 200ms ease, transform 200ms ease;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .shoppable-videos__modal-product-pill:hover {
-  background: rgba(18, 18, 18, 0.98);
+  background: #f8faf7;
   transform: translateY(-2px);
 }
 
@@ -412,7 +413,7 @@ body.shoppable-modal-active {
   object-fit: cover;
   background: #ffffff;
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #e2e8f0;
 }
 
 .shoppable-videos__modal-product-info {
@@ -425,7 +426,7 @@ body.shoppable-modal-active {
 .shoppable-videos__modal-product-title {
   font-size: 0.82rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #1e3d20;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -435,8 +436,8 @@ body.shoppable-modal-active {
 
 .shoppable-videos__modal-product-price {
   font-size: 0.78rem;
-  font-weight: 600;
-  color: #e2e8f0;
+  font-weight: 700;
+  color: #166534;
   margin: 3px 0 0 0;
   line-height: 1;
 }
