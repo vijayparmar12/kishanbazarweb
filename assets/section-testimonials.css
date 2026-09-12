@@ -173,24 +173,25 @@
   display: flex !important;
   align-items: stretch !important;
   align-content: stretch !important;
-  gap: 1.25rem;
-  width: max-content;
+  gap: 0.75rem !important;
+  width: 100% !important;
   will-change: scroll-position;
 }
 
 .testimonials__card {
   background: #ffffff;
-  border: 2.5px solid #23421f;
-  border-radius: 20px;
-  box-shadow: 0 10px 24px rgba(35, 66, 31, 0.08);
+  border: 2px solid #23421f;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(35, 66, 31, 0.08);
   display: flex !important;
   flex-direction: column !important;
-  flex: 0 0 320px !important;
-  width: 320px !important;
-  height: 440px !important;
-  min-height: 440px !important;
-  max-height: 440px !important;
-  padding: 1.35rem 1.25rem 1.25rem !important;
+  flex: 0 0 calc((100% - 0.6rem) / 2) !important;
+  width: calc((100% - 0.6rem) / 2) !important;
+  min-width: 0 !important;
+  height: 330px !important;
+  min-height: 330px !important;
+  max-height: 330px !important;
+  padding: 0.85rem 0.75rem 0.75rem !important;
   text-align: left;
   transition: border-color 300ms ease, box-shadow 300ms ease;
   margin: 0 !important;
@@ -202,16 +203,33 @@
   transform: none !important;
 }
 
-@media (max-width: 48rem) {
+@media (min-width: 750px) {
   .testimonials__card {
-    flex: 0 0 min(76vw, 270px) !important;
-    width: min(76vw, 270px) !important;
-    max-width: 270px !important;
-    height: 420px !important;
-    min-height: 420px !important;
-    max-height: 420px !important;
-    padding: 1.25rem 1rem 1rem !important;
-    transform: none !important;
+    flex: 0 0 calc((100% - 3 * 0.75rem) / 4) !important;
+    width: calc((100% - 3 * 0.75rem) / 4) !important;
+    height: 340px !important;
+    min-height: 340px !important;
+    max-height: 340px !important;
+  }
+}
+
+@media (min-width: 990px) {
+  .testimonials__card {
+    flex: 0 0 calc((100% - 4 * 0.75rem) / 5) !important;
+    width: calc((100% - 4 * 0.75rem) / 5) !important;
+    height: 340px !important;
+    min-height: 340px !important;
+    max-height: 340px !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .testimonials__card {
+    flex: 0 0 calc((100% - 5 * 0.75rem) / 6) !important;
+    width: calc((100% - 5 * 0.75rem) / 6) !important;
+    height: 340px !important;
+    min-height: 340px !important;
+    max-height: 340px !important;
   }
 }
 
