@@ -837,7 +837,7 @@
 }
 
 /* Desktop / Web View Specific Layout - Matching Reference Image (4 Complete Cards + Thin Border + Side Scroll Buttons + Soft Organic Background) */
-/* Desktop / Web View Specific Layout - Compact Height for 1-Screen Fit */
+/* Desktop / Web View Specific Layout - 5 Cards per Row, 1:1 Proper Full Images, Compact Below Content */
 @media screen and (min-width: 48.01rem) {
   .best-sellers {
     padding-top: 0.5rem !important;
@@ -846,15 +846,15 @@
 
   .best-sellers__carousel-wrapper {
     position: relative !important;
-    max-width: 1360px !important;
+    max-width: 1380px !important;
     margin: 0 auto !important;
-    padding: 0 64px !important;
+    padding: 0 54px !important;
     box-sizing: border-box !important;
   }
 
   .best-sellers__track {
     display: flex !important;
-    gap: 1rem !important;
+    gap: 0.85rem !important;
     overflow-x: auto !important;
     scroll-behavior: smooth !important;
     padding: 0.25rem 0 0.5rem !important;
@@ -862,27 +862,27 @@
   }
 
   .best-sellers__slide {
-    flex: 0 0 calc((100% - 3 * 1rem) / 4) !important;
-    width: calc((100% - 3 * 1rem) / 4) !important;
-    max-width: calc((100% - 3 * 1rem) / 4) !important;
+    flex: 0 0 calc((100% - 4 * 0.85rem) / 5) !important;
+    width: calc((100% - 4 * 0.85rem) / 5) !important;
+    max-width: calc((100% - 4 * 0.85rem) / 5) !important;
     box-sizing: border-box !important;
   }
 
   .best-sellers__slide--more-card {
-    flex: 0 0 130px !important;
-    width: 130px !important;
-    max-width: 130px !important;
+    flex: 0 0 120px !important;
+    width: 120px !important;
+    max-width: 120px !important;
   }
 
   /* Thin Clean Border & Compact Proportions for Desktop Product Cards */
   .best-sellers .product-card {
     background: #FFFFFF !important;
     border: 1px solid #EAE3D2 !important;
-    border-radius: 14px !important;
+    border-radius: 12px !important;
     box-shadow: 0 4px 16px rgba(35, 66, 31, 0.04) !important;
     max-width: 100% !important;
     width: 100% !important;
-    padding: 0.45rem !important;
+    padding: 0.35rem !important;
     box-sizing: border-box !important;
     transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease !important;
   }
@@ -893,11 +893,13 @@
     transform: translateY(-2px) !important;
   }
 
+  /* 1:1 Aspect Ratio Full Image Display (No Cropping) */
   .best-sellers .product-card__media {
     background: #FFFFFF !important;
     border-radius: 10px !important;
-    aspect-ratio: 1 / 0.82 !important;
-    max-height: 185px !important;
+    aspect-ratio: 1 / 1 !important;
+    max-height: none !important;
+    height: auto !important;
     width: 100% !important;
     overflow: hidden !important;
   }
@@ -905,51 +907,61 @@
   .best-sellers .product-card__image,
   .best-sellers .product-card__image-link {
     border-radius: 10px !important;
-    max-height: 185px !important;
-    object-fit: cover !important;
+    max-height: none !important;
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: contain !important;
   }
 
   .best-sellers .product-card__content {
-    padding: 0.45rem 0.45rem 0.35rem !important;
-    gap: 0.25rem !important;
+    padding: 0.35rem 0.35rem 0.25rem !important;
+    gap: 0.2rem !important;
   }
 
   .best-sellers .product-card__title {
-    font-size: 0.82rem !important;
+    font-size: 0.78rem !important;
     font-weight: 700 !important;
     line-height: 1.25 !important;
     margin: 0 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-height: 2.5em !important;
   }
 
   .best-sellers .product-card__title a {
-    font-size: 0.82rem !important;
+    font-size: 0.78rem !important;
     line-height: 1.25 !important;
   }
 
   .best-sellers .product-card__price-current {
-    font-size: 0.92rem !important;
+    font-size: 0.88rem !important;
     font-weight: 800 !important;
   }
 
   .best-sellers .product-card__price-compare {
-    font-size: 0.76rem !important;
+    font-size: 0.72rem !important;
   }
 
   .best-sellers .product-card__variant-select {
-    height: 32px !important;
-    min-height: 32px !important;
-    font-size: 0.78rem !important;
-    padding: 0.2rem 1.6rem 0.2rem 0.5rem !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    font-size: 0.74rem !important;
+    padding: 0.15rem 1.4rem 0.15rem 0.4rem !important;
     border-radius: 6px !important;
   }
 
   .best-sellers .product-card__btn-container,
   .best-sellers .product-card__add,
   .best-sellers .product-card__inline-stepper {
-    height: 34px !important;
-    min-height: 34px !important;
-    font-size: 0.78rem !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    font-size: 0.75rem !important;
+    font-weight: 800 !important;
     border-radius: 6px !important;
+    padding: 0.15rem 0.25rem !important;
   }
 
   /* Small Scroll Arrow Buttons Next to the Cards */
@@ -981,11 +993,11 @@
   }
 
   .best-sellers__arrow--prev {
-    left: 10px !important;
+    left: 8px !important;
   }
 
   .best-sellers__arrow--next {
-    right: 10px !important;
+    right: 8px !important;
   }
 }
 
