@@ -1,4 +1,4 @@
-/* Clean Shoppable Videos JS — On-demand click play with sound & proper arrows */
+/* Clean Shoppable Videos JS — On-demand Modal Player with Blur Backdrop & Fixed Arrows */
 class ShoppableVideosSection {
   constructor(root) {
     this.root = root;
@@ -6,8 +6,16 @@ class ShoppableVideosSection {
     this.prevBtn = root.querySelector('.shoppable-videos__arrow--prev');
     this.nextBtn = root.querySelector('.shoppable-videos__arrow--next');
 
+    this.modal = document.getElementById('ShoppableVideoModal');
+    this.modalVideo = this.modal?.querySelector('.shoppable-videos__modal-video');
+    this.modalProductPill = this.modal?.querySelector('.shoppable-videos__modal-product-pill');
+    this.modalProductThumb = this.modal?.querySelector('.shoppable-videos__modal-product-thumb');
+    this.modalProductTitle = this.modal?.querySelector('.shoppable-videos__modal-product-title');
+    this.modalProductPrice = this.modal?.querySelector('.shoppable-videos__modal-product-price');
+
     this.bindArrows();
-    this.bindVideos();
+    this.bindVideoCards();
+    this.bindModalEvents();
   }
 
   bindArrows() {
@@ -15,70 +23,106 @@ class ShoppableVideosSection {
     if (this.prevBtn) {
       this.prevBtn.addEventListener('click', () => {
         const slideWidth = this.viewport.querySelector('.shoppable-videos__slide')?.offsetWidth || 220;
-        this.viewport.scrollBy({ left: -(slideWidth * 2), behavior: 'smooth' });
+        this.viewport.scrollBy({ left: -(slideWidth * 2.2), behavior: 'smooth' });
       });
     }
     if (this.nextBtn) {
       this.nextBtn.addEventListener('click', () => {
         const slideWidth = this.viewport.querySelector('.shoppable-videos__slide')?.offsetWidth || 220;
-        this.viewport.scrollBy({ left: slideWidth * 2, behavior: 'smooth' });
+        this.viewport.scrollBy({ left: slideWidth * 2.2, behavior: 'smooth' });
       });
     }
   }
 
-  bindVideos() {
+  bindVideoCards() {
     const cards = this.root.querySelectorAll('.shoppable-videos__card');
 
     cards.forEach((card) => {
-      const mediaWrap = card.querySelector('.shoppable-videos__media-wrap');
-      const video = card.querySelector('.shoppable-videos__video');
-      const muteBtn = card.querySelector('.shoppable-videos__mute-btn');
-      if (!video || !mediaWrap) return;
+      const openModalBtn = card.querySelector('[data-open-modal]');
+      if (!openModalBtn) return;
 
-      // Unmute by default when clicked to play
-      video.muted = false;
+      openModalBtn.addEventListener('click', (e) => {
+        // If clicking product pill overlay directly, let link navigate natively
+        if (e.target.closest('.shoppable-videos__product-pill')) return;
 
-      // Handle Play/Pause on Video Click
-      mediaWrap.addEventListener('click', (e) => {
-        if (e.target.closest('.shoppable-videos__mute-btn')) return;
+        const videoSrc = card.dataset.videoSrc || card.querySelector('source')?.src || card.querySelector('video')?.src;
+        const productUrl = card.dataset.productUrl || '';
+        const productTitle = card.dataset.productTitle || '';
+        const productPrice = card.dataset.productPrice || '';
+        const productThumb = card.dataset.productThumb || '';
 
-        // Pause all other videos on the page
-        document.querySelectorAll('.shoppable-videos__video').forEach((otherVid) => {
-          if (otherVid !== video) {
-            otherVid.pause();
-            const otherWrap = otherVid.closest('.shoppable-videos__media-wrap');
-            if (otherWrap) otherWrap.classList.remove('is-playing');
-          }
-        });
-
-        if (video.paused) {
-          video.play().then(() => {
-            mediaWrap.classList.add('is-playing');
-          }).catch(() => {
-            // Fallback muted play if browser blocks unmuted autoplay on click
-            video.muted = true;
-            video.play();
-            mediaWrap.classList.add('is-playing');
-          });
-        } else {
-          video.pause();
-          mediaWrap.classList.remove('is-playing');
-        }
+        this.openModal({ videoSrc, productUrl, productTitle, productPrice, productThumb });
       });
+    });
+  }
 
-      // Handle Mute / Unmute Button Click
-      if (muteBtn) {
-        muteBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          video.muted = !video.muted;
-          const unmutedIcon = muteBtn.querySelector('.icon-unmuted');
-          const mutedIcon = muteBtn.querySelector('.icon-muted');
-          if (unmutedIcon && mutedIcon) {
-            unmutedIcon.style.display = video.muted ? 'none' : 'block';
-            mutedIcon.style.display = video.muted ? 'block' : 'none';
-          }
-        });
+  openModal({ videoSrc, productUrl, productTitle, productPrice, productThumb }) {
+    if (!this.modal || !this.modalVideo) return;
+
+    // Set video src
+    this.modalVideo.src = videoSrc;
+    this.modalVideo.muted = false;
+
+    // Set product info
+    if (this.modalProductPill) {
+      if (productUrl) {
+        this.modalProductPill.href = productUrl;
+        this.modalProductPill.style.display = 'flex';
+      } else {
+        this.modalProductPill.style.display = 'none';
+      }
+    }
+
+    if (this.modalProductThumb) {
+      if (productThumb) {
+        this.modalProductThumb.src = productThumb;
+        this.modalProductThumb.style.display = 'block';
+      } else {
+        this.modalProductThumb.style.display = 'none';
+      }
+    }
+
+    if (this.modalProductTitle) {
+      this.modalProductTitle.textContent = productTitle;
+    }
+
+    if (this.modalProductPrice) {
+      this.modalProductPrice.textContent = productPrice;
+    }
+
+    // Show modal
+    this.modal.classList.add('is-open');
+    this.modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('shoppable-modal-active');
+
+    // Play video with audio
+    this.modalVideo.play().catch(() => {
+      // Fallback muted if browser blocks unmuted play
+      this.modalVideo.muted = true;
+      this.modalVideo.play();
+    });
+  }
+
+  closeModal() {
+    if (!this.modal || !this.modalVideo) return;
+
+    this.modalVideo.pause();
+    this.modalVideo.src = '';
+    this.modal.classList.remove('is-open');
+    this.modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('shoppable-modal-active');
+  }
+
+  bindModalEvents() {
+    if (!this.modal) return;
+
+    this.modal.querySelectorAll('[data-close-modal]').forEach((el) => {
+      el.addEventListener('click', () => this.closeModal());
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.modal.classList.contains('is-open')) {
+        this.closeModal();
       }
     });
   }

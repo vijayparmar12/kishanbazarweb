@@ -26,13 +26,34 @@
   if card_product != blank
     assign selling_p = card_product.price | money
   endif
+
+  assign video_src = ''
+  if hosted_video != blank
+    assign video_src = hosted_video.sources[0].url | default: hosted_video
+  elsif mp4_url != blank
+    assign video_src = mp4_url
+  endif
+
+  assign thumb_src = ''
+  if card_product.featured_image != blank
+    assign thumb_src = card_product.featured_image | image_url: width: 200
+  elsif poster != blank
+    assign thumb_src = poster | image_url: width: 200
+  endif
 %}
 
 <li class="shoppable-videos__slide" {{ shopify_attributes }}>
-  <article class="shoppable-videos__card">
+  <article
+    class="shoppable-videos__card"
+    data-video-src="{{ video_src }}"
+    data-product-url="{{ card_product.url }}"
+    data-product-title="{{ p_title | escape }}"
+    data-product-price="{{ selling_p }}"
+    data-product-thumb="{{ thumb_src }}"
+  >
     
-    <!-- Video Media Wrap (Clicking plays/pauses video) -->
-    <div class="shoppable-videos__media-wrap">
+    <!-- Video Media Wrap (Clicking opens video modal with dark blurred background) -->
+    <div class="shoppable-videos__media-wrap" data-open-modal>
       {% if hosted_video != blank %}
         {{ hosted_video | video_tag: class: 'shoppable-videos__video', loop: true, playsinline: true, preload: 'metadata' }}
       {% elsif mp4_url != blank %}
@@ -49,12 +70,6 @@
       <div class="shoppable-videos__play-btn" aria-label="Play video">
         <svg class="icon-play" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
       </div>
-
-      <!-- Mute / Unmute Control Top Right -->
-      <button type="button" class="shoppable-videos__mute-btn" aria-label="Toggle Mute">
-        <svg class="icon-unmuted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-        <svg class="icon-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-      </button>
     </div>
 
     <!-- Bottom Floating Product Pill Overlay (Direct Product Redirect) -->
