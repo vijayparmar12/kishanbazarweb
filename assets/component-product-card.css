@@ -232,25 +232,49 @@
   background: #16834d;
 }
 
+/* Product Card Rating & Review Badges (Theme + Judge.me) */
+.product-card__rating-wrap,
+.product-card .jdgm-widget,
+.product-card .jdgm-preview-badge,
+.product-card .jdgm-prev-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 0.2rem !important;
+  margin: 0.1rem 0 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
 .product-card__rating {
   align-items: center !important;
   color: #e5b42a !important;
-  display: flex !important;
-  font-size: 0.88rem !important;
-  gap: 0.35rem !important;
-  margin: 0.2rem 0 !important;
+  display: inline-flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  font-size: 0.72rem !important;
+  gap: 0.2rem !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
 }
 
-.product-card__stars {
+.product-card__stars,
+.product-card .jdgm-prev-badge__stars {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 2.5px !important;
+  gap: 1.5px !important;
   color: #e5b42a !important;
+  line-height: 1 !important;
 }
 
-.product-card__star-icon {
-  width: 17px !important;
-  height: 17px !important;
+.product-card__star-icon,
+.product-card .jdgm-star {
+  width: 12px !important;
+  height: 12px !important;
+  font-size: 12px !important;
+  line-height: 12px !important;
   fill: #e5b42a !important;
   color: #e5b42a !important;
   flex-shrink: 0 !important;
@@ -258,11 +282,16 @@
 
 .product-card__rating strong,
 .product-card__rating small,
-.product-card__rating-value {
+.product-card__rating-value,
+.product-card__rating-count,
+.product-card .jdgm-prev-badge__text {
   color: #23421f !important;
-  font-size: 0.88rem !important;
+  font-size: 0.72rem !important;
   font-weight: 700 !important;
   margin-left: 2px !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  display: inline-block !important;
 }
 
 .product-card__price {

@@ -670,15 +670,46 @@
     overflow: hidden !important;
   }
 
+  .best-sellers .product-card__rating-wrap,
+  .best-sellers .jdgm-widget,
+  .best-sellers .jdgm-preview-badge,
+  .best-sellers .jdgm-prev-badge,
   .best-sellers .product-card__rating {
-    font-size: 0.70rem !important;
+    font-size: 0.65rem !important;
     margin: 1px 0 !important;
     gap: 2px !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    line-height: 1 !important;
   }
 
-  .best-sellers .product-card__star-icon {
-    width: 12px !important;
-    height: 12px !important;
+  .best-sellers .product-card__stars,
+  .best-sellers .jdgm-prev-badge__stars {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 1px !important;
+  }
+
+  .best-sellers .product-card__star-icon,
+  .best-sellers .jdgm-star {
+    width: 10px !important;
+    height: 10px !important;
+    font-size: 10px !important;
+    line-height: 10px !important;
+  }
+
+  .best-sellers .product-card__rating strong,
+  .best-sellers .product-card__rating small,
+  .best-sellers .product-card__rating-value,
+  .best-sellers .product-card__rating-count,
+  .best-sellers .jdgm-prev-badge__text {
+    font-size: 0.65rem !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    display: inline-block !important;
   }
 
   .best-sellers .product-card__actions {
