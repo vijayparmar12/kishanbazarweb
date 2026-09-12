@@ -123,18 +123,7 @@
     {% endif %}
   </div>
 
-  <!-- Live Judge.me Reviews Carousel -->
-  <div class="testimonials__judgeme-container" style="width: 100%; margin: 1rem 0; min-height: 50px;">
-    <div class='jdgm-carousel-wrapper'>
-      {% if shop.metafields.judgeme.featured_carousel != blank %}
-        {{ shop.metafields.judgeme.featured_carousel }}
-      {% else %}
-        {% render 'judgeme_widgets', widget_type: 'judgeme_featured_carousel', concierge_install: true %}
-      {% endif %}
-    </div>
-  </div>
-
-  <!-- Fallback / Featured Testimonial Cards Carousel -->
+  <!-- Custom Featured Testimonial Cards Carousel -->
   <div class="testimonials__carousel-container" data-testimonials-carousel>
     <div class="testimonials__track" data-testimonials-track>
       {% if section.blocks.size > 0 %}
@@ -142,6 +131,10 @@
           {% assign full_review = block.settings.review | default: "Wholesome organic products with authentic flavour." %}
           <div class="testimonials__card" data-testimonial-card data-full-review="{{ full_review | escape }}" {{ block.shopify_attributes }}>
             <div class="testimonials__card-front" data-card-front>
+              {% assign rating_cnt = block.settings.rating | default: 5 %}
+              <div class="testimonials__stars" style="color: #e5a800; font-size: 1.1rem; margin-bottom: 0.35rem;">
+                {% for i in (1..rating_cnt) %}★{% endfor %}
+              </div>
               {% assign card_headline = block.settings.headline | default: full_review %}
               <h3 class="testimonials__card-headline">"{{ card_headline }}"</h3>
 
