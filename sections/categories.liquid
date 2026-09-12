@@ -205,12 +205,19 @@
     </a>
   </div>
 
-  <!-- Centered SHOP ALL Button -->
-  <div class="categories__shop-all-wrapper">
-    <a href="{{ section.settings.cta_url | default: routes.collections_url }}" class="categories__shop-all-btn" aria-label="Shop All Categories">
-      SHOP ALL
-    </a>
-  </div>
+  {% if section.settings.show_cta_btn != false %}
+    <!-- Centered SHOP ALL Button -->
+    <div class="categories__shop-all-wrapper">
+      <a
+        href="{{ section.settings.cta_url | default: routes.collections_url }}"
+        class="categories__shop-all-btn"
+        aria-label="{{ section.settings.cta_label | default: 'SHOP ALL' | escape }}"
+        style="{% if section.settings.cta_bg_color != blank %}background-color: {{ section.settings.cta_bg_color }} !important;{% endif %}{% if section.settings.cta_text_color != blank %}color: {{ section.settings.cta_text_color }} !important;{% endif %}"
+      >
+        {{ section.settings.cta_label | default: 'SHOP ALL' }}
+      </a>
+    </div>
+  {% endif %}
 
   {% if rendered_collections == 0 %}
     <p class="home-section__empty">Collections will appear here after you create them in Shopify.</p>

@@ -188,12 +188,20 @@
     </div>
   </div>
 
-  <!-- Centered SHOP ALL Button (Dynamically updates link based on active category tab) -->
-  <div class="shop-by-category__shop-all-wrapper">
-    <a href="{{ routes.all_products_collection_url }}" class="shop-by-category__shop-all-btn" data-shop-all-btn aria-label="Shop All Products">
-      SHOP ALL
-    </a>
-  </div>
+  {% if section.settings.show_cta_btn != false %}
+    <!-- Centered SHOP ALL Button (Dynamically updates link based on active category tab) -->
+    <div class="shop-by-category__shop-all-wrapper">
+      <a
+        href="{{ section.settings.cta_url | default: routes.all_products_collection_url }}"
+        class="shop-by-category__shop-all-btn"
+        data-shop-all-btn
+        aria-label="{{ section.settings.cta_label | default: 'Shop ALL' | escape }}"
+        style="{% if section.settings.cta_bg_color != blank %}background-color: {{ section.settings.cta_bg_color }} !important;{% endif %}{% if section.settings.cta_text_color != blank %}color: {{ section.settings.cta_text_color }} !important;{% endif %}"
+      >
+        {{ section.settings.cta_label | default: 'Shop ALL' }}
+      </a>
+    </div>
+  {% endif %}
 </div>
 
 {% schema %}
@@ -261,6 +269,11 @@
       "id": "all_tab_icon",
       "label": "'All' tab icon image"
     },
+    { "type": "checkbox", "id": "show_cta_btn", "label": "Show 'Shop More' button", "default": true },
+    { "type": "text", "id": "cta_label", "label": "Button text label", "default": "Shop ALL" },
+    { "type": "url", "id": "cta_url", "label": "Button link URL" },
+    { "type": "color", "id": "cta_bg_color", "label": "Button Background Color", "default": "#1b4317" },
+    { "type": "color", "id": "cta_text_color", "label": "Button Text Color", "default": "#ffffff" },
     {
       "type": "checkbox",
       "id": "show_badge",

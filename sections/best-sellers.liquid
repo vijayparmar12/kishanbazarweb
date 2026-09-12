@@ -421,10 +421,14 @@
       </button>
     </div>
 
-    {% if section.settings.show_cta_btn and section.settings.show_tabs != true %}
+    {% if section.settings.show_cta_btn != false %}
       <!-- Centered SHOP ALL Button (Mobile & Desktop) -->
       <div class="best-sellers__shop-all-wrapper">
-        <a href="{{ more_url }}" class="best-sellers__shop-all-btn">
+        <a
+          href="{{ more_url }}"
+          class="best-sellers__shop-all-btn"
+          style="{% if section.settings.cta_bg_color != blank %}background-color: {{ section.settings.cta_bg_color }} !important;{% endif %}{% if section.settings.cta_text_color != blank %}color: {{ section.settings.cta_text_color }} !important;{% endif %}"
+        >
           {{ section.settings.cta_label | default: 'SHOP ALL' }}
         </a>
       </div>
