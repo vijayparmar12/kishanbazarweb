@@ -180,7 +180,7 @@
           "olive-oil-जैतून-का-तेल"
         ],
         "collection": "",
-        "background_color": "#fbf7f0",
+        "background_color": "#FFFFFF",
         "maximum": 6,
         "show_tabs": false,
         "show_cta_btn": true,
@@ -264,7 +264,7 @@
         "heading": "",
         "subheading": "",
         "heading_image_desktop": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_02_13_40_PM.png",
-        "background_color": "#eaf2e6",
+        "background_color": "#FFFFFF",
         "heading_color": "#2e5d34"
       }
     },
@@ -527,7 +527,7 @@
         "heading_image_mobile_max_width": 360,
         "subheading": "Native Ingredients. No Substitutes.",
         "heading": "Beyond Our Products",
-        "bg_color": "#eef5ea",
+        "bg_color": "#FFFFFF",
         "subheading_color": "#8b4513",
         "heading_color": "#23421f"
       }
@@ -611,7 +611,7 @@
         "heading": "",
         "subheading": "",
         "card_border_color": "#23421f",
-        "card_bg_color": "#faf5ec"
+        "card_bg_color": "#FFFFFF"
       }
     }
   },
