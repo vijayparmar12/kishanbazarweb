@@ -188,9 +188,9 @@
   flex: 0 0 calc((100% - 0.4rem) / 2) !important;
   width: calc((100% - 0.4rem) / 2) !important;
   min-width: 0 !important;
-  height: 295px !important;
-  min-height: 295px !important;
-  max-height: 295px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
   padding: 0.6rem 0.5rem 0.5rem !important;
   text-align: left;
   transition: border-color 300ms ease, box-shadow 300ms ease;
@@ -207,9 +207,9 @@
   .testimonials__card {
     flex: 0 0 calc((100% - 3 * 0.5rem) / 4) !important;
     width: calc((100% - 3 * 0.5rem) / 4) !important;
-    height: 310px !important;
-    min-height: 310px !important;
-    max-height: 310px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
     padding: 0.65rem 0.55rem 0.55rem !important;
   }
 }
@@ -218,9 +218,9 @@
   .testimonials__card {
     flex: 0 0 calc((100% - 4 * 0.5rem) / 5) !important;
     width: calc((100% - 4 * 0.5rem) / 5) !important;
-    height: 310px !important;
-    min-height: 310px !important;
-    max-height: 310px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
     padding: 0.65rem 0.55rem 0.55rem !important;
   }
 }
@@ -229,9 +229,9 @@
   .testimonials__card {
     flex: 0 0 calc((100% - 5 * 0.5rem) / 6) !important;
     width: calc((100% - 5 * 0.5rem) / 6) !important;
-    height: 310px !important;
-    min-height: 310px !important;
-    max-height: 310px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
     padding: 0.65rem 0.55rem 0.55rem !important;
   }
 }
@@ -303,9 +303,10 @@
 
 .testimonials__card-media {
   width: 100% !important;
-  height: 125px !important;
-  min-height: 125px !important;
-  max-height: 125px !important;
+  aspect-ratio: 1 / 1 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
   border-radius: 8px !important;
   overflow: hidden !important;
   margin-bottom: 0.4rem !important;
