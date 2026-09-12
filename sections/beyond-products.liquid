@@ -51,18 +51,32 @@
   }
 
   @media screen and (max-width: 749px) {
+    #BeyondProducts-{{ section.id }} .beyond-products__header {
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
     #BeyondProducts-{{ section.id }} .beyond-products__heading-banner-wrap {
       max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
-      height: {{ section.settings.heading_box_height_mobile | default: 55 }}px !important;
+      height: auto !important;
+      max-height: 60px !important;
+      margin-bottom: 0 !important;
     }
     #BeyondProducts-{{ section.id }} .home-section__heading-picture {
       width: 100% !important;
-      height: 100% !important;
+      height: auto !important;
       margin: 0 auto !important;
+      line-height: 0 !important;
+      display: block !important;
     }
     #BeyondProducts-{{ section.id }} .home-section__heading-image {
-      object-fit: {{ section.settings.heading_box_bg_size_mobile | default: 'cover' }} !important;
+      height: auto !important;
+      max-height: 60px !important;
+      object-fit: contain !important;
       margin: 0 auto !important;
+      display: block !important;
+    }
+    #BeyondProducts-{{ section.id }} .beyond-products__track {
+      padding-top: 0.15rem !important;
     }
   }
 {% endstyle %}
