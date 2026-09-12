@@ -648,10 +648,25 @@
     box-sizing: border-box !important;
   }
 
+  .testimonials__track {
+    gap: 0.4rem !important;
+  }
+
   .testimonials__card {
-    flex: 0 0 calc((100% - 0.5rem) / 2) !important;
-    width: calc((100% - 0.5rem) / 2) !important;
+    flex: 0 0 calc((100% - 0.4rem) / 2) !important;
+    width: calc((100% - 0.4rem) / 2) !important;
     max-width: none !important;
+    padding: 0.5rem 0.45rem 0.45rem !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  .testimonials__card-headline {
+    font-size: 0.78rem !important;
+    line-height: 1.2 !important;
+    max-height: 2.4em !important;
+    margin-bottom: 0.3rem !important;
   }
 }
 
