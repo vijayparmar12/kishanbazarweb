@@ -78,7 +78,7 @@ body.jdgm-review-modal-active header {
   color: var(--kb-nav-text, #23421f);
   width: 100%;
   border-bottom: none !important;
-  padding: 0.2rem 0 !important;
+  padding: 0.3rem 0 !important;
 }
 
 /* Hide Header 2 & Header 3 (Sub-navigation links & feature row) on Collection and Product pages */
@@ -96,7 +96,7 @@ body.template-product .kb-header__features,
 .kb-header__nav-link--icon {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 0.35rem !important;
+  gap: 0.4rem !important;
 }
 
 .kb-header__nav-icon {
@@ -110,17 +110,17 @@ body.template-product .kb-header__features,
 }
 
 .kb-header__nav-icon-img {
-  width: 20px;
-  height: 20px;
-  max-width: 20px;
-  max-height: 20px;
+  width: 22px;
+  height: 22px;
+  max-width: 22px;
+  max-height: 22px;
   object-fit: contain;
   display: block;
 }
 
 .kb-header__nav-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   color: var(--kb-accent, #23421f);
 }
 
@@ -382,13 +382,13 @@ body.template-product .kb-header__features,
 .kb-header__nav-list {
   align-items: center;
   display: flex;
-  gap: clamp(0.9rem, 2vw, 2.2rem);
+  gap: clamp(1rem, 2.2vw, 2.5rem);
   justify-content: center;
   list-style: none;
   margin: 0 auto;
   max-width: 1380px;
-  min-height: 32px;
-  padding: 0.15rem 1rem;
+  min-height: 36px;
+  padding: 0.2rem 1.25rem;
 }
 
 .kb-header__nav-item {
@@ -401,11 +401,11 @@ body.template-product .kb-header__features,
   align-items: center;
   color: var(--kb-nav-text, #23421f);
   display: inline-flex;
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   font-weight: 700;
-  gap: 0.35rem;
+  gap: 0.4rem;
   letter-spacing: 0.035em;
-  min-height: 28px;
+  min-height: 32px;
   position: relative;
   text-decoration: none;
   text-transform: uppercase;
@@ -814,19 +814,19 @@ body.template-product .kb-header__features,
 .kb-header__features {
   background: linear-gradient(180deg, #FCFBF7 0%, #FAF6EE 100%) !important;
   border-bottom: none !important;
-  padding: 2px 0 3px;
+  padding: 5px 0 7px;
 }
 
 .kb-header__features-inner {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
   max-width: var(--container-width, 1280px);
   width: 100%;
   overflow-x: auto;
-  padding: 1px var(--container-padding, 0.75rem);
+  padding: 2px var(--container-padding, 1rem);
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
@@ -841,15 +841,15 @@ body.template-product .kb-header__features,
   align-items: center;
   background: #FFFDF9;
   border: 1px solid #E6DEC8;
-  border-radius: 10px;
+  border-radius: 12px;
   color: #1B3B2B;
   display: inline-flex;
   flex: 0 0 auto;
   flex-direction: row;
-  padding: 3px 10px 3px 5px;
-  gap: 5px;
+  padding: 5px 14px 5px 7px;
+  gap: 8px;
   text-decoration: none;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
   transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease;
   position: relative;
   cursor: pointer;
@@ -860,7 +860,7 @@ body.template-product .kb-header__features,
   background: #FFFFFF;
   border-color: #D4A359;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(35, 66, 31, 0.08);
+  box-shadow: 0 6px 16px rgba(35, 66, 31, 0.09);
 }
 
 .kb-header__feature-icon {
@@ -869,12 +869,12 @@ body.template-product .kb-header__features,
   border: 1px solid #D6CB9E !important;
   border-radius: 50% !important;
   display: flex;
-  height: 26px;
-  width: 26px;
+  height: 34px;
+  width: 34px;
   justify-content: center;
   position: relative;
   transition: transform 200ms ease;
-  flex: 0 0 26px;
+  flex: 0 0 34px;
   box-shadow: none !important;
 }
 
@@ -895,12 +895,12 @@ body.template-product .kb-header__features,
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1px;
+  gap: 2px;
 }
 
 .kb-header__feature-badge {
   color: #756C5B;
-  font-size: 0.50rem;
+  font-size: 0.58rem;
   font-weight: 800;
   letter-spacing: 0.12em;
   line-height: 1;
@@ -911,9 +911,9 @@ body.template-product .kb-header__features,
 
 .kb-header__feature-title {
   color: #1B3B2B;
-  font-size: 0.74rem;
+  font-size: 0.84rem;
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.2;
   white-space: nowrap !important;
   transition: color 200ms ease;
 }
