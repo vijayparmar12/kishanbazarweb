@@ -233,6 +233,18 @@
 }
 
 /* Product Card Rating & Review Badges (Theme + Judge.me) */
+.jdgm-prev-badge[data-number-of-reviews="0"],
+.jdgm-prev-badge[data-score="0"],
+.jdgm-prev-badge[data-score="0.00"],
+.jdgm-prev-badge.jdgm--no-review,
+.jdgm-prev-badge.jdgm--empty,
+.jdgm-widget.jdgm--no-review,
+.jdgm-widget.jdgm--empty,
+.jdgm-widget[data-number-of-reviews="0"],
+.product-card__rating-wrap:empty {
+  display: none !important;
+}
+
 .product-card__rating-wrap,
 .product-card .jdgm-widget,
 .product-card .jdgm-preview-badge,
