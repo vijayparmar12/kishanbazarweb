@@ -512,7 +512,7 @@
     display: flex !important;
     width: 100% !important;
     margin-top: 1rem !important;
-    margin-bottom: 0.5rem !important;
+    margin-bottom: 1.25rem !important;
     justify-content: center !important;
   }
 
@@ -527,7 +527,7 @@
   }
 
   .site-footer__illustration-layer {
-    margin-top: -3.5rem !important;
+    margin-top: 0 !important;
   }
 
   .site-footer__bottom-banner-img {
