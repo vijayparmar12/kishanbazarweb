@@ -10,16 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (prevBtn && nextBtn && track && !prevBtn.dataset.bound) {
       prevBtn.dataset.bound = 'true';
       prevBtn.addEventListener('click', () => {
-        track.scrollBy({ left: -320, behavior: 'smooth' });
+        const scrollAmount = track.clientWidth;
+        track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       });
       nextBtn.addEventListener('click', () => {
+        const scrollAmount = track.clientWidth;
         const maxScroll = track.scrollWidth - track.clientWidth;
         const currentScroll = track.scrollLeft;
         if (currentScroll >= maxScroll - 20) {
           const targetUrl = section.dataset.allProductsUrl || '/collections/all';
           window.location.href = targetUrl;
         } else {
-          track.scrollBy({ left: 320, behavior: 'smooth' });
+          track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
       });
     }

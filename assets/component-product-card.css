@@ -797,7 +797,20 @@
 
 /* Mobile View: Symmetrical Left & Right Side Padding (1.25rem / 20px) & Smooth Horizontal Scroll */
 @media (max-width: 749px) {
-  .best-sellers__track,
+  .best-sellers__track {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    scroll-padding-left: 0.5rem !important;
+    scroll-padding-right: 0.5rem !important;
+    gap: 0.5rem !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    box-sizing: border-box !important;
+  }
+
   .categories__grid,
   .shoppable-videos__track,
   .testimonials__track,
@@ -823,7 +836,14 @@
     display: none !important;
   }
 
-  .best-sellers__slide,
+  .best-sellers__slide {
+    scroll-snap-align: start !important;
+    flex: 0 0 calc((100% - 0.5rem) / 2) !important;
+    width: calc((100% - 0.5rem) / 2) !important;
+    max-width: calc((100% - 0.5rem) / 2) !important;
+    min-width: 0 !important;
+  }
+
   .product-recommendations-slider__slide {
     scroll-snap-align: start !important;
     flex: 0 0 calc(80vw - 1rem) !important;

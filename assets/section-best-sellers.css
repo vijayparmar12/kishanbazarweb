@@ -546,8 +546,8 @@
 
 @media (max-width: 48rem) {
   .best-sellers {
-    padding-left: 1.25rem !important;
-    padding-right: 1.25rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
     padding-block: 0.5rem 0.75rem;
     width: 100%;
     max-width: 100%;
@@ -564,49 +564,191 @@
   }
 
   .best-sellers__track {
-    width: 100%;
-    max-width: 100%;
-    gap: 1rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 0.5rem !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
+    scroll-padding-left: 0 !important;
+    scroll-padding-right: 0 !important;
     overscroll-behavior-x: contain;
     box-sizing: border-box !important;
   }
 
   .best-sellers__arrow {
-    display: none;
+    display: none !important;
   }
 
   .best-sellers__slide {
-    flex: 0 0 min(78vw, 270px);
-    width: min(78vw, 270px);
-    max-width: 270px;
-    scroll-snap-align: start;
+    flex: 0 0 calc((100% - 0.5rem) / 2) !important;
+    width: calc((100% - 0.5rem) / 2) !important;
+    max-width: calc((100% - 0.5rem) / 2) !important;
+    min-width: 0 !important;
+    scroll-snap-align: start !important;
+  }
+
+  .best-sellers__slide--more-card {
+    flex: 0 0 110px !important;
+    width: 110px !important;
+    min-width: 110px !important;
+    max-width: 110px !important;
   }
 
   .best-sellers__head {
     align-items: center;
   }
-}
 
-/* End of Carousel "More" Arrow Card (Shown in Mobile View & Webview) */
-.best-sellers__slide--more-card {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex: 0 0 140px !important;
-  width: 140px !important;
-  min-width: 140px !important;
-  max-width: 160px !important;
-  scroll-snap-align: start !important;
-}
+  /* Compact 2-column Product Cards inside Best Sellers */
+  .best-sellers .product-card {
+    border-radius: 12px !important;
+  }
 
-@media (max-width: 48rem) {
-  .best-sellers__slide--more-card {
-    flex: 0 0 130px !important;
-    width: 130px !important;
-    min-width: 130px !important;
-    max-width: 140px !important;
+  .best-sellers .product-card__content {
+    padding: 0.5rem 0.45rem 0.5rem !important;
+    gap: 0.25rem !important;
+  }
+
+  .best-sellers .product-card__title-row {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    gap: 0.1rem !important;
+  }
+
+  .best-sellers .product-card__title {
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    margin: 0 0 2px 0 !important;
+    width: 100% !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-height: 2.4em !important;
+  }
+
+  .best-sellers .product-card__title a {
+    font-size: 0.75rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .best-sellers .product-card__price {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: baseline !important;
+    justify-content: flex-start !important;
+    gap: 0.3rem !important;
+    width: 100% !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+    margin-top: 1px !important;
+  }
+
+  .best-sellers .product-card__price-current {
+    font-size: 0.85rem !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+  }
+
+  .best-sellers .product-card__price-compare {
+    font-size: 0.70rem !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+  }
+
+  .best-sellers .product-card__subtitle {
+    font-size: 0.68rem !important;
+    color: #64748b !important;
+    margin: 1px 0 !important;
+    line-height: 1.2 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  .best-sellers .product-card__rating {
+    font-size: 0.70rem !important;
+    margin: 1px 0 !important;
+    gap: 2px !important;
+  }
+
+  .best-sellers .product-card__star-icon {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  .best-sellers .product-card__actions {
+    padding-top: 0.2rem !important;
+    margin-top: auto !important;
+  }
+
+  .best-sellers .product-card__form {
+    gap: 0.3rem !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  .best-sellers .product-card__variant-wrap {
+    width: 100% !important;
+  }
+
+  .best-sellers .product-card__variant-select {
+    height: 32px !important;
+    min-height: 32px !important;
+    font-size: 0.75rem !important;
+    padding: 0.15rem 1.4rem 0.15rem 0.45rem !important;
+    background-position: right 0.4rem center !important;
+    background-size: 0.8rem !important;
+    border-radius: 6px !important;
+    border: 1.5px solid #23421f !important;
+    width: 100% !important;
+  }
+
+  .best-sellers .product-card__btn-container {
+    height: 34px !important;
+    min-height: 34px !important;
+    width: 100% !important;
+  }
+
+  .best-sellers .product-card__add {
+    height: 34px !important;
+    min-height: 34px !important;
+    font-size: 0.78rem !important;
+    font-weight: 800 !important;
+    border-radius: 6px !important;
+    padding: 0.2rem 0.3rem !important;
+    letter-spacing: 0.02em !important;
+    width: 100% !important;
+  }
+
+  .best-sellers .product-card__inline-stepper {
+    height: 34px !important;
+    min-height: 34px !important;
+    border-radius: 6px !important;
+  }
+
+  .best-sellers .product-card__action {
+    width: 26px !important;
+    height: 26px !important;
+    top: 6px !important;
+    right: 6px !important;
+  }
+
+  .best-sellers .product-card__action svg {
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  .best-sellers .product-card__badge {
+    height: 22px !important;
+    font-size: 0.58rem !important;
+    padding: 0 0.4rem !important;
+    top: 6px !important;
+    left: 6px !important;
   }
 }
 
