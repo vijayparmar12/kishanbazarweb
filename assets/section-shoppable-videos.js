@@ -1,4 +1,4 @@
-/* Clean Shoppable Videos JS — Autoplay sharp background previews & modal player on click */
+/* Clean Shoppable Videos JS — Autoplay OFF, Play video in modal only on click */
 class ShoppableVideosSection {
   constructor(root) {
     this.root = root;
@@ -38,30 +38,11 @@ class ShoppableVideosSection {
     const cards = this.root.querySelectorAll('.shoppable-videos__card');
 
     cards.forEach((card) => {
-      const video = card.querySelector('.shoppable-videos__video');
       const openModalBtn = card.querySelector('[data-open-modal]');
-
-      // Autoplay silently in background when in viewport
-      if (video && 'IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                video.play().catch(() => {});
-              } else {
-                video.pause();
-              }
-            });
-          },
-          { threshold: 0.25 }
-        );
-        observer.observe(card);
-      }
-
       if (!openModalBtn) return;
 
       openModalBtn.addEventListener('click', (e) => {
-        // If clicking product pill overlay directly, let link navigate natively
+        // If clicking product pill overlay directly, let link navigate natively to product page
         if (e.target.closest('.shoppable-videos__product-pill')) return;
 
         const videoSrc = card.dataset.videoSrc || card.querySelector('source')?.src || card.querySelector('video')?.src;
@@ -114,7 +95,7 @@ class ShoppableVideosSection {
     this.modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('shoppable-modal-active');
 
-    // Play video with audio
+    // Play video with audio only when modal opens
     this.modalVideo.play().catch(() => {
       // Fallback muted if browser blocks unmuted play
       this.modalVideo.muted = true;
