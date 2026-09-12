@@ -50,13 +50,13 @@
     <header class="kb-header1" data-header1>
       <div class="kb-header__main-grid">
         <button class="kb-header__menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="kb-mobile-menu-{{ section.id }}" data-menu-toggle>
-          {% render 'icon', name: 'menu', size: 24 %}
+          {% render 'icon', name: 'menu', size: 20 %}
         </button>
 
         {% if section.settings.show_search %}
           <form class="kb-header__search" action="{{ routes.search_url }}" method="get" role="search">
             <label class="visually-hidden" for="kb-header-search-{{ section.id }}"></label>
-            <span class="kb-header__search-icon" aria-hidden="true">{% render 'icon', name: 'search', size: 22 %}</span>
+            <span class="kb-header__search-icon" aria-hidden="true">{% render 'icon', name: 'search', size: 18 %}</span>
             <input
               id="kb-header-search-{{ section.id }}"
               class="kb-header__search-input"
@@ -67,8 +67,8 @@
               autocomplete="off"
               data-typing-search
             >
-            <button class="kb-header__search-submit" type="submit" aria-label="Submit search">{% render 'icon', name: 'search', size: 20 %}</button>
-            <button class="kb-header__search-clear" type="button" aria-label="Clear search" data-search-clear>{% render 'icon', name: 'close', size: 24 %}</button>
+            <button class="kb-header__search-submit" type="submit" aria-label="Submit search">{% render 'icon', name: 'search', size: 16 %}</button>
+            <button class="kb-header__search-clear" type="button" aria-label="Clear search" data-search-clear>{% render 'icon', name: 'close', size: 18 %}</button>
           </form>
           <script type="application/json" data-placeholder-source>{{ section.settings.search_placeholders | json }}</script>
         {% endif %}
@@ -91,7 +91,7 @@
                 {% elsif section.settings.account_icon_emoji != blank %}
                   <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
                 {% else %}
-                  {% render 'icon', name: 'user', size: 25 %}
+                  {% render 'icon', name: 'user', size: 20 %}
                 {% endif %}
               </a>
             {% else %}
@@ -105,19 +105,19 @@
                 {% elsif section.settings.account_icon_emoji != blank %}
                   <span class="kb-account-emoji">{{ section.settings.account_icon_emoji }}</span>
                 {% else %}
-                  {% render 'icon', name: 'user', size: 25 %}
+                  {% render 'icon', name: 'user', size: 20 %}
                 {% endif %}
               </a>
             {% endif %}
           {% endif %}
           {% if section.settings.show_wishlist %}
             <button class="kb-header__action kb-header__action--wishlist" type="button" aria-label="Wishlist" data-wishlist-drawer-trigger>
-              {% render 'icon', name: 'heart', size: 25 %}<span class="kb-header__badge" aria-hidden="true" data-wishlist-count-badge>0</span>
+              {% render 'icon', name: 'heart', size: 20 %}<span class="kb-header__badge" aria-hidden="true" data-wishlist-count-badge>0</span>
             </button>
           {% endif %}
           {% if section.settings.show_cart %}
             <a href="{{ routes.cart_url }}" class="kb-header__action kb-header__action--cart" aria-label="Cart, {{ cart.item_count }} items">
-              {% render 'icon', name: 'cart', size: 26 %}<span class="kb-header__badge kb-header__badge--cart" aria-hidden="true" data-cart-count>{{ cart.item_count }}</span>
+              {% render 'icon', name: 'cart', size: 20 %}<span class="kb-header__badge kb-header__badge--cart" aria-hidden="true" data-cart-count>{{ cart.item_count }}</span>
             </a>
           {% endif %}
         </div>

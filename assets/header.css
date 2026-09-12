@@ -67,7 +67,7 @@ body.jdgm-review-modal-active header {
   color: var(--kb-nav-text, #23421f);
   width: 100%;
   border-bottom: none !important;
-  padding: 0.6rem 0 !important;
+  padding: 0.3rem 0 !important;
 }
 
 /* HEADER 2: Sub-navigation links & Features (STICKY ALONG WITH HEADER 1) */
@@ -78,7 +78,7 @@ body.jdgm-review-modal-active header {
   color: var(--kb-nav-text, #23421f);
   width: 100%;
   border-bottom: none !important;
-  padding: 0.5rem 0 !important;
+  padding: 0.2rem 0 !important;
 }
 
 /* Hide Header 2 & Header 3 (Sub-navigation links & feature row) on Collection and Product pages */
@@ -96,7 +96,7 @@ body.template-product .kb-header__features,
 .kb-header__nav-link--icon {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 0.45rem !important;
+  gap: 0.35rem !important;
 }
 
 .kb-header__nav-icon {
@@ -110,17 +110,17 @@ body.template-product .kb-header__features,
 }
 
 .kb-header__nav-icon-img {
-  width: 26px;
-  height: 26px;
-  max-width: 26px;
-  max-height: 26px;
+  width: 20px;
+  height: 20px;
+  max-width: 20px;
+  max-height: 20px;
   object-fit: contain;
   display: block;
 }
 
 .kb-header__nav-icon svg {
-  width: 34px;
-  height: 34px;
+  width: 24px;
+  height: 24px;
   color: var(--kb-accent, #23421f);
 }
 
@@ -136,12 +136,12 @@ body.template-product .kb-header__features,
   background: var(--kb-announcement-bg, #23421f);
   color: var(--kb-announcement-text, #fff);
   display: flex;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
   justify-content: flex-start;
-  min-height: 31px;
+  min-height: 26px;
   overflow: hidden;
-  padding: 0.18rem 0 !important;
+  padding: 0.12rem 0 !important;
   text-align: center;
 }
 
@@ -175,23 +175,23 @@ body.template-product .kb-header__features,
 
 .kb-header__main {
   border-bottom: none;
-  min-height: 58px;
+  min-height: 48px;
   transition: min-height 0.3s ease, box-shadow 0.3s ease;
 }
 
 .kb-header--scrolled .kb-header__main {
-  min-height: 52px;
+  min-height: 42px;
 }
 
 .kb-header__main-grid {
   align-items: center;
   display: grid;
-  gap: clamp(0.75rem, 2vw, 1.8rem);
+  gap: clamp(0.5rem, 1.5vw, 1.2rem);
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   margin: 0 auto;
   max-width: 1440px;
   min-height: inherit;
-  padding: 0.4rem clamp(1rem, 2.9vw, 2.5rem) !important;
+  padding: 0.25rem clamp(0.75rem, 2vw, 1.8rem) !important;
   position: relative;
   transition: min-height 0.3s ease, padding 0.3s ease;
 }
@@ -205,9 +205,9 @@ body.template-product .kb-header__features,
   border: 1px solid #cbd5e1;
   border-radius: 6px;
   display: flex;
-  height: 42px;
-  max-width: 360px;
-  min-width: 220px;
+  height: 35px;
+  max-width: 320px;
+  min-width: 180px;
   overflow: hidden;
   position: relative;
   transition: border-color 0.3s ease, box-shadow 0.3s ease, height 0.3s ease;
@@ -239,12 +239,12 @@ body.template-product .kb-header__features,
   color: #23421f;
   flex: 1;
   font: inherit;
-  font-size: 0.92rem;
+  font-size: 0.80rem;
   font-weight: 600;
   height: 100%;
   min-width: 0;
   outline: 0;
-  padding: 0 0.9rem 0 1rem;
+  padding: 0 0.75rem 0 0.85rem;
 }
 
 .kb-header__search-input::placeholder {
@@ -295,22 +295,22 @@ body.template-product .kb-header__features,
 .kb-header__logo-image {
   display: block;
   height: auto;
-  max-height: 80px !important;
-  width: var(--kb-logo-width, 320px) !important;
+  max-height: 42px !important;
+  width: var(--kb-logo-width, 220px) !important;
   max-width: 100% !important;
   object-fit: contain;
   transition: max-height 0.3s ease, width 0.3s ease;
 }
 
 .kb-header--scrolled .kb-header__logo-image {
-  max-height: 65px !important;
-  width: calc(var(--kb-logo-width, 320px) * 0.88) !important;
+  max-height: 34px !important;
+  width: calc(var(--kb-logo-width, 220px) * 0.88) !important;
 }
 
 .kb-header__actions {
   align-items: center;
   display: flex;
-  gap: clamp(0.45rem, 1.4vw, 1rem);
+  gap: clamp(0.35rem, 1.2vw, 0.85rem);
   justify-content: flex-end;
   min-width: 0;
 }
@@ -325,13 +325,22 @@ body.template-product .kb-header__features,
   color: #47735b;
   cursor: pointer;
   display: inline-flex;
-  height: 44px;
+  height: 34px;
   justify-content: center;
   padding: 0;
   position: relative;
   text-decoration: none;
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-  width: 44px;
+  width: 34px;
+}
+
+.kb-header__action svg,
+.kb-header__menu-toggle svg,
+.kb-header__mobile-close svg {
+  width: 20px !important;
+  height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
 }
 
 .kb-header__menu-toggle {
@@ -349,20 +358,20 @@ body.template-product .kb-header__features,
 .kb-header__badge {
   align-items: center;
   background: var(--kb-accent, #23421f);
-  border: 2px solid #fff;
+  border: 1.5px solid #fff;
   border-radius: 999px;
   color: #fff;
   display: flex;
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   font-weight: 800;
-  height: 1.12rem;
+  height: 0.95rem;
   justify-content: center;
   line-height: 1;
-  min-width: 1.12rem;
-  padding: 0 0.18rem;
+  min-width: 0.95rem;
+  padding: 0 0.15rem;
   position: absolute;
-  right: 0.05rem;
-  top: 0.1rem;
+  right: -0.1rem;
+  top: -0.1rem;
 }
 
 .kb-header__nav {
@@ -373,13 +382,13 @@ body.template-product .kb-header__features,
 .kb-header__nav-list {
   align-items: center;
   display: flex;
-  gap: clamp(1.2rem, 2.5vw, 2.8rem);
+  gap: clamp(0.9rem, 2vw, 2.2rem);
   justify-content: center;
   list-style: none;
   margin: 0 auto;
   max-width: 1380px;
-  min-height: 42px;
-  padding: 0.25rem 1.25rem;
+  min-height: 32px;
+  padding: 0.15rem 1rem;
 }
 
 .kb-header__nav-item {
@@ -392,11 +401,11 @@ body.template-product .kb-header__features,
   align-items: center;
   color: var(--kb-nav-text, #23421f);
   display: inline-flex;
-  font-size: 0.88rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  gap: 0.45rem;
+  gap: 0.35rem;
   letter-spacing: 0.035em;
-  min-height: 40px;
+  min-height: 28px;
   position: relative;
   text-decoration: none;
   text-transform: uppercase;
@@ -805,19 +814,19 @@ body.template-product .kb-header__features,
 .kb-header__features {
   background: linear-gradient(180deg, #FCFBF7 0%, #FAF6EE 100%) !important;
   border-bottom: none !important;
-  padding: 10px 0 14px;
+  padding: 4px 0 6px;
 }
 
 .kb-header__features-inner {
   display: flex;
-  gap: 18px;
+  gap: 12px;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
   max-width: var(--container-width, 1280px);
   width: 100%;
   overflow-x: auto;
-  padding: 4px var(--container-padding, 1.25rem);
+  padding: 2px var(--container-padding, 1rem);
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
@@ -832,13 +841,13 @@ body.template-product .kb-header__features,
   align-items: center;
   background: #FFFDF9;
   border: 1px solid #E6DEC8;
-  border-radius: 16px;
+  border-radius: 12px;
   color: #1B3B2B;
   display: inline-flex;
   flex: 0 0 auto;
   flex-direction: row;
-  padding: 8px 22px 8px 10px;
-  gap: 12px;
+  padding: 5px 14px 5px 8px;
+  gap: 8px;
   text-decoration: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
   transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease;
@@ -860,12 +869,12 @@ body.template-product .kb-header__features,
   border: 1px solid #D6CB9E !important;
   border-radius: 50% !important;
   display: flex;
-  height: 46px;
-  width: 46px;
+  height: 34px;
+  width: 34px;
   justify-content: center;
   position: relative;
   transition: transform 200ms ease;
-  flex: 0 0 46px;
+  flex: 0 0 34px;
   box-shadow: none !important;
 }
 
@@ -891,7 +900,7 @@ body.template-product .kb-header__features,
 
 .kb-header__feature-badge {
   color: #756C5B;
-  font-size: 0.64rem;
+  font-size: 0.58rem;
   font-weight: 800;
   letter-spacing: 0.12em;
   line-height: 1;
@@ -902,7 +911,7 @@ body.template-product .kb-header__features,
 
 .kb-header__feature-title {
   color: #1B3B2B;
-  font-size: 0.94rem;
+  font-size: 0.82rem;
   font-weight: 800;
   line-height: 1.2;
   white-space: nowrap !important;
@@ -915,32 +924,32 @@ body.template-product .kb-header__features,
 
 @media (max-width: 48rem) {
   .kb-header__features {
-    padding: 4px 0 8px !important;
+    padding: 3px 0 6px !important;
     margin-top: 0 !important;
   }
 
   .kb-header__features-inner {
     justify-content: flex-start;
-    padding: 2px 0.75rem 4px !important;
-    gap: 0.75rem;
+    padding: 2px 0.5rem 3px !important;
+    gap: 0.5rem;
   }
 
   .kb-header__feature {
     flex-direction: column !important;
     align-items: center !important;
     text-align: center !important;
-    min-width: 106px !important;
-    padding: 10px 14px 10px !important;
-    gap: 6px !important;
-    border-radius: 20px !important;
+    min-width: 84px !important;
+    padding: 6px 10px 6px !important;
+    gap: 4px !important;
+    border-radius: 14px !important;
     background: #FFFDF9 !important;
     border: 1px solid #E6DEC8 !important;
   }
 
   .kb-header__feature-icon {
-    height: 44px !important;
-    width: 44px !important;
-    flex: 0 0 44px !important;
+    height: 32px !important;
+    width: 32px !important;
+    flex: 0 0 32px !important;
     border-radius: 50% !important;
     background: #EFF3D3 !important;
     border: 1px solid #D6CB9E !important;
@@ -948,8 +957,8 @@ body.template-product .kb-header__features,
   }
 
   .kb-header__feature-icon svg {
-    height: 24px !important;
-    width: 24px !important;
+    height: 18px !important;
+    width: 18px !important;
   }
 
   .kb-header__feature-text-group {
@@ -959,14 +968,14 @@ body.template-product .kb-header__features,
   }
 
   .kb-header__feature-badge {
-    font-size: 0.60rem !important;
+    font-size: 0.55rem !important;
     letter-spacing: 0.08em !important;
     text-align: center !important;
     color: #756C5B !important;
   }
 
   .kb-header__feature-title {
-    font-size: 0.80rem !important;
+    font-size: 0.72rem !important;
     font-weight: 800 !important;
     color: #1B3B2B !important;
     text-align: center !important;
@@ -1127,21 +1136,25 @@ body.kb-header-menu-open {
 }
 
 @media screen and (max-width: 63.99rem) {
+  .kb-header1 {
+    padding: 0.2rem 0 !important;
+  }
+
   .kb-header__main {
-    min-height: 104px;
+    min-height: 70px;
   }
 
   .kb-header--scrolled .kb-header__main {
-    min-height: 96px;
+    min-height: 62px;
   }
 
   .kb-header__main-grid {
-    gap: 0.25rem 0.5rem !important;
+    gap: 0.15rem 0.4rem !important;
     grid-template-columns: 1fr auto 1fr;
     grid-template-areas:
       "toggle logo actions"
       "search search search";
-    padding: 0.15rem 0.8rem 0.65rem !important;
+    padding: 0.1rem 0.6rem 0.3rem !important;
     align-items: center;
   }
 
@@ -1174,21 +1187,21 @@ body.kb-header-menu-open {
     align-items: center !important;
     justify-content: center !important;
     min-width: 0 !important;
-    width: var(--kb-mobile-logo-width, min(var(--kb-logo-width, 260px), 55vw)) !important;
-    max-width: 60vw !important;
+    width: var(--kb-mobile-logo-width, min(var(--kb-logo-width, 180px), 48vw)) !important;
+    max-width: 50vw !important;
   }
 
   .kb-header__logo-image {
     display: block;
     margin: 0 auto !important;
-    max-height: 65px !important;
+    max-height: 34px !important;
     width: 100% !important;
     max-width: 100% !important;
     object-fit: contain;
   }
 
   .kb-header--scrolled .kb-header__logo-image {
-    max-height: 52px !important;
+    max-height: 28px !important;
   }
 
   .kb-header__actions {
@@ -1202,11 +1215,11 @@ body.kb-header-menu-open {
     grid-area: search;
     border-color: #1f1f1f;
     border-radius: 5px;
-    height: 42px;
+    height: 34px;
     max-width: none;
     min-width: 0;
     width: 100%;
-    margin-bottom: 6px !important;
+    margin-bottom: 2px !important;
   }
 
   /* Hide mobile search bar ONLY on Collection pages (Web/Desktop view remains unchanged) */
@@ -1216,7 +1229,7 @@ body.kb-header-menu-open {
 
   .kb-header--collection-page .kb-header__main-grid {
     grid-template-areas: "toggle logo actions" !important;
-    padding-bottom: 0.25rem !important;
+    padding-bottom: 0.2rem !important;
   }
 
   .kb-header__search-icon {
@@ -1224,7 +1237,8 @@ body.kb-header-menu-open {
   }
 
   .kb-header__search-input {
-    padding-left: 3rem;
+    font-size: 0.78rem;
+    padding-left: 2.2rem;
   }
 
   .kb-header__search-submit {
@@ -1232,16 +1246,16 @@ body.kb-header-menu-open {
   }
 
   .kb-header__search-clear {
-  align-items: center;
-  background: transparent;
-  border: 0;
-  color: #5c473d;
-  cursor: pointer;
-  display: none;
-  height: 100%;
-  justify-content: center;
-  padding: 0 1rem;
-}
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: #5c473d;
+    cursor: pointer;
+    display: none;
+    height: 100%;
+    justify-content: center;
+    padding: 0 0.75rem;
+  }
 
   .kb-header2,
   .kb-header__nav {
@@ -1250,14 +1264,15 @@ body.kb-header-menu-open {
 
   .kb-header__features-inner {
     justify-content: flex-start;
-    padding: 0.7rem 1rem 0.75rem;
+    padding: 0.4rem 0.75rem 0.5rem;
   }
 }
 
 @media screen and (max-width: 39.99rem) {
   .kb-header__announcement {
-    font-size: 0.76rem;
+    font-size: 0.72rem;
     padding-inline: 0;
+    min-height: 24px;
   }
 
   .kb-header__announcement-text {
@@ -1270,19 +1285,28 @@ body.kb-header-menu-open {
   }
 
   .kb-header__main-grid {
-    padding-inline: 0.8rem;
+    padding-inline: 0.5rem !important;
   }
 
   .kb-header__action,
   .kb-header__menu-toggle,
   .kb-header__mobile-close {
-    height: 36px;
-    width: 36px;
+    height: 30px !important;
+    width: 30px !important;
+  }
+
+  .kb-header__action svg,
+  .kb-header__menu-toggle svg,
+  .kb-header__mobile-close svg {
+    width: 18px !important;
+    height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
   }
 
   .kb-header__feature-image {
-    height: 32px;
-    width: 32px;
+    height: 28px;
+    width: 28px;
   }
 }
 
@@ -1337,203 +1361,6 @@ body.kb-header-menu-open {
 .kb-account-emoji {
   font-size: 1.2rem;
   line-height: 1;
-}
-
-.kb-header__mobile-account-btn svg {
-  width: 20px !important;
-  height: 20px !important;
-  max-width: 20px !important;
-  max-height: 20px !important;
-  flex-shrink: 0 !important;
-}
-
-.kb-header__mobile-account-btn:hover {
-  background: #162f15;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .kb-header *,
-  .kb-header *::before,
-  .kb-header *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: 0.001ms !important;
-  }
-
-  .kb-header__announcement-text {
-    padding: 0.45rem 1rem 0.6rem;
-    align-items: center;
-  }
-
-  .kb-header__menu-toggle {
-    display: inline-flex;
-    grid-area: toggle;
-    justify-self: start !important;
-    align-self: center !important;
-  }
-
-  .kb-header__action--account,
-  a.kb-header__action[href*="account"] {
-    display: none !important;
-  }
-
-  .kb-header__logo {
-    grid-area: logo;
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    transform: none !important;
-    justify-self: center !important;
-    align-self: center !important;
-    text-align: center !important;
-    margin: 0 auto !important;
-    z-index: 5;
-    pointer-events: auto;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    min-width: 0 !important;
-    width: var(--kb-mobile-logo-width, min(var(--kb-logo-width, 260px), 55vw)) !important;
-    max-width: 60vw !important;
-  }
-
-  .kb-header__logo-image {
-    display: block;
-    margin: 0 auto !important;
-    max-height: 65px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    object-fit: contain;
-  }
-
-  .kb-header--scrolled .kb-header__logo-image {
-    max-height: 52px !important;
-  }
-
-  .kb-header__actions {
-    grid-area: actions;
-    justify-self: end !important;
-    align-self: center !important;
-    gap: 0.15rem;
-  }
-
-  .kb-header__search {
-    grid-area: search;
-    border-color: #1f1f1f;
-    border-radius: 5px;
-    height: 42px;
-    max-width: none;
-    min-width: 0;
-    width: 100%;
-  }
-
-  .kb-header__search-icon {
-    display: inline-flex;
-  }
-
-  .kb-header__search-input {
-    padding-left: 3rem;
-  }
-
-  .kb-header__search-submit {
-    display: none;
-  }
-
-  .kb-header__search-clear {
-  align-items: center;
-  background: transparent;
-  border: 0;
-  color: #5c473d;
-  cursor: pointer;
-  display: none;
-  height: 100%;
-  justify-content: center;
-  padding: 0 1rem;
-}
-
-  .kb-header2,
-  .kb-header__nav {
-    display: none !important;
-  }
-
-  .kb-header__features-inner {
-    justify-content: flex-start;
-    padding: 0.7rem 1rem 0.75rem;
-  }
-}
-
-@media screen and (max-width: 39.99rem) {
-  .kb-header__announcement {
-    font-size: 0.76rem;
-    padding-inline: 0;
-  }
-
-  .kb-header__announcement-text {
-    animation-duration: 16s;
-  }
-
-  .kb-header__announcement-set {
-    gap: 3rem;
-    padding-right: 3rem;
-  }
-
-  .kb-header__main-grid {
-    padding-inline: 0.8rem;
-  }
-
-  .kb-header__action,
-  .kb-header__menu-toggle,
-  .kb-header__mobile-close {
-    height: 36px;
-    width: 36px;
-  }
-
-  .kb-header__feature-image {
-    height: 32px;
-    width: 32px;
-  }
-}
-
-@keyframes kb-header-marquee {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-/* Mobile Menu Account Wrapper */
-.kb-header__mobile-account-wrap {
-  padding: 1.25rem 1.5rem;
-  border-top: 1px solid #eef2ed;
-  margin-top: auto;
-  background: #fcfdfc;
-}
-
-.kb-header__mobile-account-btn {
-  width: 100%;
-  height: 44px;
-  min-height: 44px;
-  max-height: 44px;
-  background: #23421f;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.88rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  box-shadow: none;
-  transition: background 200ms ease;
-  box-sizing: border-box;
-  overflow: hidden;
 }
 
 .kb-header__mobile-account-btn svg {
