@@ -327,7 +327,7 @@
         {% if selected_prods == blank or selected_prods.count == 0 %}
           {% for block in category_blocks %}
             {% if block.settings.collection != blank and block.settings.collection.products_count > 0 %}
-              {% for product in block.settings.collection.products limit: 4 %}
+              {% for product in block.settings.collection.products limit: section.settings.maximum %}
                 {% assign handles_arr = rendered_handles_str | split: '|' %}
                 {% unless handles_arr contains product.handle %}
                   {% assign rendered_handles_str = rendered_handles_str | append: product.handle | append: '|' %}
