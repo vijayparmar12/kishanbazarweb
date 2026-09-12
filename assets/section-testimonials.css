@@ -188,10 +188,10 @@
   flex: 0 0 calc((100% - 0.4rem) / 2) !important;
   width: calc((100% - 0.4rem) / 2) !important;
   min-width: 0 !important;
-  height: 295px !important;
-  min-height: 295px !important;
-  max-height: 295px !important;
-  padding: 0.6rem 0.5rem 0.5rem !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: 0.75rem 0.65rem 0.65rem !important;
   text-align: left;
   transition: border-color 300ms ease, box-shadow 300ms ease;
   margin: 0 !important;
@@ -207,10 +207,10 @@
   .testimonials__card {
     flex: 0 0 calc((100% - 3 * 0.5rem) / 4) !important;
     width: calc((100% - 3 * 0.5rem) / 4) !important;
-    height: 310px !important;
-    min-height: 310px !important;
-    max-height: 310px !important;
-    padding: 0.65rem 0.55rem 0.55rem !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 0.75rem 0.65rem 0.65rem !important;
   }
 }
 
@@ -218,10 +218,10 @@
   .testimonials__card {
     flex: 0 0 calc((100% - 4 * 0.5rem) / 5) !important;
     width: calc((100% - 4 * 0.5rem) / 5) !important;
-    height: 310px !important;
-    min-height: 310px !important;
-    max-height: 310px !important;
-    padding: 0.65rem 0.55rem 0.55rem !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 0.75rem 0.65rem 0.65rem !important;
   }
 }
 
@@ -229,10 +229,10 @@
   .testimonials__card {
     flex: 0 0 calc((100% - 5 * 0.5rem) / 6) !important;
     width: calc((100% - 5 * 0.5rem) / 6) !important;
-    height: 310px !important;
-    min-height: 310px !important;
-    max-height: 310px !important;
-    padding: 0.65rem 0.55rem 0.55rem !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 0.75rem 0.65rem 0.65rem !important;
   }
 }
 
@@ -292,7 +292,10 @@
   font-size: 0.82rem !important;
   font-weight: 700 !important;
   line-height: 1.25 !important;
-  margin: 0 0 0.4rem 0 !important;
+  height: 3.75em !important;
+  min-height: 3.75em !important;
+  max-height: 3.75em !important;
+  margin: 0 0 0.5rem 0 !important;
   font-family: Georgia, serif, inherit;
   letter-spacing: -0.01em;
   display: -webkit-box;
@@ -303,12 +306,13 @@
 
 .testimonials__card-media {
   width: 100% !important;
-  height: 140px !important;
-  min-height: 140px !important;
-  max-height: 140px !important;
+  aspect-ratio: 1 / 1 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
   border-radius: 8px !important;
   overflow: hidden !important;
-  margin-bottom: 0.4rem !important;
+  margin-bottom: 0.5rem !important;
   background: #f1f5f9;
   flex-shrink: 0 !important;
 }
@@ -316,11 +320,8 @@
 .testimonials__card-img {
   width: 100% !important;
   height: 100% !important;
-  min-height: 100% !important;
-  max-height: 100% !important;
   object-fit: cover !important;
   object-position: center !important;
-  aspect-ratio: auto !important;
 }
 
 .testimonials__card-avatar-fallback {
