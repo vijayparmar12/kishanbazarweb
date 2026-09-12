@@ -179,7 +179,7 @@
         ],
         "collection": "",
         "background_color": "#fbf7f0",
-        "maximum": 4,
+        "maximum": 6,
         "show_tabs": false,
         "show_cta_btn": true,
         "cta_label": "Shop All",
