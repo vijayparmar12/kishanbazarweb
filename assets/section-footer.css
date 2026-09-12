@@ -567,7 +567,7 @@
 }
 
 .site-footer__copyright {
-  font-size: 0.75rem !important;
+  font-size: 0.78rem !important;
   font-weight: 600;
   margin: 0 auto !important;
   text-align: center !important;
@@ -577,31 +577,12 @@
   width: 100% !important;
 }
 
-.site-footer__desktop-copyright {
-  display: none;
-}
-
 /* ==========================================================================
    Desktop 3-Column Footer Layout (min-width: 990px)
    Matches reference design: Logo Left, 3-Line Newsletter/Links/Social Middle, Contact Right
    ========================================================================== */
 
 @media (min-width: 990px) {
-  .site-footer__bottom {
-    display: none !important;
-  }
-
-  .site-footer__desktop-copyright {
-    display: block !important;
-    font-size: 0.78rem !important;
-    font-weight: 600 !important;
-    color: #23421f !important;
-    margin-top: 0.85rem !important;
-    opacity: 0.85 !important;
-    text-align: justify !important;
-    line-height: 1.4 !important;
-  }
-
   .site-footer__inner--mobile {
     display: none !important;
   }
