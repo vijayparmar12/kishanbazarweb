@@ -1,5 +1,5 @@
 {% doc %}
-  Renders a clean Instagram reel-style video card with a floating product overlay.
+  Renders a clean video card with play button, direct product link overlay, and sound playback.
 
   @param {object} section - Parent section
   @param {object} block - Current video block
@@ -26,43 +26,38 @@
   if card_product != blank
     assign selling_p = card_product.price | money
   endif
-
-  assign handle_name = block.settings.handle
-  if handle_name == blank
-    assign handle_name = shop.name | downcase | replace: ' ', '_' | prepend: '@'
-  endif
 %}
 
 <li class="shoppable-videos__slide" {{ shopify_attributes }}>
   <article class="shoppable-videos__card">
     
-    <!-- Top Bar (Instagram Handle & Mute Button) -->
-    <div class="shoppable-videos__top-bar">
-      <div class="shoppable-videos__handle">
-        <svg class="shoppable-videos__insta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-        <span>{{ handle_name }}</span>
+    <!-- Video Media Wrap (Clicking plays/pauses video) -->
+    <div class="shoppable-videos__media-wrap">
+      {% if hosted_video != blank %}
+        {{ hosted_video | video_tag: class: 'shoppable-videos__video', loop: true, playsinline: true, preload: 'metadata' }}
+      {% elsif mp4_url != blank %}
+        <video class="shoppable-videos__video" loop playsinline preload="metadata" {% if poster != blank %}poster="{{ poster | image_url: width: 500 }}"{% elsif card_product.featured_image %}poster="{{ card_product.featured_image | image_url: width: 500 }}"{% endif %}>
+          <source src="{{ mp4_url }}" type="video/mp4">
+        </video>
+      {% else %}
+        <div class="shoppable-videos__video shoppable-videos__video--placeholder">
+          {{ 'product-1' | placeholder_svg_tag: 'shoppable-videos__poster' }}
+        </div>
+      {% endif %}
+
+      <!-- Center Play Button Overlay -->
+      <div class="shoppable-videos__play-btn" aria-label="Play video">
+        <svg class="icon-play" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
       </div>
 
+      <!-- Mute / Unmute Control Top Right -->
       <button type="button" class="shoppable-videos__mute-btn" aria-label="Toggle Mute">
-        <svg class="icon-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-        <svg class="icon-unmuted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        <svg class="icon-unmuted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        <svg class="icon-muted" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
       </button>
     </div>
 
-    <!-- Video Element -->
-    {% if hosted_video != blank %}
-      {{ hosted_video | video_tag: class: 'shoppable-videos__video', loop: true, muted: true, playsinline: true, autoplay: true, preload: 'metadata' }}
-    {% elsif mp4_url != blank %}
-      <video class="shoppable-videos__video" loop muted playsinline autoplay preload="metadata" {% if poster != blank %}poster="{{ poster | image_url: width: 400 }}"{% elsif card_product.featured_image %}poster="{{ card_product.featured_image | image_url: width: 400 }}"{% endif %}>
-        <source src="{{ mp4_url }}" type="video/mp4">
-      </video>
-    {% else %}
-      <div class="shoppable-videos__video shoppable-videos__video--placeholder">
-        {{ 'product-1' | placeholder_svg_tag: 'shoppable-videos__poster' }}
-      </div>
-    {% endif %}
-
-    <!-- Bottom Floating Product Pill Overlay (Direct Redirect Link) -->
+    <!-- Bottom Floating Product Pill Overlay (Direct Product Redirect) -->
     {% if card_product != blank %}
       <a href="{{ card_product.url }}" class="shoppable-videos__product-pill" aria-label="{{ p_title | escape }}">
         {% if card_product.featured_image != blank %}
