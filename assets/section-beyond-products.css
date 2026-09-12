@@ -253,24 +253,24 @@
   .beyond-products {
     padding-left: 1.25rem !important;
     padding-right: 1.25rem !important;
-    padding-top: 0.25rem !important;
-    padding-bottom: 0.75rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 1rem !important;
     box-sizing: border-box !important;
   }
 
   .beyond-products__header {
-    margin-bottom: 0 !important;
+    margin-bottom: 0.65rem !important;
     padding-bottom: 0 !important;
   }
 
   .beyond-products__heading-banner-wrap {
     height: auto !important;
     max-height: 60px !important;
-    margin-bottom: 0 !important;
+    margin-bottom: 0.5rem !important;
   }
 
   .beyond-products__track {
-    padding-top: 0.15rem !important;
+    padding-top: 0.4rem !important;
   }
 
   .beyond-products__slide {
