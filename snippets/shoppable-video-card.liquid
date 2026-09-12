@@ -24,7 +24,8 @@
 
   assign selling_p = ''
   if card_product != blank
-    assign selling_p = card_product.price | money
+    assign p_clean = card_product.price | money_without_currency | remove: '.00'
+    assign selling_p = '₹' | append: p_clean
   endif
 
   assign video_src = ''
