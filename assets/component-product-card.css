@@ -1,9 +1,13 @@
 /* Product card component - Modern Premium Grocery Design */
-.product-card {
+.product-card,
+.card-wrapper,
+.card--card,
+.card--standard,
+.card {
   background: #ffffff !important;
-  border: 1px solid #c2cfb8 !important;
+  border: 1.5px solid #000000 !important;
   border-radius: 20px !important;
-  box-shadow: 0 8px 24px rgba(35, 66, 31, 0.06) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
   display: flex !important;
   flex-direction: column !important;
   height: 100% !important;
@@ -16,8 +20,13 @@
   transition: border-color 250ms ease, box-shadow 300ms ease, transform 300ms cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-.product-card:hover {
-  border-color: #1b4317 !important;
+.product-card:hover,
+.card-wrapper:hover,
+.card--card:hover,
+.card--standard:hover,
+.card:hover {
+  border-color: #000000 !important;
+  border-width: 1.5px !important;
 }
 
 @media (max-width: 48rem) {
