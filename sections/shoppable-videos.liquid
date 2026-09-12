@@ -1,160 +1,24 @@
 {{ 'section-shoppable-videos.css' | asset_url | stylesheet_tag }}
-<script src="{{ 'section-shoppable-videos.js' | asset_url }}" type="module"></script>
+<script src="{{ 'section-shoppable-videos.js' | asset_url }}" defer></script>
 
 {% style %}
   #ShoppableVideos-{{ section.id }} {
-    background-color: {{ section.settings.background_color | default: '#EAF2E6' }} !important;
-    background-image: none !important;
+    background-color: {{ section.settings.background_color | default: '#FBF7F0' }} !important;
   }
-  #ShoppableVideos-{{ section.id }} .shoppable-videos__header {
-    margin-bottom: 0.25rem !important;
-    margin-top: 0 !important;
-    padding: 0 !important;
-  }
-
-  #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-banner-wrap {
-    display: block !important;
-    position: relative !important;
-    width: 100% !important;
-    max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
-    height: {{ section.settings.heading_box_height_desktop | default: 180 }}px !important;
-    margin: 0 auto !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    border-radius: 12px !important;
-  }
-
-  #ShoppableVideos-{{ section.id }} .home-section__heading-picture {
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    margin: 0 auto !important;
-    padding: 0 !important;
-  }
-
-  #ShoppableVideos-{{ section.id }} .home-section__heading-image {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: {{ section.settings.heading_box_bg_size | default: 'cover' }} !important;
-    object-position: center !important;
-    display: block !important;
-    margin: 0 auto !important;
-    padding: 0 !important;
-    border-radius: 12px !important;
-    {% if section.settings.heading_image_flip %}
-      transform: scaleX(-1) !important;
-    {% endif %}
-  }
-
-  @media screen and (max-width: 749px) {
-    #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-banner-wrap {
-      max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
-      height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
-    }
-    #ShoppableVideos-{{ section.id }} .home-section__heading-picture {
-      width: 100% !important;
-      height: 100% !important;
-      margin: 0 auto !important;
-    }
-    #ShoppableVideos-{{ section.id }} .home-section__heading-image {
-      object-fit: {{ section.settings.heading_box_bg_size_mobile | default: 'cover' }} !important;
-      margin: 0 auto !important;
-    }
+  #ShoppableVideos-{{ section.id }} .shoppable-videos__heading {
+    color: {{ section.settings.heading_color | default: '#23421F' }} !important;
   }
 {% endstyle %}
-
-{% liquid
-  assign demo_video_url = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
-  assign csv_lines = section.settings.bulk_video_csv | newline_to_br | split: '<br />'
-  assign slides_rendered = 0
-
-  if section.settings.show_demo_video
-    assign slides_rendered = slides_rendered | plus: 1
-  endif
-
-  for block in section.blocks
-    if block.type != 'video'
-      continue
-    endif
-
-    if block.settings.video != blank or block.settings.video_url != blank
-      assign slides_rendered = slides_rendered | plus: 1
-    elsif request.design_mode
-      assign slides_rendered = slides_rendered | plus: 1
-    endif
-  endfor
-
-  for line in csv_lines
-    assign line_stripped = line | strip
-    if line_stripped == blank
-      continue
-    endif
-
-    assign first_char = line_stripped | slice: 0, 1
-    if first_char == '#'
-      continue
-    endif
-
-    assign parts = line_stripped | split: ','
-    assign csv_video_url = ''
-    if parts[0] contains 'http'
-      assign csv_video_url = parts[0] | strip
-    elsif parts.size > 1
-      assign csv_video_url = parts[1] | strip
-    endif
-
-    if csv_video_url contains 'http'
-      assign slides_rendered = slides_rendered | plus: 1
-    endif
-  endfor
-
-  if section.settings.enable_product_metafields and section.settings.metafield_collection != blank
-    assign meta_col = section.settings.metafield_collection
-    if meta_col.products_count > 0
-      for product in meta_col.products limit: 50
-        assign meta_video = product.metafields.custom.video.value | default: product.metafields.custom.video | default: product.metafields.custom.video_url.value | default: product.metafields.custom.video_url | default: product.metafields.custom.short_video.value | default: product.metafields.custom.short_video | default: product.metafields.custom.reels.value | default: product.metafields.custom.reels | default: product.metafields.custom.video_file.value | default: product.metafields.custom.video_file
-        if meta_video != blank
-          assign slides_rendered = slides_rendered | plus: 1
-        endif
-      endfor
-    endif
-  endif
-%}
 
 <section
   id="ShoppableVideos-{{ section.id }}"
   class="shoppable-videos"
   data-shoppable-videos
-  data-section-id="{{ section.id }}"
-  data-autoplay="false"
-  data-loop="{{ section.settings.loop }}"
-  data-infinite-loop="{{ section.settings.infinite_loop }}"
-  style="
-    --shoppable-videos-bg: {{ section.settings.background_color }};
-    --shoppable-videos-heading-color: {{ section.settings.heading_color }};
-  "
   aria-labelledby="ShoppableVideosHeading-{{ section.id }}"
 >
-  <div class="shoppable-videos__bg-illustration" aria-hidden="true">
-    <svg class="shoppable-videos__trees-top" viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-      <path d="M0 60C120 40 240 70 360 45C480 20 600 65 720 35C840 5 960 55 1080 30C1200 5 1320 45 1440 25V0H0V60Z" fill="#356b36" opacity="0.12"/>
-      <circle cx="120" cy="25" r="18" fill="#356b36" opacity="0.1"/>
-      <circle cx="1320" cy="20" r="24" fill="#356b36" opacity="0.1"/>
-    </svg>
-  </div>
-
   <div class="shoppable-videos__inner">
-    {% if request.design_mode %}
-      <aside class="shoppable-videos__guide" aria-label="{{ 'sections.shoppable_videos.guide_title' | t }}">
-        <p class="shoppable-videos__guide-title">{{ 'sections.shoppable_videos.guide_title' | t }}</p>
-        <ol class="shoppable-videos__guide-list">
-          <li>{{ 'sections.shoppable_videos.guide_step_1' | t }}</li>
-          <li>{{ 'sections.shoppable_videos.guide_step_2' | t }}</li>
-          <li>{{ 'sections.shoppable_videos.guide_step_3' | t }}</li>
-        </ol>
-      </aside>
-    {% endif %}
-
+    
+    <!-- Section Header -->
     <header class="shoppable-videos__header">
       {% if section.settings.heading_image_desktop != blank or section.settings.heading_image_mobile != blank %}
         <div class="shoppable-videos__heading-banner-wrap">
@@ -167,435 +31,142 @@
           </picture>
         </div>
       {% else %}
-        {% if section.settings.subheading != blank %}
-          <p class="shoppable-videos__subheading">{{ section.settings.subheading }}</p>
-        {% endif %}
         {% if section.settings.heading != blank %}
           <h2 id="ShoppableVideosHeading-{{ section.id }}" class="shoppable-videos__heading">
             {{ section.settings.heading }}
           </h2>
         {% endif %}
+        {% if section.settings.subheading != blank %}
+          <p class="shoppable-videos__subheading">{{ section.settings.subheading }}</p>
+        {% endif %}
       {% endif %}
     </header>
 
-    {% if slides_rendered > 0 %}
-      <div class="shoppable-videos__carousel" data-carousel>
-        {% if section.settings.show_arrows %}
-          <button
-            type="button"
-            class="shoppable-videos__arrow shoppable-videos__arrow--prev"
-            data-carousel-prev
-            aria-label="{{ 'sections.shoppable_videos.previous' | t }}"
-            disabled
-          >
-            <span class="shoppable-videos__arrow-icon" aria-hidden="true">{% render 'icon', name: 'arrow', size: 22 %}</span>
-          </button>
-        {% endif %}
+    <!-- Carousel Container -->
+    <div class="shoppable-videos__carousel">
+      <button type="button" class="shoppable-videos__arrow shoppable-videos__arrow--prev" aria-label="Previous videos">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
 
-        <div
-          class="shoppable-videos__viewport"
-          data-carousel-viewport
-          tabindex="0"
-          role="region"
-          aria-roledescription="carousel"
-          aria-label="{{ 'sections.shoppable_videos.carousel_label' | t }}"
-        >
-          <ul class="shoppable-videos__track" data-carousel-track role="list">
-            {% for block in section.blocks %}
-              {% if block.type != 'video' %}
-                {% continue %}
-              {% endif %}
-
-              {% assign has_video = false %}
-              {% if block.settings.video != blank or block.settings.video_url != blank %}
-                {% assign has_video = true %}
-              {% endif %}
-
-              {% unless has_video %}
-                {% continue %}
-              {% endunless %}
-
-              {% assign block_product = block.settings.product %}
-              {% assign card_product = block_product %}
-              {% assign is_block_preview = false %}
-              {% if card_product == blank %}
-                {% if request.design_mode and collections.all.products.size > 0 %}
-                  {% assign card_product = collections.all.products[forloop.index0] %}
-                  {% assign is_block_preview = true %}
-                {% endif %}
-              {% endif %}
-
-              {% assign block_label = block.settings.video_label %}
-              {% if block_label == blank and card_product != blank %}
-                {% assign block_label = card_product.title %}
-              {% endif %}
-              {% if block_label == blank %}
-                {% assign block_label = 'Video' %}
-              {% endif %}
-
-              {% render 'shoppable-video-card',
-                card_product: card_product,
-                hosted_video: block.settings.video,
-                mp4_url: block.settings.video_url,
-                poster: block.settings.poster,
-                video_label: block_label,
-                button_text: block.settings.button_text,
-                section: section,
-                block: block,
-                is_preview: is_block_preview,
-                shopify_attributes: block.shopify_attributes
-              %}
-            {% endfor %}
-
-            {% for line in csv_lines %}
-              {% assign line_stripped = line | strip %}
-              {% if line_stripped == blank %}
-                {% continue %}
-              {% endif %}
-
-              {% assign first_char = line_stripped | slice: 0, 1 %}
-              {% if first_char == '#' %}
-                {% continue %}
-              {% endif %}
-
-              {% assign parts = line_stripped | split: ',' %}
-              {% assign csv_video_url = '' %}
-              {% assign csv_label = 'Video' %}
-              {% assign csv_product = blank %}
-              {% if parts[0] contains 'http' %}
-                {% assign csv_video_url = parts[0] | strip %}
-                {% if parts[1] != blank %}
-                  {% unless parts[1] contains 'http' %}
-                    {% assign csv_label = parts[1] | strip %}
-                  {% endunless %}
-                {% endif %}
-              {% elsif parts.size > 1 and parts[1] contains 'http' %}
-                {% assign csv_handle = parts[0] | strip %}
-                {% assign csv_video_url = parts[1] | strip %}
-                {% assign csv_product = all_products[csv_handle] %}
-                {% if parts[2] != blank %}
-                  {% assign csv_label = parts[2] | strip %}
-                {% elsif csv_product != blank %}
-                  {% assign csv_label = csv_product.title %}
-                {% endif %}
-              {% endif %}
-
-              {% unless csv_video_url contains 'http' %}
-                {% continue %}
-              {% endunless %}
-
-              {% render 'shoppable-video-card',
-                card_product: csv_product,
-                mp4_url: csv_video_url,
-                video_label: csv_label,
-                section: section
-              %}
-            {% endfor %}
-
-            {% if section.settings.enable_product_metafields and section.settings.metafield_collection != blank %}
-              {% assign meta_col = section.settings.metafield_collection %}
-              {% if meta_col.products_count > 0 %}
-                {% for product in meta_col.products limit: 50 %}
-                  {% assign meta_video = product.metafields.custom.video.value | default: product.metafields.custom.video | default: product.metafields.custom.video_url.value | default: product.metafields.custom.video_url | default: product.metafields.custom.short_video.value | default: product.metafields.custom.short_video | default: product.metafields.custom.reels.value | default: product.metafields.custom.reels | default: product.metafields.custom.video_file.value | default: product.metafields.custom.video_file %}
-                  {% assign meta_poster = product.metafields.custom.video_poster.value | default: product.metafields.custom.video_poster | default: product.metafields.custom.cover_image.value | default: product.metafields.custom.cover_image %}
-
-                  {% if meta_video != blank %}
-                    {% assign meta_video_url = '' %}
-                    {% assign meta_hosted = nil %}
-                    {% if meta_video.sources != blank %}
-                      {% assign meta_hosted = meta_video %}
-                    {% elsif meta_video contains 'http' or meta_video contains '.mp4' %}
-                      {% assign meta_video_url = meta_video %}
-                    {% else %}
-                      {% assign meta_hosted = meta_video %}
-                    {% endif %}
-
-                    {% render 'shoppable-video-card',
-                      card_product: product,
-                      hosted_video: meta_hosted,
-                      mp4_url: meta_video_url,
-                      poster: meta_poster,
-                      video_label: product.title,
-                      section: section
-                    %}
-                  {% endif %}
-                {% endfor %}
-              {% endif %}
+      <div class="shoppable-videos__viewport">
+        <ul class="shoppable-videos__track">
+          {% for block in section.blocks %}
+            {% if block.type != 'video' %}
+              {% continue %}
             {% endif %}
-          </ul>
-        </div>
 
-        {% if section.settings.show_arrows %}
-          <button
-            type="button"
-            class="shoppable-videos__arrow shoppable-videos__arrow--next"
-            data-carousel-next
-            aria-label="{{ 'sections.shoppable_videos.next' | t }}"
-          >
-            <span class="shoppable-videos__arrow-icon" aria-hidden="true">{% render 'icon', name: 'arrow', size: 22 %}</span>
-          </button>
-        {% endif %}
+            {% assign block_product = block.settings.product %}
+            {% assign hosted_vid = block.settings.video %}
+            {% assign mp4_url = block.settings.video_url %}
+
+            {% render 'shoppable-video-card',
+              card_product: block_product,
+              hosted_video: hosted_vid,
+              mp4_url: mp4_url,
+              poster: block.settings.poster,
+              block: block,
+              shopify_attributes: block.shopify_attributes
+            %}
+          {% endfor %}
+        </ul>
       </div>
-    {% elsif section.blocks.size > 0 or section.settings.bulk_video_csv != blank %}
-      <p class="shoppable-videos__empty">{{ 'sections.shoppable_videos.configure_blocks' | t }}</p>
-    {% else %}
-      <p class="shoppable-videos__empty">{{ 'sections.shoppable_videos.empty' | t }}</p>
-    {% endif %}
-  <!-- Blurred Background Video Reel Modal -->
-  <dialog class="shoppable-videos__modal" data-video-modal aria-label="Video Reel Modal">
-    <div class="shoppable-videos__modal-backdrop" data-modal-close></div>
-    <div class="shoppable-videos__modal-content">
-      <div class="shoppable-videos__modal-body" data-modal-body></div>
+
+      <button type="button" class="shoppable-videos__arrow shoppable-videos__arrow--next" aria-label="Next videos">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
     </div>
-  </dialog>
+
+  </div>
 </section>
 
 {% schema %}
 {
-  "name": "t:sections.shoppable_videos.name",
+  "name": "Shoppable Videos",
   "tag": "section",
   "class": "section-shoppable-videos",
-  "max_blocks": 20,
   "settings": [
-    {
-      "type": "paragraph",
-      "content": "t:sections.shoppable_videos.settings.intro.content"
-    },
-    {
-      "type": "image_picker",
-      "id": "heading_image_desktop",
-      "label": "Heading Box Background Image (Desktop)",
-      "info": "Upload graphic image to use as background for the Heading Box on Desktop"
-    },
-    {
-      "type": "image_picker",
-      "id": "heading_image_mobile",
-      "label": "Heading Box Background Image (Mobile)",
-      "info": "Upload graphic image to use as background for the Heading Box on Mobile"
-    },
-    {
-      "type": "select",
-      "id": "heading_box_bg_size",
-      "label": "Desktop Image Fit Mode",
-      "options": [
-        { "value": "cover", "label": "Cover (Fill entire box)" },
-        { "value": "contain", "label": "Contain (Fit full image without cropping)" }
-      ],
-      "default": "cover"
-    },
-    {
-      "type": "select",
-      "id": "heading_box_bg_size_mobile",
-      "label": "Mobile Image Fit Mode",
-      "options": [
-        { "value": "cover", "label": "Cover (Fill entire box)" },
-        { "value": "contain", "label": "Contain (Fit full image without cropping)" }
-      ],
-      "default": "cover"
-    },
-    { "type": "checkbox", "id": "heading_image_flip", "label": "Flip Heading Image Horizontally", "default": false },
-    { "type": "range", "id": "heading_box_height_desktop", "label": "Desktop Heading Box Fixed Height (px)", "min": 60, "max": 400, "step": 10, "default": 180, "unit": "px" },
-    { "type": "range", "id": "heading_box_height_mobile", "label": "Mobile Heading Box Fixed Height (px)", "min": 40, "max": 250, "step": 10, "default": 110, "unit": "px" },
-    { "type": "range", "id": "heading_image_max_width", "label": "Desktop Heading Image Max Width (px)", "min": 200, "max": 1200, "step": 20, "default": 640, "unit": "px" },
-    { "type": "range", "id": "heading_image_mobile_max_width", "label": "Mobile Heading Image Max Width (px)", "min": 150, "max": 800, "step": 10, "default": 360, "unit": "px" },
     {
       "type": "text",
       "id": "heading",
-      "label": "t:sections.shoppable_videos.settings.heading.label",
-      "default": "From our farms to your kitchen"
+      "label": "Heading",
+      "default": "Join Us on Instagram"
     },
     {
       "type": "text",
       "id": "subheading",
-      "label": "t:sections.shoppable_videos.settings.subheading.label",
-      "default": "Shop by videos"
+      "label": "Subheading",
+      "default": "Tap, shop, and explore authentic stories from our customers and creators."
     },
     {
-      "type": "header",
-      "content": "Product Metafields Video Scanner"
+      "type": "image_picker",
+      "id": "heading_image_desktop",
+      "label": "Heading Banner Image (Desktop)"
     },
     {
-      "type": "checkbox",
-      "id": "enable_product_metafields",
-      "label": "Auto-load videos from Product Metafields",
-      "info": "Automatically scans products and displays video cards for any product with a video metafield (custom.video, custom.video_url, custom.short_video, custom.reels, or custom.video_file).",
-      "default": true
-    },
-    {
-      "type": "collection",
-      "id": "metafield_collection",
-      "label": "Collection to scan for Video Metafields",
-      "info": "Select collection to scan for product video metafields. Defaults to All Products."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_demo_video",
-      "label": "t:sections.shoppable_videos.settings.show_demo_video.label",
-      "info": "t:sections.shoppable_videos.settings.show_demo_video.info",
-      "default": true
-    },
-    {
-      "type": "textarea",
-      "id": "bulk_video_csv",
-      "label": "t:sections.shoppable_videos.settings.bulk_video_csv.label",
-      "info": "t:sections.shoppable_videos.settings.bulk_video_csv.info",
-      "placeholder": "t:sections.shoppable_videos.settings.bulk_video_csv.placeholder"
+      "type": "image_picker",
+      "id": "heading_image_mobile",
+      "label": "Heading Banner Image (Mobile)"
     },
     {
       "type": "color",
       "id": "background_color",
-      "label": "t:sections.shoppable_videos.settings.background_color.label",
-      "default": "#eef2e4"
+      "label": "Background Color",
+      "default": "#FBF7F0"
     },
     {
       "type": "color",
       "id": "heading_color",
-      "label": "t:sections.shoppable_videos.settings.heading_color.label",
-      "default": "#2e5d34"
-    },
-    {
-      "type": "text",
-      "id": "default_button_text",
-      "label": "t:sections.shoppable_videos.settings.default_button_text.label",
-      "default": "Add to cart"
-    },
-    {
-      "type": "checkbox",
-      "id": "autoplay",
-      "label": "t:sections.shoppable_videos.settings.autoplay.label",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "loop",
-      "label": "t:sections.shoppable_videos.settings.loop.label",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_arrows",
-      "label": "t:sections.shoppable_videos.settings.show_arrows.label",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "infinite_loop",
-      "label": "t:sections.shoppable_videos.settings.infinite_loop.label",
-      "default": false
+      "label": "Heading Color",
+      "default": "#23421F"
     }
   ],
   "blocks": [
     {
       "type": "video",
-      "name": "Video Card",
+      "name": "Video Reel",
       "settings": [
         {
           "type": "product",
           "id": "product",
-          "label": "Select Product"
+          "label": "Linked Product"
         },
         {
           "type": "video",
           "id": "video",
-          "label": "Shopify Hosted Video"
+          "label": "Shopify Video File"
         },
         {
           "type": "text",
           "id": "video_url",
-          "label": "MP4 Video URL",
-          "info": "Direct link to video file (MP4)."
+          "label": "External MP4 Video URL"
         },
         {
           "type": "image_picker",
           "id": "poster",
-          "label": "Custom Video Poster / Cover Image"
+          "label": "Video Poster Thumbnail Image"
         },
         {
           "type": "text",
-          "id": "video_label",
-          "label": "Top Bar Tag Text",
-          "default": "SHOP BY VIDEOS"
-        },
-        {
-          "type": "text",
-          "id": "badge_text",
-          "label": "Product Badge Text",
-          "default": "BESTSELLER"
+          "id": "handle",
+          "label": "Handle Name (e.g. @kisanveda)",
+          "default": "@kisanveda"
         },
         {
           "type": "text",
           "id": "custom_title",
-          "label": "Custom Product Title (Optional)",
-          "info": "Overrides product title if set."
-        },
-        {
-          "type": "text",
-          "id": "subtitle",
-          "label": "Product Subtitle / Weight",
-          "default": "Stone Ground • 1 Kg"
-        },
-        {
-          "type": "text",
-          "id": "selling_price",
-          "label": "Selling Price Override (e.g. ₹499)"
-        },
-        {
-          "type": "text",
-          "id": "compare_price",
-          "label": "Compare Price Override (e.g. ₹599)"
-        },
-        {
-          "type": "text",
-          "id": "button_text",
-          "label": "Add to Cart Button Text",
-          "default": "ADD TO CART"
-        },
-        {
-          "type": "text",
-          "id": "like_count",
-          "label": "Likes Count Display",
-          "default": "1.2K"
-        },
-        {
-          "type": "text",
-          "id": "comment_count",
-          "label": "Comments Count Display",
-          "default": "86"
-        },
-        {
-          "type": "text",
-          "id": "share_count",
-          "label": "Shares Count Display",
-          "default": "120"
-        },
-        {
-          "type": "checkbox",
-          "id": "show_likes",
-          "label": "Show Like Button & Count",
-          "default": true
-        },
-        {
-          "type": "checkbox",
-          "id": "show_comments",
-          "label": "Show Comment Button & Count",
-          "default": true
-        },
-        {
-          "type": "checkbox",
-          "id": "show_shares",
-          "label": "Show Share Button & Count",
-          "default": true
+          "label": "Custom Product Title Override"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "t:sections.shoppable_videos.name",
-      "settings": {
-        "show_demo_video": true
-      },
+      "name": "Shoppable Videos Reel",
       "blocks": [
+        { "type": "video" },
+        { "type": "video" },
+        { "type": "video" },
+        { "type": "video" },
         { "type": "video" }
       ]
     }
