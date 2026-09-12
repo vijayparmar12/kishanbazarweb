@@ -131,10 +131,6 @@
           {% assign full_review = block.settings.review | default: "Wholesome organic products with authentic flavour." %}
           <div class="testimonials__card" data-testimonial-card data-full-review="{{ full_review | escape }}" {{ block.shopify_attributes }}>
             <div class="testimonials__card-front" data-card-front>
-              {% assign rating_cnt = block.settings.rating | default: 5 %}
-              <div class="testimonials__stars" style="color: #e5a800; font-size: 1.1rem; margin-bottom: 0.35rem;">
-                {% for i in (1..rating_cnt) %}★{% endfor %}
-              </div>
               {% assign card_headline = block.settings.headline | default: full_review %}
               <h3 class="testimonials__card-headline">"{{ card_headline }}"</h3>
 
