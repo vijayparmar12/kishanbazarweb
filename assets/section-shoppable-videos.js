@@ -1,4 +1,4 @@
-/* Clean Shoppable Videos JS — On-demand Modal Player with Blur Backdrop & Fixed Arrows */
+/* Clean Shoppable Videos JS — Autoplay sharp background previews & modal player on click */
 class ShoppableVideosSection {
   constructor(root) {
     this.root = root;
@@ -38,7 +38,26 @@ class ShoppableVideosSection {
     const cards = this.root.querySelectorAll('.shoppable-videos__card');
 
     cards.forEach((card) => {
+      const video = card.querySelector('.shoppable-videos__video');
       const openModalBtn = card.querySelector('[data-open-modal]');
+
+      // Autoplay silently in background when in viewport
+      if (video && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                video.play().catch(() => {});
+              } else {
+                video.pause();
+              }
+            });
+          },
+          { threshold: 0.25 }
+        );
+        observer.observe(card);
+      }
+
       if (!openModalBtn) return;
 
       openModalBtn.addEventListener('click', (e) => {

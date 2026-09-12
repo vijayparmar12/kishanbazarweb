@@ -1,5 +1,5 @@
 {% doc %}
-  Renders a clean video card with play button, direct product link overlay, and sound playback.
+  Renders a clean video card with autoplay preview, direct product link overlay, and video modal trigger.
 
   @param {object} section - Parent section
   @param {object} block - Current video block
@@ -52,12 +52,12 @@
     data-product-thumb="{{ thumb_src }}"
   >
     
-    <!-- Video Media Wrap (Clicking opens video modal with dark blurred background) -->
+    <!-- Video Media Wrap (Clicking opens full reel video modal with dark blurred background) -->
     <div class="shoppable-videos__media-wrap" data-open-modal>
       {% if hosted_video != blank %}
-        {{ hosted_video | video_tag: class: 'shoppable-videos__video', loop: true, playsinline: true, preload: 'metadata' }}
+        {{ hosted_video | video_tag: class: 'shoppable-videos__video', loop: true, muted: true, playsinline: true, autoplay: true, preload: 'auto', image_size: '800x' }}
       {% elsif mp4_url != blank %}
-        <video class="shoppable-videos__video" loop playsinline preload="metadata" {% if poster != blank %}poster="{{ poster | image_url: width: 500 }}"{% elsif card_product.featured_image %}poster="{{ card_product.featured_image | image_url: width: 500 }}"{% endif %}>
+        <video class="shoppable-videos__video" loop muted playsinline autoplay preload="auto" {% if poster != blank %}poster="{{ poster | image_url: width: 800 }}"{% elsif card_product.featured_image %}poster="{{ card_product.featured_image | image_url: width: 800 }}"{% endif %}>
           <source src="{{ mp4_url }}" type="video/mp4">
         </video>
       {% else %}
@@ -65,11 +65,6 @@
           {{ 'product-1' | placeholder_svg_tag: 'shoppable-videos__poster' }}
         </div>
       {% endif %}
-
-      <!-- Center Play Button Overlay -->
-      <div class="shoppable-videos__play-btn" aria-label="Play video">
-        <svg class="icon-play" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-      </div>
     </div>
 
     <!-- Bottom Floating Product Pill Overlay (Direct Product Redirect) -->
