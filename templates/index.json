@@ -209,7 +209,7 @@
         "wishlist_color": "#23421f",
         "cart_button_bg": "#23421f",
         "cart_button_color": "#ffffff",
-        "tab_icon_size": 32,
+        "tab_icon_size": 48,
         "tab_active_color": "#1b4317",
         "tab_inactive_color": "#64748b"
       }
@@ -509,7 +509,7 @@
         "wishlist_color": "#23421f",
         "cart_button_bg": "#23421f",
         "cart_button_color": "#ffffff",
-        "tab_icon_size": 32,
+        "tab_icon_size": 48,
         "tab_active_color": "#1b4317",
         "tab_inactive_color": "#64748b"
       }
