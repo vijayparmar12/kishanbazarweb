@@ -924,32 +924,32 @@ body.template-product .kb-header__features,
 
 @media (max-width: 48rem) {
   .kb-header__features {
-    padding: 1px 0 3px !important;
+    padding: 4px 0 6px !important;
     margin-top: 0 !important;
   }
 
   .kb-header__features-inner {
     justify-content: flex-start;
-    padding: 1px 0.35rem 2px !important;
-    gap: 0.35rem;
+    padding: 2px 0.5rem 4px !important;
+    gap: 0.55rem;
   }
 
   .kb-header__feature {
     flex-direction: column !important;
     align-items: center !important;
     text-align: center !important;
-    min-width: 68px !important;
-    padding: 3px 5px 3px !important;
-    gap: 2px !important;
-    border-radius: 10px !important;
+    min-width: 82px !important;
+    padding: 5px 8px 5px !important;
+    gap: 4px !important;
+    border-radius: 14px !important;
     background: #FFFDF9 !important;
     border: 1px solid #E6DEC8 !important;
   }
 
   .kb-header__feature-icon {
-    height: 24px !important;
-    width: 24px !important;
-    flex: 0 0 24px !important;
+    height: 32px !important;
+    width: 32px !important;
+    flex: 0 0 32px !important;
     border-radius: 50% !important;
     background: #EFF3D3 !important;
     border: 1px solid #D6CB9E !important;
@@ -957,25 +957,25 @@ body.template-product .kb-header__features,
   }
 
   .kb-header__feature-icon svg {
-    height: 13px !important;
-    width: 13px !important;
+    height: 18px !important;
+    width: 18px !important;
   }
 
   .kb-header__feature-text-group {
     align-items: center !important;
     text-align: center !important;
-    gap: 1px !important;
+    gap: 2px !important;
   }
 
   .kb-header__feature-badge {
-    font-size: 0.48rem !important;
-    letter-spacing: 0.06em !important;
+    font-size: 0.54rem !important;
+    letter-spacing: 0.08em !important;
     text-align: center !important;
     color: #756C5B !important;
   }
 
   .kb-header__feature-title {
-    font-size: 0.65rem !important;
+    font-size: 0.74rem !important;
     font-weight: 800 !important;
     color: #1B3B2B !important;
     text-align: center !important;
