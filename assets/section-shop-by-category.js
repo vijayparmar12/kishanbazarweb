@@ -29,11 +29,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (tabs.length > 0 && slides.length > 0) {
         const shopAllBtn = section.querySelector('[data-shop-all-btn]');
+        const shopAllMoreLink = section.querySelector('[data-shop-all-more-link]');
 
         const updateShopAllUrl = (activeTab) => {
-          if (!shopAllBtn || !activeTab) return;
+          if (!activeTab) return;
           const colUrl = activeTab.dataset.collectionUrl || section.dataset.allProductsUrl || '/collections/all';
-          shopAllBtn.setAttribute('href', colUrl);
+          if (shopAllBtn) {
+            shopAllBtn.setAttribute('href', colUrl);
+          }
+          if (shopAllMoreLink) {
+            shopAllMoreLink.setAttribute('href', colUrl);
+          }
         };
 
         // Initialize URL for pre-selected active tab

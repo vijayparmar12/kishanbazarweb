@@ -62,8 +62,19 @@
             {% endcapture %}
             {% assign tab_col_url = block.settings.collection.url %}
             {% if tab_col_url == blank %}
-              {% assign tab_handle = block.settings.title | handleize %}
-              {% assign tab_col_url = '/collections/' | append: tab_handle %}
+              {% assign tab_title_down = block.settings.title | downcase %}
+              {% if tab_title_down contains 'atta' or tab_title_down contains 'flour' %}
+                {% assign tab_col_url = '/collections/flour-atta' %}
+              {% elsif tab_title_down contains 'ghee' %}
+                {% assign tab_col_url = '/collections/ghee' %}
+              {% elsif tab_title_down contains 'oil' %}
+                {% assign tab_col_url = '/collections/oil' %}
+              {% elsif tab_title_down contains 'spice' %}
+                {% assign tab_col_url = '/collections/spices' %}
+              {% else %}
+                {% assign tab_handle = block.settings.title | handleize %}
+                {% assign tab_col_url = '/collections/' | append: tab_handle %}
+              {% endif %}
             {% endif %}
             <button class="shop-by-category__tab{% if forloop.first and section.settings.show_all_tab == false %} is-active{% endif %}" type="button" role="tab" data-category-tab data-category-filter="{{ filter_terms | strip | escape }}" data-collection-url="{{ tab_col_url }}" {{ block.shopify_attributes }}>
               <span class="shop-by-category__tab-icon">
@@ -79,7 +90,7 @@
             </button>
           {% endfor %}
         {% else %}
-          <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="atta aatta" data-collection-url="/collections/atta">
+          <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="atta aatta" data-collection-url="/collections/flour-atta">
             <span class="shop-by-category__tab-label">Atta</span>
           </button>
           <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="breakfast" data-collection-url="/collections/breakfast">
@@ -175,7 +186,7 @@
 
       <!-- End of Track "More" Circle Card -->
       <div class="shop-by-category__slide shop-by-category__slide--more-card">
-        <a href="{{ routes.all_products_collection_url }}" class="shop-by-category__more-card-link" aria-label="View all products">
+        <a href="{{ routes.all_products_collection_url }}" class="shop-by-category__more-card-link" data-shop-all-more-link aria-label="View all products">
           <div class="shop-by-category__more-card-circle">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
