@@ -209,7 +209,7 @@
         "wishlist_color": "#23421f",
         "cart_button_bg": "#23421f",
         "cart_button_color": "#ffffff",
-        "tab_icon_size": 48,
+        "tab_icon_size": 76,
         "tab_active_color": "#1b4317",
         "tab_inactive_color": "#64748b"
       }
@@ -223,19 +223,7 @@
             "product": "a2-desi-cow-vedic-bilona-ghee-देसी-वैदिक-बिलोना-घी",
             "video": "shopify://files/videos/✨ स्वाद, सेहत और परंपरा – सब एक साथ! ✨भादवे का घी सिर्फ एक बार साल में मिलता है, और यही बनाता है.mp4",
             "video_url": "",
-            "video_label": "SHOP BY VIDEOS",
-            "badge_text": "BESTSELLER",
-            "custom_title": "",
-            "subtitle": "Stone Ground • 1 Kg",
-            "selling_price": "",
-            "compare_price": "",
-            "button_text": "ADD TO CART",
-            "like_count": "1.2K",
-            "comment_count": "86",
-            "share_count": "120",
-            "show_likes": true,
-            "show_comments": true,
-            "show_shares": true
+            "custom_title": ""
           }
         },
         "video_2": {
@@ -244,19 +232,7 @@
             "product": "foxtail-millet-noodles-कंगनी-बाजरे-के-नूडल्स",
             "video": "shopify://files/videos/“एक सवाल…क्या आपका शरीर सच में वही खा रहा है जिसकी उसे ज़रूरत है.थकान, भारीपन और लो-एनर्जी —ये स.mp4",
             "video_url": "",
-            "video_label": "SHOP BY VIDEOS",
-            "badge_text": "BESTSELLER",
-            "custom_title": "",
-            "subtitle": "Stone Ground • 1 Kg",
-            "selling_price": "",
-            "compare_price": "",
-            "button_text": "ADD TO CART",
-            "like_count": "1.2K",
-            "comment_count": "86",
-            "share_count": "120",
-            "show_likes": true,
-            "show_comments": true,
-            "show_shares": true
+            "custom_title": ""
           }
         },
         "video_3": {
@@ -265,19 +241,7 @@
             "product": "turmeric-हल्दी",
             "video": "shopify://files/videos/Haldi ka asli processing kaise hota hai 🌿Farm se seedha aati hai turmeric, phir cleaning, dryin.mp4",
             "video_url": "",
-            "video_label": "SHOP BY VIDEOS",
-            "badge_text": "BESTSELLER",
-            "custom_title": "",
-            "subtitle": "Stone Ground • 1 Kg",
-            "selling_price": "",
-            "compare_price": "",
-            "button_text": "ADD TO CART",
-            "like_count": "1.2K",
-            "comment_count": "86",
-            "share_count": "120",
-            "show_likes": true,
-            "show_comments": true,
-            "show_shares": true
+            "custom_title": ""
           }
         },
         "video_At9qeD": {
@@ -286,19 +250,7 @@
             "product": "kisanveda-khapli-atta-stone-ground-emmer-wheat-flour",
             "video": "shopify://files/videos/Every grain of wheat carries a story… 🌾A story of a farmer’s faith, hard work, and honesty..Tod.mp4",
             "video_url": "",
-            "video_label": "SHOP BY VIDEOS",
-            "badge_text": "BESTSELLER",
-            "custom_title": "",
-            "subtitle": "Stone Ground • 1 Kg",
-            "selling_price": "",
-            "compare_price": "",
-            "button_text": "ADD TO CART",
-            "like_count": "1.2K",
-            "comment_count": "86",
-            "share_count": "120",
-            "show_likes": true,
-            "show_comments": true,
-            "show_shares": true
+            "custom_title": ""
           }
         }
       },
@@ -309,27 +261,11 @@
         "video_At9qeD"
       ],
       "settings": {
-        "heading_image_desktop": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_02_13_40_PM.png",
-        "heading_box_bg_size": "cover",
-        "heading_box_bg_size_mobile": "cover",
-        "heading_image_flip": false,
-        "heading_box_height_desktop": 140,
-        "heading_box_height_mobile": 50,
-        "heading_image_max_width": 1200,
-        "heading_image_mobile_max_width": 800,
         "heading": "",
         "subheading": "",
-        "enable_product_metafields": true,
-        "metafield_collection": "",
-        "show_demo_video": false,
-        "bulk_video_csv": "# product-handle,https://video-url.mp4\n# organic-ghee,https://cdn.shopify.com/s/files/1/YOUR_SHOP/files/video1.mp4",
+        "heading_image_desktop": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_02_13_40_PM.png",
         "background_color": "#eaf2e6",
-        "heading_color": "#2e5d34",
-        "default_button_text": "Add to cart",
-        "autoplay": true,
-        "loop": true,
-        "show_arrows": true,
-        "infinite_loop": false
+        "heading_color": "#2e5d34"
       }
     },
     "best_sellers": {
@@ -509,7 +445,7 @@
         "wishlist_color": "#23421f",
         "cart_button_bg": "#23421f",
         "cart_button_color": "#ffffff",
-        "tab_icon_size": 48,
+        "tab_icon_size": 76,
         "tab_active_color": "#1b4317",
         "tab_inactive_color": "#64748b"
       }
@@ -585,8 +521,8 @@
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
         "heading_image_flip": false,
-        "heading_box_height_desktop": 90,
-        "heading_box_height_mobile": 55,
+        "heading_box_height_desktop": 110,
+        "heading_box_height_mobile": 80,
         "heading_image_max_width": 640,
         "heading_image_mobile_max_width": 360,
         "subheading": "Native Ingredients. No Substitutes.",
