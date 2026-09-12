@@ -155,9 +155,13 @@
               assign j_rating = product.metafields.judgeme.rating | default: product.metafields.custom.rating.value | default: product.metafields.custom.rating | default: product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value
               assign card_p_rating = j_rating | times: 1.0
               assign j_count = product.metafields.judgeme.review_count | default: product.metafields.custom.review_count.value | default: product.metafields.custom.review_count | default: product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count | times: 1
+              
+              assign badge_str = product.metafields.judgeme.badge | default: ''
               assign has_badge = false
-              if product.metafields.judgeme.badge != blank and product.metafields.judgeme.badge contains 'data-number-of-reviews="0"' == false
-                assign has_badge = true
+              if badge_str != blank
+                unless badge_str contains "data-number-of-reviews='0'" or badge_str contains 'data-number-of-reviews="0"' or badge_str contains "data-average-rating='0.00'" or badge_str contains 'data-average-rating="0.00"' or badge_str contains "data-score='0'" or badge_str contains 'jdgm--no-review' or badge_str contains 'jdgm--empty'
+                  assign has_badge = true
+                endunless
               endif
             %}
             {% if card_p_rating > 0 or j_count > 0 or has_badge %}
