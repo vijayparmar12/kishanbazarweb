@@ -244,8 +244,21 @@
       if (promo) promo.style.setProperty('display', 'grid', 'important');
       if (progress) progress.style.setProperty('display', 'block', 'important');
     }
+    const isFreeShipping = cart.total_price >= thresholdCents;
+    const currentShippingFee = (isFreeShipping || cart.item_count === 0) ? 0 : shippingFeeCents;
+    const finalEstimatedTotal = cart.total_price + currentShippingFee;
+
     const subtotal = drawer.querySelector('[data-cart-drawer-subtotal]');
-    if (subtotal) subtotal.textContent = formatMoney(cart.total_price);
+    if (subtotal) subtotal.textContent = formatMoney(finalEstimatedTotal);
+
+    const shippingNote = drawer.querySelector('[data-cart-shipping-note]');
+    if (shippingNote) {
+      if (isFreeShipping || cart.item_count === 0) {
+        shippingNote.textContent = '(Includes Free Shipping)';
+      } else {
+        shippingNote.textContent = `(Includes ${formatMoney(shippingFeeCents)} Shipping)`;
+      }
+    }
 
     // Calculate dynamic savings across all line items (Rosier Foods Style)
     let totalCompare = 0;
@@ -288,7 +301,7 @@
     if (ribbon) {
       if (totalSaved > 0) {
         ribbon.style.display = 'flex';
-        ribbon.innerHTML = `<span><strong>${formatMoney(totalSaved)}</strong> Saved so far!</span>`;
+        ribbon.innerHTML = `<span>🎉 <strong>${formatMoney(totalSaved)}</strong> Saved so far!</span>`;
       } else {
         ribbon.style.display = 'none';
       }
@@ -299,7 +312,7 @@
     if (origPriceEl) {
       if (totalSaved > 0) {
         origPriceEl.style.display = 'block';
-        origPriceEl.textContent = formatMoney(totalCompare);
+        origPriceEl.textContent = formatMoney(totalCompare + currentShippingFee);
       } else {
         origPriceEl.style.display = 'none';
       }

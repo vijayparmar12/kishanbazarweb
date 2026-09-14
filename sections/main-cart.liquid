@@ -219,6 +219,19 @@
           if is_design_mode and display_savings <= 0
             assign display_savings = 26000
           endif
+
+          assign is_free_shipping = false
+          if cart.total_price >= free_ship_val or is_design_mode
+            assign is_free_shipping = true
+          endif
+
+          assign current_shipping_fee = 0
+          unless is_free_shipping
+            assign current_shipping_fee = shipping_fee_num | times: 100
+          endunless
+
+          assign final_estimated_total = cart.total_price | plus: current_shipping_fee
+          assign final_original_total = cart_original_price | plus: current_shipping_fee
         %}
         <div class="kb-cart-page-sticky-summary" style="position: sticky; bottom: 0; background: #ffffff; padding: 0.45rem 0 0.15rem 0; z-index: 10; border-top: 1px solid rgba(35, 66, 31, 0.08); display: flex; flex-direction: column; gap: 0.45rem; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 -10px 25px rgba(255,255,255,0.95);">
           
@@ -231,18 +244,27 @@
 
           <!-- COMPACT ESTIMATED TOTAL BOX -->
           <div class="kb-cart-estimated-total-box" style="border: 1px solid rgba(35, 66, 31, 0.14); border-radius: 10px; padding: 0.45rem 0.75rem; display: flex; align-items: center; justify-content: space-between; background: #f8fafc;">
-            <div style="display: flex; align-items: center; gap: 7px;">
-              <div style="width: 22px; height: 22px; border-radius: 6px; background: #1b4317; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.75rem; flex-shrink: 0;">₹</div>
-              <strong style="font-size: 0.86rem; color: #334155; font-weight: 700;">Estimated Total</strong>
+            <div style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px;">
+              <div style="display: flex; align-items: center; gap: 7px;">
+                <div style="width: 22px; height: 22px; border-radius: 6px; background: #1b4317; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.75rem; flex-shrink: 0;">₹</div>
+                <strong style="font-size: 0.86rem; color: #334155; font-weight: 700;">Estimated Total</strong>
+              </div>
+              <span data-cart-shipping-note style="font-size: 0.70rem; color: #64748b; font-weight: 600; padding-left: 29px;">
+                {% if is_free_shipping %}
+                  (Includes Free Shipping)
+                {% else %}
+                  (Includes {{ current_shipping_fee | money }} Shipping)
+                {% endif %}
+              </span>
             </div>
             <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 1px;">
               <!-- 1. Selling Price First (Top Row) -->
               <strong data-cart-drawer-subtotal style="font-size: 1.02rem; color: #1b4317; font-weight: 900; line-height: 1.2; display: block;">
-                {% if cart.total_price > 0 %}{{ cart.total_price | money }}{% else %}₹1,700.00{% endif %}
+                {% if cart.total_price > 0 %}{{ final_estimated_total | money }}{% else %}₹1,799.00{% endif %}
               </strong>
               <!-- 2. Crossed-Out Original Price Below Row -->
               <s data-cart-drawer-original-total style="font-size: 0.78rem; color: #94a3b8; font-weight: 500; text-decoration: line-through; line-height: 1.2; {% if display_savings <= 0 %}display: none;{% else %}display: block;{% endif %}">
-                {% if cart_original_price > 0 %}{{ cart_original_price | money }}{% else %}₹1,960.00{% endif %}
+                {% if cart_original_price > 0 %}{{ final_original_total | money }}{% else %}₹2,059.00{% endif %}
               </s>
             </div>
           </div>
