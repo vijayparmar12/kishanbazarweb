@@ -529,9 +529,10 @@ body.kb-cart-drawer-open {
     padding: 12px 16px 70px !important;
   }
   .kb-cart-item {
-    grid-template-columns: 70px minmax(0, 1fr) !important;
+    grid-template-columns: 96px minmax(0, 1fr) !important;
     gap: 10px !important;
-    padding: 10px !important;
+    padding: 10px 0 !important;
+    align-items: flex-start !important;
   }
   .kb-cart-item__title {
     font-size: 0.88rem !important;
@@ -1405,7 +1406,7 @@ body.kb-cart-drawer-open {
   max-width: 100% !important;
   box-sizing: border-box !important;
   position: relative !important;
-  align-items: stretch !important;
+  align-items: flex-start !important;
 }
 
 @media (max-width: 640px) {
@@ -1420,9 +1421,9 @@ body.kb-cart-drawer-open {
 .kb-cart-item__media-wrap {
   position: relative !important;
   width: 110px !important;
-  height: 100% !important;
-  min-height: 110px !important;
-  align-self: stretch !important;
+  height: 110px !important;
+  aspect-ratio: 1 / 1 !important;
+  align-self: flex-start !important;
   border-radius: 10px !important;
   overflow: hidden !important;
   background: #fcfcfb !important;
@@ -1433,12 +1434,16 @@ body.kb-cart-drawer-open {
 @media (max-width: 640px) {
   .kb-cart-item__media-wrap {
     width: 96px !important;
+    height: 96px !important;
     min-height: 96px !important;
+    aspect-ratio: 1 / 1 !important;
   }
 }
 
 .kb-cart-item__media-link {
-  display: block !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   width: 100% !important;
   height: 100% !important;
 }
@@ -1447,6 +1452,7 @@ body.kb-cart-drawer-open {
 .kb-cart-item__placeholder {
   width: 100% !important;
   height: 100% !important;
+  aspect-ratio: 1 / 1 !important;
   object-fit: cover !important;
 }
 
@@ -1467,7 +1473,10 @@ body.kb-cart-drawer-open {
   position: relative !important;
   display: flex !important;
   flex-direction: column !important;
+  align-items: flex-start !important;
+  text-align: left !important;
   padding-right: 0 !important;
+  width: 100% !important;
 }
 
 .kb-cart-item__header-row {
@@ -1476,6 +1485,7 @@ body.kb-cart-drawer-open {
   justify-content: space-between !important;
   gap: 8px !important;
   width: 100% !important;
+  text-align: left !important;
 }
 
 .kb-cart-item__remove-btn {
@@ -1507,6 +1517,7 @@ body.kb-cart-drawer-open {
   color: #0f172a !important;
   margin: 0 0 0.35rem 0 !important;
   line-height: 1.35 !important;
+  text-align: left !important;
 }
 
 .kb-cart-item__title a {
@@ -1516,6 +1527,7 @@ body.kb-cart-drawer-open {
 
 .kb-cart-item__variant-container {
   margin-bottom: 0.45rem !important;
+  text-align: left !important;
 }
 
 .kb-cart-item__variant-pill {
@@ -1526,21 +1538,30 @@ body.kb-cart-drawer-open {
 
 .kb-cart-item__price-row {
   display: flex !important;
-  align-items: center !important;
-  gap: 0.5rem !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  gap: 2px !important;
   margin-bottom: 0.65rem !important;
+  width: 100% !important;
 }
 
 .kb-cart-item__price {
   font-size: 1.08rem !important;
   font-weight: 800 !important;
   color: #166534 !important;
+  text-align: left !important;
+  display: block !important;
 }
 
 .kb-cart-item__compare {
   font-size: 0.88rem !important;
   color: #94a3b8 !important;
   text-decoration: line-through !important;
+  text-align: left !important;
+  display: block !important;
+  margin-left: 0 !important;
 }
 
 .kb-cart-item__actions {

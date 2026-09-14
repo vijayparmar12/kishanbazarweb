@@ -99,10 +99,10 @@
     </div>
 
     <!-- Price Row: Selling Price First (Top), Crossed Original Price (Below Row) -->
-    <div class="kb-cart-item__price-row" style="margin-bottom: 6px; display: flex; flex-direction: column; align-items: flex-start; gap: 1px;">
-      <span class="kb-cart-item__price" data-cart-line-price style="font-size: 15px; font-weight: 800; color: #1b4317; line-height: 1.2; display: block;">{{ item.final_line_price | money }}</span>
+    <div class="kb-cart-item__price-row" style="margin-bottom: 6px; display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 1px; width: 100%;">
+      <span class="kb-cart-item__price" data-cart-line-price style="font-size: 15px; font-weight: 800; color: #1b4317; line-height: 1.2; display: block; text-align: left;">{{ item.final_line_price | money }}</span>
       {% if compare_price > item.final_line_price %}
-        <s class="kb-cart-item__compare" style="font-size: 12px; color: #94a3b8; text-decoration: line-through; line-height: 1.2; display: block;">{{ compare_price | money }}</s>
+        <s class="kb-cart-item__compare" style="font-size: 12px; color: #94a3b8; text-decoration: line-through; line-height: 1.2; display: block; text-align: left;">{{ compare_price | money }}</s>
       {% endif %}
     </div>
 
