@@ -2167,8 +2167,8 @@ html.jdgm-review-modal-active [data-sticky-mobile-bar] {
 
 .sticky-mobile-bar__content {
   align-items: center;
-  display: flex;
-  gap: 0.75rem;
+  display: flex !important;
+  gap: 0.5rem;
   justify-content: space-between;
   margin: 0;
   max-width: 600px;
@@ -2179,19 +2179,20 @@ html.jdgm-review-modal-active [data-sticky-mobile-bar] {
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  flex: 1 1 50%;
-  font-size: 0.88rem;
+  flex: 1 1 calc(37.5% - 0.35rem);
+  font-size: 0.82rem;
   font-weight: 800;
-  letter-spacing: 0.04em;
-  padding: 0.85rem 0.5rem;
+  letter-spacing: 0.03em;
+  padding: 0.75rem 0.25rem;
   text-align: center;
   text-transform: uppercase;
   transition: transform 0.15s ease, background-color 0.15s ease;
-  height: 46px;
-  display: flex;
+  height: 44px;
+  display: flex !important;
   align-items: center;
   justify-content: center;
-  min-width: 130px;
+  min-width: 90px;
+  white-space: nowrap;
 }
 
 .sticky-mobile-bar__btn--add {
@@ -2213,34 +2214,35 @@ html.jdgm-review-modal-active [data-sticky-mobile-bar] {
 .sticky-mobile-bar__quantity-stepper {
   align-items: center;
   background-color: #faf7f2;
-  border: 1.5px solid #23421f;
+  border: 1.5px solid #1b4317;
   border-radius: 10px;
   box-sizing: border-box;
-  display: flex;
-  flex: 1 1 50%;
-  height: 46px;
+  display: flex !important;
+  flex: 0 0 92px;
+  height: 44px;
   justify-content: space-between;
-  padding: 0 0.5rem;
-  min-width: 130px;
+  padding: 0 0.25rem;
+  min-width: 85px;
 }
 
 .sticky-mobile-bar__qbtn {
   align-items: center;
   background: none;
   border: none;
-  color: #23421f;
+  color: #1b4317;
   cursor: pointer;
   display: flex;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 800;
   justify-content: center;
   line-height: 1;
-  padding: 0 0.5rem;
+  padding: 0 0.35rem;
+  height: 100%;
 }
 
 .sticky-mobile-bar__qval {
   color: #111827;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 800;
 }
 
@@ -2250,17 +2252,28 @@ html.jdgm-review-modal-active [data-sticky-mobile-bar] {
   }
   .sticky-mobile-bar__content {
     width: 100%;
-    display: flex;
-    gap: 0.75rem;
+    display: flex !important;
+    gap: 0.4rem;
     justify-content: space-between;
+    align-items: center;
   }
   .sticky-mobile-bar__product-info {
     display: none !important;
   }
+  .sticky-mobile-bar__quantity-stepper {
+    display: flex !important;
+    flex: 0 0 90px !important;
+    min-width: 80px !important;
+    height: 44px !important;
+  }
   .sticky-mobile-bar__btn--add,
   .sticky-mobile-bar__btn--buy {
     display: flex !important;
-    flex: 1 1 50%;
+    flex: 1 1 35% !important;
+    min-width: 90px !important;
+    height: 44px !important;
+    font-size: 0.76rem !important;
+    padding: 0 0.25rem !important;
   }
 }
 

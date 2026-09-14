@@ -741,10 +741,6 @@ function initStickyMobileBar(container) {
   function updateQuantity(newQty) {
     if (newQty < 1) {
       newQty = 1;
-      if (stickyAddBtn) stickyAddBtn.style.setProperty('display', 'flex', 'important');
-      if (stickyStepper) stickyStepper.style.setProperty('display', 'none', 'important');
-      if (mainAddBtn) mainAddBtn.style.setProperty('display', 'flex', 'important');
-      if (mainStepper) mainStepper.style.setProperty('display', 'none', 'important');
     }
     if (newQty > 20) newQty = 20;
 
@@ -780,10 +776,6 @@ function initStickyMobileBar(container) {
   if (stickyAddBtn) {
     stickyAddBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      if (stickyAddBtn) stickyAddBtn.style.setProperty('display', 'none', 'important');
-      if (stickyStepper) stickyStepper.style.setProperty('display', 'flex', 'important');
-      if (mainAddBtn) mainAddBtn.style.setProperty('display', 'none', 'important');
-      if (mainStepper) mainStepper.style.setProperty('display', 'flex', 'important');
 
       if (mainAddBtn) {
         mainAddBtn.click();

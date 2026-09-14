@@ -172,19 +172,19 @@
         </div>
       </div>
       <div class="sticky-mobile-bar__content">
-        <!-- Add to Cart Button -->
-        <button type="button" class="sticky-mobile-bar__btn sticky-mobile-bar__btn--add" data-sticky-add-to-cart-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
-          <span data-sticky-btn-text>{% if current_v_avail %}{{ section.settings.sticky_bar_btn_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}</span>
-        </button>
-
-        <!-- Stepper [- 1 +] Pill (Initially Hidden, appears after ADD TO CART click) -->
-        <div class="sticky-mobile-bar__quantity-stepper" data-sticky-stepper style="display: none !important;">
+        <!-- 1. Stepper [- 1 +] Pill (Always visible first) -->
+        <div class="sticky-mobile-bar__quantity-stepper" data-sticky-stepper>
           <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-minus aria-label="Decrease quantity">-</button>
           <span class="sticky-mobile-bar__qval" data-sticky-quantity-val>1</span>
           <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-plus aria-label="Increase quantity">+</button>
         </div>
 
-        <!-- Buy Now Button (Initially visible beside ADD TO CART) -->
+        <!-- 2. Add to Cart Button -->
+        <button type="button" class="sticky-mobile-bar__btn sticky-mobile-bar__btn--add" data-sticky-add-to-cart-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
+          <span data-sticky-btn-text>{% if current_v_avail %}{{ section.settings.sticky_bar_btn_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}</span>
+        </button>
+
+        <!-- 3. Buy Now Button -->
         <button type="button" class="sticky-mobile-bar__btn sticky-mobile-bar__btn--buy" data-sticky-buy-now-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
           BUY NOW
         </button>
