@@ -1291,17 +1291,17 @@ body.kb-header-menu-open {
   .kb-header__action,
   .kb-header__menu-toggle,
   .kb-header__mobile-close {
-    height: 30px !important;
-    width: 30px !important;
+    height: 40px !important;
+    width: 40px !important;
   }
 
   .kb-header__action svg,
   .kb-header__menu-toggle svg,
   .kb-header__mobile-close svg {
-    width: 18px !important;
-    height: 18px !important;
-    max-width: 18px !important;
-    max-height: 18px !important;
+    width: 26px !important;
+    height: 26px !important;
+    max-width: 26px !important;
+    max-height: 26px !important;
   }
 
   .kb-header__feature-image {
