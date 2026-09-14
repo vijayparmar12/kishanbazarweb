@@ -1037,12 +1037,12 @@
   gap: 1.5rem;
 }
 
-/* Purchase Row (Quantity Stepper & Add to Cart) */
-.product-info__purchase-row {
-  display: flex !important;
-  width: 100% !important;
-  margin-top: 0.75rem !important;
-  margin-bottom: 0.75rem !important;
+/* Purchase Row (Quantity Stepper & Add to Cart) - Hidden by user preference below variant picker */
+.product-info__purchase-row,
+.product-info .product-card__btn-container,
+.product-info .product-info__btn--add-to-cart,
+.product-info .product-info__btn--buy-now {
+  display: none !important;
 }
 
 .product-info__quantity-stepper {
@@ -2897,7 +2897,13 @@ body.template-product {
   }
   .product-lab-report__btn {
     padding: 8px 14px;
-    font-size: 0.8rem;
-  }
 }
 
+/* Global Override: Hide inline Add to Cart & Buy Now buttons below variant picker */
+.product-info .product-info__purchase-row,
+.product-info .product-card__btn-container,
+.product-info .product-info__btn--add-to-cart,
+.product-info .product-info__btn--buy-now,
+.product-info__form .product-card__btn-container {
+  display: none !important;
+}
