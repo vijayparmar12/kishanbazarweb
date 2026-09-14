@@ -594,6 +594,7 @@
   [data-collection-grid] .product-card,
   .collection .product-card {
     border-radius: 12px !important;
+    border: 1.5px solid #23421f !important;
   }
 
   body[class*="collection"] .product-card__content,

@@ -3,11 +3,12 @@
 .card-wrapper,
 .card--card,
 .card--standard,
-.card {
+.card,
+[data-product-card] {
   background: #ffffff !important;
-  border: 1.5px solid #000000 !important;
+  border: 1.5px solid #23421f !important;
   border-radius: 20px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 6px 20px rgba(35, 66, 31, 0.08) !important;
   display: flex !important;
   flex-direction: column !important;
   height: 100% !important;
@@ -24,9 +25,11 @@
 .card-wrapper:hover,
 .card--card:hover,
 .card--standard:hover,
-.card:hover {
-  border-color: #000000 !important;
+.card:hover,
+[data-product-card]:hover {
+  border-color: #1b4317 !important;
   border-width: 1.5px !important;
+  box-shadow: 0 10px 28px rgba(27, 67, 23, 0.16) !important;
 }
 
 @media (max-width: 48rem) {
