@@ -24,14 +24,14 @@
 
 .beyond-products__header {
   text-align: center;
-  margin-bottom: 0.35rem !important;
+  margin-bottom: 1.5rem !important;
   margin-top: 0 !important;
   padding: 0 !important;
 }
 
 @media (min-width: 990px) {
   .beyond-products__header {
-    margin-bottom: 0.75rem !important;
+    margin-bottom: 2rem !important;
   }
 }
 
