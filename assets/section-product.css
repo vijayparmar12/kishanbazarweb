@@ -1524,28 +1524,25 @@
   }
 }
 
-.product-page-section--reviews {
-  margin: 1rem 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-/* Remove all box cards / borders / shadows / backgrounds - ONLY PADDING */
+.product-page-section--reviews,
 .product-reviews__container,
 .product-reviews-box-card,
 .product-reviews,
 .jdgm-rev-widg,
 .jdgm-widget:not(.jdgm-preview-badge),
 .jdgm-review-widget,
+.jdgm-all-reviews-widget,
+.shopify-section:has(.jdgm-rev-widg),
+.shopify-section:has(.jdgm-widget:not(.jdgm-preview-badge)),
 .shopify-app-block:has(.jdgm-rev-widg),
 .shopify-app-block:has(.jdgm-widget:not(.jdgm-preview-badge)),
 .shopify-block:has(.jdgm-rev-widg),
 .shopify-block:has(.jdgm-widget:not(.jdgm-preview-badge)),
 [data-shopify-editor-block]:has(.jdgm-rev-widg),
-[data-shopify-editor-block]:has(.jdgm-widget:not(.jdgm-preview-badge)) {
-  background: transparent !important;
-  background-color: transparent !important;
+[data-shopify-editor-block]:has(.jdgm-widget:not(.jdgm-preview-badge)),
+[id*="judgeme"] {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
   border: none !important;
   box-shadow: none !important;
   outline: none !important;
