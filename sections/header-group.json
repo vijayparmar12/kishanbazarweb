@@ -365,7 +365,7 @@
         "mega_background": "#ffffff",
         "mega_text_color": "#23421f",
         "mega_hover_color": "#FFFFFF",
-        "mega_wave_color": "#eaf5e3",
+        "mega_wave_color": "#FFFFFF",
         "show_account": true,
         "show_mobile_account": true,
         "desktop_account_label": "Account",
@@ -381,7 +381,7 @@
         "show_wishlist": true,
         "wishlist_url": "",
         "show_cart": true,
-        "feature_row_background": "#faf6ec"
+        "feature_row_background": "#FFFFFF"
       }
     }
   },
