@@ -247,11 +247,12 @@
       "settings": {
         "heading": "RECOMMENDED",
         "eyebrow": "",
+        "intent": "complementary",
         "collection": "",
         "bg_color": "#faf7f2",
         "heading_color": "#1b4317",
         "eyebrow_color": "#d97706",
-        "products_limit": 6
+        "products_limit": 10
       }
     },
     "1788408506cab3cccd": {

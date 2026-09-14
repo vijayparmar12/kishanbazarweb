@@ -143,7 +143,7 @@
   }
 {% endstyle %}
 
-<div class="product-recommendations-section" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.products_limit | default: 10 }}" data-intent="{{ section.settings.intent | default: 'related' }}">
+<div class="product-recommendations-section" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.products_limit | default: 10 }}" data-intent="{{ section.settings.intent | default: 'complementary' }}">
   <div class="product-page-container" style="max-width: 2000px; margin: 0 auto; padding-left: clamp(0.75rem, 3vw, 1.25rem); padding-right: clamp(0.75rem, 3vw, 1.25rem); box-sizing: border-box;">
     {% liquid
       assign selected_coll = section.settings.collection

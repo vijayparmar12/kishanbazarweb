@@ -264,6 +264,7 @@
       "settings": {
         "heading": "RECOMMENDED",
         "eyebrow": "HANDPICKED ORGANIC STAPLES",
+        "intent": "complementary",
         "collection": "",
         "bg_color": "#faf7f2",
         "heading_color": "#1b4317",
