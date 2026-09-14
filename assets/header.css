@@ -32,7 +32,7 @@ body.jdgm-review-modal-active header {
 }
 
 .kb-header {
-  background: linear-gradient(180deg, #FFFFFF 0%, #FCFBF7 100%);
+  background: #ffffff;
   background-image: none;
   position: relative;
   width: 100%;
@@ -812,7 +812,7 @@ body.template-product .kb-header__features,
 
 
 .kb-header__features {
-  background: linear-gradient(180deg, #FCFBF7 0%, #FAF6EE 100%) !important;
+  background: #ffffff !important;
   border-bottom: none !important;
   padding: 5px 0 7px;
 }
