@@ -143,7 +143,7 @@
   }
 {% endstyle %}
 
-<div class="product-recommendations-section" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.products_limit | default: 10 }}">
+<div class="product-recommendations-section" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.products_limit | default: 10 }}" data-intent="{{ section.settings.intent | default: 'related' }}">
   <div class="product-page-container" style="max-width: 2000px; margin: 0 auto; padding-left: clamp(0.75rem, 3vw, 1.25rem); padding-right: clamp(0.75rem, 3vw, 1.25rem); box-sizing: border-box;">
     {% liquid
       assign selected_coll = section.settings.collection
@@ -224,8 +224,9 @@
     function initRecommendations() {
       var sectionContainer = document.querySelector('.product-recommendations-section');
       if (!sectionContainer) return;
-      var requestUrl = sectionContainer.getAttribute('data-url');
-      if (!requestUrl) return;
+      var baseUrl = sectionContainer.getAttribute('data-url');
+      if (!baseUrl) return;
+      var preferredIntent = sectionContainer.getAttribute('data-intent') || 'related';
 
       var bindNavigation = function(container) {
         var track = container.querySelector('[data-rec-track]');
@@ -244,23 +245,36 @@
       // Initially bind navigation for fallback content
       bindNavigation(sectionContainer);
 
-      // Dynamically fetch Shopify Search & Discovery custom product recommendations
-      fetch(requestUrl)
-        .then(function(response) {
-          return response.text();
-        })
-        .then(function(html) {
-          var parser = new DOMParser();
-          var responseDoc = parser.parseFromString(html, 'text/html');
-          var newSection = responseDoc.querySelector('.product-recommendations-section');
-          if (newSection && newSection.querySelector('.product-recommendations__slide')) {
-            sectionContainer.innerHTML = newSection.innerHTML;
-            bindNavigation(sectionContainer);
-          }
-        })
-        .catch(function(error) {
-          console.error('Error fetching Shopify recommendations:', error);
-        });
+      var fetchIntent = function(targetIntent, fallbackIntent) {
+        var requestUrl = baseUrl + '&intent=' + targetIntent;
+        fetch(requestUrl)
+          .then(function(response) {
+            return response.text();
+          })
+          .then(function(html) {
+            var parser = new DOMParser();
+            var responseDoc = parser.parseFromString(html, 'text/html');
+            var newSection = responseDoc.querySelector('.product-recommendations-section');
+            var slides = newSection ? newSection.querySelectorAll('.product-recommendations__slide:not(.product-recommendations__slide--more)') : [];
+            if (slides && slides.length > 0) {
+              sectionContainer.innerHTML = newSection.innerHTML;
+              bindNavigation(sectionContainer);
+            } else if (fallbackIntent) {
+              fetchIntent(fallbackIntent, null);
+            }
+          })
+          .catch(function(error) {
+            console.error('Error fetching Shopify recommendations:', error);
+            if (fallbackIntent) {
+              fetchIntent(fallbackIntent, null);
+            }
+          });
+      };
+
+      // Try complementary intent first if custom recommendations were set, or primary intent with alternate fallback
+      var primaryIntent = preferredIntent;
+      var secondaryIntent = (primaryIntent === 'complementary') ? 'related' : 'complementary';
+      fetchIntent(primaryIntent, secondaryIntent);
     }
 
     if (document.readyState === 'loading') {
@@ -288,6 +302,17 @@
       "id": "eyebrow",
       "label": "Eyebrow Text",
       "default": "HANDPICKED ORGANIC STAPLES"
+    },
+    {
+      "type": "select",
+      "id": "intent",
+      "label": "Recommendation Type",
+      "options": [
+        { "value": "related", "label": "Related Products (Search & Discovery)" },
+        { "value": "complementary", "label": "Complementary Products (Search & Discovery)" }
+      ],
+      "default": "complementary",
+      "info": "Choose whether to prioritize Related or Complementary products set in Shopify Search & Discovery App."
     },
     {
       "type": "collection",
