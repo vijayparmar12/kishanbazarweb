@@ -1538,12 +1538,12 @@ body.kb-cart-drawer-open {
 
 .kb-cart-item__price-row {
   display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
+  flex-direction: row !important;
+  align-items: center !important;
   justify-content: flex-start !important;
   text-align: left !important;
-  gap: 2px !important;
-  margin-bottom: 0.65rem !important;
+  gap: 6px !important;
+  margin-bottom: 0.5rem !important;
   width: 100% !important;
 }
 
@@ -1552,7 +1552,7 @@ body.kb-cart-drawer-open {
   font-weight: 800 !important;
   color: #166534 !important;
   text-align: left !important;
-  display: block !important;
+  display: inline-block !important;
 }
 
 .kb-cart-item__compare {
@@ -1560,7 +1560,7 @@ body.kb-cart-drawer-open {
   color: #94a3b8 !important;
   text-decoration: line-through !important;
   text-align: left !important;
-  display: block !important;
+  display: inline-block !important;
   margin-left: 0 !important;
 }
 

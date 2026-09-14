@@ -194,9 +194,9 @@
                 ${item.variant_title && item.variant_title !== 'Default Title' ? `<span class="kb-cart-item__variant-pill">${item.variant_title}</span>` : ''}
               </div>
 
-              <div class="kb-cart-item__price-row" style="margin-bottom: 6px; display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 1px; width: 100%;">
-                <span class="kb-cart-item__price" data-cart-line-price style="font-size: 15px; font-weight: 800; color: #1b4317; line-height: 1.2; display: block; text-align: left;">${formatMoney(finalVal)}</span>
-                ${hasCompare ? `<s class="kb-cart-item__compare" style="font-size: 12px; color: #94a3b8; text-decoration: line-through; line-height: 1.2; display: block; text-align: left;">${formatMoney(compareVal)}</s>` : ''}
+              <div class="kb-cart-item__price-row" style="margin-bottom: 6px; display: flex; flex-direction: row; align-items: center; justify-content: flex-start; text-align: left; gap: 6px; width: 100%;">
+                <span class="kb-cart-item__price" data-cart-line-price style="font-size: 15px; font-weight: 800; color: #1b4317; line-height: 1.2; display: inline-block; text-align: left;">${formatMoney(finalVal)}</span>
+                ${hasCompare ? `<s class="kb-cart-item__compare" style="font-size: 12px; color: #94a3b8; text-decoration: line-through; line-height: 1.2; display: inline-block; text-align: left;">${formatMoney(compareVal)}</s>` : ''}
               </div>
 
               <div class="kb-cart-item__actions">
