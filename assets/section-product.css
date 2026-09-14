@@ -54,22 +54,16 @@
 .main-product {
   display: grid;
   gap: clamp(1.5rem, 3.5vw, 3rem);
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
+  grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
   margin: 0 auto;
-  max-width: 2000px;
+  max-width: 1350px;
   padding: clamp(0.25rem, 1vw, 0.5rem) 1.25rem 0.75rem;
 }
 
-.main-product--media-medium {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-}
-
-.main-product--media-large {
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
-}
-
+.main-product--media-medium,
+.main-product--media-large,
 .main-product--media-xlarge {
-  grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.85fr);
+  grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
 }
 
 .main-product__left,
@@ -219,12 +213,13 @@
 @media screen and (min-width: 48.01rem) {
   .product-gallery {
     display: grid !important;
-    grid-template-columns: 84px minmax(0, 1fr) !important;
+    grid-template-columns: 84px minmax(0, 460px) !important;
     grid-template-areas:
       "thumbs main"
       "highlights highlights" !important;
     gap: 1.25rem !important;
     align-items: start !important;
+    max-width: 560px !important;
   }
 
   .product-gallery__thumbnails {
@@ -232,7 +227,7 @@
     display: flex !important;
     flex-direction: column !important;
     gap: 0.75rem !important;
-    max-height: 560px !important;
+    max-height: 460px !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
     padding: 0.25rem 0.25rem 0.5rem 0 !important;
@@ -255,10 +250,14 @@
   .product-gallery__main-wrap {
     grid-area: main !important;
     width: 100% !important;
+    max-width: 460px !important;
+    max-height: 460px !important;
     aspect-ratio: 1 / 1 !important;
     border: 1.5px solid #efe8da !important;
     border-radius: 20px !important;
     box-shadow: 0 8px 28px rgba(27, 67, 23, 0.07) !important;
+    background-color: #faf7f2 !important;
+    overflow: hidden !important;
   }
 
   .product-gallery__highlights-desktop {
@@ -421,9 +420,11 @@
 .product-gallery__main-image {
   display: block;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain !important;
   transition: transform 0.3s ease, opacity 0.2s ease;
   width: 100%;
+  padding: 0.25rem;
+  box-sizing: border-box;
 }
 
 .product-gallery__zoom-lens {
