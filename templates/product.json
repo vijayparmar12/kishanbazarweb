@@ -154,6 +154,7 @@
         "benefit_icons_TeMKQk",
         "price_cXRV6V",
         "variant_picker_fTExdk",
+        "buy_buttons_jrQJdY",
         "trust_badges_WhXaki",
         "lab_report_4KWAyL",
         "product_video_g8Vgf7",
@@ -245,12 +246,12 @@
       "type": "product-recommendations",
       "settings": {
         "heading": "RECOMMENDED",
-        "eyebrow": "HANDPICKED ORGANIC STAPLES",
+        "eyebrow": "",
         "collection": "",
         "bg_color": "#faf7f2",
         "heading_color": "#1b4317",
         "eyebrow_color": "#d97706",
-        "products_limit": 10
+        "products_limit": 6
       }
     },
     "1788408506cab3cccd": {
