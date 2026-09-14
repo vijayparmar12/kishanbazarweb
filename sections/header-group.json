@@ -364,7 +364,7 @@
         "category_button_url": "",
         "mega_background": "#ffffff",
         "mega_text_color": "#23421f",
-        "mega_hover_color": "#f1f8ec",
+        "mega_hover_color": "#FFFFFF",
         "mega_wave_color": "#eaf5e3",
         "show_account": true,
         "show_mobile_account": true,
