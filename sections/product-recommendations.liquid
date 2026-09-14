@@ -179,22 +179,53 @@
 
 <script>
   (function() {
-    document.addEventListener('DOMContentLoaded', function() {
-      var section = document.querySelector('.product-recommendations-section');
-      if (!section) return;
-      var track = section.querySelector('[data-rec-track]');
-      var prevBtn = section.querySelector('[data-rec-prev]');
-      var nextBtn = section.querySelector('[data-rec-next]');
+    function initRecommendations() {
+      var sectionContainer = document.querySelector('.product-recommendations-section');
+      if (!sectionContainer) return;
+      var requestUrl = sectionContainer.getAttribute('data-url');
+      if (!requestUrl) return;
 
-      if (track && prevBtn && nextBtn) {
-        prevBtn.addEventListener('click', function() {
-          track.scrollBy({ left: -300, behavior: 'smooth' });
+      var bindNavigation = function(container) {
+        var track = container.querySelector('[data-rec-track]');
+        var prevBtn = container.querySelector('[data-rec-prev]');
+        var nextBtn = container.querySelector('[data-rec-next]');
+        if (track && prevBtn && nextBtn) {
+          prevBtn.onclick = function() {
+            track.scrollBy({ left: -300, behavior: 'smooth' });
+          };
+          nextBtn.onclick = function() {
+            track.scrollBy({ left: 300, behavior: 'smooth' });
+          };
+        }
+      };
+
+      // Initially bind navigation for fallback content
+      bindNavigation(sectionContainer);
+
+      // Dynamically fetch Shopify Search & Discovery custom product recommendations
+      fetch(requestUrl)
+        .then(function(response) {
+          return response.text();
+        })
+        .then(function(html) {
+          var parser = new DOMParser();
+          var responseDoc = parser.parseFromString(html, 'text/html');
+          var newSection = responseDoc.querySelector('.product-recommendations-section');
+          if (newSection && newSection.querySelector('.product-recommendations__slide')) {
+            sectionContainer.innerHTML = newSection.innerHTML;
+            bindNavigation(sectionContainer);
+          }
+        })
+        .catch(function(error) {
+          console.error('Error fetching Shopify recommendations:', error);
         });
-        nextBtn.addEventListener('click', function() {
-          track.scrollBy({ left: 300, behavior: 'smooth' });
-        });
-      }
-    });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initRecommendations);
+    } else {
+      initRecommendations();
+    }
   })();
 </script>
 

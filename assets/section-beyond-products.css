@@ -24,20 +24,21 @@
 
 .beyond-products__header {
   text-align: center;
-  margin-bottom: 1.5rem !important;
+  margin-bottom: 0.35rem !important;
   margin-top: 0 !important;
   padding: 0 !important;
 }
 
 @media (min-width: 990px) {
   .beyond-products__header {
-    margin-bottom: 2rem !important;
+    margin-bottom: 0.75rem !important;
   }
 }
 
 .beyond-products__heading-banner-wrap {
   width: 100% !important;
   max-width: 100% !important;
+  height: 180px;
   display: block !important;
   margin: 0 auto 0.25rem auto !important;
   padding: 0 !important;
@@ -48,6 +49,8 @@
 
 @media (max-width: 749px) {
   .beyond-products__heading-banner-wrap {
+    height: auto !important;
+    max-height: 60px !important;
     margin-bottom: 0 !important;
   }
 }
@@ -261,6 +264,8 @@
   }
 
   .beyond-products__heading-banner-wrap {
+    height: auto !important;
+    max-height: 60px !important;
     margin-bottom: 1rem !important;
   }
 
