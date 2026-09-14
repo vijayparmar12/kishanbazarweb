@@ -193,6 +193,13 @@
             }
           }
 
+          // Skip empty blank boxes with no text or media content
+          var cleanText = boxEl.textContent ? boxEl.textContent.replace(/[\s\xA0]+/g, '').trim() : '';
+          var hasMedia = boxEl.querySelectorAll('img, video, iframe, svg, a, button, h1, h2, h3, h4, h5, h6').length > 0;
+          if (!cleanText && !hasMedia) {
+            return;
+          }
+
           if (isFounder) {
             founderBox = boxEl;
           } else {

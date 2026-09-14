@@ -1227,6 +1227,10 @@
   max-width: 100% !important;
 }
 
+.vedic-content-box:empty {
+  display: none !important;
+}
+
 @media screen and (max-width: 768px) {
   .vedic-page-container {
     padding: 0 0.75rem !important;
