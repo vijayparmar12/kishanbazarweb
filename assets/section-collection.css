@@ -898,13 +898,13 @@
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: #ffffff;
-  border: 1.5px solid rgba(27, 67, 23, 0.12);
+  background: transparent !important;
+  border: none !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 3px 10px rgba(27, 67, 23, 0.06);
-  padding: 9px;
+  box-shadow: none !important;
+  padding: 4px;
   box-sizing: border-box;
   transition: all 0.22s ease;
 }
@@ -929,26 +929,21 @@
 
 /* Active Category State */
 .collection-hero__category-tab.is-active .collection-hero__category-icon {
-  border-color: #1b4317;
-  background-color: #f2f7f1;
-  box-shadow: 0 4px 14px rgba(27, 67, 23, 0.2);
-  transform: scale(1.05);
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: scale(1.08);
 }
 
 .collection-hero__category-tab.is-active .collection-hero__category-label {
   color: #1b4317;
-  font-weight: 700;
+  font-weight: 800;
+  border-bottom: 2px solid #1b4317;
+  padding-bottom: 2px;
 }
 
 .collection-hero__category-tab.is-active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 15%;
-  right: 15%;
-  height: 3px;
-  background-color: #1b4317;
-  border-radius: 2px;
+  display: none !important;
 }
 
 @media screen and (max-width: 768px) {
@@ -966,7 +961,7 @@
   .collection-hero__category-icon {
     width: 50px;
     height: 50px;
-    padding: 7px;
+    padding: 3px;
   }
 
   .collection-hero__category-label {

@@ -105,7 +105,7 @@
       "settings": {
         "products_per_page": 16,
         "products_per_row": "4",
-        "enable_filters": true,
+        "enable_filters": false,
         "enable_sorting": true,
         "show_vendor": true,
         "show_price": true,

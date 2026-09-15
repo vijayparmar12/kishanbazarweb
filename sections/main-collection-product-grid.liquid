@@ -3,9 +3,6 @@
 
 {% paginate collection.products by section.settings.products_per_page %}
   {% assign show_filters = false %}
-  {% if section.settings.enable_filters and collection.handle == 'all' %}
-    {% assign show_filters = true %}
-  {% endif %}
 
   <section class="main-collection page-width{% unless show_filters %} main-collection--no-filters{% endunless %}" data-collection-grid>
     <div class="main-collection__top-bar">
