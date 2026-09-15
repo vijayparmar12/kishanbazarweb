@@ -158,6 +158,71 @@
       </div>
     {% endif %}
 
+    <!-- 3. CATEGORIES LIST BELOW TITLE (DISPLAY ACTIVE COLOR ICON ONLY) -->
+    {% if section.settings.show_categories != false %}
+      {% assign category_blocks = section.blocks | where: 'type', 'category_tab' %}
+      {% if category_blocks.size > 0 %}
+        <div class="collection-hero__categories-wrapper">
+          <div class="collection-hero__categories" role="navigation" aria-label="Categories">
+            {% for block in category_blocks %}
+              {% liquid
+                assign tab_col = block.settings.collection
+                assign tab_url = tab_col.url
+                if tab_url == blank
+                  assign tab_title_down = block.settings.title | downcase
+                  if tab_title_down contains 'all'
+                    assign tab_url = routes.all_products_collection_url
+                  elsif tab_title_down contains 'atta' or tab_title_down contains 'flour'
+                    assign tab_url = '/collections/flour-atta'
+                  elsif tab_title_down contains 'ghee'
+                    assign tab_url = '/collections/ghee'
+                  elsif tab_title_down contains 'oil'
+                    assign tab_url = '/collections/oil'
+                  elsif tab_title_down contains 'spice'
+                    assign tab_url = '/collections/spices'
+                  elsif tab_title_down contains 'breakfast'
+                    assign tab_url = '/collections/breakfast'
+                  elsif tab_title_down contains 'sweet'
+                    assign tab_url = '/collections/sweetner'
+                  else
+                    assign tab_handle = block.settings.title | handleize
+                    assign tab_url = '/collections/' | append: tab_handle
+                  endif
+                endif
+
+                assign is_active = false
+                if request.path == tab_url
+                  assign is_active = true
+                elsif tab_col != blank and collection.handle == tab_col.handle
+                  assign is_active = true
+                elsif collection.handle == 'all' and block.settings.title contains 'All'
+                  assign is_active = true
+                endif
+
+                # ONLY COLOR IMAGE / ACTIVE ICON DISPLAYED ON COLLECTION PAGE
+                assign color_icon = block.settings.active_icon_image | default: block.settings.icon_image
+              %}
+
+              <a
+                href="{{ tab_url }}"
+                class="collection-hero__category-tab{% if is_active %} is-active{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                <div class="collection-hero__category-icon">
+                  {% if color_icon != blank %}
+                    {{ color_icon | image_url: width: 140 | image_tag: class: 'collection-hero__category-img', loading: 'eager', alt: block.settings.title }}
+                  {% else %}
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                  {% endif %}
+                </div>
+                <span class="collection-hero__category-label">{{ block.settings.title }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+
   </div>
 </div>
 
@@ -256,7 +321,41 @@
       "type": "header",
       "content": "Collection Description Settings"
     },
-    { "type": "checkbox", "id": "show_description", "label": "Show Collection Description", "default": false }
+    { "type": "checkbox", "id": "show_description", "label": "Show Collection Description", "default": false },
+    {
+      "type": "header",
+      "content": "Category Navigation Bar Settings"
+    },
+    { "type": "checkbox", "id": "show_categories", "label": "Show Category Navigation Bar", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "category_tab",
+      "name": "Category Filter Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Category"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Normal / Inactive Icon Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "active_icon_image",
+          "label": "Active / Color Icon Image"
+        }
+      ]
+    }
   ],
   "presets": [
     {
