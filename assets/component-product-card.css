@@ -1071,17 +1071,7 @@
   .section-main-collection .product-card__subtitle,
   [data-collection-grid] .product-card__subtitle,
   .collection .product-card__subtitle {
-    font-size: 0.66rem !important;
-    font-weight: 500 !important;
-    line-height: 1.2 !important;
-    margin: 2px 0 4px 0 !important;
-    color: #64748b !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    max-height: 2.4em !important;
+    display: none !important;
   }
 
   body[class*="collection"] .product-card__actions,

@@ -103,8 +103,8 @@
     "product_grid": {
       "type": "main-collection-product-grid",
       "settings": {
-        "products_per_page": 16,
-        "products_per_row": "4",
+        "products_per_page": 20,
+        "products_per_row": "5",
         "enable_filters": false,
         "enable_sorting": true,
         "show_vendor": true,

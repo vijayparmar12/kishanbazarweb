@@ -34,7 +34,7 @@
           {% for product in collection.products %}
             {% assign current_prod_price = product.price | divided_by: 100 %}
             {% if url_max_price <= 0 or current_prod_price <= url_max_price %}
-              <div role="listitem">{% render 'product-card', product: product, show_vendor: section.settings.show_vendor, show_price: section.settings.show_price, show_compare_price: section.settings.show_compare_price, show_rating: section.settings.show_rating, show_badge: section.settings.show_badges, show_wishlist: true, show_quickview: true, show_add_to_cart: true %}</div>
+              <div role="listitem">{% render 'product-card', product: product, show_vendor: section.settings.show_vendor, show_price: section.settings.show_price, show_compare_price: section.settings.show_compare_price, show_rating: section.settings.show_rating, show_badge: section.settings.show_badges, show_wishlist: true, show_quickview: true, show_add_to_cart: true, show_subtitle: false, show_benefit_icons: false %}</div>
             {% endif %}
           {% endfor %}
         </div>
@@ -60,8 +60,8 @@
   "tag": "section",
   "class": "section-main-collection-grid",
   "settings": [
-    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 16 },
-    { "type": "select", "id": "products_per_row", "label": "Products per row on desktop", "options": [{ "value": "3", "label": "3" }, { "value": "4", "label": "4" }], "default": "4" },
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 20 },
+    { "type": "select", "id": "products_per_row", "label": "Products per row on desktop", "options": [{ "value": "3", "label": "3" }, { "value": "4", "label": "4" }, { "value": "5", "label": "5" }], "default": "5" },
     { "type": "checkbox", "id": "enable_filters", "label": "Enable filters", "default": true },
     { "type": "checkbox", "id": "enable_sorting", "label": "Enable sorting", "default": true },
     { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": true },
