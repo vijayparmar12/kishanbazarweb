@@ -2378,10 +2378,10 @@ body.template-product {
 
   .product-recommendations-slider__slide,
   .product-recommendations__slide {
-    flex: 0 0 calc((100% - 0.5rem) / 2) !important;
-    width: calc((100% - 0.5rem) / 2) !important;
-    max-width: calc((100% - 0.5rem) / 2) !important;
-    min-width: calc((100% - 0.5rem) / 2) !important;
+    flex: 0 0 calc((100% - 0.85rem) / 2) !important;
+    width: calc((100% - 0.85rem) / 2) !important;
+    max-width: calc((100% - 0.85rem) / 2) !important;
+    min-width: calc((100% - 0.85rem) / 2) !important;
     box-sizing: border-box !important;
   }
 }

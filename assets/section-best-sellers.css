@@ -566,7 +566,7 @@
   .best-sellers__track {
     width: 100% !important;
     max-width: 100% !important;
-    gap: 0.5rem !important;
+    gap: 0.85rem !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
     scroll-padding-left: 0 !important;
@@ -580,9 +580,9 @@
   }
 
   .best-sellers__slide {
-    flex: 0 0 calc((100% - 0.5rem) / 2) !important;
-    width: calc((100% - 0.5rem) / 2) !important;
-    max-width: calc((100% - 0.5rem) / 2) !important;
+    flex: 0 0 calc((100% - 0.85rem) / 2) !important;
+    width: calc((100% - 0.85rem) / 2) !important;
+    max-width: calc((100% - 0.85rem) / 2) !important;
     min-width: 0 !important;
     scroll-snap-align: start !important;
   }
