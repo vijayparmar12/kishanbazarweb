@@ -38,7 +38,7 @@
     max-width: 220px !important;
     scroll-snap-align: start !important;
   }
-  @media screen and (max-width: 1200px) {
+  @media screen and (min-width: 769px) and (max-width: 1200px) {
     .product-recommendations__slide {
       flex: 0 0 200px !important;
       min-width: 190px !important;
@@ -57,6 +57,15 @@
       box-sizing: border-box !important;
       scroll-snap-align: start !important;
     }
+  }
+
+  .product-recommendations__slide .product-card,
+  .product-recommendations__slide .product-card-wrapper,
+  .product-recommendations__slide [data-product-card] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   /* Compact Card Styling inside Recommendation Section */
@@ -148,7 +157,16 @@
 <div class="product-recommendations-section" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.products_limit | default: 10 }}" data-intent="{{ section.settings.intent | default: 'complementary' }}">
   <div class="product-page-container" style="max-width: 2000px; margin: 0 auto; padding-left: clamp(0.75rem, 3vw, 1.25rem); padding-right: clamp(0.75rem, 3vw, 1.25rem); box-sizing: border-box;">
     {% liquid
-      assign ghee_prod = collections.ghee.products.first | default: collections['ghee'].products.first | default: all_products['a2-desi-cow-vedic-bilona-ghee-देसी-वैदिक-बिलोना-घी']
+      assign ghee_prod = collections.ghee.products.first | default: collections['ghee'].products.first | default: all_products['a2-desi-cow-vedic-bilona-ghee-देसी-वैदिक-बिलोना-घी'] | default: all_products['gir-a2-bilona-ghee-1kg'] | default: all_products['gir-a2-bilona-ghee-500g']
+      if ghee_prod == blank
+        for p in collections.all.products
+          assign p_title_lower = p.title | downcase
+          if p_title_lower contains 'ghee'
+            assign ghee_prod = p
+            break
+          endif
+        endfor
+      endif
       assign selected_coll = section.settings.collection
       if selected_coll != blank and selected_coll.products.size > 0
         assign rec_products = selected_coll.products
