@@ -126,7 +126,7 @@
   </div>
 
   <!-- HEADER 2: NAVIGATION LINKS (NON-STICKY) -->
-  {% unless template.name == 'collection' or template.name == 'product' or template.name == 'search' %}
+  {% if template.name == 'index' %}
     <div class="kb-header2" data-header2>
       <nav class="kb-header__nav" aria-label="Main navigation">
       <ul class="kb-header__nav-list" role="list">
@@ -270,7 +270,7 @@
       </ul>
       </nav>
     </div>
-  {% endunless %}
+  {% endif %}
 <div class="kb-header-top-placeholder" data-header-top-placeholder style="display: none !important; height: 0 !important; margin: 0 !important; padding: 0 !important;"></div>
 
   <nav class="kb-header__mobile-menu" id="kb-mobile-menu-{{ section.id }}" aria-label="Mobile navigation" hidden data-mobile-menu>
