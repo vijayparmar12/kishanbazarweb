@@ -313,11 +313,13 @@
 
 .testimonials__card-media {
   width: 100% !important;
-  height: 165px !important;
-  max-height: 165px !important;
-  border-radius: 10px !important;
+  aspect-ratio: 1 / 1 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  border-radius: 8px !important;
   overflow: hidden !important;
-  margin-bottom: 0.45rem !important;
+  margin-bottom: 0.4rem !important;
   background: #f1f5f9;
   flex-shrink: 0 !important;
 }
