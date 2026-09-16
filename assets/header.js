@@ -153,6 +153,8 @@
       return false;
     };
 
+    let scrollStopTimeout;
+
     const syncTopHeaderSticky = () => {
       const topSticky = document.querySelector('[data-header-top-sticky], .kb-header-top-sticky');
       const placeholder = document.querySelector('[data-header-top-placeholder]');
@@ -161,8 +163,6 @@
         placeholder.style.display = 'none';
         placeholder.style.height = '0px';
       }
-
-      const allHeaderAndStickyEls = document.querySelectorAll('.kb-header, .kb-header-top-sticky, .kb-header-top--fixed, .kb-header1, .kb-header2, [data-header-top-sticky], [data-header-top-placeholder], [data-premium-header], #shopify-section-header-group, .shopify-section-group-header-group, #shopify-section-header, #shopify-section-announcement-bar, header, .header-wrapper, .sticky-header, [id*="header"]');
 
       if (isJudgeMeModalActive()) {
         document.body.classList.add('jdgm-review-modal-active');
@@ -180,15 +180,28 @@
       topSticky.style.removeProperty('visibility');
       topSticky.style.removeProperty('pointer-events');
 
-      if (window.scrollY > 5) {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > 10) {
         if (!topSticky.classList.contains('kb-header-top--fixed')) {
           topSticky.classList.add('kb-header-top--fixed');
         }
       } else {
-        if (topSticky.classList.contains('kb-header-top--fixed')) {
-          topSticky.classList.remove('kb-header-top--fixed');
-        }
+        topSticky.classList.remove('kb-header-top--fixed');
+        topSticky.classList.remove('kb-header--hidden');
+        return;
       }
+
+      // Hide header transition while actively scrolling
+      if (currentScrollY > 60) {
+        topSticky.classList.add('kb-header--hidden');
+      }
+
+      // Display header transition when scroll STOPS
+      window.clearTimeout(scrollStopTimeout);
+      scrollStopTimeout = window.setTimeout(() => {
+        topSticky.classList.remove('kb-header--hidden');
+      }, 180);
     };
 
     let ticking = false;

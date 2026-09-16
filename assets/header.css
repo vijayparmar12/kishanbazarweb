@@ -43,10 +43,11 @@ body.jdgm-review-modal-active header {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   width: 100%;
-  transition: box-shadow 200ms ease, background 200ms ease;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 250ms ease, box-shadow 200ms ease, background 200ms ease !important;
   position: relative;
   z-index: 9000;
   box-shadow: 0 4px 20px -4px rgba(35, 66, 31, 0.06);
+  will-change: transform, opacity;
 }
 
 .kb-header-top-sticky.kb-header-top--fixed {
@@ -60,6 +61,14 @@ body.jdgm-review-modal-active header {
   background: rgba(255, 255, 255, 0.98) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.kb-header-top-sticky.kb-header--hidden {
+  transform: translateY(-100%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .kb-header1 {
