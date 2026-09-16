@@ -2095,6 +2095,14 @@ input[type="submit"].jdgm-btn:hover {
   visibility: visible !important;
   opacity: 1 !important;
   transform: translateY(0) !important;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 250ms ease !important;
+}
+
+.sticky-mobile-bar.sticky-mobile-bar--hidden,
+[data-sticky-mobile-bar].sticky-mobile-bar--hidden {
+  transform: translateY(100%) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 body.jdgm-review-modal-active .sticky-mobile-bar,

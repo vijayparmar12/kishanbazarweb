@@ -833,8 +833,25 @@ function initStickyMobileBar(container) {
     });
   });
 
-  // Ensure Sticky Bar is Always Visible on Mobile and Desktop
+  // Ensure Sticky Bar is Always Visible and Handles Smart Scroll-Hide / Stop-Display
   if (stickyBar) {
     stickyBar.classList.add('is-visible');
+
+    let scrollTimeout = null;
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (window.scrollY > 100) {
+          stickyBar.classList.add('sticky-mobile-bar--hidden');
+          if (scrollTimeout) clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => {
+            stickyBar.classList.remove('sticky-mobile-bar--hidden');
+          }, 180);
+        } else {
+          stickyBar.classList.remove('sticky-mobile-bar--hidden');
+        }
+      },
+      { passive: true }
+    );
   }
 }
