@@ -472,10 +472,9 @@
   window.syncWishlistBadges = updateBadges;
   window.kbWishlistLoaded = true;
 
-  // Sync heart button active states on load if present
+  // Sync heart button active states on load & dynamic section renders
   const syncHeartButtons = () => {
-    const items = getWishlist();
-    if (!items || items.length === 0) return;
+    const items = getWishlist() || [];
     document.querySelectorAll('[data-wishlist-button]').forEach((btn) => {
       const vId = btn.dataset.variantId || (btn.dataset.productHandle ? 'var-' + btn.dataset.productHandle : '');
       const handle = btn.dataset.productHandle || '';
@@ -483,10 +482,14 @@
       if (exists) {
         btn.classList.add('is-active');
         btn.setAttribute('aria-pressed', 'true');
+      } else {
+        btn.classList.remove('is-active');
+        btn.setAttribute('aria-pressed', 'false');
       }
     });
   };
 
+  window.syncWishlistButtons = syncHeartButtons;
   syncHeartButtons();
   updateBadges(getWishlist().length);
 })();

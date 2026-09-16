@@ -311,7 +311,7 @@
     </script>
     <script>
       (function() {
-        // 1. Instantly update Wishlist Badge count from LocalStorage on page load without downloading wishlist app JS/CSS
+        // 1. Instantly update Wishlist Badge count & active heart states from LocalStorage on page load
         function syncWishlistBadgeOnLoad() {
           try {
             var raw = localStorage.getItem('kb_wishlist_items');
@@ -320,6 +320,23 @@
             document.querySelectorAll('[data-wishlist-count-badge], .kb-header__action--wishlist .kb-header__badge').forEach(function(el) {
               el.textContent = String(count);
             });
+
+            if (Array.isArray(items) && items.length > 0) {
+              document.querySelectorAll('[data-wishlist-button]').forEach(function(btn) {
+                var vId = btn.dataset.variantId || (btn.dataset.productHandle ? 'var-' + btn.dataset.productHandle : '');
+                var handle = btn.dataset.productHandle || '';
+                var exists = items.some(function(i) {
+                  return (vId && String(i.variantId) === String(vId)) || (handle && i.handle === handle);
+                });
+                if (exists) {
+                  btn.classList.add('is-active');
+                  btn.setAttribute('aria-pressed', 'true');
+                } else {
+                  btn.classList.remove('is-active');
+                  btn.setAttribute('aria-pressed', 'false');
+                }
+              });
+            }
           } catch(e) {}
         }
 

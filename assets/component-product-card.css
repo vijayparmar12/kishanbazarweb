@@ -163,6 +163,56 @@
   transform: scale(1.08);
 }
 
+/* ==========================================================================
+   WISHLIST HEART BUTTON ACTIVE STATE (WEBSITE BRAND GREEN MATCH)
+   ========================================================================== */
+.product-card__action.is-active,
+.product-gallery__action--wishlist.is-active,
+[data-wishlist-button].is-active,
+[data-wishlist-button][aria-pressed="true"] {
+  background-color: #ffffff !important;
+  border: 1.5px solid #1b4317 !important;
+  color: #1b4317 !important;
+  box-shadow: 0 4px 14px rgba(27, 67, 23, 0.28) !important;
+}
+
+.product-card__action.is-active svg,
+.product-gallery__action--wishlist.is-active svg,
+[data-wishlist-button].is-active svg,
+[data-wishlist-button][aria-pressed="true"] svg {
+  fill: #1b4317 !important;
+  stroke: #1b4317 !important;
+  color: #1b4317 !important;
+}
+
+.product-card__action.is-active svg path,
+.product-gallery__action--wishlist.is-active svg path,
+[data-wishlist-button].is-active svg path,
+[data-wishlist-button][aria-pressed="true"] svg path {
+  fill: #1b4317 !important;
+  stroke: #1b4317 !important;
+}
+
+.product-card__action.is-active:hover,
+.product-gallery__action--wishlist.is-active:hover,
+[data-wishlist-button].is-active:hover {
+  background-color: #1b4317 !important;
+  border-color: #1b4317 !important;
+  color: #ffffff !important;
+  transform: scale(1.08) !important;
+}
+
+.product-card__action.is-active:hover svg,
+.product-gallery__action--wishlist.is-active:hover svg,
+[data-wishlist-button].is-active:hover svg,
+.product-card__action.is-active:hover svg path,
+.product-gallery__action--wishlist.is-active:hover svg path,
+[data-wishlist-button].is-active:hover svg path {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+  color: #ffffff !important;
+}
+
 .product-card__content {
   display: flex;
   flex-direction: column;
