@@ -59,7 +59,7 @@
           {% assign count = count | plus: 1 %}
           {% assign ghee_rendered = true %}
           <div class="product-recommendations-slider__slide" data-ghee-featured>
-            {% render 'product-card', product: ghee_prod, show_badge: true, show_rating: true, show_wishlist: true, hide_benefit_icons: true %}
+            {% render 'product-card', product: ghee_prod, show_badge: true, show_rating: true, show_wishlist: true, hide_benefit_icons: true, hide_cart_icon: true %}
           </div>
         {% endif %}
 
@@ -68,7 +68,7 @@
             {% assign count = count | plus: 1 %}
             {% if count <= 8 %}
               <div class="product-recommendations-slider__slide">
-                {% render 'product-card', product: rec_product, show_badge: true, show_rating: true, show_wishlist: true, hide_benefit_icons: true %}
+                {% render 'product-card', product: rec_product, show_badge: true, show_rating: true, show_wishlist: true, hide_benefit_icons: true, hide_cart_icon: true %}
               </div>
             {% endif %}
           {% endunless %}

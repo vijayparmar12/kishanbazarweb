@@ -9,6 +9,7 @@
   @param {boolean} [show_benefit_icons] - Whether to show benefit circle icons
   @param {boolean} [show_variant_selector] - Whether to show variant dropdown
   @param {boolean} [show_add_to_cart] - Whether to show add to cart button
+  @param {boolean} [hide_cart_icon] - Whether to hide cart icon inside add to cart button
 
   @example
   {% render 'product-card', product: product, eager: false %}
@@ -240,7 +241,9 @@
                     <!-- Standard ADD TO CART Button -->
                     <button class="product-card__add" type="submit"{% if default_v_avail == false %} disabled style="opacity: 0.65; cursor: not-allowed;"{% endif %} data-card-add-btn style="{% if buy_block.settings.btn_bg != blank %}background-color: {{ buy_block.settings.btn_bg }};{% elsif btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if buy_block.settings.btn_color != blank %}color: {{ buy_block.settings.btn_color }};{% elsif btn_color != blank %}color: {{ btn_color }};{% endif %}">
                       <span style="overflow: hidden; text-overflow: ellipsis;">{% if default_v_avail %}{{ buy_block.settings.add_to_cart_text | default: add_to_cart_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}</span>
-                      <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px; flex-shrink: 0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                      {% unless hide_cart_icon %}
+                        <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px; flex-shrink: 0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                      {% endunless %}
                     </button>
 
                     <!-- Morphing In-Place Stepper [- 1 +] Pill (Initially Hidden) -->
@@ -386,7 +389,9 @@
                     SOLD OUT
                   {% endif %}
                 </span>
-                <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 15px; height: 15px; flex-shrink: 0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                {% unless hide_cart_icon %}
+                  <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 15px; height: 15px; flex-shrink: 0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                {% endunless %}
               </button>
 
               <!-- Morphing In-Place Stepper [- 1 +] Pill (Initially Hidden) -->

@@ -757,7 +757,11 @@
 .product-recommendations-slider .product-card__subtitle,
 .product-recommendations-section .product-card__subtitle,
 .section-product-recommendations .product-card__subtitle,
-[data-recommended-products-section] .product-card__subtitle {
+[data-recommended-products-section] .product-card__subtitle,
+.product-recommendations-slider .product-card__cart-icon,
+.product-recommendations-section .product-card__cart-icon,
+.section-product-recommendations .product-card__cart-icon,
+[data-recommended-products-section] .product-card__cart-icon {
   display: none !important;
 }
 
