@@ -161,9 +161,9 @@
     <!-- 3. CATEGORIES LIST BELOW TITLE (DISPLAY ACTIVE COLOR ICON ONLY) -->
     {% if section.settings.show_categories != false %}
       {% assign category_blocks = section.blocks | where: 'type', 'category_tab' %}
-      {% if category_blocks.size > 0 %}
-        <div class="collection-hero__categories-wrapper">
-          <div class="collection-hero__categories" role="navigation" aria-label="Categories">
+      <div class="collection-hero__categories-wrapper">
+        <div class="collection-hero__categories" role="navigation" aria-label="Categories">
+          {% if category_blocks.size > 0 %}
             {% for block in category_blocks %}
               {% liquid
                 assign tab_col = block.settings.collection
@@ -225,9 +225,59 @@
                 <span class="collection-hero__category-label">{{ block.settings.title }}</span>
               </a>
             {% endfor %}
-          </div>
+          {% else %}
+            {% comment %} Fallback Default Categories when no section blocks are configured in theme editor {% endcomment %}
+            <a href="/collections/all" class="collection-hero__category-tab{% if collection.handle == 'all' or request.path == '/collections/all' %} is-active{% endif %}">
+              <div class="collection-hero__category-icon">
+                <img src="{{ 'download_8.svg' | file_url }}" class="collection-hero__category-img" loading="eager" alt="All Products" width="40" height="40">
+              </div>
+              <span class="collection-hero__category-label">All Products</span>
+            </a>
+
+            <a href="/collections/frontpage" class="collection-hero__category-tab{% if collection.handle == 'frontpage' or collection.handle == 'atta' %} is-active{% endif %}">
+              <div class="collection-hero__category-icon">
+                <img src="{{ 'download_4.svg' | file_url }}" class="collection-hero__category-img" loading="eager" alt="Atta" width="40" height="40">
+              </div>
+              <span class="collection-hero__category-label">Atta</span>
+            </a>
+
+            <a href="/collections/breakfast" class="collection-hero__category-tab{% if collection.handle == 'breakfast' %} is-active{% endif %}">
+              <div class="collection-hero__category-icon">
+                <img src="{{ 'download_5_8c0a578c-56ce-4fff-9831-0a18aa23a7d2.svg' | file_url }}" class="collection-hero__category-img" loading="eager" alt="BreakFast" width="40" height="40">
+              </div>
+              <span class="collection-hero__category-label">BreakFast</span>
+            </a>
+
+            <a href="/collections/ghee" class="collection-hero__category-tab{% if collection.handle == 'ghee' %} is-active{% endif %}">
+              <div class="collection-hero__category-icon">
+                <img src="{{ 'download_1.svg' | file_url }}" class="collection-hero__category-img" loading="eager" alt="Ghee" width="40" height="40">
+              </div>
+              <span class="collection-hero__category-label">Ghee</span>
+            </a>
+
+            <a href="/collections/oil" class="collection-hero__category-tab{% if collection.handle == 'oil' %} is-active{% endif %}">
+              <div class="collection-hero__category-icon">
+                <img src="{{ 'oil_bottle_exact.svg' | file_url }}" class="collection-hero__category-img" loading="eager" alt="Oil" width="40" height="40">
+              </div>
+              <span class="collection-hero__category-label">Oil</span>
+            </a>
+
+            <a href="/collections/spices" class="collection-hero__category-tab{% if collection.handle == 'spices' %} is-active{% endif %}">
+              <div class="collection-hero__category-icon">
+                <img src="{{ 'download_3.svg' | file_url }}" class="collection-hero__category-img" loading="eager" alt="Spices" width="40" height="40">
+              </div>
+              <span class="collection-hero__category-label">Spices</span>
+            </a>
+
+            <a href="/collections/sweetner" class="collection-hero__category-tab{% if collection.handle == 'sweetner' %} is-active{% endif %}">
+              <div class="collection-hero__category-icon">
+                <img src="{{ 'seed_tray_3e563c_8d27bf03-6c4d-4f72-a62c-b9539bf8bb82.svg' | file_url }}" class="collection-hero__category-img" loading="eager" alt="Sweetner" width="40" height="40">
+              </div>
+              <span class="collection-hero__category-label">Sweetner</span>
+            </a>
+          {% endif %}
         </div>
-      {% endif %}
+      </div>
     {% endif %}
 
   </div>
