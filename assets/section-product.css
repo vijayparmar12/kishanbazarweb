@@ -868,7 +868,6 @@
 [data-product-savings-banner] {
   display: none !important;
 }
-}
 
 .product-info__coins-icon-wrap {
   display: flex !important;
@@ -1441,7 +1440,6 @@
   line-height: 1.65;
   text-align: justify !important;
   text-justify: inter-word !important;
-}
 }
 
 .product-tabs__highlight-box {
@@ -2902,6 +2900,7 @@ body.template-product {
   }
   .product-lab-report__btn {
     padding: 8px 14px;
+  }
 }
 
 /* Global Override: Hide inline Add to Cart & Buy Now buttons below variant picker */

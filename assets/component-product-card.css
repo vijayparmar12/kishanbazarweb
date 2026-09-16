@@ -524,6 +524,8 @@
     letter-spacing: 0.04em !important;
   }
 }
+
+.product-card__add {
   font-weight: 800;
   justify-content: center;
   letter-spacing: 0.04em;
