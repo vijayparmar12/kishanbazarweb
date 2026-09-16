@@ -25,7 +25,7 @@
           "type": "category_tab",
           "settings": {
             "title": "Atta",
-            "collection": "flour-atta",
+            "collection": "frontpage",
             "icon_image": "shopify://shop_images/spice_sack_black_outline.svg",
             "active_icon_image": "shopify://shop_images/download_4.svg"
           }

@@ -61,10 +61,13 @@
               {% endif %}
             {% endcapture %}
             {% assign tab_col_url = block.settings.collection.url %}
-            {% if tab_col_url == blank %}
+            {% if tab_col_url == blank and block.settings.collection != blank %}
+              {% assign tab_col_url = '/collections/' | append: block.settings.collection %}
+            {% endif %}
+            {% if tab_col_url == blank or tab_col_url contains 'flour-atta' %}
               {% assign tab_title_down = block.settings.title | downcase %}
               {% if tab_title_down contains 'atta' or tab_title_down contains 'flour' %}
-                {% assign tab_col_url = '/collections/flour-atta' %}
+                {% assign tab_col_url = '/collections/frontpage' %}
               {% elsif tab_title_down contains 'ghee' %}
                 {% assign tab_col_url = '/collections/ghee' %}
               {% elsif tab_title_down contains 'oil' %}
@@ -90,7 +93,7 @@
             </button>
           {% endfor %}
         {% else %}
-          <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="atta aatta" data-collection-url="/collections/flour-atta">
+          <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="atta aatta" data-collection-url="/collections/frontpage">
             <span class="shop-by-category__tab-label">Atta</span>
           </button>
           <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="breakfast" data-collection-url="/collections/breakfast">

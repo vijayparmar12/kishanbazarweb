@@ -168,12 +168,17 @@
               {% liquid
                 assign tab_col = block.settings.collection
                 assign tab_url = tab_col.url
-                if tab_url == blank
+
+                if tab_url == blank and tab_col != blank
+                  assign tab_url = '/collections/' | append: tab_col
+                endif
+
+                if tab_url == blank or tab_url contains 'flour-atta'
                   assign tab_title_down = block.settings.title | downcase
                   if tab_title_down contains 'all'
                     assign tab_url = routes.all_products_collection_url
                   elsif tab_title_down contains 'atta' or tab_title_down contains 'flour'
-                    assign tab_url = '/collections/flour-atta'
+                    assign tab_url = '/collections/frontpage'
                   elsif tab_title_down contains 'ghee'
                     assign tab_url = '/collections/ghee'
                   elsif tab_title_down contains 'oil'
@@ -194,6 +199,8 @@
                 if request.path == tab_url
                   assign is_active = true
                 elsif tab_col != blank and collection.handle == tab_col.handle
+                  assign is_active = true
+                elsif collection.handle == 'frontpage' and block.settings.title contains 'Atta'
                   assign is_active = true
                 elsif collection.handle == 'all' and block.settings.title contains 'All'
                   assign is_active = true
