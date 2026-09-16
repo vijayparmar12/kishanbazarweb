@@ -119,10 +119,22 @@
   }
 {% endstyle %}
 
-<div class="product-recommendations-section" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.products_limit | default: 2 }}" data-intent="{{ section.settings.intent | default: 'complementary' }}">
+<div class="product-recommendations-section" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=2" data-intent="{{ section.settings.intent | default: 'complementary' }}">
   <div class="product-page-container" style="max-width: 2000px; margin: 0 auto; padding-left: clamp(0.75rem, 3vw, 1.25rem); padding-right: clamp(0.75rem, 3vw, 1.25rem); box-sizing: border-box;">
     {% liquid
-      assign ghee_prod = collections.ghee.products.first | default: collections['ghee'].products.first | default: all_products['a2-desi-cow-vedic-bilona-ghee-देसी-वैदिक-बिलोना-घी'] | default: all_products['gir-a2-bilona-ghee-1kg'] | default: all_products['gir-a2-bilona-ghee-500g']
+      assign ghee_prod = collections['ghee'].products.first
+      if ghee_prod == blank
+        assign ghee_prod = collections['a2-bilona-ghee'].products.first
+      endif
+      if ghee_prod == blank
+        assign ghee_prod = all_products['a2-desi-cow-vedic-bilona-ghee-देसी-वैदिक-बिलोना-घी']
+      endif
+      if ghee_prod == blank
+        assign ghee_prod = all_products['gir-a2-bilona-ghee-1kg']
+      endif
+      if ghee_prod == blank
+        assign ghee_prod = all_products['gir-a2-bilona-ghee-500g']
+      endif
       if ghee_prod == blank
         for p in collections.all.products
           assign p_title_lower = p.title | downcase
@@ -132,6 +144,7 @@
           endif
         endfor
       endif
+
       assign selected_coll = section.settings.collection
       if selected_coll != blank and selected_coll.products.size > 0
         assign rec_products = selected_coll.products
@@ -165,7 +178,7 @@
       <div class="product-recommendations__carousel-wrapper">
         <div class="product-recommendations__track" data-rec-track>
           {% assign count = 0 %}
-          {% assign max_limit = section.settings.products_limit | default: 2 %}
+          {% assign max_limit = 2 %}
           {% assign ghee_rendered = false %}
 
           {% if ghee_prod != blank and product.id != ghee_prod.id %}
@@ -221,7 +234,7 @@
                   newTrack.insertBefore(gheeCard.cloneNode(true), newTrack.firstChild);
                 }
               }
-              var allSlides = newTrack ? newTrack.querySelectorAll('.product-recommendations__slide:not(.product-recommendations__slide--more)') : [];
+              var allSlides = newTrack ? newTrack.querySelectorAll('.product-recommendations__slide') : [];
               if (allSlides.length > 2) {
                 for (var i = 2; i < allSlides.length; i++) {
                   allSlides[i].remove();
