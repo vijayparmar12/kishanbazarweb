@@ -917,10 +917,10 @@
 
   .product-recommendations-slider__slide {
     scroll-snap-align: start !important;
-    flex: 0 0 calc(45vw - 4px) !important;
-    width: calc(45vw - 4px) !important;
-    max-width: 175px !important;
-    min-width: 140px !important;
+    flex: 0 0 calc((100% - 0.5rem) / 2) !important;
+    width: calc((100% - 0.5rem) / 2) !important;
+    max-width: calc((100% - 0.5rem) / 2) !important;
+    min-width: 0 !important;
   }
 
   .categories__card,

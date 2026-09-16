@@ -44,16 +44,20 @@
   }
   @media screen and (max-width: 768px) {
     .product-recommendations__slide {
-      flex: 0 0 calc(46vw - 6px) !important;
-      min-width: 145px !important;
-      max-width: 175px !important;
+      flex: 0 0 calc((100% - 0.65rem) / 2) !important;
+      width: calc((100% - 0.65rem) / 2) !important;
+      max-width: calc((100% - 0.65rem) / 2) !important;
+      min-width: 0 !important;
+      scroll-snap-align: start !important;
     }
   }
   @media screen and (max-width: 480px) {
     .product-recommendations__slide {
-      flex: 0 0 calc(45vw - 4px) !important;
-      min-width: 140px !important;
-      max-width: 170px !important;
+      flex: 0 0 calc((100% - 0.5rem) / 2) !important;
+      width: calc((100% - 0.5rem) / 2) !important;
+      max-width: calc((100% - 0.5rem) / 2) !important;
+      min-width: 0 !important;
+      scroll-snap-align: start !important;
     }
   }
 
@@ -253,7 +257,6 @@
         }
       };
 
-      // Initially bind navigation for fallback content
       bindNavigation(sectionContainer);
 
       var fetchIntent = function(targetIntent, fallbackIntent) {
@@ -268,6 +271,14 @@
             var newSection = responseDoc.querySelector('.product-recommendations-section');
             var slides = newSection ? newSection.querySelectorAll('.product-recommendations__slide:not(.product-recommendations__slide--more)') : [];
             if (slides && slides.length > 0) {
+              var gheeCard = sectionContainer.querySelector('[data-ghee-featured]');
+              var newTrack = newSection.querySelector('[data-rec-track]');
+              if (gheeCard && newTrack) {
+                var hasGhee = newSection.querySelector('[data-ghee-featured]');
+                if (!hasGhee) {
+                  newTrack.insertBefore(gheeCard.cloneNode(true), newTrack.firstChild);
+                }
+              }
               sectionContainer.innerHTML = newSection.innerHTML;
               bindNavigation(sectionContainer);
             } else if (fallbackIntent) {
@@ -282,7 +293,6 @@
           });
       };
 
-      // Try complementary intent first if custom recommendations were set, or primary intent with alternate fallback
       var primaryIntent = preferredIntent;
       var secondaryIntent = (primaryIntent === 'complementary') ? 'related' : 'complementary';
       fetchIntent(primaryIntent, secondaryIntent);
