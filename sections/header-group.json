@@ -124,7 +124,7 @@
           "type": "feature_icon",
           "settings": {
             "title": "Best Breakfast",
-            "badge": "Popular",
+            "badge": "Loved",
             "badge_background": "#ffffff",
             "badge_color": "#000000",
             "icon": "Gift",
@@ -364,8 +364,8 @@
         "category_button_url": "",
         "mega_background": "#ffffff",
         "mega_text_color": "#23421f",
-        "mega_hover_color": "#FFFFFF",
-        "mega_wave_color": "#FFFFFF",
+        "mega_hover_color": "#ffffff",
+        "mega_wave_color": "#ffffff",
         "show_account": true,
         "show_mobile_account": true,
         "desktop_account_label": "Account",
@@ -381,7 +381,7 @@
         "show_wishlist": true,
         "wishlist_url": "",
         "show_cart": true,
-        "feature_row_background": "#FFFFFF"
+        "feature_row_background": "#ffffff"
       }
     }
   },
