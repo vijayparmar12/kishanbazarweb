@@ -81,15 +81,21 @@ body.jdgm-review-modal-active header {
   padding: 0.3rem 0 !important;
 }
 
-/* Hide Header 2 & Header 3 (Sub-navigation links & feature row) on Collection and Product pages */
+/* Hide Header 2 & Header 3 (Sub-navigation links & feature row) on all pages except Homepage */
+body:not(.template-index) .kb-header2,
+body:not(.template-index) .kb-header__features,
+body.template-page .kb-header2,
+body.template-page .kb-header__features,
 body.template-collection .kb-header2,
 body.template-product .kb-header2,
 .template-collection .kb-header2,
 .template-product .kb-header2,
+.template-page .kb-header2,
 body.template-collection .kb-header__features,
 body.template-product .kb-header__features,
 .template-collection .kb-header__features,
-.template-product .kb-header__features {
+.template-product .kb-header__features,
+.template-page .kb-header__features {
   display: none !important;
 }
 

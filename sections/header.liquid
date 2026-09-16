@@ -480,7 +480,7 @@
     </div>
   </nav>
 
-  {% unless template.name == 'collection' or template.name == 'product' or template.name == 'search' or page.handle == 'contact' or template.suffix == 'contact' %}
+  {% if template.name == 'index' %}
     <section class="kb-header__features" aria-label="Featured shopping links">
       <div class="kb-header__features-inner">
         {% assign feature_count = 0 %}
@@ -532,7 +532,7 @@
         {% endfor %}
       </div>
     </section>
-  {% endunless %}
+  {% endif %}
 </header>
 
 {% schema %}
