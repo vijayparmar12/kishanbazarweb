@@ -555,25 +555,25 @@
   color: #23421f !important;
   border: none !important;
   border-top: none !important;
-  padding: 1.25rem 1.25rem 0.5rem 1.25rem !important;
+  padding: 1.5rem 1.25rem 1.25rem 1.25rem !important;
   text-align: center !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
   width: 100% !important;
   position: relative;
-  z-index: 10 !important;
+  z-index: 5 !important;
   margin: 0 auto !important;
 }
 
 .site-footer__copyright {
-  font-size: 0.85rem !important;
-  font-weight: 600;
+  font-size: 0.84rem !important;
+  font-weight: 700 !important;
   margin: 0 auto !important;
   text-align: center !important;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em !important;
   color: #23421f !important;
-  opacity: 0.9;
+  opacity: 0.9 !important;
   width: 100% !important;
 }
 
@@ -584,7 +584,7 @@
 
 @media (min-width: 990px) {
   .site-footer__illustration-layer {
-    margin-top: -4rem !important;
+    margin-top: 0 !important;
   }
 
   .site-footer__inner--mobile {
