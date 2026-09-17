@@ -143,7 +143,7 @@
         "footer_text_color": "#23421f",
         "footer_bottom_image": "shopify://shop_images/footer2.png",
         "show_default_bottom_image": true,
-        "illustration_height": 480,
+        "illustration_height": 250,
         "illustration_position": "top center",
         "footer_bottom_image_alt": "Footer farm illustration",
         "copyright_text": "© [year] KisanVeda • All Rights Reserved."
