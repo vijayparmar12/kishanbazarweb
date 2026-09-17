@@ -182,6 +182,16 @@
                 <strong>{{ contact_block.settings.phone_label | default: 'Tel:' }}</strong> <a href="tel:{{ contact_block.settings.phone | remove: ' ' }}">{{ contact_block.settings.phone }}</a>
               </p>
             {% endif %}
+
+            {% if section.settings.copyright_text != blank %}
+              {% assign current_year = 'now' | date: '%Y' %}
+              {% assign copyright_text = section.settings.copyright_text | replace: '[year]', current_year | replace: '[shop]', shop.name %}
+              <div class="site-footer__desktop-copyright-wrap" style="margin-top: 1.25rem;">
+                <p class="site-footer__copyright site-footer__copyright--desktop" style="font-size: 0.82rem; font-weight: 700; color: #23421f; margin: 0; line-height: 1.4;">
+                  {{ copyright_text }}
+                </p>
+              </div>
+            {% endif %}
           </div>
         {% endif %}
       </div>
@@ -416,7 +426,7 @@
     {% if section.settings.copyright_text != blank %}
       {% assign current_year = 'now' | date: '%Y' %}
       {% assign copyright_text = section.settings.copyright_text | replace: '[year]', current_year | replace: '[shop]', shop.name %}
-      <div class="site-footer__bottom">
+      <div class="site-footer__bottom site-footer__bottom--mobile">
         <p class="site-footer__copyright">{{ copyright_text }}</p>
       </div>
     {% endif %}

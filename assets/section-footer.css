@@ -783,14 +783,28 @@
     text-decoration: none;
     font-weight: 700;
   }
+
+  .site-footer__desktop-copyright-wrap {
+    display: block !important;
+    margin-top: 1.25rem !important;
+  }
+
+  .site-footer__bottom--mobile {
+    display: none !important;
+  }
 }
 
 @media (max-width: 989px) {
-  .site-footer__inner--desktop {
+  .site-footer__inner--desktop,
+  .site-footer__desktop-copyright-wrap {
     display: none !important;
   }
 
-  .site-footer__inner--mobile {
+  .site-footer__inner--mobile,
+  .site-footer__bottom--mobile {
     display: grid !important;
+  }
+  .site-footer__bottom--mobile {
+    display: flex !important;
   }
 }
