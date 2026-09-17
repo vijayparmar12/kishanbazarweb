@@ -412,16 +412,14 @@
             </div>
         {% endcase %}
       {% endfor %}
-    </div>
+    {% if section.settings.copyright_text != blank %}
+      {% assign current_year = 'now' | date: '%Y' %}
+      {% assign copyright_text = section.settings.copyright_text | replace: '[year]', current_year | replace: '[shop]', shop.name %}
+      <div class="site-footer__bottom" style="text-align: center !important; display: flex !important; justify-content: center !important; align-items: center !important; width: 100% !important; margin-top: 1.5rem !important;">
+        <p class="site-footer__copyright" style="text-align: center !important; width: 100% !important; margin: 0 auto !important;">{{ copyright_text }}</p>
+      </div>
+    {% endif %}
   </div>
-
-  {% if section.settings.copyright_text != blank %}
-    {% assign current_year = 'now' | date: '%Y' %}
-    {% assign copyright_text = section.settings.copyright_text | replace: '[year]', current_year | replace: '[shop]', shop.name %}
-    <div class="site-footer__bottom" style="text-align: center !important; display: flex !important; justify-content: center !important; align-items: center !important; width: 100% !important;">
-      <p class="site-footer__copyright" style="text-align: center !important; width: 100% !important; margin: 0 auto !important;">{{ copyright_text }}</p>
-    </div>
-  {% endif %}
 
   {% if section.settings.footer_bottom_image != blank or section.settings.show_default_bottom_image %}
     <div class="site-footer__illustration-layer" style="--illustration-height: {{ section.settings.illustration_height | default: 480 }}px; --illustration-position: {{ section.settings.illustration_position | default: 'top center' }};">
