@@ -306,5 +306,58 @@
         "default": "#F1F8EC"
       }
     ]
+  },
+  {
+    "name": "Customer Support & WhatsApp",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Floating Widget Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "support_widget_enable",
+        "label": "Enable Customer Support Widget",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "support_whatsapp_number",
+        "label": "WhatsApp Mobile Number (with country code, no + or spaces)",
+        "default": "919377341042",
+        "info": "Example: 919377341042 for India (+91 93773 41042)"
+      },
+      {
+        "type": "text",
+        "id": "support_call_number",
+        "label": "Call Us Mobile Number",
+        "default": "+91 93773 41042",
+        "info": "Displayed and dialed when customer clicks 'Call Us'"
+      },
+      {
+        "type": "text",
+        "id": "support_modal_title",
+        "label": "Support Widget Title",
+        "default": "Kishan Bazar Support"
+      },
+      {
+        "type": "textarea",
+        "id": "support_whatsapp_prefilled_text",
+        "label": "WhatsApp Pre-filled Message",
+        "default": "Hi, I have a query regarding my order on Kishan Bazar."
+      },
+      {
+        "type": "text",
+        "id": "support_whatsapp_btn_text",
+        "label": "WhatsApp Button Text",
+        "default": "Chat on WhatsApp"
+      },
+      {
+        "type": "text",
+        "id": "support_call_btn_text",
+        "label": "Call Button Text",
+        "default": "Call Us"
+      }
+    ]
   }
 ]

@@ -1,21 +1,18 @@
-{% doc %}
-  Renders a floating WhatsApp & Call customer support widget button and popup modal.
-  Editable via Shopify Theme Settings & Section Schema.
+{% comment %}
+  Customer Support & WhatsApp Floating Widget Section
+  Allows merchants to edit WhatsApp phone number, Call phone number, titles, and pre-filled messages directly in the Shopify Theme Editor.
+{% endcomment %}
 
-  @example
-  {% render 'whatsapp-support-widget' %}
-{% enddoc %}
+{% assign enable_widget = section.settings.enable_widget | default: settings.support_widget_enable | default: true %}
 
-{% assign enable_widget = settings.support_widget_enable | default: true %}
-
-{% if enable_widget != false %}
-  {% assign raw_wa_phone = settings.support_whatsapp_number | default: "919377341042" | strip %}
+{% if enable_widget %}
+  {% assign raw_wa_phone = section.settings.whatsapp_number | default: settings.support_whatsapp_number | default: "919377341042" | strip %}
   {% assign wa_phone = raw_wa_phone | remove: "+" | remove: " " | remove: "-" %}
-  {% assign display_phone = settings.support_call_number | default: "+91 93773 41042" | strip %}
-  {% assign modal_title = settings.support_modal_title | default: "Kishan Bazar Support" %}
-  {% assign wa_msg = settings.support_whatsapp_prefilled_text | default: "Hi, I have a query regarding my order on Kishan Bazar." %}
-  {% assign wa_btn_text = settings.support_whatsapp_btn_text | default: "Chat on WhatsApp" %}
-  {% assign call_btn_text = settings.support_call_btn_text | default: "Call Us" %}
+  {% assign display_phone = section.settings.call_number | default: settings.support_call_number | default: "+91 93773 41042" | strip %}
+  {% assign modal_title = section.settings.title | default: settings.support_modal_title | default: "Kishan Bazar Support" %}
+  {% assign wa_msg = section.settings.whatsapp_msg | default: settings.support_whatsapp_prefilled_text | default: "Hi, I have a query regarding my order on Kishan Bazar." %}
+  {% assign wa_btn_text = section.settings.whatsapp_btn_text | default: settings.support_whatsapp_btn_text | default: "Chat on WhatsApp" %}
+  {% assign call_btn_text = section.settings.call_btn_text | default: settings.support_call_btn_text | default: "Call Us" %}
 
   <div class="kb-support-widget" data-kb-support-widget>
     <!-- Floating Trigger Button (Headphone Icon) -->
@@ -414,3 +411,61 @@
     })();
   </script>
 {% endif %}
+
+{% schema %}
+{
+  "name": "Customer Support Widget",
+  "class": "shopify-section-whatsapp-support",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_widget",
+      "label": "Enable Customer Support Widget",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_number",
+      "label": "WhatsApp Mobile Number",
+      "default": "919377341042",
+      "info": "Country code + 10-digit number without + or spaces (e.g., 919377341042)"
+    },
+    {
+      "type": "text",
+      "id": "call_number",
+      "label": "Call Us Mobile Number",
+      "default": "+91 93773 41042",
+      "info": "Mobile phone number dialed when customer clicks 'Call Us'"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Support Widget Title",
+      "default": "Kishan Bazar Support"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_msg",
+      "label": "WhatsApp Default Message",
+      "default": "Hi, I have a query regarding my order on Kishan Bazar."
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_btn_text",
+      "label": "WhatsApp Button Text",
+      "default": "Chat on WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "call_btn_text",
+      "label": "Call Button Text",
+      "default": "Call Us"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Support Widget"
+    }
+  ]
+}
+{% endschema %}
