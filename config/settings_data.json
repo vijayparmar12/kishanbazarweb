@@ -271,7 +271,7 @@
       },
       "14900259222037449619": {
         "type": "shopify://apps/chaty-chat-buttons-whatsapp/blocks/chaty/0aaf5812-760f-4dd7-be9b-cca564d8200b",
-        "disabled": false,
+        "disabled": true,
         "settings": {}
       }
     }
