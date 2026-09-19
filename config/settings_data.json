@@ -56,6 +56,18 @@
           "continue_shopping_text": "Continue Shopping"
         }
       },
+      "whatsapp-support-widget": {
+        "type": "whatsapp-support-widget",
+        "settings": {
+          "enable_widget": true,
+          "whatsapp_number": "919377341042",
+          "call_number": "+91 93773 41042",
+          "title": "Kishan Bazar Support",
+          "whatsapp_msg": "Hi, I have a query regarding my order on Kishan Bazar.",
+          "whatsapp_btn_text": "Chat on WhatsApp",
+          "call_btn_text": "Call Us"
+        }
+      },
       "header": {
         "type": "header",
         "settings": {

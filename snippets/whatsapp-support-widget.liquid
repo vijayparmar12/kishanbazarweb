@@ -6,9 +6,12 @@
   {% render 'whatsapp-support-widget' %}
 {% enddoc %}
 
-{% assign enable_widget = settings.support_widget_enable | default: true %}
+{% assign enable_widget = true %}
+{% if settings.support_widget_enable == false %}
+  {% assign enable_widget = false %}
+{% endif %}
 
-{% if enable_widget != false %}
+{% if enable_widget %}
   {% assign raw_wa_phone = settings.support_whatsapp_number | default: "919377341042" | strip %}
   {% assign wa_phone = raw_wa_phone | remove: "+" | remove: " " | remove: "-" %}
   {% assign display_phone = settings.support_call_number | default: "+91 93773 41042" | strip %}

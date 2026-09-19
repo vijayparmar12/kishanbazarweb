@@ -3,7 +3,10 @@
   Allows merchants to edit WhatsApp phone number, Call phone number, titles, and pre-filled messages directly in the Shopify Theme Editor.
 {% endcomment %}
 
-{% assign enable_widget = section.settings.enable_widget | default: settings.support_widget_enable | default: true %}
+{% assign enable_widget = true %}
+{% if section.settings.enable_widget == false or settings.support_widget_enable == false %}
+  {% assign enable_widget = false %}
+{% endif %}
 
 {% if enable_widget %}
   {% assign raw_wa_phone = section.settings.whatsapp_number | default: settings.support_whatsapp_number | default: "919377341042" | strip %}
