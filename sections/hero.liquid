@@ -37,7 +37,11 @@
               <a href="{{ block.settings.link | default: routes.all_products_collection_url }}" class="home-hero-split__link" aria-label="Hero Slide {{ forloop.index }}">
                 {% if desktop_img != blank %}
                   {% assign img_loading = 'lazy' %}
-                  {% assign img_priority = 'auto' %}
+                  {% assign img_priority = 'low' %}
+                  {% if forloop.first %}
+                    {% assign img_loading = 'eager' %}
+                    {% assign img_priority = 'high' %}
+                  {% endif %}
                   {{
                     desktop_img
                     | image_url: width: 2200
@@ -46,10 +50,11 @@
                       loading: img_loading,
                       fetchpriority: img_priority,
                       decoding: 'async',
-                      widths: '750, 1100, 1400, 1800, 2200'
+                      widths: '750, 1100, 1400, 1800, 2200',
+                      sizes: '100vw'
                   }}
                 {% else %}
-                  <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Hero Slide {{ forloop.index }}" width="1400" height="700" loading="lazy" decoding="async">
+                  <img class="home-hero-split__image" src="{{ 'hero-banner.jpg.png' | asset_url }}" alt="Hero Slide {{ forloop.index }}" width="1400" height="700" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" fetchpriority="{% if forloop.first %}high{% else %}low{% endif %}" decoding="async">
                 {% endif %}
               </a>
             </div>
@@ -132,7 +137,7 @@
         {% for block in mobile_slides %}
           {% assign mob_img = block.settings.mobile_image | default: block.settings.image %}
           {% assign mob_loading = 'lazy' %}
-          {% assign mob_priority = 'auto' %}
+          {% assign mob_priority = 'low' %}
           {% if forloop.first %}
             {% assign mob_loading = 'eager' %}
             {% assign mob_priority = 'high' %}

@@ -120,5 +120,10 @@ p, .rte, .product-details-card, .product-tabs__content, .product-info__descripti
 
 .shopify-section { --page-margin: 0px; }
 
-
-
+/* Defer rendering & layout calculations for off-screen sections below the fold to reduce TBT & boost LCP */
+.shopify-section:not(:first-child),
+.home-section:not(.home-hero-split),
+.shopify-section-group-footer-group {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 450px;
+}
