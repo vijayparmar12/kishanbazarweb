@@ -615,10 +615,10 @@
     }
   },
   "order": [
-    "best_sellers",
     "hero",
     "categories",
     "shoppable_videos",
+    "best_sellers",
     "beyond_products",
     "testimonials"
   ]
