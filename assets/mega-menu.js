@@ -3,9 +3,6 @@
     const trigger = item.querySelector('[data-mega-trigger]');
     item.classList.remove('is-open');
     trigger?.setAttribute('aria-expanded', 'false');
-    if (trigger && document.activeElement === trigger) {
-      trigger.blur();
-    }
   };
 
   const openItem = (item) => {
