@@ -24,6 +24,13 @@
   <link rel="preload" as="image" href="{{ first_desk_img | image_url: width: 1400 }}" imagesrcset="{{ first_desk_img | image_url: width: 1100 }} 1100w, {{ first_desk_img | image_url: width: 1400 }} 1400w, {{ first_desk_img | image_url: width: 1800 }} 1800w, {{ first_desk_img | image_url: width: 2200 }} 2200w" imagesizes="100vw" fetchpriority="high" media="(min-width: 769px)">
 {% endif %}
 
+{% style %}
+  #shopify-section-{{ section.id }} {
+    position: relative !important;
+    z-index: 1 !important;
+  }
+{% endstyle %}
+
 <section class="home-hero-split" data-home-hero style="--hero-height-desktop: {{ section.settings.desktop_hero_height | default: 650 }}px; --container-width: {{ section.settings.desktop_max_width | default: 1920 }}px;">
 
   <!-- Wide Main Hero Banner (Full Width Desktop Auto Slider, Rounded Corners) -->

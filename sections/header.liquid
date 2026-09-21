@@ -6,6 +6,13 @@
 <script src="{{ 'mega-menu-category.js' | asset_url }}" defer="defer"></script>
 
 {% style %}
+  #shopify-section-{{ section.id }},
+  .shopify-section-group-header-group,
+  .shopify-section-header-group {
+    position: relative !important;
+    z-index: 9999999 !important;
+  }
+
   .kb-header {
     --kb-announcement-bg: {{ section.settings.announcement_background }};
     --kb-announcement-text: {{ section.settings.announcement_text_color }};
@@ -20,6 +27,8 @@
     --kb-mega-hover: {{ section.settings.mega_hover_color }};
     --kb-mega-wave: {{ section.settings.mega_wave_color }};
     background-image: none !important;
+    position: relative !important;
+    z-index: 9999999 !important;
   }
 {% endstyle %}
 

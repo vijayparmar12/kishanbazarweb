@@ -11,7 +11,7 @@
   width: max-content;
   max-width: min(800px, calc(100vw - 32px));
   min-width: 200px;
-  z-index: 999999 !important;
+  z-index: 99999999 !important;
   background-color: #FAF6EE;
   background-image: linear-gradient(180deg, #FCF9F4 0%, #FAF6EE 55%, #F4EFE4 100%);
   overflow: hidden;
