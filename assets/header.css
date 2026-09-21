@@ -33,19 +33,20 @@ body.jdgm-review-modal-active header {
 
 /* Header Section Group & Main Header Container Stacking Context */
 .shopify-section-group-header-group,
+.shopify-section-header-group,
 #shopify-section-header-group,
 #shopify-section-header,
 header.kb-header,
 .kb-header {
   position: relative !important;
-  z-index: 9999999 !important;
+  z-index: 99999999 !important;
 }
 
 .kb-header {
   background: #ffffff;
   background-image: none;
   position: relative !important;
-  z-index: 9999999 !important;
+  z-index: 99999999 !important;
   width: 100%;
 }
 
@@ -55,8 +56,8 @@ header.kb-header,
   -webkit-backdrop-filter: blur(12px);
   width: 100%;
   transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 250ms ease, box-shadow 200ms ease, background 200ms ease !important;
-  position: relative;
-  z-index: 9999 !important;
+  position: relative !important;
+  z-index: 99999999 !important;
   box-shadow: 0 4px 20px -4px rgba(35, 66, 31, 0.06);
   will-change: transform, opacity;
 }

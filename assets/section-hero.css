@@ -8,9 +8,9 @@
   background: #ffffff;
   width: 100%;
   box-sizing: border-box;
-  position: relative;
+  position: relative !important;
   z-index: 1 !important;
-  overflow: hidden;
+  overflow: visible !important;
 }
 
 .home-hero-split__decor-badal {

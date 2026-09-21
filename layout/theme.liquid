@@ -181,15 +181,6 @@
               overlay.style.display = 'block';
               overlay.classList.add('is-active');
             }
-
-            headerElements.forEach(function(h) {
-              h.classList.remove('kb-header-top--fixed');
-              h.style.setProperty('display', 'none', 'important');
-              h.style.setProperty('opacity', '0', 'important');
-              h.style.setProperty('visibility', 'hidden', 'important');
-              h.style.setProperty('pointer-events', 'none', 'important');
-              h.style.setProperty('z-index', '-999999', 'important');
-            });
           } else {
             document.documentElement.classList.remove('jdgm-review-modal-active');
             document.body.classList.remove('jdgm-review-modal-active');
@@ -197,14 +188,6 @@
               overlay.style.display = 'none';
               overlay.classList.remove('is-active');
             }
-
-            headerElements.forEach(function(h) {
-              h.style.removeProperty('display');
-              h.style.removeProperty('opacity');
-              h.style.removeProperty('visibility');
-              h.style.removeProperty('pointer-events');
-              h.style.removeProperty('z-index');
-            });
           }
         }
 
