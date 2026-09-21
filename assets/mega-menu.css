@@ -35,7 +35,7 @@
   transform: translateY(12px);
   transition: opacity 300ms ease, transform 300ms ease, visibility 300ms ease;
   visibility: hidden;
-  z-index: 999999 !important;
+  z-index: 99999999 !important;
 }
 
 .kb-header__nav-item--mega:hover .kb-mega,
