@@ -31,18 +31,31 @@ body.jdgm-review-modal-active header {
   pointer-events: none !important;
 }
 
-#shopify-section-header-group,
+/* Global Stacking Context: Header Section Group vs Content Sections */
+[id*="shopify-section-"][id*="header"],
+[id*="header-group"],
 .shopify-section-group-header-group,
-#shopify-section-header {
-  position: relative;
-  z-index: 9999 !important;
+.shopify-section:has(.kb-header),
+.shopify-section:has(header),
+#shopify-section-header-group,
+#shopify-section-header,
+header.kb-header,
+.kb-header {
+  position: relative !important;
+  z-index: 999999 !important;
+}
+
+/* Ensure all page content sections (hero, categories, etc.) sit below header stacking context */
+.shopify-section:not([id*="header"]):not(.shopify-section-group-header-group):not(:has(.kb-header)) {
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 .kb-header {
   background: #ffffff;
   background-image: none;
   position: relative;
-  z-index: 9999 !important;
+  z-index: 999999 !important;
   width: 100%;
 }
 
