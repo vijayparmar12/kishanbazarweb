@@ -28,7 +28,6 @@
 }
 
 .kb-header__nav-item--mega:hover .kb-mega--category,
-.kb-header__nav-item--mega:focus-within .kb-mega--category,
 .kb-header__nav-item--mega.is-open .kb-mega--category {
   transform: translateX(-50%) translateY(0) !important;
   opacity: 1 !important;
