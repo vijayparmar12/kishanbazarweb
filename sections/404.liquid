@@ -39,57 +39,136 @@
         return;
       }
 
-      if (path.indexOf('/products/') !== -1) {
-        try {
-          var decodedPath = decodeURIComponent(path).toLowerCase();
-          var productMap = [
-            {
-              keywords: ['khapli', 'emmer'],
-              target: '/products/khapli-atta-%E0%A4%96%E0%A4%AA%E0%A4%B2%E0%A5%80-%E0%A4%86%E0%A4%9F%E0%A4%BE'
-            },
-            {
-              keywords: ['ghee', 'bilona', 'desi-cow', 'vedic'],
-              target: '/products/a2-desi-cow-vedic-bilona-ghee-%E0%A4%A6%E0%A5%87%E0%A4%B8%E0%A5%80-%E0%A4%B5%E0%A5%8D%E0%A4%AF%E0%A4%A6%E0%A4%BF%E0%A4%95-%E0%A4%AC%E0%A4%BF%E0%A4%B2%E0%A5%8B%E0%A4%A8%E0%A4%BE-%E0%A4%98%E0%A5%80'
-            },
-            {
-              keywords: ['groundnut', 'peanut'],
-              target: '/products/groundnut-oil-%E0%A4%AE%E0%A5%82%E0%A4%82%E0%A4%97%E0%A4%AB%E0%A4%B2%E0%A5%80-%E0%A4%95%E0%A4%BE-%E0%A4%A4%E0%A5%87%E0%A4%B2'
-            },
-            {
-              keywords: ['mishri', 'dhaga'],
-              target: '/products/dhaga-mishri-%E0%A4%A5%E0%A4%BE%E0%A4%97%E0%A4%BE-%E0%A4%AE%E0%A4%BF%E0%A4%B6%E0%A5%8D%E0%A4%B0%E0%A5%80'
-            },
-            {
-              keywords: ['turmeric', 'haldi'],
-              target: '/products/turmeric-%E0%A4%B9%E0%A4%B2%E0%A5%8D%E0%A4%A6%E0%A5%80'
-            },
-            {
-              keywords: ['olive'],
-              target: '/products/olive-oil-%E0%A4%9C%E0%A5%88%E0%A4%A4%E0%A5%82%E0%A4%A8-%E0%A4%95%E0%A4%BE-%E0%A4%A4%E0%A5%87%E0%A4%B2'
-            },
-            {
-              keywords: ['noodle', 'millet'],
-              target: '/products/foxtail-millet-noodles-%E0%A4%95%E0%A4%82%E0%A4%97%E0%A4%A8%E0%A4%BF-%E0%A4%AC%E0%A4%BE%E0%A4%9C%E0%A4%B0%E0%A5%87-%E0%A4%95%E0%A5%87-%E0%A4%A8%E0%A5%82%E0%A4%A1%E0%A4%B2%E0%A5%8D%E0%A4%B9'
-            }
-          ];
+      if (path.indexOf('/products/') === -1) return;
 
-          for (var i = 0; i < productMap.length; i++) {
-            var item = productMap[i];
-            var decodedTarget = decodeURIComponent(item.target).toLowerCase();
-            if (decodedPath !== decodedTarget) {
-              for (var k = 0; k < item.keywords.length; k++) {
-                if (decodedPath.indexOf(item.keywords[k]) !== -1) {
-                  window.location.replace(item.target);
-                  return;
-                }
-              }
+      try {
+        var currentPathDecoded = decodeURIComponent(path).toLowerCase();
+        var currentHandle = currentPathDecoded.split('/products/')[1];
+        if (currentHandle) {
+          currentHandle = currentHandle.split('?')[0].split('#')[0].replace(/\/$/, '');
+        }
+
+        var productGroups = [
+          {
+            triggers: ['khapli', 'emmer', 'atta'],
+            candidates: [
+              'khapli-atta-खपली-आटा',
+              'khapli-atta-500g',
+              'khapli-atta-1kg',
+              'khapli-atta-2kg',
+              'khapli-atta-5kg',
+              'khapli-atta-10kg',
+              'khapli-atta'
+            ]
+          },
+          {
+            triggers: ['ghee', 'bilona', 'desi-cow', 'vedic', 'gir'],
+            candidates: [
+              'a2-desi-cow-vedic-bilona-ghee-देसी-वैदिक-बिलोना-घी',
+              'a2-desi-cow-vedic-bilona-ghee-देशी-वैदिक-बिलोना-घी',
+              'gir-a2-bilona-ghee-500g',
+              'gir-a2-bilona-ghee-1kg',
+              'gir-a2-bilona-ghee-2kg',
+              'gir-a2-bilona-ghee-5kg',
+              'gir-a2-bilona-ghee-10kg',
+              'a2-bilona-ghee'
+            ]
+          },
+          {
+            triggers: ['groundnut', 'peanut'],
+            candidates: [
+              'groundnut-oil-मूंगफली-का-तेल',
+              'groundnut-oil-500g',
+              'groundnut-oil-1kg',
+              'groundnut-oil-2kg',
+              'groundnut-oil-5kg',
+              'groundnut-oil'
+            ]
+          },
+          {
+            triggers: ['mishri', 'dhaga'],
+            candidates: [
+              'dhaga-mishri-धागा-मिश्री',
+              'dhaga-mishri-500g',
+              'dhaga-mishri-1kg',
+              'dhaga-mishri'
+            ]
+          },
+          {
+            triggers: ['turmeric', 'haldi'],
+            candidates: [
+              'turmeric-हल्दी',
+              'turmeric-500g',
+              'turmeric-1kg',
+              'turmeric'
+            ]
+          },
+          {
+            triggers: ['olive'],
+            candidates: [
+              'olive-oil-जैतून-का-तेल',
+              'olive-oil-500g',
+              'olive-oil-1kg',
+              'olive-oil'
+            ]
+          },
+          {
+            triggers: ['noodle', 'millet', 'foxtail'],
+            candidates: [
+              'foxtail-millet-noodles-कंगनी-बाजरे-के-नूडल्स',
+              'foxtail-millet-noodles'
+            ]
+          }
+        ];
+
+        var matchedGroup = null;
+        for (var i = 0; i < productGroups.length; i++) {
+          var group = productGroups[i];
+          for (var t = 0; t < group.triggers.length; t++) {
+            if (currentPathDecoded.indexOf(group.triggers[t]) !== -1) {
+              matchedGroup = group;
+              break;
             }
           }
-        } catch (e) {
-          console.error('404 redirect handler error:', e);
+          if (matchedGroup) break;
         }
+
+        if (!matchedGroup) return;
+
+        var candidatesToTest = matchedGroup.candidates;
+        var testIndex = 0;
+
+        function testNextCandidate() {
+          if (testIndex >= candidatesToTest.length) return;
+          var cand = candidatesToTest[testIndex];
+          testIndex++;
+
+          if (cand.toLowerCase() === currentHandle) {
+            testNextCandidate();
+            return;
+          }
+
+          var testUrl = '/products/' + encodeURIComponent(cand) + '.js';
+          fetch(testUrl)
+            .then(function(res) {
+              if (res.ok) {
+                window.location.replace('/products/' + encodeURIComponent(cand));
+              } else {
+                testNextCandidate();
+              }
+            })
+            .catch(function() {
+              testNextCandidate();
+            });
+        }
+
+        testNextCandidate();
+
+      } catch (e) {
+        console.error('404 handle auto-recovery error:', e);
       }
     }
+
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', handle404Routes);
     } else {
