@@ -41,21 +41,49 @@
 
       if (path.indexOf('/products/') !== -1) {
         try {
-          var decodedPath = decodeURIComponent(path);
-          if (
-            decodedPath.indexOf('bilona-ghee') !== -1 ||
-            decodedPath.indexOf('ghee') !== -1 ||
-            decodedPath.indexOf('desi-cow') !== -1 ||
-            decodedPath.indexOf('वैदिक') !== -1 ||
-            decodedPath.indexOf('बिलोना') !== -1 ||
-            decodedPath.indexOf('घी') !== -1
-          ) {
-            window.location.replace('/products/a2-desi-cow-vedic-bilona-ghee-%E0%A4%A6%E0%A5%87%E0%A4%B8%E0%A5%80-%E0%A4%B5%E0%A5%8D%E0%A4%AF%E0%A4%A6%E0%A4%BF%E0%A4%95-%E0%A4%AC%E0%A4%BF%E0%A4%B2%E0%A5%8B%E0%A4%A8%E0%A4%BE-%E0%A4%98%E0%A5%80');
-            return;
-          }
-          if (decodedPath.indexOf('khapli') !== -1) {
-            window.location.replace('/products/khapli-atta');
-            return;
+          var decodedPath = decodeURIComponent(path).toLowerCase();
+          var productMap = [
+            {
+              keywords: ['khapli', 'emmer'],
+              target: '/products/khapli-atta-%E0%A4%96%E0%A4%AA%E0%A4%B2%E0%A5%80-%E0%A4%86%E0%A4%9F%E0%A4%BE'
+            },
+            {
+              keywords: ['ghee', 'bilona', 'desi-cow', 'vedic'],
+              target: '/products/a2-desi-cow-vedic-bilona-ghee-%E0%A4%A6%E0%A5%87%E0%A4%B8%E0%A5%80-%E0%A4%B5%E0%A5%8D%E0%A4%AF%E0%A4%A6%E0%A4%BF%E0%A4%95-%E0%A4%AC%E0%A4%BF%E0%A4%B2%E0%A5%8B%E0%A4%A8%E0%A4%BE-%E0%A4%98%E0%A5%80'
+            },
+            {
+              keywords: ['groundnut', 'peanut'],
+              target: '/products/groundnut-oil-%E0%A4%AE%E0%A5%82%E0%A4%82%E0%A4%97%E0%A4%AB%E0%A4%B2%E0%A5%80-%E0%A4%95%E0%A4%BE-%E0%A4%A4%E0%A5%87%E0%A4%B2'
+            },
+            {
+              keywords: ['mishri', 'dhaga'],
+              target: '/products/dhaga-mishri-%E0%A4%A5%E0%A4%BE%E0%A4%97%E0%A4%BE-%E0%A4%AE%E0%A4%BF%E0%A4%B6%E0%A5%8D%E0%A4%B0%E0%A5%80'
+            },
+            {
+              keywords: ['turmeric', 'haldi'],
+              target: '/products/turmeric-%E0%A4%B9%E0%A4%B2%E0%A5%8D%E0%A4%A6%E0%A5%80'
+            },
+            {
+              keywords: ['olive'],
+              target: '/products/olive-oil-%E0%A4%9C%E0%A5%88%E0%A4%A4%E0%A5%82%E0%A4%A8-%E0%A4%95%E0%A4%BE-%E0%A4%A4%E0%A5%87%E0%A4%B2'
+            },
+            {
+              keywords: ['noodle', 'millet'],
+              target: '/products/foxtail-millet-noodles-%E0%A4%95%E0%A4%82%E0%A4%97%E0%A4%A8%E0%A4%BF-%E0%A4%AC%E0%A4%BE%E0%A4%9C%E0%A4%B0%E0%A5%87-%E0%A4%95%E0%A5%87-%E0%A4%A8%E0%A5%82%E0%A4%A1%E0%A4%B2%E0%A5%8D%E0%A4%B9'
+            }
+          ];
+
+          for (var i = 0; i < productMap.length; i++) {
+            var item = productMap[i];
+            var decodedTarget = decodeURIComponent(item.target).toLowerCase();
+            if (decodedPath !== decodedTarget) {
+              for (var k = 0; k < item.keywords.length; k++) {
+                if (decodedPath.indexOf(item.keywords[k]) !== -1) {
+                  window.location.replace(item.target);
+                  return;
+                }
+              }
+            }
           }
         } catch (e) {
           console.error('404 redirect handler error:', e);
