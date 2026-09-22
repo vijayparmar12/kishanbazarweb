@@ -2116,7 +2116,18 @@ input[type="submit"].jdgm-btn:hover {
 
 @media screen and (min-width: 48.01rem) {
   .sticky-mobile-bar {
-    display: none !important;
+    display: block !important;
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(90vw, 640px);
+    border-radius: 16px;
+    border: 1.5px solid #efe8da;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 0.75rem 1.25rem;
+    z-index: 9999;
   }
 }
 
