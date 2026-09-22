@@ -31,11 +31,20 @@
   padding: 0;
   pointer-events: none;
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 12px);
   transform: translateY(12px);
   transition: opacity 300ms ease, transform 300ms ease, visibility 300ms ease;
   visibility: hidden;
   z-index: 99999999 !important;
+}
+
+.kb-mega::before {
+  content: "";
+  position: absolute;
+  top: -16px;
+  left: 0;
+  right: 0;
+  height: 16px;
 }
 
 .kb-header__nav-item--mega:hover .kb-mega,
@@ -92,7 +101,7 @@
   right: auto !important;
   transform: translateX(-50%) translateY(8px);
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 12px);
   box-sizing: border-box;
 }
 

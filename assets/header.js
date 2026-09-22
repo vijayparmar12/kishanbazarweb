@@ -159,20 +159,6 @@
       const topSticky = document.querySelector('[data-header-top-sticky], .kb-header-top-sticky');
       const placeholder = document.querySelector('[data-header-top-placeholder]');
 
-      if (placeholder) {
-        placeholder.style.display = 'none';
-        placeholder.style.height = '0px';
-      }
-
-      if (isJudgeMeModalActive()) {
-        document.body.classList.add('jdgm-review-modal-active');
-        document.documentElement.classList.add('jdgm-review-modal-active');
-        return;
-      } else {
-        document.body.classList.remove('jdgm-review-modal-active');
-        document.documentElement.classList.remove('jdgm-review-modal-active');
-      }
-
       if (!topSticky) return;
 
       topSticky.style.removeProperty('display');
@@ -180,15 +166,36 @@
       topSticky.style.removeProperty('visibility');
       topSticky.style.removeProperty('pointer-events');
 
+      if (isJudgeMeModalActive()) {
+        document.body.classList.add('jdgm-review-modal-active');
+        document.documentElement.classList.add('jdgm-review-modal-active');
+        if (placeholder) {
+          placeholder.style.display = 'none';
+          placeholder.style.height = '0px';
+        }
+        return;
+      } else {
+        document.body.classList.remove('jdgm-review-modal-active');
+        document.documentElement.classList.remove('jdgm-review-modal-active');
+      }
+
       const currentScrollY = window.scrollY;
 
       if (currentScrollY > 10) {
         if (!topSticky.classList.contains('kb-header-top--fixed')) {
           topSticky.classList.add('kb-header-top--fixed');
         }
+        if (placeholder) {
+          placeholder.style.display = 'block';
+          placeholder.style.height = `${topSticky.offsetHeight}px`;
+        }
       } else {
         topSticky.classList.remove('kb-header-top--fixed');
         topSticky.classList.remove('kb-header--hidden');
+        if (placeholder) {
+          placeholder.style.display = 'none';
+          placeholder.style.height = '0px';
+        }
         return;
       }
 
