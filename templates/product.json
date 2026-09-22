@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -256,6 +265,7 @@
       "settings": {
         "heading": "RECOMMENDED",
         "eyebrow": "HANDPICKED ORGANIC STAPLES",
+        "intent": "complementary",
         "collection": "",
         "bg_color": "#faf7f2",
         "heading_color": "#1b4317",
@@ -265,15 +275,6 @@
     },
     "17888602284d5dbeb4": {
       "type": "apps",
-      "blocks": {
-        "razorpay_cod_magic_checkout_affordability_block_PAbJRw": {
-          "type": "shopify://apps/razorpay-cod-magic-checkout/blocks/affordability-block/c13c688d-5c45-4054-b95f-1edd63faa705",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "razorpay_cod_magic_checkout_affordability_block_PAbJRw"
-      ],
       "settings": {}
     }
   },
