@@ -37,89 +37,92 @@
 %}
 
 <div class="product-gallery" data-product-gallery>
-  <div class="product-gallery__main-wrap">
-    {% if g_badge_label != blank %}
-      <span class="product-gallery__badge product-gallery__badge--sale" data-gallery-sale-badge>
-        {{ g_badge_label }}
-      </span>
-    {% endif %}
-
-    <button
-      class="product-gallery__action product-gallery__action--wishlist"
-      type="button"
-      aria-label="Add {{ product.title | escape }} to wishlist"
-      data-wishlist-button
-      data-product-handle="{{ product.handle }}"
-      data-product-title="{{ product.title | escape }}"
-      data-product-price="{{ current_variant.price | money | escape }}"
-      {% if sale %}data-product-compare="{{ current_variant.compare_at_price | money | escape }}"{% endif %}
-      data-variant-id="{{ current_variant.id }}"
-      {% if product.featured_image != blank %}data-product-image="{{ product.featured_image | image_url: width: 300 }}"{% endif %}
-      data-product-vendor="{{ product.vendor | default: 'Kishan Bazar' | escape }}"
-    >
-      {% render 'icon', name: 'heart', size: 20 %}
-    </button>
-
-    <button
-      class="product-gallery__action product-gallery__action--zoom"
-      type="button"
-      aria-label="Open fullscreen gallery"
-      data-gallery-lightbox-trigger
-    >
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 3 21 3 21 9"></polyline>
-        <polyline points="9 21 3 21 3 15"></polyline>
-        <line x1="21" y1="3" x2="14" y2="10"></line>
-        <line x1="3" y1="21" x2="10" y2="14"></line>
-      </svg>
-    </button>
-
-    <!-- Main Active Image Container with Touch Swipe & Click to Open Lightbox -->
-    <div class="product-gallery__main-image-container" data-gallery-zoom-container style="cursor: pointer;" title="Click to view fullscreen">
-      {% assign featured_media = current_variant.featured_media | default: product.featured_media | default: product.media.first %}
-      {% if featured_media != blank %}
-        <img
-          src="{{ featured_media | image_url: width: 1200 }}"
-          alt="{{ featured_media.alt | default: product.title | escape }}"
-          class="product-gallery__main-image"
-          data-gallery-main-image
-          data-zoom-src="{{ featured_media | image_url: width: 2000 }}"
-          loading="eager"
-          width="800"
-          height="800"
-        >
+  <div class="product-gallery__layout">
+    <!-- Scrollable Vertical Product Thumbnails Track (Left side on Desktop) -->
+    <div class="product-gallery__thumbnails" role="region" aria-label="Product thumbnails slider">
+      {% assign media_list = product.media %}
+      {% if media_list.size > 0 %}
+        {% for media in media_list %}
+          <button
+            type="button"
+            class="product-gallery__thumb {% if forloop.first %}is-active{% endif %}"
+            data-gallery-thumb="{{ forloop.index0 }}"
+            data-image-src="{{ media | image_url: width: 1200 }}"
+            data-zoom-src="{{ media | image_url: width: 2000 }}"
+            aria-label="View product image {{ forloop.index }} of {{ media_list.size }}"
+            {% if forloop.first %}aria-current="true"{% endif %}
+          >
+            {{ media.preview_image | image_url: width: 240 | image_tag: class: 'product-gallery__thumb-img', loading: 'lazy', alt: media.alt | default: product.title | escape }}
+          </button>
+        {% endfor %}
       {% else %}
-        {{ 'product-1' | placeholder_svg_tag: 'product-gallery__main-image product-gallery__placeholder' }}
+        {% for i in (1..4) %}
+          <button type="button" class="product-gallery__thumb {% if forloop.first %}is-active{% endif %}" data-gallery-thumb="{{ forloop.index0 }}">
+            {{ 'product-1' | placeholder_svg_tag: 'product-gallery__thumb-img' }}
+          </button>
+        {% endfor %}
       {% endif %}
-      <div class="product-gallery__zoom-lens" data-gallery-zoom-lens aria-hidden="true"></div>
-      <div class="product-gallery__zoom-result" data-gallery-zoom-result aria-hidden="true"></div>
     </div>
-  </div>
 
-  <!-- Scrollable Product Thumbnails Track -->
-  <div class="product-gallery__thumbnails" role="region" aria-label="Product thumbnails slider">
-    {% assign media_list = product.media %}
-    {% if media_list.size > 0 %}
-      {% for media in media_list %}
-        <button
-          type="button"
-          class="product-gallery__thumb {% if forloop.first %}is-active{% endif %}"
-          data-gallery-thumb="{{ forloop.index0 }}"
-          data-image-src="{{ media | image_url: width: 1200 }}"
-          data-zoom-src="{{ media | image_url: width: 2000 }}"
-          aria-label="View product image {{ forloop.index }} of {{ media_list.size }}"
-          {% if forloop.first %}aria-current="true"{% endif %}
-        >
-          {{ media.preview_image | image_url: width: 240 | image_tag: class: 'product-gallery__thumb-img', loading: 'lazy', alt: media.alt | default: product.title | escape }}
-        </button>
-      {% endfor %}
-    {% else %}
-      {% for i in (1..4) %}
-        <button type="button" class="product-gallery__thumb {% if forloop.first %}is-active{% endif %}" data-gallery-thumb="{{ forloop.index0 }}">
-          {{ 'product-1' | placeholder_svg_tag: 'product-gallery__thumb-img' }}
-        </button>
-      {% endfor %}
-    {% endif %}
+    <!-- Main Active Image Container (Smaller, Contained Frame matching Reference layout) -->
+    <div class="product-gallery__main-wrap">
+      {% if g_badge_label != blank %}
+        <span class="product-gallery__badge product-gallery__badge--sale" data-gallery-sale-badge>
+          {{ g_badge_label }}
+        </span>
+      {% endif %}
+
+      <button
+        class="product-gallery__action product-gallery__action--wishlist"
+        type="button"
+        aria-label="Add {{ product.title | escape }} to wishlist"
+        data-wishlist-button
+        data-product-handle="{{ product.handle }}"
+        data-product-title="{{ product.title | escape }}"
+        data-product-price="{{ current_variant.price | money | escape }}"
+        {% if sale %}data-product-compare="{{ current_variant.compare_at_price | money | escape }}"{% endif %}
+        data-variant-id="{{ current_variant.id }}"
+        {% if product.featured_image != blank %}data-product-image="{{ product.featured_image | image_url: width: 300 }}"{% endif %}
+        data-product-vendor="{{ product.vendor | default: 'Kishan Bazar' | escape }}"
+      >
+        {% render 'icon', name: 'heart', size: 20 %}
+      </button>
+
+      <button
+        class="product-gallery__action product-gallery__action--zoom"
+        type="button"
+        aria-label="Open fullscreen gallery"
+        data-gallery-lightbox-trigger
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <polyline points="9 21 3 21 3 15"></polyline>
+          <line x1="21" y1="3" x2="14" y2="10"></line>
+          <line x1="3" y1="21" x2="10" y2="14"></line>
+        </svg>
+      </button>
+
+      <!-- Main Active Image Container with Touch Swipe & Click to Open Lightbox -->
+      <div class="product-gallery__main-image-container" data-gallery-zoom-container style="cursor: pointer;" title="Click to view fullscreen">
+        {% assign featured_media = current_variant.featured_media | default: product.featured_media | default: product.media.first %}
+        {% if featured_media != blank %}
+          <img
+            src="{{ featured_media | image_url: width: 1200 }}"
+            alt="{{ featured_media.alt | default: product.title | escape }}"
+            class="product-gallery__main-image"
+            data-gallery-main-image
+            data-zoom-src="{{ featured_media | image_url: width: 2000 }}"
+            loading="eager"
+            width="800"
+            height="800"
+          >
+        {% else %}
+          {{ 'product-1' | placeholder_svg_tag: 'product-gallery__main-image product-gallery__placeholder' }}
+        {% endif %}
+        <div class="product-gallery__zoom-lens" data-gallery-zoom-lens aria-hidden="true"></div>
+        <div class="product-gallery__zoom-result" data-gallery-zoom-result aria-hidden="true"></div>
+      </div>
+    </div>
   </div>
 
   <!-- 4 Highlight Badges below product images (Desktop View) -->
