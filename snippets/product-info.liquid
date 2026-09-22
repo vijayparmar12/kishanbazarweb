@@ -118,7 +118,7 @@
 
         {% when 'benefit_icons' %}
           <div class="product-info__benefits-block" {{ block.shopify_attributes }}>
-            {% render 'product-circle-features', product: product, block: block, limit: 4, eager: true %}
+            {% render 'product-circle-features', product: product, block: block, limit: 4 %}
           </div>
 
         {% when 'price' %}
@@ -212,7 +212,6 @@
 
         {% when 'buy_buttons' %}
           {% form 'product', product, class: 'product-info__form', data-product-main-form: '', data-product-card-form: '' %}
-            <input type="hidden" name="return_to" value="/cart">
             <input type="hidden" name="id" value="{{ current_variant.id }}" data-product-selected-variant-id>
             <input type="hidden" name="quantity" value="1" data-quantity-input>
             <div class="product-info__purchase-row" {{ block.shopify_attributes }} style="width: 100%;">
@@ -357,7 +356,7 @@
     </div>
 
     <div class="product-info__body-block">
-      {% render 'product-circle-features', product: product, limit: 4, eager: true %}
+      {% render 'product-circle-features', product: product, limit: 4 %}
       <div class="product-info__price-box">
         <div class="product-info__prices">
           <span class="product-info__price-selling" data-product-price-selling>{{ current_variant.price | money_without_trailing_zeros }}</span>

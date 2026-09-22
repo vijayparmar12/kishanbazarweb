@@ -94,7 +94,6 @@ class ShoppableVideosSection {
     this.modal.classList.add('is-open');
     this.modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('shoppable-modal-active');
-    document.documentElement.classList.add('shoppable-modal-active');
 
     // Play video with audio only when modal opens
     this.modalVideo.play().catch(() => {
@@ -112,7 +111,6 @@ class ShoppableVideosSection {
     this.modal.classList.remove('is-open');
     this.modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('shoppable-modal-active');
-    document.documentElement.classList.remove('shoppable-modal-active');
   }
 
   bindModalEvents() {

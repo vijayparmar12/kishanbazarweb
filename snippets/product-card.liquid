@@ -1,20 +1,3 @@
-{% doc %}
-  Renders a product card component with responsive image handling and badge determination.
-
-  @param {object} product - The Shopify product object
-  @param {boolean} [eager] - Whether to load primary product image eagerly (default: false)
-  @param {boolean} [show_wishlist] - Whether to show wishlist icon
-  @param {boolean} [show_subtitle] - Whether to show product subtitle
-  @param {boolean} [show_rating] - Whether to show rating stars
-  @param {boolean} [show_benefit_icons] - Whether to show benefit circle icons
-  @param {boolean} [show_variant_selector] - Whether to show variant dropdown
-  @param {boolean} [show_add_to_cart] - Whether to show add to cart button
-  @param {boolean} [hide_cart_icon] - Whether to hide cart icon inside add to cart button
-
-  @example
-  {% render 'product-card', product: product, eager: false %}
-{% enddoc %}
-
 {% liquid
   assign variant = product.selected_or_first_available_variant
   assign compare_price = variant.compare_at_price
@@ -44,24 +27,15 @@
   elsif tag_str contains 'trending'
     assign badge_label = 'TRENDING'
   endif
-
-  assign card_is_eager = eager | default: eager_loading | default: false
-  if card_is_eager
-    assign img_loading = 'eager'
-    assign img_fetchpriority = 'high'
-  else
-    assign img_loading = 'lazy'
-    assign img_fetchpriority = 'auto'
-  endif
 %}
 
 <article class="product-card" data-product-card data-product-handle="{{ product.handle }}">
   <div class="product-card__media">
     <a href="{{ product.url }}" class="product-card__image-link" aria-label="View {{ product.title | escape }}">
       {% if product.featured_image != blank %}
-        {{ product.featured_image | image_url: width: 720 | image_tag: class: 'product-card__image', loading: img_loading, fetchpriority: img_fetchpriority, decoding: 'async', widths: '200, 300, 420, 560, 720', sizes: '(max-width: 480px) 50vw, (max-width: 749px) 50vw, (max-width: 989px) 33vw, (max-width: 1400px) 25vw, 280px', alt: product.featured_image.alt | default: product.title | escape }}
+        {{ product.featured_image | image_url: width: 760 | image_tag: class: 'product-card__image', loading: 'lazy', decoding: 'async', widths: '260, 420, 560, 760' }}
         {% if product.images[1] != blank %}
-          {{ product.images[1] | image_url: width: 720 | image_tag: class: 'product-card__image product-card__image--hover', loading: 'lazy', fetchpriority: 'low', decoding: 'async', widths: '200, 300, 420, 560, 720', sizes: '(max-width: 480px) 50vw, (max-width: 749px) 50vw, (max-width: 989px) 33vw, (max-width: 1400px) 25vw, 280px', alt: product.images[1].alt | default: product.title | escape }}
+          {{ product.images[1] | image_url: width: 760 | image_tag: class: 'product-card__image product-card__image--hover', loading: 'lazy', decoding: 'async', widths: '260, 420, 560, 760' }}
         {% endif %}
       {% else %}
         {{ 'product-1' | placeholder_svg_tag: 'product-card__image product-card__placeholder' }}
@@ -100,7 +74,13 @@
       {% endif %}
     </div>
 
-    {% render 'wave-divider' %}
+    <!-- Option 4 Seamless White Wave with Dark Green Stroke Accent -->
+    <div class="product-card__wave-divider" aria-hidden="true">
+      <svg viewBox="0 0 500 36" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,14 C140,36 360,2 500,14 L500,36 L0,36 Z" fill="#ffffff"/>
+        <path d="M0,14 C140,36 360,2 500,14" stroke="#23421f" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
   </div>
 
   <div class="product-card__content">
@@ -155,41 +135,32 @@
             {% liquid
               assign j_rating = product.metafields.judgeme.rating | default: product.metafields.custom.rating.value | default: product.metafields.custom.rating | default: product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value
               assign card_p_rating = j_rating | times: 1.0
-              assign j_count = product.metafields.judgeme.review_count | default: product.metafields.custom.review_count.value | default: product.metafields.custom.review_count | default: product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count | times: 1
-              
-              assign badge_str = product.metafields.judgeme.badge | default: ''
-              assign has_badge = false
-              if badge_str != blank
-                unless badge_str contains "data-number-of-reviews='0'" or badge_str contains 'data-number-of-reviews="0"' or badge_str contains "data-average-rating='0.00'" or badge_str contains 'data-average-rating="0.00"' or badge_str contains "data-score='0'" or badge_str contains 'jdgm--no-review' or badge_str contains 'jdgm--empty'
-                  assign has_badge = true
-                endunless
-              endif
+              assign j_count = product.metafields.judgeme.review_count | default: product.metafields.custom.review_count.value | default: product.metafields.custom.review_count | default: product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count
             %}
-            {% if card_p_rating > 0 or j_count > 0 or has_badge %}
-              <div class="product-card__rating-wrap" {{ block.shopify_attributes }}>
-                <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}" style="display: inline-flex !important; align-items: center !important;">
-                  {% if product.metafields.judgeme.badge != blank %}
-                    {{ product.metafields.judgeme.badge }}
-                  {% else %}
-                    <p class="product-card__rating" aria-label="Customer rating">
-                      {% render 'rating-stars', product: product, rating: card_p_rating, stars_color: block.settings.rating_stars_color %}
-                      {% if card_p_rating > 0 %}
-                        <strong class="product-card__rating-value">{{ card_p_rating | round: 1 }}</strong>
-                      {% endif %}
-                      {% if j_count != blank and j_count > 0 %}
-                        <span class="product-card__rating-count">({{ j_count }})</span>
-                      {% endif %}
-                    </p>
-                  {% endif %}
-                </div>
+            <div class="product-card__rating-wrap" {{ block.shopify_attributes }}>
+              <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}" style="display: inline-flex !important; align-items: center !important;">
+                {% if product.metafields.judgeme.badge != blank %}
+                  {{ product.metafields.judgeme.badge }}
+                {% else %}
+                  <p class="product-card__rating" aria-label="Customer rating">
+                    {% render 'rating-stars', product: product, rating: card_p_rating, stars_color: block.settings.rating_stars_color %}
+                    {% if card_p_rating > 0 %}
+                      <strong class="product-card__rating-value">{{ card_p_rating | round: 1 }}</strong>
+                    {% else %}
+                      <strong class="product-card__rating-value">4.9</strong>
+                    {% endif %}
+                    {% if j_count != blank and j_count > 0 %}
+                      <span class="product-card__rating-count">({{ j_count }})</span>
+                    {% endif %}
+                  </p>
+                {% endif %}
               </div>
-            {% endif %}
+            </div>
 
           {% when 'card_benefit_icons' %}
             {% if hide_benefit_icons != true %}
               <div {{ block.shopify_attributes }}>
-                {% assign card_eager = eager | default: eager_loading | default: false %}
-                {% render 'product-circle-features', product: product, block: block, limit: 3, eager: card_eager %}
+                {% render 'product-circle-features', product: product, block: block, limit: 3 %}
               </div>
             {% endif %}
 
@@ -204,7 +175,6 @@
               {% endif %}
               <div class="product-card__actions">
                 <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form data-available="{% if default_v_avail %}true{% else %}false{% endif %}">
-                  <input type="hidden" name="return_to" value="/cart">
                   {% if product.has_only_default_variant == false and show_variant_selector != false %}
                     <div class="product-card__variant-wrap">
                       <select class="product-card__variant-select" name="id" aria-label="Select variant for {{ product.title | escape }}" data-product-card-variant-select style="{% if variant_block.settings.border_color != blank %}border-color: {{ variant_block.settings.border_color }};{% endif %}{% if variant_block.settings.bg_color != blank %}background-color: {{ variant_block.settings.bg_color }};{% endif %}{% if variant_block.settings.text_color != blank %}color: {{ variant_block.settings.text_color }};{% endif %}">
@@ -241,9 +211,7 @@
                     <!-- Standard ADD TO CART Button -->
                     <button class="product-card__add" type="submit"{% if default_v_avail == false %} disabled style="opacity: 0.65; cursor: not-allowed;"{% endif %} data-card-add-btn style="{% if buy_block.settings.btn_bg != blank %}background-color: {{ buy_block.settings.btn_bg }};{% elsif btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}{% if buy_block.settings.btn_color != blank %}color: {{ buy_block.settings.btn_color }};{% elsif btn_color != blank %}color: {{ btn_color }};{% endif %}">
                       <span style="overflow: hidden; text-overflow: ellipsis;">{% if default_v_avail %}{{ buy_block.settings.add_to_cart_text | default: add_to_cart_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}</span>
-                      {% unless hide_cart_icon %}
-                        <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px; flex-shrink: 0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                      {% endunless %}
+                      <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px; flex-shrink: 0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
                     </button>
 
                     <!-- Morphing In-Place Stepper [- 1 +] Pill (Initially Hidden) -->
@@ -310,23 +278,15 @@
         <p class="product-card__subtitle" style="{% if subtitle_color != blank %}color: {{ subtitle_color }};{% endif %}">{{ card_subtitle }}</p>
       {% endif %}
 
-      {% liquid
-        assign fb_rating = product.metafields.judgeme.rating | default: product.metafields.custom.rating.value | default: product.metafields.custom.rating | default: product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value | times: 1.0
-        assign fb_count = product.metafields.judgeme.review_count | default: product.metafields.custom.review_count.value | default: product.metafields.custom.review_count | default: product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count | times: 1
-      %}
-      {% if show_rating and fb_rating > 0 or fb_count > 0 %}
+      {% if show_rating %}
         <p class="product-card__rating" aria-label="Customer rating">
-          {% render 'rating-stars', product: product, rating: fb_rating, stars_color: rating_stars_color %}
-          <strong class="product-card__rating-value">{{ fb_rating | round: 1 }}</strong>
-          {% if fb_count > 0 %}
-            <span class="product-card__rating-count">({{ fb_count }})</span>
-          {% endif %}
+          {% render 'rating-stars', product: product, stars_color: rating_stars_color %}
+          <strong class="product-card__rating-value">{% if product.metafields.reviews.rating.value != blank %}{{ product.metafields.reviews.rating.value.rating | round: 2 }}{% else %}4.91{% endif %}</strong>
         </p>
       {% endif %}
 
       {% if show_benefit_icons != false %}
-        {% assign card_eager = eager | default: eager_loading | default: false %}
-        {% render 'product-circle-features', product: product, limit: 3, eager: card_eager %}
+        {% render 'product-circle-features', product: product, limit: 3 %}
       {% endif %}
 
       <div class="product-card__actions">
@@ -389,9 +349,7 @@
                     SOLD OUT
                   {% endif %}
                 </span>
-                {% unless hide_cart_icon %}
-                  <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 15px; height: 15px; flex-shrink: 0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                {% endunless %}
+                <svg class="product-card__cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 15px; height: 15px; flex-shrink: 0;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
               </button>
 
               <!-- Morphing In-Place Stepper [- 1 +] Pill (Initially Hidden) -->

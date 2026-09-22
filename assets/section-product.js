@@ -100,22 +100,6 @@ function initGalleryZoomAndThumbnails(container) {
     });
   });
 
-  // Main Image Navigation Arrow Handlers
-  const mainPrev = container.querySelector('[data-gallery-main-prev]');
-  const mainNext = container.querySelector('[data-gallery-main-next]');
-  if (mainPrev) {
-    mainPrev.addEventListener('click', (e) => {
-      e.stopPropagation();
-      setActiveImage(currentIndex - 1);
-    });
-  }
-  if (mainNext) {
-    mainNext.addEventListener('click', (e) => {
-      e.stopPropagation();
-      setActiveImage(currentIndex + 1);
-    });
-  }
-
   // Dot Indicator Click Handlers
   dots.forEach((dot, idx) => {
     dot.addEventListener('click', () => {
@@ -466,13 +450,11 @@ function initVariantSelection(container) {
       // Update Sticky Bar
       if (stickyPrice && price) stickyPrice.textContent = price;
       if (stickyVariant && title) stickyVariant.textContent = title;
-      const stickyImg = container.querySelector('[data-sticky-bar-img]');
 
       // Update image if specified
       if (img) {
         const mainImg = container.querySelector('[data-gallery-main-image]');
         if (mainImg) mainImg.src = img;
-        if (stickyImg) stickyImg.src = img;
       }
     });
   });
@@ -727,6 +709,7 @@ function initShareAndWishlist(container) {
 function initStickyMobileBar(container) {
   const stickyBar = container.querySelector('[data-sticky-mobile-bar]');
   const stickyAddBtn = container.querySelector('[data-sticky-add-to-cart-btn]');
+  const stickyBuyNowBtn = container.querySelector('[data-sticky-buy-now-btn]');
   const stickyMinusBtn = container.querySelector('[data-sticky-quantity-minus]');
   const stickyPlusBtn = container.querySelector('[data-sticky-quantity-plus]');
   const stickyQtyVal = container.querySelector('[data-sticky-quantity-val]');
@@ -735,12 +718,19 @@ function initStickyMobileBar(container) {
   const mainForm = container.querySelector('[data-product-main-form]');
   const mainQtyInput = container.querySelector('[data-quantity-input]');
   const mainAddBtn = container.querySelector('[data-add-to-cart-button]');
+  const mainBuyNowBtn = container.querySelector('[data-buy-now-button]');
   const mainStepper = container.querySelector('[data-card-inline-stepper]');
   const mainInlineCount = container.querySelector('[data-inline-count]');
+
+  if (!stickyBar || !mainForm) return;
 
   function updateQuantity(newQty) {
     if (newQty < 1) {
       newQty = 1;
+      if (stickyAddBtn) stickyAddBtn.style.setProperty('display', 'flex', 'important');
+      if (stickyStepper) stickyStepper.style.setProperty('display', 'none', 'important');
+      if (mainAddBtn) mainAddBtn.style.setProperty('display', 'flex', 'important');
+      if (mainStepper) mainStepper.style.setProperty('display', 'none', 'important');
     }
     if (newQty > 20) newQty = 20;
 
@@ -776,26 +766,23 @@ function initStickyMobileBar(container) {
   if (stickyAddBtn) {
     stickyAddBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      if (stickyAddBtn) stickyAddBtn.style.setProperty('display', 'none', 'important');
+      if (stickyStepper) stickyStepper.style.setProperty('display', 'flex', 'important');
+      if (mainAddBtn) mainAddBtn.style.setProperty('display', 'none', 'important');
+      if (mainStepper) mainStepper.style.setProperty('display', 'flex', 'important');
 
       if (mainAddBtn) {
         mainAddBtn.click();
-      } else if (mainForm) {
+      } else {
         mainForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
       }
     });
   }
 
   async function performBuyNow(btn) {
-    const variantInput = (mainForm && mainForm.querySelector('[name="id"]')) || container.querySelector('[name="id"]') || container.querySelector('[data-product-selected-variant-id]');
-    let variantId = variantInput ? variantInput.value : null;
-
-    if (!variantId) {
-      const selectedRadio = container.querySelector('[data-variant-radio]:checked');
-      if (selectedRadio) variantId = selectedRadio.getAttribute('data-variant-id');
-    }
-
-    const qtyInput = (mainForm && mainForm.querySelector('[data-quantity-input]')) || container.querySelector('[data-quantity-input]');
-    const qty = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
+    const variantInput = mainForm.querySelector('[name="id"]');
+    const variantId = variantInput ? variantInput.value : null;
+    const qty = mainQtyInput ? (parseInt(mainQtyInput.value, 10) || 1) : 1;
 
     if (!variantId) return;
 
@@ -804,104 +791,30 @@ function initStickyMobileBar(container) {
       btn.textContent = 'REDIRECTING...';
     }
 
-    const rootUrl = window.Shopify?.routes?.root || '/';
-    const checkoutUrl = `${rootUrl}checkout`;
-
     try {
-      const response = await fetch(`${rootUrl}cart/add.js`, {
+      const rootUrl = window.Shopify?.routes?.root || '/';
+      await fetch(`${rootUrl}cart/add.js`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({ id: parseInt(variantId, 10), quantity: qty })
       });
-
-      if (response.ok) {
-        window.location.href = checkoutUrl;
-      } else {
-        window.location.href = `${rootUrl}cart/${variantId}:${qty}`;
-      }
+      window.location.href = '/checkout';
     } catch (err) {
-      window.location.href = `${rootUrl}cart/${variantId}:${qty}`;
+      window.location.href = '/checkout';
     }
   }
 
-  const allBuyNowBtns = container.querySelectorAll('[data-buy-now-button], [data-sticky-buy-now-btn]');
-  allBuyNowBtns.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
+  if (stickyBuyNowBtn) {
+    stickyBuyNowBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      e.stopPropagation();
-      performBuyNow(btn);
+      performBuyNow(stickyBuyNowBtn);
     });
-  });
+  }
 
-  // Smart Sticky Bar Visibility: Hide near top of page (while main buy box is visible) and hide near bottom/recommended/footer ("end stick below")
-  if (stickyBar) {
-    const mainBuyBtn = container.querySelector('[data-add-to-cart-button]') || container.querySelector('[data-product-main-form]');
-
-    const updateStickyVisibility = () => {
-      // 1. Hide if Judge.me review modal is active
-      if (document.body.classList.contains('jdgm-review-modal-active') || document.documentElement.classList.contains('jdgm-review-modal-active')) {
-        stickyBar.classList.add('sticky-mobile-bar--hidden');
-        return;
-      }
-
-      // 2. Hide near top of page if main add to cart button / form is still visible on screen
-      if (mainBuyBtn) {
-        const btnRect = mainBuyBtn.getBoundingClientRect();
-        if (btnRect.bottom > 60) {
-          stickyBar.classList.add('sticky-mobile-bar--hidden');
-          return;
-        }
-      } else if (window.scrollY < 300) {
-        stickyBar.classList.add('sticky-mobile-bar--hidden');
-        return;
-      }
-
-      // 3. Hide / unstick before the recommendations/apps/footer area so the bar does not cover below sections.
-      const belowProductSection = document.querySelector(
-        '[data-sticky-end-boundary], .product-recommendations-section, .section-product-recommendations, .product-recommendations, [data-product-recommendations], .recommendations, .section-recommendations'
-      );
-      if (belowProductSection) {
-        const sectionRect = belowProductSection.getBoundingClientRect();
-        if (sectionRect.top < window.innerHeight + 8) {
-          stickyBar.classList.add('sticky-mobile-bar--hidden');
-          return;
-        }
-      }
-
-      const footerElement = document.querySelector('footer, .shopify-section-group-footer-group, #shopify-section-footer-group, #shopify-section-footer');
-      if (footerElement) {
-        const footerRect = footerElement.getBoundingClientRect();
-        if (footerRect.top < window.innerHeight) {
-          stickyBar.classList.add('sticky-mobile-bar--hidden');
-          return;
-        }
-      }
-
-      // 4. Fallback check for document bottom boundary
-      const scrollBottom = window.innerHeight + window.scrollY;
-      const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
-      if (docHeight - scrollBottom < 250) {
-        stickyBar.classList.add('sticky-mobile-bar--hidden');
-        return;
-      }
-
-      // Otherwise, show sticky bar fixed at the bottom of the viewport
-      stickyBar.classList.remove('sticky-mobile-bar--hidden');
-    };
-
-    let ticking = false;
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          updateStickyVisibility();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    updateStickyVisibility();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', updateStickyVisibility, { passive: true });
+  if (mainBuyNowBtn) {
+    mainBuyNowBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      performBuyNow(mainBuyNowBtn);
+    });
   }
 }
