@@ -132,6 +132,9 @@
         assign ghee_prod = all_products['a2-desi-cow-vedic-bilona-ghee-देसी-वैदिक-बिलोना-घी']
       endif
       if ghee_prod == blank
+        assign ghee_prod = all_products['a2-desi-cow-vedic-bilona-ghee-देशी-वैदिक-बिलोना-घी']
+      endif
+      if ghee_prod == blank
         assign ghee_prod = all_products['gir-a2-bilona-ghee-1kg']
       endif
       if ghee_prod == blank

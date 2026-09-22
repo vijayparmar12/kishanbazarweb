@@ -11,7 +11,7 @@
 {% enddoc %}
 
 {% liquid
-  assign ghee_prod = collections.ghee.products.first | default: collections['ghee'].products.first | default: all_products['a2-desi-cow-vedic-bilona-ghee-देसी-वैदिक-बिलोना-घी']
+  assign ghee_prod = collections.ghee.products.first | default: collections['ghee'].products.first | default: all_products['a2-desi-cow-vedic-bilona-ghee-देसी-वैदिक-बिलोना-घी'] | default: all_products['a2-desi-cow-vedic-bilona-ghee-देशी-वैदिक-बिलोना-घी']
   assign rec_products = collection.products
   if rec_products == blank or rec_products.size == 0
     assign rec_products = product.collections.first.products

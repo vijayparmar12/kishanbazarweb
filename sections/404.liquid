@@ -23,8 +23,11 @@
 
 <script>
   (function() {
-    function checkOurStoryRoute() {
-      if (window.location.href.indexOf('our-story') !== -1 || window.location.pathname.indexOf('our-story') !== -1) {
+    function handle404Routes() {
+      var path = window.location.pathname;
+      var href = window.location.href;
+
+      if (href.indexOf('our-story') !== -1 || path.indexOf('our-story') !== -1) {
         var fallbackEl = document.getElementById('OurStoryPageFallback');
         var std404El = document.querySelector('[data-standard-404]');
         if (std404El) {
@@ -33,12 +36,36 @@
         if (fallbackEl) {
           fallbackEl.style.display = 'block';
         }
+        return;
+      }
+
+      if (path.indexOf('/products/') !== -1) {
+        try {
+          var decodedPath = decodeURIComponent(path);
+          if (
+            decodedPath.indexOf('bilona-ghee') !== -1 ||
+            decodedPath.indexOf('ghee') !== -1 ||
+            decodedPath.indexOf('desi-cow') !== -1 ||
+            decodedPath.indexOf('वैदिक') !== -1 ||
+            decodedPath.indexOf('बिलोना') !== -1 ||
+            decodedPath.indexOf('घी') !== -1
+          ) {
+            window.location.replace('/products/a2-desi-cow-vedic-bilona-ghee-%E0%A4%A6%E0%A5%87%E0%A4%B8%E0%A5%80-%E0%A4%B5%E0%A5%8D%E0%A4%AF%E0%A4%A6%E0%A4%BF%E0%A4%95-%E0%A4%AC%E0%A4%BF%E0%A4%B2%E0%A5%8B%E0%A4%A8%E0%A4%BE-%E0%A4%98%E0%A5%80');
+            return;
+          }
+          if (decodedPath.indexOf('khapli') !== -1) {
+            window.location.replace('/products/khapli-atta');
+            return;
+          }
+        } catch (e) {
+          console.error('404 redirect handler error:', e);
+        }
       }
     }
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', checkOurStoryRoute);
+      document.addEventListener('DOMContentLoaded', handle404Routes);
     } else {
-      checkOurStoryRoute();
+      handle404Routes();
     }
   })();
 </script>
