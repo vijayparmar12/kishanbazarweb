@@ -159,25 +159,21 @@
       const topSticky = document.querySelector('[data-header-top-sticky], .kb-header-top-sticky');
       const placeholder = document.querySelector('[data-header-top-placeholder]');
 
+      if (isJudgeMeModalActive()) {
+        document.body.classList.add('jdgm-review-modal-active');
+        document.documentElement.classList.add('jdgm-review-modal-active');
+        return;
+      } else {
+        document.body.classList.remove('jdgm-review-modal-active');
+        document.documentElement.classList.remove('jdgm-review-modal-active');
+      }
+
       if (!topSticky) return;
 
       topSticky.style.removeProperty('display');
       topSticky.style.removeProperty('opacity');
       topSticky.style.removeProperty('visibility');
       topSticky.style.removeProperty('pointer-events');
-
-      if (isJudgeMeModalActive()) {
-        document.body.classList.add('jdgm-review-modal-active');
-        document.documentElement.classList.add('jdgm-review-modal-active');
-        if (placeholder) {
-          placeholder.style.display = 'none';
-          placeholder.style.height = '0px';
-        }
-        return;
-      } else {
-        document.body.classList.remove('jdgm-review-modal-active');
-        document.documentElement.classList.remove('jdgm-review-modal-active');
-      }
 
       const currentScrollY = window.scrollY;
 
@@ -199,21 +195,16 @@
         return;
       }
 
-      // Persistent top sticky header on product pages (no hide-on-scroll flickering)
-      const isProductPage = document.body.classList.contains('template-product') || Boolean(document.querySelector('.template-product, [data-sticky-mobile-bar]'));
-      if (!isProductPage && currentScrollY > 60) {
+      // Hide header transition while actively scrolling
+      if (currentScrollY > 60) {
         topSticky.classList.add('kb-header--hidden');
-      } else {
-        topSticky.classList.remove('kb-header--hidden');
       }
 
-      if (!isProductPage) {
-        // Display header transition when scroll STOPS on non-product pages
-        window.clearTimeout(scrollStopTimeout);
-        scrollStopTimeout = window.setTimeout(() => {
-          topSticky.classList.remove('kb-header--hidden');
-        }, 180);
-      }
+      // Display header transition when scroll STOPS
+      window.clearTimeout(scrollStopTimeout);
+      scrollStopTimeout = window.setTimeout(() => {
+        topSticky.classList.remove('kb-header--hidden');
+      }, 180);
     };
 
     let ticking = false;
