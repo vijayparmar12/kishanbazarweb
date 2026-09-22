@@ -23,11 +23,8 @@
 
 <script>
   (function() {
-    function handle404Routes() {
-      var path = window.location.pathname;
-      var href = window.location.href;
-
-      if (href.indexOf('our-story') !== -1 || path.indexOf('our-story') !== -1) {
+    function checkOurStoryRoute() {
+      if (window.location.href.indexOf('our-story') !== -1 || window.location.pathname.indexOf('our-story') !== -1) {
         var fallbackEl = document.getElementById('OurStoryPageFallback');
         var std404El = document.querySelector('[data-standard-404]');
         if (std404El) {
@@ -36,81 +33,12 @@
         if (fallbackEl) {
           fallbackEl.style.display = 'block';
         }
-        return;
-      }
-
-      if (path.indexOf('/products/') === -1) return;
-
-      try {
-        var currentPathDecoded = decodeURIComponent(path).toLowerCase();
-        var requestedSlug = currentPathDecoded.split('/products/')[1];
-        if (requestedSlug) {
-          requestedSlug = requestedSlug.split('?')[0].split('#')[0].replace(/\/$/, '');
-        }
-
-        if (!requestedSlug) return;
-
-        fetch('/collections/all/products.json?limit=250')
-          .then(function(res) {
-            if (!res.ok) return null;
-            return res.json();
-          })
-          .then(function(data) {
-            if (!data || !data.products || data.products.length === 0) return;
-
-            var products = data.products;
-            var bestMatch = null;
-
-            // 1. Exact handle match check
-            for (var i = 0; i < products.length; i++) {
-              var p = products[i];
-              if (p.handle.toLowerCase() === requestedSlug) {
-                // Product is live and handle matches
-                return;
-              }
-            }
-
-            // 2. Keyword fuzzy match check against real live products
-            var searchKeywords = ['ghee', 'bilona', 'khapli', 'atta', 'groundnut', 'mishri', 'dhaga', 'palm', 'turmeric', 'haldi', 'olive', 'noodle', 'millet', 'chilli', 'chili', 'jaggery'];
-            var matchedKeyword = null;
-
-            for (var k = 0; k < searchKeywords.length; k++) {
-              if (requestedSlug.indexOf(searchKeywords[k]) !== -1) {
-                matchedKeyword = searchKeywords[k];
-                break;
-              }
-            }
-
-            if (matchedKeyword) {
-              for (var j = 0; j < products.length; j++) {
-                var prod = products[j];
-                var prodHandle = prod.handle.toLowerCase();
-                var prodTitle = prod.title.toLowerCase();
-
-                if (prodHandle.indexOf(matchedKeyword) !== -1 || prodTitle.indexOf(matchedKeyword) !== -1) {
-                  bestMatch = prod.handle;
-                  break;
-                }
-              }
-            }
-
-            if (bestMatch && bestMatch.toLowerCase() !== requestedSlug) {
-              window.location.replace('/products/' + encodeURIComponent(bestMatch));
-            }
-          })
-          .catch(function(e) {
-            console.error('404 auto-recovery fetch error:', e);
-          });
-
-      } catch (err) {
-        console.error('404 route handling error:', err);
       }
     }
-
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', handle404Routes);
+      document.addEventListener('DOMContentLoaded', checkOurStoryRoute);
     } else {
-      handle404Routes();
+      checkOurStoryRoute();
     }
   })();
 </script>
