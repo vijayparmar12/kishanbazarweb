@@ -199,16 +199,21 @@
         return;
       }
 
-      // Hide header transition while actively scrolling
-      if (currentScrollY > 60) {
+      // Persistent top sticky header on product pages (no hide-on-scroll flickering)
+      const isProductPage = document.body.classList.contains('template-product') || Boolean(document.querySelector('.template-product, [data-sticky-mobile-bar]'));
+      if (!isProductPage && currentScrollY > 60) {
         topSticky.classList.add('kb-header--hidden');
+      } else {
+        topSticky.classList.remove('kb-header--hidden');
       }
 
-      // Display header transition when scroll STOPS
-      window.clearTimeout(scrollStopTimeout);
-      scrollStopTimeout = window.setTimeout(() => {
-        topSticky.classList.remove('kb-header--hidden');
-      }, 180);
+      if (!isProductPage) {
+        // Display header transition when scroll STOPS on non-product pages
+        window.clearTimeout(scrollStopTimeout);
+        scrollStopTimeout = window.setTimeout(() => {
+          topSticky.classList.remove('kb-header--hidden');
+        }, 180);
+      }
     };
 
     let ticking = false;
