@@ -833,25 +833,73 @@ function initStickyMobileBar(container) {
     });
   });
 
-  // Ensure Sticky Bar is Always Visible and Handles Smart Scroll-Hide / Stop-Display
+  // Smart Sticky Bar Visibility: Hide near top of page (while main buy box is visible) and hide near bottom/recommended/footer ("end stick below")
   if (stickyBar) {
-    stickyBar.classList.add('is-visible');
+    const mainBuyBtn = container.querySelector('[data-add-to-cart-button]') || container.querySelector('[data-product-main-form]');
 
-    let scrollTimeout = null;
-    window.addEventListener(
-      'scroll',
-      () => {
-        if (window.scrollY > 100) {
+    const updateStickyVisibility = () => {
+      // 1. Hide if Judge.me review modal is active
+      if (document.body.classList.contains('jdgm-review-modal-active') || document.documentElement.classList.contains('jdgm-review-modal-active')) {
+        stickyBar.classList.add('sticky-mobile-bar--hidden');
+        return;
+      }
+
+      // 2. Hide near top of page if main add to cart button / form is still visible on screen
+      if (mainBuyBtn) {
+        const btnRect = mainBuyBtn.getBoundingClientRect();
+        if (btnRect.bottom > 60) {
           stickyBar.classList.add('sticky-mobile-bar--hidden');
-          if (scrollTimeout) clearTimeout(scrollTimeout);
-          scrollTimeout = setTimeout(() => {
-            stickyBar.classList.remove('sticky-mobile-bar--hidden');
-          }, 180);
-        } else {
-          stickyBar.classList.remove('sticky-mobile-bar--hidden');
+          return;
         }
-      },
-      { passive: true }
-    );
+      } else if (window.scrollY < 300) {
+        stickyBar.classList.add('sticky-mobile-bar--hidden');
+        return;
+      }
+
+      // 3. Hide / Unstick when reaching Product Recommendations or Footer ("end stick on below")
+      const recSection = document.querySelector('.product-recommendations, [data-product-recommendations], .recommendations, .section-recommendations');
+      if (recSection) {
+        const recRect = recSection.getBoundingClientRect();
+        if (recRect.top < window.innerHeight - 40) {
+          stickyBar.classList.add('sticky-mobile-bar--hidden');
+          return;
+        }
+      }
+
+      const footerElement = document.querySelector('footer, .shopify-section-group-footer-group, #shopify-section-footer-group, #shopify-section-footer');
+      if (footerElement) {
+        const footerRect = footerElement.getBoundingClientRect();
+        if (footerRect.top < window.innerHeight) {
+          stickyBar.classList.add('sticky-mobile-bar--hidden');
+          return;
+        }
+      }
+
+      // 4. Fallback check for document bottom boundary
+      const scrollBottom = window.innerHeight + window.scrollY;
+      const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      if (docHeight - scrollBottom < 250) {
+        stickyBar.classList.add('sticky-mobile-bar--hidden');
+        return;
+      }
+
+      // Otherwise, show sticky bar fixed at the bottom of the viewport
+      stickyBar.classList.remove('sticky-mobile-bar--hidden');
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateStickyVisibility();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    updateStickyVisibility();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', updateStickyVisibility, { passive: true });
   }
 }
