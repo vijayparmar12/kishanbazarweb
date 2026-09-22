@@ -64,7 +64,15 @@
         {% endif %}
 
         {% for rec_product in rec_products %}
-          {% unless rec_product.id == product.id or (ghee_rendered and rec_product.id == ghee_prod.id) %}
+          {% assign skip_product = false %}
+          {% if rec_product.id == product.id %}
+            {% assign skip_product = true %}
+          {% endif %}
+          {% if ghee_rendered and rec_product.id == ghee_prod.id %}
+            {% assign skip_product = true %}
+          {% endif %}
+
+          {% unless skip_product %}
             {% assign count = count | plus: 1 %}
             {% if count <= 8 %}
               <div class="product-recommendations-slider__slide">
