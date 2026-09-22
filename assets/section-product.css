@@ -2025,6 +2025,7 @@ input[type="submit"].jdgm-btn:hover {
 /* ==========================================================================
    STICKY MOBILE ADD TO CART BAR
    ==========================================================================/* Sticky Add to Cart Bar on Mobile (Two Brothers Style: Add To Cart + Quantity Stepper) */
+/* Sticky Bottom Buy Bar (Left Product Info + Right 3 Controls: ADD TO CART, Stepper [- 1 +], BUY NOW) */
 .sticky-mobile-bar {
   background-color: #ffffff;
   border-top: 1px solid #efe8da;
@@ -2041,40 +2042,104 @@ input[type="submit"].jdgm-btn:hover {
 .sticky-mobile-bar__content {
   align-items: center;
   display: flex;
-  gap: 0.75rem;
+  gap: 1rem;
   justify-content: space-between;
   margin: 0 auto;
-  max-width: 600px;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.sticky-mobile-bar__product-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.sticky-mobile-bar__img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  flex-shrink: 0;
+}
+
+.sticky-mobile-bar__details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.sticky-mobile-bar__title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+  line-height: 1.25;
+}
+
+.sticky-mobile-bar__prices {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2px;
+}
+
+.sticky-mobile-bar__price {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #1b4317;
+}
+
+.sticky-mobile-bar__compare-price {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+.sticky-mobile-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .sticky-mobile-bar__btn {
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  flex: 1 1 50%;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 800;
   letter-spacing: 0.04em;
-  padding: 0.85rem 0.5rem;
+  padding: 0 1.15rem;
   text-align: center;
   text-transform: uppercase;
   transition: transform 0.15s ease, background-color 0.15s ease;
-  height: 46px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
 }
 
 .sticky-mobile-bar__btn--add {
   background-color: #1b4317 !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(27, 67, 23, 0.28);
+  box-shadow: 0 4px 12px rgba(27, 67, 23, 0.25);
 }
 
 .sticky-mobile-bar__btn--buy {
   background-color: #d97706 !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.28);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
 }
 
 .sticky-mobile-bar__btn:active {
@@ -2084,34 +2149,35 @@ input[type="submit"].jdgm-btn:hover {
 .sticky-mobile-bar__quantity-stepper {
   align-items: center;
   background-color: #faf7f2;
-  border: 1.5px solid #23421f;
+  border: 1.5px solid #1b4317;
   border-radius: 10px;
   box-sizing: border-box;
-  display: flex;
-  flex: 1 1 50%;
-  height: 46px;
+  display: flex !important;
+  height: 44px;
   justify-content: space-between;
-  padding: 0 0.5rem;
+  padding: 0 0.35rem;
+  min-width: 86px;
 }
 
 .sticky-mobile-bar__qbtn {
   align-items: center;
   background: none;
   border: none;
-  color: #23421f;
+  color: #1b4317;
   cursor: pointer;
   display: flex;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   font-weight: 800;
   justify-content: center;
   line-height: 1;
-  padding: 0 0.5rem;
+  padding: 0 0.4rem;
 }
 
 .sticky-mobile-bar__qval {
   color: #111827;
-  font-size: 1.05rem;
+  font-size: 0.98rem;
   font-weight: 800;
+  padding: 0 0.15rem;
 }
 
 @media screen and (min-width: 48.01rem) {
@@ -2122,12 +2188,57 @@ input[type="submit"].jdgm-btn:hover {
     left: 50%;
     right: auto;
     transform: translateX(-50%);
-    width: min(90vw, 640px);
+    width: min(92vw, 960px);
     border-radius: 16px;
     border: 1.5px solid #efe8da;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    padding: 0.75rem 1.25rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+    padding: 0.65rem 1.25rem;
     z-index: 9999;
+  }
+}
+
+@media screen and (max-width: 48rem) {
+  .sticky-mobile-bar {
+    padding: 0.5rem 0.65rem;
+  }
+
+  .sticky-mobile-bar__content {
+    gap: 0.5rem;
+  }
+
+  .sticky-mobile-bar__img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .sticky-mobile-bar__title {
+    font-size: 0.82rem;
+    max-width: 140px;
+  }
+
+  .sticky-mobile-bar__price {
+    font-size: 0.85rem;
+  }
+
+  .sticky-mobile-bar__btn {
+    height: 40px;
+    padding: 0 0.65rem;
+    font-size: 0.78rem;
+  }
+
+  .sticky-mobile-bar__quantity-stepper {
+    height: 40px;
+    min-width: 74px;
+    padding: 0 0.2rem;
+  }
+
+  .sticky-mobile-bar__qbtn {
+    font-size: 1.1rem;
+    padding: 0 0.25rem;
+  }
+
+  .sticky-mobile-bar__qval {
+    font-size: 0.88rem;
   }
 }
 

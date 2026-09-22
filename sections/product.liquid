@@ -147,25 +147,55 @@
     {% assign current_v_avail = false %}
   {% endif %}
 
-  <!-- Sticky Bottom Buy Bar on Mobile (ADD TO CART + BUY NOW initially, stepper after ADD TO CART) -->
+  <!-- Sticky Bottom Buy Bar (Product info thumbnail/title/price on left + ADD TO CART, Stepper [- 1 +], BUY NOW on right) -->
   <div class="sticky-mobile-bar" data-sticky-mobile-bar aria-hidden="false">
     <div class="sticky-mobile-bar__content">
-      <!-- Add to Cart Button -->
-      <button type="button" class="sticky-mobile-bar__btn sticky-mobile-bar__btn--add" data-sticky-add-to-cart-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
-        <span data-sticky-btn-text>{% if current_v_avail %}{{ section.settings.sticky_bar_btn_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}</span>
-      </button>
-
-      <!-- Stepper [- 1 +] Pill (Initially Hidden, appears after ADD TO CART click) -->
-      <div class="sticky-mobile-bar__quantity-stepper" data-sticky-stepper style="display: none !important;">
-        <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-minus aria-label="Decrease quantity">-</button>
-        <span class="sticky-mobile-bar__qval" data-sticky-quantity-val>1</span>
-        <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-plus aria-label="Increase quantity">+</button>
+      <!-- Left Side: Product Thumbnail, Title & Price -->
+      <div class="sticky-mobile-bar__product-info">
+        {% assign sticky_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media %}
+        {% if sticky_media != blank %}
+          <img
+            src="{{ sticky_media | image_url: width: 120 }}"
+            alt="{{ product.title | escape }}"
+            class="sticky-mobile-bar__img"
+            data-sticky-bar-img
+            width="46"
+            height="46"
+            loading="lazy"
+          >
+        {% endif %}
+        <div class="sticky-mobile-bar__details">
+          <h4 class="sticky-mobile-bar__title" data-sticky-bar-title>{{ product.title }}</h4>
+          <div class="sticky-mobile-bar__prices">
+            <span class="sticky-mobile-bar__price" data-sticky-bar-price>{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}</span>
+            {% if sale %}
+              <s class="sticky-mobile-bar__compare-price" data-sticky-bar-compare>{{ product.selected_or_first_available_variant.compare_at_price | money_without_trailing_zeros }}</s>
+            {% else %}
+              <s class="sticky-mobile-bar__compare-price" data-sticky-bar-compare style="display: none;"></s>
+            {% endif %}
+          </div>
+        </div>
       </div>
 
-      <!-- Buy Now Button (Initially visible beside ADD TO CART) -->
-      <button type="button" class="sticky-mobile-bar__btn sticky-mobile-bar__btn--buy" data-sticky-buy-now-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
-        BUY NOW
-      </button>
+      <!-- Right Side: 3 Actions (ADD TO CART + Stepper [- 1 +] + BUY NOW) -->
+      <div class="sticky-mobile-bar__actions">
+        <!-- Add to Cart Button -->
+        <button type="button" class="sticky-mobile-bar__btn sticky-mobile-bar__btn--add" data-sticky-add-to-cart-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
+          <span data-sticky-btn-text>{% if current_v_avail %}{{ section.settings.sticky_bar_btn_text | default: "ADD TO CART" }}{% else %}SOLD OUT{% endif %}</span>
+        </button>
+
+        <!-- Stepper [- 1 +] Pill -->
+        <div class="sticky-mobile-bar__quantity-stepper" data-sticky-stepper>
+          <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-minus aria-label="Decrease quantity">-</button>
+          <span class="sticky-mobile-bar__qval" data-sticky-quantity-val>1</span>
+          <button type="button" class="sticky-mobile-bar__qbtn" data-sticky-quantity-plus aria-label="Increase quantity">+</button>
+        </div>
+
+        <!-- Buy Now Button -->
+        <button type="button" class="sticky-mobile-bar__btn sticky-mobile-bar__btn--buy" data-sticky-buy-now-btn {% unless current_v_avail %}disabled style="opacity: 0.65; cursor: not-allowed;"{% endunless %}>
+          BUY NOW
+        </button>
+      </div>
     </div>
   </div>
 </div>

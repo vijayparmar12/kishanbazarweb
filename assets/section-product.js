@@ -275,6 +275,8 @@ function initVariantSelection(container) {
 
   // Sticky bar elements
   const stickyPrice = container.querySelector('[data-sticky-bar-price]');
+  const stickyComparePrice = container.querySelector('[data-sticky-bar-compare]');
+  const stickyImg = container.querySelector('[data-sticky-bar-img]');
   const stickyVariant = container.querySelector('[data-sticky-bar-variant]');
 
   radioButtons.forEach((radio) => {
@@ -444,17 +446,25 @@ function initVariantSelection(container) {
           stickyBtn.style.setProperty('background-color', '#475569', 'important');
         }
         if (stickyBtnText) stickyBtnText.textContent = 'SOLD OUT';
-        if (stickyStepper) stickyStepper.style.setProperty('display', 'none', 'important');
       }
 
       // Update Sticky Bar
       if (stickyPrice && price) stickyPrice.textContent = price;
+      if (stickyComparePrice) {
+        if (compare) {
+          stickyComparePrice.textContent = compare;
+          stickyComparePrice.style.display = 'inline';
+        } else {
+          stickyComparePrice.style.display = 'none';
+        }
+      }
       if (stickyVariant && title) stickyVariant.textContent = title;
 
       // Update image if specified
       if (img) {
         const mainImg = container.querySelector('[data-gallery-main-image]');
         if (mainImg) mainImg.src = img;
+        if (stickyImg) stickyImg.src = img;
       }
     });
   });
@@ -725,13 +735,7 @@ function initStickyMobileBar(container) {
   if (!stickyBar || !mainForm) return;
 
   function updateQuantity(newQty) {
-    if (newQty < 1) {
-      newQty = 1;
-      if (stickyAddBtn) stickyAddBtn.style.setProperty('display', 'flex', 'important');
-      if (stickyStepper) stickyStepper.style.setProperty('display', 'none', 'important');
-      if (mainAddBtn) mainAddBtn.style.setProperty('display', 'flex', 'important');
-      if (mainStepper) mainStepper.style.setProperty('display', 'none', 'important');
-    }
+    if (newQty < 1) newQty = 1;
     if (newQty > 20) newQty = 20;
 
     if (stickyQtyVal) stickyQtyVal.textContent = newQty;
@@ -766,11 +770,6 @@ function initStickyMobileBar(container) {
   if (stickyAddBtn) {
     stickyAddBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      if (stickyAddBtn) stickyAddBtn.style.setProperty('display', 'none', 'important');
-      if (stickyStepper) stickyStepper.style.setProperty('display', 'flex', 'important');
-      if (mainAddBtn) mainAddBtn.style.setProperty('display', 'none', 'important');
-      if (mainStepper) mainStepper.style.setProperty('display', 'flex', 'important');
-
       if (mainAddBtn) {
         mainAddBtn.click();
       } else {

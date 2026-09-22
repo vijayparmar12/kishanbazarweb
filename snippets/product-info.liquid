@@ -214,7 +214,7 @@
           {% form 'product', product, class: 'product-info__form', data-product-main-form: '', data-product-card-form: '' %}
             <input type="hidden" name="id" value="{{ current_variant.id }}" data-product-selected-variant-id>
             <input type="hidden" name="quantity" value="1" data-quantity-input>
-            <div class="product-info__purchase-row" {{ block.shopify_attributes }} style="width: 100%;">
+            <div class="product-info__purchase-row" {{ block.shopify_attributes }} style="display: none !important;">
               <!-- Combined Button & Stepper Row -->
               <div class="product-card__btn-container" data-card-btn-container style="width: 100%; display: flex; gap: 10px; align-items: center;">
                 <!-- Standard ADD TO CART Button -->
@@ -236,14 +236,14 @@
                   </span>
                 </button>
 
-                <!-- Morphing In-Place Stepper [- 1 +] Pill (Initially Hidden, replaces ADD TO CART after click) -->
+                <!-- Morphing In-Place Stepper [- 1 +] Pill -->
                 <div class="product-card__inline-stepper" data-card-inline-stepper style="display: none; flex: 1; height: 48px; min-height: 48px; border: 2px solid #166534; border-radius: 10px; background: #ffffff; align-items: center; justify-content: space-between; padding: 0 12px; box-sizing: border-box;">
                   <button type="button" class="product-card__inline-btn product-card__inline-btn--minus" data-inline-minus aria-label="Decrease quantity" style="width: 36px; height: 100%; border: none; background: transparent; cursor: pointer; font-size: 1.35rem; font-weight: 900; color: #166534; display: flex; align-items: center; justify-content: center; padding: 0; line-height: 1;">-</button>
                   <span class="product-card__inline-count" data-inline-count style="font-size: 1.1rem; font-weight: 900; color: #166534; text-align: center;">1</span>
                   <button type="button" class="product-card__inline-btn product-card__inline-btn--plus" data-inline-plus aria-label="Increase quantity" style="width: 36px; height: 100%; border: none; background: transparent; cursor: pointer; font-size: 1.35rem; font-weight: 900; color: #166534; display: flex; align-items: center; justify-content: center; padding: 0; line-height: 1;">+</button>
                 </div>
 
-                <!-- Buy Now Button (In place of initial stepper, redirects to checkout) -->
+                <!-- Buy Now Button -->
                 <button
                   type="button"
                   class="product-info__btn product-info__btn--buy-now"
@@ -419,7 +419,7 @@
           </fieldset>
         {% endif %}
 
-        <div class="product-info__purchase-row" style="width: 100%;">
+        <div class="product-info__purchase-row" style="display: none !important;">
           <div class="product-card__btn-container" data-card-btn-container style="width: 100%;">
             <button
               type="submit"
