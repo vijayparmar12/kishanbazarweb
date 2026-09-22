@@ -132,6 +132,9 @@
         assign ghee_prod = all_products['a2-desi-cow-vedic-bilona-ghee-देसी-वैदिक-बिलोना-घी']
       endif
       if ghee_prod == blank
+        assign ghee_prod = all_products['a2-desi-cow-vedic-bilona-ghee-देशी-वैदिक-बिलोना-घी']
+      endif
+      if ghee_prod == blank
         assign ghee_prod = all_products['gir-a2-bilona-ghee-1kg']
       endif
       if ghee_prod == blank
@@ -192,7 +195,15 @@
           {% endif %}
 
           {% for rec_item in rec_products %}
-            {% unless rec_item.id == product.id or (ghee_rendered and rec_item.id == ghee_prod.id) %}
+            {% assign skip_item = false %}
+            {% if rec_item.id == product.id %}
+              {% assign skip_item = true %}
+            {% endif %}
+            {% if ghee_rendered and rec_item.id == ghee_prod.id %}
+              {% assign skip_item = true %}
+            {% endif %}
+
+            {% unless skip_item %}
               {% if count < max_limit %}
                 {% assign count = count | plus: 1 %}
                 <div class="product-recommendations__slide">

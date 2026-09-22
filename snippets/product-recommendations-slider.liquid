@@ -11,7 +11,7 @@
 {% enddoc %}
 
 {% liquid
-  assign ghee_prod = collections.ghee.products.first | default: collections['ghee'].products.first | default: all_products['a2-desi-cow-vedic-bilona-ghee-देसी-वैदिक-बिलोना-घी']
+  assign ghee_prod = collections.ghee.products.first | default: collections['ghee'].products.first | default: all_products['a2-desi-cow-vedic-bilona-ghee-देसी-वैदिक-बिलोना-घी'] | default: all_products['a2-desi-cow-vedic-bilona-ghee-देशी-वैदिक-बिलोना-घी']
   assign rec_products = collection.products
   if rec_products == blank or rec_products.size == 0
     assign rec_products = product.collections.first.products
@@ -64,7 +64,15 @@
         {% endif %}
 
         {% for rec_product in rec_products %}
-          {% unless rec_product.id == product.id or (ghee_rendered and rec_product.id == ghee_prod.id) %}
+          {% assign skip_product = false %}
+          {% if rec_product.id == product.id %}
+            {% assign skip_product = true %}
+          {% endif %}
+          {% if ghee_rendered and rec_product.id == ghee_prod.id %}
+            {% assign skip_product = true %}
+          {% endif %}
+
+          {% unless skip_product %}
             {% assign count = count | plus: 1 %}
             {% if count <= 8 %}
               <div class="product-recommendations-slider__slide">
