@@ -38,12 +38,7 @@ body.jdgm-review-modal-active header {
 #shopify-section-header,
 header.kb-header,
 .kb-header {
-  position: relative !important;
-  z-index: 99999999 !important;
-}
-
-.kb-header {
-  background: #ffffff;
+  background-color: var(--kb-header-bg, #ffffff);
   background-image: none;
   position: relative !important;
   z-index: 99999999 !important;

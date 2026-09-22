@@ -121,7 +121,7 @@
   }
 {% endstyle %}
 
-<div class="product-recommendations-section" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=2" data-intent="{{ section.settings.intent | default: 'complementary' }}">
+<div class="product-recommendations-section" data-sticky-end-boundary data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=2" data-intent="{{ section.settings.intent | default: 'complementary' }}">
   <div class="product-page-container" style="max-width: 2000px; margin: 0 auto; padding-left: clamp(0.75rem, 3vw, 1.25rem); padding-right: clamp(0.75rem, 3vw, 1.25rem); box-sizing: border-box;">
     {% liquid
       assign ghee_prod = collections['ghee'].products.first

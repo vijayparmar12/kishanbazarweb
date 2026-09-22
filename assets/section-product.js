@@ -856,11 +856,13 @@ function initStickyMobileBar(container) {
         return;
       }
 
-      // 3. Hide / Unstick when reaching Product Recommendations or Footer ("end stick on below")
-      const recSection = document.querySelector('.product-recommendations, [data-product-recommendations], .recommendations, .section-recommendations');
-      if (recSection) {
-        const recRect = recSection.getBoundingClientRect();
-        if (recRect.top < window.innerHeight - 40) {
+      // 3. Hide / unstick before the recommendations/apps/footer area so the bar does not cover below sections.
+      const belowProductSection = document.querySelector(
+        '[data-sticky-end-boundary], .product-recommendations-section, .section-product-recommendations, .product-recommendations, [data-product-recommendations], .recommendations, .section-recommendations'
+      );
+      if (belowProductSection) {
+        const sectionRect = belowProductSection.getBoundingClientRect();
+        if (sectionRect.top < window.innerHeight + 8) {
           stickyBar.classList.add('sticky-mobile-bar--hidden');
           return;
         }
