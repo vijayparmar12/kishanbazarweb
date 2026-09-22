@@ -291,15 +291,35 @@
 /* -------------------------------------------------------------
    Video Reel Modal Overlay (Dark Translucent Backdrop Blur)
    ------------------------------------------------------------- */
-body.shoppable-modal-active {
+body.shoppable-modal-active,
+html.shoppable-modal-active {
   overflow: hidden !important;
 }
 
+body.shoppable-modal-active .kb-header,
+body.shoppable-modal-active .kb-header-top-sticky,
+body.shoppable-modal-active [data-header-top-sticky],
+body.shoppable-modal-active .sticky-mobile-bar,
+body.shoppable-modal-active [data-sticky-mobile-bar],
+html.shoppable-modal-active .kb-header,
+html.shoppable-modal-active .kb-header-top-sticky,
+html.shoppable-modal-active [data-header-top-sticky],
+html.shoppable-modal-active .sticky-mobile-bar,
+html.shoppable-modal-active [data-sticky-mobile-bar] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 .shoppable-videos__modal {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  display: flex;
+  position: fixed !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999999 !important;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   opacity: 0;
@@ -308,22 +328,27 @@ body.shoppable-modal-active {
 }
 
 .shoppable-videos__modal.is-open {
-  opacity: 1;
-  pointer-events: auto;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
 .shoppable-videos__modal-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.78);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  position: fixed !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.78) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  z-index: 1 !important;
   cursor: pointer;
 }
 
 .shoppable-videos__modal-dialog {
-  position: relative;
-  z-index: 2;
+  position: relative !important;
+  z-index: 2 !important;
   width: 100%;
   max-width: 420px;
   height: min(84vh, 740px);
