@@ -170,6 +170,8 @@
     overflow-x: auto !important;
     overflow-y: hidden !important;
     padding: 0.25rem 0.15rem 0.5rem !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
   }
 
   .product-gallery__thumb {
@@ -411,16 +413,14 @@
   flex: 0 0 68px;
   width: 68px;
   scroll-behavior: smooth;
-  scrollbar-width: thin;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .product-gallery__thumbnails::-webkit-scrollbar {
-  width: 4px;
-}
-
-.product-gallery__thumbnails::-webkit-scrollbar-thumb {
-  background: #c8e6c9;
-  border-radius: 999px;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .product-gallery__thumb {
