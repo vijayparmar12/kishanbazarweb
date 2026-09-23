@@ -429,22 +429,24 @@
     const lineItem = element.closest('[data-cart-line-item]');
     if (!lineItem) return null;
 
-    const itemsContainer = lineItem.closest('[data-cart-drawer-items], .kb-cart-page__items') || lineItem.parentElement;
+    const itemsContainer = lineItem.closest('[data-cart-drawer-items], .kb-cart-page-items-list, .kb-cart-page__items') || lineItem.parentElement;
     const allItems = [...itemsContainer.querySelectorAll('[data-cart-line-item]')];
     const lineIndex = allItems.indexOf(lineItem) + 1; // 1-based index (1, 2, 3...)
-    const lineKey = lineItem.dataset.cartLineKey || lineItem.dataset.cartLineIndex || String(lineIndex);
+    const lineKey = lineItem.dataset.cartLineKey || lineItem.dataset.cartLineIndex || (lineItem.dataset.variantId ? String(lineItem.dataset.variantId) : String(lineIndex));
     const input = lineItem.querySelector('[data-cart-quantity-input]');
 
     return { lineItem, lineIndex, lineKey, input };
   };
 
-  const changeCartLine = async (lineIndex, lineKey, quantity, sectionId) => {
+  const changeCartLine = async (lineIndex, lineKey, quantity) => {
     const payload = {
-      line: Number(lineIndex),
       quantity: Number(quantity)
     };
-    if (lineKey && String(lineKey).includes(':')) {
+
+    if (lineKey && String(lineKey).trim() !== '' && String(lineKey) !== 'undefined' && String(lineKey) !== 'null') {
       payload.id = String(lineKey);
+    } else if (lineIndex && !isNaN(lineIndex) && Number(lineIndex) > 0) {
+      payload.line = Number(lineIndex);
     }
 
     try {
@@ -459,11 +461,13 @@
 
       if (!response.ok) {
         const formData = new FormData();
-        formData.append('line', String(lineIndex));
-        formData.append('quantity', String(quantity));
-        if (lineKey && String(lineKey).includes(':')) {
+        if (lineKey && String(lineKey).trim() !== '' && String(lineKey) !== 'undefined') {
           formData.append('id', String(lineKey));
         }
+        if (lineIndex) {
+          formData.append('line', String(lineIndex));
+        }
+        formData.append('quantity', String(quantity));
 
         response = await fetch(`${rootUrl}cart/change.js`, {
           method: 'POST',
@@ -474,7 +478,7 @@
 
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
-        const msg = errData.description || errData.message || 'Cannot add more of this variant to cart (stock limit reached).';
+        const msg = errData.description || errData.message || 'Stock limit reached or item unavailable.';
         alert(msg);
         updateDrawerFromServer();
         return;
@@ -618,15 +622,23 @@
     // 1. Minus quantity button
     const minusBtn = event.target.closest('[data-cart-qty-minus]');
     if (minusBtn) {
+      if (minusBtn.disabled) return;
       event.preventDefault();
       event.stopPropagation();
       const details = getLineDetails(minusBtn);
       if (!details) return;
 
+      minusBtn.disabled = true;
+      setTimeout(() => { minusBtn.disabled = false; }, 400);
+
       const currentQty = Number(details.input?.value || 1);
       const nextQty = currentQty - 1;
 
       if (nextQty <= 0) {
+        if (details.lineItem) {
+          details.lineItem.style.opacity = '0.35';
+          details.lineItem.style.pointerEvents = 'none';
+        }
         changeCartLine(details.lineIndex, details.lineKey, 0);
       } else {
         if (details.input) details.input.value = nextQty;
@@ -638,10 +650,14 @@
     // 2. Plus quantity button
     const plusBtn = event.target.closest('[data-cart-qty-plus]');
     if (plusBtn) {
+      if (plusBtn.disabled) return;
       event.preventDefault();
       event.stopPropagation();
       const details = getLineDetails(plusBtn);
       if (!details) return;
+
+      plusBtn.disabled = true;
+      setTimeout(() => { plusBtn.disabled = false; }, 400);
 
       const currentQty = Math.max(1, Number(details.input?.value || 1));
       const nextQty = currentQty + 1;
@@ -654,10 +670,17 @@
     // 3. Remove / Trash button
     const removeBtn = event.target.closest('[data-cart-remove]');
     if (removeBtn) {
+      if (removeBtn.disabled) return;
       event.preventDefault();
       event.stopPropagation();
       const details = getLineDetails(removeBtn);
       if (!details) return;
+
+      removeBtn.disabled = true;
+      if (details.lineItem) {
+        details.lineItem.style.opacity = '0.35';
+        details.lineItem.style.pointerEvents = 'none';
+      }
 
       changeCartLine(details.lineIndex, details.lineKey, 0);
       return;
@@ -859,8 +882,13 @@
       const details = getLineDetails(input);
       if (!details) return;
 
-      const nextQty = Math.max(1, Number(input.value || 1));
+      const nextQty = Math.max(0, Number(input.value || 0));
       input.value = nextQty;
+
+      if (nextQty <= 0 && details.lineItem) {
+        details.lineItem.style.opacity = '0.35';
+        details.lineItem.style.pointerEvents = 'none';
+      }
 
       changeCartLine(details.lineIndex, details.lineKey, nextQty);
     }
