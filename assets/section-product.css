@@ -330,12 +330,12 @@
 /* Gallery Quick Action Buttons */
 .product-gallery__action {
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.92);
+  background-color: #ffffff;
   backdrop-filter: blur(4px);
-  border: 1px solid #e5e7eb;
+  border: 1.5px solid #23421f !important;
   border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  color: #374151;
+  box-shadow: 0 4px 12px rgba(35, 66, 31, 0.12);
+  color: #23421f !important;
   cursor: pointer;
   display: flex;
   height: 42px;
@@ -347,6 +347,13 @@
   z-index: 5;
 }
 
+.product-gallery__action svg,
+.product-gallery__action svg path {
+  stroke: #23421f !important;
+  color: #23421f !important;
+  transition: all 0.2s ease;
+}
+
 .product-gallery__action--wishlist {
   top: 1rem;
 }
@@ -356,16 +363,36 @@
 }
 
 .product-gallery__action:hover {
-  background-color: #ffffff;
-  border-color: #1b4317;
-  color: #1b4317;
+  background-color: #23421f !important;
+  border-color: #23421f !important;
+  color: #ffffff !important;
   transform: scale(1.08);
 }
 
-.product-gallery__action.is-active {
-  background-color: #fee2e2;
-  border-color: #ef4444;
-  color: #ef4444;
+.product-gallery__action:hover svg,
+.product-gallery__action:hover svg path {
+  stroke: #ffffff !important;
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+
+.product-gallery__action.is-active,
+.product-gallery__action--wishlist.is-active,
+.product-gallery__action--wishlist[aria-pressed="true"] {
+  background-color: #ffffff !important;
+  border: 1.5px solid #23421f !important;
+  color: #23421f !important;
+}
+
+.product-gallery__action.is-active svg,
+.product-gallery__action--wishlist.is-active svg,
+.product-gallery__action--wishlist[aria-pressed="true"] svg,
+.product-gallery__action.is-active svg path,
+.product-gallery__action--wishlist.is-active svg path,
+.product-gallery__action--wishlist[aria-pressed="true"] svg path {
+  fill: #23421f !important;
+  stroke: #23421f !important;
+  color: #23421f !important;
 }
 
 /* Main Image Container & Desktop Hover Zoom Lens */
