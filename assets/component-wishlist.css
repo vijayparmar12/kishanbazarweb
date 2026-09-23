@@ -116,9 +116,9 @@ div[class*="wishy_"] {
    Wishlist Drawer Shell & Backdrop Overlay
    ========================================================================== */
 .kb-wishlist-drawer {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483647 !important;
 }
 
 .kb-wishlist-drawer[hidden] {

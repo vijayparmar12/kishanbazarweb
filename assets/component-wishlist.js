@@ -92,7 +92,8 @@
     drawer.hidden = false;
     drawer.style.display = 'block';
     drawer.classList.add('is-open');
-    document.documentElement.classList.add('kb-cart-drawer-open');
+    document.documentElement.classList.add('kb-cart-drawer-open', 'kb-wishlist-drawer-open');
+    document.body.classList.add('kb-cart-drawer-open', 'kb-wishlist-drawer-open');
     renderWishlist();
     syncProductImages().then(() => renderWishlist());
   };
@@ -104,7 +105,8 @@
     drawer.hidden = true;
     drawer.style.display = 'none';
     drawer.classList.remove('is-open');
-    document.documentElement.classList.remove('kb-cart-drawer-open');
+    document.documentElement.classList.remove('kb-cart-drawer-open', 'kb-wishlist-drawer-open');
+    document.body.classList.remove('kb-cart-drawer-open', 'kb-wishlist-drawer-open');
   };
 
   const updateBadges = (count) => {
