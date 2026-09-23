@@ -149,26 +149,26 @@
               {% if mob_img != blank %}
                 {{
                   mob_img
-                  | image_url: width: 750
+                  | image_url: width: 600
                   | image_tag:
                     class: 'home-hero-split__image',
                     loading: mob_loading,
                     fetchpriority: mob_priority,
                     decoding: 'async',
-                    widths: '360, 480, 600, 750, 900',
+                    widths: '360, 480, 600, 750',
                     sizes: '100vw',
                     alt: 'Mobile Hero Slide ' | append: forloop.index
                 }}
               {% elsif section.settings.left_image != blank and forloop.first %}
                 {{
                   section.settings.left_image
-                  | image_url: width: 750
+                  | image_url: width: 600
                   | image_tag:
                     class: 'home-hero-split__image',
                     loading: mob_loading,
                     fetchpriority: mob_priority,
                     decoding: 'async',
-                    widths: '360, 480, 600, 750, 900',
+                    widths: '360, 480, 600, 750',
                     sizes: '100vw',
                     alt: 'Mobile Hero Slide 1'
                 }}
