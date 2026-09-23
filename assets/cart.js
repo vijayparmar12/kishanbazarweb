@@ -380,7 +380,7 @@
     const qty = parseInt(select.dataset.currentQty, 10) || 1;
     const newVariantId = select.value;
 
-    if (!newVariantId || !lineKey || newVariantId === oldVariantId) return;
+    if (!newVariantId || newVariantId === oldVariantId) return;
 
     select.disabled = true;
     select.style.opacity = '0.5';
@@ -391,32 +391,40 @@
 
     const isSoldOut = isOptionDisabled || isObjSoldOut;
 
-    // If selected option or variant object is sold out, remove line item from cart immediately
     if (isSoldOut) {
       const variantTitle = selectedOption ? selectedOption.textContent.replace(/\s*-\s*\(Sold Out\)/i, '').trim() : 'selected variant';
-      alert(`Sorry, ${variantTitle} is currently sold out and has been removed from your cart.`);
-      await changeCartLine(lineIndex, lineKey, 0);
+      alert(`Sorry, ${variantTitle} is currently sold out.`);
+      if (oldVariantId) select.value = oldVariantId;
+      select.disabled = false;
+      select.style.opacity = '1';
       return;
     }
 
     try {
-      // 1. Attempt to add new variant FIRST
+      // 1. Remove old line item FIRST
+      await fetch(`${rootUrl}cart/change.js`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ id: lineKey || oldVariantId, line: Number(lineIndex), quantity: 0 })
+      });
+
+      // 2. Add new variant with quantity
       const addRes = await fetch(`${rootUrl}cart/add.js`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ id: newVariantId, quantity: qty })
+        body: JSON.stringify({ id: Number(newVariantId), quantity: Number(qty) })
       });
 
       if (!addRes.ok) {
         const errJson = await addRes.json().catch(() => ({}));
         const errMsg = errJson.description || errJson.message || 'Selected variant is sold out.';
-        alert(`Cannot select variant: ${errMsg}. Item has been removed from your cart.`);
-        await changeCartLine(lineIndex, lineKey, 0);
-        return;
+        alert(`Cannot select variant: ${errMsg}`);
       }
 
-      // 2. Only if add succeeded, remove the old line item
-      await changeCartLine(lineIndex, lineKey, 0);
+      // 3. Update cart state and refresh UI
+      const updatedCart = await updateDrawerFromServer();
+      await refreshCartPageFromServer(updatedCart);
+      if (updatedCart) setCartCount(updatedCart.item_count);
     } catch (err) {
       console.error('Error swapping cart variant:', err);
       if (oldVariantId) select.value = oldVariantId;

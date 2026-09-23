@@ -4,6 +4,7 @@
 {% enddoc %}
 
 {{ 'cart.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 
 {% liquid
   assign free_shipping_threshold_num = section.settings.cart_free_shipping_threshold | default: settings.cart_free_shipping_threshold | default: 1499

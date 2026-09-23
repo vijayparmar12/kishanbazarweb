@@ -228,9 +228,7 @@
 
     {% sections 'footer-group' %}
     <script src="{{ 'header.js' | asset_url }}" defer="defer"></script>
-    {% if request.design_mode %}
-      <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
-    {% endif %}
+    <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'component-product-quick-view.js' | asset_url }}" defer="defer"></script>
     <script>
       (function() {
