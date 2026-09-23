@@ -137,25 +137,23 @@
               assign card_p_rating = j_rating | times: 1.0
               assign j_count = product.metafields.judgeme.review_count | default: product.metafields.custom.review_count.value | default: product.metafields.custom.review_count | default: product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count
             %}
-            <div class="product-card__rating-wrap" {{ block.shopify_attributes }}>
-              <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}" style="display: inline-flex !important; align-items: center !important;">
-                {% if product.metafields.judgeme.badge != blank %}
-                  {{ product.metafields.judgeme.badge }}
-                {% else %}
-                  <p class="product-card__rating" aria-label="Customer rating">
-                    {% render 'rating-stars', product: product, rating: card_p_rating, stars_color: block.settings.rating_stars_color %}
-                    {% if card_p_rating > 0 %}
+            {% if card_p_rating > 0 or product.metafields.judgeme.badge != blank %}
+              <div class="product-card__rating-wrap" {{ block.shopify_attributes }}>
+                <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}" style="display: inline-flex !important; align-items: center !important;">
+                  {% if product.metafields.judgeme.badge != blank %}
+                    {{ product.metafields.judgeme.badge }}
+                  {% else %}
+                    <p class="product-card__rating" aria-label="Customer rating">
+                      {% render 'rating-stars', product: product, rating: card_p_rating, stars_color: block.settings.rating_stars_color %}
                       <strong class="product-card__rating-value">{{ card_p_rating | round: 1 }}</strong>
-                    {% else %}
-                      <strong class="product-card__rating-value">4.9</strong>
-                    {% endif %}
-                    {% if j_count != blank and j_count > 0 %}
-                      <span class="product-card__rating-count">({{ j_count }})</span>
-                    {% endif %}
-                  </p>
-                {% endif %}
+                      {% if j_count != blank and j_count > 0 %}
+                        <span class="product-card__rating-count">({{ j_count }})</span>
+                      {% endif %}
+                    </p>
+                  {% endif %}
+                </div>
               </div>
-            </div>
+            {% endif %}
 
           {% when 'card_benefit_icons' %}
             {% if hide_benefit_icons != true %}
@@ -279,10 +277,13 @@
       {% endif %}
 
       {% if show_rating %}
-        <p class="product-card__rating" aria-label="Customer rating">
-          {% render 'rating-stars', product: product, stars_color: rating_stars_color %}
-          <strong class="product-card__rating-value">{% if product.metafields.reviews.rating.value != blank %}{{ product.metafields.reviews.rating.value.rating | round: 2 }}{% else %}4.91{% endif %}</strong>
-        </p>
+        {% assign real_rating = product.metafields.judgeme.rating | default: product.metafields.custom.rating.value | default: product.metafields.custom.rating | default: product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value | times: 1.0 %}
+        {% if real_rating > 0 %}
+          <p class="product-card__rating" aria-label="Customer rating">
+            {% render 'rating-stars', product: product, rating: real_rating, stars_color: rating_stars_color %}
+            <strong class="product-card__rating-value">{{ real_rating | round: 1 }}</strong>
+          </p>
+        {% endif %}
       {% endif %}
 
       {% if show_benefit_icons != false %}

@@ -12,7 +12,7 @@
 {% enddoc %}
 
 {% liquid
-  assign rating_val = product.metafields.reviews.rating.value.rating | default: rating | default: 4.91 | times: 1.0
+  assign rating_val = rating | default: product.metafields.judgeme.rating | default: product.metafields.custom.rating.value | default: product.metafields.custom.rating | default: product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value | default: 0 | times: 1.0
   assign full_stars = rating_val | floor
   assign decimal_part = rating_val | minus: full_stars
 

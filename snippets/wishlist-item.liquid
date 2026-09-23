@@ -46,11 +46,13 @@
       <a href="{{ product.url }}">{{ product.title | default: 'Gir A2 Bilona Ghee' }}</a>
     </h3>
 
-    <div class="kb-wishlist-card__rating">
-      <span class="stars">★★★★★</span>
-      <span class="rating-num">4.9</span>
-      <span class="reviews-count">(128)</span>
-    </div>
+    {% assign w_rating = product.metafields.judgeme.rating | default: product.metafields.custom.rating.value | default: product.metafields.custom.rating | default: product.metafields.reviews.rating.value.rating | times: 1.0 %}
+    {% if w_rating > 0 %}
+      <div class="kb-wishlist-card__rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-num">{{ w_rating | round: 1 }}</span>
+      </div>
+    {% endif %}
 
     <div class="kb-wishlist-card__variant">
       <span>Unit: <strong>{{ product.selected_or_first_available_variant.title | default: '1 kg / Glass Jar' }}</strong></span>
