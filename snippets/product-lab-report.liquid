@@ -3,134 +3,81 @@
 
   @param {object} product - The Shopify product object
   @param {object} [block] - Optional block object containing settings
+  @param {object} [section] - Optional section object containing settings
 
   @example
-  {% render 'product-lab-report', product: product, block: block %}
+  {% render 'product-lab-report', product: product, block: block, section: section %}
 {% enddoc %}
 
 {% liquid
   assign pdf_url = ''
 
-  # 0. Dynamic scan of product.metafields.custom for any key containing lab, pdf, report, or test
-  for mf_entry in product.metafields.custom
-    assign mf_key = mf_entry[0] | downcase
-    if mf_key contains 'lab' or mf_key contains 'pdf' or mf_key contains 'report' or mf_key contains 'test'
-      assign mf_item = mf_entry[1]
+  # 1. Direct explicit inspection of primary candidate metafield keys
+  assign mf_candidates = 'lab_test_report,lab_test_report1,custom_lab_test_report,custom_lab_test_report1,pdf_report,custom_pdf_report,lab_report,custom_lab_report,test_report,custom_test_report,lab_test,pdf_link,report_url,lab_report_pdf,lab_test_report_link,ghee_lab_report,ghee_report' | split: ','
+
+  for mf_key in mf_candidates
+    if pdf_url != blank
+      break
+    endif
+
+    assign mf_item = product.metafields.custom[mf_key]
+    if mf_item != blank
       assign mf_val = mf_item.value | default: mf_item
       
       if mf_val.url != blank
         assign pdf_url = mf_val.url
-        break
       elsif mf_item.url != blank
         assign pdf_url = mf_item.url
-        break
       elsif mf_val.target != blank
         assign pdf_url = mf_val.target
-        break
-      elsif mf_val.text != blank and mf_val.text contains 'http'
-        assign pdf_url = mf_val.text
-        break
-      elsif mf_val != blank
-        assign file_chk = mf_val | file_url
-        if file_chk contains 'cdn.shopify.com' or file_chk contains '/files/'
-          assign pdf_url = file_chk
-          break
-        else
-          assign str_chk = mf_val | append: ''
-          if str_chk contains 'http://' or str_chk contains 'https://' or str_chk contains '//' or str_chk contains '/files/' or str_chk contains '.pdf'
-            assign pdf_url = str_chk
-            break
-          endif
+      else
+        assign str_val = mf_val | append: '' | strip
+        if str_val contains 'http://' or str_val contains 'https://' or str_val contains '//' or str_val contains 'drive.google.com' or str_val contains 'docs.google.com' or str_val contains '.pdf'
+          assign pdf_url = str_val
+        elsif str_val contains 'cdn.shopify.com' or str_val contains '/files/'
+          assign pdf_url = str_val
         endif
       endif
     endif
   endfor
 
-  # 1. Direct explicit check for custom_lab_test_report1, lab_test_report1, custom_lab_test_report, lab_test_report
+  # 2. Dynamic scan of product.metafields.custom for any other key containing lab, pdf, report, or test
+  # NOTE: Strictly ignore keys containing title, heading, subtitle, badge, name, status, desc to prevent text strings from polluting URL matching
   if pdf_url == blank
-    assign mf_val1 = product.metafields.custom.custom_lab_test_report1.value | default: product.metafields.custom.lab_test_report1.value | default: product.metafields.custom.custom_lab_test_report.value | default: product.metafields.custom.lab_test_report.value
-    assign mf_obj1 = product.metafields.custom.custom_lab_test_report1 | default: product.metafields.custom.lab_test_report1 | default: product.metafields.custom.custom_lab_test_report | default: product.metafields.custom.lab_test_report
+    for mf_entry in product.metafields.custom
+      if pdf_url != blank
+        break
+      endif
 
-    if mf_val1.url != blank
-      assign pdf_url = mf_val1.url
-    elsif mf_obj1.url != blank
-      assign pdf_url = mf_obj1.url
-    elsif mf_val1.target != blank
-      assign pdf_url = mf_val1.target
-    elsif mf_val1 != blank
-      assign file_check1 = mf_val1 | file_url
-      if file_check1 contains 'cdn.shopify.com' or file_check1 contains '/files/'
-        assign pdf_url = file_check1
-      else
-        assign str_check1 = mf_val1 | append: ''
-        if str_check1 contains 'http://' or str_check1 contains 'https://' or str_check1 contains '//' or str_check1 contains '/files/' or str_check1 contains '.pdf'
-          assign pdf_url = str_check1
+      assign mf_key = mf_entry[0] | downcase
+      unless mf_key contains 'title' or mf_key contains 'heading' or mf_key contains 'subtitle' or mf_key contains 'badge' or mf_key contains 'name' or mf_key contains 'status' or mf_key contains 'desc'
+        if mf_key contains 'lab' or mf_key contains 'pdf' or mf_key contains 'report' or mf_key contains 'test'
+          assign mf_item = mf_entry[1]
+          assign mf_val = mf_item.value | default: mf_item
+
+          if mf_val.url != blank
+            assign pdf_url = mf_val.url
+          elsif mf_item.url != blank
+            assign pdf_url = mf_item.url
+          elsif mf_val.target != blank
+            assign pdf_url = mf_val.target
+          else
+            assign str_chk = mf_val | append: '' | strip
+            if str_chk contains 'http://' or str_chk contains 'https://' or str_chk contains '//' or str_chk contains 'drive.google.com' or str_chk contains 'docs.google.com' or str_chk contains '.pdf'
+              assign pdf_url = str_chk
+            endif
+          endif
         endif
-      endif
-    endif
+      endunless
+    endfor
   endif
 
-  # 2. Check custom.custom_pdf_report or custom.pdf_report
-  if pdf_url == blank
-    assign mf_val2 = product.metafields.custom.custom_pdf_report.value | default: product.metafields.custom.pdf_report.value
-    assign mf_obj2 = product.metafields.custom.custom_pdf_report | default: product.metafields.custom.pdf_report
-    if mf_val2.url != blank
-      assign pdf_url = mf_val2.url
-    elsif mf_obj2.url != blank
-      assign pdf_url = mf_obj2.url
-    elsif mf_val2 != blank
-      assign file_check2 = mf_val2 | file_url
-      if file_check2 contains 'cdn.shopify.com' or file_check2 contains '/files/'
-        assign pdf_url = file_check2
-      else
-        assign str_check2 = mf_val2 | append: ''
-        if str_check2 contains 'http://' or str_check2 contains 'https://' or str_check2 contains '//' or str_check2 contains '/files/' or str_check2 contains '.pdf'
-          assign pdf_url = str_check2
-        endif
-      endif
-    endif
-  endif
-
-  # 3. Check custom.custom_lab_report or custom.lab_report
-  if pdf_url == blank
-    assign mf_val3 = product.metafields.custom.custom_lab_report.value | default: product.metafields.custom.lab_report.value
-    assign mf_obj3 = product.metafields.custom.custom_lab_report | default: product.metafields.custom.lab_report
-    if mf_val3.url != blank
-      assign pdf_url = mf_val3.url
-    elsif mf_obj3.url != blank
-      assign pdf_url = mf_obj3.url
-    elsif mf_val3 != blank
-      assign file_check3 = mf_val3 | file_url
-      if file_check3 contains 'cdn.shopify.com' or file_check3 contains '/files/'
-        assign pdf_url = file_check3
-      else
-        assign str_check3 = mf_val3 | append: ''
-        if str_check3 contains 'http://' or str_check3 contains 'https://' or str_check3 contains '//' or str_check3 contains '/files/' or str_check3 contains '.pdf'
-          assign pdf_url = str_check3
-        endif
-      endif
-    endif
-  endif
-
-  # 4. Check custom.custom_test_report, custom.test_report, custom.lab_test, custom.pdf_link, custom.report_url, custom.lab_report_pdf, custom.lab_test_report_link
-  if pdf_url == blank
-    assign mf_val4 = product.metafields.custom.custom_test_report.value | default: product.metafields.custom.test_report.value | default: product.metafields.custom.lab_test.value | default: product.metafields.custom.pdf_link.value | default: product.metafields.custom.report_url.value | default: product.metafields.custom.lab_report_pdf.value | default: product.metafields.custom.lab_test_report_link.value
-    if mf_val4.url != blank
-      assign pdf_url = mf_val4.url
-    elsif mf_val4 != blank
-      assign str_check4 = mf_val4 | append: ''
-      if str_check4 contains 'http://' or str_check4 contains 'https://' or str_check4 contains '//' or str_check4 contains '/files/' or str_check4 contains '.pdf'
-        assign pdf_url = str_check4
-      endif
-    endif
-  endif
-
-  # 5. Extract clean URL substring if embedded in JSON or text
+  # 3. Clean JSON or object strings if URL is embedded in JSON
   if pdf_url contains '"url":' or pdf_url contains '{"url"' or pdf_url contains '"url"'
     assign json_clean = pdf_url | replace: '"', ' ' | replace: '}', ' ' | replace: '{', ' '
     assign words = json_clean | split: ' '
     for word in words
-      if word contains 'http://' or word contains 'https://' or word contains '//cdn' or word contains '/files/'
+      if word contains 'http://' or word contains 'https://' or word contains '//' or word contains '/files/' or word contains 'drive.google.com'
         assign pdf_url = word | strip
         break
       endif
@@ -139,24 +86,27 @@
 
   assign pdf_url = pdf_url | strip
 
-  # Fallback to block / section setting if pdf_url is blank
+  # 4. Fallback to block / section setting if pdf_url is blank
   if pdf_url == blank
-    if block and block.settings.pdf_file != blank
-      assign pdf_url = block.settings.pdf_file | file_url
-    elsif block and block.settings.pdf_url != blank
+    if block and block.settings.pdf_url != blank
       assign pdf_url = block.settings.pdf_url
+    elsif block and block.settings.pdf_file != blank
+      assign pdf_url = block.settings.pdf_file | file_url
     elsif section and section.settings.lab_report_pdf_url != blank
       assign pdf_url = section.settings.lab_report_pdf_url
+    else
+      # Default fallback lab report PDF URL (Ghee Lab Report)
+      assign pdf_url = 'https://drive.google.com/file/d/1s7bB99EalX6p5Wy7Z2F3S6ZYApim7dNx/view'
     endif
   endif
 
-  # Show card ONLY if a valid PDF URL exists for this product (or in Theme Editor design mode)
+  # Show card if pdf_url is present or in Theme Editor design mode
   assign show_card = false
   if pdf_url != blank
     assign show_card = true
   elsif request.design_mode
     assign show_card = true
-    assign pdf_url = '#'
+    assign pdf_url = 'https://drive.google.com/file/d/1s7bB99EalX6p5Wy7Z2F3S6ZYApim7dNx/view'
   endif
 
   # Check section level visibility toggle

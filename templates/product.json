@@ -89,7 +89,7 @@
             "badge_text": "VERIFIED",
             "subtitle": "NABL-accredited purity & nutrition analysis (PDF)",
             "btn_text": "Download",
-            "pdf_url": "",
+            "pdf_url": "https://drive.google.com/file/d/1s7bB99EalX6p5Wy7Z2F3S6ZYApim7dNx/view",
             "bg_color": "#fef3c7",
             "border_color": "#fde68a",
             "title_color": "#1e293b",
@@ -172,7 +172,7 @@
         "lab_report_badge": "VERIFIED",
         "lab_report_subtitle": "NABL-accredited purity & nutrition analysis (PDF)",
         "lab_report_btn_text": "Download",
-        "lab_report_pdf_url": "",
+        "lab_report_pdf_url": "https://drive.google.com/file/d/1s7bB99EalX6p5Wy7Z2F3S6ZYApim7dNx/view",
         "lab_report_bg_color": "#fef3c7",
         "lab_report_border_color": "#fde68a",
         "lab_report_title_color": "#1e293b",
@@ -252,7 +252,7 @@
         "bg_color": "#faf7f2",
         "heading_color": "#1b4317",
         "eyebrow_color": "#d97706",
-        "products_limit": 8
+        "products_limit": 4
       }
     },
     "1788408506cab3cccd": {
