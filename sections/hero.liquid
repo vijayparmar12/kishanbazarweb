@@ -146,7 +146,7 @@
   </div>
 
   <!-- Mobile Dedicated All-Image Auto-Play Slider (Mobile View Only) -->
-  <div class="home-hero-split__mobile-slider" data-hero-mobile-slider style="--kb-mobile-hero-aspect: {{ section.settings.mobile_aspect_ratio | default: '3 / 2' }};">
+  <div class="home-hero-split__mobile-slider" data-hero-mobile-slider style="--kb-mobile-hero-aspect: {{ section.settings.mobile_aspect_ratio | default: '16 / 9' }};">
     <div class="home-hero-split__mobile-slides-track">
       {% if mobile_slides.size > 0 %}
         {% for block in mobile_slides %}
@@ -291,7 +291,7 @@
         { "value": "16 / 9", "label": "16:9 (Wide)" },
         { "value": "auto", "label": "Auto" }
       ],
-      "default": "3 / 2"
+      "default": "16 / 9"
     }
   ],
   "blocks": [
