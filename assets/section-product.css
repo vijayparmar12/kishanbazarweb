@@ -182,8 +182,9 @@
 
   .product-gallery__main-wrap {
     max-width: 100% !important;
-    max-height: 380px !important;
+    max-height: none !important;
     width: 100% !important;
+    aspect-ratio: 1 / 1 !important;
   }
 
   /* 3. Price Box THIRD */
@@ -405,17 +406,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px;
+  padding: 0 !important;
   box-sizing: border-box;
 }
 
 .product-gallery__main-image {
   display: block;
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-  object-fit: contain;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
   transition: transform 0.3s ease, opacity 0.2s ease;
 }
 

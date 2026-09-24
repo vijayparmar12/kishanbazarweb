@@ -33,9 +33,9 @@
   <div class="product-card__media">
     <a href="{{ product.url }}" class="product-card__image-link" aria-label="View {{ product.title | escape }}">
       {% if product.featured_image != blank %}
-        {{ product.featured_image | image_url: width: 420 | image_tag: class: 'product-card__image', loading: 'lazy', decoding: 'async', widths: '180, 260, 360, 480, 600', sizes: '(max-width: 480px) 45vw, (max-width: 768px) 30vw, 260px' }}
+        {{ product.featured_image | image_url: width: 600 | image_tag: class: 'product-card__image', loading: 'lazy', decoding: 'async', widths: '360, 480, 600, 800, 1000', sizes: '(max-width: 480px) 50vw, (max-width: 768px) 50vw, 320px' }}
         {% if product.images[1] != blank %}
-          {{ product.images[1] | image_url: width: 420 | image_tag: class: 'product-card__image product-card__image--hover', loading: 'lazy', decoding: 'async', widths: '180, 260, 360, 480, 600', sizes: '(max-width: 480px) 45vw, (max-width: 768px) 30vw, 260px' }}
+          {{ product.images[1] | image_url: width: 600 | image_tag: class: 'product-card__image product-card__image--hover', loading: 'lazy', decoding: 'async', widths: '360, 480, 600, 800, 1000', sizes: '(max-width: 480px) 50vw, (max-width: 768px) 50vw, 320px' }}
         {% endif %}
       {% else %}
         {{ 'product-1' | placeholder_svg_tag: 'product-card__image product-card__placeholder' }}
