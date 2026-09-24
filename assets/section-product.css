@@ -2380,6 +2380,17 @@ input[type="submit"].jdgm-btn:hover {
     box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1) !important;
   }
 
+  body.kb-header-menu-open .sticky-mobile-bar,
+  html.kb-header-menu-open .sticky-mobile-bar,
+  body.kb-cart-drawer-open .sticky-mobile-bar,
+  body.kb-wishlist-drawer-open .sticky-mobile-bar {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+  }
+
   .sticky-mobile-bar__content {
     gap: 0 !important;
     width: 100% !important;

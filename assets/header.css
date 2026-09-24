@@ -120,7 +120,21 @@ body.kb-header-menu-open #shopify-section-header,
 body.kb-header-menu-open header.kb-header,
 body.kb-header-menu-open .kb-header,
 body.kb-header-menu-open .kb-header-top-sticky {
-  z-index: 100 !important;
+  z-index: 2147483646 !important;
+}
+
+body.kb-header-menu-open .sticky-mobile-bar,
+html.kb-header-menu-open .sticky-mobile-bar,
+body.kb-cart-drawer-open .sticky-mobile-bar,
+html.kb-cart-drawer-open .sticky-mobile-bar,
+body.kb-wishlist-drawer-open .sticky-mobile-bar,
+html.kb-wishlist-drawer-open .sticky-mobile-bar,
+body.modal-open .sticky-mobile-bar {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
 }
 
 .kb-header-top-sticky.kb-header--hidden {
