@@ -129,18 +129,24 @@
           %}
           <div class="product-info__price-box" style="--price-mobile-size: {{ m_price_size }}px; --price-desktop-size: {{ d_price_size }}px; --price-color: {{ price_clr }};" {{ block.shopify_attributes }}>
             <div class="product-info__prices">
-              <span class="product-info__price-selling" data-product-price-selling style="color: {{ price_clr }} !important;">
-                {{ current_variant.price | money_without_trailing_zeros }}
-              </span>
+              <div class="product-info__price-left">
+                <span class="product-info__price-selling" data-product-price-selling style="color: {{ price_clr }} !important;">
+                  {{ current_variant.price | money_without_trailing_zeros }}
+                </span>
+                {% if sale %}
+                  <s class="product-info__price-mrp" data-product-price-mrp>
+                    {{ current_variant.compare_at_price | money_without_trailing_zeros }}
+                  </s>
+                {% else %}
+                  <s class="product-info__price-mrp" data-product-price-mrp style="display: none;"></s>
+                {% endif %}
+              </div>
               {% if sale %}
-                <s class="product-info__price-mrp" data-product-price-mrp>
-                  {{ current_variant.compare_at_price | money_without_trailing_zeros }}
-                </s>
+                {% assign save_amount = current_variant.compare_at_price | minus: current_variant.price %}
                 <span class="product-info__discount-badge" data-product-discount-badge>
-                  Save {{ current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price }}% OFF
+                  Save {{ save_amount | money_without_trailing_zeros }}
                 </span>
               {% else %}
-                <s class="product-info__price-mrp" data-product-price-mrp style="display: none;"></s>
                 <span class="product-info__discount-badge" data-product-discount-badge style="display: none;"></span>
               {% endif %}
             </div>
@@ -189,6 +195,7 @@
                       data-price="{{ variant.price | money_without_trailing_zeros | escape }}"
                       data-compare="{% if variant_sale %}{{ variant.compare_at_price | money_without_trailing_zeros | escape }}{% endif %}"
                       data-discount="{% if variant_sale %}{{ variant_disc }}{% endif %}"
+                      data-save="{% if variant_sale %}{{ variant.compare_at_price | minus: variant.price | money_without_trailing_zeros | escape }}{% endif %}"
                       data-sku="{{ variant.sku | escape }}"
                       data-available="{% if v_avail %}true{% else %}false{% endif %}"
                       data-inventory="{{ variant.inventory_quantity }}"

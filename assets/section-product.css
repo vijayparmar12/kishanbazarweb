@@ -814,9 +814,17 @@
 }
 
 .product-info__prices {
-  align-items: baseline !important;
+  align-items: center !important;
   display: flex !important;
-  flex-wrap: wrap !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  gap: 0.5rem !important;
+}
+
+.product-info__price-left {
+  display: flex !important;
+  align-items: baseline !important;
   gap: 0.65rem !important;
 }
 
@@ -848,7 +856,11 @@
   color: #166534 !important;
   font-size: 0.85rem !important;
   font-weight: 700 !important;
-  padding: 0.2rem 0.55rem !important;
+  padding: 0.25rem 0.65rem !important;
+  margin-left: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  white-space: nowrap !important;
 }
 
 .product-info__tax-note {

@@ -331,9 +331,13 @@ function initVariantSelection(container) {
       }
 
       if (discountBadge) {
-        if (discount) {
-          discountBadge.textContent = `Save ${discount}% OFF`;
-          discountBadge.style.display = 'inline-block';
+        const saveVal = radio.getAttribute('data-save');
+        if (saveVal) {
+          discountBadge.textContent = `Save ${saveVal}`;
+          discountBadge.style.display = 'inline-flex';
+        } else if (discount) {
+          discountBadge.textContent = `Save ${discount}%`;
+          discountBadge.style.display = 'inline-flex';
         } else {
           discountBadge.style.display = 'none';
         }
