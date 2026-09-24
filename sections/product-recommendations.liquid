@@ -186,14 +186,23 @@
   <div class="product-page-container" style="max-width: 2000px; margin: 0 auto; padding-left: clamp(0.75rem, 3vw, 1.25rem); padding-right: clamp(0.75rem, 3vw, 1.25rem); box-sizing: border-box;">
     {% liquid
       assign selected_coll = section.settings.collection
-      if selected_coll != blank and selected_coll.products.size > 0
+      assign rec_products = nil
+
+      if selected_coll != blank and selected_coll.products != blank
         assign rec_products = selected_coll.products
-      else
+      elsif recommendations.performed and recommendations.products_count > 0
         assign rec_products = recommendations.products
+      elsif collections.all.products != blank
+        assign rec_products = collections.all.products
+      endif
+
+      assign rec_count = 0
+      if rec_products != blank
+        assign rec_count = rec_products.size | default: 0 | plus: 0
       endif
     %}
 
-    {% if rec_products.size > 0 %}
+    {% if rec_count > 0 %}
       <div class="product-recommendations-head" style="display: flex; justify-content: center; align-items: center; margin-bottom: 1.25rem; text-align: center;">
         <h2 class="product-recommendations-title" style="color: {{ section.settings.heading_color | default: '#1B4317' }}; font-size: clamp(1.4rem, 3.2vw, 2.2rem); font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; margin: 0; text-align: center; width: 100%;">
           {{ section.settings.heading | default: 'RECOMMENDED' }}
