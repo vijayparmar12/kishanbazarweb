@@ -146,15 +146,7 @@
   </div>
 
   <!-- Mobile Dedicated All-Image Auto-Play Slider (Mobile View Only) -->
-  {% assign mob_aspect = section.settings.mobile_aspect_ratio %}
-  {% if mob_aspect == blank or mob_aspect == 'auto' or mob_aspect == '16 / 9' or mob_aspect == '3 / 2' %}
-    {% if first_mob_img != blank and first_mob_img.aspect_ratio != blank %}
-      {% assign mob_aspect = first_mob_img.aspect_ratio %}
-    {% else %}
-      {% assign mob_aspect = '1.7778' %}
-    {% endif %}
-  {% endif %}
-  <div class="home-hero-split__mobile-slider" data-hero-mobile-slider style="--kb-mobile-hero-aspect: {{ mob_aspect }};">
+  <div class="home-hero-split__mobile-slider" data-hero-mobile-slider style="--kb-mobile-hero-aspect: {{ section.settings.mobile_aspect_ratio | default: '16 / 9' }};">
     <div class="home-hero-split__mobile-slides-track">
       {% if mobile_slides.size > 0 %}
         {% for block in mobile_slides %}
