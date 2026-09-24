@@ -624,18 +624,53 @@
     }
   };
 
-  const syncShippingFeeLineItem = async (cart) => {
-    const mainCartEl = document.querySelector('[data-main-cart], [data-cart-drawer]');
-    const shippingFeeVariantId = mainCartEl?.dataset.shippingFeeVariantId || window._shippingFeeVariantId || null;
-    if (!shippingFeeVariantId || !cart || !cart.items) return cart;
+  window._shippingFeeVariantId = window._shippingFeeVariantId || null;
 
+  const findShippingFeeVariantId = async () => {
+    if (window._shippingFeeVariantId) return window._shippingFeeVariantId;
+
+    const mainCartEl = document.querySelector('[data-main-cart], [data-cart-drawer]');
+    const setVariantId = mainCartEl?.dataset.shippingFeeVariantId || '';
+    if (setVariantId && setVariantId.trim() !== '') {
+      window._shippingFeeVariantId = setVariantId.trim();
+      return window._shippingFeeVariantId;
+    }
+
+    const candidateHandles = ['shipping-charge', 'shipping-fee', 'delivery-charge', 'delivery-fee', 'shipping'];
+    const cleanRoot = rootUrl.replace(/\/$/, '');
+
+    for (const handle of candidateHandles) {
+      try {
+        const res = await fetch(`${cleanRoot}/products/${handle}.js`);
+        if (res.ok) {
+          const pData = await res.json();
+          if (pData && pData.variants && pData.variants.length > 0) {
+            window._shippingFeeVariantId = String(pData.variants[0].id);
+            return window._shippingFeeVariantId;
+          }
+        }
+      } catch (e) {}
+    }
+
+    return null;
+  };
+
+  const syncShippingFeeLineItem = async (cart) => {
+    if (!cart || !Array.isArray(cart.items)) return cart;
+
+    const shippingFeeVariantId = await findShippingFeeVariantId();
+
+    const mainCartEl = document.querySelector('[data-main-cart], [data-cart-drawer]');
     const thresholdCents = parseInt(mainCartEl?.dataset.freeShippingThreshold, 10) || 149900;
     
     let productSubtotal = 0;
     let shippingItemKey = null;
 
     cart.items.forEach((item) => {
-      if (String(item.variant_id) === String(shippingFeeVariantId) || (item.title && item.title.toLowerCase().includes('shipping charge'))) {
+      const isShippingItem = (shippingFeeVariantId && String(item.variant_id) === String(shippingFeeVariantId)) ||
+        (item.title && (item.title.toLowerCase().includes('shipping charge') || item.title.toLowerCase().includes('delivery charge') || item.title.toLowerCase().includes('shipping fee')));
+
+      if (isShippingItem) {
         shippingItemKey = item.key;
       } else {
         productSubtotal += (item.final_line_price || item.line_price || 0);
@@ -644,7 +679,7 @@
 
     const needsShippingFee = productSubtotal > 0 && productSubtotal < thresholdCents;
 
-    if (needsShippingFee && !shippingItemKey) {
+    if (needsShippingFee && !shippingItemKey && shippingFeeVariantId) {
       try {
         await fetch(`${rootUrl}cart/add.js`, {
           method: 'POST',
@@ -653,8 +688,8 @@
         });
         const freshRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
         return await freshRes.json();
-      } catch (e) { console.error('Error adding shipping fee line item:', e); }
-    } else if (!needsShippingFee && shippingItemKey) {
+      } catch (e) { console.error('Error auto-adding shipping fee line item:', e); }
+    } else if ((!needsShippingFee || productSubtotal === 0) && shippingItemKey) {
       try {
         await fetch(`${rootUrl}cart/change.js`, {
           method: 'POST',
@@ -663,7 +698,7 @@
         });
         const freshRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
         return await freshRes.json();
-      } catch (e) { console.error('Error removing shipping fee line item:', e); }
+      } catch (e) { console.error('Error auto-removing shipping fee line item:', e); }
     }
 
     return cart;
