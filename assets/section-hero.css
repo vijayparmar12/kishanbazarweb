@@ -293,7 +293,7 @@
   .home-hero-split__mobile-slides-track {
     position: relative;
     width: 100%;
-    aspect-ratio: var(--kb-mobile-hero-aspect, 3 / 2);
+    aspect-ratio: var(--kb-mobile-hero-aspect, 16 / 9);
     border-radius: 18px;
     overflow: hidden;
     background: #faf6ec;
