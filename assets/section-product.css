@@ -850,17 +850,20 @@
 }
 
 .product-info__discount-badge {
-  background-color: #dcfce7 !important;
-  border: 1px solid #bbf7d0 !important;
-  border-radius: 6px !important;
-  color: #166534 !important;
-  font-size: 0.85rem !important;
-  font-weight: 700 !important;
-  padding: 0.25rem 0.65rem !important;
+  background: linear-gradient(135deg, #1b4317 0%, #23421f 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 999px !important;
+  font-size: 0.80rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  padding: 0.35rem 0.85rem !important;
   margin-left: auto !important;
   display: inline-flex !important;
   align-items: center !important;
   white-space: nowrap !important;
+  box-shadow: 0 4px 14px rgba(27, 67, 23, 0.25) !important;
+  text-transform: uppercase !important;
 }
 
 .product-info__tax-note {

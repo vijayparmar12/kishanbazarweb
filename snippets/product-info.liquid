@@ -144,7 +144,7 @@
               {% if sale %}
                 {% assign save_amount = current_variant.compare_at_price | minus: current_variant.price %}
                 <span class="product-info__discount-badge" data-product-discount-badge>
-                  Save {{ save_amount | money_without_trailing_zeros }}
+                  SAVE {{ save_amount | money_without_trailing_zeros }}
                 </span>
               {% else %}
                 <span class="product-info__discount-badge" data-product-discount-badge style="display: none;"></span>

@@ -333,10 +333,10 @@ function initVariantSelection(container) {
       if (discountBadge) {
         const saveVal = radio.getAttribute('data-save');
         if (saveVal) {
-          discountBadge.textContent = `Save ${saveVal}`;
+          discountBadge.textContent = `SAVE ${saveVal}`;
           discountBadge.style.display = 'inline-flex';
         } else if (discount) {
-          discountBadge.textContent = `Save ${discount}%`;
+          discountBadge.textContent = `SAVE ${discount}%`;
           discountBadge.style.display = 'inline-flex';
         } else {
           discountBadge.style.display = 'none';
