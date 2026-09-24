@@ -271,10 +271,10 @@
           </div>
 
           <!-- REFINED CHECKOUT BUTTON -->
-          <form action="{{ routes.cart_url }}" method="post" id="cart-page-checkout-form" style="width: 100%;">
+          <form action="/checkout" method="get" id="cart-page-checkout-form" style="width: 100%;">
             <input type="hidden" name="attributes[Shipping Charge]" value="{% if is_free_shipping %}Free Shipping{% else %}{{ current_shipping_fee | money }}{% endif %}">
             <input type="hidden" name="attributes[Estimated Total]" value="{{ final_estimated_total | money }}">
-            <button type="submit" name="checkout" style="width: 100%; border: none; cursor: pointer; background: #1b4317; color: #ffffff; border-radius: 10px; padding: 0.65rem 1rem; text-align: center; box-shadow: 0 4px 14px rgba(27, 67, 23, 0.25); transition: background-color 200ms ease;">
+            <button type="submit" class="kb-cart-checkout-btn" style="width: 100%; border: none; cursor: pointer; background: #1b4317; color: #ffffff; border-radius: 10px; padding: 0.65rem 1rem; text-align: center; box-shadow: 0 4px 14px rgba(27, 67, 23, 0.25); transition: background-color 200ms ease;">
               <div style="font-size: 0.95rem; font-weight: 900; letter-spacing: 0.03em; text-transform: uppercase;">{{ checkout_label }}</div>
               <div style="font-size: 0.7rem; font-weight: 500; opacity: 0.9; margin-top: 1px;">Free Shipping on Orders Above ₹{{ free_shipping_threshold_num }}</div>
             </button>
