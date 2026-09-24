@@ -71,7 +71,7 @@
 
   .section-product-recommendations,
   .product-recommendations-section {
-    padding-bottom: 4.5rem !important;
+    padding-bottom: 3.5rem !important;
   }
   .section-product-recommendations .product-card__image-wrapper,
   .product-recommendations-section .product-card__image-wrapper,
@@ -79,38 +79,61 @@
   .product-recommendations-section .product-card__media {
     max-height: none !important;
     aspect-ratio: 1 / 1 !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    border-top-left-radius: 16px !important;
+    border-top-right-radius: 16px !important;
     background: #ffffff !important;
+    position: relative !important;
   }
   .section-product-recommendations .product-card__image,
   .product-recommendations-section .product-card__image {
     max-height: none !important;
     height: 100% !important;
     width: 100% !important;
-    object-fit: contain !important;
-    padding: 6px !important;
+    object-fit: cover !important;
+    padding: 0 !important;
+    margin: 0 !important;
     box-sizing: border-box !important;
+    display: block !important;
   }
   .section-product-recommendations .product-card,
   .product-recommendations-section .product-card {
-    padding: 0.5rem !important;
-    border-radius: 14px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-radius: 16px !important;
     border: 1px solid #e2e8f0 !important;
     background: #ffffff !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+  .section-product-recommendations .product-card__wave-divider,
+  .product-recommendations-section .product-card__wave-divider {
+    display: none !important;
+  }
+  .section-product-recommendations .product-card__content,
+  .product-recommendations-section .product-card__content {
+    padding: 0.65rem 0.65rem 0.75rem !important;
   }
   .section-product-recommendations .product-card__title,
   .product-recommendations-section .product-card__title {
-    font-size: 0.88rem !important;
+    font-size: 0.80rem !important;
     line-height: 1.25 !important;
     margin-bottom: 0.25rem !important;
-    min-height: 2.3rem !important;
+    min-height: 2.1rem !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
+    font-weight: 600 !important;
   }
   .section-product-recommendations .product-card__price,
-  .product-recommendations-section .product-card__price {
-    font-size: 0.95rem !important;
+  .product-recommendations-section .product-card__price,
+  .section-product-recommendations .product-card__price-current,
+  .product-recommendations-section .product-card__price-current {
+    font-size: 0.85rem !important;
+    font-weight: 800 !important;
     margin-bottom: 0.25rem !important;
   }
   .section-product-recommendations .product-card__subtitle,
@@ -118,7 +141,9 @@
   .section-product-recommendations .product-card__circle-features,
   .product-recommendations-section .product-card__circle-features,
   .section-product-recommendations .product-card__cart-icon,
-  .product-recommendations-section .product-card__cart-icon {
+  .product-recommendations-section .product-card__cart-icon,
+  .product-recommendations-eyebrow,
+  .product-recommendations-nav-btns {
     display: none !important;
   }
 
@@ -126,22 +151,34 @@
     display: none !important;
   }
 
-  .product-recommendations-nav-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: #1B4317;
-    color: #ffffff;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+  .product-recommendations__cta-container {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    margin-top: 1.5rem !important;
   }
-  .product-recommendations-nav-btn:hover {
-    background: #133010;
-    transform: scale(1.05);
+  .product-recommendations__shop-more-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.4rem !important;
+    background-color: #1b4317 !important;
+    color: #ffffff !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em !important;
+    padding: 0.45rem 1.35rem !important;
+    border-radius: 999px !important;
+    text-decoration: none !important;
+    box-shadow: 0 4px 12px rgba(27, 67, 23, 0.22) !important;
+    transition: all 220ms ease !important;
+  }
+  .product-recommendations__shop-more-btn:hover {
+    background-color: #133010 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(27, 67, 23, 0.3) !important;
   }
 {% endstyle %}
 
@@ -157,31 +194,10 @@
     %}
 
     {% if rec_products.size > 0 %}
-      <div class="product-recommendations-head" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
-        <div>
-          {% if section.settings.eyebrow != blank %}
-            <span class="product-recommendations-eyebrow" style="color: {{ section.settings.eyebrow_color | default: '#D97706' }}; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 0.25rem;">
-              {{ section.settings.eyebrow }}
-            </span>
-          {% endif %}
-          {% if section.settings.heading != blank %}
-            <h2 class="product-recommendations-title" style="color: {{ section.settings.heading_color | default: '#1B4317' }}; font-size: clamp(1.4rem, 3.2vw, 2.2rem); font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; margin: 0;">
-              {{ section.settings.heading }}
-            </h2>
-          {% endif %}
-        </div>
-        <div class="product-recommendations-nav-btns" style="display: flex; gap: 0.5rem; align-items: center;">
-          <button type="button" class="product-recommendations-nav-btn" data-rec-prev aria-label="Previous recommended products">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
-          <button type="button" class="product-recommendations-nav-btn" data-rec-next aria-label="Next recommended products">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
-        </div>
+      <div class="product-recommendations-head" style="display: flex; justify-content: center; align-items: center; margin-bottom: 1.25rem; text-align: center;">
+        <h2 class="product-recommendations-title" style="color: {{ section.settings.heading_color | default: '#1B4317' }}; font-size: clamp(1.4rem, 3.2vw, 2.2rem); font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; margin: 0; text-align: center; width: 100%;">
+          {{ section.settings.heading | default: 'RECOMMENDED' }}
+        </h2>
       </div>
 
       <div class="product-recommendations__carousel-wrapper">
@@ -200,6 +216,13 @@
             {% endunless %}
           {% endfor %}
         </div>
+      </div>
+
+      <div class="product-recommendations__cta-container">
+        <a href="/collections/all" class="product-recommendations__shop-more-btn">
+          <span>SHOP MORE</span>
+          <span class="cta-arrow" style="font-size: 0.95rem; line-height: 1;">&rarr;</span>
+        </a>
       </div>
     {% endif %}
   </div>
