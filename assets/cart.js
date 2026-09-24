@@ -676,30 +676,34 @@
 
   const syncShippingFeeLineItem = async (cart) => {
     if (!cart || !Array.isArray(cart.items)) return cart;
+    if (window._isSyncingShippingFee) return cart;
+    window._isSyncingShippingFee = true;
 
-    const shippingFeeVariantId = await findShippingFeeVariantId();
+    try {
+      const shippingFeeVariantId = await findShippingFeeVariantId();
 
-    const mainCartEl = document.querySelector('[data-main-cart], [data-cart-drawer]');
-    const thresholdCents = parseInt(mainCartEl?.dataset.freeShippingThreshold, 10) || 149900;
-    
-    let productSubtotal = 0;
-    let shippingItemKey = null;
+      const mainCartEl = document.querySelector('[data-main-cart], [data-cart-drawer]');
+      const thresholdCents = parseInt(mainCartEl?.dataset.freeShippingThreshold, 10) || 149900;
+      
+      let productSubtotal = 0;
+      const shippingItems = [];
 
-    cart.items.forEach((item) => {
-      const isShippingItem = (shippingFeeVariantId && String(item.variant_id) === String(shippingFeeVariantId)) ||
-        (item.title && (item.title.toLowerCase().includes('shipping charge') || item.title.toLowerCase().includes('delivery charge') || item.title.toLowerCase().includes('shipping fee')));
+      cart.items.forEach((item) => {
+        const itemTitle = (item.product_title || item.title || '').toLowerCase();
+        const isShippingItem = (shippingFeeVariantId && String(item.variant_id) === String(shippingFeeVariantId)) ||
+          itemTitle.includes('shipping charge') || itemTitle.includes('delivery charge') || itemTitle.includes('shipping fee') || item.handle === 'shipping-charge';
 
-      if (isShippingItem) {
-        shippingItemKey = item.key;
-      } else {
-        productSubtotal += (item.final_line_price || item.line_price || 0);
-      }
-    });
+        if (isShippingItem) {
+          shippingItems.push(item);
+        } else {
+          productSubtotal += (item.final_line_price || item.line_price || 0);
+        }
+      });
 
-    const needsShippingFee = productSubtotal > 0 && productSubtotal < thresholdCents;
+      const needsShippingFee = productSubtotal > 0 && productSubtotal < thresholdCents;
 
-    if (needsShippingFee && !shippingItemKey && shippingFeeVariantId) {
-      try {
+      // Case 1: Needs shipping fee, but no shipping item exists
+      if (needsShippingFee && shippingItems.length === 0 && shippingFeeVariantId) {
         await fetch(`${rootUrl}cart/add.js`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -707,17 +711,49 @@
         });
         const freshRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
         return await freshRes.json();
-      } catch (e) { console.error('Error auto-adding shipping fee line item:', e); }
-    } else if ((!needsShippingFee || productSubtotal === 0) && shippingItemKey) {
-      try {
-        await fetch(`${rootUrl}cart/change.js`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ id: shippingItemKey, quantity: 0 })
-        });
+      }
+      
+      // Case 2: Does NOT need shipping fee (or cart is empty), but shipping item(s) exist -> Remove all
+      if ((!needsShippingFee || productSubtotal === 0) && shippingItems.length > 0) {
+        for (const sItem of shippingItems) {
+          await fetch(`${rootUrl}cart/change.js`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ id: sItem.key, quantity: 0 })
+          });
+        }
         const freshRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
         return await freshRes.json();
-      } catch (e) { console.error('Error auto-removing shipping fee line item:', e); }
+      }
+
+      // Case 3: Needs shipping fee, shipping item exists, but quantity is not 1 OR duplicate items exist
+      if (needsShippingFee && shippingItems.length > 0) {
+        let changed = false;
+        if (shippingItems[0].quantity !== 1) {
+          await fetch(`${rootUrl}cart/change.js`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ id: shippingItems[0].key, quantity: 1 })
+          });
+          changed = true;
+        }
+        for (let i = 1; i < shippingItems.length; i++) {
+          await fetch(`${rootUrl}cart/change.js`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ id: shippingItems[i].key, quantity: 0 })
+          });
+          changed = true;
+        }
+        if (changed) {
+          const freshRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
+          return await freshRes.json();
+        }
+      }
+    } catch (e) {
+      console.error('Error syncing shipping fee line item:', e);
+    } finally {
+      window._isSyncingShippingFee = false;
     }
 
     return cart;
