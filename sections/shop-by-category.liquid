@@ -42,7 +42,7 @@
           <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="all" data-collection-url="{{ routes.all_products_collection_url }}">
             <span class="shop-by-category__tab-icon">
               {% if section.settings.all_tab_icon != blank %}
-                {{ section.settings.all_tab_icon | image_url: width: 100 | image_tag: class: 'shop-by-category__tab-img', loading: 'lazy' }}
+                {{ section.settings.all_tab_icon | image_url: width: 160 | image_tag: class: 'shop-by-category__tab-img', loading: 'eager', fetchpriority: 'high', widths: '120, 160, 240' }}
               {% else %}
                 <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
               {% endif %}
@@ -82,9 +82,9 @@
             <button class="shop-by-category__tab{% if forloop.first and section.settings.show_all_tab == false %} is-active{% endif %}" type="button" role="tab" data-category-tab data-category-filter="{{ filter_terms | strip | escape }}" data-collection-url="{{ tab_col_url }}" {{ block.shopify_attributes }}>
               <span class="shop-by-category__tab-icon">
                 {% if block.settings.active_icon_image != blank and block.settings.icon_image != blank %}
-                  {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'shop-by-category__tab-img shop-by-category__tab-img--normal', loading: 'lazy', alt: block.settings.title }}
+                  {{ block.settings.icon_image | image_url: width: 160 | image_tag: class: 'shop-by-category__tab-img shop-by-category__tab-img--normal', loading: 'eager', fetchpriority: 'high', widths: '120, 160, 240', alt: block.settings.title }}
                 {% elsif block.settings.icon_image != blank %}
-                  {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'shop-by-category__tab-img', loading: 'lazy', alt: block.settings.title }}
+                  {{ block.settings.icon_image | image_url: width: 160 | image_tag: class: 'shop-by-category__tab-img', loading: 'eager', fetchpriority: 'high', widths: '120, 160, 240', alt: block.settings.title }}
                 {% else %}
                   <svg width="34" height="34" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" fill="currentColor"/></svg>
                 {% endif %}
@@ -94,18 +94,33 @@
           {% endfor %}
         {% else %}
           <button class="shop-by-category__tab is-active" type="button" role="tab" data-category-tab data-category-filter="atta aatta" data-collection-url="/collections/frontpage">
+            <span class="shop-by-category__tab-icon">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#23421f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12"/><path d="M12 12c-3 0-6-3-6-7 4 0 6 3 6 7z"/><path d="M12 14c3 0 5-2.5 5-6-3.5 0-5 2.5-5 6z"/></svg>
+            </span>
             <span class="shop-by-category__tab-label">Atta</span>
           </button>
           <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="breakfast" data-collection-url="/collections/breakfast">
+            <span class="shop-by-category__tab-icon">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#23421f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6v6l4 2"/></svg>
+            </span>
             <span class="shop-by-category__tab-label">BreakFast</span>
           </button>
           <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="ghee" data-collection-url="/collections/ghee">
+            <span class="shop-by-category__tab-icon">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#23421f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            </span>
             <span class="shop-by-category__tab-label">Ghee</span>
           </button>
           <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="oil" data-collection-url="/collections/oil">
+            <span class="shop-by-category__tab-icon">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#23421f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            </span>
             <span class="shop-by-category__tab-label">Oil</span>
           </button>
           <button class="shop-by-category__tab" type="button" role="tab" data-category-tab data-category-filter="spices" data-collection-url="/collections/spices">
+            <span class="shop-by-category__tab-icon">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#23421f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            </span>
             <span class="shop-by-category__tab-label">Spices</span>
           </button>
         {% endif %}
