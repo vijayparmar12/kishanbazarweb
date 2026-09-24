@@ -165,25 +165,12 @@
 
     const items = drawer.querySelector('[data-cart-drawer-items]');
     if (items) {
-      const sortedCartItems = [...(cart.items || [])].sort((a, b) => {
-        const aTitle = (a.product_title || a.title || '').toLowerCase();
-        const bTitle = (b.product_title || b.title || '').toLowerCase();
-        const aIsShip = aTitle.includes('shipping charge') || aTitle.includes('delivery charge') || aTitle.includes('shipping fee') || a.handle === 'shipping-charge';
-        const bIsShip = bTitle.includes('shipping charge') || bTitle.includes('delivery charge') || bTitle.includes('shipping fee') || b.handle === 'shipping-charge';
-        if (aIsShip && !bIsShip) return 1;
-        if (!aIsShip && bIsShip) return -1;
-        return 0;
-      });
-
-      items.innerHTML = sortedCartItems.length
-        ? sortedCartItems.map((item, index) => {
+      items.innerHTML = cart.items.length
+        ? cart.items.map((item, index) => {
             const compareUnit = window._variantComparePrices[item.variant_id] || (item.variant && item.variant.compare_at_price) || 0;
             const compareVal = (compareUnit > 0 ? compareUnit * item.quantity : 0) || item.original_line_price;
             const finalVal = item.final_line_price || item.line_price;
             const hasCompare = compareVal > finalVal;
-            const itemTitle = (item.product_title || item.title || '').toLowerCase();
-            const isShippingItem = itemTitle.includes('shipping charge') || itemTitle.includes('delivery charge') || itemTitle.includes('shipping fee') || item.handle === 'shipping-charge';
-
             return `
           <article class="kb-cart-item kb-cart-item--compact" data-cart-line-item data-cart-line-key="${item.key}" data-cart-line-index="${index + 1}">
             <div class="kb-cart-item__media-wrap">
@@ -195,13 +182,12 @@
             <div class="kb-cart-item__content">
               <div class="kb-cart-item__header-row" style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; width: 100%;">
                 <h3 class="kb-cart-item__title" style="margin: 0; flex: 1; padding-right: 4px;"><a href="${item.url}">${item.product_title}</a></h3>
-                ${!isShippingItem ? `
                 <button class="kb-cart-item__remove-btn" type="button" aria-label="Remove item" data-cart-remove title="Remove item" style="background: none; border: none; padding: 4px; cursor: pointer; color: #64748b; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                   </svg>
-                </button>` : ''}
+                </button>
               </div>
 
               <div class="kb-cart-item__variant-container" data-cart-variant-container="${item.key}">
@@ -214,15 +200,11 @@
               </div>
 
               <div class="kb-cart-item__actions">
-                ${isShippingItem ? `
-                  <span style="display: inline-block; font-size: 12px; font-weight: 700; color: #166534; background: #dcfce7; padding: 3px 8px; border-radius: 6px;">Delivery Fee</span>
-                ` : `
-                  <div class="kb-cart-item__control-pill">
-                    <button class="kb-cart-item__qty-btn" type="button" aria-label="Decrease quantity" data-cart-qty-minus>-</button>
-                    <input class="kb-cart-item__qty-input" type="number" min="1" step="1" value="${item.quantity}" inputmode="numeric" data-cart-quantity-input>
-                    <button class="kb-cart-item__qty-btn" type="button" aria-label="Increase quantity" data-cart-qty-plus>+</button>
-                  </div>
-                `}
+                <div class="kb-cart-item__control-pill">
+                  <button class="kb-cart-item__qty-btn" type="button" aria-label="Decrease quantity" data-cart-qty-minus>-</button>
+                  <input class="kb-cart-item__qty-input" type="number" min="1" step="1" value="${item.quantity}" inputmode="numeric" data-cart-quantity-input>
+                  <button class="kb-cart-item__qty-btn" type="button" aria-label="Increase quantity" data-cart-qty-plus>+</button>
+                </div>
               </div>
             </div>
           </article>
@@ -670,40 +652,35 @@
       } catch (e) {}
     }
 
-    window._shippingFeeVariantId = '53635140387125';
-    return window._shippingFeeVariantId;
+    return null;
   };
 
   const syncShippingFeeLineItem = async (cart) => {
     if (!cart || !Array.isArray(cart.items)) return cart;
-    if (window._isSyncingShippingFee) return cart;
-    window._isSyncingShippingFee = true;
 
-    try {
-      const shippingFeeVariantId = await findShippingFeeVariantId();
+    const shippingFeeVariantId = await findShippingFeeVariantId();
 
-      const mainCartEl = document.querySelector('[data-main-cart], [data-cart-drawer]');
-      const thresholdCents = parseInt(mainCartEl?.dataset.freeShippingThreshold, 10) || 149900;
-      
-      let productSubtotal = 0;
-      const shippingItems = [];
+    const mainCartEl = document.querySelector('[data-main-cart], [data-cart-drawer]');
+    const thresholdCents = parseInt(mainCartEl?.dataset.freeShippingThreshold, 10) || 149900;
+    
+    let productSubtotal = 0;
+    let shippingItemKey = null;
 
-      cart.items.forEach((item) => {
-        const itemTitle = (item.product_title || item.title || '').toLowerCase();
-        const isShippingItem = (shippingFeeVariantId && String(item.variant_id) === String(shippingFeeVariantId)) ||
-          itemTitle.includes('shipping charge') || itemTitle.includes('delivery charge') || itemTitle.includes('shipping fee') || item.handle === 'shipping-charge';
+    cart.items.forEach((item) => {
+      const isShippingItem = (shippingFeeVariantId && String(item.variant_id) === String(shippingFeeVariantId)) ||
+        (item.title && (item.title.toLowerCase().includes('shipping charge') || item.title.toLowerCase().includes('delivery charge') || item.title.toLowerCase().includes('shipping fee')));
 
-        if (isShippingItem) {
-          shippingItems.push(item);
-        } else {
-          productSubtotal += (item.final_line_price || item.line_price || 0);
-        }
-      });
+      if (isShippingItem) {
+        shippingItemKey = item.key;
+      } else {
+        productSubtotal += (item.final_line_price || item.line_price || 0);
+      }
+    });
 
-      const needsShippingFee = productSubtotal > 0 && productSubtotal < thresholdCents;
+    const needsShippingFee = productSubtotal > 0 && productSubtotal < thresholdCents;
 
-      // Case 1: Needs shipping fee, but no shipping item exists
-      if (needsShippingFee && shippingItems.length === 0 && shippingFeeVariantId) {
+    if (needsShippingFee && !shippingItemKey && shippingFeeVariantId) {
+      try {
         await fetch(`${rootUrl}cart/add.js`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -711,49 +688,17 @@
         });
         const freshRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
         return await freshRes.json();
-      }
-      
-      // Case 2: Does NOT need shipping fee (or cart is empty), but shipping item(s) exist -> Remove all
-      if ((!needsShippingFee || productSubtotal === 0) && shippingItems.length > 0) {
-        for (const sItem of shippingItems) {
-          await fetch(`${rootUrl}cart/change.js`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify({ id: sItem.key, quantity: 0 })
-          });
-        }
+      } catch (e) { console.error('Error auto-adding shipping fee line item:', e); }
+    } else if ((!needsShippingFee || productSubtotal === 0) && shippingItemKey) {
+      try {
+        await fetch(`${rootUrl}cart/change.js`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ id: shippingItemKey, quantity: 0 })
+        });
         const freshRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
         return await freshRes.json();
-      }
-
-      // Case 3: Needs shipping fee, shipping item exists, but quantity is not 1 OR duplicate items exist
-      if (needsShippingFee && shippingItems.length > 0) {
-        let changed = false;
-        if (shippingItems[0].quantity !== 1) {
-          await fetch(`${rootUrl}cart/change.js`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify({ id: shippingItems[0].key, quantity: 1 })
-          });
-          changed = true;
-        }
-        for (let i = 1; i < shippingItems.length; i++) {
-          await fetch(`${rootUrl}cart/change.js`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify({ id: shippingItems[i].key, quantity: 0 })
-          });
-          changed = true;
-        }
-        if (changed) {
-          const freshRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
-          return await freshRes.json();
-        }
-      }
-    } catch (e) {
-      console.error('Error syncing shipping fee line item:', e);
-    } finally {
-      window._isSyncingShippingFee = false;
+      } catch (e) { console.error('Error auto-removing shipping fee line item:', e); }
     }
 
     return cart;
