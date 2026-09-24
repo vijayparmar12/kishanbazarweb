@@ -186,6 +186,12 @@
         "default": 99
       },
       {
+        "type": "text",
+        "id": "cart_shipping_fee_variant_id",
+        "label": "Shipping Charge Product Variant ID (Optional)",
+        "info": "If set, automatically adds/removes this ₹99 Shipping Charge line item to/from Shopify cart when total is below ₹1499."
+      },
+      {
         "type": "number",
         "id": "cart_free_shipping_threshold",
         "label": "Free Shipping Threshold (in ₹)",

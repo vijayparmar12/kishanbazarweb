@@ -612,7 +612,10 @@
   const updateDrawerFromServer = async () => {
     try {
       const response = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
-      const cart = await response.json();
+      let cart = await response.json();
+      if (cart) {
+        cart = await syncShippingFeeLineItem(cart);
+      }
       updateDrawer(cart);
       return cart;
     } catch (error) {
@@ -620,6 +623,82 @@
       return null;
     }
   };
+
+  const syncShippingFeeLineItem = async (cart) => {
+    const mainCartEl = document.querySelector('[data-main-cart], [data-cart-drawer]');
+    const shippingFeeVariantId = mainCartEl?.dataset.shippingFeeVariantId || window._shippingFeeVariantId || null;
+    if (!shippingFeeVariantId || !cart || !cart.items) return cart;
+
+    const thresholdCents = parseInt(mainCartEl?.dataset.freeShippingThreshold, 10) || 149900;
+    
+    let productSubtotal = 0;
+    let shippingItemKey = null;
+
+    cart.items.forEach((item) => {
+      if (String(item.variant_id) === String(shippingFeeVariantId) || (item.title && item.title.toLowerCase().includes('shipping charge'))) {
+        shippingItemKey = item.key;
+      } else {
+        productSubtotal += (item.final_line_price || item.line_price || 0);
+      }
+    });
+
+    const needsShippingFee = productSubtotal > 0 && productSubtotal < thresholdCents;
+
+    if (needsShippingFee && !shippingItemKey) {
+      try {
+        await fetch(`${rootUrl}cart/add.js`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ id: Number(shippingFeeVariantId), quantity: 1 })
+        });
+        const freshRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
+        return await freshRes.json();
+      } catch (e) { console.error('Error adding shipping fee line item:', e); }
+    } else if (!needsShippingFee && shippingItemKey) {
+      try {
+        await fetch(`${rootUrl}cart/change.js`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ id: shippingItemKey, quantity: 0 })
+        });
+        const freshRes = await fetch(`${rootUrl}cart.js?_t=${Date.now()}`);
+        return await freshRes.json();
+      } catch (e) { console.error('Error removing shipping fee line item:', e); }
+    }
+
+    return cart;
+  };
+
+  // Sync shipping charge cart attributes prior to checkout submit
+  document.addEventListener('submit', async (e) => {
+    const form = e.target.closest('#cart-page-checkout-form, form[action*="/cart"]');
+    if (!form) return;
+
+    const mainCartEl = document.querySelector('[data-main-cart]');
+    const thresholdCents = parseInt(mainCartEl?.dataset.freeShippingThreshold, 10) || 149900;
+    const shippingFeeCents = parseInt(mainCartEl?.dataset.shippingFee, 10) || 9900;
+
+    try {
+      const cartRes = await fetch(`${rootUrl}cart.js`);
+      const cart = await cartRes.json();
+      if (cart) {
+        const isFree = cart.total_price >= thresholdCents;
+        const fee = isFree ? 'Free Shipping' : formatMoney(shippingFeeCents);
+        const estTotal = formatMoney(cart.total_price + (isFree ? 0 : shippingFeeCents));
+
+        await fetch(`${rootUrl}cart/update.js`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            attributes: {
+              'Shipping Charge': fee,
+              'Estimated Total': estTotal
+            }
+          })
+        });
+      }
+    } catch (err) {}
+  });
 
   const closeDrawer = () => {
     // No-op for drawer closing
