@@ -168,13 +168,6 @@
           {% if product.variants.size > 0 %}
             <fieldset class="product-info__variants-container" {{ block.shopify_attributes }}>
               <div class="product-info__variant-cards">
-                {% for variant in product.variants %}
-                  {% assign variant_sale = false %}
-                  {% if variant.compare_at_price > variant.price %}
-                    {% assign variant_sale = true %}
-                    {% assign variant_disc = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price %}
-                  {% endif %}
-
                   {% liquid
                     assign v_unit_text = ''
                     if variant.unit_price != blank and variant.unit_price_measurement != blank
@@ -185,8 +178,20 @@
                       assign v_title_lower = variant.title | downcase | strip
                       assign v_price_num = variant.price | divided_by: 100.0
 
-                      if v_title_lower contains '500 ml' or v_title_lower contains '500ml'
+                      if v_title_lower contains '100 ml' or v_title_lower contains '100ml'
+                        assign per_100 = v_price_num | round
+                        assign v_unit_text = '₹' | append: per_100 | append: ' / 100ml'
+                      elsif v_title_lower contains '200 ml' or v_title_lower contains '200ml'
+                        assign per_100 = v_price_num | divided_by: 2.0 | round
+                        assign v_unit_text = '₹' | append: per_100 | append: ' / 100ml'
+                      elsif v_title_lower contains '250 ml' or v_title_lower contains '250ml'
+                        assign per_100 = v_price_num | divided_by: 2.5 | round
+                        assign v_unit_text = '₹' | append: per_100 | append: ' / 100ml'
+                      elsif v_title_lower contains '500 ml' or v_title_lower contains '500ml'
                         assign per_100 = v_price_num | divided_by: 5.0 | round
+                        assign v_unit_text = '₹' | append: per_100 | append: ' / 100ml'
+                      elsif v_title_lower contains '750 ml' or v_title_lower contains '750ml'
+                        assign per_100 = v_price_num | divided_by: 7.5 | round
                         assign v_unit_text = '₹' | append: per_100 | append: ' / 100ml'
                       elsif v_title_lower contains '1 l' or v_title_lower == '1l' or v_title_lower contains '1 litre' or v_title_lower contains '1 liter' or v_title_lower contains '1000 ml' or v_title_lower contains '1000ml'
                         assign per_100 = v_price_num | divided_by: 10.0 | round
@@ -194,14 +199,32 @@
                       elsif v_title_lower contains '2 l' or v_title_lower == '2l' or v_title_lower contains '2 litre' or v_title_lower contains '2 liter' or v_title_lower contains '2000 ml' or v_title_lower contains '2000ml'
                         assign per_100 = v_price_num | divided_by: 20.0 | round
                         assign v_unit_text = '₹' | append: per_100 | append: ' / 100ml'
+                      elsif v_title_lower contains '3 l' or v_title_lower == '3l' or v_title_lower contains '3 litre' or v_title_lower contains '3 liter' or v_title_lower contains '3000 ml' or v_title_lower contains '3000ml'
+                        assign per_100 = v_price_num | divided_by: 30.0 | round
+                        assign v_unit_text = '₹' | append: per_100 | append: ' / 100ml'
                       elsif v_title_lower contains '5 l' or v_title_lower == '5l' or v_title_lower contains '5 litre' or v_title_lower contains '5 liter' or v_title_lower contains '5000 ml' or v_title_lower contains '5000ml'
                         assign per_100 = v_price_num | divided_by: 50.0 | round
                         assign v_unit_text = '₹' | append: per_100 | append: ' / 100ml'
-                      elsif v_title_lower contains '250 g' or v_title_lower contains '250g'
+                      elsif v_title_lower contains '10 l' or v_title_lower == '10l' or v_title_lower contains '10 litre' or v_title_lower contains '10 liter' or v_title_lower contains '10000 ml' or v_title_lower contains '10000ml'
+                        assign per_100 = v_price_num | divided_by: 100.0 | round
+                        assign v_unit_text = '₹' | append: per_100 | append: ' / 100ml'
+                      elsif v_title_lower contains '100 g' or v_title_lower contains '100g' or v_title_lower contains '100 gm'
+                        assign per_100 = v_price_num | round
+                        assign v_unit_text = '₹' | append: per_100 | append: ' / 100g'
+                      elsif v_title_lower contains '200 g' or v_title_lower contains '200g' or v_title_lower contains '200 gm'
+                        assign per_100 = v_price_num | divided_by: 2.0 | round
+                        assign v_unit_text = '₹' | append: per_100 | append: ' / 100g'
+                      elsif v_title_lower contains '250 g' or v_title_lower contains '250g' or v_title_lower contains '250 gm'
                         assign per_100 = v_price_num | divided_by: 2.5 | round
                         assign v_unit_text = '₹' | append: per_100 | append: ' / 100g'
-                      elsif v_title_lower contains '500 g' or v_title_lower contains '500g'
+                      elsif v_title_lower contains '400 g' or v_title_lower contains '400g' or v_title_lower contains '400 gm'
+                        assign per_100 = v_price_num | divided_by: 4.0 | round
+                        assign v_unit_text = '₹' | append: per_100 | append: ' / 100g'
+                      elsif v_title_lower contains '500 g' or v_title_lower contains '500g' or v_title_lower contains '500 gm'
                         assign per_100 = v_price_num | divided_by: 5.0 | round
+                        assign v_unit_text = '₹' | append: per_100 | append: ' / 100g'
+                      elsif v_title_lower contains '750 g' or v_title_lower contains '750g' or v_title_lower contains '750 gm'
+                        assign per_100 = v_price_num | divided_by: 7.5 | round
                         assign v_unit_text = '₹' | append: per_100 | append: ' / 100g'
                       elsif v_title_lower contains '1 kg' or v_title_lower == '1kg' or v_title_lower contains '1000 g' or v_title_lower contains '1000g'
                         assign per_100 = v_price_num | divided_by: 10.0 | round
@@ -209,9 +232,18 @@
                       elsif v_title_lower contains '2 kg' or v_title_lower == '2kg' or v_title_lower contains '2000 g' or v_title_lower contains '2000g'
                         assign per_100 = v_price_num | divided_by: 20.0 | round
                         assign v_unit_text = '₹' | append: per_100 | append: ' / 100g'
+                      elsif v_title_lower contains '3 kg' or v_title_lower == '3kg' or v_title_lower contains '3000 g' or v_title_lower contains '3000g'
+                        assign per_100 = v_price_num | divided_by: 30.0 | round
+                        assign v_unit_text = '₹' | append: per_100 | append: ' / 100g'
                       elsif v_title_lower contains '5 kg' or v_title_lower == '5kg' or v_title_lower contains '5000 g' or v_title_lower contains '5000g'
                         assign per_100 = v_price_num | divided_by: 50.0 | round
                         assign v_unit_text = '₹' | append: per_100 | append: ' / 100g'
+                      elsif v_title_lower contains '10 kg' or v_title_lower == '10kg' or v_title_lower contains '10000 g' or v_title_lower contains '10000g'
+                        assign per_100 = v_price_num | divided_by: 100.0 | round
+                        assign v_unit_text = '₹' | append: per_100 | append: ' / 100g'
+                      elsif variant_sale
+                        assign v_save = variant.compare_at_price | minus: variant.price
+                        assign v_unit_text = 'Save ' | append: v_save | money_without_trailing_zeros
                       endif
                     endif
                   %}
@@ -250,8 +282,6 @@
                       <span class="product-info__variant-price">{{ variant.price | money_without_trailing_zeros }}</span>
                       {% if v_unit_text != blank %}
                         <span class="product-info__variant-unit" style="color: #6b7280 !important; font-size: 0.72rem !important; font-weight: 600 !important; margin-top: 2px;">{{ v_unit_text }}</span>
-                      {% elsif variant_sale %}
-                        <span class="product-info__variant-save" style="color: #6b7280 !important;">{{ variant_disc }}% OFF</span>
                       {% endif %}
                     </span>
                   </label>
