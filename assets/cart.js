@@ -652,7 +652,8 @@
       } catch (e) {}
     }
 
-    return null;
+    window._shippingFeeVariantId = '53635140387125';
+    return window._shippingFeeVariantId;
   };
 
   const syncShippingFeeLineItem = async (cart) => {
