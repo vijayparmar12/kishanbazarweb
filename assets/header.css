@@ -138,9 +138,9 @@ body.modal-open .sticky-mobile-bar {
 }
 
 .kb-header-top-sticky.kb-header--hidden {
-  transform: translateY(-100%) !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
 .kb-header1 {

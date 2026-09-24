@@ -189,6 +189,7 @@
         if (!topSticky.classList.contains('kb-header-top--fixed')) {
           topSticky.classList.add('kb-header-top--fixed');
         }
+        topSticky.classList.remove('kb-header--hidden');
         if (placeholder) {
           placeholder.style.display = 'block';
           placeholder.style.height = `${cachedStickyHeight || 60}px`;
@@ -200,19 +201,7 @@
           placeholder.style.display = 'none';
           placeholder.style.height = '0px';
         }
-        return;
       }
-
-      // Hide header transition while actively scrolling
-      if (currentScrollY > 60) {
-        topSticky.classList.add('kb-header--hidden');
-      }
-
-      // Display header transition when scroll STOPS
-      window.clearTimeout(scrollStopTimeout);
-      scrollStopTimeout = window.setTimeout(() => {
-        topSticky.classList.remove('kb-header--hidden');
-      }, 180);
     };
 
     let ticking = false;
