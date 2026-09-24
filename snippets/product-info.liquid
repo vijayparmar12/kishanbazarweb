@@ -168,6 +168,12 @@
           {% if product.variants.size > 0 %}
             <fieldset class="product-info__variants-container" {{ block.shopify_attributes }}>
               <div class="product-info__variant-cards">
+                {% for variant in product.variants %}
+                  {% assign variant_sale = false %}
+                  {% if variant.compare_at_price > variant.price %}
+                    {% assign variant_sale = true %}
+                    {% assign variant_disc = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price %}
+                  {% endif %}
                   {% liquid
                     assign v_unit_text = ''
                     assign v_title_lower = variant.title | downcase | strip
