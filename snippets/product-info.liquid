@@ -175,88 +175,90 @@
                     assign qty_num = 0
                     assign unit_label = ''
 
-                    if v_title_lower contains '100 ml' or v_title_lower contains '100ml'
-                      assign qty_num = 100.0
-                      assign unit_label = 'ml'
-                    elsif v_title_lower contains '200 ml' or v_title_lower contains '200ml'
-                      assign qty_num = 200.0
-                      assign unit_label = 'ml'
-                    elsif v_title_lower contains '250 ml' or v_title_lower contains '250ml'
-                      assign qty_num = 250.0
-                      assign unit_label = 'ml'
-                    elsif v_title_lower contains '500 ml' or v_title_lower contains '500ml'
-                      assign qty_num = 500.0
-                      assign unit_label = 'ml'
-                    elsif v_title_lower contains '750 ml' or v_title_lower contains '750ml'
-                      assign qty_num = 750.0
-                      assign unit_label = 'ml'
-                    elsif v_title_lower contains '1 l' or v_title_lower == '1l' or v_title_lower contains '1 litre' or v_title_lower contains '1 liter' or v_title_lower contains '1000 ml' or v_title_lower contains '1000ml'
-                      assign qty_num = 1000.0
-                      assign unit_label = 'ml'
-                    elsif v_title_lower contains '2 l' or v_title_lower == '2l' or v_title_lower contains '2 litre' or v_title_lower contains '2 liter' or v_title_lower contains '2000 ml' or v_title_lower contains '2000ml'
-                      assign qty_num = 2000.0
-                      assign unit_label = 'ml'
-                    elsif v_title_lower contains '3 l' or v_title_lower == '3l' or v_title_lower contains '3 litre' or v_title_lower contains '3 liter' or v_title_lower contains '3000 ml' or v_title_lower contains '3000ml'
-                      assign qty_num = 3000.0
-                      assign unit_label = 'ml'
+                    if v_title_lower contains '10 l' or v_title_lower == '10l' or v_title_lower contains '10 litre' or v_title_lower contains '10 liter' or v_title_lower contains '10000 ml' or v_title_lower contains '10000ml'
+                      assign qty_num = 10000.0
+                      assign unit_label = '100ml'
                     elsif v_title_lower contains '5 l' or v_title_lower == '5l' or v_title_lower contains '5 litre' or v_title_lower contains '5 liter' or v_title_lower contains '5000 ml' or v_title_lower contains '5000ml'
                       assign qty_num = 5000.0
-                      assign unit_label = 'ml'
-                    elsif v_title_lower contains '10 l' or v_title_lower == '10l' or v_title_lower contains '10 litre' or v_title_lower contains '10 liter' or v_title_lower contains '10000 ml' or v_title_lower contains '10000ml'
-                      assign qty_num = 10000.0
-                      assign unit_label = 'ml'
-                    elsif v_title_lower contains '100 g' or v_title_lower contains '100g' or v_title_lower contains '100 gm'
-                      assign qty_num = 100.0
-                      assign unit_label = 'g'
-                    elsif v_title_lower contains '200 g' or v_title_lower contains '200g' or v_title_lower contains '200 gm'
-                      assign qty_num = 200.0
-                      assign unit_label = 'g'
-                    elsif v_title_lower contains '250 g' or v_title_lower contains '250g' or v_title_lower contains '250 gm'
-                      assign qty_num = 250.0
-                      assign unit_label = 'g'
-                    elsif v_title_lower contains '400 g' or v_title_lower contains '400g' or v_title_lower contains '400 gm'
-                      assign qty_num = 400.0
-                      assign unit_label = 'g'
-                    elsif v_title_lower contains '500 g' or v_title_lower contains '500g' or v_title_lower contains '500 gm'
-                      assign qty_num = 500.0
-                      assign unit_label = 'g'
-                    elsif v_title_lower contains '750 g' or v_title_lower contains '750g' or v_title_lower contains '750 gm'
-                      assign qty_num = 750.0
-                      assign unit_label = 'g'
-                    elsif v_title_lower contains '1 kg' or v_title_lower == '1kg' or v_title_lower contains '1000 g' or v_title_lower contains '1000g'
-                      assign qty_num = 1000.0
-                      assign unit_label = 'g'
-                    elsif v_title_lower contains '2 kg' or v_title_lower == '2kg' or v_title_lower contains '2000 g' or v_title_lower contains '2000g'
-                      assign qty_num = 2000.0
-                      assign unit_label = 'g'
-                    elsif v_title_lower contains '3 kg' or v_title_lower == '3kg' or v_title_lower contains '3000 g' or v_title_lower contains '3000g'
+                      assign unit_label = '100ml'
+                    elsif v_title_lower contains '3 l' or v_title_lower == '3l' or v_title_lower contains '3 litre' or v_title_lower contains '3 liter' or v_title_lower contains '3000 ml' or v_title_lower contains '3000ml'
                       assign qty_num = 3000.0
-                      assign unit_label = 'g'
-                    elsif v_title_lower contains '5 kg' or v_title_lower == '5kg' or v_title_lower contains '5000 g' or v_title_lower contains '5000g'
-                      assign qty_num = 5000.0
-                      assign unit_label = 'g'
+                      assign unit_label = '100ml'
+                    elsif v_title_lower contains '2 l' or v_title_lower == '2l' or v_title_lower contains '2 litre' or v_title_lower contains '2 liter' or v_title_lower contains '2000 ml' or v_title_lower contains '2000ml'
+                      assign qty_num = 2000.0
+                      assign unit_label = '100ml'
+                    elsif v_title_lower contains '1.5 l' or v_title_lower contains '1.5l' or v_title_lower contains '1.5 litre' or v_title_lower contains '1.5 liter' or v_title_lower contains '1500 ml' or v_title_lower contains '1500ml'
+                      assign qty_num = 1500.0
+                      assign unit_label = '100ml'
+                    elsif v_title_lower contains '1 l' or v_title_lower == '1l' or v_title_lower contains '1 litre' or v_title_lower contains '1 liter' or v_title_lower contains '1000 ml' or v_title_lower contains '1000ml'
+                      assign qty_num = 1000.0
+                      assign unit_label = '100ml'
+                    elsif v_title_lower contains '750 ml' or v_title_lower contains '750ml'
+                      assign qty_num = 750.0
+                      assign unit_label = '100ml'
+                    elsif v_title_lower contains '500 ml' or v_title_lower contains '500ml'
+                      assign qty_num = 500.0
+                      assign unit_label = '100ml'
+                    elsif v_title_lower contains '250 ml' or v_title_lower contains '250ml'
+                      assign qty_num = 250.0
+                      assign unit_label = '100ml'
+                    elsif v_title_lower contains '200 ml' or v_title_lower contains '200ml'
+                      assign qty_num = 200.0
+                      assign unit_label = '100ml'
+                    elsif v_title_lower contains '100 ml' or v_title_lower contains '100ml'
+                      assign qty_num = 100.0
+                      assign unit_label = '100ml'
+                    elsif v_title_lower contains '50 ml' or v_title_lower contains '50ml'
+                      assign qty_num = 50.0
+                      assign unit_label = '100ml'
                     elsif v_title_lower contains '10 kg' or v_title_lower == '10kg' or v_title_lower contains '10000 g' or v_title_lower contains '10000g'
                       assign qty_num = 10000.0
-                      assign unit_label = 'g'
+                      assign unit_label = '100g'
+                    elsif v_title_lower contains '5 kg' or v_title_lower == '5kg' or v_title_lower contains '5000 g' or v_title_lower contains '5000g'
+                      assign qty_num = 5000.0
+                      assign unit_label = '100g'
+                    elsif v_title_lower contains '3 kg' or v_title_lower == '3kg' or v_title_lower contains '3000 g' or v_title_lower contains '3000g'
+                      assign qty_num = 3000.0
+                      assign unit_label = '100g'
+                    elsif v_title_lower contains '2 kg' or v_title_lower == '2kg' or v_title_lower contains '2000 g' or v_title_lower contains '2000g'
+                      assign qty_num = 2000.0
+                      assign unit_label = '100g'
+                    elsif v_title_lower contains '1.5 kg' or v_title_lower contains '1.5kg' or v_title_lower contains '1500 g' or v_title_lower contains '1500g'
+                      assign qty_num = 1500.0
+                      assign unit_label = '100g'
+                    elsif v_title_lower contains '1 kg' or v_title_lower == '1kg' or v_title_lower contains '1000 g' or v_title_lower contains '1000g'
+                      assign qty_num = 1000.0
+                      assign unit_label = '100g'
+                    elsif v_title_lower contains '750 g' or v_title_lower contains '750g' or v_title_lower contains '750 gm'
+                      assign qty_num = 750.0
+                      assign unit_label = '100g'
+                    elsif v_title_lower contains '500 g' or v_title_lower contains '500g' or v_title_lower contains '500 gm'
+                      assign qty_num = 500.0
+                      assign unit_label = '100g'
+                    elsif v_title_lower contains '400 g' or v_title_lower contains '400g' or v_title_lower contains '400 gm'
+                      assign qty_num = 400.0
+                      assign unit_label = '100g'
+                    elsif v_title_lower contains '250 g' or v_title_lower contains '250g' or v_title_lower contains '250 gm'
+                      assign qty_num = 250.0
+                      assign unit_label = '100g'
+                    elsif v_title_lower contains '200 g' or v_title_lower contains '200g' or v_title_lower contains '200 gm'
+                      assign qty_num = 200.0
+                      assign unit_label = '100g'
+                    elsif v_title_lower contains '100 g' or v_title_lower contains '100g' or v_title_lower contains '100 gm'
+                      assign qty_num = 100.0
+                      assign unit_label = '100g'
+                    elsif v_title_lower contains '50 g' or v_title_lower contains '50g' or v_title_lower contains '50 gm'
+                      assign qty_num = 50.0
+                      assign unit_label = '100g'
                     endif
 
                     if qty_num > 0
-                      assign calc_per_unit = v_price_num | divided_by: qty_num | round: 2
-                      assign calc_str = calc_per_unit | append: ''
-                      if calc_str contains '.'
-                        assign parts = calc_str | split: '.'
-                        assign decimals = parts[1]
-                        if decimals.size == 1
-                          assign calc_str = calc_str | append: '0'
-                        endif
-                      else
-                        assign calc_str = calc_str | append: '.00'
-                      endif
-                      assign v_unit_text = '₹' | append: calc_str | append: ' / ' | append: unit_label
+                      assign calc_per_100 = v_price_num | times: 100.0 | divided_by: qty_num | round
+                      assign v_unit_text = '₹' | append: calc_per_100 | append: '/' | append: unit_label
                     elsif variant.unit_price != blank and variant.unit_price_measurement != blank
                       assign u_price = variant.unit_price | money_without_trailing_zeros
-                      assign u_ref = variant.unit_price_measurement.reference_unit | default: 'g'
-                      assign v_unit_text = u_price | append: ' / ' | append: u_ref
+                      assign u_ref = variant.unit_price_measurement.reference_unit | default: '100g'
+                      assign v_unit_text = u_price | append: '/' | append: u_ref
                     elsif variant_sale
                       assign v_save = variant.compare_at_price | minus: variant.price
                       assign v_unit_text = 'Save ' | append: v_save | money_without_trailing_zeros
@@ -486,11 +488,108 @@
           <fieldset class="product-info__variants-container">
             <div class="product-info__variant-cards">
               {% for variant in product.variants %}
-                {% assign variant_sale = false %}
-                {% if variant.compare_at_price > variant.price %}
-                  {% assign variant_sale = true %}
-                  {% assign variant_disc = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price %}
-                {% endif %}
+                {% liquid
+                  assign variant_sale = false
+                  if variant.compare_at_price > variant.price
+                    assign variant_sale = true
+                    assign variant_disc = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price
+                  endif
+
+                  assign v_unit_text = ''
+                  assign v_title_lower = variant.title | downcase | strip
+                  assign v_price_num = variant.price | divided_by: 100.0
+                  assign qty_num = 0
+                  assign unit_label = ''
+
+                  if v_title_lower contains '10 l' or v_title_lower == '10l' or v_title_lower contains '10 litre' or v_title_lower contains '10 liter' or v_title_lower contains '10000 ml' or v_title_lower contains '10000ml'
+                    assign qty_num = 10000.0
+                    assign unit_label = '100ml'
+                  elsif v_title_lower contains '5 l' or v_title_lower == '5l' or v_title_lower contains '5 litre' or v_title_lower contains '5 liter' or v_title_lower contains '5000 ml' or v_title_lower contains '5000ml'
+                    assign qty_num = 5000.0
+                    assign unit_label = '100ml'
+                  elsif v_title_lower contains '3 l' or v_title_lower == '3l' or v_title_lower contains '3 litre' or v_title_lower contains '3 liter' or v_title_lower contains '3000 ml' or v_title_lower contains '3000ml'
+                    assign qty_num = 3000.0
+                    assign unit_label = '100ml'
+                  elsif v_title_lower contains '2 l' or v_title_lower == '2l' or v_title_lower contains '2 litre' or v_title_lower contains '2 liter' or v_title_lower contains '2000 ml' or v_title_lower contains '2000ml'
+                    assign qty_num = 2000.0
+                    assign unit_label = '100ml'
+                  elsif v_title_lower contains '1.5 l' or v_title_lower contains '1.5l' or v_title_lower contains '1.5 litre' or v_title_lower contains '1.5 liter' or v_title_lower contains '1500 ml' or v_title_lower contains '1500ml'
+                    assign qty_num = 1500.0
+                    assign unit_label = '100ml'
+                  elsif v_title_lower contains '1 l' or v_title_lower == '1l' or v_title_lower contains '1 litre' or v_title_lower contains '1 liter' or v_title_lower contains '1000 ml' or v_title_lower contains '1000ml'
+                    assign qty_num = 1000.0
+                    assign unit_label = '100ml'
+                  elsif v_title_lower contains '750 ml' or v_title_lower contains '750ml'
+                    assign qty_num = 750.0
+                    assign unit_label = '100ml'
+                  elsif v_title_lower contains '500 ml' or v_title_lower contains '500ml'
+                    assign qty_num = 500.0
+                    assign unit_label = '100ml'
+                  elsif v_title_lower contains '250 ml' or v_title_lower contains '250ml'
+                    assign qty_num = 250.0
+                    assign unit_label = '100ml'
+                  elsif v_title_lower contains '200 ml' or v_title_lower contains '200ml'
+                    assign qty_num = 200.0
+                    assign unit_label = '100ml'
+                  elsif v_title_lower contains '100 ml' or v_title_lower contains '100ml'
+                    assign qty_num = 100.0
+                    assign unit_label = '100ml'
+                  elsif v_title_lower contains '50 ml' or v_title_lower contains '50ml'
+                    assign qty_num = 50.0
+                    assign unit_label = '100ml'
+                  elsif v_title_lower contains '10 kg' or v_title_lower == '10kg' or v_title_lower contains '10000 g' or v_title_lower contains '10000g'
+                    assign qty_num = 10000.0
+                    assign unit_label = '100g'
+                  elsif v_title_lower contains '5 kg' or v_title_lower == '5kg' or v_title_lower contains '5000 g' or v_title_lower contains '5000g'
+                    assign qty_num = 5000.0
+                    assign unit_label = '100g'
+                  elsif v_title_lower contains '3 kg' or v_title_lower == '3kg' or v_title_lower contains '3000 g' or v_title_lower contains '3000g'
+                    assign qty_num = 3000.0
+                    assign unit_label = '100g'
+                  elsif v_title_lower contains '2 kg' or v_title_lower == '2kg' or v_title_lower contains '2000 g' or v_title_lower contains '2000g'
+                    assign qty_num = 2000.0
+                    assign unit_label = '100g'
+                  elsif v_title_lower contains '1.5 kg' or v_title_lower contains '1.5kg' or v_title_lower contains '1500 g' or v_title_lower contains '1500g'
+                    assign qty_num = 1500.0
+                    assign unit_label = '100g'
+                  elsif v_title_lower contains '1 kg' or v_title_lower == '1kg' or v_title_lower contains '1000 g' or v_title_lower contains '1000g'
+                    assign qty_num = 1000.0
+                    assign unit_label = '100g'
+                  elsif v_title_lower contains '750 g' or v_title_lower contains '750g' or v_title_lower contains '750 gm'
+                    assign qty_num = 750.0
+                    assign unit_label = '100g'
+                  elsif v_title_lower contains '500 g' or v_title_lower contains '500g' or v_title_lower contains '500 gm'
+                    assign qty_num = 500.0
+                    assign unit_label = '100g'
+                  elsif v_title_lower contains '400 g' or v_title_lower contains '400g' or v_title_lower contains '400 gm'
+                    assign qty_num = 400.0
+                    assign unit_label = '100g'
+                  elsif v_title_lower contains '250 g' or v_title_lower contains '250g' or v_title_lower contains '250 gm'
+                    assign qty_num = 250.0
+                    assign unit_label = '100g'
+                  elsif v_title_lower contains '200 g' or v_title_lower contains '200g' or v_title_lower contains '200 gm'
+                    assign qty_num = 200.0
+                    assign unit_label = '100g'
+                  elsif v_title_lower contains '100 g' or v_title_lower contains '100g' or v_title_lower contains '100 gm'
+                    assign qty_num = 100.0
+                    assign unit_label = '100g'
+                  elsif v_title_lower contains '50 g' or v_title_lower contains '50g' or v_title_lower contains '50 gm'
+                    assign qty_num = 50.0
+                    assign unit_label = '100g'
+                  endif
+
+                  if qty_num > 0
+                    assign calc_per_100 = v_price_num | times: 100.0 | divided_by: qty_num | round
+                    assign v_unit_text = '₹' | append: calc_per_100 | append: '/' | append: unit_label
+                  elsif variant.unit_price != blank and variant.unit_price_measurement != blank
+                    assign u_price = variant.unit_price | money_without_trailing_zeros
+                    assign u_ref = variant.unit_price_measurement.reference_unit | default: '100g'
+                    assign v_unit_text = u_price | append: '/' | append: u_ref
+                  elsif variant_sale
+                    assign v_save = variant.compare_at_price | minus: variant.price
+                    assign v_unit_text = 'Save ' | append: v_save | money_without_trailing_zeros
+                  endif
+                %}
                 {% assign v_avail = variant.available %}
                 {% if variant.inventory_management != blank and variant.inventory_policy == 'deny' and variant.inventory_quantity <= 0 %}
                   {% assign v_avail = false %}
@@ -506,7 +605,9 @@
                   <span class="product-info__variant-card-inner">
                     <span class="product-info__variant-title">{{ variant.title }}{% if v_avail == false %} (Sold out){% endif %}</span>
                     <span class="product-info__variant-price">{{ variant.price | money_without_trailing_zeros }}</span>
-                    {% if variant_sale %}<span class="product-info__variant-save">{{ variant_disc }}% OFF</span>{% endif %}
+                    {% if v_unit_text != blank %}
+                      <span class="product-info__variant-unit" style="color: #6b7280 !important; font-size: 0.72rem !important; font-weight: 600 !important; margin-top: 2px;">{{ v_unit_text }}</span>
+                    {% endif %}
                   </span>
                 </label>
               {% endfor %}
