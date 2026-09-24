@@ -103,8 +103,19 @@
         <!-- CART ITEMS LIST -->
         <div class="kb-cart-page-items-list" data-cart-drawer-items style="display: flex; flex-direction: column; gap: 1rem;">
           {% for item in cart.items %}
+            {% assign item_title_lower = item.title | downcase %}
+            {% if item_title_lower contains 'shipping charge' or item_title_lower contains 'delivery charge' or item_title_lower contains 'shipping fee' or item.product.handle == 'shipping-charge' %}
+              {% continue %}
+            {% endif %}
             {% render 'cart-item', item: item, line_index: forloop.index, compact: false %}
-          {% else %}
+          {% endfor %}
+
+          {% for item in cart.items %}
+            {% assign item_title_lower = item.title | downcase %}
+            {% if item_title_lower contains 'shipping charge' or item_title_lower contains 'delivery charge' or item_title_lower contains 'shipping fee' or item.product.handle == 'shipping-charge' %}
+              {% render 'cart-item', item: item, line_index: forloop.index, compact: false %}
+            {% endif %}
+          {% endfor %}
             {% comment %} Demo preview items for Theme Editor {% endcomment %}
             <article class="kb-cart-item" style="display: grid; grid-template-columns: 80px 1fr; gap: 12px; padding: 12px; background: #faf8f5; border-radius: 14px; border: 1px solid rgba(35,66,31,0.08);">
               <div style="width: 80px; height: 80px; border-radius: 10px; overflow: hidden; background: #fff;">
