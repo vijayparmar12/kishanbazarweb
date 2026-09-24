@@ -527,7 +527,14 @@
   }
 
   .site-footer {
-    padding-bottom: 75px !important;
+    padding-bottom: 0 !important;
+  }
+
+  @media screen and (max-width: 48rem) {
+    body.template-product .site-footer,
+    body:has(.sticky-mobile-bar) .site-footer {
+      padding-bottom: 75px !important;
+    }
   }
 
   .site-footer__illustration-layer {
