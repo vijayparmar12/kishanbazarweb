@@ -1025,10 +1025,11 @@
   font-weight: 700;
 }
 
-.product-info__variant-save {
-  color: #b45309;
-  font-size: 0.7rem;
-  font-weight: 700;
+.product-info__variant-save,
+.product-info__variant-unit {
+  color: #6b7280 !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
 }
 
 .product-info__variant-pill input:checked + .product-info__variant-card-inner,
