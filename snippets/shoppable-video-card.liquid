@@ -56,9 +56,9 @@
     <!-- Video Media Wrap (Clicking opens full reel video modal with dark blurred background) -->
     <div class="shoppable-videos__media-wrap" data-open-modal>
       {% if hosted_video != blank %}
-        {{ hosted_video | video_tag: class: 'shoppable-videos__video', loop: true, muted: true, playsinline: true, preload: 'metadata', image_size: '800x' }}
+        {{ hosted_video | video_tag: class: 'shoppable-videos__video', loop: true, muted: true, playsinline: true, preload: 'none', image_size: '800x' }}
       {% elsif mp4_url != blank %}
-        <video class="shoppable-videos__video" loop muted playsinline preload="metadata" {% if poster != blank %}poster="{{ poster | image_url: width: 800 }}"{% elsif card_product.featured_image %}poster="{{ card_product.featured_image | image_url: width: 800 }}"{% endif %}>
+        <video class="shoppable-videos__video" loop muted playsinline preload="none" {% if poster != blank %}poster="{{ poster | image_url: width: 800 }}"{% elsif card_product.featured_image %}poster="{{ card_product.featured_image | image_url: width: 800 }}"{% endif %}>
           <source src="{{ mp4_url }}" type="video/mp4">
         </video>
       {% else %}
