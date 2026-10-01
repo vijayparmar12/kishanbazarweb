@@ -132,25 +132,7 @@
     });
 
     const isJudgeMeModalActive = () => {
-      const overlay = document.getElementById('JdgmBlurOverlay');
-      if (overlay) {
-        const oStyle = window.getComputedStyle(overlay);
-        if (oStyle.display !== 'none' && oStyle.visibility !== 'hidden' && overlay.offsetWidth > 0) {
-          return true;
-        }
-      }
-      const expandedBtn = document.querySelector('.jdgm-write-rev-btn[aria-expanded="true"]');
-      if (expandedBtn) return true;
-
-      const activeForm = document.querySelector('.jdgm-form-wrapper:not([style*="display: none"]), .jdgm-rev-widg__form-wrapper:not([style*="display: none"])');
-      if (activeForm && activeForm.offsetHeight > 100) {
-        return true;
-      }
-
-      if (window.location.search.indexOf('pb=0') !== -1 || window.location.search.indexOf('write') !== -1) {
-        return true;
-      }
-      return false;
+      return document.body.classList.contains('jdgm-review-modal-active') || document.documentElement.classList.contains('jdgm-review-modal-active');
     };
 
     let scrollStopTimeout;

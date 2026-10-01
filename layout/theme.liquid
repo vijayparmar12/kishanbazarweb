@@ -10,17 +10,22 @@
     {% # Inlined CSS Variables %}
     {% render 'css-variables' %}
 
-    <!-- CDN & Fonts Resource Hints -->
-    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <!-- Fonts Resource Hints -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 
     {% if template.name == 'index' %}
-      {% comment %} Critical LCP Hero Image Preload for Instant Discovery {% endcomment %}
-      <link rel="preload" as="image" href="https://kisanveda.com/cdn/shop/files/hero_banner.webp?width=600" imagesrcset="https://kisanveda.com/cdn/shop/files/hero_banner.webp?width=360 360w, https://kisanveda.com/cdn/shop/files/hero_banner.webp?width=480 480w, https://kisanveda.com/cdn/shop/files/hero_banner.webp?width=600 600w, https://kisanveda.com/cdn/shop/files/hero_banner.webp?width=750 750w" imagesizes="100vw" fetchpriority="high" media="(max-width: 768px)">
-      <link rel="preload" as="image" href="https://kisanveda.com/cdn/shop/files/hero_banner.webp?width=1400" imagesrcset="https://kisanveda.com/cdn/shop/files/hero_banner.webp?width=1100 1100w, https://kisanveda.com/cdn/shop/files/hero_banner.webp?width=1400 1400w, https://kisanveda.com/cdn/shop/files/hero_banner.webp?width=1800 1800w, https://kisanveda.com/cdn/shop/files/hero_banner.webp?width=2200 2200w" imagesizes="100vw" fetchpriority="high" media="(min-width: 769px)">
+      {% liquid
+        assign lcp_hero_img = images['hero_banner.webp']
+      %}
+      {% if lcp_hero_img != blank %}
+        <link rel="preload" as="image" href="{{ lcp_hero_img | image_url: width: 600 }}" imagesrcset="{{ lcp_hero_img | image_url: width: 360 }} 360w, {{ lcp_hero_img | image_url: width: 480 }} 480w, {{ lcp_hero_img | image_url: width: 600 }} 600w, {{ lcp_hero_img | image_url: width: 750 }} 750w" imagesizes="100vw" fetchpriority="high" media="(max-width: 768px)">
+        <link rel="preload" as="image" href="{{ lcp_hero_img | image_url: width: 1400 }}" imagesrcset="{{ lcp_hero_img | image_url: width: 1100 }} 1100w, {{ lcp_hero_img | image_url: width: 1400 }} 1400w, {{ lcp_hero_img | image_url: width: 1800 }} 1800w, {{ lcp_hero_img | image_url: width: 2200 }} 2200w" imagesizes="100vw" fetchpriority="high" media="(min-width: 769px)">
+      {% endif %}
     {% endif %}
+
+
     <style>
       :root {
         --font-family-base: 'Montserrat', sans-serif !important;
@@ -59,11 +64,11 @@
     {{ 'variables.css' | asset_url | stylesheet_tag }}
     {{ 'component-icon.css' | asset_url | stylesheet_tag }}
     {{ 'component-button.css' | asset_url | stylesheet_tag }}
-    {{ 'component-input.css' | asset_url | stylesheet_tag }}
+    <link rel="stylesheet" href="{{ 'component-input.css' | asset_url }}" media="print" onload="this.media='all'">
     {{ 'component-badge.css' | asset_url | stylesheet_tag }}
     {{ 'component-card.css' | asset_url | stylesheet_tag }}
     {{ 'component-product-card.css' | asset_url | stylesheet_tag }}
-    {{ 'component-quantity-selector.css' | asset_url | stylesheet_tag }}
+    <link rel="stylesheet" href="{{ 'component-quantity-selector.css' | asset_url }}" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ 'component-modal.css' | asset_url }}" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ 'component-popup.css' | asset_url }}" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ 'component-product-quick-view.css' | asset_url }}" media="print" onload="this.media='all'">
@@ -206,11 +211,6 @@
             setTimeout(toggleReviewModalState, 20);
           }
         });
-
-        var observer = new MutationObserver(toggleReviewModalState);
-        if (document.body) {
-          observer.observe(document.body, { childList: true });
-        }
       })();
     </script>
 
@@ -452,10 +452,18 @@
           });
         }
 
+        var scheduleReplace = function() {
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(function() { runReplace(); }, { timeout: 2000 });
+          } else {
+            setTimeout(runReplace, 1200);
+          }
+        };
+
         if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', function() { runReplace(); });
+          document.addEventListener('DOMContentLoaded', scheduleReplace);
         } else {
-          runReplace();
+          scheduleReplace();
         }
 
         document.addEventListener('kb:cart:updated', function() { runReplace(); });

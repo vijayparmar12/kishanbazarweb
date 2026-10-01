@@ -1,4 +1,4 @@
-{{ 'explore-pantry.css' | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="{{ 'explore-pantry.css' | asset_url }}" media="print" onload="this.media='all'">
 
 {% liquid
   assign image_ratio = '1 / 1'
@@ -108,11 +108,11 @@
                   {% if pantry_image != blank %}
                     {{
                       pantry_image
-                      | image_url: width: 720
+                      | image_url: width: 360
                       | image_tag:
                         class: 'explore-pantry__image',
                         alt: collection.title,
-                        widths: '240, 360, 520, 720',
+                        widths: '180, 240, 360, 480, 720',
                         sizes: '(min-width: 1200px) 16vw, (min-width: 750px) 33vw, 50vw',
                         loading: 'lazy'
                     }}
@@ -144,11 +144,11 @@
                 {% if pantry_image != blank %}
                   {{
                     pantry_image
-                    | image_url: width: 720
+                    | image_url: width: 360
                     | image_tag:
                       class: 'explore-pantry__image',
                       alt: collection.title,
-                      widths: '240, 360, 520, 720',
+                      widths: '180, 240, 360, 480, 720',
                       sizes: '(min-width: 1200px) 16vw, (min-width: 750px) 33vw, 50vw',
                       loading: 'lazy'
                   }}
