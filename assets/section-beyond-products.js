@@ -21,13 +21,27 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const dots = dotsContainer.querySelectorAll('.beyond-products__dot');
+      let cachedSlideWidth = 0;
+      const updateSlideWidth = () => {
+        if (slides[0]) cachedSlideWidth = slides[0].offsetWidth || 1;
+      };
+      updateSlideWidth();
+      window.addEventListener('resize', updateSlideWidth, { passive: true });
+
+      let isScrollTicking = false;
       track.addEventListener('scroll', () => {
-        const scrollPosition = track.scrollLeft;
-        const slideWidth = slides[0].offsetWidth || 1;
-        const activeIndex = Math.round(scrollPosition / slideWidth);
-        dots.forEach((dot, index) => {
-          dot.classList.toggle('is-active', index === activeIndex);
-        });
+        if (!isScrollTicking) {
+          window.requestAnimationFrame(() => {
+            const scrollPosition = track.scrollLeft;
+            const width = cachedSlideWidth || (slides[0] ? slides[0].offsetWidth : 1) || 1;
+            const activeIndex = Math.round(scrollPosition / width);
+            dots.forEach((dot, index) => {
+              dot.classList.toggle('is-active', index === activeIndex);
+            });
+            isScrollTicking = false;
+          });
+          isScrollTicking = true;
+        }
       }, { passive: true });
     }
 
