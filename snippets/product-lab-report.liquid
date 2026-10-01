@@ -13,7 +13,7 @@
   assign pdf_url = ''
 
   # 1. Direct explicit inspection of primary candidate metafield keys
-  assign mf_candidates = 'lab_test_report,lab_test_report1,custom_lab_test_report,custom_lab_test_report1,pdf_report,custom_pdf_report,lab_report,custom_lab_report,test_report,custom_test_report,lab_test,pdf_link,report_url,lab_report_pdf,lab_test_report_link,ghee_lab_report,ghee_report' | split: ','
+  assign mf_candidates = 'lab_report,lab_test_report,pdf_report,custom_lab_report,custom_lab_test_report,custom_pdf_report,lab_report_pdf,test_report,lab_test,report_url,pdf_link,ghee_lab_report,ghee_report' | split: ','
 
   for mf_key in mf_candidates
     if pdf_url != blank
@@ -23,26 +23,26 @@
     assign mf_item = product.metafields.custom[mf_key]
     if mf_item != blank
       assign mf_val = mf_item.value | default: mf_item
-      
+
       if mf_val.url != blank
-        assign pdf_url = mf_val.url
+        assign raw_val = mf_val.url
       elsif mf_item.url != blank
-        assign pdf_url = mf_item.url
+        assign raw_val = mf_item.url
       elsif mf_val.target != blank
-        assign pdf_url = mf_val.target
+        assign raw_val = mf_val.target
       else
-        assign str_val = mf_val | append: '' | strip
-        if str_val contains 'http://' or str_val contains 'https://' or str_val contains '//' or str_val contains 'drive.google.com' or str_val contains 'docs.google.com' or str_val contains '.pdf'
-          assign pdf_url = str_val
-        elsif str_val contains 'cdn.shopify.com' or str_val contains '/files/'
-          assign pdf_url = str_val
-        endif
+        assign raw_val = mf_val | append: '' | strip
+      endif
+
+      if raw_val contains 'http://' or raw_val contains 'https://' or raw_val contains '//' or raw_val contains 'drive.google.com' or raw_val contains 'docs.google.com' or raw_val contains '.pdf' or raw_val contains '/files/'
+        unless raw_val contains 'MetafieldDrop' or raw_val contains 'Shopify::'
+          assign pdf_url = raw_val
+        endunless
       endif
     endif
   endfor
 
   # 2. Dynamic scan of product.metafields.custom for any other key containing lab, pdf, report, or test
-  # NOTE: Strictly ignore keys containing title, heading, subtitle, badge, name, status, desc to prevent text strings from polluting URL matching
   if pdf_url == blank
     for mf_entry in product.metafields.custom
       if pdf_url != blank
@@ -50,21 +50,26 @@
       endif
 
       assign mf_key = mf_entry[0] | downcase
-      unless mf_key contains 'title' or mf_key contains 'heading' or mf_key contains 'subtitle' or mf_key contains 'badge' or mf_key contains 'name' or mf_key contains 'status' or mf_key contains 'desc'
+      unless mf_key contains 'title' or mf_key contains 'heading' or mf_key contains 'subtitle' or mf_key contains 'badge' or mf_key contains 'name' or mf_key contains 'status' or mf_key contains 'desc' or mf_key contains 'image'
         if mf_key contains 'lab' or mf_key contains 'pdf' or mf_key contains 'report' or mf_key contains 'test'
           assign mf_item = mf_entry[1]
-          assign mf_val = mf_item.value | default: mf_item
+          if mf_item != blank
+            assign mf_val = mf_item.value | default: mf_item
 
-          if mf_val.url != blank
-            assign pdf_url = mf_val.url
-          elsif mf_item.url != blank
-            assign pdf_url = mf_item.url
-          elsif mf_val.target != blank
-            assign pdf_url = mf_val.target
-          else
-            assign str_chk = mf_val | append: '' | strip
-            if str_chk contains 'http://' or str_chk contains 'https://' or str_chk contains '//' or str_chk contains 'drive.google.com' or str_chk contains 'docs.google.com' or str_chk contains '.pdf'
-              assign pdf_url = str_chk
+            if mf_val.url != blank
+              assign raw_val = mf_val.url
+            elsif mf_item.url != blank
+              assign raw_val = mf_item.url
+            elsif mf_val.target != blank
+              assign raw_val = mf_val.target
+            else
+              assign raw_val = mf_val | append: '' | strip
+            endif
+
+            if raw_val contains 'http://' or raw_val contains 'https://' or raw_val contains '//' or raw_val contains 'drive.google.com' or raw_val contains 'docs.google.com' or raw_val contains '.pdf' or raw_val contains '/files/'
+              unless raw_val contains 'MetafieldDrop' or raw_val contains 'Shopify::'
+                assign pdf_url = raw_val
+              endunless
             endif
           endif
         endif
@@ -77,43 +82,37 @@
     assign json_clean = pdf_url | replace: '"', ' ' | replace: '}', ' ' | replace: '{', ' '
     assign words = json_clean | split: ' '
     for word in words
-      if word contains 'http://' or word contains 'https://' or word contains '//' or word contains '/files/' or word contains 'drive.google.com'
+      if word contains 'http://' or word contains 'https://' or word contains '//' or word contains '/files/' or word contains 'drive.google.com' or word contains '.pdf'
         assign pdf_url = word | strip
         break
       endif
     endfor
   endif
 
-  assign pdf_url = pdf_url | strip
-
-  # 4. Fallback to block / section setting if pdf_url is blank
-  if pdf_url == blank
-    if block and block.settings.pdf_url != blank
+  # 4. Fallback to block setting if pdf_url is blank and block provides an explicit non-blank URL/file
+  if pdf_url == blank and block
+    if block.settings.pdf_url != blank
       assign pdf_url = block.settings.pdf_url
-    elsif block and block.settings.pdf_file != blank
+    elsif block.settings.pdf_file != blank
       assign pdf_url = block.settings.pdf_file | file_url
-    elsif section and section.settings.lab_report_pdf_url != blank
-      assign pdf_url = section.settings.lab_report_pdf_url
-    else
-      # Default fallback lab report PDF URL (Ghee Lab Report)
-      assign pdf_url = 'https://drive.google.com/file/d/1s7bB99EalX6p5Wy7Z2F3S6ZYApim7dNx/view'
     endif
   endif
 
-  # Show card if pdf_url is present or in Theme Editor design mode
+  assign pdf_url = pdf_url | strip
+
+  # Show card strictly ONLY if pdf_url is a valid URL
   assign show_card = false
   if pdf_url != blank
-    assign show_card = true
-  elsif request.design_mode
-    assign show_card = true
-    assign pdf_url = 'https://drive.google.com/file/d/1s7bB99EalX6p5Wy7Z2F3S6ZYApim7dNx/view'
+    if pdf_url contains 'http://' or pdf_url contains 'https://' or pdf_url contains '//' or pdf_url contains '/files/' or pdf_url contains '.pdf' or pdf_url contains 'drive.google.com' or pdf_url contains 'docs.google.com'
+      unless pdf_url contains 'MetafieldDrop' or pdf_url contains 'Shopify::'
+        assign show_card = true
+      endunless
+    endif
   endif
 
   # Check section level visibility toggle
   if section and section.settings.show_lab_report == false
-    unless request.design_mode
-      assign show_card = false
-    endunless
+    assign show_card = false
   endif
 
   # Card settings resolution (Block Settings -> Section Settings -> Defaults)

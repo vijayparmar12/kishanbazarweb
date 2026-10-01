@@ -428,9 +428,7 @@
           </div>
 
         {% when 'lab_report' %}
-          <div class="product-info__lab-report-block" {{ block.shopify_attributes }}>
-            {% render 'product-lab-report', product: product, block: block, section: section %}
-          </div>
+          {% render 'product-lab-report', product: product, block: block, section: section %}
 
       {% endcase %}
     {% endfor %}
