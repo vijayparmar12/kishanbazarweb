@@ -342,7 +342,7 @@
         "accent_color": "#23421f",
         "show_search": true,
         "search_fallback_placeholder": "Search For Jaggery",
-        "search_placeholders": "Search For Natural Mishri\n    Search for Desi Ghee\n    Search for Khapli Atta\n    Search for Cold Pressed Oil",
+        "search_placeholders": "Search For Natural Mishri\n           Search for Desi Ghee\n           Search for Khapli Atta\n           Search for Cold Pressed Oil",
         "menu": "main-menu",
         "mobile_menu": "",
         "mobile_menu_source": "shopify_menu",
