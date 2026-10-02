@@ -160,9 +160,8 @@
         "card_buy_button_RCMTAq"
       ],
       "settings": {
-        "eyebrow": "Everyone's पसंदीदा",
+        "eyebrow": "",
         "heading": "Everyone's पसंदीदा",
-        "heading_image_desktop": "shopify://shop_images/ChatGPT_Image_Oct_2_2026_03_32_40_PM.png",
         "heading_image_flip": false,
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
