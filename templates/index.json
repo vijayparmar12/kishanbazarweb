@@ -35,6 +35,7 @@
         },
         "mobile_hero_slide_VMx9iy": {
           "type": "mobile_hero_slide",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/GHEE.webp",
             "link": ""
