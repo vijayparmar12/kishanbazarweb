@@ -135,6 +135,14 @@
             "icon_size": 72
           }
         },
+        "card_variant_selector_LXjbbe": {
+          "type": "card_variant_selector",
+          "settings": {
+            "border_color": "#1f1f1f",
+            "bg_color": "#ffffff",
+            "text_color": "#1f1f1f"
+          }
+        },
         "card_price_gXgeTC": {
           "type": "card_price",
           "settings": {
@@ -142,14 +150,6 @@
             "compare_price_color": "#8d8d8d",
             "price_font_size": 19,
             "price_font_weight": "800"
-          }
-        },
-        "card_variant_selector_LXjbbe": {
-          "type": "card_variant_selector",
-          "settings": {
-            "border_color": "#1f1f1f",
-            "bg_color": "#ffffff",
-            "text_color": "#1f1f1f"
           }
         },
         "card_buy_button_RCMTAq": {
@@ -166,8 +166,8 @@
         "card_subtitle_kBDzzL",
         "card_rating_AEP9Vq",
         "card_benefit_icons_qPwcFa",
-        "card_price_gXgeTC",
         "card_variant_selector_LXjbbe",
+        "card_price_gXgeTC",
         "card_buy_button_RCMTAq"
       ],
       "settings": {
