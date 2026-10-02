@@ -12,8 +12,9 @@
     "hero": {
       "type": "our-story-hero",
       "settings": {
-        "desktop_image": "shopify://shop_images/our_story_banner.png",
-        "mobile_image": "shopify://shop_images/our_story_banner.png",
+        "desktop_image": "shopify://shop_images/our-story-banner.webp",
+        "banner_radius": 20,
+        "show_text_overlay": false,
         "overlay_opacity": 90,
         "label": "OUR STORY",
         "heading": "",
