@@ -518,7 +518,20 @@
       "name": "Card Title",
       "limit": 1,
       "settings": [
-        { "type": "color", "id": "title_color", "label": "Title text color", "default": "#23421F" }
+        { "type": "color", "id": "title_color", "label": "Title text color", "default": "#23421F" },
+        { "type": "range", "id": "font_size", "label": "Title Font Size (px)", "min": 12, "max": 32, "step": 1, "default": 17, "unit": "px" },
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Title Font Weight",
+          "options": [
+            { "value": "normal", "label": "Normal (400)" },
+            { "value": "600", "label": "Semi-Bold (600)" },
+            { "value": "bold", "label": "Bold (700)" },
+            { "value": "800", "label": "Extra Bold (800)" }
+          ],
+          "default": "bold"
+        }
       ]
     },
     {
@@ -527,7 +540,20 @@
       "limit": 1,
       "settings": [
         { "type": "color", "id": "price_color", "label": "Price color", "default": "#23421F" },
-        { "type": "color", "id": "compare_price_color", "label": "Compare price color", "default": "#8D8D8D" }
+        { "type": "color", "id": "compare_price_color", "label": "Compare price color", "default": "#8D8D8D" },
+        { "type": "range", "id": "price_font_size", "label": "Price Font Size (px)", "min": 12, "max": 36, "step": 1, "default": 19, "unit": "px" },
+        {
+          "type": "select",
+          "id": "price_font_weight",
+          "label": "Price Font Weight",
+          "options": [
+            { "value": "600", "label": "Semi-Bold (600)" },
+            { "value": "700", "label": "Bold (700)" },
+            { "value": "800", "label": "Extra Bold (800)" },
+            { "value": "900", "label": "Black (900)" }
+          ],
+          "default": "800"
+        }
       ]
     },
     {

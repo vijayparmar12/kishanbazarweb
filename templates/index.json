@@ -106,12 +106,21 @@
     "categories": {
       "type": "best-sellers",
       "blocks": {
-        "card_title_price_gXgeTC": {
-          "type": "card_title_price",
+        "card_title_gXgeTC": {
+          "type": "card_title",
           "settings": {
             "title_color": "#23421f",
+            "font_size": 17,
+            "font_weight": "bold"
+          }
+        },
+        "card_price_gXgeTC": {
+          "type": "card_price",
+          "settings": {
             "price_color": "#23421f",
-            "compare_price_color": "#8d8d8d"
+            "compare_price_color": "#8d8d8d",
+            "price_font_size": 19,
+            "price_font_weight": "800"
           }
         },
         "card_subtitle_kBDzzL": {
@@ -153,7 +162,8 @@
         }
       },
       "block_order": [
-        "card_title_price_gXgeTC",
+        "card_title_gXgeTC",
+        "card_price_gXgeTC",
         "card_subtitle_kBDzzL",
         "card_rating_AEP9Vq",
         "card_benefit_icons_qPwcFa",
@@ -269,12 +279,21 @@
     "best_sellers": {
       "type": "best-sellers",
       "blocks": {
-        "card_title_price_q6DyNh": {
-          "type": "card_title_price",
+        "card_title_q6DyNh": {
+          "type": "card_title",
           "settings": {
             "title_color": "#23421f",
+            "font_size": 17,
+            "font_weight": "bold"
+          }
+        },
+        "card_price_q6DyNh": {
+          "type": "card_price",
+          "settings": {
             "price_color": "#23421f",
-            "compare_price_color": "#8d8d8d"
+            "compare_price_color": "#8d8d8d",
+            "price_font_size": 19,
+            "price_font_weight": "800"
           }
         },
         "card_subtitle_tfahix": {
@@ -386,7 +405,8 @@
         }
       },
       "block_order": [
-        "card_title_price_q6DyNh",
+        "card_title_q6DyNh",
+        "card_price_q6DyNh",
         "card_subtitle_tfahix",
         "card_rating_mEJ9Wg",
         "card_benefit_icons_D4fXYB",
