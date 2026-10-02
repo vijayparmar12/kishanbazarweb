@@ -88,6 +88,7 @@
       "settings": {
         "show_collection_image": true,
         "custom_banner_desktop": "{{ collection.metafields.custom.custom_banner_image.value }}",
+        "default_fallback_desktop_banner": "shopify://shop_images/all.webp",
         "banner_border_radius": 24,
         "desktop_banner_max_height": 650,
         "show_collection_title": true,
