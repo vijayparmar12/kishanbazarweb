@@ -30,15 +30,6 @@
             "active_icon_image": "shopify://shop_images/download_4.svg"
           }
         },
-        "category_tab_breakfast": {
-          "type": "category_tab",
-          "settings": {
-            "title": "BreakFast",
-            "collection": "breakfast",
-            "icon_image": "shopify://shop_images/download_12.svg",
-            "active_icon_image": "shopify://shop_images/download_5_8c0a578c-56ce-4fff-9831-0a18aa23a7d2.svg"
-          }
-        },
         "category_tab_ghee": {
           "type": "category_tab",
           "settings": {
@@ -74,16 +65,25 @@
             "icon_image": "shopify://shop_images/download_7.svg",
             "active_icon_image": "shopify://shop_images/seed_tray_3e563c_8d27bf03-6c4d-4f72-a62c-b9539bf8bb82.svg"
           }
+        },
+        "category_tab_breakfast": {
+          "type": "category_tab",
+          "settings": {
+            "title": "BreakFast",
+            "collection": "breakfast",
+            "icon_image": "shopify://shop_images/download_12.svg",
+            "active_icon_image": "shopify://shop_images/download_5_8c0a578c-56ce-4fff-9831-0a18aa23a7d2.svg"
+          }
         }
       },
       "block_order": [
         "category_tab_all",
         "category_tab_atta",
-        "category_tab_breakfast",
         "category_tab_ghee",
         "category_tab_oil",
         "category_tab_spices",
-        "category_tab_sweetner"
+        "category_tab_sweetner",
+        "category_tab_breakfast"
       ],
       "settings": {
         "show_collection_image": true,
