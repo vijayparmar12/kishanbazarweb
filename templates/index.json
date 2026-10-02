@@ -259,9 +259,8 @@
         "video_3"
       ],
       "settings": {
-        "heading": "",
+        "heading": "धीमी आँच, Real स्वाद",
         "subheading": "",
-        "heading_image_desktop": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_02_13_40_PM_1.webp",
         "background_color": "#ffffff",
         "heading_color": "#2e5d34"
       }
@@ -403,8 +402,7 @@
       "name": "shop By category",
       "settings": {
         "eyebrow": "",
-        "heading": "",
-        "heading_image_desktop": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_02_55_14_PM.webp",
+        "heading": "हर Category में Goodness",
         "heading_image_flip": false,
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
@@ -608,7 +606,6 @@
         "testimonial_CjVNyt"
       ],
       "settings": {
-        "heading_image_desktop": "shopify://shop_images/new_review.webp",
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
         "heading_image_flip": false,
@@ -617,7 +614,7 @@
         "heading_image_max_width": 1200,
         "heading_image_mobile_max_width": 420,
         "eyebrow": "",
-        "heading": "",
+        "heading": "आपके प्यारे reviews",
         "subheading": "",
         "card_border_color": "#23421f",
         "card_bg_color": "#ffffff"
