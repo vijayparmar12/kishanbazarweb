@@ -225,6 +225,15 @@
             "custom_title": ""
           }
         },
+        "video_At9qeD": {
+          "type": "video",
+          "settings": {
+            "product": "khapli-atta-खपली-आटा",
+            "video": "shopify://files/videos/Every grain of wheat carries a story… 🌾A story of a farmer’s faith, hard work, and honesty..Tod.mp4",
+            "video_url": "",
+            "custom_title": ""
+          }
+        },
         "video_2": {
           "type": "video",
           "settings": {
@@ -238,14 +247,7 @@
           "type": "video",
           "settings": {
             "product": "turmeric-हल्दी",
-            "video_url": "",
-            "custom_title": ""
-          }
-        },
-        "video_At9qeD": {
-          "type": "video",
-          "settings": {
-            "product": "khapli-atta-खपली-आटा",
+            "video": "shopify://files/videos/Haldi ka asli processing kaise hota hai 🌿Farm se seedha aati hai turmeric, phir cleaning, dryin.mp4",
             "video_url": "",
             "custom_title": ""
           }
@@ -253,9 +255,9 @@
       },
       "block_order": [
         "video_1",
+        "video_At9qeD",
         "video_2",
-        "video_3",
-        "video_At9qeD"
+        "video_3"
       ],
       "settings": {
         "heading": "",
