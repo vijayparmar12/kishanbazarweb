@@ -311,12 +311,14 @@ body.template-product .kb-header__features,
 .kb-header__search-icon {
   color: rgb(35 66 31 / 80%);
   display: none;
-  left: 1rem;
+  left: 0.75rem;
   line-height: 0;
   pointer-events: none;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  align-items: center;
+  justify-content: center;
 }
 
 .kb-header__search-input {
@@ -1343,11 +1345,14 @@ body.kb-header-menu-open {
 
   .kb-header__search-icon {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    left: 0.75rem;
   }
 
   .kb-header__search-input {
     font-size: 0.74rem;
-    padding-left: 2.0rem;
+    padding-left: 2.55rem;
   }
 
   .kb-header__search-submit {
