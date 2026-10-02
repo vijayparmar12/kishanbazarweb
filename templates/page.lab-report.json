@@ -15,7 +15,7 @@
         "report_ghee": {
           "type": "lab_report",
           "settings": {
-            "report_image": "shopify://shop_images/ghee_1.webp",
+            "report_image": "shopify://shop_images/ghee-1.webp",
             "product_title": "A2 BILONA GHEE",
             "report_url": "https://drive.google.com/file/d/1s7bB99EaIX6p5Wy7Z2F3S6ZYApim7dNx/view?usp=drive_link",
             "button_text": "Download PDF Report ↓"
@@ -24,7 +24,7 @@
         "lab_report_kamM69": {
           "type": "lab_report",
           "settings": {
-            "report_image": "shopify://shop_images/LAL_MIRCH.webp",
+            "report_image": "shopify://shop_images/lal-mirch.webp",
             "product_title": "RED CHILLI POWDER",
             "report_url": "https://drive.google.com/file/d/1xw1qtRn2O5t-sNYJeU9KYi6GMwcsdLC9/view?usp=drive_link",
             "button_text": "Download PDF Report ↓"
@@ -33,7 +33,7 @@
         "report_atta": {
           "type": "lab_report",
           "settings": {
-            "report_image": "shopify://shop_images/GROUNDNUT_OIL.jpg",
+            "report_image": "shopify://shop_images/groundnut-oil.webp",
             "product_title": "GROUNDNUT OIL",
             "report_url": "https://drive.google.com/file/d/1Si2ZoK8mdAwB-BwqPmolKDglKyNnJhfo/view?usp=drive_link",
             "button_text": "Download PDF Report ↓"
@@ -42,7 +42,7 @@
         "report_oil": {
           "type": "lab_report",
           "settings": {
-            "report_image": "shopify://shop_images/DHANIYA.png",
+            "report_image": "shopify://shop_images/dhaniya.webp",
             "product_title": "DHANIYA",
             "report_url": "https://drive.google.com/file/d/1XS25wWlqTcW9NBpQqnAFgRnwOccGwxTC/view?usp=drive_link",
             "button_text": "Download PDF Report ↓"
@@ -51,7 +51,7 @@
         "lab_report_rEXgnk": {
           "type": "lab_report",
           "settings": {
-            "report_image": "shopify://shop_images/ChatGPT_Image_Aug_4_2026_11_06_01_AM.png",
+            "report_image": "shopify://shop_images/turm.webp",
             "product_title": "TURMERIC POWDER",
             "report_url": "https://drive.google.com/file/d/12moAty5SwR5l22TIRPQzjziJgY4Y5u9K/view?usp=drive_link",
             "button_text": "Download PDF Report ↓"
@@ -60,7 +60,7 @@
         "lab_report_3K3qpw": {
           "type": "lab_report",
           "settings": {
-            "report_image": "shopify://shop_images/jeera.png",
+            "report_image": "shopify://shop_images/jeera.webp",
             "product_title": "JEERA",
             "report_url": "https://drive.google.com/file/d/1uEmdgi2OB3XWAabBCeo-8YhLcwriXQ3-/view?usp=drive_link",
             "button_text": "Download PDF Report ↓"
@@ -69,7 +69,7 @@
         "lab_report_GNUHXp": {
           "type": "lab_report",
           "settings": {
-            "report_image": "shopify://shop_images/OIL1.png",
+            "report_image": "shopify://shop_images/b30ee100-8a0b-4e4a-ae89-f20f337d440d.webp",
             "product_title": "WHITE TIL OIL",
             "report_url": "https://drive.google.com/file/d/152hK_jjJ6930U2H3TcY0ip3j1XwFH86L/view?usp=drive_link",
             "button_text": "Download PDF Report ↓"
@@ -86,7 +86,6 @@
         "lab_report_GNUHXp"
       ],
       "settings": {
-        "banner_image_desktop": "shopify://shop_images/LAB_REPORT_BANNER.png",
         "banner_radius": 20,
         "badge": "",
         "heading": "",
