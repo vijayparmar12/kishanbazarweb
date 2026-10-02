@@ -513,16 +513,15 @@
         "story_card_QRP9rP"
       ],
       "settings": {
-        "heading_image_desktop": "shopify://shop_images/61f5c4ca-792a-40e9-9d2f-283b3220da2f.webp",
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
         "heading_image_flip": false,
         "heading_box_height_desktop": 150,
         "heading_box_height_mobile": 80,
         "heading_image_max_width": 1200,
-        "heading_image_mobile_max_width": 490,
-        "subheading": "Native Ingredients. No Substitutes.",
-        "heading": "Beyond Our Products",
+        "heading_image_mobile_max_width": 400,
+        "subheading": "",
+        "heading": "Beyond the product  हमारी कहानी",
         "bg_color": "#ffffff",
         "subheading_color": "#8b4513",
         "heading_color": "#23421f"
