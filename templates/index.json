@@ -285,15 +285,15 @@
         "heading_image_desktop": "shopify://shop_images/VIDEO.webp",
         "background_color": "#ffffff",
         "heading_color": "#2e5d34",
-        "heading_font_size": 28,
+        "heading_font_size": 50,
         "heading_font_size_mobile": 18,
         "subheading_font_size": 14,
         "subheading_font_size_mobile": 12,
         "heading_content_width_desktop": 80,
         "heading_content_width_mobile": 85,
-        "heading_box_height_desktop": 140,
+        "heading_box_height_desktop": 200,
         "heading_box_height_mobile": 90,
-        "heading_image_max_width": 1200,
+        "heading_image_max_width": 1000,
         "heading_image_mobile_max_width": 500
       }
     },
