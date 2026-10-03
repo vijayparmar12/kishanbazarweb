@@ -424,6 +424,7 @@
       "settings": {
         "eyebrow": "",
         "heading": "हर Category में Goodness",
+        "heading_image_desktop": "shopify://shop_images/category.webp",
         "heading_image_flip": false,
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
