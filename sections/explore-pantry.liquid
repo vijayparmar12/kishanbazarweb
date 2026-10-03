@@ -17,10 +17,18 @@
     background-image: none !important;
   }
 
+  {% assign text_align = section.settings.heading_text_align | default: 'left' %}
+  {% assign align_items = 'flex-start' %}
+  {% if text_align == 'center' %}
+    {% assign align_items = 'center' %}
+  {% elsif text_align == 'right' %}
+    {% assign align_items = 'flex-end' %}
+  {% endif %}
+
   #ExplorePantry-{{ section.id }} .explore-pantry__header {
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-start !important;
+    justify-content: {{ align_items }} !important;
     position: relative !important;
     width: 100% !important;
     max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
@@ -61,8 +69,8 @@
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
-    align-items: flex-start !important;
-    text-align: left !important;
+    align-items: {{ align_items }} !important;
+    text-align: {{ text_align }} !important;
     max-width: {{ section.settings.heading_content_width_desktop | default: 80 }}% !important;
     width: 100% !important;
     box-sizing: border-box !important;
@@ -76,7 +84,7 @@
     font-family: 'Montserrat', sans-serif !important;
     margin: 0 !important;
     line-height: 1.25 !important;
-    text-align: left !important;
+    text-align: {{ text_align }} !important;
   }
 
   #ExplorePantry-{{ section.id }} .explore-pantry__heading-eyebrow {
@@ -85,7 +93,7 @@
     font-weight: 800 !important;
     margin-bottom: 0.25rem !important;
     font-family: 'Montserrat', sans-serif !important;
-    text-align: left !important;
+    text-align: {{ text_align }} !important;
     line-height: 1.2 !important;
   }
 
@@ -95,7 +103,7 @@
       min-height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
       height: auto !important;
       padding: 0 1rem !important;
-      justify-content: flex-start !important;
+      justify-content: {{ align_items }} !important;
       align-items: center !important;
     }
     #ExplorePantry-{{ section.id }} .home-section__heading-picture {
@@ -113,8 +121,8 @@
     }
     #ExplorePantry-{{ section.id }} .explore-pantry__heading-content {
       max-width: {{ section.settings.heading_content_width_mobile | default: 85 }}% !important;
-      align-items: flex-start !important;
-      text-align: left !important;
+      align-items: {{ align_items }} !important;
+      text-align: {{ text_align }} !important;
       padding: 0 !important;
     }
     #ExplorePantry-{{ section.id }} .explore-pantry__heading-title,
@@ -122,13 +130,13 @@
       font-size: {{ section.settings.heading_font_size_mobile | default: 18 }}px !important;
       font-weight: 900 !important;
       line-height: 1.2 !important;
-      text-align: left !important;
+      text-align: {{ text_align }} !important;
     }
     #ExplorePantry-{{ section.id }} .explore-pantry__heading-eyebrow {
       font-size: {{ section.settings.subheading_font_size_mobile | default: 12 }}px !important;
       font-weight: 800 !important;
       margin-bottom: 0.15rem !important;
-      text-align: left !important;
+      text-align: {{ text_align }} !important;
     }
   }
 {% endstyle %}
@@ -164,13 +172,13 @@
           </div>
         {% endif %}
       {% else %}
-        <div style="text-align: left;">
+        <div style="text-align: {{ text_align }};">
           {% if section.settings.subheading != blank %}
-            <p class="explore-pantry__eyebrow" style="text-align: left;">{{ section.settings.subheading }}</p>
+            <p class="explore-pantry__eyebrow" style="text-align: {{ text_align }};">{{ section.settings.subheading }}</p>
           {% endif %}
 
           {% if section.settings.heading != blank %}
-            <h2 class="explore-pantry__heading" style="text-align: left;">{{ section.settings.heading }}</h2>
+            <h2 class="explore-pantry__heading" style="text-align: {{ text_align }};">{{ section.settings.heading }}</h2>
           {% endif %}
         </div>
       {% endif %}
@@ -287,6 +295,17 @@
       "id": "heading",
       "label": "Heading",
       "default": "Explore Pantry Categories"
+    },
+    {
+      "type": "select",
+      "id": "heading_text_align",
+      "label": "Heading Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left (Recommended)" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
     },
     { "type": "color", "id": "heading_color", "label": "Heading Text Color", "default": "#1e3d20" },
     { "type": "range", "id": "heading_font_size", "label": "Desktop Heading Font Size (px)", "min": 14, "max": 80, "step": 1, "default": 28, "unit": "px" },

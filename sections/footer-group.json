@@ -37,6 +37,7 @@
       ],
       "settings": {
         "heading": "Certification",
+        "heading_text_align": "center",
         "heading_alignment": "center",
         "heading_font_size": 28,
         "heading_font_size_mobile": 20,

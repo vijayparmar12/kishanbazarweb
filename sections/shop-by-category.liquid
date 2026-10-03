@@ -7,6 +7,14 @@
 {% endif %}
 
 {% style %}
+  {% assign text_align = section.settings.heading_text_align | default: 'left' %}
+  {% assign align_items = 'flex-start' %}
+  {% if text_align == 'center' %}
+    {% assign align_items = 'center' %}
+  {% elsif text_align == 'right' %}
+    {% assign align_items = 'flex-end' %}
+  {% endif %}
+
   #ShopByCategory-{{ section.id }} .shop-by-category__heading-title,
   #ShopByCategory-{{ section.id }} .shop-by-category__title-wrap h2 {
     color: {{ section.settings.heading_color | default: '#1e3d20' }} !important;
@@ -15,19 +23,28 @@
     font-family: 'Montserrat', sans-serif !important;
     margin: 0 !important;
     line-height: 1.25 !important;
-    text-align: left !important;
+    text-align: {{ text_align }} !important;
   }
   #ShopByCategory-{{ section.id }} .shop-by-category__heading-eyebrow {
     font-size: {{ section.settings.subheading_font_size | default: 15 }}px !important;
+    text-align: {{ text_align }} !important;
   }
   #ShopByCategory-{{ section.id }} .shop-by-category__heading-content {
     max-width: {{ section.settings.heading_content_width_desktop | default: 80 }}% !important;
     width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: {{ align_items }} !important;
+    text-align: {{ text_align }} !important;
   }
   #ShopByCategory-{{ section.id }} .shop-by-category__heading-banner-wrap {
     min-height: {{ section.settings.heading_box_height_desktop | default: 180 }}px !important;
     height: auto !important;
     max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: {{ align_items }} !important;
   }
   @media screen and (max-width: 749px) {
     #ShopByCategory-{{ section.id }} .shop-by-category__heading-title,
@@ -35,19 +52,23 @@
       font-size: {{ section.settings.heading_font_size_mobile | default: 18 }}px !important;
       font-weight: 900 !important;
       line-height: 1.2 !important;
-      text-align: left !important;
+      text-align: {{ text_align }} !important;
     }
     #ShopByCategory-{{ section.id }} .shop-by-category__heading-eyebrow {
       font-size: {{ section.settings.subheading_font_size_mobile | default: 12 }}px !important;
+      text-align: {{ text_align }} !important;
     }
     #ShopByCategory-{{ section.id }} .shop-by-category__heading-content {
       max-width: {{ section.settings.heading_content_width_mobile | default: 85 }}% !important;
       width: 100% !important;
+      align-items: {{ align_items }} !important;
+      text-align: {{ text_align }} !important;
     }
     #ShopByCategory-{{ section.id }} .shop-by-category__heading-banner-wrap {
       min-height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
       height: auto !important;
       max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
+      justify-content: {{ align_items }} !important;
     }
   }
 {% endstyle %}
@@ -75,14 +96,14 @@
         {% endif %}
       </div>
     {% else %}
-      <div class="shop-by-category__title-wrap" style="text-align: left; width: 100%;">
+      <div class="shop-by-category__title-wrap" style="text-align: {{ text_align }}; width: 100%;">
         {% if section.settings.eyebrow != blank %}
-          <p style="color: #166534; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; font-family: 'Montserrat', sans-serif; text-align: left;">
+          <p style="color: #166534; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; font-family: 'Montserrat', sans-serif; text-align: {{ text_align }};">
             {{ section.settings.eyebrow }}
           </p>
         {% endif %}
         {% if section.settings.heading != blank %}
-          <h2 style="color: #1e3d20; font-size: clamp(1.6rem, 3.5vw, 2.65rem); font-weight: 900; font-family: 'Montserrat', sans-serif; margin: 0; text-align: left;">
+          <h2 style="color: #1e3d20; font-size: clamp(1.6rem, 3.5vw, 2.65rem); font-weight: 900; font-family: 'Montserrat', sans-serif; margin: 0; text-align: {{ text_align }};">
             {{ section.settings.heading }}
           </h2>
         {% endif %}
@@ -306,6 +327,17 @@
       "id": "heading",
       "label": "Heading",
       "default": "हर Category में Goodness"
+    },
+    {
+      "type": "select",
+      "id": "heading_text_align",
+      "label": "Heading Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left (Recommended)" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
     },
     { "type": "color", "id": "heading_color", "label": "Heading Text Color", "default": "#1e3d20" },
     { "type": "range", "id": "heading_font_size", "label": "Desktop Heading Font Size (px)", "min": 14, "max": 80, "step": 1, "default": 28, "unit": "px" },

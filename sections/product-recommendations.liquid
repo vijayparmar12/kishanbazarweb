@@ -203,8 +203,16 @@
     %}
 
     {% if rec_count > 0 %}
-      <div class="product-recommendations-head" style="display: flex; justify-content: center; align-items: center; margin-bottom: 1.25rem; text-align: center;">
-        <h2 class="product-recommendations-title" style="color: {{ section.settings.heading_color | default: '#1B4317' }}; font-size: clamp(1.4rem, 3.2vw, 2.2rem); font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; margin: 0; text-align: center; width: 100%;">
+      {% assign text_align = section.settings.heading_text_align | default: 'center' %}
+      {% assign align_items = 'center' %}
+      {% if text_align == 'left' %}
+        {% assign align_items = 'flex-start' %}
+      {% elsif text_align == 'right' %}
+        {% assign align_items = 'flex-end' %}
+      {% endif %}
+
+      <div class="product-recommendations-head" style="display: flex; justify-content: {{ align_items }}; align-items: center; margin-bottom: 1.25rem; text-align: {{ text_align }};">
+        <h2 class="product-recommendations-title" style="color: {{ section.settings.heading_color | default: '#1B4317' }}; font-size: clamp(1.4rem, 3.2vw, 2.2rem); font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; margin: 0; text-align: {{ text_align }}; width: 100%;">
           {{ section.settings.heading | default: 'RECOMMENDED' }}
         </h2>
       </div>
@@ -317,6 +325,17 @@
       "id": "heading",
       "label": "Heading",
       "default": "RECOMMENDED"
+    },
+    {
+      "type": "select",
+      "id": "heading_text_align",
+      "label": "Heading Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left (Recommended)" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
     },
     {
       "type": "text",

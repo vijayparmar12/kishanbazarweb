@@ -5,6 +5,14 @@
   #BeyondProducts-{{ section.id }} {
     background-color: {{ section.settings.bg_color | default: '#F8F4EB' }} !important;
   }
+  {% assign text_align = section.settings.heading_text_align | default: 'left' %}
+  {% assign align_items = 'flex-start' %}
+  {% if text_align == 'center' %}
+    {% assign align_items = 'center' %}
+  {% elsif text_align == 'right' %}
+    {% assign align_items = 'flex-end' %}
+  {% endif %}
+
   #BeyondProducts-{{ section.id }} .beyond-products__heading {
     color: {{ section.settings.heading_color | default: '#23421F' }} !important;
   }
@@ -20,7 +28,7 @@
   #BeyondProducts-{{ section.id }} .beyond-products__heading-banner-wrap {
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-start !important;
+    justify-content: {{ align_items }} !important;
     position: relative !important;
     width: 100% !important;
     max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
@@ -75,8 +83,8 @@
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
-    align-items: flex-start !important;
-    text-align: left !important;
+    align-items: {{ align_items }} !important;
+    text-align: {{ text_align }} !important;
     max-width: {{ section.settings.heading_content_width_desktop | default: 80 }}% !important;
     width: 100% !important;
     box-sizing: border-box !important;
@@ -90,7 +98,7 @@
     font-family: 'Montserrat', sans-serif !important;
     margin: 0 !important;
     line-height: 1.25 !important;
-    text-align: left !important;
+    text-align: {{ text_align }} !important;
   }
 
   #BeyondProducts-{{ section.id }} .beyond-products__heading-subheading {
@@ -99,7 +107,7 @@
     font-weight: 800 !important;
     margin-bottom: 0.2rem !important;
     font-family: 'Montserrat', sans-serif !important;
-    text-align: left !important;
+    text-align: {{ text_align }} !important;
     line-height: 1.2 !important;
   }
 
@@ -118,7 +126,7 @@
       box-shadow: none !important;
       background: transparent !important;
       padding: 0.4rem 1rem !important;
-      justify-content: flex-start !important;
+      justify-content: {{ align_items }} !important;
       align-items: center !important;
     }
     #BeyondProducts-{{ section.id }} .home-section__heading-picture {
@@ -148,8 +156,8 @@
     }
     #BeyondProducts-{{ section.id }} .beyond-products__heading-content {
       max-width: {{ section.settings.heading_content_width_mobile | default: 85 }}% !important;
-      align-items: flex-start !important;
-      text-align: left !important;
+      align-items: {{ align_items }} !important;
+      text-align: {{ text_align }} !important;
       padding: 0 !important;
     }
     #BeyondProducts-{{ section.id }} .beyond-products__heading-title,
@@ -157,13 +165,13 @@
       font-size: {{ section.settings.heading_font_size_mobile | default: 18 }}px !important;
       font-weight: 900 !important;
       line-height: 1.2 !important;
-      text-align: left !important;
+      text-align: {{ text_align }} !important;
     }
     #BeyondProducts-{{ section.id }} .beyond-products__heading-subheading {
       font-size: {{ section.settings.subheading_font_size_mobile | default: 12 }}px !important;
       font-weight: 800 !important;
       margin-bottom: 0.1rem !important;
-      text-align: left !important;
+      text-align: {{ text_align }} !important;
     }
     #BeyondProducts-{{ section.id }} .beyond-products__track {
       padding-top: 0.25rem !important;
@@ -195,12 +203,12 @@
           {% endif %}
         </div>
       {% else %}
-        <div style="text-align: left;">
+        <div style="text-align: {{ text_align }};">
           {% if section.settings.subheading != blank %}
-            <p class="beyond-products__subheading" style="text-align: left;">{{ section.settings.subheading }}</p>
+            <p class="beyond-products__subheading" style="text-align: {{ text_align }};">{{ section.settings.subheading }}</p>
           {% endif %}
           {% if section.settings.heading != blank %}
-            <h2 class="beyond-products__heading" style="text-align: left;">{{ section.settings.heading }}</h2>
+            <h2 class="beyond-products__heading" style="text-align: {{ text_align }};">{{ section.settings.heading }}</h2>
           {% endif %}
         </div>
       {% endif %}
@@ -298,6 +306,17 @@
       "id": "heading",
       "label": "Heading",
       "default": "Beyond Our Products"
+    },
+    {
+      "type": "select",
+      "id": "heading_text_align",
+      "label": "Heading Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left (Recommended)" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
     },
     {
       "type": "color",

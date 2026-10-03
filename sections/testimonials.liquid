@@ -54,10 +54,18 @@
     width: 100% !important;
   }
 
+  {% assign text_align = section.settings.heading_text_align | default: 'left' %}
+  {% assign align_items = 'flex-start' %}
+  {% if text_align == 'center' %}
+    {% assign align_items = 'center' %}
+  {% elsif text_align == 'right' %}
+    {% assign align_items = 'flex-end' %}
+  {% endif %}
+
   #Testimonials-{{ section.id }} .testimonials__heading-banner-wrap {
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-start !important;
+    justify-content: {{ align_items }} !important;
     position: relative !important;
     width: 100% !important;
     max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
@@ -102,8 +110,8 @@
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
-    align-items: flex-start !important;
-    text-align: left !important;
+    align-items: {{ align_items }} !important;
+    text-align: {{ text_align }} !important;
     max-width: {{ section.settings.heading_content_width_desktop | default: 80 }}% !important;
     width: 100% !important;
     box-sizing: border-box !important;
@@ -117,7 +125,7 @@
     font-family: inherit !important;
     margin: 0 !important;
     line-height: 1.25 !important;
-    text-align: left !important;
+    text-align: {{ text_align }} !important;
   }
 
   #Testimonials-{{ section.id }} .testimonials__heading-eyebrow {
@@ -126,7 +134,7 @@
     font-weight: 800 !important;
     margin-bottom: 0.25rem !important;
     font-family: inherit !important;
-    text-align: left !important;
+    text-align: {{ text_align }} !important;
     line-height: 1.2 !important;
   }
 
@@ -150,7 +158,7 @@
       height: auto !important;
       padding: 0 1rem !important;
       margin: 0 0 0.25rem 0 !important;
-      justify-content: flex-start !important;
+      justify-content: {{ align_items }} !important;
       align-items: center !important;
     }
     #Testimonials-{{ section.id }} .home-section__heading-picture {
@@ -169,8 +177,8 @@
     }
     #Testimonials-{{ section.id }} .testimonials__heading-content {
       max-width: {{ section.settings.heading_content_width_mobile | default: 85 }}% !important;
-      align-items: flex-start !important;
-      text-align: left !important;
+      align-items: {{ align_items }} !important;
+      text-align: {{ text_align }} !important;
       padding: 0 !important;
     }
     #Testimonials-{{ section.id }} .testimonials__heading-title,
@@ -178,13 +186,13 @@
       font-size: {{ section.settings.heading_font_size_mobile | default: 18 }}px !important;
       font-weight: 900 !important;
       line-height: 1.2 !important;
-      text-align: left !important;
+      text-align: {{ text_align }} !important;
     }
     #Testimonials-{{ section.id }} .testimonials__heading-eyebrow {
       font-size: {{ section.settings.subheading_font_size_mobile | default: 12 }}px !important;
       font-weight: 800 !important;
       margin-bottom: 0.15rem !important;
-      text-align: left !important;
+      text-align: {{ text_align }} !important;
     }
   }
 {% endstyle %}
@@ -210,22 +218,22 @@
               <h2 class="testimonials__heading testimonials__heading-title">{{ section.settings.heading }}</h2>
             {% endif %}
             {% if section.settings.subheading != blank %}
-              <p class="testimonials__subheading" style="text-align: left; margin: 0.15rem 0 0 0;">{{ section.settings.subheading }}</p>
+              <p class="testimonials__subheading" style="text-align: {{ text_align }}; margin: 0.15rem 0 0 0;">{{ section.settings.subheading }}</p>
             {% endif %}
           </div>
         {% endif %}
       </div>
     {% else %}
       {% if section.settings.heading != blank or section.settings.eyebrow != blank or section.settings.subheading != blank %}
-        <div style="text-align: left; padding: 0 1rem; max-width: 1200px; margin: 0 auto;">
+        <div style="text-align: {{ text_align }}; padding: 0 1rem; max-width: 1200px; margin: 0 auto;">
           {% if section.settings.eyebrow != blank %}
-            <span class="testimonials__eyebrow" style="text-align: left;">{{ section.settings.eyebrow }}</span>
+            <span class="testimonials__eyebrow" style="text-align: {{ text_align }};">{{ section.settings.eyebrow }}</span>
           {% endif %}
           {% if section.settings.heading != blank %}
-            <h2 class="testimonials__heading" style="text-align: left;">{{ section.settings.heading }}</h2>
+            <h2 class="testimonials__heading" style="text-align: {{ text_align }};">{{ section.settings.heading }}</h2>
           {% endif %}
           {% if section.settings.subheading != blank %}
-            <p class="testimonials__subheading" style="text-align: left;">{{ section.settings.subheading }}</p>
+            <p class="testimonials__subheading" style="text-align: {{ text_align }};">{{ section.settings.subheading }}</p>
           {% endif %}
         </div>
       {% endif %}
@@ -419,6 +427,17 @@ The texture and purity are superb, with authentic stone-ground goodness and zero
     { "type": "range", "id": "heading_image_mobile_max_width", "label": "Mobile Heading Image Max Width (px)", "min": 150, "max": 800, "step": 10, "default": 800, "unit": "px" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow Badge" },
     { "type": "text", "id": "heading", "label": "Carousel Heading" },
+    {
+      "type": "select",
+      "id": "heading_text_align",
+      "label": "Heading Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left (Recommended)" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
     { "type": "color", "id": "heading_color", "label": "Heading Text Color", "default": "#1e3d20" },
     { "type": "range", "id": "heading_font_size", "label": "Desktop Heading Font Size (px)", "min": 14, "max": 80, "step": 1, "default": 28, "unit": "px" },
     { "type": "range", "id": "heading_font_size_mobile", "label": "Mobile Heading Font Size (px)", "min": 10, "max": 50, "step": 1, "default": 18, "unit": "px" },

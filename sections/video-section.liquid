@@ -14,10 +14,18 @@
     padding: 0 !important;
   }
 
+  {% assign text_align = section.settings.heading_text_align | default: 'left' %}
+  {% assign align_items = 'flex-start' %}
+  {% if text_align == 'center' %}
+    {% assign align_items = 'center' %}
+  {% elsif text_align == 'right' %}
+    {% assign align_items = 'flex-end' %}
+  {% endif %}
+
   #VideoSection-{{ section.id }} .home-video__heading-banner-wrap {
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-start !important;
+    justify-content: {{ align_items }} !important;
     position: relative !important;
     width: 100% !important;
     max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
@@ -62,8 +70,8 @@
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
-    align-items: flex-start !important;
-    text-align: left !important;
+    align-items: {{ align_items }} !important;
+    text-align: {{ text_align }} !important;
     max-width: {{ section.settings.heading_content_width_desktop | default: 80 }}% !important;
     width: 100% !important;
     box-sizing: border-box !important;
@@ -77,13 +85,13 @@
     font-family: 'Montserrat', sans-serif !important;
     margin: 0 !important;
     line-height: 1.25 !important;
-    text-align: left !important;
+    text-align: {{ text_align }} !important;
   }
 
   #VideoSection-{{ section.id }} .home-video__heading-eyebrow {
     font-size: {{ section.settings.subheading_font_size | default: 15 }}px !important;
     margin-bottom: 0.25rem !important;
-    text-align: left !important;
+    text-align: {{ text_align }} !important;
   }
 
   @media screen and (max-width: 749px) {
@@ -92,7 +100,7 @@
       min-height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
       height: auto !important;
       padding: 0 1rem !important;
-      justify-content: flex-start !important;
+      justify-content: {{ align_items }} !important;
       align-items: center !important;
     }
     #VideoSection-{{ section.id }} .home-section__heading-picture {
@@ -111,8 +119,8 @@
     }
     #VideoSection-{{ section.id }} .home-video__heading-content {
       max-width: {{ section.settings.heading_content_width_mobile | default: 85 }}% !important;
-      align-items: flex-start !important;
-      text-align: left !important;
+      align-items: {{ align_items }} !important;
+      text-align: {{ text_align }} !important;
       padding: 0 !important;
     }
     #VideoSection-{{ section.id }} .home-video__heading-title,
@@ -120,12 +128,12 @@
       font-size: {{ section.settings.heading_font_size_mobile | default: 18 }}px !important;
       font-weight: 900 !important;
       line-height: 1.2 !important;
-      text-align: left !important;
+      text-align: {{ text_align }} !important;
     }
     #VideoSection-{{ section.id }} .home-video__heading-eyebrow {
       font-size: {{ section.settings.subheading_font_size_mobile | default: 12 }}px !important;
       margin-bottom: 0.15rem !important;
-      text-align: left !important;
+      text-align: {{ text_align }} !important;
     }
   }
 {% endstyle %}
@@ -150,19 +158,19 @@
                 <h2 class="home-video__title home-video__heading-title">{{ section.settings.heading }}</h2>
               {% endif %}
               {% if section.settings.description != blank %}
-                <div class="home-video__subtitle" style="text-align: left; margin: 0.15rem 0 0 0;">{{ section.settings.description }}</div>
+                <div class="home-video__subtitle" style="text-align: {{ text_align }}; margin: 0.15rem 0 0 0;">{{ section.settings.description }}</div>
               {% endif %}
             </div>
           {% endif %}
         </div>
       {% else %}
-        <div style="text-align: left;">
-          <span class="home-video__eyebrow-pill" style="text-align: left;">🌿 OUR FARM TO TABLE STORY</span>
-          <h2 class="home-video__title" style="text-align: left;">{{ section.settings.heading | default: "Meet the Farmers & Millers" }}</h2>
+        <div style="text-align: {{ text_align }};">
+          <span class="home-video__eyebrow-pill" style="text-align: {{ text_align }};">🌿 OUR FARM TO TABLE STORY</span>
+          <h2 class="home-video__title" style="text-align: {{ text_align }};">{{ section.settings.heading | default: "Meet the Farmers & Millers" }}</h2>
           {% if section.settings.description != blank %}
-            <div class="home-video__subtitle" style="text-align: left;">{{ section.settings.description }}</div>
+            <div class="home-video__subtitle" style="text-align: {{ text_align }};">{{ section.settings.description }}</div>
           {% else %}
-            <p class="home-video__subtitle" style="text-align: left;">Take a closer look at the traditional stone-grinding practices and farm-fresh care behind every Kishan Bazar staple.</p>
+            <p class="home-video__subtitle" style="text-align: {{ text_align }};">Take a closer look at the traditional stone-grinding practices and farm-fresh care behind every Kishan Bazar staple.</p>
           {% endif %}
         </div>
       {% endif %}
@@ -311,6 +319,17 @@
       "id": "heading",
       "label": "Heading",
       "default": "Meet the Farmers & Millers"
+    },
+    {
+      "type": "select",
+      "id": "heading_text_align",
+      "label": "Heading Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left (Recommended)" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
     },
     { "type": "color", "id": "heading_color", "label": "Heading Text Color", "default": "#1e3d20" },
     { "type": "range", "id": "heading_font_size", "label": "Desktop Heading Font Size (px)", "min": 14, "max": 80, "step": 1, "default": 28, "unit": "px" },

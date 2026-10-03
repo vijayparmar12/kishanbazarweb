@@ -44,7 +44,7 @@
     --kb-sl-mb: {{ section.settings.margin_bottom | default: 0 }}px;
     --kb-sl-mt-mobile: {{ section.settings.margin_top_mobile | default: 0 }}px;
     --kb-sl-mb-mobile: {{ section.settings.margin_bottom_mobile | default: 0 }}px;
-    --kb-sl-align: {{ section.settings.heading_alignment | default: 'center' }};
+    --kb-sl-align: {{ section.settings.heading_text_align | default: section.settings.heading_alignment | default: 'center' }};
     --kb-sl-heading-size: {{ section.settings.heading_font_size | default: 28 }}px;
     --kb-sl-heading-size-mobile: {{ section.settings.heading_font_size_mobile | default: 20 }}px;
     --kb-sl-heading-weight: {{ section.settings.heading_font_weight | default: '700' }};
@@ -216,10 +216,10 @@
     },
     {
       "type": "select",
-      "id": "heading_alignment",
-      "label": "Heading alignment",
+      "id": "heading_text_align",
+      "label": "Heading Text Alignment",
       "options": [
-        { "value": "left", "label": "Left" },
+        { "value": "left", "label": "Left (Recommended)" },
         { "value": "center", "label": "Center" },
         { "value": "right", "label": "Right" }
       ],

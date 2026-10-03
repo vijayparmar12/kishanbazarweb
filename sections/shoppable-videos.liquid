@@ -5,40 +5,63 @@
   #ShoppableVideos-{{ section.id }} {
     background-color: {{ section.settings.background_color | default: '#FBF7F0' }} !important;
   }
+  {% assign text_align = section.settings.heading_text_align | default: 'left' %}
+  {% assign align_items = 'flex-start' %}
+  {% if text_align == 'center' %}
+    {% assign align_items = 'center' %}
+  {% elsif text_align == 'right' %}
+    {% assign align_items = 'flex-end' %}
+  {% endif %}
+
   #ShoppableVideos-{{ section.id }} .shoppable-videos__heading {
     color: {{ section.settings.heading_color | default: '#23421F' }} !important;
     font-size: {{ section.settings.heading_font_size | default: 28 }}px !important;
     font-weight: 900 !important;
     line-height: 1.25 !important;
+    text-align: {{ text_align }} !important;
   }
   #ShoppableVideos-{{ section.id }} .shoppable-videos__subheading {
     font-size: {{ section.settings.subheading_font_size | default: 14 }}px !important;
+    text-align: {{ text_align }} !important;
   }
   #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-content {
     max-width: {{ section.settings.heading_content_width_desktop | default: 80 }}% !important;
     width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: {{ align_items }} !important;
+    text-align: {{ text_align }} !important;
   }
   #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-banner-wrap {
     min-height: {{ section.settings.heading_box_height_desktop | default: 140 }}px !important;
     height: auto !important;
     max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: {{ align_items }} !important;
   }
   @media (max-width: 749px) {
     #ShoppableVideos-{{ section.id }} .shoppable-videos__heading {
       font-size: {{ section.settings.heading_font_size_mobile | default: 18 }}px !important;
       line-height: 1.2 !important;
+      text-align: {{ text_align }} !important;
     }
     #ShoppableVideos-{{ section.id }} .shoppable-videos__subheading {
       font-size: {{ section.settings.subheading_font_size_mobile | default: 12 }}px !important;
+      text-align: {{ text_align }} !important;
     }
     #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-content {
       max-width: {{ section.settings.heading_content_width_mobile | default: 85 }}% !important;
       width: 100% !important;
+      align-items: {{ align_items }} !important;
+      text-align: {{ text_align }} !important;
     }
     #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-banner-wrap {
       min-height: {{ section.settings.heading_box_height_mobile | default: 90 }}px !important;
       height: auto !important;
       max-width: {{ section.settings.heading_image_mobile_max_width | default: 500 }}px !important;
+      justify-content: {{ align_items }} !important;
     }
   }
 {% endstyle %}
@@ -76,14 +99,14 @@
           {% endif %}
         </div>
       {% else %}
-        <div style="text-align: left;">
+        <div style="text-align: {{ text_align }};">
           {% if section.settings.heading != blank %}
-            <h2 id="ShoppableVideosHeading-{{ section.id }}" class="shoppable-videos__heading" style="text-align: left;">
+            <h2 id="ShoppableVideosHeading-{{ section.id }}" class="shoppable-videos__heading" style="text-align: {{ text_align }};">
               {{ section.settings.heading }}
             </h2>
           {% endif %}
           {% if section.settings.subheading != blank %}
-            <p class="shoppable-videos__subheading" style="text-align: left;">{{ section.settings.subheading }}</p>
+            <p class="shoppable-videos__subheading" style="text-align: {{ text_align }};">{{ section.settings.subheading }}</p>
           {% endif %}
         </div>
       {% endif %}
@@ -170,6 +193,17 @@
       "id": "subheading",
       "label": "Subheading",
       "default": "Tap, shop, and explore authentic stories from our customers and creators."
+    },
+    {
+      "type": "select",
+      "id": "heading_text_align",
+      "label": "Heading Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left (Recommended)" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
     },
     {
       "type": "image_picker",
