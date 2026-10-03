@@ -9,8 +9,10 @@
   box-sizing: border-box;
   overflow: hidden;
   background-color: var(--kb-sl-bg, #ffffff);
-  padding-top: var(--kb-sl-pt, 36px);
-  padding-bottom: var(--kb-sl-pb, 36px);
+  padding-top: var(--kb-sl-pt, 48px);
+  padding-bottom: var(--kb-sl-pb, 48px);
+  margin-top: var(--kb-sl-mt, 24px);
+  margin-bottom: var(--kb-sl-mb, 24px);
 }
 
 .kb-scrolling-logos__container {
@@ -22,7 +24,7 @@
 }
 
 .kb-scrolling-logos__header {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--kb-sl-heading-mb, 32px);
   text-align: var(--kb-sl-align, center);
 }
 
@@ -80,7 +82,7 @@
   flex-shrink: 0;
   min-width: 100%;
   justify-content: space-around;
-  padding: 0.25rem 0;
+  padding: 0.6rem 0;
   box-sizing: border-box;
 }
 
@@ -215,8 +217,10 @@
 /* Mobile responsive styles */
 @media (max-width: 768px) {
   .kb-scrolling-logos {
-    padding-top: var(--kb-sl-pt-mobile, 28px);
-    padding-bottom: var(--kb-sl-pb-mobile, 28px);
+    padding-top: var(--kb-sl-pt-mobile, 36px);
+    padding-bottom: var(--kb-sl-pb-mobile, 36px);
+    margin-top: var(--kb-sl-mt-mobile, 20px);
+    margin-bottom: var(--kb-sl-mb-mobile, 20px);
   }
 
   .kb-scrolling-logos__container {
@@ -224,7 +228,7 @@
   }
 
   .kb-scrolling-logos__header {
-    margin-bottom: 1.15rem;
+    margin-bottom: var(--kb-sl-heading-mb-mobile, 24px);
   }
 
   .kb-scrolling-logos__heading {
@@ -232,7 +236,8 @@
   }
 
   .kb-scrolling-logos__track {
-    gap: var(--kb-sl-gap-mobile, 20px);
+    gap: var(--kb-sl-gap-mobile, 28px);
+    padding: 0.5rem 0;
   }
 
   .kb-scrolling-logos__badge-wrap {
