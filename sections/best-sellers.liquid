@@ -32,24 +32,38 @@
     padding: 0 !important;
   }
 
+  {% assign text_align = section.settings.heading_text_align | default: 'left' %}
+  {% assign align_items = 'flex-start' %}
+  {% if text_align == 'center' %}
+    {% assign align_items = 'center' %}
+  {% elsif text_align == 'right' %}
+    {% assign align_items = 'flex-end' %}
+  {% endif %}
+
   #BestSellers-{{ section.id }} .best-sellers__heading-banner-wrap {
-    display: block !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: {{ align_items }} !important;
     position: relative !important;
     width: 100% !important;
     max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
     height: {{ section.settings.heading_box_height_desktop | default: 180 }}px !important;
     margin: 0 auto !important;
-    padding: 0 !important;
+    padding: 0 2rem !important;
+    box-sizing: border-box !important;
     overflow: hidden !important;
     border-radius: 12px !important;
   }
 
   #BestSellers-{{ section.id }} .home-section__heading-picture {
-    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
     width: 100% !important;
     height: 100% !important;
     margin: 0 auto !important;
     padding: 0 !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
   }
 
   #BestSellers-{{ section.id }} .home-section__heading-image {
@@ -64,6 +78,39 @@
     {% if section.settings.heading_image_flip %}
       transform: scaleX(-1) !important;
     {% endif %}
+  }
+
+  #BestSellers-{{ section.id }} .best-sellers__heading-content {
+    position: relative !important;
+    z-index: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: {{ align_items }} !important;
+    text-align: {{ text_align }} !important;
+    max-width: 65% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #BestSellers-{{ section.id }} .best-sellers__heading-title {
+    color: {{ section.settings.heading_color | default: '#1e3d20' }} !important;
+    font-size: clamp(1.35rem, 3.2vw, 2.35rem) !important;
+    font-weight: 900 !important;
+    font-family: 'Montserrat', sans-serif !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+    text-align: {{ text_align }} !important;
+  }
+
+  #BestSellers-{{ section.id }} .best-sellers__heading-eyebrow {
+    color: {{ section.settings.eyebrow_color | default: '#166534' }} !important;
+    font-size: 0.95rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.25rem !important;
+    font-family: 'Montserrat', sans-serif !important;
+    text-align: {{ text_align }} !important;
+    line-height: 1.2 !important;
   }
 
   #BestSellers-{{ section.id }} .best-sellers__cta-container {
@@ -123,8 +170,13 @@
     #BestSellers-{{ section.id }} .best-sellers__heading-banner-wrap {
       max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
       height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
+      padding: 0 1rem !important;
+      justify-content: {{ align_items }} !important;
+      align-items: center !important;
     }
     #BestSellers-{{ section.id }} .home-section__heading-picture {
+      position: absolute !important;
+      inset: 0 !important;
       width: 100% !important;
       height: 100% !important;
       margin: 0 auto !important;
@@ -132,6 +184,24 @@
     #BestSellers-{{ section.id }} .home-section__heading-image {
       object-fit: {{ section.settings.heading_box_bg_size_mobile | default: 'cover' }} !important;
       margin: 0 auto !important;
+    }
+    #BestSellers-{{ section.id }} .best-sellers__heading-content {
+      max-width: 65% !important;
+      align-items: {{ align_items }} !important;
+      text-align: {{ text_align }} !important;
+      padding: 0 !important;
+    }
+    #BestSellers-{{ section.id }} .best-sellers__heading-title {
+      font-size: clamp(1.05rem, 4.5vw, 1.45rem) !important;
+      font-weight: 900 !important;
+      line-height: 1.2 !important;
+      text-align: {{ text_align }} !important;
+    }
+    #BestSellers-{{ section.id }} .best-sellers__heading-eyebrow {
+      font-size: 0.78rem !important;
+      font-weight: 800 !important;
+      margin-bottom: 0.15rem !important;
+      text-align: {{ text_align }} !important;
     }
     #BestSellers-{{ section.id }} .best-sellers__cta-container {
       margin-top: 0.1rem !important;
@@ -211,16 +281,30 @@
           {% assign heading_img = section.settings.heading_image_desktop | default: section.settings.heading_image_mobile %}
           {{ heading_img | image_url: width: 1400 | image_tag: class: 'home-section__heading-image', alt: section.settings.heading, loading: 'lazy' }}
         </picture>
+        {% if section.settings.heading != blank or section.settings.eyebrow != blank %}
+          <div class="best-sellers__heading-content">
+            {% if section.settings.eyebrow != blank %}
+              <p class="home-section__eyebrow best-sellers__heading-eyebrow">
+                {{ section.settings.eyebrow }}
+              </p>
+            {% endif %}
+            {% if section.settings.heading != blank %}
+              <h2 class="best-sellers__heading-title">
+                {{ section.settings.heading }}
+              </h2>
+            {% endif %}
+          </div>
+        {% endif %}
       </div>
     {% else %}
-      <div class="best-sellers__title-wrap">
+      <div class="best-sellers__title-wrap" style="text-align: {{ text_align }}; width: 100%;">
         {% if section.settings.eyebrow != blank %}
-          <p class="home-section__eyebrow" style="color: #166534; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; font-family: 'Montserrat', sans-serif;">
+          <p class="home-section__eyebrow" style="color: {{ section.settings.eyebrow_color | default: '#166534' }}; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; font-family: 'Montserrat', sans-serif; text-align: {{ text_align }};">
             {{ section.settings.eyebrow }}
           </p>
         {% endif %}
         {% if section.settings.heading != blank %}
-          <h2 style="color: #1e3d20; font-size: clamp(1.6rem, 3.5vw, 2.65rem); font-weight: 900; font-family: 'Montserrat', sans-serif; margin: 0;">
+          <h2 style="color: {{ section.settings.heading_color | default: '#1e3d20' }}; font-size: clamp(1.6rem, 3.5vw, 2.65rem); font-weight: 900; font-family: 'Montserrat', sans-serif; margin: 0; text-align: {{ text_align }};">
             {{ section.settings.heading }}
           </h2>
         {% endif %}
@@ -438,6 +522,19 @@
     },
     { "type": "text", "id": "eyebrow", "label": "Small eyebrow label (optional text over background image)" },
     { "type": "text", "id": "heading", "label": "Heading text (optional text over background image)" },
+    {
+      "type": "select",
+      "id": "heading_text_align",
+      "label": "Heading Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left (Recommended)" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    { "type": "color", "id": "heading_color", "label": "Heading Text Color", "default": "#1e3d20" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow Text Color", "default": "#166534" },
     { "type": "image_picker", "id": "heading_image_desktop", "label": "Heading Box Background Image (Desktop)", "info": "Upload graphic image to use as background for the Heading Box on Desktop" },
     { "type": "image_picker", "id": "heading_image_mobile", "label": "Heading Box Background Image (Mobile)", "info": "Upload graphic image to use as background for the Heading Box on Mobile" },
     { "type": "checkbox", "id": "heading_image_flip", "label": "Flip Heading Image Horizontally", "default": false },

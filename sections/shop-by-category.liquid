@@ -17,16 +17,26 @@
           {% assign heading_img = section.settings.heading_image_desktop | default: section.settings.heading_image_mobile %}
           {{ heading_img | image_url: width: 1400 | image_tag: class: 'shop-by-category__heading-image', alt: section.settings.heading, loading: 'lazy' }}
         </picture>
+        {% if section.settings.heading != blank or section.settings.eyebrow != blank %}
+          <div class="shop-by-category__heading-content">
+            {% if section.settings.eyebrow != blank %}
+              <p class="shop-by-category__heading-eyebrow">{{ section.settings.eyebrow }}</p>
+            {% endif %}
+            {% if section.settings.heading != blank %}
+              <h2 class="shop-by-category__heading-title">{{ section.settings.heading }}</h2>
+            {% endif %}
+          </div>
+        {% endif %}
       </div>
     {% else %}
-      <div class="shop-by-category__title-wrap">
+      <div class="shop-by-category__title-wrap" style="text-align: left; width: 100%;">
         {% if section.settings.eyebrow != blank %}
-          <p style="color: #166534; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; font-family: 'Montserrat', sans-serif;">
+          <p style="color: #166534; font-size: 1.05rem; font-weight: 800; margin-bottom: 0.35rem; font-family: 'Montserrat', sans-serif; text-align: left;">
             {{ section.settings.eyebrow }}
           </p>
         {% endif %}
         {% if section.settings.heading != blank %}
-          <h2 style="color: #1e3d20; font-size: clamp(1.6rem, 3.5vw, 2.65rem); font-weight: 900; font-family: 'Montserrat', sans-serif; margin: 0;">
+          <h2 style="color: #1e3d20; font-size: clamp(1.6rem, 3.5vw, 2.65rem); font-weight: 900; font-family: 'Montserrat', sans-serif; margin: 0; text-align: left;">
             {{ section.settings.heading }}
           </h2>
         {% endif %}
