@@ -45,7 +45,7 @@
             "title": "Oil",
             "collection": "oil",
             "icon_image": "shopify://shop_images/ghee_oil_bottle_icon_0cb4e5b1-185b-4361-8598-a0558425969a.svg",
-            "active_icon_image": "shopify://shop_images/oil_bottle_exact.svg"
+            "active_icon_image": "shopify://shop_images/oil_bottle_transparent_1.svg"
           }
         },
         "category_tab_spices": {
@@ -79,11 +79,11 @@
       "block_order": [
         "category_tab_all",
         "category_tab_atta",
+        "category_tab_breakfast",
         "category_tab_ghee",
         "category_tab_oil",
         "category_tab_spices",
-        "category_tab_sweetner",
-        "category_tab_breakfast"
+        "category_tab_sweetner"
       ],
       "settings": {
         "show_collection_image": true,
