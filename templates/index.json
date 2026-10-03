@@ -358,7 +358,7 @@
           "type": "category_tab",
           "settings": {
             "title": "All Products",
-            "collection": "{{ section.settings.collection }}",
+            "collection": "all",
             "icon_image": "shopify://shop_images/download_9.svg",
             "active_icon_image": "shopify://shop_images/download_8.svg",
             "icon_type": "ghee"
