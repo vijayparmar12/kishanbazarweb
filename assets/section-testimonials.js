@@ -1,78 +1,118 @@
-// Testimonials Card Flip, Expand & Drag Scroll
+// Testimonials Lightbox Review Modal & Horizontal Carousel
 (function() {
   let isDragging = false;
+  let dragThresholdPassed = false;
   let startX = 0;
   let scrollLeftStart = 0;
-  let dragThresholdPassed = false;
 
-  // Delegate click for Testimonial Cards & Review Anchors
-  document.addEventListener('click', function(e) {
-    if (dragThresholdPassed) {
-      dragThresholdPassed = false;
-      return;
+  function initTestimonialsModal() {
+    const modal = document.querySelector('[data-review-modal]');
+    if (!modal) return;
+
+    const modalMediaWrap = modal.querySelector('[data-modal-media-wrap]');
+    const modalImg = modal.querySelector('[data-modal-img]');
+    const modalStars = modal.querySelector('[data-modal-stars]');
+    const modalHeadline = modal.querySelector('[data-modal-headline]');
+    const modalText = modal.querySelector('[data-modal-text]');
+    const modalName = modal.querySelector('[data-modal-name]');
+    const modalRole = modal.querySelector('[data-modal-role]');
+
+    function openModal(data) {
+      if (!data) return;
+
+      if (modalHeadline) {
+        modalHeadline.textContent = data.headline ? `"${data.headline}"` : '';
+      }
+      if (modalText) {
+        modalText.textContent = data.fullReview || '';
+      }
+      if (modalName) {
+        modalName.textContent = data.name || 'Verified Customer';
+      }
+      if (modalRole) {
+        modalRole.textContent = data.role || '';
+        modalRole.style.display = data.role ? 'block' : 'none';
+      }
+      if (modalStars) {
+        const rating = parseInt(data.rating, 10) || 5;
+        modalStars.textContent = '⭐'.repeat(Math.max(1, Math.min(5, rating)));
+      }
+      if (modalImg && modalMediaWrap) {
+        if (data.imageUrl && data.imageUrl.trim() !== '') {
+          modalImg.src = data.imageUrl;
+          modalImg.alt = data.name || 'Customer review image';
+          modalMediaWrap.style.display = 'block';
+        } else {
+          modalMediaWrap.style.display = 'none';
+          modalImg.src = '';
+        }
+      }
+
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
     }
 
-    const anchor = e.target.closest('a[href^="#ProductReviews"], a[href^="#Testimonials"]');
-    if (anchor) {
-      const targetId = anchor.getAttribute('href');
-      if (targetId && targetId !== '#' && targetId.startsWith('#')) {
-        const targetEl = document.querySelector(targetId);
-        if (targetEl) {
-          e.preventDefault();
-          const stickyHeader = document.querySelector('[data-header-top-sticky], .kb-header-top-sticky, .site-header');
-          const headerHeight = stickyHeader ? stickyHeader.offsetHeight : 130;
-          const targetTop = targetEl.getBoundingClientRect().top + window.scrollY - headerHeight - 20;
-          window.scrollTo({
-            top: Math.max(0, targetTop),
-            behavior: 'smooth'
+    function closeModal() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', function(e) {
+      if (dragThresholdPassed) {
+        dragThresholdPassed = false;
+        return;
+      }
+
+      const trigger = e.target.closest('[data-review-modal-trigger]');
+      if (trigger) {
+        e.preventDefault();
+        e.stopPropagation();
+        openModal({
+          name: trigger.getAttribute('data-author-name'),
+          role: trigger.getAttribute('data-author-role'),
+          headline: trigger.getAttribute('data-headline'),
+          fullReview: trigger.getAttribute('data-full-review'),
+          rating: trigger.getAttribute('data-rating'),
+          imageUrl: trigger.getAttribute('data-image-url')
+        });
+        return;
+      }
+
+      const card = e.target.closest('[data-testimonial-card]');
+      if (card && !isDragging) {
+        const btn = card.querySelector('[data-review-modal-trigger]');
+        if (btn) {
+          openModal({
+            name: btn.getAttribute('data-author-name'),
+            role: btn.getAttribute('data-author-role'),
+            headline: btn.getAttribute('data-headline'),
+            fullReview: btn.getAttribute('data-full-review'),
+            rating: btn.getAttribute('data-rating'),
+            imageUrl: btn.getAttribute('data-image-url')
           });
           return;
         }
       }
-    }
 
-    const card = e.target.closest('.testimonials__card, [data-testimonial-card]');
-    if (!card) return;
+      if (e.target.closest('[data-review-modal-close]')) {
+        e.preventDefault();
+        closeModal();
+      }
+    });
 
-    const section = card.closest('.testimonials-carousel-section, [data-testimonials-section]');
-    const isExpanded = card.classList.contains('is-expanded');
-
-    if (section) {
-      section.querySelectorAll('.testimonials__card.is-expanded, [data-testimonial-card].is-expanded').forEach(function(otherCard) {
-        if (otherCard !== card) {
-          otherCard.classList.remove('is-expanded');
-        }
-      });
-    }
-
-    if (isExpanded) {
-      card.classList.remove('is-expanded');
-    } else {
-      card.classList.add('is-expanded');
-
-      setTimeout(function() {
-        const stickyHeader = document.querySelector('[data-header-top-sticky], .kb-header-top-sticky, .site-header');
-        const headerHeight = stickyHeader ? stickyHeader.offsetHeight : 130;
-        const rect = card.getBoundingClientRect();
-
-        if (rect.top < headerHeight + 15 || rect.bottom > window.innerHeight - 15) {
-          const targetScroll = window.scrollY + rect.top - headerHeight - 20;
-          window.scrollTo({
-            top: Math.max(0, targetScroll),
-            behavior: 'smooth'
-          });
-        }
-      }, 60);
-    }
-  });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+  }
 
   function initTestimonialsCarousel() {
     document.querySelectorAll('[data-testimonials-carousel]').forEach(function(container) {
-      const track = container.querySelector('[data-testimonials-track]');
-      if (!track) return;
-
       container.addEventListener('pointerdown', function(e) {
-        if (e.target.closest('[data-card-toggle]')) return;
+        if (e.target.closest('[data-review-modal-trigger]')) return;
         isDragging = true;
         dragThresholdPassed = false;
         startX = e.pageX - container.offsetLeft;
@@ -82,7 +122,7 @@
       window.addEventListener('pointermove', function(e) {
         if (!isDragging) return;
         const x = e.pageX - container.offsetLeft;
-        const walk = (x - startX) * 1.5;
+        const walk = (x - startX) * 1.3;
         if (Math.abs(walk) > 6) {
           dragThresholdPassed = true;
         }
@@ -92,33 +132,22 @@
       window.addEventListener('pointerup', function() {
         if (isDragging) {
           isDragging = false;
+          setTimeout(function() {
+            dragThresholdPassed = false;
+          }, 60);
         }
       });
     });
   }
 
-  const startTestimonials = () => {
-    const containers = document.querySelectorAll('.testimonials-section__cards-scroll, [data-testimonials-container], [data-testimonials-carousel]');
-    if (!containers.length) return;
-
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            initTestimonialsCarousel();
-            observer.disconnect();
-          }
-        });
-      }, { rootMargin: '300px' });
-      containers.forEach((c) => observer.observe(c));
-    } else {
-      initTestimonialsCarousel();
-    }
-  };
+  function start() {
+    initTestimonialsModal();
+    initTestimonialsCarousel();
+  }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startTestimonials);
+    document.addEventListener('DOMContentLoaded', start);
   } else {
-    startTestimonials();
+    start();
   }
 })();

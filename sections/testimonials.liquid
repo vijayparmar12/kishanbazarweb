@@ -4,28 +4,36 @@
 {% style %}
   #Testimonials-{{ section.id }} {
     scroll-margin-top: 140px !important;
-    background-color: {{ section.settings.background_color | default: '#FAF5EC' }} !important;
+    background-color: {{ section.settings.background_color | default: '#ffffff' }} !important;
     background-image: none !important;
-    padding-top: 0.25rem !important;
-    padding-bottom: 0.5rem !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: 1.5rem !important;
     margin-top: 0 !important;
     margin-bottom: 0 !important;
   }
   #Testimonials-{{ section.id }} .testimonials__card {
-    border-color: {{ section.settings.card_border_color | default: '#23421F' }} !important;
-    background-color: {{ section.settings.card_bg_color | default: '#FFFFFF' }} !important;
+    border-color: {{ section.settings.card_border_color | default: '#1e3d20' }} !important;
+    background-color: {{ section.settings.card_bg_color | default: '#ffffff' }} !important;
+    border-radius: {{ section.settings.card_border_radius | default: 24 }}px !important;
+  }
+  #Testimonials-{{ section.id }} .testimonials__card-headline {
+    color: {{ section.settings.card_border_color | default: '#1e3d20' }} !important;
+    font-size: {{ section.settings.card_headline_size | default: 19 }}px !important;
+  }
+  #Testimonials-{{ section.id }} .testimonials__author-name {
+    color: {{ section.settings.card_border_color | default: '#1e3d20' }} !important;
   }
   #Testimonials-{{ section.id }} .testimonials__expand-btn {
-    border-color: {{ section.settings.card_border_color | default: '#23421F' }} !important;
-    color: {{ section.settings.card_border_color | default: '#23421F' }} !important;
+    border-color: {{ section.settings.card_border_color | default: '#1e3d20' }} !important;
+    color: {{ section.settings.card_border_color | default: '#1e3d20' }} !important;
   }
-  #Testimonials-{{ section.id }} .testimonials__card.is-expanded .testimonials__expand-btn {
-    background-color: {{ section.settings.card_border_color | default: '#23421F' }} !important;
+  #Testimonials-{{ section.id }} .testimonials__expand-btn:hover {
+    background-color: {{ section.settings.card_border_color | default: '#1e3d20' }} !important;
     color: #ffffff !important;
   }
 
   #Testimonials-{{ section.id }} .testimonials__header {
-    margin-bottom: 0.15rem !important;
+    margin-bottom: 0.5rem !important;
     margin-top: 0 !important;
     padding: 0 !important;
     width: 100% !important;
@@ -34,40 +42,34 @@
   #Testimonials-{{ section.id }} .testimonials__heading-banner-wrap {
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-start !important;
+    justify-content: center !important;
     position: relative !important;
     width: 100% !important;
-    max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
-    min-height: {{ section.settings.heading_box_height_desktop | default: 160 }}px !important;
+    max-width: {{ section.settings.heading_image_max_width | default: 800 }}px !important;
     height: auto !important;
     margin: 0 auto !important;
-    padding: 0 2rem !important;
-    overflow: hidden !important;
-    border-radius: 12px !important;
+    padding: 0 1rem !important;
     box-sizing: border-box !important;
   }
 
   #Testimonials-{{ section.id }} .home-section__heading-picture {
-    position: absolute !important;
-    inset: 0 !important;
     display: block !important;
     width: 100% !important;
-    height: 100% !important;
+    height: auto !important;
     margin: 0 auto !important;
-    padding: 0 !important;
-    z-index: 1 !important;
-    pointer-events: none !important;
+    text-align: center !important;
   }
 
   #Testimonials-{{ section.id }} .home-section__heading-image {
     width: 100% !important;
-    height: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: {{ section.settings.heading_box_height_desktop | default: 160 }}px !important;
     object-fit: {{ section.settings.heading_box_bg_size | default: 'contain' }} !important;
     object-position: center !important;
-    display: block !important;
+    display: inline-block !important;
     margin: 0 auto !important;
-    padding: 0 !important;
-    border-radius: 12px !important;
+    border-radius: 8px !important;
     {% if section.settings.heading_image_flip %}
       transform: scaleX(-1) !important;
     {% endif %}
@@ -91,7 +93,7 @@
     color: {{ section.settings.heading_color | default: '#1e3d20' }} !important;
     font-size: {{ section.settings.heading_font_size | default: 28 }}px !important;
     font-weight: 900 !important;
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: inherit !important;
     margin: 0 !important;
     line-height: 1.25 !important;
     text-align: left !important;
@@ -102,47 +104,31 @@
     font-size: {{ section.settings.subheading_font_size | default: 15 }}px !important;
     font-weight: 800 !important;
     margin-bottom: 0.25rem !important;
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: inherit !important;
     text-align: left !important;
     line-height: 1.2 !important;
-  }
-
-  #Testimonials-{{ section.id }} .testimonials__carousel-container {
-    margin-top: 0.15rem !important;
-    margin-bottom: 0.25rem !important;
-    padding-top: 0.15rem !important;
-    padding-bottom: 0.5rem !important;
   }
 
   @media (max-width: 48rem) {
     #Testimonials-{{ section.id }} {
       scroll-margin-top: 110px !important;
-      padding-top: 0.2rem !important;
-      padding-bottom: 0.4rem !important;
+      padding-top: 0.5rem !important;
+      padding-bottom: 1.2rem !important;
     }
   }
 
   @media screen and (max-width: 749px) {
-    #Testimonials-{{ section.id }} .testimonials__heading-banner-wrap {
-      max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
-      min-height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
-      height: auto !important;
-      padding: 0 1rem !important;
-      justify-content: flex-start !important;
-      align-items: center !important;
+    #Testimonials-{{ section.id }} .testimonials__card-headline {
+      font-size: {{ section.settings.card_headline_size_mobile | default: 18 }}px !important;
     }
-    #Testimonials-{{ section.id }} .home-section__heading-picture {
-      position: absolute !important;
-      inset: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
+    #Testimonials-{{ section.id }} .testimonials__heading-banner-wrap {
+      max-width: {{ section.settings.heading_image_mobile_max_width | default: 360 }}px !important;
+      padding: 0 0.5rem !important;
       margin: 0 auto !important;
     }
     #Testimonials-{{ section.id }} .home-section__heading-image {
+      max-height: {{ section.settings.heading_box_height_mobile | default: 90 }}px !important;
       object-fit: {{ section.settings.heading_box_bg_size_mobile | default: 'contain' }} !important;
-      margin: 0 auto !important;
-      height: 100% !important;
-      width: 100% !important;
     }
     #Testimonials-{{ section.id }} .testimonials__heading-content {
       max-width: {{ section.settings.heading_content_width_mobile | default: 85 }}% !important;
@@ -166,7 +152,7 @@
   }
 {% endstyle %}
 
-<section id="Testimonials-{{ section.id }}" class="testimonials-carousel-section" data-testimonials-section style="width: 100%; display: block !important; visibility: visible !important; opacity: 1 !important; clear: both; padding: 1rem 0;">
+<section id="Testimonials-{{ section.id }}" class="testimonials-carousel-section" data-testimonials-section style="width: 100%; display: block !important; visibility: visible !important; opacity: 1 !important; clear: both;">
 
   <div class="testimonials__header">
     {% if section.settings.heading_image_desktop != blank or section.settings.heading_image_mobile != blank %}
@@ -193,120 +179,153 @@
         {% endif %}
       </div>
     {% else %}
-      <div style="text-align: left; padding: 0 1rem;">
-        {% if section.settings.eyebrow != blank %}
-          <span class="testimonials__eyebrow" style="text-align: left;">{{ section.settings.eyebrow }}</span>
-        {% endif %}
-        <h2 class="testimonials__heading" style="text-align: left;">{{ section.settings.heading | default: 'KIND WORDS FROM YOUR TABLE' }}</h2>
-        {% if section.settings.subheading != blank %}
-          <p class="testimonials__subheading" style="text-align: left;">{{ section.settings.subheading }}</p>
-        {% endif %}
-      </div>
+      {% if section.settings.heading != blank or section.settings.eyebrow != blank or section.settings.subheading != blank %}
+        <div style="text-align: left; padding: 0 1rem; max-width: 1200px; margin: 0 auto;">
+          {% if section.settings.eyebrow != blank %}
+            <span class="testimonials__eyebrow" style="text-align: left;">{{ section.settings.eyebrow }}</span>
+          {% endif %}
+          {% if section.settings.heading != blank %}
+            <h2 class="testimonials__heading" style="text-align: left;">{{ section.settings.heading }}</h2>
+          {% endif %}
+          {% if section.settings.subheading != blank %}
+            <p class="testimonials__subheading" style="text-align: left;">{{ section.settings.subheading }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
     {% endif %}
   </div>
 
-  <!-- Custom Featured Testimonial Cards Carousel -->
+  <!-- Testimonial Cards Horizontal Carousel Track -->
   <div class="testimonials__carousel-container" data-testimonials-carousel>
     <div class="testimonials__track" data-testimonials-track>
       {% if section.blocks.size > 0 %}
         {% for block in section.blocks %}
-          {% assign full_review = block.settings.review | default: "Wholesome organic products with authentic flavour." %}
-          <div class="testimonials__card" data-testimonial-card data-full-review="{{ full_review | escape }}" {{ block.shopify_attributes }}>
-            <div class="testimonials__card-front" data-card-front>
-              {% assign card_headline = block.settings.headline | default: full_review %}
-              <h3 class="testimonials__card-headline">"{{ card_headline }}"</h3>
+          {% assign full_review = block.settings.review | default: 'Wholesome organic products with authentic flavour.' %}
+          {% assign card_headline = block.settings.headline | default: full_review %}
+          {% assign card_headline_trimmed = card_headline | strip %}
+          {% unless card_headline_trimmed contains '"' %}
+            {% assign card_headline_display = '"' | append: card_headline_trimmed | append: '"' %}
+          {% else %}
+            {% assign card_headline_display = card_headline_trimmed %}
+          {% endunless %}
+
+          <div class="testimonials__card" data-testimonial-card {{ block.shopify_attributes }}>
+            <div class="testimonials__card-inner">
+              <h3 class="testimonials__card-headline">{{ card_headline_display }}</h3>
 
               <div class="testimonials__card-media">
                 {% if block.settings.image != blank %}
-                  {{ block.settings.image | image_url: width: 160 | image_tag: class: 'testimonials__card-img', loading: 'lazy', alt: block.settings.name }}
+                  {{ block.settings.image | image_url: width: 800 | image_tag: class: 'testimonials__card-img', loading: 'lazy', alt: block.settings.name }}
                 {% else %}
-                  <div class="testimonials__card-avatar-fallback">
-                    <span class="testimonials__avatar-text">{{ block.settings.name | slice: 0, 1 | upcase }}</span>
+                  <div class="testimonials__card-placeholder">
+                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                      <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
                   </div>
                 {% endif %}
               </div>
 
-              <footer class="testimonials__card-footer">
-                <div class="testimonials__author-info">
-                  <strong class="testimonials__author-name">{{ block.settings.name }}</strong>
-                  <span class="testimonials__author-role">{{ block.settings.role | default: 'Verified Customer' }}</span>
-                </div>
-                <button type="button" class="testimonials__expand-btn" data-card-toggle aria-label="Read full review from {{ block.settings.name }}">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-              </footer>
-            </div>
-
-            <div class="testimonials__card-back" data-card-back>
-              <div class="testimonials__card-full-msg">
-                <p class="testimonials__card-full-text">"{{ full_review }}"</p>
-              </div>
+              <div class="testimonials__card-divider"></div>
 
               <footer class="testimonials__card-footer">
                 <div class="testimonials__author-info">
-                  <strong class="testimonials__author-name">{{ block.settings.name }}</strong>
-                  <span class="testimonials__author-role">{{ block.settings.role | default: 'Verified Customer' }}</span>
+                  <strong class="testimonials__author-name">{{ block.settings.name | default: 'Verified Customer' }}</strong>
+                  {% if block.settings.role != blank %}
+                    <span class="testimonials__author-role">{{ block.settings.role }}</span>
+                  {% endif %}
                 </div>
-                <button type="button" class="testimonials__expand-btn testimonials__expand-btn--active" data-card-toggle aria-label="Close full review">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                <button
+                  type="button"
+                  class="testimonials__expand-btn"
+                  data-review-modal-trigger
+                  data-author-name="{{ block.settings.name | default: 'Verified Customer' | escape }}"
+                  data-author-role="{{ block.settings.role | default: '' | escape }}"
+                  data-headline="{{ card_headline_trimmed | escape }}"
+                  data-full-review="{{ full_review | escape }}"
+                  data-rating="{{ block.settings.rating | default: 5 }}"
+                  data-image-url="{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 800 }}{% endif %}"
+                  aria-label="Read review from {{ block.settings.name | default: 'Customer' }}"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
                 </button>
               </footer>
             </div>
           </div>
         {% endfor %}
       {% else %}
-        <!-- Default Sample Testimonial Cards so section is never blank -->
-        <div class="testimonials__card" data-testimonial-card data-full-review="Pure A2 Ghee and ancient Emmer Khapli wheat flour are staple in our house. Unmatched quality and authentic taste!">
-          <div class="testimonials__card-front">
-            <h3 class="testimonials__card-headline">"Pure A2 Ghee and ancient Emmer Khapli wheat flour are staple in our house."</h3>
+        <!-- Default Sample Testimonial Cards matching mock design -->
+        <div class="testimonials__card" data-testimonial-card>
+          <div class="testimonials__card-inner">
+            <h3 class="testimonials__card-headline">"Finally a truly delicious and quality product."</h3>
             <div class="testimonials__card-media">
-              <div class="testimonials__card-avatar-fallback">
-                <span class="testimonials__avatar-text">A</span>
+              <div class="testimonials__card-placeholder">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
               </div>
             </div>
+            <div class="testimonials__card-divider"></div>
             <footer class="testimonials__card-footer">
               <div class="testimonials__author-info">
-                <strong class="testimonials__author-name">Amaan Bakali</strong>
-                <span class="testimonials__author-role">Verified Customer</span>
+                <strong class="testimonials__author-name">Neha K.</strong>
+                <span class="testimonials__author-role">Owner and Coach at Crossfit Third Eye</span>
               </div>
-            </footer>
-          </div>
-        </div>
-
-        <div class="testimonials__card" data-testimonial-card data-full-review="Finally a truly delicious and genuine organic brand. Highly recommended for every family!">
-          <div class="testimonials__card-front">
-            <h3 class="testimonials__card-headline">"Finally a truly delicious and genuine organic brand. Highly recommended!"</h3>
-            <div class="testimonials__card-media">
-              <div class="testimonials__card-avatar-fallback">
-                <span class="testimonials__avatar-text">P</span>
-              </div>
-            </div>
-            <footer class="testimonials__card-footer">
-              <div class="testimonials__author-info">
-                <strong class="testimonials__author-name">Pooja Sharma</strong>
-                <span class="testimonials__author-role">Verified Customer</span>
-              </div>
-            </footer>
-          </div>
-        </div>
-
-        <div class="testimonials__card" data-testimonial-card data-full-review="Farm fresh staples delivered straight to our doorstep. Best quality wheat and jaggery in India!">
-          <div class="testimonials__card-front">
-            <h3 class="testimonials__card-headline">"Farm fresh staples delivered straight to our doorstep. Best quality wheat!"</h3>
-            <div class="testimonials__card-media">
-              <div class="testimonials__card-avatar-fallback">
-                <span class="testimonials__avatar-text">V</span>
-              </div>
-            </div>
-            <footer class="testimonials__card-footer">
-              <div class="testimonials__author-info">
-                <strong class="testimonials__author-name">Vijay Parmar</strong>
-                <span class="testimonials__author-role">Verified Customer</span>
-              </div>
+              <button
+                type="button"
+                class="testimonials__expand-btn"
+                data-review-modal-trigger
+                data-author-name="Neha K."
+                data-author-role="Owner and Coach at Crossfit Third Eye"
+                data-headline="Finally a truly delicious and quality product."
+                data-full-review="Finally a truly delicious and quality product. Authentic taste and farm-fresh purity."
+                data-rating="5"
+                data-image-url=""
+                aria-label="Read review from Neha K."
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
             </footer>
           </div>
         </div>
       {% endif %}
+    </div>
+  </div>
+
+  <!-- Review Modal / Lightbox Popup -->
+  <div id="TestimonialsModal-{{ section.id }}" class="testimonials__modal" aria-hidden="true" role="dialog" aria-modal="true" data-review-modal>
+    <div class="testimonials__modal-backdrop" data-review-modal-close></div>
+    <div class="testimonials__modal-dialog">
+      <button type="button" class="testimonials__modal-close" data-review-modal-close aria-label="Close review dialog">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="testimonials__modal-body">
+        <div class="testimonials__modal-media" data-modal-media-wrap style="display: none;">
+          <img src="" alt="" class="testimonials__modal-img" data-modal-img>
+        </div>
+        <div class="testimonials__modal-stars" data-modal-stars>
+          ⭐⭐⭐⭐⭐
+        </div>
+        <h3 class="testimonials__modal-headline" data-modal-headline></h3>
+        <div class="testimonials__modal-text" data-modal-text></div>
+        <div class="testimonials__modal-divider"></div>
+        <div class="testimonials__modal-author">
+          <strong class="testimonials__modal-name" data-modal-name></strong>
+          <span class="testimonials__modal-role" data-modal-role></span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -341,12 +360,12 @@
       "default": "contain"
     },
     { "type": "checkbox", "id": "heading_image_flip", "label": "Flip Heading Image Horizontally", "default": false },
-    { "type": "range", "id": "heading_box_height_desktop", "label": "Desktop Heading Box Fixed Height (px)", "min": 60, "max": 400, "step": 10, "default": 180, "unit": "px" },
-    { "type": "range", "id": "heading_box_height_mobile", "label": "Mobile Heading Box Fixed Height (px)", "min": 40, "max": 250, "step": 10, "default": 110, "unit": "px" },
-    { "type": "range", "id": "heading_image_max_width", "label": "Desktop Heading Image Max Width (px)", "min": 200, "max": 1200, "step": 20, "default": 1200, "unit": "px" },
+    { "type": "range", "id": "heading_box_height_desktop", "label": "Desktop Heading Box Fixed Height (px)", "min": 60, "max": 400, "step": 10, "default": 160, "unit": "px" },
+    { "type": "range", "id": "heading_box_height_mobile", "label": "Mobile Heading Box Fixed Height (px)", "min": 40, "max": 250, "step": 10, "default": 90, "unit": "px" },
+    { "type": "range", "id": "heading_image_max_width", "label": "Desktop Heading Image Max Width (px)", "min": 200, "max": 1200, "step": 20, "default": 800, "unit": "px" },
     { "type": "range", "id": "heading_image_mobile_max_width", "label": "Mobile Heading Image Max Width (px)", "min": 150, "max": 800, "step": 10, "default": 360, "unit": "px" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow Badge", "default": "⭐ 10,000+ VERIFIED REVIEWS ⭐" },
-    { "type": "text", "id": "heading", "label": "Carousel Heading", "default": "WE'RE BLESSED! BECAUSE WE HAVE YOU ❤️" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow Badge" },
+    { "type": "text", "id": "heading", "label": "Carousel Heading" },
     { "type": "color", "id": "heading_color", "label": "Heading Text Color", "default": "#1e3d20" },
     { "type": "range", "id": "heading_font_size", "label": "Desktop Heading Font Size (px)", "min": 14, "max": 80, "step": 1, "default": 28, "unit": "px" },
     { "type": "range", "id": "heading_font_size_mobile", "label": "Mobile Heading Font Size (px)", "min": 10, "max": 50, "step": 1, "default": 18, "unit": "px" },
@@ -354,9 +373,13 @@
     { "type": "range", "id": "subheading_font_size_mobile", "label": "Mobile Eyebrow/Subheading Font Size (px)", "min": 10, "max": 24, "step": 1, "default": 12, "unit": "px" },
     { "type": "range", "id": "heading_content_width_desktop", "label": "Desktop Heading Content Width (%)", "min": 40, "max": 100, "step": 5, "default": 80, "unit": "%" },
     { "type": "range", "id": "heading_content_width_mobile", "label": "Mobile Heading Content Width (%)", "min": 40, "max": 100, "step": 5, "default": 85, "unit": "%" },
-    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Real stories from families who love our pure, farm-fresh organic staples." },
-    { "type": "color", "id": "card_border_color", "label": "Card Border Color", "default": "#23421F" },
-    { "type": "color", "id": "card_bg_color", "label": "Card Background Color", "default": "#FFFFFF" }
+    { "type": "text", "id": "subheading", "label": "Subheading" },
+    { "type": "color", "id": "background_color", "label": "Section Background Color", "default": "#ffffff" },
+    { "type": "color", "id": "card_border_color", "label": "Card Border Color", "default": "#1e3d20" },
+    { "type": "color", "id": "card_bg_color", "label": "Card Background Color", "default": "#ffffff" },
+    { "type": "range", "id": "card_border_radius", "label": "Card Border Radius (px)", "min": 8, "max": 40, "step": 2, "default": 24, "unit": "px" },
+    { "type": "range", "id": "card_headline_size", "label": "Desktop Card Headline Size (px)", "min": 14, "max": 32, "step": 1, "default": 19, "unit": "px" },
+    { "type": "range", "id": "card_headline_size_mobile", "label": "Mobile Card Headline Size (px)", "min": 14, "max": 26, "step": 1, "default": 18, "unit": "px" }
   ],
   "blocks": [
     {
@@ -364,10 +387,10 @@
       "name": "Testimonial Card",
       "settings": [
         { "type": "text", "id": "headline", "label": "Short Title / Headline", "default": "Finally a truly delicious and quality product." },
-        { "type": "textarea", "id": "review", "label": "Full Review Message", "default": "Wholesome organic products with authentic flavour." },
         { "type": "image_picker", "id": "image", "label": "Customer Photo / Review Image" },
-        { "type": "text", "id": "name", "label": "Customer Name", "default": "Amaan Bakali" },
-        { "type": "text", "id": "role", "label": "Role / Designation / Location", "default": "Verified Customer" },
+        { "type": "text", "id": "name", "label": "Customer Name", "default": "Neha K." },
+        { "type": "text", "id": "role", "label": "Role / Designation / Location", "default": "Owner and Coach at Crossfit Third Eye" },
+        { "type": "textarea", "id": "review", "label": "Full Review Message", "default": "Finally a truly delicious and quality product. Authentic taste and farm-fresh purity." },
         { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 }
       ]
     }

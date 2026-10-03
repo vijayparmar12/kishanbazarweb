@@ -655,15 +655,15 @@
       ],
       "settings": {
         "heading_image_desktop": "shopify://shop_images/review_da4c4d6c-29c5-4029-8e4d-0cb62c455114.webp",
-        "heading_box_bg_size": "cover",
-        "heading_box_bg_size_mobile": "cover",
+        "heading_box_bg_size": "contain",
+        "heading_box_bg_size_mobile": "contain",
         "heading_image_flip": false,
-        "heading_box_height_desktop": 200,
-        "heading_box_height_mobile": 80,
-        "heading_image_max_width": 1200,
+        "heading_box_height_desktop": 160,
+        "heading_box_height_mobile": 90,
+        "heading_image_max_width": 800,
         "heading_image_mobile_max_width": 370,
         "eyebrow": "",
-        "heading": "आपके प्यारे reviews",
+        "heading": "",
         "heading_color": "#1e3d20",
         "heading_font_size": 57,
         "heading_font_size_mobile": 18,
@@ -672,8 +672,12 @@
         "heading_content_width_desktop": 80,
         "heading_content_width_mobile": 85,
         "subheading": "",
-        "card_border_color": "#23421f",
-        "card_bg_color": "#ffffff"
+        "background_color": "#ffffff",
+        "card_border_color": "#1e3d20",
+        "card_bg_color": "#ffffff",
+        "card_border_radius": 24,
+        "card_headline_size": 19,
+        "card_headline_size_mobile": 18
       }
     }
   },
