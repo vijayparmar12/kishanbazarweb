@@ -593,7 +593,7 @@
         "testimonial_eMW8K3": {
           "type": "testimonial",
           "settings": {
-            "headline": "Light on stomach and improves daily digestion.",
+            "headline": "Light on Gutt  and improves daily stomach Digestion.",
             "image": "shopify://shop_images/1.webp",
             "name": "Dr. Beena Kathawala",
             "role": "Verified Customer",
@@ -615,7 +615,7 @@
         "testimonial_BeTKfP": {
           "type": "testimonial",
           "settings": {
-            "headline": "Reduces hair fall and deeply conditions scalp.",
+            "headline": "Reduces hair fall and deeply conditions  our scalp.",
             "image": "shopify://shop_images/3.webp",
             "name": "Seema Banka",
             "role": "Verified Customer",
@@ -626,7 +626,7 @@
         "testimonial_cHnhC4": {
           "type": "testimonial",
           "settings": {
-            "headline": "Instantly soothes sore throat and seasonal cough.",
+            "headline": "Instantly soothes sore throat and  Cures seasonal cough.",
             "image": "shopify://shop_images/4.webp",
             "name": "Vijay Shah",
             "role": "Verified Customer",
@@ -672,8 +672,12 @@
         "heading_content_width_desktop": 80,
         "heading_content_width_mobile": 85,
         "subheading": "",
+        "background_color": "#ffffff",
         "card_border_color": "#23421f",
-        "card_bg_color": "#ffffff"
+        "card_bg_color": "#ffffff",
+        "card_border_radius": 24,
+        "card_headline_size": 19,
+        "card_headline_size_mobile": 18
       }
     }
   },
