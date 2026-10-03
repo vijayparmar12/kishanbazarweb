@@ -5,19 +5,28 @@
   assign heading = section.settings.heading
   assign subheading = section.settings.subheading
   assign enable_marquee = section.settings.enable_marquee
-  assign speed = section.settings.speed | default: 25
+  assign speed = section.settings.speed | default: 45
   assign logo_shape = section.settings.logo_shape | default: 'circle'
   assign show_border = section.settings.show_border
   assign show_title = section.settings.show_title
   assign direction = section.settings.direction | default: 'left'
   assign pause_on_hover = section.settings.pause_on_hover
 
-  # Determine repeat count so tracks fill ultra-wide screens seamlessly
+  # Ensure each track has at least 18-24 items so it comfortably exceeds any screen width with uniform gap spacing
+  assign block_count = section.blocks.size
   assign repeat_count = 1
-  if section.blocks.size > 0 and section.blocks.size < 4
-    assign repeat_count = 4
-  elsif section.blocks.size >= 4 and section.blocks.size < 8
-    assign repeat_count = 2
+  if block_count > 0
+    if block_count < 3
+      assign repeat_count = 10
+    elsif block_count < 5
+      assign repeat_count = 6
+    elsif block_count < 8
+      assign repeat_count = 4
+    elsif block_count < 12
+      assign repeat_count = 3
+    else
+      assign repeat_count = 2
+    endif
   endif
 %}
 
@@ -377,12 +386,12 @@
     {
       "type": "range",
       "id": "speed",
-      "label": "Scrolling speed (lower = faster)",
-      "min": 8,
-      "max": 60,
-      "step": 2,
+      "label": "Scrolling speed in seconds (higher = slower)",
+      "min": 15,
+      "max": 100,
+      "step": 5,
       "unit": "s",
-      "default": 22
+      "default": 45
     },
     {
       "type": "select",
