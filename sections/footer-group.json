@@ -14,36 +14,26 @@
     "scrolling_logos": {
       "type": "scrolling-logos",
       "blocks": {
-        "logo_iso_22000": {
-          "type": "logo",
-          "settings": {
-            "title": "ISO 22000"
-          }
-        },
-        "logo_iso_9001": {
-          "type": "logo",
-          "settings": {
-            "title": "ISO 9001"
-          }
-        },
         "logo_fda": {
           "type": "logo",
           "settings": {
-            "title": "FDA Registered"
+            "image": "shopify://shop_images/4_7af84daf-5ddf-4c36-8925-ca51eb98c394.webp",
+            "title": "FDA Registered",
+            "link": ""
           }
         },
-        "logo_gmp": {
+        "logo_rKAfwe": {
           "type": "logo",
           "settings": {
-            "title": "GMP Certified"
+            "image": "shopify://shop_images/3_4d633573-ea51-4b04-ab4f-efc11d6f9a92.webp",
+            "title": "FDA Registered",
+            "link": ""
           }
         }
       },
       "block_order": [
-        "logo_iso_22000",
-        "logo_iso_9001",
         "logo_fda",
-        "logo_gmp"
+        "logo_rKAfwe"
       ],
       "settings": {
         "heading": "Certification",
@@ -60,6 +50,7 @@
         "border_color": "#e2e8f0",
         "badge_bg_color": "#ffffff",
         "show_title": false,
+        "title_color": "#23421f",
         "gap": 32,
         "gap_mobile": 20,
         "enable_marquee": true,
@@ -82,7 +73,7 @@
             "logo": "shopify://shop_images/ChatGPT_Image_Aug_15_2026_04_21_23_PM.webp",
             "logo_width": 350,
             "show_default_logo": false,
-            "about_text": "Rooted in the timeless wisdom of ancient Bharat we empower our Annadata and restore the sanctity of the native Desi Gir Gaumata.",
+            "about_text": "Dedicated to empowering our farmers (Annadata) and restoring the sanctity of the native Desi Gir cow (Gaumata). Rooted in the timeless wisdom of ancient India (Bharat), we bridge traditional farms directly to your home with 100% pure, chemical-free nutrition.",
             "email_label": "Email:",
             "email": "",
             "phone_label": "Tel:",
