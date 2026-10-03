@@ -37,6 +37,15 @@
     background-color: {{ section.settings.card_border_color | default: '#1e3d20' }} !important;
     color: #ffffff !important;
   }
+  #Testimonials-{{ section.id }} .testimonials__expand-btn--back {
+    background-color: {{ section.settings.card_border_color | default: '#1e3d20' }} !important;
+    color: #ffffff !important;
+    border-color: {{ section.settings.card_border_color | default: '#1e3d20' }} !important;
+  }
+  #Testimonials-{{ section.id }} .testimonials__expand-btn--back:hover {
+    background-color: #152c16 !important;
+    color: #ffffff !important;
+  }
 
   #Testimonials-{{ section.id }} .testimonials__header {
     margin-bottom: 0.25rem !important;
@@ -237,8 +246,9 @@
             {% assign card_headline_display = card_headline_trimmed %}
           {% endunless %}
 
-          <div class="testimonials__card" data-testimonial-card {{ block.shopify_attributes }}>
-            <div class="testimonials__card-inner">
+          <div class="testimonials__card" data-testimonial-card tabindex="0" role="button" aria-expanded="false" aria-label="Toggle review message for {{ block.settings.name | default: 'Customer' }}" {{ block.shopify_attributes }}>
+            <!-- Card Front View: Headline + Image + Footer -->
+            <div class="testimonials__card-front">
               <h3 class="testimonials__card-headline">{{ card_headline_display }}</h3>
 
               <div class="testimonials__card-media">
@@ -267,14 +277,8 @@
                 <button
                   type="button"
                   class="testimonials__expand-btn"
-                  data-review-modal-trigger
-                  data-author-name="{{ block.settings.name | default: 'Verified Customer' | escape }}"
-                  data-author-role="{{ block.settings.role | default: '' | escape }}"
-                  data-headline="{{ card_headline_trimmed | escape }}"
-                  data-full-review="{{ full_review | escape }}"
-                  data-rating="{{ block.settings.rating | default: 5 }}"
-                  data-image-url="{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 800 }}{% endif %}"
-                  aria-label="Read review from {{ block.settings.name | default: 'Customer' }}"
+                  data-card-toggle
+                  aria-label="Read full review from {{ block.settings.name | default: 'Customer' }}"
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -283,12 +287,41 @@
                 </button>
               </footer>
             </div>
+
+            <!-- Card Back View: Full Review Message inside this box only -->
+            <div class="testimonials__card-back">
+              <div class="testimonials__card-full-msg">
+                <p class="testimonials__card-full-text">{{ full_review }}</p>
+              </div>
+
+              <div class="testimonials__card-divider"></div>
+
+              <footer class="testimonials__card-footer">
+                <div class="testimonials__author-info">
+                  <strong class="testimonials__author-name"><u>{{ block.settings.name | default: 'Verified Customer' }}</u></strong>
+                  {% if block.settings.role != blank %}
+                    <span class="testimonials__author-role">{{ block.settings.role }}</span>
+                  {% endif %}
+                </div>
+                <button
+                  type="button"
+                  class="testimonials__expand-btn testimonials__expand-btn--back"
+                  data-card-toggle
+                  aria-label="Close full review"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                  </svg>
+                </button>
+              </footer>
+            </div>
           </div>
         {% endfor %}
       {% else %}
         <!-- Default Sample Testimonial Cards matching mock design -->
-        <div class="testimonials__card" data-testimonial-card>
-          <div class="testimonials__card-inner">
+        <div class="testimonials__card" data-testimonial-card tabindex="0" role="button" aria-expanded="false" aria-label="Toggle review message for Neha K.">
+          <div class="testimonials__card-front">
             <h3 class="testimonials__card-headline">"Finally a truly delicious and quality product."</h3>
             <div class="testimonials__card-media">
               <div class="testimonials__card-placeholder">
@@ -308,13 +341,7 @@
               <button
                 type="button"
                 class="testimonials__expand-btn"
-                data-review-modal-trigger
-                data-author-name="Neha K."
-                data-author-role="Owner and Coach at Crossfit Third Eye"
-                data-headline="Finally a truly delicious and quality product."
-                data-full-review="Finally a truly delicious and quality product. Authentic taste and farm-fresh purity."
-                data-rating="5"
-                data-image-url=""
+                data-card-toggle
                 aria-label="Read review from Neha K."
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -324,36 +351,34 @@
               </button>
             </footer>
           </div>
+
+          <div class="testimonials__card-back">
+            <div class="testimonials__card-full-msg">
+              <p class="testimonials__card-full-text">Finally a truly delicious and quality product stands out in multiple ways. First, it's backed by a trustworthy brand known for pure farm-fresh ingredients and complete transparency. The natural taste and aroma make every meal wholesome and enjoyable.
+
+The texture and purity are superb, with authentic stone-ground goodness and zero additives. Highly recommended for every family!</p>
+            </div>
+            <div class="testimonials__card-divider"></div>
+            <footer class="testimonials__card-footer">
+              <div class="testimonials__author-info">
+                <strong class="testimonials__author-name"><u>Neha K.</u></strong>
+                <span class="testimonials__author-role">Owner and Coach at Crossfit Third Eye</span>
+              </div>
+              <button
+                type="button"
+                class="testimonials__expand-btn testimonials__expand-btn--back"
+                data-card-toggle
+                aria-label="Close full review"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </button>
+            </footer>
+          </div>
         </div>
       {% endif %}
-    </div>
-  </div>
-
-  <!-- Review Modal / Lightbox Popup -->
-  <div id="TestimonialsModal-{{ section.id }}" class="testimonials__modal" aria-hidden="true" role="dialog" aria-modal="true" data-review-modal>
-    <div class="testimonials__modal-backdrop" data-review-modal-close></div>
-    <div class="testimonials__modal-dialog">
-      <button type="button" class="testimonials__modal-close" data-review-modal-close aria-label="Close review dialog">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-      <div class="testimonials__modal-body">
-        <div class="testimonials__modal-media" data-modal-media-wrap style="display: none;">
-          <img src="" alt="" class="testimonials__modal-img" data-modal-img>
-        </div>
-        <div class="testimonials__modal-stars" data-modal-stars>
-          ⭐⭐⭐⭐⭐
-        </div>
-        <h3 class="testimonials__modal-headline" data-modal-headline></h3>
-        <div class="testimonials__modal-text" data-modal-text></div>
-        <div class="testimonials__modal-divider"></div>
-        <div class="testimonials__modal-author">
-          <strong class="testimonials__modal-name" data-modal-name></strong>
-          <span class="testimonials__modal-role" data-modal-role></span>
-        </div>
-      </div>
     </div>
   </div>
 
