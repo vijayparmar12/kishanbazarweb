@@ -286,7 +286,7 @@
         "background_color": "#ffffff",
         "heading_color": "#2e5d34",
         "heading_font_size": 50,
-        "heading_font_size_mobile": 18,
+        "heading_font_size_mobile": 20,
         "subheading_font_size": 14,
         "subheading_font_size_mobile": 12,
         "heading_content_width_desktop": 80,
