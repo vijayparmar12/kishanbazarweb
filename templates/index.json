@@ -537,6 +537,7 @@
         "story_card_QRP9rP"
       ],
       "settings": {
+        "heading_image_desktop": "shopify://shop_images/other_than.webp",
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
         "heading_image_flip": false,
@@ -545,7 +546,7 @@
         "heading_image_max_width": 1200,
         "heading_image_mobile_max_width": 400,
         "subheading": "",
-        "heading": "Beyond the product  हमारी कहानी",
+        "heading": "Other than बिक्री",
         "bg_color": "#ffffff",
         "subheading_color": "#8b4513",
         "heading_color": "#23421f"
@@ -629,6 +630,7 @@
         "testimonial_CjVNyt"
       ],
       "settings": {
+        "heading_image_desktop": "shopify://shop_images/review.webp",
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
         "heading_image_flip": false,
