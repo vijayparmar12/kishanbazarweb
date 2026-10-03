@@ -44,7 +44,10 @@
   padding: 0 !important;
   position: relative !important;
   overflow: hidden !important;
-  border-radius: 12px !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
 
 @media (max-width: 749px) {
