@@ -31,10 +31,10 @@
     --kb-sl-pb: {{ section.settings.padding_bottom | default: 48 }}px;
     --kb-sl-pt-mobile: {{ section.settings.padding_top_mobile | default: 36 }}px;
     --kb-sl-pb-mobile: {{ section.settings.padding_bottom_mobile | default: 36 }}px;
-    --kb-sl-mt: {{ section.settings.margin_top | default: 24 }}px;
-    --kb-sl-mb: {{ section.settings.margin_bottom | default: 24 }}px;
-    --kb-sl-mt-mobile: {{ section.settings.margin_top_mobile | default: 20 }}px;
-    --kb-sl-mb-mobile: {{ section.settings.margin_bottom_mobile | default: 20 }}px;
+    --kb-sl-mt: {{ section.settings.margin_top | default: 0 }}px;
+    --kb-sl-mb: {{ section.settings.margin_bottom | default: 0 }}px;
+    --kb-sl-mt-mobile: {{ section.settings.margin_top_mobile | default: 0 }}px;
+    --kb-sl-mb-mobile: {{ section.settings.margin_bottom_mobile | default: 0 }}px;
     --kb-sl-align: {{ section.settings.heading_alignment | default: 'center' }};
     --kb-sl-heading-size: {{ section.settings.heading_font_size | default: 28 }}px;
     --kb-sl-heading-size-mobile: {{ section.settings.heading_font_size_mobile | default: 20 }}px;
@@ -418,7 +418,7 @@
       "max": 100,
       "step": 4,
       "unit": "px",
-      "default": 24
+      "default": 0
     },
     {
       "type": "range",
@@ -428,7 +428,7 @@
       "max": 100,
       "step": 4,
       "unit": "px",
-      "default": 24
+      "default": 0
     },
     {
       "type": "range",
@@ -438,7 +438,7 @@
       "max": 80,
       "step": 4,
       "unit": "px",
-      "default": 20
+      "default": 0
     },
     {
       "type": "range",
@@ -448,7 +448,7 @@
       "max": 80,
       "step": 4,
       "unit": "px",
-      "default": 20
+      "default": 0
     },
     {
       "type": "range",

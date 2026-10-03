@@ -11,8 +11,8 @@
   background-color: var(--kb-sl-bg, #ffffff);
   padding-top: var(--kb-sl-pt, 48px);
   padding-bottom: var(--kb-sl-pb, 48px);
-  margin-top: var(--kb-sl-mt, 24px);
-  margin-bottom: var(--kb-sl-mb, 24px);
+  margin-top: var(--kb-sl-mt, 0px);
+  margin-bottom: var(--kb-sl-mb, 0px);
 }
 
 .kb-scrolling-logos__container {
@@ -219,8 +219,8 @@
   .kb-scrolling-logos {
     padding-top: var(--kb-sl-pt-mobile, 36px);
     padding-bottom: var(--kb-sl-pb-mobile, 36px);
-    margin-top: var(--kb-sl-mt-mobile, 20px);
-    margin-bottom: var(--kb-sl-mb-mobile, 20px);
+    margin-top: var(--kb-sl-mt-mobile, 0px);
+    margin-bottom: var(--kb-sl-mb-mobile, 0px);
   }
 
   .kb-scrolling-logos__container {

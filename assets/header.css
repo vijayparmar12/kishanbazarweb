@@ -1519,6 +1519,14 @@ body.template-index #MainContent {
   border-bottom: 1px solid #e5e7eb !important;
 }
 
+.template-index .section-scrolling-logos,
+.template-index #shopify-section-sections--footer-group__scrolling_logos,
+.template-index .kb-scrolling-logos {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  background-color: #ffffff !important;
+}
+
 body,
 main,
 #MainContent {
