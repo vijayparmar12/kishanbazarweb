@@ -580,7 +580,7 @@
         "subheading_color": "#8b4513",
         "heading_color": "#23421f",
         "heading_font_size": 61,
-        "heading_font_size_mobile": 24,
+        "heading_font_size_mobile": 20,
         "subheading_font_size": 15,
         "subheading_font_size_mobile": 12,
         "heading_content_width_desktop": 80,
@@ -594,10 +594,10 @@
           "type": "testimonial",
           "settings": {
             "headline": "Light on stomach and improves daily digestion.",
-            "review": "Refined wheat se hone wali bloating ke baad maine yeh 100% stone ground Khapli Atta chuna. Iska low gluten aur high fiber pet ke liye behad light hai. Rotiyan bohot soft banti hain aur unpolished grain ki quality lajawab hai",
             "image": "shopify://shop_images/1.webp",
             "name": "Dr. Beena Kathawala",
             "role": "Verified Customer",
+            "review": "Refined wheat se hone wali bloating ke baad maine yeh 100% stone ground Khapli Atta chuna. Iska low gluten aur high fiber pet ke liye behad light hai. Rotiyan bohot soft banti hain aur unpolished grain ki quality lajawab hai",
             "rating": 5
           }
         },
@@ -605,10 +605,10 @@
           "type": "testimonial",
           "settings": {
             "headline": "Pure golden ghee with authentic traditional aroma.",
-            "review": "Dabba kholte hi gaon jaisi sondhi khushbu aayi. Is Vedic Bilona Ghee ka daanedaar texture aur golden color iski purity dikhata hai. Dal aur roti par iska taste lajawab hai, jo normal brands se kahin behtar hai.",
             "image": "shopify://shop_images/2.webp",
             "name": "Amin Dhariwal",
             "role": "Verified Customer",
+            "review": "Dabba kholte hi gaon jaisi sondhi khushbu aayi. Is Vedic Bilona Ghee ka daanedaar texture aur golden color iski purity dikhata hai. Dal aur roti par iska taste lajawab hai, jo normal brands se kahin behtar hai.",
             "rating": 5
           }
         },
@@ -616,10 +616,10 @@
           "type": "testimonial",
           "settings": {
             "headline": "Reduces hair fall and deeply conditions scalp.",
-            "review": "Dry scalp aur hair fall ke liye maine yeh wood pressed coconut oil try kiya. Regular use se dandruff kam hua aur baal soft-shiny ho gaye. Yeh non-sticky hai aur chemical-free hair care ke liye best hai.",
             "image": "shopify://shop_images/3.webp",
             "name": "Seema Banka",
             "role": "Verified Customer",
+            "review": "Dry scalp aur hair fall ke liye maine yeh wood pressed coconut oil try kiya. Regular use se dandruff kam hua aur baal soft-shiny ho gaye. Yeh non-sticky hai aur chemical-free hair care ke liye best hai.",
             "rating": 5
           }
         },
@@ -627,10 +627,10 @@
           "type": "testimonial",
           "settings": {
             "headline": "Instantly soothes sore throat and seasonal cough.",
-            "review": "Gale ki kharash aur dry cough ke liye maine traditional Palm Mishri ko kali mirch aur ginger ke sath liya. 2 din mein hi bohot relief mila. Iski natural healing properties gale aur pet dono ke liye best hain.",
             "image": "shopify://shop_images/4.webp",
             "name": "Vijay Shah",
             "role": "Verified Customer",
+            "review": "Gale ki kharash aur dry cough ke liye maine traditional Palm Mishri ko kali mirch aur ginger ke sath liya. 2 din mein hi bohot relief mila. Iski natural healing properties gale aur pet dono ke liye best hain.",
             "rating": 5
           }
         },
@@ -638,10 +638,10 @@
           "type": "testimonial",
           "settings": {
             "headline": "High curcumin haldi boosts daily body immunity.",
-            "review": "Haldi doodh ke liye maine yeh high curcumin organic haldi mangwayi. Iska deep golden color aur earthy aroma iski purity dikhata hai. Kuch hi hafton mein immunity aur energy improve hui. Bina kisi color ya filler ke bilkul genuine haldi!",
             "image": "shopify://shop_images/5.webp",
             "name": "Mukesh Ji",
             "role": "Verified Customer",
+            "review": "Haldi doodh ke liye maine yeh high curcumin organic haldi mangwayi. Iska deep golden color aur earthy aroma iski purity dikhata hai. Kuch hi hafton mein immunity aur energy improve hui. Bina kisi color ya filler ke bilkul genuine haldi!",
             "rating": 5
           }
         }
@@ -655,15 +655,15 @@
       ],
       "settings": {
         "heading_image_desktop": "shopify://shop_images/review_da4c4d6c-29c5-4029-8e4d-0cb62c455114.webp",
-        "heading_box_bg_size": "contain",
-        "heading_box_bg_size_mobile": "contain",
+        "heading_box_bg_size": "cover",
+        "heading_box_bg_size_mobile": "cover",
         "heading_image_flip": false,
-        "heading_box_height_desktop": 160,
-        "heading_box_height_mobile": 90,
-        "heading_image_max_width": 800,
+        "heading_box_height_desktop": 200,
+        "heading_box_height_mobile": 80,
+        "heading_image_max_width": 1200,
         "heading_image_mobile_max_width": 370,
         "eyebrow": "",
-        "heading": "",
+        "heading": "आपके प्यारे reviews",
         "heading_color": "#1e3d20",
         "heading_font_size": 57,
         "heading_font_size_mobile": 18,
@@ -672,12 +672,8 @@
         "heading_content_width_desktop": 80,
         "heading_content_width_mobile": 85,
         "subheading": "",
-        "background_color": "#ffffff",
-        "card_border_color": "#1e3d20",
-        "card_bg_color": "#ffffff",
-        "card_border_radius": 24,
-        "card_headline_size": 19,
-        "card_headline_size_mobile": 18
+        "card_border_color": "#23421f",
+        "card_bg_color": "#ffffff"
       }
     }
   },
