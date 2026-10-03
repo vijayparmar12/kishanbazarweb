@@ -380,8 +380,11 @@
                 {{ block.settings.collection.title | downcase }}
                 {{ block.settings.collection.handle | downcase }}
               {% endif %}
-            {% endcapture %}
-            <button class="best-sellers__tab{% if forloop.first and section.settings.show_all_tab == false %} is-active{% endif %}" type="button" role="tab" data-best-sellers-tab data-category-filter="{{ filter_terms | strip | escape }}" {{ block.shopify_attributes }}>
+            {% assign is_tab_active = false %}
+            {% if forloop.first and section.settings.show_all_tab != true %}
+              {% assign is_tab_active = true %}
+            {% endif %}
+            <button class="best-sellers__tab{% if is_tab_active %} is-active{% endif %}" type="button" role="tab" data-best-sellers-tab data-category-filter="{{ filter_terms | strip | escape }}" {{ block.shopify_attributes }}>
               <span class="best-sellers__tab-icon">
                 {% assign is_breakfast = false %}
                 {% if block.settings.title contains 'Break' or block.settings.icon_image contains 'download_12' or block.settings.active_icon_image contains 'download_5_8c0a578c' %}

@@ -66,7 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      const activeTab = section.querySelector('[data-best-sellers-tab].is-active') || tabs[0];
+      let activeTab = section.querySelector('[data-best-sellers-tab].is-active');
+      if (!activeTab && tabs.length > 0) {
+        activeTab = Array.from(tabs).find((t) => (t.textContent || '').toLowerCase().includes('all')) || tabs[0];
+        if (activeTab) {
+          activeTab.classList.add('is-active');
+        }
+      }
       if (activeTab) {
         const initialFilter = activeTab.dataset.categoryFilter ? activeTab.dataset.categoryFilter.toLowerCase().trim() : 'all';
         filterSlides(initialFilter);
