@@ -8,6 +8,8 @@
   max-width: 100% !important;
   padding-top: 0.5rem !important;
   padding-bottom: 1.5rem !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
   position: relative;
   overflow: hidden;
   box-sizing: border-box !important;
@@ -20,11 +22,13 @@
     scroll-margin-top: 110px !important;
     padding-top: 0.25rem !important;
     padding-bottom: 1rem !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
 .testimonials__header {
-  margin-bottom: 0.5rem !important;
+  margin-bottom: 0.25rem !important;
   margin-top: 0 !important;
   padding: 0 !important;
   text-align: center;
@@ -37,13 +41,13 @@
 
 .testimonials__heading-banner-wrap {
   width: 100% !important;
-  max-width: 800px;
+  max-width: 1200px;
   height: auto;
   display: flex !important;
   align-items: center !important;
-  justify-content: center !important;
-  margin: 0 auto 0.5rem auto !important;
-  padding: 0 1rem !important;
+  justify-content: flex-start !important;
+  margin: 0 auto 0.25rem auto !important;
+  padding: 0 max(1.5rem, calc((100% - 1280px) / 2)) !important;
   position: relative !important;
   box-sizing: border-box !important;
 }
@@ -51,7 +55,7 @@
 .home-section__heading-picture {
   display: block !important;
   width: 100% !important;
-  height: auto !important;
+  height: 100% !important;
   margin: 0 auto !important;
   text-align: center !important;
 }
@@ -59,22 +63,20 @@
 .home-section__heading-image {
   width: 100% !important;
   max-width: 100% !important;
-  height: auto !important;
-  max-height: 160px;
+  height: 100% !important;
   object-fit: contain;
-  object-position: center;
-  display: inline-block !important;
+  object-position: left center;
+  display: block !important;
   margin: 0 auto !important;
 }
 
 @media (max-width: 749px) {
   .testimonials__heading-banner-wrap {
-    max-width: 360px !important;
-    padding: 0 0.5rem !important;
+    max-width: 100% !important;
+    padding: 0 1rem !important;
     margin-bottom: 0.25rem !important;
-  }
-  .home-section__heading-image {
-    max-height: 90px !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
   }
 }
 
@@ -117,13 +119,17 @@
 /* Horizontal Carousel Container */
 .testimonials__carousel-container {
   width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 8px 1rem 20px 1rem !important;
+  scroll-padding-left: 1rem !important;
+  scroll-padding-right: 1rem !important;
   position: relative !important;
   overflow-x: auto !important;
   overflow-y: hidden !important;
   -webkit-overflow-scrolling: touch !important;
   scroll-snap-type: x mandatory !important;
   scrollbar-width: none !important;
-  padding: 8px 16px 20px 16px !important;
   box-sizing: border-box !important;
   cursor: grab;
 }
@@ -142,6 +148,8 @@
   gap: 16px !important;
   width: max-content !important;
   box-sizing: border-box !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 /* Review Card - Clean Pill Card Design */
@@ -151,10 +159,10 @@
   border-radius: 24px;
   display: flex !important;
   flex-direction: column !important;
-  flex: 0 0 82vw !important;
-  width: 82vw !important;
-  min-width: 270px !important;
-  max-width: 350px !important;
+  flex: 0 0 calc(100vw - 4.5rem) !important;
+  width: calc(100vw - 4.5rem) !important;
+  min-width: 275px !important;
+  max-width: 340px !important;
   height: auto !important;
   padding: 22px 20px 20px 20px !important;
   text-align: left;
@@ -173,8 +181,12 @@
 
 @media (min-width: 750px) {
   .testimonials__carousel-container {
-    padding-left: max(var(--container-padding, 1.5rem), calc((100% - var(--container-width, 1280px)) / 2)) !important;
-    padding-right: max(var(--container-padding, 1.5rem), calc((100% - var(--container-width, 1280px)) / 2)) !important;
+    padding-top: 10px !important;
+    padding-bottom: 24px !important;
+    padding-left: max(1.5rem, calc((100% - 1280px) / 2)) !important;
+    padding-right: max(1.5rem, calc((100% - 1280px) / 2)) !important;
+    scroll-padding-left: max(1.5rem, calc((100% - 1280px) / 2)) !important;
+    scroll-padding-right: max(1.5rem, calc((100% - 1280px) / 2)) !important;
   }
   .testimonials__card {
     flex: 0 0 340px !important;

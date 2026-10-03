@@ -65,6 +65,25 @@
         return;
       }
 
+      const anchor = e.target.closest('a[href^="#ProductReviews"], a[href^="#Testimonials"]');
+      if (anchor) {
+        const targetId = anchor.getAttribute('href');
+        if (targetId && targetId !== '#' && targetId.startsWith('#')) {
+          const targetEl = document.querySelector(targetId);
+          if (targetEl) {
+            e.preventDefault();
+            const stickyHeader = document.querySelector('[data-header-top-sticky], .kb-header-top-sticky, .site-header');
+            const headerHeight = stickyHeader ? stickyHeader.offsetHeight : 130;
+            const targetTop = targetEl.getBoundingClientRect().top + window.scrollY - headerHeight - 20;
+            window.scrollTo({
+              top: Math.max(0, targetTop),
+              behavior: 'smooth'
+            });
+            return;
+          }
+        }
+      }
+
       const trigger = e.target.closest('[data-review-modal-trigger]');
       if (trigger) {
         e.preventDefault();
