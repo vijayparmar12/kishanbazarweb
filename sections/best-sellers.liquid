@@ -220,6 +220,43 @@
       border-radius: 999px !important;
       box-shadow: 0 2px 5px rgba(27, 67, 23, 0.16) !important;
     }
+    #BestSellers-{{ section.id }} .best-sellers__tabs {
+      gap: 0.35rem !important;
+      padding: 0.35rem 0.5rem 0.5rem !important;
+      justify-content: flex-start !important;
+    }
+    #BestSellers-{{ section.id }} .best-sellers__tab {
+      flex: 0 0 calc((100% - 1.4rem) / 5) !important;
+      max-width: calc((100% - 1.4rem) / 5) !important;
+      min-width: calc((100% - 1.4rem) / 5) !important;
+      width: calc((100% - 1.4rem) / 5) !important;
+      padding: 0 0.1rem 0.3rem !important;
+      gap: 0.2rem !important;
+      box-sizing: border-box !important;
+    }
+    #BestSellers-{{ section.id }} .best-sellers__tab-icon {
+      width: 36px !important;
+      height: 36px !important;
+    }
+    #BestSellers-{{ section.id }} .best-sellers__tab-img {
+      width: 30px !important;
+      height: 30px !important;
+    }
+    #BestSellers-{{ section.id }} .best-sellers__tab-svg {
+      width: 28px !important;
+      height: 28px !important;
+    }
+    #BestSellers-{{ section.id }} .best-sellers__tab-label {
+      font-size: 0.68rem !important;
+      line-height: 1.15 !important;
+      letter-spacing: -0.02em !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+      width: 100% !important;
+      display: block !important;
+      text-align: center !important;
+    }
   }
 
   {% assign active_color = section.settings.tab_active_color | default: '#1b4317' %}

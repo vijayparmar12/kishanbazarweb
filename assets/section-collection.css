@@ -963,23 +963,33 @@
 @media screen and (max-width: 768px) {
   .collection-hero__categories {
     justify-content: flex-start;
-    gap: 0.9rem;
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
+    gap: 0.35rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   .collection-hero__category-tab {
-    width: 64px;
+    flex: 0 0 calc((100% - 1.4rem) / 5);
+    max-width: calc((100% - 1.4rem) / 5);
+    min-width: calc((100% - 1.4rem) / 5);
+    width: calc((100% - 1.4rem) / 5);
+    padding-bottom: 0.3rem;
   }
 
   .collection-hero__category-icon {
-    width: 50px;
-    height: 50px;
-    padding: 3px;
+    width: 38px;
+    height: 38px;
+    padding: 2px;
   }
 
   .collection-hero__category-label {
-    font-size: 0.73rem;
+    font-size: 0.68rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    display: block;
+    text-align: center;
   }
 }
 
