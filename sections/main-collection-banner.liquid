@@ -217,7 +217,11 @@
               >
                 <div class="collection-hero__category-icon">
                   {% if color_icon != blank %}
-                    {{ color_icon | image_url: width: 140 | image_tag: class: 'collection-hero__category-img', loading: 'eager', alt: block.settings.title }}
+                    {% if block.settings.title contains 'Break' or color_icon contains 'download_5_8c0a578c' or color_icon contains 'download_12' %}
+                      {{ 'icon-breakfast-active.svg' | asset_url | image_tag: class: 'collection-hero__category-img', loading: 'eager', width: 40, height: 40, alt: block.settings.title }}
+                    {% else %}
+                      {{ color_icon | image_url: width: 140 | image_tag: class: 'collection-hero__category-img', loading: 'eager', alt: block.settings.title }}
+                    {% endif %}
                   {% else %}
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                   {% endif %}
@@ -243,7 +247,7 @@
 
             <a href="/collections/breakfast" class="collection-hero__category-tab{% if collection.handle == 'breakfast' %} is-active{% endif %}">
               <div class="collection-hero__category-icon">
-                <img src="{{ 'download_5_8c0a578c-56ce-4fff-9831-0a18aa23a7d2.svg' | file_url }}" class="collection-hero__category-img" loading="eager" alt="BreakFast" width="40" height="40">
+                <img src="{{ 'icon-breakfast-active.svg' | asset_url }}" class="collection-hero__category-img" loading="eager" alt="BreakFast" width="40" height="40">
               </div>
               <span class="collection-hero__category-label">BreakFast</span>
             </a>

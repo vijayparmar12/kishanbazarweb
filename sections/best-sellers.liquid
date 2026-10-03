@@ -346,7 +346,14 @@
             {% endcapture %}
             <button class="best-sellers__tab{% if forloop.first and section.settings.show_all_tab == false %} is-active{% endif %}" type="button" role="tab" data-best-sellers-tab data-category-filter="{{ filter_terms | strip | escape }}" {{ block.shopify_attributes }}>
               <span class="best-sellers__tab-icon">
-                {% if block.settings.active_icon_image != blank and block.settings.icon_image != blank %}
+                {% assign is_breakfast = false %}
+                {% if block.settings.title contains 'Break' or block.settings.icon_image contains 'download_12' or block.settings.active_icon_image contains 'download_5_8c0a578c' %}
+                  {% assign is_breakfast = true %}
+                {% endif %}
+                {% if is_breakfast %}
+                  {{ 'icon-breakfast.svg' | asset_url | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--normal', loading: 'eager', width: 38, height: 38, alt: block.settings.title }}
+                  {{ 'icon-breakfast-active.svg' | asset_url | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--active', loading: 'eager', width: 38, height: 38, alt: block.settings.title }}
+                {% elsif block.settings.active_icon_image != blank and block.settings.icon_image != blank %}
                   {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--normal', loading: 'lazy', alt: block.settings.title }}
                   {{ block.settings.active_icon_image | image_url: width: 100 | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--active', loading: 'lazy', alt: block.settings.title }}
                 {% elsif block.settings.active_icon_image != blank %}
