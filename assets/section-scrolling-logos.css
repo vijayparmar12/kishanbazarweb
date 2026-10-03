@@ -1,0 +1,277 @@
+/* ==========================================================================
+   SCROLLING LOGOS / CERTIFICATIONS SECTION
+   Smooth, hardware-accelerated infinite marquee & scrollable badges
+   ========================================================================== */
+
+.kb-scrolling-logos {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: var(--kb-sl-bg, #ffffff);
+  padding-top: var(--kb-sl-pt, 36px);
+  padding-bottom: var(--kb-sl-pb, 36px);
+}
+
+.kb-scrolling-logos__container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  box-sizing: border-box;
+}
+
+.kb-scrolling-logos__header {
+  margin-bottom: 1.5rem;
+  text-align: var(--kb-sl-align, center);
+}
+
+.kb-scrolling-logos__heading {
+  margin: 0;
+  font-family: inherit;
+  font-size: var(--kb-sl-heading-size, 28px);
+  font-weight: var(--kb-sl-heading-weight, 700);
+  color: var(--kb-sl-heading-color, #1b4317);
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+}
+
+.kb-scrolling-logos__subheading {
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+  color: #555555;
+  line-height: 1.4;
+}
+
+/* Scroller wrapper */
+.kb-scrolling-logos__scroller {
+  position: relative;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Static mode (when marquee is disabled) */
+.kb-scrolling-logos__scroller--static {
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  justify-content: center;
+  padding-bottom: 0.5rem;
+}
+
+.kb-scrolling-logos__scroller--static::-webkit-scrollbar {
+  height: 4px;
+}
+
+.kb-scrolling-logos__scroller--static::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* Marquee track */
+.kb-scrolling-logos__track {
+  display: flex;
+  align-items: center;
+  gap: var(--kb-sl-gap, 32px);
+  flex-shrink: 0;
+  min-width: 100%;
+  justify-content: space-around;
+  padding: 0.25rem 0;
+  box-sizing: border-box;
+}
+
+.kb-scrolling-logos__track--animate {
+  animation: kbMarqueeLeft var(--kb-sl-speed, 25s) linear infinite;
+  will-change: transform;
+}
+
+.kb-scrolling-logos__track--reverse {
+  animation-name: kbMarqueeRight;
+}
+
+/* Pause on hover */
+.kb-scrolling-logos[data-pause-on-hover="true"]:hover .kb-scrolling-logos__track--animate,
+.kb-scrolling-logos[data-pause-on-hover="true"]:focus-within .kb-scrolling-logos__track--animate {
+  animation-play-state: paused;
+}
+
+/* Individual Logo Item */
+.kb-scrolling-logos__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-shrink: 0;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  scroll-snap-align: center;
+}
+
+.kb-scrolling-logos__item:hover {
+  transform: translateY(-2px);
+}
+
+.kb-scrolling-logos__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Badge wrapper with configurable shape & border */
+.kb-scrolling-logos__badge-wrap {
+  position: relative;
+  width: var(--kb-sl-logo-size, 85px);
+  height: var(--kb-sl-logo-size, 85px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--kb-sl-badge-bg, #ffffff);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kb-scrolling-logos__badge-wrap--circle {
+  border-radius: 50%;
+}
+
+.kb-scrolling-logos__badge-wrap--rounded {
+  border-radius: 16px;
+}
+
+.kb-scrolling-logos__badge-wrap--natural {
+  border-radius: 0;
+  height: auto;
+  min-height: var(--kb-sl-logo-size, 85px);
+}
+
+.kb-scrolling-logos__badge-wrap--has-border {
+  border: 1.5px solid var(--kb-sl-border-color, #e2e8f0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.kb-scrolling-logos__badge-wrap--has-border:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Logo Image */
+.kb-scrolling-logos__img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  padding: 8px;
+  box-sizing: border-box;
+  display: block;
+}
+
+/* SVG placeholder badge */
+.kb-scrolling-logos__placeholder-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Optional title under badge */
+.kb-scrolling-logos__title {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--kb-sl-title-color, #23421f);
+  max-width: calc(var(--kb-sl-logo-size, 85px) + 24px);
+  word-break: break-word;
+  line-height: 1.3;
+}
+
+/* Keyframes for seamless hardware-accelerated loop */
+@keyframes kbMarqueeLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(calc(-100% - var(--kb-sl-gap, 32px)), 0, 0);
+  }
+}
+
+@keyframes kbMarqueeRight {
+  0% {
+    transform: translate3d(calc(-100% - var(--kb-sl-gap, 32px)), 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .kb-scrolling-logos {
+    padding-top: var(--kb-sl-pt-mobile, 28px);
+    padding-bottom: var(--kb-sl-pb-mobile, 28px);
+  }
+
+  .kb-scrolling-logos__container {
+    padding: 0 1rem;
+  }
+
+  .kb-scrolling-logos__header {
+    margin-bottom: 1.15rem;
+  }
+
+  .kb-scrolling-logos__heading {
+    font-size: var(--kb-sl-heading-size-mobile, 20px);
+  }
+
+  .kb-scrolling-logos__track {
+    gap: var(--kb-sl-gap-mobile, 20px);
+  }
+
+  .kb-scrolling-logos__badge-wrap {
+    width: var(--kb-sl-logo-size-mobile, 68px);
+    height: var(--kb-sl-logo-size-mobile, 68px);
+  }
+
+  .kb-scrolling-logos__title {
+    font-size: 0.75rem;
+    max-width: calc(var(--kb-sl-logo-size-mobile, 68px) + 16px);
+  }
+
+  @keyframes kbMarqueeLeft {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(calc(-100% - var(--kb-sl-gap-mobile, 20px)), 0, 0);
+    }
+  }
+
+  @keyframes kbMarqueeRight {
+    0% {
+      transform: translate3d(calc(-100% - var(--kb-sl-gap-mobile, 20px)), 0, 0);
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .kb-scrolling-logos__track--animate {
+    animation: none !important;
+  }
+  .kb-scrolling-logos__scroller {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    justify-content: flex-start;
+  }
+}

@@ -11,6 +11,68 @@
   "type": "footer",
   "name": "t:general.footer",
   "sections": {
+    "scrolling_logos": {
+      "type": "scrolling-logos",
+      "blocks": {
+        "logo_iso_22000": {
+          "type": "logo",
+          "settings": {
+            "title": "ISO 22000"
+          }
+        },
+        "logo_iso_9001": {
+          "type": "logo",
+          "settings": {
+            "title": "ISO 9001"
+          }
+        },
+        "logo_fda": {
+          "type": "logo",
+          "settings": {
+            "title": "FDA Registered"
+          }
+        },
+        "logo_gmp": {
+          "type": "logo",
+          "settings": {
+            "title": "GMP Certified"
+          }
+        }
+      },
+      "block_order": [
+        "logo_iso_22000",
+        "logo_iso_9001",
+        "logo_fda",
+        "logo_gmp"
+      ],
+      "settings": {
+        "heading": "Certification",
+        "heading_alignment": "center",
+        "heading_font_size": 28,
+        "heading_font_size_mobile": 20,
+        "heading_font_weight": "700",
+        "heading_color": "#1b4317",
+        "subheading": "",
+        "logo_size": 85,
+        "logo_size_mobile": 68,
+        "logo_shape": "circle",
+        "show_border": true,
+        "border_color": "#e2e8f0",
+        "badge_bg_color": "#ffffff",
+        "show_title": false,
+        "gap": 32,
+        "gap_mobile": 20,
+        "enable_marquee": true,
+        "speed": 22,
+        "direction": "left",
+        "pause_on_hover": true,
+        "bg_color": "#ffffff",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
     "footer": {
       "type": "footer",
       "blocks": {
@@ -151,6 +213,7 @@
     }
   },
   "order": [
+    "scrolling_logos",
     "footer"
   ]
 }
