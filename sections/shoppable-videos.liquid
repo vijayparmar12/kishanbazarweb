@@ -7,6 +7,23 @@
   }
   #ShoppableVideos-{{ section.id }} .shoppable-videos__heading {
     color: {{ section.settings.heading_color | default: '#23421F' }} !important;
+    font-size: {{ section.settings.heading_font_size | default: 28 }}px !important;
+    font-weight: 900 !important;
+    line-height: 1.25 !important;
+  }
+  #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-banner-wrap {
+    height: {{ section.settings.heading_box_height_desktop | default: 140 }}px !important;
+    max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
+  }
+  @media (max-width: 749px) {
+    #ShoppableVideos-{{ section.id }} .shoppable-videos__heading {
+      font-size: {{ section.settings.heading_font_size_mobile | default: 18 }}px !important;
+      line-height: 1.2 !important;
+    }
+    #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-banner-wrap {
+      height: {{ section.settings.heading_box_height_mobile | default: 90 }}px !important;
+      max-width: {{ section.settings.heading_image_mobile_max_width | default: 500 }}px !important;
+    }
   }
 {% endstyle %}
 
@@ -159,6 +176,66 @@
       "id": "heading_color",
       "label": "Heading Color",
       "default": "#23421F"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Desktop Heading Font Size (px)",
+      "min": 14,
+      "max": 60,
+      "step": 1,
+      "default": 28,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_mobile",
+      "label": "Mobile Heading Font Size (px)",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "default": 18,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "heading_box_height_desktop",
+      "label": "Desktop Heading Box Fixed Height (px)",
+      "min": 60,
+      "max": 400,
+      "step": 10,
+      "default": 140,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "heading_box_height_mobile",
+      "label": "Mobile Heading Box Fixed Height (px)",
+      "min": 40,
+      "max": 250,
+      "step": 10,
+      "default": 90,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "heading_image_max_width",
+      "label": "Desktop Heading Image Max Width (px)",
+      "min": 200,
+      "max": 1400,
+      "step": 20,
+      "default": 1200,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "heading_image_mobile_max_width",
+      "label": "Mobile Heading Image Max Width (px)",
+      "min": 150,
+      "max": 800,
+      "step": 10,
+      "default": 500,
+      "unit": "px"
     }
   ],
   "blocks": [

@@ -72,9 +72,10 @@
     box-sizing: border-box !important;
   }
 
-  #BeyondProducts-{{ section.id }} .beyond-products__heading-title {
-    color: #1e3d20 !important;
-    font-size: clamp(1.2rem, 3vw, 2rem) !important;
+  #BeyondProducts-{{ section.id }} .beyond-products__heading-title,
+  #BeyondProducts-{{ section.id }} .beyond-products__header h2 {
+    color: {{ section.settings.heading_color | default: '#1e3d20' }} !important;
+    font-size: {{ section.settings.heading_font_size | default: 28 }}px !important;
     font-weight: 900 !important;
     font-family: 'Montserrat', sans-serif !important;
     margin: 0 !important;
@@ -130,8 +131,9 @@
       text-align: left !important;
       padding: 0 !important;
     }
-    #BeyondProducts-{{ section.id }} .beyond-products__heading-title {
-      font-size: clamp(0.95rem, 4vw, 1.3rem) !important;
+    #BeyondProducts-{{ section.id }} .beyond-products__heading-title,
+    #BeyondProducts-{{ section.id }} .beyond-products__header h2 {
+      font-size: {{ section.settings.heading_font_size_mobile | default: 18 }}px !important;
       font-weight: 900 !important;
       line-height: 1.2 !important;
       text-align: left !important;
@@ -293,6 +295,26 @@
       "id": "heading_color",
       "label": "Heading text color",
       "default": "#23421F"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Desktop Heading Font Size (px)",
+      "min": 14,
+      "max": 60,
+      "step": 1,
+      "default": 28,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_mobile",
+      "label": "Mobile Heading Font Size (px)",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "default": 18,
+      "unit": "px"
     }
   ],
   "blocks": [

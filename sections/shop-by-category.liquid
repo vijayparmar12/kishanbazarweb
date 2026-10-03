@@ -6,6 +6,28 @@
   {% assign displayed_collection = collections['all'] %}
 {% endif %}
 
+{% style %}
+  #ShopByCategory-{{ section.id }} .shop-by-category__heading-title,
+  #ShopByCategory-{{ section.id }} .shop-by-category__title-wrap h2 {
+    color: {{ section.settings.heading_color | default: '#1e3d20' }} !important;
+    font-size: {{ section.settings.heading_font_size | default: 28 }}px !important;
+    font-weight: 900 !important;
+    font-family: 'Montserrat', sans-serif !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+    text-align: left !important;
+  }
+  @media screen and (max-width: 749px) {
+    #ShopByCategory-{{ section.id }} .shop-by-category__heading-title,
+    #ShopByCategory-{{ section.id }} .shop-by-category__title-wrap h2 {
+      font-size: {{ section.settings.heading_font_size_mobile | default: 18 }}px !important;
+      font-weight: 900 !important;
+      line-height: 1.2 !important;
+      text-align: left !important;
+    }
+  }
+{% endstyle %}
+
 <div id="ShopByCategory-{{ section.id }}" class="shop-by-category" data-shop-by-category data-all-products-url="{{ routes.all_products_collection_url }}">
   <div class="shop-by-category__head">
     {% if section.settings.heading_image_desktop != blank or section.settings.heading_image_mobile != blank %}
@@ -261,6 +283,9 @@
       "label": "Heading",
       "default": "हर Category में Goodness"
     },
+    { "type": "color", "id": "heading_color", "label": "Heading Text Color", "default": "#1e3d20" },
+    { "type": "range", "id": "heading_font_size", "label": "Desktop Heading Font Size (px)", "min": 14, "max": 60, "step": 1, "default": 28, "unit": "px" },
+    { "type": "range", "id": "heading_font_size_mobile", "label": "Mobile Heading Font Size (px)", "min": 10, "max": 40, "step": 1, "default": 18, "unit": "px" },
     {
       "type": "image_picker",
       "id": "heading_image_desktop",

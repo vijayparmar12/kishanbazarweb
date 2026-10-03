@@ -67,9 +67,10 @@
     box-sizing: border-box !important;
   }
 
-  #ExplorePantry-{{ section.id }} .explore-pantry__heading-title {
-    color: #1e3d20 !important;
-    font-size: clamp(1.35rem, 3.2vw, 2.35rem) !important;
+  #ExplorePantry-{{ section.id }} .explore-pantry__heading-title,
+  #ExplorePantry-{{ section.id }} .explore-pantry__header h2 {
+    color: {{ section.settings.heading_color | default: '#1e3d20' }} !important;
+    font-size: {{ section.settings.heading_font_size | default: 28 }}px !important;
     font-weight: 900 !important;
     font-family: 'Montserrat', sans-serif !important;
     margin: 0 !important;
@@ -114,8 +115,9 @@
       text-align: left !important;
       padding: 0 !important;
     }
-    #ExplorePantry-{{ section.id }} .explore-pantry__heading-title {
-      font-size: clamp(1.05rem, 4.5vw, 1.45rem) !important;
+    #ExplorePantry-{{ section.id }} .explore-pantry__heading-title,
+    #ExplorePantry-{{ section.id }} .explore-pantry__header h2 {
+      font-size: {{ section.settings.heading_font_size_mobile | default: 18 }}px !important;
       font-weight: 900 !important;
       line-height: 1.2 !important;
       text-align: left !important;
@@ -284,6 +286,9 @@
       "label": "Heading",
       "default": "Explore Pantry Categories"
     },
+    { "type": "color", "id": "heading_color", "label": "Heading Text Color", "default": "#1e3d20" },
+    { "type": "range", "id": "heading_font_size", "label": "Desktop Heading Font Size (px)", "min": 14, "max": 60, "step": 1, "default": 28, "unit": "px" },
+    { "type": "range", "id": "heading_font_size_mobile", "label": "Mobile Heading Font Size (px)", "min": 10, "max": 40, "step": 1, "default": 18, "unit": "px" },
     { "type": "image_picker", "id": "heading_image_desktop", "label": "Heading Box Background Image (Desktop)", "info": "Upload graphic image to use as background for the Heading Box on Desktop" },
     { "type": "image_picker", "id": "heading_image_mobile", "label": "Heading Box Background Image (Mobile)", "info": "Upload graphic image to use as background for the Heading Box on Mobile" },
     {

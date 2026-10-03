@@ -67,8 +67,8 @@
   }
 
   #Categories-{{ section.id }} .categories__heading-title {
-    color: #1e3d20 !important;
-    font-size: clamp(1.35rem, 3.2vw, 2.35rem) !important;
+    color: {{ section.settings.heading_color | default: '#1e3d20' }} !important;
+    font-size: {{ section.settings.heading_font_size | default: 28 }}px !important;
     font-weight: 900 !important;
     font-family: 'Montserrat', sans-serif !important;
     margin: 0 !important;
@@ -156,7 +156,7 @@
       padding: 0 !important;
     }
     #Categories-{{ section.id }} .categories__heading-title {
-      font-size: clamp(1.05rem, 4.5vw, 1.45rem) !important;
+      font-size: {{ section.settings.heading_font_size_mobile | default: 18 }}px !important;
       font-weight: 900 !important;
       line-height: 1.2 !important;
       text-align: left !important;
@@ -211,7 +211,7 @@
           <p class="home-section__eyebrow" style="text-align: left;">{{ section.settings.subheading }}</p>
         {% endif %}
         {% if section.settings.heading != blank %}
-          <h2 style="color: #1e3d20; font-size: clamp(1.6rem, 3.5vw, 2.65rem); font-weight: 900; font-family: 'Montserrat', sans-serif; margin: 0; text-align: left;">{{ section.settings.heading }}</h2>
+          <h2 class="categories__heading-title" style="margin: 0; text-align: left;">{{ section.settings.heading }}</h2>
         {% endif %}
       </div>
     {% endif %}
@@ -352,6 +352,9 @@
       "label": "Heading",
       "default": "Shop by category"
     },
+    { "type": "color", "id": "heading_color", "label": "Heading Text Color", "default": "#1e3d20" },
+    { "type": "range", "id": "heading_font_size", "label": "Desktop Heading Font Size (px)", "min": 14, "max": 60, "step": 1, "default": 28, "unit": "px" },
+    { "type": "range", "id": "heading_font_size_mobile", "label": "Mobile Heading Font Size (px)", "min": 10, "max": 40, "step": 1, "default": 18, "unit": "px" },
     {
       "type": "collection_list",
       "id": "collections",
