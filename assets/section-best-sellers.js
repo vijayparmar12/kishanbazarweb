@@ -97,6 +97,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedOption = select.options[select.selectedIndex];
     if (!selectedOption) return;
 
+    const form = card.querySelector('[data-product-card-form]');
+    if (form) {
+      let variantInput = form.querySelector('[name="id"]');
+      if (!variantInput) {
+        variantInput = document.createElement('input');
+        variantInput.type = 'hidden';
+        variantInput.name = 'id';
+        form.appendChild(variantInput);
+      }
+      variantInput.value = select.value;
+    }
+
     const price = selectedOption.dataset.price;
     const comparePrice = selectedOption.dataset.compare;
 

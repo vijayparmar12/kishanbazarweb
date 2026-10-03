@@ -27,6 +27,11 @@
   elsif tag_str contains 'trending'
     assign badge_label = 'TRENDING'
   endif
+
+  assign card_form_id = 'ProductCardForm-' | append: section.id | append: '-' | append: product.id
+  if forloop.index != blank
+    assign card_form_id = card_form_id | append: '-' | append: forloop.index
+  endif
 %}
 
 <article class="product-card" data-product-card data-product-handle="{{ product.handle }}">
@@ -193,7 +198,7 @@
           {% when 'card_variant_selector' %}
             {% if product.has_only_default_variant == false and show_variant_selector != false %}
               <div class="product-card__variant-wrap" {{ block.shopify_attributes }}>
-                <select class="product-card__variant-select" name="id" aria-label="Select variant for {{ product.title | escape }}" data-product-card-variant-select style="{% if block.settings.border_color != blank %}border-color: {{ block.settings.border_color }};{% elsif variant_block.settings.border_color != blank %}border-color: {{ variant_block.settings.border_color }};{% endif %}{% if block.settings.bg_color != blank %}background-color: {{ block.settings.bg_color }};{% elsif variant_block.settings.bg_color != blank %}background-color: {{ variant_block.settings.bg_color }};{% endif %}{% if block.settings.text_color != blank %}color: {{ block.settings.text_color }};{% elsif variant_block.settings.text_color != blank %}color: {{ variant_block.settings.text_color }};{% endif %}">
+                <select class="product-card__variant-select" name="id" form="{{ card_form_id }}" aria-label="Select variant for {{ product.title | escape }}" data-product-card-variant-select style="{% if block.settings.border_color != blank %}border-color: {{ block.settings.border_color }};{% elsif variant_block.settings.border_color != blank %}border-color: {{ variant_block.settings.border_color }};{% endif %}{% if block.settings.bg_color != blank %}background-color: {{ block.settings.bg_color }};{% elsif variant_block.settings.bg_color != blank %}background-color: {{ variant_block.settings.bg_color }};{% endif %}{% if block.settings.text_color != blank %}color: {{ block.settings.text_color }};{% elsif variant_block.settings.text_color != blank %}color: {{ variant_block.settings.text_color }};{% endif %}">
                   {% for card_variant in product.variants %}
                     {% assign v_compare = card_variant.compare_at_price %}
                     {% if v_compare != blank and v_compare > card_variant.price %}
@@ -228,8 +233,8 @@
               {% assign default_v_avail = false %}
             {% endif %}
             <div class="product-card__actions" {{ block.shopify_attributes }}>
-              <form method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form data-available="{% if default_v_avail %}true{% else %}false{% endif %}">
-                <input type="hidden" name="id" value="{{ variant.id }}">
+              <form id="{{ card_form_id }}" method="post" action="{{ routes.cart_add_url }}" class="product-card__form" data-product-card-form data-available="{% if default_v_avail %}true{% else %}false{% endif %}">
+                <input type="hidden" name="id" value="{{ variant.id }}" data-product-card-variant-id>
                 <!-- In-Place Morphing Button Container -->
                 <div class="product-card__btn-container" data-card-btn-container>
                   <!-- Standard ADD TO CART Button -->

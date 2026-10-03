@@ -23,7 +23,18 @@
 
       // Update all product forms on page
       document.querySelectorAll('[data-product-card-form]').forEach((form) => {
-        const variantInput = form.querySelector('[name="id"]');
+        const card = form.closest('[data-product-card]');
+        const select = card ? card.querySelector('[data-product-card-variant-select]') : null;
+        let variantInput = form.querySelector('[name="id"]');
+        if (select) {
+          if (!variantInput) {
+            variantInput = document.createElement('input');
+            variantInput.type = 'hidden';
+            variantInput.name = 'id';
+            form.appendChild(variantInput);
+          }
+          variantInput.value = select.value;
+        }
         if (!variantInput) return;
         const variantId = parseInt(variantInput.value, 10);
         const qtyInCart = cartVariantQtyMap[variantId] || 0;
@@ -33,7 +44,6 @@
         const countSpan = form.querySelector('[data-inline-count]');
         const container = form.querySelector('[data-card-btn-container]');
 
-        const select = form.querySelector('[data-product-card-variant-select]');
         const selectedOption = select ? select.selectedOptions[0] : null;
 
         let isAvail = true;
@@ -104,6 +114,20 @@
     if (!form) return;
 
     event.preventDefault();
+
+    const card = form.closest('[data-product-card]');
+    const select = card ? card.querySelector('[data-product-card-variant-select]') : null;
+    let variantInput = form.querySelector('[name="id"]');
+    if (select) {
+      if (!variantInput) {
+        variantInput = document.createElement('input');
+        variantInput.type = 'hidden';
+        variantInput.name = 'id';
+        form.appendChild(variantInput);
+      }
+      variantInput.value = select.value;
+    }
+
     const addBtn = form.querySelector('[data-card-add-btn]');
     const stepper = form.querySelector('[data-card-inline-stepper]');
     const countSpan = form.querySelector('[data-inline-count]');
@@ -245,6 +269,16 @@
     const isZeroInv = option?.dataset?.inventory !== undefined && parseInt(option.dataset.inventory, 10) <= 0;
     const isAvailable = option && !option.disabled && !isDataUnavail && !isZeroInv && !optText.includes('sold out') && !optText.includes('out of stock');
     const form = card.querySelector('[data-product-card-form]');
+    if (form) {
+      let variantInput = form.querySelector('[name="id"]');
+      if (!variantInput) {
+        variantInput = document.createElement('input');
+        variantInput.type = 'hidden';
+        variantInput.name = 'id';
+        form.appendChild(variantInput);
+      }
+      variantInput.value = select.value;
+    }
     const addBtn = card.querySelector('[data-card-add-btn]');
     const stepper = card.querySelector('[data-card-inline-stepper]');
     const container = card.querySelector('[data-card-btn-container]');

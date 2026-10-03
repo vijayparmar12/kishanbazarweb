@@ -1,4 +1,7 @@
 (() => {
+  if (window.__kbCartInitialized) return;
+  window.__kbCartInitialized = true;
+
   const rootUrl = window.Shopify?.routes?.root || '/';
 
   const formatMoney = (value) => {
@@ -27,7 +30,7 @@
     const checkedVariant = form.querySelector('[data-variant-radio]:checked');
     if (checkedVariant && checkedVariant.dataset.available === 'false') return false;
 
-    const variantSelect = form.querySelector('[data-product-card-variant-select], [data-qv-variant-select]');
+    const variantSelect = form.querySelector('[data-product-card-variant-select], [data-qv-variant-select]') || form.closest('[data-product-card]')?.querySelector('[data-product-card-variant-select]');
     const selectedOption = variantSelect ? variantSelect.selectedOptions[0] : null;
     if (selectedOption && checkIsVariantSoldOut(null, selectedOption)) return false;
 
@@ -197,6 +200,7 @@
               <div class="kb-cart-item__price-row" style="margin-bottom: 6px; display: flex; flex-direction: row; align-items: center; justify-content: flex-start; text-align: left; gap: 6px; width: 100%;">
                 <span class="kb-cart-item__price" data-cart-line-price style="font-size: 15px; font-weight: 800; color: #1b4317; line-height: 1.2; display: inline-block; text-align: left;">${formatMoney(finalVal)}</span>
                 ${hasCompare ? `<s class="kb-cart-item__compare" style="font-size: 12px; color: #94a3b8; text-decoration: line-through; line-height: 1.2; display: inline-block; text-align: left;">${formatMoney(compareVal)}</s>` : ''}
+                ${item.quantity > 1 ? `<span class="kb-cart-item__unit-price" style="font-size: 11px; font-weight: 600; color: #64748b; margin-left: 2px;">(${formatMoney(item.final_price || item.price)}/each)</span>` : ''}
               </div>
 
               <div class="kb-cart-item__actions">
@@ -371,16 +375,26 @@
     const select = e.target.closest('[data-cart-item-variant-select]');
     if (!select) return;
 
-    const details = getLineDetails(select);
-    if (!details) return;
+    if (select.dataset.swapping === 'true') return;
+    select.dataset.swapping = 'true';
 
-    const { lineIndex, lineKey } = details;
+    const details = getLineDetails(select);
+    if (!details) {
+      select.dataset.swapping = 'false';
+      return;
+    }
+
+    const { lineIndex, lineKey, lineItem } = details;
     const selectedOption = select.selectedOptions[0];
     const oldVariantId = select.dataset.currentVariantId;
-    const qty = parseInt(select.dataset.currentQty, 10) || 1;
+    const input = lineItem ? lineItem.querySelector('[data-cart-quantity-input]') : null;
+    const qty = input ? (parseInt(input.value, 10) || 1) : (parseInt(select.dataset.currentQty, 10) || 1);
     const newVariantId = select.value;
 
-    if (!newVariantId || newVariantId === oldVariantId) return;
+    if (!newVariantId || newVariantId === oldVariantId) {
+      select.dataset.swapping = 'false';
+      return;
+    }
 
     select.disabled = true;
     select.style.opacity = '0.5';
@@ -397,18 +411,26 @@
       if (oldVariantId) select.value = oldVariantId;
       select.disabled = false;
       select.style.opacity = '1';
+      select.dataset.swapping = 'false';
       return;
     }
 
     try {
-      // 1. Remove old line item FIRST
+      // 1. Remove old line item FIRST (use either lineKey or lineIndex, never both)
+      const changePayload = { quantity: 0 };
+      if (lineKey && String(lineKey).trim() !== '' && String(lineKey) !== 'undefined') {
+        changePayload.id = String(lineKey);
+      } else {
+        changePayload.line = Number(lineIndex);
+      }
+
       await fetch(`${rootUrl}cart/change.js`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ id: lineKey || oldVariantId, line: Number(lineIndex), quantity: 0 })
+        body: JSON.stringify(changePayload)
       });
 
-      // 2. Add new variant with quantity
+      // 2. Add new variant with exact quantity
       const addRes = await fetch(`${rootUrl}cart/add.js`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -425,11 +447,14 @@
       const updatedCart = await updateDrawerFromServer();
       await refreshCartPageFromServer(updatedCart);
       if (updatedCart) setCartCount(updatedCart.item_count);
+      document.dispatchEvent(new CustomEvent('kb:cart:updated', { detail: { cart: updatedCart } }));
     } catch (err) {
       console.error('Error swapping cart variant:', err);
       if (oldVariantId) select.value = oldVariantId;
+    } finally {
       select.disabled = false;
       select.style.opacity = '1';
+      select.dataset.swapping = 'false';
     }
   });
 
