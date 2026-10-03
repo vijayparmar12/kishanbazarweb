@@ -173,6 +173,7 @@
       "settings": {
         "eyebrow": "",
         "heading": "Everyone's पसंदीदा",
+        "heading_image_desktop": "shopify://shop_images/best_seller.webp",
         "heading_image_flip": false,
         "heading_box_bg_size": "cover",
         "heading_box_bg_size_mobile": "cover",
