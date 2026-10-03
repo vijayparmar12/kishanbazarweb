@@ -388,8 +388,8 @@
                   {% assign is_breakfast = true %}
                 {% endif %}
                 {% if is_breakfast %}
-                  {{ 'icon-breakfast.svg' | asset_url | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--normal', loading: 'eager', width: 38, height: 38, alt: block.settings.title }}
-                  {{ 'icon-breakfast-active.svg' | asset_url | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--active', loading: 'eager', width: 38, height: 38, alt: block.settings.title }}
+                  <img src="{{ 'icon-breakfast.svg' | asset_url }}" class="best-sellers__tab-img best-sellers__tab-img--normal" loading="eager" width="38" height="38" alt="{{ block.settings.title | default: 'BreakFast' | escape }}">
+                  <img src="{{ 'icon-breakfast-active.svg' | asset_url }}" class="best-sellers__tab-img best-sellers__tab-img--active" loading="eager" width="38" height="38" alt="{{ block.settings.title | default: 'BreakFast' | escape }}">
                 {% elsif block.settings.active_icon_image != blank and block.settings.icon_image != blank %}
                   {{ block.settings.icon_image | image_url: width: 100 | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--normal', loading: 'lazy', alt: block.settings.title }}
                   {{ block.settings.active_icon_image | image_url: width: 100 | image_tag: class: 'best-sellers__tab-img best-sellers__tab-img--active', loading: 'lazy', alt: block.settings.title }}
