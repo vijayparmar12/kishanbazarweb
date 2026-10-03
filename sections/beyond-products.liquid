@@ -18,24 +18,31 @@
   }
 
   #BeyondProducts-{{ section.id }} .beyond-products__heading-banner-wrap {
-    display: block !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
     position: relative !important;
     width: 100% !important;
     max-width: {{ section.settings.heading_image_max_width | default: 640 }}px !important;
     height: {{ section.settings.heading_box_height_desktop | default: 90 }}px !important;
     margin: 0 auto 0.35rem auto !important;
-    padding: 0 !important;
+    padding: 0 1.5rem !important;
     overflow: hidden !important;
     border-radius: 12px !important;
+    box-sizing: border-box !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
   }
 
   #BeyondProducts-{{ section.id }} .home-section__heading-picture {
+    position: absolute !important;
+    inset: 0 !important;
     display: block !important;
     width: 100% !important;
     height: 100% !important;
     margin: 0 auto !important;
     padding: 0 !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
   }
 
   #BeyondProducts-{{ section.id }} .home-section__heading-image {
@@ -52,6 +59,39 @@
     {% endif %}
   }
 
+  #BeyondProducts-{{ section.id }} .beyond-products__heading-content {
+    position: relative !important;
+    z-index: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    max-width: 65% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #BeyondProducts-{{ section.id }} .beyond-products__heading-title {
+    color: #1e3d20 !important;
+    font-size: clamp(1.2rem, 3vw, 2rem) !important;
+    font-weight: 900 !important;
+    font-family: 'Montserrat', sans-serif !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+    text-align: left !important;
+  }
+
+  #BeyondProducts-{{ section.id }} .beyond-products__heading-subheading {
+    color: #166534 !important;
+    font-size: 0.92rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.2rem !important;
+    font-family: 'Montserrat', sans-serif !important;
+    text-align: left !important;
+    line-height: 1.2 !important;
+  }
+
   @media screen and (max-width: 749px) {
     #BeyondProducts-{{ section.id }} .beyond-products__header {
       margin-bottom: 0.35rem !important;
@@ -63,8 +103,13 @@
       max-height: {{ section.settings.heading_box_height_mobile | default: 55 }}px !important;
       margin-bottom: 0.35rem !important;
       border-radius: 10px !important;
+      padding: 0 1rem !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
     }
     #BeyondProducts-{{ section.id }} .home-section__heading-picture {
+      position: absolute !important;
+      inset: 0 !important;
       width: 100% !important;
       height: 100% !important;
       margin: 0 auto !important;
@@ -78,6 +123,24 @@
       object-fit: {{ section.settings.heading_box_bg_size_mobile | default: 'cover' }} !important;
       margin: 0 auto !important;
       display: block !important;
+    }
+    #BeyondProducts-{{ section.id }} .beyond-products__heading-content {
+      max-width: 65% !important;
+      align-items: flex-start !important;
+      text-align: left !important;
+      padding: 0 !important;
+    }
+    #BeyondProducts-{{ section.id }} .beyond-products__heading-title {
+      font-size: clamp(0.95rem, 4vw, 1.3rem) !important;
+      font-weight: 900 !important;
+      line-height: 1.2 !important;
+      text-align: left !important;
+    }
+    #BeyondProducts-{{ section.id }} .beyond-products__heading-subheading {
+      font-size: 0.72rem !important;
+      font-weight: 800 !important;
+      margin-bottom: 0.1rem !important;
+      text-align: left !important;
     }
     #BeyondProducts-{{ section.id }} .beyond-products__track {
       padding-top: 0.25rem !important;
@@ -97,14 +160,26 @@
             {% assign heading_img = section.settings.heading_image_desktop | default: section.settings.heading_image_mobile %}
             {{ heading_img | image_url: width: 1200 | image_tag: class: 'home-section__heading-image', alt: section.settings.heading, loading: 'lazy' }}
           </picture>
+          {% if section.settings.heading != blank or section.settings.subheading != blank %}
+            <div class="beyond-products__heading-content">
+              {% if section.settings.subheading != blank %}
+                <p class="beyond-products__subheading beyond-products__heading-subheading">{{ section.settings.subheading }}</p>
+              {% endif %}
+              {% if section.settings.heading != blank %}
+                <h2 class="beyond-products__heading beyond-products__heading-title">{{ section.settings.heading }}</h2>
+              {% endif %}
+            </div>
+          {% endif %}
         </div>
       {% else %}
-        {% if section.settings.subheading != blank %}
-          <p class="beyond-products__subheading">{{ section.settings.subheading }}</p>
-        {% endif %}
-        {% if section.settings.heading != blank %}
-          <h2 class="beyond-products__heading">{{ section.settings.heading }}</h2>
-        {% endif %}
+        <div style="text-align: left;">
+          {% if section.settings.subheading != blank %}
+            <p class="beyond-products__subheading" style="text-align: left;">{{ section.settings.subheading }}</p>
+          {% endif %}
+          {% if section.settings.heading != blank %}
+            <h2 class="beyond-products__heading" style="text-align: left;">{{ section.settings.heading }}</h2>
+          {% endif %}
+        </div>
       {% endif %}
     </div>
 

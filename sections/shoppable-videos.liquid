@@ -29,16 +29,30 @@
             {% assign heading_img = section.settings.heading_image_desktop | default: section.settings.heading_image_mobile %}
             {{ heading_img | image_url: width: 2200 | image_tag: class: 'home-section__heading-image', alt: section.settings.heading, loading: 'lazy' }}
           </picture>
+          {% if section.settings.heading != blank or section.settings.subheading != blank %}
+            <div class="shoppable-videos__heading-content">
+              {% if section.settings.heading != blank %}
+                <h2 id="ShoppableVideosHeading-{{ section.id }}" class="shoppable-videos__heading">
+                  {{ section.settings.heading }}
+                </h2>
+              {% endif %}
+              {% if section.settings.subheading != blank %}
+                <p class="shoppable-videos__subheading">{{ section.settings.subheading }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
         </div>
       {% else %}
-        {% if section.settings.heading != blank %}
-          <h2 id="ShoppableVideosHeading-{{ section.id }}" class="shoppable-videos__heading">
-            {{ section.settings.heading }}
-          </h2>
-        {% endif %}
-        {% if section.settings.subheading != blank %}
-          <p class="shoppable-videos__subheading">{{ section.settings.subheading }}</p>
-        {% endif %}
+        <div style="text-align: left;">
+          {% if section.settings.heading != blank %}
+            <h2 id="ShoppableVideosHeading-{{ section.id }}" class="shoppable-videos__heading" style="text-align: left;">
+              {{ section.settings.heading }}
+            </h2>
+          {% endif %}
+          {% if section.settings.subheading != blank %}
+            <p class="shoppable-videos__subheading" style="text-align: left;">{{ section.settings.subheading }}</p>
+          {% endif %}
+        </div>
       {% endif %}
     </header>
 

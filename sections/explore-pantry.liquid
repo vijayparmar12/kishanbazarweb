@@ -18,19 +18,30 @@
   }
 
   #ExplorePantry-{{ section.id }} .explore-pantry__header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    position: relative !important;
     width: 100% !important;
     max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
     height: {{ section.settings.heading_box_height_desktop | default: 180 }}px !important;
     margin: 0 auto !important;
+    padding: 0 2rem !important;
     overflow: hidden !important;
     border-radius: 12px !important;
+    box-sizing: border-box !important;
   }
 
   #ExplorePantry-{{ section.id }} .home-section__heading-picture {
+    position: absolute !important;
+    inset: 0 !important;
     display: block !important;
     width: 100% !important;
     height: 100% !important;
     margin: 0 auto !important;
+    padding: 0 !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
   }
 
   #ExplorePantry-{{ section.id }} .home-section__heading-image {
@@ -43,13 +54,77 @@
     border-radius: 12px !important;
   }
 
+  #ExplorePantry-{{ section.id }} .explore-pantry__heading-content {
+    position: relative !important;
+    z-index: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    max-width: 65% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #ExplorePantry-{{ section.id }} .explore-pantry__heading-title {
+    color: #1e3d20 !important;
+    font-size: clamp(1.35rem, 3.2vw, 2.35rem) !important;
+    font-weight: 900 !important;
+    font-family: 'Montserrat', sans-serif !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+    text-align: left !important;
+  }
+
+  #ExplorePantry-{{ section.id }} .explore-pantry__heading-eyebrow {
+    color: #166534 !important;
+    font-size: 0.95rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.25rem !important;
+    font-family: 'Montserrat', sans-serif !important;
+    text-align: left !important;
+    line-height: 1.2 !important;
+  }
+
   @media screen and (max-width: 749px) {
     #ExplorePantry-{{ section.id }} .explore-pantry__header {
       max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
       height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
+      padding: 0 1rem !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
+    }
+    #ExplorePantry-{{ section.id }} .home-section__heading-picture {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 auto !important;
+      padding: 0 !important;
     }
     #ExplorePantry-{{ section.id }} .home-section__heading-image {
       object-fit: {{ section.settings.heading_box_bg_size_mobile | default: 'cover' }} !important;
+      height: 100% !important;
+      width: 100% !important;
+    }
+    #ExplorePantry-{{ section.id }} .explore-pantry__heading-content {
+      max-width: 65% !important;
+      align-items: flex-start !important;
+      text-align: left !important;
+      padding: 0 !important;
+    }
+    #ExplorePantry-{{ section.id }} .explore-pantry__heading-title {
+      font-size: clamp(1.05rem, 4.5vw, 1.45rem) !important;
+      font-weight: 900 !important;
+      line-height: 1.2 !important;
+      text-align: left !important;
+    }
+    #ExplorePantry-{{ section.id }} .explore-pantry__heading-eyebrow {
+      font-size: 0.78rem !important;
+      font-weight: 800 !important;
+      margin-bottom: 0.15rem !important;
+      text-align: left !important;
     }
   }
 {% endstyle %}
@@ -74,14 +149,26 @@
           {% assign heading_img = section.settings.heading_image_desktop | default: section.settings.heading_image_mobile %}
           {{ heading_img | image_url: width: 1200 | image_tag: class: 'home-section__heading-image', alt: section.settings.heading, loading: 'lazy' }}
         </picture>
+        {% if section.settings.heading != blank or section.settings.subheading != blank %}
+          <div class="explore-pantry__heading-content">
+            {% if section.settings.subheading != blank %}
+              <p class="explore-pantry__eyebrow explore-pantry__heading-eyebrow">{{ section.settings.subheading }}</p>
+            {% endif %}
+            {% if section.settings.heading != blank %}
+              <h2 class="explore-pantry__heading explore-pantry__heading-title">{{ section.settings.heading }}</h2>
+            {% endif %}
+          </div>
+        {% endif %}
       {% else %}
-        {% if section.settings.subheading != blank %}
-          <p class="explore-pantry__eyebrow">{{ section.settings.subheading }}</p>
-        {% endif %}
+        <div style="text-align: left;">
+          {% if section.settings.subheading != blank %}
+            <p class="explore-pantry__eyebrow" style="text-align: left;">{{ section.settings.subheading }}</p>
+          {% endif %}
 
-        {% if section.settings.heading != blank %}
-          <h2 class="explore-pantry__heading">{{ section.settings.heading }}</h2>
-        {% endif %}
+          {% if section.settings.heading != blank %}
+            <h2 class="explore-pantry__heading" style="text-align: left;">{{ section.settings.heading }}</h2>
+          {% endif %}
+        </div>
       {% endif %}
     </div>
 

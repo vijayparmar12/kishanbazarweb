@@ -15,23 +15,30 @@
   }
 
   #VideoSection-{{ section.id }} .home-video__heading-banner-wrap {
-    display: block !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
     position: relative !important;
     width: 100% !important;
     max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
     height: {{ section.settings.heading_box_height_desktop | default: 180 }}px !important;
     margin: 0 auto !important;
-    padding: 0 !important;
+    padding: 0 2rem !important;
     overflow: hidden !important;
     border-radius: 12px !important;
+    box-sizing: border-box !important;
   }
 
   #VideoSection-{{ section.id }} .home-section__heading-picture {
+    position: absolute !important;
+    inset: 0 !important;
     display: block !important;
     width: 100% !important;
     height: 100% !important;
     margin: 0 auto !important;
     padding: 0 !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
   }
 
   #VideoSection-{{ section.id }} .home-section__heading-image {
@@ -48,19 +55,73 @@
     {% endif %}
   }
 
+  #VideoSection-{{ section.id }} .home-video__heading-content {
+    position: relative !important;
+    z-index: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    max-width: 65% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #VideoSection-{{ section.id }} .home-video__heading-title {
+    color: #1e3d20 !important;
+    font-size: clamp(1.35rem, 3.2vw, 2.35rem) !important;
+    font-weight: 900 !important;
+    font-family: 'Montserrat', sans-serif !important;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+    text-align: left !important;
+  }
+
+  #VideoSection-{{ section.id }} .home-video__heading-eyebrow {
+    font-size: 0.85rem !important;
+    margin-bottom: 0.25rem !important;
+    text-align: left !important;
+  }
+
   @media screen and (max-width: 749px) {
     #VideoSection-{{ section.id }} .home-video__heading-banner-wrap {
       max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
       height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
+      padding: 0 1rem !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
     }
     #VideoSection-{{ section.id }} .home-section__heading-picture {
+      position: absolute !important;
+      inset: 0 !important;
       width: 100% !important;
       height: 100% !important;
       margin: 0 auto !important;
+      padding: 0 !important;
     }
     #VideoSection-{{ section.id }} .home-section__heading-image {
       object-fit: {{ section.settings.heading_box_bg_size_mobile | default: 'cover' }} !important;
+      height: 100% !important;
+      width: 100% !important;
       margin: 0 auto !important;
+    }
+    #VideoSection-{{ section.id }} .home-video__heading-content {
+      max-width: 65% !important;
+      align-items: flex-start !important;
+      text-align: left !important;
+      padding: 0 !important;
+    }
+    #VideoSection-{{ section.id }} .home-video__heading-title {
+      font-size: clamp(1.05rem, 4.5vw, 1.45rem) !important;
+      font-weight: 900 !important;
+      line-height: 1.2 !important;
+      text-align: left !important;
+    }
+    #VideoSection-{{ section.id }} .home-video__heading-eyebrow {
+      font-size: 0.72rem !important;
+      margin-bottom: 0.15rem !important;
+      text-align: left !important;
     }
   }
 {% endstyle %}
@@ -78,15 +139,28 @@
             {% assign heading_img = section.settings.heading_image_desktop | default: section.settings.heading_image_mobile %}
             {{ heading_img | image_url: width: 2200 | image_tag: class: 'home-section__heading-image', alt: section.settings.heading, loading: 'lazy' }}
           </picture>
+          {% if section.settings.heading != blank or section.settings.description != blank %}
+            <div class="home-video__heading-content">
+              <span class="home-video__eyebrow-pill home-video__heading-eyebrow">🌿 OUR FARM TO TABLE STORY</span>
+              {% if section.settings.heading != blank %}
+                <h2 class="home-video__title home-video__heading-title">{{ section.settings.heading }}</h2>
+              {% endif %}
+              {% if section.settings.description != blank %}
+                <div class="home-video__subtitle" style="text-align: left; margin: 0.15rem 0 0 0;">{{ section.settings.description }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
         </div>
       {% else %}
-        <span class="home-video__eyebrow-pill">🌿 OUR FARM TO TABLE STORY</span>
-        <h2 class="home-video__title">{{ section.settings.heading | default: "Meet the Farmers & Millers" }}</h2>
-        {% if section.settings.description != blank %}
-          <div class="home-video__subtitle">{{ section.settings.description }}</div>
-        {% else %}
-          <p class="home-video__subtitle">Take a closer look at the traditional stone-grinding practices and farm-fresh care behind every Kishan Bazar staple.</p>
-        {% endif %}
+        <div style="text-align: left;">
+          <span class="home-video__eyebrow-pill" style="text-align: left;">🌿 OUR FARM TO TABLE STORY</span>
+          <h2 class="home-video__title" style="text-align: left;">{{ section.settings.heading | default: "Meet the Farmers & Millers" }}</h2>
+          {% if section.settings.description != blank %}
+            <div class="home-video__subtitle" style="text-align: left;">{{ section.settings.description }}</div>
+          {% else %}
+            <p class="home-video__subtitle" style="text-align: left;">Take a closer look at the traditional stone-grinding practices and farm-fresh care behind every Kishan Bazar staple.</p>
+          {% endif %}
+        </div>
       {% endif %}
     </div>
 
