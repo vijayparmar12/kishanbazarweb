@@ -174,12 +174,12 @@
           {% endif %}
         </div>
       {% else %}
-        <div style="text-align: left;">
+        <div class="beyond-products__simple-header" style="text-align: left; padding: 0.5rem 0.25rem 1rem;">
           {% if section.settings.subheading != blank %}
             <p class="beyond-products__subheading" style="text-align: left;">{{ section.settings.subheading }}</p>
           {% endif %}
           {% if section.settings.heading != blank %}
-            <h2 class="beyond-products__heading" style="text-align: left;">{{ section.settings.heading }}</h2>
+            <h2 class="beyond-products__heading" style="text-align: left; font-family: 'Montserrat', sans-serif; font-weight: 800;">{{ section.settings.heading }}</h2>
           {% endif %}
         </div>
       {% endif %}

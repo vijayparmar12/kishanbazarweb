@@ -1512,24 +1512,18 @@ body.template-index #MainContent {
   background-color: #FAF7F2 !important;
 }
 
+/* Clean dividing line after every section on the home page */
+.template-index #MainContent > .shopify-section,
+.template-index .section-scrolling-logos,
+.template-index #shopify-section-sections--footer-group__scrolling_logos {
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
 body,
 main,
-#MainContent,
-.home-section,
-.section,
-.best-sellers,
-.explore-pantry,
-.featured-collections,
-.categories,
-.beyond-products,
-.testimonials-section,
-.testimonials-carousel-section,
-.home-hero-split,
-.home-video,
-.shoppable-videos {
+#MainContent {
   border-top: none !important;
   border-bottom: none !important;
-  border-block: none !important;
 }
 
 .best-sellers__illustration-bg,
