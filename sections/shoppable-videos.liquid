@@ -11,8 +11,16 @@
     font-weight: 900 !important;
     line-height: 1.25 !important;
   }
+  #ShoppableVideos-{{ section.id }} .shoppable-videos__subheading {
+    font-size: {{ section.settings.subheading_font_size | default: 14 }}px !important;
+  }
+  #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-content {
+    max-width: {{ section.settings.heading_content_width_desktop | default: 80 }}% !important;
+    width: 100% !important;
+  }
   #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-banner-wrap {
-    height: {{ section.settings.heading_box_height_desktop | default: 140 }}px !important;
+    min-height: {{ section.settings.heading_box_height_desktop | default: 140 }}px !important;
+    height: auto !important;
     max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
   }
   @media (max-width: 749px) {
@@ -20,8 +28,16 @@
       font-size: {{ section.settings.heading_font_size_mobile | default: 18 }}px !important;
       line-height: 1.2 !important;
     }
+    #ShoppableVideos-{{ section.id }} .shoppable-videos__subheading {
+      font-size: {{ section.settings.subheading_font_size_mobile | default: 12 }}px !important;
+    }
+    #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-content {
+      max-width: {{ section.settings.heading_content_width_mobile | default: 85 }}% !important;
+      width: 100% !important;
+    }
     #ShoppableVideos-{{ section.id }} .shoppable-videos__heading-banner-wrap {
-      height: {{ section.settings.heading_box_height_mobile | default: 90 }}px !important;
+      min-height: {{ section.settings.heading_box_height_mobile | default: 90 }}px !important;
+      height: auto !important;
       max-width: {{ section.settings.heading_image_mobile_max_width | default: 500 }}px !important;
     }
   }
@@ -182,7 +198,7 @@
       "id": "heading_font_size",
       "label": "Desktop Heading Font Size (px)",
       "min": 14,
-      "max": 60,
+      "max": 80,
       "step": 1,
       "default": 28,
       "unit": "px"
@@ -192,10 +208,50 @@
       "id": "heading_font_size_mobile",
       "label": "Mobile Heading Font Size (px)",
       "min": 10,
-      "max": 40,
+      "max": 50,
       "step": 1,
       "default": 18,
       "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "Desktop Subheading Font Size (px)",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size_mobile",
+      "label": "Mobile Subheading Font Size (px)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "heading_content_width_desktop",
+      "label": "Desktop Heading Content Width (%)",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "default": 80,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "heading_content_width_mobile",
+      "label": "Mobile Heading Content Width (%)",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "default": 85,
+      "unit": "%"
     },
     {
       "type": "range",

@@ -24,7 +24,8 @@
     position: relative !important;
     width: 100% !important;
     max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
-    height: {{ section.settings.heading_box_height_desktop | default: 180 }}px !important;
+    min-height: {{ section.settings.heading_box_height_desktop | default: 180 }}px !important;
+    height: auto !important;
     margin: 0 auto !important;
     padding: 0 2rem !important;
     overflow: hidden !important;
@@ -62,7 +63,7 @@
     justify-content: center !important;
     align-items: flex-start !important;
     text-align: left !important;
-    max-width: 65% !important;
+    max-width: {{ section.settings.heading_content_width_desktop | default: 80 }}% !important;
     width: 100% !important;
     box-sizing: border-box !important;
   }
@@ -80,7 +81,7 @@
 
   #ExplorePantry-{{ section.id }} .explore-pantry__heading-eyebrow {
     color: #166534 !important;
-    font-size: 0.95rem !important;
+    font-size: {{ section.settings.subheading_font_size | default: 15 }}px !important;
     font-weight: 800 !important;
     margin-bottom: 0.25rem !important;
     font-family: 'Montserrat', sans-serif !important;
@@ -91,7 +92,8 @@
   @media screen and (max-width: 749px) {
     #ExplorePantry-{{ section.id }} .explore-pantry__header {
       max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
-      height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
+      min-height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
+      height: auto !important;
       padding: 0 1rem !important;
       justify-content: flex-start !important;
       align-items: center !important;
@@ -110,7 +112,7 @@
       width: 100% !important;
     }
     #ExplorePantry-{{ section.id }} .explore-pantry__heading-content {
-      max-width: 65% !important;
+      max-width: {{ section.settings.heading_content_width_mobile | default: 85 }}% !important;
       align-items: flex-start !important;
       text-align: left !important;
       padding: 0 !important;
@@ -123,7 +125,7 @@
       text-align: left !important;
     }
     #ExplorePantry-{{ section.id }} .explore-pantry__heading-eyebrow {
-      font-size: 0.78rem !important;
+      font-size: {{ section.settings.subheading_font_size_mobile | default: 12 }}px !important;
       font-weight: 800 !important;
       margin-bottom: 0.15rem !important;
       text-align: left !important;
@@ -287,8 +289,12 @@
       "default": "Explore Pantry Categories"
     },
     { "type": "color", "id": "heading_color", "label": "Heading Text Color", "default": "#1e3d20" },
-    { "type": "range", "id": "heading_font_size", "label": "Desktop Heading Font Size (px)", "min": 14, "max": 60, "step": 1, "default": 28, "unit": "px" },
-    { "type": "range", "id": "heading_font_size_mobile", "label": "Mobile Heading Font Size (px)", "min": 10, "max": 40, "step": 1, "default": 18, "unit": "px" },
+    { "type": "range", "id": "heading_font_size", "label": "Desktop Heading Font Size (px)", "min": 14, "max": 80, "step": 1, "default": 28, "unit": "px" },
+    { "type": "range", "id": "heading_font_size_mobile", "label": "Mobile Heading Font Size (px)", "min": 10, "max": 50, "step": 1, "default": 18, "unit": "px" },
+    { "type": "range", "id": "subheading_font_size", "label": "Desktop Subheading Font Size (px)", "min": 10, "max": 30, "step": 1, "default": 15, "unit": "px" },
+    { "type": "range", "id": "subheading_font_size_mobile", "label": "Mobile Subheading Font Size (px)", "min": 10, "max": 24, "step": 1, "default": 12, "unit": "px" },
+    { "type": "range", "id": "heading_content_width_desktop", "label": "Desktop Heading Content Width (%)", "min": 40, "max": 100, "step": 5, "default": 80, "unit": "%" },
+    { "type": "range", "id": "heading_content_width_mobile", "label": "Mobile Heading Content Width (%)", "min": 40, "max": 100, "step": 5, "default": 85, "unit": "%" },
     { "type": "image_picker", "id": "heading_image_desktop", "label": "Heading Box Background Image (Desktop)", "info": "Upload graphic image to use as background for the Heading Box on Desktop" },
     { "type": "image_picker", "id": "heading_image_mobile", "label": "Heading Box Background Image (Mobile)", "info": "Upload graphic image to use as background for the Heading Box on Mobile" },
     {

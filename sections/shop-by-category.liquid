@@ -17,6 +17,18 @@
     line-height: 1.25 !important;
     text-align: left !important;
   }
+  #ShopByCategory-{{ section.id }} .shop-by-category__heading-eyebrow {
+    font-size: {{ section.settings.subheading_font_size | default: 15 }}px !important;
+  }
+  #ShopByCategory-{{ section.id }} .shop-by-category__heading-content {
+    max-width: {{ section.settings.heading_content_width_desktop | default: 80 }}% !important;
+    width: 100% !important;
+  }
+  #ShopByCategory-{{ section.id }} .shop-by-category__heading-banner-wrap {
+    min-height: {{ section.settings.heading_box_height_desktop | default: 180 }}px !important;
+    height: auto !important;
+    max-width: {{ section.settings.heading_image_max_width | default: 1200 }}px !important;
+  }
   @media screen and (max-width: 749px) {
     #ShopByCategory-{{ section.id }} .shop-by-category__heading-title,
     #ShopByCategory-{{ section.id }} .shop-by-category__title-wrap h2 {
@@ -24,6 +36,18 @@
       font-weight: 900 !important;
       line-height: 1.2 !important;
       text-align: left !important;
+    }
+    #ShopByCategory-{{ section.id }} .shop-by-category__heading-eyebrow {
+      font-size: {{ section.settings.subheading_font_size_mobile | default: 12 }}px !important;
+    }
+    #ShopByCategory-{{ section.id }} .shop-by-category__heading-content {
+      max-width: {{ section.settings.heading_content_width_mobile | default: 85 }}% !important;
+      width: 100% !important;
+    }
+    #ShopByCategory-{{ section.id }} .shop-by-category__heading-banner-wrap {
+      min-height: {{ section.settings.heading_box_height_mobile | default: 110 }}px !important;
+      height: auto !important;
+      max-width: {{ section.settings.heading_image_mobile_max_width | default: 800 }}px !important;
     }
   }
 {% endstyle %}
@@ -284,8 +308,16 @@
       "default": "हर Category में Goodness"
     },
     { "type": "color", "id": "heading_color", "label": "Heading Text Color", "default": "#1e3d20" },
-    { "type": "range", "id": "heading_font_size", "label": "Desktop Heading Font Size (px)", "min": 14, "max": 60, "step": 1, "default": 28, "unit": "px" },
-    { "type": "range", "id": "heading_font_size_mobile", "label": "Mobile Heading Font Size (px)", "min": 10, "max": 40, "step": 1, "default": 18, "unit": "px" },
+    { "type": "range", "id": "heading_font_size", "label": "Desktop Heading Font Size (px)", "min": 14, "max": 80, "step": 1, "default": 28, "unit": "px" },
+    { "type": "range", "id": "heading_font_size_mobile", "label": "Mobile Heading Font Size (px)", "min": 10, "max": 50, "step": 1, "default": 18, "unit": "px" },
+    { "type": "range", "id": "subheading_font_size", "label": "Desktop Eyebrow Font Size (px)", "min": 10, "max": 30, "step": 1, "default": 15, "unit": "px" },
+    { "type": "range", "id": "subheading_font_size_mobile", "label": "Mobile Eyebrow Font Size (px)", "min": 10, "max": 24, "step": 1, "default": 12, "unit": "px" },
+    { "type": "range", "id": "heading_content_width_desktop", "label": "Desktop Heading Content Width (%)", "min": 40, "max": 100, "step": 5, "default": 80, "unit": "%" },
+    { "type": "range", "id": "heading_content_width_mobile", "label": "Mobile Heading Content Width (%)", "min": 40, "max": 100, "step": 5, "default": 85, "unit": "%" },
+    { "type": "range", "id": "heading_box_height_desktop", "label": "Desktop Heading Box Fixed Height (px)", "min": 60, "max": 400, "step": 10, "default": 180, "unit": "px" },
+    { "type": "range", "id": "heading_box_height_mobile", "label": "Mobile Heading Box Fixed Height (px)", "min": 40, "max": 250, "step": 10, "default": 110, "unit": "px" },
+    { "type": "range", "id": "heading_image_max_width", "label": "Desktop Heading Image Max Width (px)", "min": 200, "max": 1400, "step": 20, "default": 1200, "unit": "px" },
+    { "type": "range", "id": "heading_image_mobile_max_width", "label": "Mobile Heading Image Max Width (px)", "min": 150, "max": 800, "step": 10, "default": 800, "unit": "px" },
     {
       "type": "image_picker",
       "id": "heading_image_desktop",
