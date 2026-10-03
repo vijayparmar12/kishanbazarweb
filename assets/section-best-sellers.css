@@ -42,6 +42,8 @@
   width: 100% !important;
   box-sizing: border-box !important;
   padding: 0 !important;
+}
+
 .best-sellers__cta-container,
 .categories__cta-container,
 .best-sellers__shop-more-btn,
@@ -88,6 +90,8 @@
 .best-sellers__cta-container .best-sellers__shop-more-btn:hover .cta-arrow {
   transform: translateX(4px) !important;
 }
+
+.best-sellers__head--card-box {
   background: transparent;
   border: none !important;
   box-shadow: none !important;
@@ -546,8 +550,8 @@
 
 @media (max-width: 48rem) {
   .best-sellers {
-    padding-left: 0.5rem !important;
-    padding-right: 0.5rem !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     padding-block: 0.5rem 0.75rem;
     width: 100%;
     max-width: 100%;
@@ -555,24 +559,39 @@
     box-sizing: border-box !important;
   }
 
+  .best-sellers__head,
+  .best-sellers__heading-banner-wrap,
+  .best-sellers__tabs-wrapper,
+  .best-sellers__promo-banner,
+  .best-sellers__cta-container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
   .best-sellers__carousel-wrapper {
     width: 100% !important;
     max-width: 100% !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    overflow: hidden;
+    overflow: visible !important;
   }
 
   .best-sellers__track {
     width: 100% !important;
     max-width: 100% !important;
     gap: 0.75rem !important;
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
-    scroll-padding-left: 0.75rem !important;
-    scroll-padding-right: 0.75rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    scroll-padding-left: 1rem !important;
+    scroll-padding-right: 1rem !important;
     overscroll-behavior-x: contain;
     box-sizing: border-box !important;
+    display: flex !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
   }
 
   .best-sellers__arrow {
@@ -580,18 +599,12 @@
   }
 
   .best-sellers__slide {
-    flex: 0 0 75% !important;
-    width: 75% !important;
-    max-width: 75% !important;
-    min-width: 0 !important;
+    flex: 0 0 calc((100% - 0.75rem) / 1.48) !important;
+    width: calc((100% - 0.75rem) / 1.48) !important;
+    max-width: calc((100% - 0.75rem) / 1.48) !important;
+    min-width: calc((100% - 0.75rem) / 1.48) !important;
     scroll-snap-align: start !important;
-  }
-
-  .best-sellers__slide--more-card {
-    flex: 0 0 110px !important;
-    width: 110px !important;
-    min-width: 110px !important;
-    max-width: 110px !important;
+    box-sizing: border-box !important;
   }
 
   .best-sellers__head {
