@@ -55,7 +55,22 @@
             "price_font_size_desktop": 32,
             "show_savings_banner": true,
             "savings_text_template": "Save ₹{savings} on this order",
-            "banner_bg": "#1b4317"
+            "banner_bg": "#1b4317",
+            "price_banner_link": "",
+            "price_banner_max_width": 100,
+            "price_banner_margin_top": 10,
+            "price_banner_border_radius": 8
+          }
+        },
+        "custom_image_RLABFc": {
+          "type": "custom_image",
+          "settings": {
+            "image": "shopify://shop_images/13403.webp",
+            "link": "",
+            "max_width": 100,
+            "margin_top": 10,
+            "margin_bottom": 10,
+            "border_radius": 8
           }
         },
         "buy_buttons_jrQJdY": {
@@ -153,6 +168,7 @@
         "description_WMpDyn",
         "benefit_icons_TeMKQk",
         "price_cXRV6V",
+        "custom_image_RLABFc",
         "buy_buttons_jrQJdY",
         "variant_picker_fTExdk",
         "trust_badges_WhXaki",
