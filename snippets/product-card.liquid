@@ -1,4 +1,23 @@
 {% liquid
+  if show_wishlist == nil
+    assign show_wishlist = true
+  endif
+  if show_rating == nil
+    assign show_rating = true
+  endif
+  if show_subtitle == nil
+    assign show_subtitle = true
+  endif
+  if show_benefit_icons == nil
+    assign show_benefit_icons = true
+  endif
+  if show_variant_selector == nil
+    assign show_variant_selector = true
+  endif
+  if show_add_to_cart == nil
+    assign show_add_to_cart = true
+  endif
+
   assign variant = product.selected_or_first_available_variant
   assign compare_price = variant.compare_at_price
   if compare_price != blank and compare_price > variant.price
@@ -59,7 +78,7 @@
         </span>
       {% endif %}
 
-      {% if show_wishlist %}
+      {% if show_wishlist != false %}
         <button
           class="product-card__action"
           type="button"
