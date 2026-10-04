@@ -1,0 +1,638 @@
+<link rel="stylesheet" href="{{ 'section-experience-grid.css' | asset_url }}">
+
+{% style %}
+  #ExperienceGrid-{{ section.id }} {
+    --eg-bg-color: {{ section.settings.bg_color | default: '#ffffff' }};
+    --eg-pt: {{ section.settings.padding_top | default: 40 }}px;
+    --eg-pb: {{ section.settings.padding_bottom | default: 40 }}px;
+    --eg-pt-mobile: {{ section.settings.padding_top_mobile | default: 24 }}px;
+    --eg-pb-mobile: {{ section.settings.padding_bottom_mobile | default: 24 }}px;
+
+    --eg-heading-color: {{ section.settings.heading_color | default: '#1e3d20' }};
+    --eg-subheading-color: {{ section.settings.subheading_color | default: '#166534' }};
+    --eg-heading-size: {{ section.settings.heading_font_size | default: 28 }}px;
+    --eg-heading-size-mob: {{ section.settings.heading_font_size_mobile | default: 20 }}px;
+    --eg-subheading-size: {{ section.settings.subheading_font_size | default: 16 }}px;
+    --eg-subheading-size-mob: {{ section.settings.subheading_font_size_mobile | default: 13 }}px;
+    --eg-heading-max-w: {{ section.settings.heading_image_max_width | default: 1200 }}px;
+    --eg-heading-max-w-mob: {{ section.settings.heading_image_mobile_max_width | default: 500 }}px;
+    --eg-heading-h-desk: {{ section.settings.heading_box_height_desktop | default: 90 }}px;
+    --eg-heading-h-mob: {{ section.settings.heading_box_height_mobile | default: 60 }}px;
+
+    --eg-main-img-h-desk: {{ section.settings.main_image_height_desktop | default: 450 }}px;
+    --eg-main-img-h-mob: {{ section.settings.main_image_height_mobile | default: 240 }}px;
+    --eg-main-img-radius: {{ section.settings.main_image_border_radius | default: 16 }}px;
+    --eg-main-img-fit: {{ section.settings.main_image_fit | default: 'cover' }};
+
+    --eg-badge-icon-size: {{ section.settings.badge_icon_size | default: 70 }}px;
+    --eg-badge-icon-size-mob: {{ section.settings.badge_icon_size_mobile | default: 55 }}px;
+    --eg-badge-title-size: {{ section.settings.badge_title_size | default: 15 }}px;
+    --eg-badge-title-size-mob: {{ section.settings.badge_title_size_mobile | default: 13 }}px;
+    --eg-badge-title-color: {{ section.settings.badge_title_color | default: '#1b4317' }};
+    --eg-badge-cols-mob: {{ section.settings.badge_grid_columns_mobile | default: 4 }};
+
+    --eg-btn-bg: {{ section.settings.button_bg_color | default: '#9a5616' }};
+    --eg-btn-hover-bg: {{ section.settings.button_hover_bg_color | default: '#7c400b' }};
+    --eg-btn-text: {{ section.settings.button_text_color | default: '#ffffff' }};
+    --eg-btn-font-size: {{ section.settings.button_font_size | default: 15 }}px;
+    --eg-btn-radius: {{ section.settings.button_border_radius | default: 12 }}px;
+  }
+{% endstyle %}
+
+<section id="ExperienceGrid-{{ section.id }}" class="experience-grid">
+  <div class="experience-grid__container">
+
+    {% comment %} 1. Section Header (Matches site heading style) {% endcomment %}
+    {% if section.settings.heading != blank or section.settings.subheading != blank %}
+      <div class="experience-grid__header">
+        {% if section.settings.heading_image_desktop != blank %}
+          <div class="experience-grid__heading-banner-wrap">
+            <picture class="home-section__heading-picture">
+              {% if section.settings.heading_image_mobile != blank %}
+                <source media="(max-width: 749px)" srcset="{{ section.settings.heading_image_mobile | image_url: width: 800 }}">
+              {% endif %}
+              <img
+                src="{{ section.settings.heading_image_desktop | image_url: width: 1400 }}"
+                alt="{{ section.settings.heading | escape }}"
+                class="home-section__heading-image"
+                loading="lazy"
+              >
+            </picture>
+            <div class="experience-grid__heading-content">
+              {% if section.settings.heading != blank %}
+                <h2 class="experience-grid__heading-title">{{ section.settings.heading }}</h2>
+              {% endif %}
+              {% if section.settings.subheading != blank %}
+                <div class="experience-grid__heading-subheading">{{ section.settings.subheading }}</div>
+              {% endif %}
+            </div>
+          </div>
+        {% else %}
+          <div class="experience-grid__simple-header">
+            {% if section.settings.heading != blank %}
+              <h2 class="experience-grid__title">{{ section.settings.heading }}</h2>
+            {% endif %}
+            {% if section.settings.subheading != blank %}
+              <div class="experience-grid__subheading">{{ section.settings.subheading }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} 2. Main Feature Banner Image {% endcomment %}
+    {% if section.settings.main_image != blank or section.settings.show_default_main_image %}
+      <div class="experience-grid__main-image-wrap">
+        {% if section.settings.main_image_link != blank %}
+          <a href="{{ section.settings.main_image_link }}" class="experience-grid__main-image-link" aria-label="{{ section.settings.heading | escape }}">
+        {% endif %}
+
+        {% if section.settings.main_image != blank %}
+          <picture>
+            {% if section.settings.main_image_mobile != blank %}
+              <source media="(max-width: 749px)" srcset="{{ section.settings.main_image_mobile | image_url: width: 800 }}">
+            {% endif %}
+            <img
+              src="{{ section.settings.main_image | image_url: width: 1400 }}"
+              alt="{{ section.settings.main_image_alt | default: section.settings.heading | escape }}"
+              class="experience-grid__main-image"
+              loading="lazy"
+            >
+          </picture>
+        {% else %}
+          <!-- High-res farm banner default image -->
+          <img
+            src="shopify://shop_images/farm-life-mega.jpg"
+            alt="{{ section.settings.heading | default: 'The KisanVeda Experience' | escape }}"
+            class="experience-grid__main-image"
+            loading="lazy"
+          >
+        {% endif %}
+
+        {% if section.settings.main_image_link != blank %}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} 3. 4 Feature Badges / Icons Grid {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="experience-grid__badges-grid{% if section.settings.badge_grid_columns_mobile == '2' %} experience-grid__badges-grid--2col{% endif %}">
+        {% for block in section.blocks %}
+          {% assign badge_title = block.settings.title %}
+          {% assign badge_subtext = block.settings.subtext %}
+
+          <div class="experience-grid__badge-item" {{ block.shopify_attributes }}>
+            {% if block.settings.link != blank %}
+              <a href="{{ block.settings.link }}" class="experience-grid__badge-link" aria-label="{{ badge_title | escape }}">
+            {% else %}
+              <div class="experience-grid__badge-link">
+            {% endif %}
+
+              <div class="experience-grid__badge-icon-wrap">
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 300 | image_tag: class: 'experience-grid__badge-icon', alt: badge_title, loading: 'lazy' }}
+                {% else %}
+                  {%- comment -%} Crisp Vector SVG Placeholders matching Rosier Foods style {%- endcomment -%}
+                  {% case forloop.index %}
+                    {% when 1 %}
+                      <!-- Source To Table Icon (Wheat & Field) -->
+                      <svg class="experience-grid__badge-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M32 58V18M32 18L24 28M32 18L40 28M32 27L20 37M32 27L44 37M32 36L22 46M32 36L42 46" stroke="#8b4513" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="32" cy="12" r="3" fill="#8b4513"/>
+                        <path d="M12 58C20 52 44 52 52 58" stroke="#8b4513" stroke-width="2.5" stroke-linecap="round"/>
+                      </svg>
+
+                    {% when 2 %}
+                      <!-- Time-Honored Techniques Icon (Mortar & Pestle) -->
+                      <svg class="experience-grid__badge-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 36C14 48 22 56 32 56C42 56 50 48 50 36H14Z" fill="#FAF4EB" stroke="#8b4513" stroke-width="3" stroke-linejoin="round"/>
+                        <path d="M20 56H44" stroke="#8b4513" stroke-width="3.5" stroke-linecap="round"/>
+                        <path d="M44 14L28 38" stroke="#8b4513" stroke-width="4.5" stroke-linecap="round"/>
+                      </svg>
+
+                    {% when 3 %}
+                      <!-- Unwavering Purity Icon (Honey Bee & Flower) -->
+                      <svg class="experience-grid__badge-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="32" cy="36" rx="11" ry="14" fill="#FAF4EB" stroke="#8b4513" stroke-width="3"/>
+                        <path d="M22 33H42M23 40H41" stroke="#8b4513" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M21 28C14 21 18 13 26 18M43 28C50 21 46 13 38 18" stroke="#8b4513" stroke-width="2.5" stroke-linecap="round"/>
+                      </svg>
+
+                    {% else %}
+                      <!-- Commitment to Community Icon (Family & Handshake) -->
+                      <svg class="experience-grid__badge-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="24" cy="22" r="5" stroke="#8b4513" stroke-width="2.5"/>
+                        <circle cx="40" cy="22" r="5" stroke="#8b4513" stroke-width="2.5"/>
+                        <path d="M14 48C14 40 20 36 24 36H40C44 36 50 40 50 48" stroke="#8b4513" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M24 54L32 46L40 54" stroke="#8b4513" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                  {% endcase %}
+                {% endif %}
+              </div>
+
+              {% if badge_title != blank %}
+                <h3 class="experience-grid__badge-title">{{ badge_title }}</h3>
+              {% endif %}
+              {% if badge_subtext != blank %}
+                <p class="experience-grid__badge-subtext">{{ badge_subtext }}</p>
+              {% endif %}
+
+            {% if block.settings.link != blank %}
+              </a>
+            {% else %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% comment %} 4. CTA Button {% endcomment %}
+    {% if section.settings.button_label != blank %}
+      <div class="experience-grid__cta-wrap">
+        <a href="{{ section.settings.button_link | default: '/collections/all' }}" class="experience-grid__btn">
+          {{ section.settings.button_label }}
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand Experience / Badges",
+  "tag": "section",
+  "class": "section-experience-grid",
+  "enabled_on": {
+    "templates": ["*"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header Settings"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading text",
+      "default": "The KisanVeda Experience"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading text",
+      "default": "असली स्वाद की एक सच्ची यात्रा"
+    },
+    {
+      "type": "image_picker",
+      "id": "heading_image_desktop",
+      "label": "Header background banner image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "heading_image_mobile",
+      "label": "Header background banner image (Mobile)"
+    },
+    {
+      "type": "select",
+      "id": "heading_box_bg_size",
+      "label": "Header image fit (Desktop)",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "heading_box_height_desktop",
+      "label": "Header height (Desktop)",
+      "min": 50,
+      "max": 250,
+      "step": 5,
+      "unit": "px",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "heading_box_height_mobile",
+      "label": "Header height (Mobile)",
+      "min": 40,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "heading_image_max_width",
+      "label": "Header max width (Desktop)",
+      "min": 600,
+      "max": 1400,
+      "step": 50,
+      "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "heading_image_mobile_max_width",
+      "label": "Header max width (Mobile)",
+      "min": 250,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "default": 500
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#1e3d20"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#166534"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Heading font size (Desktop)",
+      "min": 18,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_mobile",
+      "label": "Heading font size (Mobile)",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "Subheading font size (Desktop)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size_mobile",
+      "label": "Subheading font size (Mobile)",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Main Feature Banner Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main feature image (Desktop)",
+      "info": "Upload main brand story banner image"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image_mobile",
+      "label": "Main feature image (Mobile)"
+    },
+    {
+      "type": "url",
+      "id": "main_image_link",
+      "label": "Main feature image link URL (optional)"
+    },
+    {
+      "type": "text",
+      "id": "main_image_alt",
+      "label": "Main image Alt text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_default_main_image",
+      "label": "Show default high-res farm banner if no image uploaded",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "main_image_height_desktop",
+      "label": "Main image height (Desktop)",
+      "min": 200,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "default": 450
+    },
+    {
+      "type": "range",
+      "id": "main_image_height_mobile",
+      "label": "Main image height (Mobile)",
+      "min": 150,
+      "max": 450,
+      "step": 10,
+      "unit": "px",
+      "default": 240
+    },
+    {
+      "type": "range",
+      "id": "main_image_border_radius",
+      "label": "Main image border radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "main_image_fit",
+      "label": "Main image fit",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "header",
+      "content": "Feature Badges Grid Settings"
+    },
+    {
+      "type": "range",
+      "id": "badge_icon_size",
+      "label": "Badge icon size (Desktop)",
+      "min": 40,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "badge_icon_size_mobile",
+      "label": "Badge icon size (Mobile)",
+      "min": 30,
+      "max": 90,
+      "step": 5,
+      "unit": "px",
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "badge_title_size",
+      "label": "Badge title font size (Desktop)",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "badge_title_size_mobile",
+      "label": "Badge title font size (Mobile)",
+      "min": 11,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "badge_title_color",
+      "label": "Badge title color",
+      "default": "#1b4317"
+    },
+    {
+      "type": "select",
+      "id": "badge_grid_columns_mobile",
+      "label": "Mobile badge layout",
+      "options": [
+        { "value": "4", "label": "4 in a row" },
+        { "value": "2", "label": "2x2 grid (2 columns)" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "header",
+      "content": "CTA Button Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "EXPLORE OUR HERITAGE"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background color",
+      "default": "#9a5616"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Button hover background color",
+      "default": "#7c400b"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Section Background & Padding"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom (Desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top (Mobile)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom (Mobile)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Feature Badge",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Badge Icon / Image",
+          "info": "Upload PNG, SVG, or WebP icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Badge Title",
+          "default": "Source To Table"
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Subtext (optional)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link URL (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Experience / Badges",
+      "blocks": [
+        {
+          "type": "badge",
+          "settings": {
+            "title": "Source To Table"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "title": "Time-Honored Techniques"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "title": "Unwavering Purity"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "title": "Commitment to Community"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

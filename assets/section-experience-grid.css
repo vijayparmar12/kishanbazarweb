@@ -1,0 +1,298 @@
+/* ==========================================================================
+   EXPERIENCE GRID SECTION (ROSİER FOODS STYLE FEATURE SECTION)
+   Header + Main Banner Image + 4 Feature Badges Grid + CTA Button
+   ========================================================================== */
+
+.experience-grid {
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--eg-bg-color, #ffffff);
+  padding-top: var(--eg-pt, 40px);
+  padding-bottom: var(--eg-pb, 40px);
+}
+
+@media screen and (max-width: 749px) {
+  .experience-grid {
+    padding-top: var(--eg-pt-mobile, 24px);
+    padding-bottom: var(--eg-pb-mobile, 24px);
+  }
+}
+
+.experience-grid__container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   1. Section Header & Heading Banner
+   -------------------------------------------------------------------------- */
+.experience-grid__header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.experience-grid__heading-banner-wrap {
+  position: relative;
+  width: 100%;
+  max-width: var(--eg-heading-max-w, 1200px);
+  min-height: var(--eg-heading-h-desk, 90px);
+  height: auto;
+  margin: 0 auto 0.35rem auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+@media screen and (max-width: 749px) {
+  .experience-grid__heading-banner-wrap {
+    max-width: var(--eg-heading-max-w-mob, 500px);
+    min-height: var(--eg-heading-h-mob, 60px);
+  }
+}
+
+.experience-grid__heading-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.experience-grid__heading-title,
+.experience-grid__title {
+  color: var(--eg-heading-color, #1e3d20);
+  font-size: var(--eg-heading-size, 28px);
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.25;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+}
+
+.experience-grid__heading-subheading,
+.experience-grid__subheading {
+  color: var(--eg-subheading-color, #166534);
+  font-size: var(--eg-subheading-size, 16px);
+  font-weight: 600;
+  margin-top: 0.35rem;
+  line-height: 1.3;
+  font-family: inherit;
+}
+
+@media screen and (max-width: 749px) {
+  .experience-grid__heading-title,
+  .experience-grid__title {
+    font-size: var(--eg-heading-size-mob, 20px);
+  }
+  .experience-grid__heading-subheading,
+  .experience-grid__subheading {
+    font-size: var(--eg-subheading-size-mob, 13px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Main Feature Banner Image
+   -------------------------------------------------------------------------- */
+.experience-grid__main-image-wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+  border-radius: var(--eg-main-img-radius, 16px);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  background-color: #f1f5f9;
+  line-height: 0;
+}
+
+.experience-grid__main-image-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+}
+
+.experience-grid__main-image {
+  width: 100%;
+  height: var(--eg-main-img-h-desk, 450px);
+  object-fit: var(--eg-main-img-fit, cover);
+  object-position: center;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.experience-grid__main-image-wrap:hover .experience-grid__main-image {
+  transform: scale(1.015);
+}
+
+@media screen and (max-width: 749px) {
+  .experience-grid__main-image-wrap {
+    margin-bottom: 1.5rem;
+    border-radius: min(var(--eg-main-img-radius, 16px), 12px);
+  }
+  .experience-grid__main-image {
+    height: var(--eg-main-img-h-mob, 240px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. 4 Feature Badges / Icons Grid
+   -------------------------------------------------------------------------- */
+.experience-grid__badges-grid {
+  width: 100%;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem 1.5rem;
+  margin: 0.5rem auto 2.5rem auto;
+  align-items: start;
+  justify-items: center;
+}
+
+.experience-grid__badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 220px;
+  transition: transform 0.25s ease;
+}
+
+.experience-grid__badge-item:hover {
+  transform: translateY(-3px);
+}
+
+.experience-grid__badge-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+.experience-grid__badge-icon-wrap {
+  width: var(--eg-badge-icon-size, 70px);
+  height: var(--eg-badge-icon-size, 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.85rem;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.experience-grid__badge-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+.experience-grid__badge-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.experience-grid__badge-title {
+  margin: 0;
+  font-size: var(--eg-badge-title-size, 15px);
+  font-weight: 700;
+  color: var(--eg-badge-title-color, #1b4317);
+  line-height: 1.3;
+  font-family: inherit;
+  text-align: center;
+}
+
+.experience-grid__badge-subtext {
+  margin: 0.35rem 0 0 0;
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.35;
+}
+
+@media screen and (max-width: 749px) {
+  .experience-grid__badges-grid {
+    grid-template-columns: repeat(var(--eg-badge-cols-mob, 4), 1fr);
+    gap: 1.25rem 0.75rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .experience-grid__badges-grid--2col {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem 1rem !important;
+  }
+
+  .experience-grid__badge-icon-wrap {
+    width: var(--eg-badge-icon-size-mob, 55px);
+    height: var(--eg-badge-icon-size-mob, 55px);
+    margin-bottom: 0.5rem;
+  }
+
+  .experience-grid__badge-title {
+    font-size: var(--eg-badge-title-size-mob, 13px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. CTA Button
+   -------------------------------------------------------------------------- */
+.experience-grid__cta-wrap {
+  margin-top: 0.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+.experience-grid__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 2.25rem;
+  background-color: var(--eg-btn-bg, #9a5616);
+  color: var(--eg-btn-text, #ffffff);
+  font-size: var(--eg-btn-font-size, 15px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  border-radius: var(--eg-btn-radius, 12px);
+  box-shadow: 0 4px 14px rgba(154, 86, 22, 0.25);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.experience-grid__btn:hover {
+  background-color: var(--eg-btn-hover-bg, #7c400b);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(154, 86, 22, 0.35);
+  color: var(--eg-btn-text, #ffffff);
+}
+
+@media screen and (max-width: 749px) {
+  .experience-grid__btn {
+    width: 90%;
+    max-width: 340px;
+    padding: 0.8rem 1.5rem;
+    font-size: 13px;
+  }
+}
