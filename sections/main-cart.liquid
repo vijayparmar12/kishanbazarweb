@@ -10,6 +10,52 @@
   assign shipping_fee_num = section.settings.cart_shipping_fee | default: settings.cart_shipping_fee | default: 99
   assign free_ship_val = free_shipping_threshold_num | times: 100
   assign checkout_label = section.settings.cart_checkout_btn_text | default: settings.cart_checkout_btn_text | default: 'Checkout'
+  assign reward_1_threshold_num = section.settings.cart_reward_1_threshold | default: 699
+  assign reward_2_threshold_num = section.settings.cart_reward_2_threshold | default: 999
+  assign reward_3_threshold_num = section.settings.cart_reward_3_threshold | default: free_shipping_threshold_num
+  assign reward_1_threshold = reward_1_threshold_num | times: 100
+  assign reward_2_threshold = reward_2_threshold_num | times: 100
+  assign reward_3_threshold = reward_3_threshold_num | times: 100
+  assign cart_rewards_goal = reward_3_threshold
+  if reward_2_threshold > cart_rewards_goal
+    assign cart_rewards_goal = reward_2_threshold
+  endif
+  if reward_1_threshold > cart_rewards_goal
+    assign cart_rewards_goal = reward_1_threshold
+  endif
+  assign cart_rewards_fill_pct = 100
+  if cart_rewards_goal > 0
+    assign cart_rewards_fill_pct = cart.total_price | times: 100 | divided_by: cart_rewards_goal
+    if cart_rewards_fill_pct > 100
+      assign cart_rewards_fill_pct = 100
+    endif
+  endif
+  assign cart_rewards_status = section.settings.cart_rewards_complete_text | default: "Hurray! You've unlocked all cart rewards"
+  if cart.total_price < reward_1_threshold
+    assign cart_rewards_remaining = reward_1_threshold | minus: cart.total_price
+    capture cart_rewards_status
+      echo 'Add '
+      echo cart_rewards_remaining | money
+      echo ' more to unlock '
+      echo section.settings.cart_reward_1_title | default: 'Free Gift'
+    endcapture
+  elsif cart.total_price < reward_2_threshold
+    assign cart_rewards_remaining = reward_2_threshold | minus: cart.total_price
+    capture cart_rewards_status
+      echo 'Add '
+      echo cart_rewards_remaining | money
+      echo ' more to unlock '
+      echo section.settings.cart_reward_2_title | default: 'Free Delivery'
+    endcapture
+  elsif cart.total_price < reward_3_threshold
+    assign cart_rewards_remaining = reward_3_threshold | minus: cart.total_price
+    capture cart_rewards_status
+      echo 'Add '
+      echo cart_rewards_remaining | money
+      echo ' more to unlock '
+      echo section.settings.cart_reward_3_title | default: '10% OFF'
+    endcapture
+  endif
 
   assign cart_original_price = 0
   for item in cart.items
@@ -59,6 +105,95 @@
     {% if cart.item_count > 0 or is_design_mode %}
       <div class="kb-cart-page-card" style="background: #ffffff; border-radius: 20px; padding: 1.25rem; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06); border: 1px solid rgba(35, 66, 31, 0.1); display: flex; flex-direction: column; gap: 1.25rem; position: relative;">
         
+        <!-- CART REWARDS LADDER -->
+        <div
+          class="kb-cart-drawer__progress kb-cart-rewards"
+          data-cart-drawer-progress
+          data-cart-rewards
+          data-complete-message="{{ section.settings.cart_rewards_complete_text | default: "Hurray! You've unlocked all cart rewards" | escape }}"
+          style="--cart-rewards-progress: {{ cart_rewards_fill_pct }}%; --cart-rewards-accent: {{ section.settings.cart_rewards_accent | default: '#166534' }}; --cart-rewards-bg: {{ section.settings.cart_rewards_bg | default: '#f0fdf4' }}; --cart-rewards-border: {{ section.settings.cart_rewards_border | default: '#bbf7d0' }};"
+        >
+          <p class="kb-cart-drawer__promo-copy kb-cart-rewards__status" data-cart-drawer-status>
+            {{ cart_rewards_status | strip }}
+          </p>
+
+          <div class="kb-cart-rewards__rail" aria-hidden="true">
+            <span class="kb-cart-drawer__progress-fill kb-cart-rewards__fill"></span>
+          </div>
+
+          <div class="kb-cart-rewards__steps">
+            {% liquid
+              assign reward_1_title = section.settings.cart_reward_1_title | default: 'Get Free Gift'
+              assign reward_1_subtitle = section.settings.cart_reward_1_subtitle | default: 'worth Rs.149'
+              assign reward_1_icon = section.settings.cart_reward_1_icon | default: 'gift'
+            %}
+            <div class="kb-cart-rewards__step{% if cart.total_price >= reward_1_threshold %} is-active{% endif %}" data-cart-reward-step data-threshold="{{ reward_1_threshold }}" data-title="{{ reward_1_title | escape }}">
+              <div class="kb-cart-rewards__icon">
+                {% case reward_1_icon %}
+                  {% when 'truck' %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v9H3z"></path><path d="M14 9h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle></svg>
+                  {% when 'percent' %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5 5 19"></path><circle cx="7" cy="7" r="2.5"></circle><circle cx="17" cy="17" r="2.5"></circle></svg>
+                  {% when 'combo' %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h8v10H4z"></path><path d="M3 10h10"></path><path d="M8 20V7"></path><path d="M5.5 7C4 5 6.5 4 8 7"></path><path d="M10.5 7C12 5 9.5 4 8 7"></path><path d="M15 9h3l3 3v5h-6z"></path><circle cx="17" cy="19" r="1.8"></circle></svg>
+                  {% else %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h16v10H4z"></path><path d="M3 10h18"></path><path d="M12 20V7"></path><path d="M7 7c-2.5-3 3-4 5 0"></path><path d="M17 7c2.5-3-3-4-5 0"></path></svg>
+                {% endcase %}
+              </div>
+              <span class="kb-cart-rewards__amount" data-cart-reward-amount>{{ reward_1_threshold | money_without_trailing_zeros }}</span>
+              <span class="kb-cart-rewards__title">{{ reward_1_title }}</span>
+              <span class="kb-cart-rewards__subtitle">{{ reward_1_subtitle }}</span>
+            </div>
+
+            {% liquid
+              assign reward_2_title = section.settings.cart_reward_2_title | default: 'Free Delivery'
+              assign reward_2_subtitle = section.settings.cart_reward_2_subtitle | default: '+ Free Gift'
+              assign reward_2_icon = section.settings.cart_reward_2_icon | default: 'truck'
+            %}
+            <div class="kb-cart-rewards__step{% if cart.total_price >= reward_2_threshold %} is-active{% endif %}" data-cart-reward-step data-threshold="{{ reward_2_threshold }}" data-title="{{ reward_2_title | escape }}">
+              <div class="kb-cart-rewards__icon">
+                {% case reward_2_icon %}
+                  {% when 'gift' %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h16v10H4z"></path><path d="M3 10h18"></path><path d="M12 20V7"></path><path d="M7 7c-2.5-3 3-4 5 0"></path><path d="M17 7c2.5-3-3-4-5 0"></path></svg>
+                  {% when 'percent' %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5 5 19"></path><circle cx="7" cy="7" r="2.5"></circle><circle cx="17" cy="17" r="2.5"></circle></svg>
+                  {% when 'combo' %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h8v10H4z"></path><path d="M3 10h10"></path><path d="M8 20V7"></path><path d="M5.5 7C4 5 6.5 4 8 7"></path><path d="M10.5 7C12 5 9.5 4 8 7"></path><path d="M15 9h3l3 3v5h-6z"></path><circle cx="17" cy="19" r="1.8"></circle></svg>
+                  {% else %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v9H3z"></path><path d="M14 9h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle></svg>
+                {% endcase %}
+              </div>
+              <span class="kb-cart-rewards__amount" data-cart-reward-amount>{{ reward_2_threshold | money_without_trailing_zeros }}</span>
+              <span class="kb-cart-rewards__title">{{ reward_2_title }}</span>
+              <span class="kb-cart-rewards__subtitle">{{ reward_2_subtitle }}</span>
+            </div>
+
+            {% liquid
+              assign reward_3_title = section.settings.cart_reward_3_title | default: 'Free Gift + Free Delivery'
+              assign reward_3_subtitle = section.settings.cart_reward_3_subtitle | default: '+ 10% OFF'
+              assign reward_3_icon = section.settings.cart_reward_3_icon | default: 'combo'
+            %}
+            <div class="kb-cart-rewards__step{% if cart.total_price >= reward_3_threshold %} is-active{% endif %}" data-cart-reward-step data-threshold="{{ reward_3_threshold }}" data-title="{{ reward_3_title | escape }}">
+              <div class="kb-cart-rewards__icon">
+                {% case reward_3_icon %}
+                  {% when 'gift' %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h16v10H4z"></path><path d="M3 10h18"></path><path d="M12 20V7"></path><path d="M7 7c-2.5-3 3-4 5 0"></path><path d="M17 7c2.5-3-3-4-5 0"></path></svg>
+                  {% when 'truck' %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v9H3z"></path><path d="M14 9h4l3 3v3h-7z"></path><circle cx="7" cy="18" r="2"></circle><circle cx="18" cy="18" r="2"></circle></svg>
+                  {% when 'percent' %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5 5 19"></path><circle cx="7" cy="7" r="2.5"></circle><circle cx="17" cy="17" r="2.5"></circle></svg>
+                  {% else %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h8v10H4z"></path><path d="M3 10h10"></path><path d="M8 20V7"></path><path d="M5.5 7C4 5 6.5 4 8 7"></path><path d="M10.5 7C12 5 9.5 4 8 7"></path><path d="M15 9h3l3 3v5h-6z"></path><circle cx="17" cy="19" r="1.8"></circle><path d="M19 5l-4 4"></path><circle cx="20" cy="4" r="1.5"></circle></svg>
+                {% endcase %}
+              </div>
+              <span class="kb-cart-rewards__amount" data-cart-reward-amount>{{ reward_3_threshold | money_without_trailing_zeros }}</span>
+              <span class="kb-cart-rewards__title">{{ reward_3_title }}</span>
+              <span class="kb-cart-rewards__subtitle">{{ reward_3_subtitle }}</span>
+            </div>
+          </div>
+        </div>
+
+        {% comment %} Legacy free shipping progress kept only for reference.
         <!-- FREE SHIPPING PROGRESS BANNER (Mobile Reduced Size, Fully Displayed) -->
         <div class="kb-cart-drawer__progress" data-cart-drawer-progress style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 14px; padding: 0.85rem 1rem; margin: 0;">
           <p class="kb-cart-drawer__promo-copy" data-cart-drawer-status style="font-weight: 800; color: #166534; margin: 0 0 0.5rem 0; font-size: 0.78rem; text-align: center; line-height: 1.3;">
@@ -98,6 +233,8 @@
             </div>
           </div>
         </div>
+
+        {% endcomment %}
 
         <!-- CART ITEMS LIST -->
         <div class="kb-cart-page-items-list" data-cart-drawer-items style="display: flex; flex-direction: column; gap: 1rem;">
