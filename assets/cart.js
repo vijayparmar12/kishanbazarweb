@@ -15,6 +15,45 @@
     });
   };
 
+  const updateCartRewards = (cart) => {
+    if (!cart || !Array.isArray(cart.items)) return;
+
+    document.querySelectorAll('[data-cart-rewards]').forEach((rewards) => {
+      const total = Number(cart.total_price || 0);
+      const steps = [...rewards.querySelectorAll('[data-cart-reward-step]')]
+        .map((step) => ({
+          element: step,
+          threshold: Number(step.dataset.threshold || 0),
+          title: step.dataset.title || ''
+        }))
+        .filter((step) => step.threshold > 0)
+        .sort((a, b) => a.threshold - b.threshold);
+
+      if (!steps.length) return;
+
+      const goal = Math.max(...steps.map((step) => step.threshold));
+      const progress = goal > 0 ? Math.min(100, Math.max(0, (total / goal) * 100)) : 100;
+      rewards.style.setProperty('--cart-rewards-progress', `${progress}%`);
+
+      let nextStep = null;
+      steps.forEach((step) => {
+        const isActive = total >= step.threshold;
+        step.element.classList.toggle('is-active', isActive);
+        if (!isActive && !nextStep) nextStep = step;
+      });
+
+      const status = rewards.querySelector('[data-cart-drawer-status]');
+      if (!status) return;
+
+      if (nextStep) {
+        const remaining = Math.max(0, nextStep.threshold - total);
+        status.textContent = `Add ${formatMoney(remaining)} more to unlock ${nextStep.title}`;
+      } else {
+        status.textContent = rewards.dataset.completeMessage || 'Hurray! You have unlocked all cart rewards';
+      }
+    });
+  };
+
   const checkIsVariantSoldOut = (variant, optionEl = null) => {
     if (optionEl && (optionEl.disabled || optionEl.dataset.available === 'false')) {
       return true;
@@ -124,6 +163,8 @@
   };
 
   const updateDrawer = (cart) => {
+    updateCartRewards(cart);
+
     const drawer = document.querySelector('[data-cart-drawer]');
     if (!drawer) return;
 
@@ -687,7 +728,7 @@
 
     const mainCartEl = document.querySelector('[data-main-cart], [data-cart-drawer]');
     const thresholdCents = parseInt(mainCartEl?.dataset.freeShippingThreshold, 10) || 149900;
-    
+
     let productSubtotal = 0;
     let shippingItemKey = null;
 
@@ -880,7 +921,7 @@
       const code = applyCouponBtn.dataset.couponCode || document.querySelector('[data-applied-coupon]')?.textContent?.trim() || 'TBOF10';
       sessionStorage.setItem('kb_active_coupon', code);
       fetch(`${rootUrl}discount/${encodeURIComponent(code)}`).catch(() => {});
-      
+
       applyCouponBtn.textContent = 'Applied ✓';
       applyCouponBtn.style.backgroundColor = '#166534';
       applyCouponBtn.style.color = '#ffffff';
