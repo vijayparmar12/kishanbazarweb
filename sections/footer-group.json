@@ -45,6 +45,7 @@
         "logo_iyPMAU"
       ],
       "settings": {
+        "show_only_on_home": true,
         "heading": "Certification",
         "heading_text_align": "center",
         "heading_font_size": 28,

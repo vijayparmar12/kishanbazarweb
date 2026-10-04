@@ -1,3 +1,23 @@
+{% liquid
+  assign is_home_page = false
+  if request.page_type == 'index' or template.name == 'index' or template == 'index'
+    assign is_home_page = true
+  endif
+
+  assign show_only_on_home = section.settings.show_only_on_home
+  if show_only_on_home == nil
+    assign show_only_on_home = true
+  endif
+%}
+
+{% if show_only_on_home and is_home_page == false %}
+  {% style %}
+    #shopify-section-{{ section.id }} {
+      display: none !important;
+    }
+  {% endstyle %}
+{% else %}
+
 <link rel="stylesheet" href="{{ 'section-scrolling-logos.css' | asset_url }}">
 <script src="{{ 'section-scrolling-logos.js' | asset_url }}" defer="defer"></script>
 
@@ -193,6 +213,7 @@
     {% endif %}
   </div>
 </section>
+{% endif %}
 
 {% schema %}
 {
@@ -204,6 +225,12 @@
     "groups": ["footer"]
   },
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_only_on_home",
+      "label": "Show section ONLY on Home Page",
+      "default": true
+    },
     {
       "type": "header",
       "content": "Heading settings"
