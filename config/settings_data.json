@@ -1,10 +1,19 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "type_primary_font": "montserrat_n6",
     "max_page_width": "110rem",
-    "cart_free_shipping_threshold": 1499,
     "cart_shipping_fee": 99,
     "cart_shipping_fee_variant_id": "",
+    "cart_free_shipping_threshold": 1499,
     "cart_addons_limit": 4,
     "sections": {
       "customer-login-modal": {
@@ -107,18 +116,6 @@
           "wishlist_url": "",
           "show_cart": true,
           "feature_row_background": "#faf6ec"
-        }
-      },
-      "whatsapp-support-widget": {
-        "type": "whatsapp-support-widget",
-        "settings": {
-          "enable_widget": true,
-          "whatsapp_number": "91 6355641329",
-          "call_number": "+91 6355641329",
-          "title": "Kisanveda",
-          "whatsapp_msg": "Hi, I have a query regarding my order on KishanVeda.",
-          "whatsapp_btn_text": "Chat on WhatsApp",
-          "call_btn_text": "Call Us"
         }
       }
     },
@@ -235,23 +232,6 @@
           "remove_product_from_wishlist_on_add": false
         }
       },
-      "7079518687644006178": {
-        "type": "shopify://apps/checkout-blocks/blocks/app-embed/b0024ca5-9de8-4bf0-a92f-cd0783877ae2",
-        "disabled": false,
-        "settings": {
-          "utm_id": true,
-          "utm_source": true,
-          "utm_medium": true,
-          "utm_campaign": true,
-          "utm_term": true,
-          "ref": true
-        }
-      },
-      "8529531577560427644": {
-        "type": "shopify://apps/otp/blocks/otp-plus/47f9f75c-53b3-4e16-ba66-80a88d275a5b",
-        "disabled": false,
-        "settings": {}
-      },
       "14060646107696862457": {
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": false,
@@ -274,9 +254,9 @@
           "widget_type": "testimonials-carousel"
         }
       },
-      "14900259222037449619": {
-        "type": "shopify://apps/chaty-chat-buttons-whatsapp/blocks/chaty/0aaf5812-760f-4dd7-be9b-cca564d8200b",
-        "disabled": true,
+      "1219337400145039034": {
+        "type": "shopify://apps/kwikpass/blocks/kp_login/603e209b-d585-47ff-8592-837a4faa325b",
+        "disabled": false,
         "settings": {}
       }
     }
