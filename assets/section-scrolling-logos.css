@@ -135,9 +135,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--kb-sl-badge-bg, #ffffff);
+  background-color: var(--kb-sl-badge-bg, transparent);
   box-sizing: border-box;
   overflow: hidden;
+  border: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -174,15 +175,14 @@
   max-height: 100%;
   object-fit: contain;
   object-position: center;
-  padding: 4px;
+  padding: 0;
   box-sizing: border-box;
   display: block;
   mix-blend-mode: multiply;
 }
 
 .kb-scrolling-logos__badge-wrap--circle .kb-scrolling-logos__img {
-  object-fit: cover;
-  border-radius: 50%;
+  object-fit: contain;
   padding: 0;
 }
 
