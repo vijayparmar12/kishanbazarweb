@@ -1,16 +1,3 @@
-{% liquid
-  assign text_align = section.settings.heading_text_align | default: 'left'
-  assign justify_content = 'flex-start'
-  assign align_items = 'flex-start'
-  if text_align == 'center'
-    assign justify_content = 'center'
-    assign align_items = 'center'
-  elsif text_align == 'right'
-    assign justify_content = 'flex-end'
-    assign align_items = 'flex-end'
-  endif
-%}
-
 <link rel="stylesheet" href="{{ 'section-experience-grid.css' | asset_url }}">
 
 {% style %}
@@ -21,9 +8,6 @@
     --eg-pt-mobile: {{ section.settings.padding_top_mobile | default: 24 }}px;
     --eg-pb-mobile: {{ section.settings.padding_bottom_mobile | default: 24 }}px;
 
-    --eg-heading-align: {{ text_align }};
-    --eg-heading-justify: {{ justify_content }};
-    --eg-heading-align-items: {{ align_items }};
     --eg-heading-color: {{ section.settings.heading_color | default: '#1e3d20' }};
     --eg-subheading-color: {{ section.settings.subheading_color | default: '#166534' }};
     --eg-heading-size: {{ section.settings.heading_font_size | default: 28 }}px;
@@ -240,17 +224,6 @@
       "id": "subheading",
       "label": "Subheading text",
       "default": "असली स्वाद की एक सच्ची यात्रा"
-    },
-    {
-      "type": "select",
-      "id": "heading_text_align",
-      "label": "Heading Text Alignment",
-      "options": [
-        { "value": "left", "label": "Left (Recommended)" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
-      ],
-      "default": "left"
     },
     {
       "type": "image_picker",
