@@ -283,15 +283,19 @@
       {% endfor %}
     {% else %}
       <!-- Standard Layout Fallback -->
-      <div class="product-card__title-row">
+      <div class="product-card__title-row product-card__title-row--single">
         <h3 class="product-card__title"><a href="{{ product.url }}" style="{% if title_color != blank %}color: {{ title_color }};{% endif %}">{{ product.title }}</a></h3>
-        {% if show_price != false %}
+      </div>
+      {% if show_price != false %}
+        <div class="product-card__price-row">
           <div class="product-card__price">
             <span class="product-card__price-current" style="{% if price_color != blank %}color: {{ price_color }};{% endif %}">₹{{ variant.price | money_without_currency }}</span>
-            <s class="product-card__price-compare" style="{% if compare_price_color != blank %}color: {{ compare_price_color }};{% endif %}">₹{{ compare_price | money_without_currency }}</s>
+            {% if has_compare %}
+              <s class="product-card__price-compare" style="{% if compare_price_color != blank %}color: {{ compare_price_color }};{% endif %}">₹{{ compare_price | money_without_currency }}</s>
+            {% endif %}
           </div>
-        {% endif %}
-      </div>
+        </div>
+      {% endif %}
 
 
 
