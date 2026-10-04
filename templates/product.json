@@ -273,16 +273,11 @@
         "judge_me_reviews_review_widget_qpPqHh"
       ],
       "settings": {}
-    },
-    "17888602284d5dbeb4": {
-      "type": "apps",
-      "settings": {}
     }
   },
   "order": [
     "main",
     "recommendations",
-    "1788408506cab3cccd",
-    "17888602284d5dbeb4"
+    "1788408506cab3cccd"
   ]
 }
