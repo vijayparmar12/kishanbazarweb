@@ -26,7 +26,7 @@
   assign title_shelflife = block.settings.tab_shelflife_title | default: section.settings.tab_shelflife_title | default: "Shelf Life"
 
   # 1. DESCRIPTION
-  assign raw_desc = block.settings.tab_description | default: section.settings.tab_description | default: c_meta.description.value | default: c_meta.description | default: alt_meta.description.value | default: alt_meta.description | default: product.description
+  assign raw_desc = block.settings.tab_description | default: section.settings.tab_description | default: c_meta.description.value | default: c_meta.description | default: alt_meta.description.value | default: alt_meta.description
 
   # 2. INGREDIENTS
   assign raw_ingredients = block.settings.tab_ingredients | default: section.settings.tab_ingredients | default: c_meta.Ingredients.value | default: c_meta.Ingredients | default: c_meta.ingredients.value | default: c_meta.ingredients | default: alt_meta.Ingredients.value | default: alt_meta.ingredients.value

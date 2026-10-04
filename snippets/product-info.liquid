@@ -353,10 +353,11 @@
           {% endunless %}
 
         {% when 'description' %}
-          {% if product.description != blank %}
+          {% assign desc_content = block.settings.custom_description | default: c_meta.description.value | default: c_meta.description | default: alt_meta.description.value | default: alt_meta.description %}
+          {% if desc_content != blank %}
             <div class="product-info__description product-info__description--mobile-toggle" {{ block.shopify_attributes }} data-mobile-desc-toggle>
               <div class="product-info__description-content is-collapsed" data-desc-content>
-                {{ product.description }}
+                {{ desc_content }}
               </div>
               <button type="button" class="product-info__desc-toggle-btn" data-desc-toggle-btn aria-expanded="false">
                 <span class="toggle-text">View More</span>
