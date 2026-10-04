@@ -62,7 +62,7 @@
           "type": "buy_buttons",
           "settings": {
             "show_quantity": true,
-            "show_buy_now": true,
+            "show_buy_now": false,
             "cart_btn_text": "ADD TO CART",
             "cart_btn_bg": "#23421f",
             "cart_btn_color": "#ffffff"
