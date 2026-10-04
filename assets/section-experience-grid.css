@@ -36,7 +36,7 @@
    -------------------------------------------------------------------------- */
 .experience-grid__header {
   width: 100%;
-  text-align: center;
+  text-align: var(--eg-heading-align, left);
   margin-bottom: 1.5rem;
 }
 
@@ -50,7 +50,7 @@
   padding: 0 1.5rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: var(--eg-heading-justify, flex-start);
   overflow: hidden;
   box-sizing: border-box;
   background: transparent;
@@ -69,8 +69,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  text-align: center;
+  align-items: var(--eg-heading-align-items, flex-start);
+  text-align: var(--eg-heading-align, left);
   width: 100%;
   box-sizing: border-box;
 }
