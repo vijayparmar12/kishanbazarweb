@@ -151,7 +151,43 @@
               {% endif %}
             </div>
             <p class="product-info__tax-note">MRP (Incl. of all taxes)</p>
+
+            {% if block.settings.price_banner_image != blank %}
+              <div class="product-info__price-banner" style="margin-top: {{ block.settings.price_banner_margin_top | default: 10 }}px; width: 100%; display: flex; justify-content: flex-start;">
+                {% if block.settings.price_banner_link != blank %}
+                  <a href="{{ block.settings.price_banner_link }}" class="product-info__price-banner-link" style="display: block; width: 100%;">
+                {% endif %}
+                  <img
+                    src="{{ block.settings.price_banner_image | image_url: width: 800 }}"
+                    alt="{{ block.settings.price_banner_image.alt | default: 'Price banner' | escape }}"
+                    loading="lazy"
+                    class="product-info__price-banner-img"
+                    style="max-width: {{ block.settings.price_banner_max_width | default: 100 }}%; width: 100%; height: auto; border-radius: {{ block.settings.price_banner_border_radius | default: 8 }}px; display: block; object-fit: contain;"
+                  >
+                {% if block.settings.price_banner_link != blank %}
+                  </a>
+                {% endif %}
+              </div>
+            {% endif %}
           </div>
+
+        {% when 'custom_image' %}
+          {% if block.settings.image != blank %}
+            <div class="product-info__custom-image-container" {{ block.shopify_attributes }} style="margin-top: {{ block.settings.margin_top | default: 10 }}px; margin-bottom: {{ block.settings.margin_bottom | default: 10 }}px; width: 100%;">
+              {% if block.settings.link != blank %}
+                <a href="{{ block.settings.link }}" style="display: block; width: 100%;">
+              {% endif %}
+                <img
+                  src="{{ block.settings.image | image_url: width: 800 }}"
+                  alt="{{ block.settings.image.alt | default: 'Product banner' | escape }}"
+                  loading="lazy"
+                  style="max-width: {{ block.settings.max_width | default: 100 }}%; width: 100%; height: auto; border-radius: {{ block.settings.border_radius | default: 8 }}px; display: block; object-fit: contain;"
+                >
+              {% if block.settings.link != blank %}
+                </a>
+              {% endif %}
+            </div>
+          {% endif %}
 
         {% when 'stock_status' %}
           <div class="product-info__availability" data-product-availability-status {{ block.shopify_attributes }}>
