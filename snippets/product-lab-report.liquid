@@ -232,9 +232,23 @@
       </div>
       <div class="product-lab-report__content">
         <div class="product-lab-report__header">
-          <span class="product-lab-report__title">{{ card_title }}</span>
-          {% if card_badge != blank %}
-            <span class="product-lab-report__badge">{{ card_badge }}</span>
+          {% if card_title contains 'LAB TEST REPORT' %}
+            {% assign title_line_1 = card_title | replace: 'LAB TEST REPORT', '' | strip %}
+            {% assign title_line_2 = 'LAB TEST REPORT' %}
+            <div class="product-lab-report__title-lines">
+              <div class="product-lab-report__title-row">
+                <span class="product-lab-report__title">{{ title_line_1 }}</span>
+                {% if card_badge != blank %}
+                  <span class="product-lab-report__badge">{{ card_badge }}</span>
+                {% endif %}
+              </div>
+              <span class="product-lab-report__title product-lab-report__title--subline">{{ title_line_2 }}</span>
+            </div>
+          {% else %}
+            <span class="product-lab-report__title">{{ card_title }}</span>
+            {% if card_badge != blank %}
+              <span class="product-lab-report__badge">{{ card_badge }}</span>
+            {% endif %}
           {% endif %}
         </div>
         {% if card_subtitle != blank %}

@@ -2961,12 +2961,32 @@ input[type="submit"].jdgm-btn:hover {
   flex-wrap: nowrap;
 }
 
+.product-lab-report__title-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.product-lab-report__title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+
 .product-lab-report__title {
   font-weight: 800;
   font-size: clamp(0.72rem, 2.2vw, 0.95rem);
   color: var(--lab-title-color, #1E293B);
   line-height: 1.2;
   white-space: nowrap;
+}
+
+.product-lab-report__title--subline {
+  font-size: clamp(0.70rem, 2.1vw, 0.90rem);
+  color: var(--lab-title-color, #1E293B);
+  font-weight: 800;
+  line-height: 1.2;
 }
 
 .product-lab-report__badge {

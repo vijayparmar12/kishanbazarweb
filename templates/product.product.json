@@ -87,7 +87,7 @@
           "settings": {
             "title": "Lab Test Report",
             "badge_text": "VERIFIED",
-            "subtitle": "NABL-accredited purity & nutrition analysis (PDF)",
+            "subtitle": "",
             "btn_text": "Download",
             "pdf_url": "",
             "bg_color": "#fef3c7",
@@ -170,7 +170,7 @@
         "show_lab_report": true,
         "lab_report_title": "Lab Test Report",
         "lab_report_badge": "VERIFIED",
-        "lab_report_subtitle": "NABL-accredited purity & nutrition analysis (PDF)",
+        "lab_report_subtitle": "",
         "lab_report_btn_text": "Download",
         "lab_report_pdf_url": "",
         "lab_report_bg_color": "#fef3c7",
