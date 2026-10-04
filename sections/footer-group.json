@@ -37,15 +37,23 @@
             "title": "FDA Registered",
             "link": ""
           }
+        },
+        "logo_UNLiYa": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/13369.webp",
+            "title": "FDA Registered",
+            "link": ""
+          }
         }
       },
       "block_order": [
         "logo_fda",
         "logo_rKAfwe",
-        "logo_iyPMAU"
+        "logo_iyPMAU",
+        "logo_UNLiYa"
       ],
       "settings": {
-        "show_only_on_home": true,
         "heading": "Certification",
         "heading_text_align": "center",
         "heading_font_size": 28,
