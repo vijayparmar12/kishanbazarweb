@@ -16,6 +16,23 @@
   assign reward_1_threshold = reward_1_threshold_num | times: 100
   assign reward_2_threshold = reward_2_threshold_num | times: 100
   assign reward_3_threshold = reward_3_threshold_num | times: 100
+
+  # Dynamic Free Gift Product Lookup
+  assign gift_product = section.settings.free_gift_product | default: all_products['free-gift']
+  if gift_product == blank or gift_product.title == blank
+    assign gift_product = collections['all'].products | where: 'handle', 'free-gift' | first
+  endif
+  if gift_product == blank or gift_product.title == blank
+    for p in collections['all'].products
+      assign p_title_down = p.title | downcase
+      if p_title_down contains 'free gift'
+        assign gift_product = p
+        break
+      endif
+    endfor
+  endif
+  assign gift_variant_id = gift_product.selected_or_first_available_variant.id
+
   assign cart_rewards_goal = reward_3_threshold
   if reward_2_threshold > cart_rewards_goal
     assign cart_rewards_goal = reward_2_threshold
@@ -87,7 +104,7 @@
 %}
 
 <div class="kb-cart-page-wrapper" style="position: relative; min-height: 100vh; padding: 1.25rem 0.85rem 4rem; background: #faf8f5;">
-  <div class="kb-cart-page-container" style="max-width: 700px; margin: 0 auto;" data-main-cart data-cart-section-id="{{ section.id }}" data-free-shipping-threshold="{{ free_ship_val }}" data-shipping-fee="{{ shipping_fee_num | times: 100 }}" data-shipping-fee-variant-id="{{ settings.cart_shipping_fee_variant_id | escape }}">
+  <div class="kb-cart-page-container" style="max-width: 700px; margin: 0 auto;" data-main-cart data-cart-section-id="{{ section.id }}" data-free-shipping-threshold="{{ free_ship_val }}" data-shipping-fee="{{ shipping_fee_num | times: 100 }}" data-shipping-fee-variant-id="{{ settings.cart_shipping_fee_variant_id | escape }}" data-reward1-threshold="{{ reward_1_threshold }}" data-free-gift-variant-id="{{ gift_variant_id }}">
 
     <!-- YOUR CART (X) HEADER WITH CROSS ICON -->
     <div class="kb-cart-page-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; background: #ffffff; padding: 0.85rem 1.25rem; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid rgba(35, 66, 31, 0.08);">
@@ -470,12 +487,85 @@
   </div>
 </aside>
 
+<script>
+  (function() {
+    let isGiftSyncing = false;
+    const checkAndSyncFreeGift = async (cartData) => {
+      if (isGiftSyncing) return;
+      const mainCartEl = document.querySelector('[data-main-cart]');
+      if (!mainCartEl) return;
+
+      const giftVariantId = parseInt(mainCartEl.dataset.freeGiftVariantId, 10);
+      const threshold = parseInt(mainCartEl.dataset.reward1Threshold, 10) || 69900;
+
+      if (!giftVariantId || isNaN(giftVariantId)) return;
+
+      const items = cartData.items || [];
+      const giftItem = items.find(item => item.variant_id === giftVariantId || item.id === giftVariantId);
+      const hasGiftInCart = !!giftItem;
+
+      // Calculate cart subtotal excluding the free gift item
+      let subtotalWithoutGift = 0;
+      items.forEach(item => {
+        if (item.variant_id !== giftVariantId && item.id !== giftVariantId) {
+          subtotalWithoutGift += item.final_line_price;
+        }
+      });
+
+      if (subtotalWithoutGift >= threshold && !hasGiftInCart) {
+        isGiftSyncing = true;
+        try {
+          await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              items: [{ id: giftVariantId, quantity: 1, properties: { '_is_free_gift': 'true' } }]
+            })
+          });
+          window.location.reload();
+        } catch (err) {
+          console.error('Error auto-adding Free Gift:', err);
+          isGiftSyncing = false;
+        }
+      } else if (subtotalWithoutGift < threshold && hasGiftInCart) {
+        isGiftSyncing = true;
+        try {
+          await fetch('/cart/change.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: giftItem.key || giftItem.id, quantity: 0 })
+          });
+          window.location.reload();
+        } catch (err) {
+          console.error('Error auto-removing Free Gift:', err);
+          isGiftSyncing = false;
+        }
+      }
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        fetch('/cart.js?_t=' + Date.now()).then(r => r.json()).then(cart => checkAndSyncFreeGift(cart));
+      });
+    } else {
+      fetch('/cart.js?_t=' + Date.now()).then(r => r.json()).then(cart => checkAndSyncFreeGift(cart));
+    }
+
+    document.addEventListener('kb:cart:updated', (e) => {
+      if (e.detail && e.detail.cart) {
+        checkAndSyncFreeGift(e.detail.cart);
+      }
+    });
+  })();
+</script>
+
 {% schema %}
 {
   "name": "Main Cart Page",
   "tag": "section",
   "class": "section-main-cart",
   "settings": [
+    { "type": "product", "id": "free_gift_product", "label": "Free Gift Product" },
     { "type": "number", "id": "cart_free_shipping_threshold", "label": "Free Shipping Threshold (₹)", "default": 1499 },
     { "type": "number", "id": "cart_shipping_fee", "label": "Shipping Fee (₹)", "default": 99 },
     { "type": "text", "id": "cart_checkout_btn_text", "label": "Checkout Button Text", "default": "Checkout" },

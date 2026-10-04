@@ -21,6 +21,12 @@
   assign line_key = item.key | default: item.id
   assign product_handle = item.url | split: '/products/' | last | split: '?' | first
   assign all_item_variants = item.variant.product.variants | default: item.product.variants
+
+  assign item_title_down = item.product.title | downcase
+  assign is_free_gift = false
+  if product_handle contains 'free-gift' or item_title_down contains 'free gift' or item.properties['_is_free_gift'] == 'true' or item.final_price == 0
+    assign is_free_gift = true
+  endif
 %}
 
 <script>
@@ -37,7 +43,7 @@
   {% endfor %}
 </script>
 
-<article class="kb-cart-item{% if compact %} kb-cart-item--compact{% endif %}" data-cart-line-item data-cart-line-key="{{ line_key }}" data-cart-line-index="{{ line_index }}" data-cart-product-handle="{{ product_handle }}" data-variant-id="{{ variant.id }}" data-compare-unit-price="{{ compare_unit }}" data-compare-line-price="{{ compare_price }}">
+<article class="kb-cart-item{% if compact %} kb-cart-item--compact{% endif %}{% if is_free_gift %} kb-cart-item--free-gift{% endif %}" data-cart-line-item data-cart-line-key="{{ line_key }}" data-cart-line-index="{{ line_index }}" data-cart-product-handle="{{ product_handle }}" data-variant-id="{{ variant.id }}" data-compare-unit-price="{{ compare_unit }}" data-compare-line-price="{{ compare_price }}">
   <!-- Left Column: Image Container matching Wishlist Drawer -->
   <div class="kb-cart-item__media-wrap">
     <a class="kb-cart-item__media-link" href="{{ item.url }}" aria-label="{{ item.product.title | escape }}">
@@ -54,8 +60,11 @@
     
     <!-- Title & Trash Bin Header Row -->
     <div class="kb-cart-item__header-row" style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; width: 100%;">
-      <h3 class="kb-cart-item__title" style="margin: 0; flex: 1;">
+      <h3 class="kb-cart-item__title" style="margin: 0; flex: 1; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
         <a href="{{ item.url }}">{{ item.product.title | default: item.title }}</a>
+        {% if is_free_gift %}
+          <span class="kb-free-gift-badge" style="background: #166534; color: #ffffff; font-size: 0.62rem; font-weight: 800; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.03em;">FREE GIFT</span>
+        {% endif %}
       </h3>
 
       <button class="kb-cart-item__remove-btn" type="button" aria-label="{{ 'cart.remove' | t }}" data-cart-remove title="Remove item" style="background: none; border: none; padding: 4px; cursor: pointer; color: #64748b; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -100,32 +109,43 @@
 
     <!-- Price Row: Selling Price First (Left), Crossed Original Price (Right Side) -->
     <div class="kb-cart-item__price-row" style="margin-bottom: 6px; display: flex; flex-direction: row; align-items: center; justify-content: flex-start; text-align: left; gap: 6px; width: 100%;">
-      <span class="kb-cart-item__price" data-cart-line-price style="font-size: 15px; font-weight: 800; color: #1b4317; line-height: 1.2; display: inline-block; text-align: left;">{{ item.final_line_price | money }}</span>
-      {% if compare_price > item.final_line_price %}
-        <s class="kb-cart-item__compare" style="font-size: 12px; color: #94a3b8; text-decoration: line-through; line-height: 1.2; display: inline-block; text-align: left;">{{ compare_price | money }}</s>
-      {% endif %}
-      {% if item.quantity > 1 %}
-        <span class="kb-cart-item__unit-price" style="font-size: 11px; font-weight: 600; color: #64748b; margin-left: 2px;">({{ item.final_price | money }}/each)</span>
+      {% if is_free_gift %}
+        <span class="kb-cart-item__price" style="font-size: 15px; font-weight: 900; color: #166534; line-height: 1.2;">FREE</span>
+        <s class="kb-cart-item__compare" style="font-size: 12px; color: #94a3b8; text-decoration: line-through; line-height: 1.2;">₹149.00</s>
+      {% else %}
+        <span class="kb-cart-item__price" data-cart-line-price style="font-size: 15px; font-weight: 800; color: #1b4317; line-height: 1.2; display: inline-block; text-align: left;">{{ item.final_line_price | money }}</span>
+        {% if compare_price > item.final_line_price %}
+          <s class="kb-cart-item__compare" style="font-size: 12px; color: #94a3b8; text-decoration: line-through; line-height: 1.2; display: inline-block; text-align: left;">{{ compare_price | money }}</s>
+        {% endif %}
+        {% if item.quantity > 1 %}
+          <span class="kb-cart-item__unit-price" style="font-size: 11px; font-weight: 600; color: #64748b; margin-left: 2px;">({{ item.final_price | money }}/each)</span>
+        {% endif %}
       {% endif %}
     </div>
 
     <!-- Quantity Actions -->
     <div class="kb-cart-item__actions">
-      <div class="kb-cart-item__control-pill" style="display: inline-flex; align-items: center; justify-content: space-between; border: 1px solid #cbd5e1; border-radius: 8px; padding: 2px 6px; background: #fff;">
-        <button class="kb-cart-item__qty-btn" type="button" aria-label="Decrease quantity" data-cart-qty-minus style="width: 28px; height: 28px; border: none; background: none; font-size: 16px; font-weight: 700; color: #334155; cursor: pointer; display: flex; align-items: center; justify-content: center;">-</button>
-        <input
-          class="kb-cart-item__qty-input"
-          type="number"
-          min="0"
-          step="1"
-          value="{{ item.quantity }}"
-          inputmode="numeric"
-          aria-label="{{ 'cart.update' | t }}"
-          data-cart-quantity-input
-          style="width: 38px !important; min-width: 38px !important; height: 28px !important; line-height: 28px !important; font-size: 15px !important; font-weight: 700 !important; color: #1b4317 !important; text-align: center !important; border: none !important; background: transparent !important; padding: 0 !important; margin: 0 !important; outline: none !important; -webkit-appearance: none !important; -moz-appearance: textfield !important;"
-        >
-        <button class="kb-cart-item__qty-btn" type="button" aria-label="Increase quantity" data-cart-qty-plus style="width: 28px; height: 28px; border: none; background: none; font-size: 16px; font-weight: 700; color: #334155; cursor: pointer; display: flex; align-items: center; justify-content: center;">+</button>
-      </div>
+      {% if is_free_gift %}
+        <span style="display: inline-block; padding: 4px 10px; border-radius: 6px; background-color: #f0fdf4; border: 1px solid #bbf7d0; font-size: 12px; font-weight: 800; color: #166534;">
+          Qty: 1 (FREE GIFT)
+        </span>
+      {% else %}
+        <div class="kb-cart-item__control-pill" style="display: inline-flex; align-items: center; justify-content: space-between; border: 1px solid #cbd5e1; border-radius: 8px; padding: 2px 6px; background: #fff;">
+          <button class="kb-cart-item__qty-btn" type="button" aria-label="Decrease quantity" data-cart-qty-minus style="width: 28px; height: 28px; border: none; background: none; font-size: 16px; font-weight: 700; color: #334155; cursor: pointer; display: flex; align-items: center; justify-content: center;">-</button>
+          <input
+            class="kb-cart-item__qty-input"
+            type="number"
+            min="0"
+            step="1"
+            value="{{ item.quantity }}"
+            inputmode="numeric"
+            aria-label="{{ 'cart.update' | t }}"
+            data-cart-quantity-input
+            style="width: 38px !important; min-width: 38px !important; height: 28px !important; line-height: 28px !important; font-size: 15px !important; font-weight: 700 !important; color: #1b4317 !important; text-align: center !important; border: none !important; background: transparent !important; padding: 0 !important; margin: 0 !important; outline: none !important; -webkit-appearance: none !important; -moz-appearance: textfield !important;"
+          >
+          <button class="kb-cart-item__qty-btn" type="button" aria-label="Increase quantity" data-cart-qty-plus style="width: 28px; height: 28px; border: none; background: none; font-size: 16px; font-weight: 700; color: #334155; cursor: pointer; display: flex; align-items: center; justify-content: center;">+</button>
+        </div>
+      {% endif %}
     </div>
 
   </div>
