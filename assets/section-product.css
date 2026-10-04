@@ -187,10 +187,15 @@
     aspect-ratio: 1 / 1 !important;
   }
 
-  /* 3. Price Box THIRD */
+  /* 3. Price Box & Image / Banner Box THIRD directly below price */
   .product-info__price-box,
   .shopify-block:has(.product-info__price-box),
-  .product-info > *:has(.product-info__price-box) {
+  .product-info > *:has(.product-info__price-box),
+  .product-info__custom-image-container,
+  .product-info__price-banner,
+  .shopify-block:has(.product-info__custom-image-container),
+  .product-info > *:has(.product-info__custom-image-container),
+  [data-shopify-editor-block]:has(.product-info__custom-image-container) {
     order: 3 !important;
     margin-bottom: 0.75rem;
   }
