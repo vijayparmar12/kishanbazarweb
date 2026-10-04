@@ -143,6 +143,7 @@
 
 .kb-scrolling-logos__badge-wrap--circle {
   border-radius: 50%;
+  aspect-ratio: 1 / 1;
 }
 
 .kb-scrolling-logos__badge-wrap--rounded {
@@ -172,9 +173,17 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  padding: 8px;
+  object-position: center;
+  padding: 4px;
   box-sizing: border-box;
   display: block;
+  mix-blend-mode: multiply;
+}
+
+.kb-scrolling-logos__badge-wrap--circle .kb-scrolling-logos__img {
+  object-fit: cover;
+  border-radius: 50%;
+  padding: 0;
 }
 
 /* SVG placeholder badge */
