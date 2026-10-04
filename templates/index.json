@@ -297,7 +297,7 @@
         "main_image_link": "",
         "main_image_alt": "",
         "show_default_main_image": true,
-        "main_image_height_desktop": 450,
+        "main_image_height_desktop": 570,
         "main_image_height_mobile": 240,
         "main_image_border_radius": 16,
         "main_image_fit": "cover",
