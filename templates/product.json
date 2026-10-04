@@ -85,9 +85,9 @@
         "lab_report_4KWAyL": {
           "type": "lab_report",
           "settings": {
-            "title": "Lab Test Report",
+            "title": "NABL CERTIFIED LAB TEST REPORT",
             "badge_text": "VERIFIED",
-            "subtitle": "NABL-accredited purity & nutrition analysis (PDF)",
+            "subtitle": "",
             "btn_text": "Download",
             "pdf_url": "",
             "bg_color": "#fef3c7",
