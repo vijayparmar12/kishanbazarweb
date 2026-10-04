@@ -2953,14 +2953,15 @@ input[type="submit"].jdgm-btn:hover {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .product-lab-report__title {
   font-weight: 800;
-  font-size: 0.98rem;
+  font-size: clamp(0.72rem, 2.2vw, 0.95rem);
   color: var(--lab-title-color, #1E293B);
-  line-height: 1.25;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .product-lab-report__badge {
@@ -2974,6 +2975,8 @@ input[type="submit"].jdgm-btn:hover {
   border-radius: 999px;
   line-height: 1.4;
   display: inline-block;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .product-lab-report__subtitle {
@@ -3012,23 +3015,32 @@ input[type="submit"].jdgm-btn:hover {
 
 @media (max-width: 480px) {
   .product-lab-report {
-    padding: 12px 14px;
-    gap: 10px;
+    padding: 10px 12px;
+    gap: 8px;
   }
   .product-lab-report__icon-wrap {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+  }
+  .product-lab-report__header {
+    flex-wrap: nowrap;
+    gap: 6px;
   }
   .product-lab-report__title {
-    font-size: 0.9rem;
+    font-size: 0.76rem;
+    white-space: nowrap;
+  }
+  .product-lab-report__badge {
+    font-size: 0.60rem;
+    padding: 2px 6px;
   }
   .product-lab-report__subtitle {
-    font-size: 0.76rem;
+    font-size: 0.74rem;
   }
   .product-lab-report__btn {
-    padding: 8px 14px;
-    font-size: 0.8rem;
+    padding: 6px 10px;
+    font-size: 0.76rem;
   }
 }
 

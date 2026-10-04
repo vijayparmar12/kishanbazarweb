@@ -130,7 +130,7 @@
     assign card_badge = section.settings.lab_report_badge
   endif
 
-  assign card_subtitle = 'NABL-accredited purity & nutrition analysis (PDF)'
+  assign card_subtitle = ''
   if block and block.settings.subtitle != blank
     assign card_subtitle = block.settings.subtitle
   elsif section and section.settings.lab_report_subtitle != blank
@@ -237,7 +237,9 @@
             <span class="product-lab-report__badge">{{ card_badge }}</span>
           {% endif %}
         </div>
-        <div class="product-lab-report__subtitle">{{ card_subtitle }}</div>
+        {% if card_subtitle != blank %}
+          <div class="product-lab-report__subtitle">{{ card_subtitle }}</div>
+        {% endif %}
       </div>
     </div>
 
