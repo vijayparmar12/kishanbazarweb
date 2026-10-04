@@ -33,7 +33,7 @@
 {% endstyle %}
 
 <header
-  class="kb-header{% if section.settings.enable_sticky_header %} kb-header--sticky{% endif %}{% unless template.name == 'index' %} kb-header--inner-page{% endunless %}{% if template.name == 'collection' %} kb-header--collection-page{% endif %}"
+  class="kb-header{% if section.settings.enable_sticky_header %} kb-header--sticky{% endif %}{% unless template.name == 'index' %} kb-header--inner-page{% endunless %}{% if template.name == 'collection' %} kb-header--collection-page{% endif %}{% if template.name == 'product' %} kb-header--product-page{% endif %}"
   data-premium-header
 >
   <!-- STICKY TOP CONTAINER: ANNOUNCEMENT BAR + HEADER 1 (SEARCH, LOGO, PROFILE, WISHLIST, CART) -->

@@ -1333,15 +1333,7 @@ body.kb-header-menu-open {
     margin-bottom: 2px !important;
   }
 
-  /* Hide mobile search bar ONLY on Collection pages (Web/Desktop view remains unchanged) */
-  .kb-header--collection-page .kb-header__search {
-    display: none !important;
-  }
-
-  .kb-header--collection-page .kb-header__main-grid {
-    grid-template-areas: "toggle logo actions" !important;
-    padding-bottom: 0.2rem !important;
-  }
+  /* Mobile search bar visible and sticky across collection, product, and inner pages */
 
   .kb-header__search-icon {
     display: inline-flex;
