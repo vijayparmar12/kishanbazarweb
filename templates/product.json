@@ -102,7 +102,7 @@
           "type": "lab_report",
           "settings": {
             "title": "NABL CERTIFIED LAB TEST REPORT",
-            "badge_text": "VERIFIED",
+            "badge_text": "",
             "subtitle": "",
             "btn_text": "Download",
             "pdf_url": "",
