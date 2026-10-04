@@ -64,6 +64,7 @@
         },
         "custom_image_RLABFc": {
           "type": "custom_image",
+          "name": "coupns images",
           "settings": {
             "image": "shopify://shop_images/13403.webp",
             "link": "",
@@ -266,7 +267,7 @@
         "eyebrow": "",
         "intent": "complementary",
         "collection": "",
-        "bg_color": "#FFFFFF",
+        "bg_color": "#ffffff",
         "heading_color": "#1b4317",
         "eyebrow_color": "#d97706",
         "products_limit": 4
