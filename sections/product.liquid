@@ -107,13 +107,6 @@
     </div>
   </div>
 
-  <!-- Section 4.5: Dynamic Product Page Banners Slider (Up to 6 Banners) -->
-  <div class="product-page-section product-page-section--banners">
-    <div class="product-page-container">
-      {% render 'product-banners', product: product, section: section %}
-    </div>
-  </div>
-
   <!-- Section 5: Product Details Tabs (Description, Ingredients, Usage, Benefits, Storage, Mfr, Origin, Shelf Life) -->
   <div class="product-page-section product-page-section--tabs">
     <div class="product-page-container">
@@ -126,6 +119,13 @@
   <div class="product-page-section product-page-section--faq">
     <div class="product-page-container">
       {% render 'product-faq', product: product, block: faq_block, section: section %}
+    </div>
+  </div>
+
+  <!-- Section 6: Dynamic Product Page Banners Slider (Up to 6 Banners) - Placed Below Product Details & FAQ -->
+  <div class="product-page-section product-page-section--banners">
+    <div class="product-page-container">
+      {% render 'product-banners', product: product, section: section %}
     </div>
   </div>
 
