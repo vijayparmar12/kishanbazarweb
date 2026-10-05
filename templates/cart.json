@@ -31,7 +31,10 @@
         "cart_reward_3_threshold": 1499,
         "cart_reward_3_title": "Free Gift + Free Delivery",
         "cart_reward_3_subtitle": "+ 10% OFF",
-        "cart_reward_3_icon": "combo"
+        "cart_reward_3_icon": "combo",
+        "featured_coupon_code": "Kveda_10%",
+        "featured_coupon_badge": "10% OFF",
+        "featured_coupon_description": "10% OFF on all products (Min. purchase ₹1,499)"
       }
     }
   },

@@ -400,6 +400,10 @@
         </div>
 
         <!-- COUPONS & OFFERS SECTION (Above Frequently Bought Together) -->
+        {% assign featured_code = section.settings.featured_coupon_code | default: settings.featured_coupon_code | default: 'Kveda_10%' %}
+        {% assign featured_badge = section.settings.featured_coupon_badge | default: '10% OFF' %}
+        {% assign featured_desc = section.settings.featured_coupon_description | default: '10% OFF on all products (Min. purchase ₹1,499)' %}
+
         <div class="kb-cart-coupons-block" style="margin-top: 0.5rem; background: #fbfdfa; border: 1.5px solid #bbf7d0; border-radius: 14px; padding: 0.85rem 1rem; box-shadow: 0 4px 14px rgba(22, 101, 52, 0.05);">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.65rem;">
             <div style="font-weight: 800; font-size: 0.95rem; color: #166534; display: flex; align-items: center; gap: 6px;">
@@ -412,15 +416,15 @@
           </div>
 
           <!-- Featured Active Coupon Card from Shopify Admin -->
-          <div class="kb-coupon-featured-card" data-coupon-card="Veda_10%" style="display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1.5px dashed #166534; border-radius: 10px; padding: 0.65rem 0.85rem; margin-bottom: 0.65rem;">
+          <div class="kb-coupon-featured-card" data-coupon-card="{{ featured_code | escape }}" style="display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1.5px dashed #166534; border-radius: 10px; padding: 0.65rem 0.85rem; margin-bottom: 0.65rem;">
             <div style="display: flex; flex-direction: column; gap: 2px; text-align: left; min-width: 0; padding-right: 8px;">
               <div style="display: flex; align-items: center; gap: 6px;">
-                <span class="kb-coupon-code" style="font-weight: 900; color: #166534; font-size: 0.95rem; letter-spacing: 0.03em;">Veda_10%</span>
-                <span style="background: #dcfce7; color: #166534; font-size: 0.62rem; font-weight: 800; padding: 1px 6px; border-radius: 4px; text-transform: uppercase;">10% OFF</span>
+                <span class="kb-coupon-code" style="font-weight: 900; color: #166534; font-size: 0.95rem; letter-spacing: 0.03em;">{{ featured_code }}</span>
+                <span style="background: #dcfce7; color: #166534; font-size: 0.62rem; font-weight: 800; padding: 1px 6px; border-radius: 4px; text-transform: uppercase;">{{ featured_badge }}</span>
               </div>
-              <div style="font-size: 0.75rem; font-weight: 600; color: #475569;">10% OFF on all products (Min. purchase ₹1,499)</div>
+              <div style="font-size: 0.75rem; font-weight: 600; color: #475569;">{{ featured_desc }}</div>
             </div>
-            <button type="button" class="kb-coupon-apply-btn" data-apply-coupon-code="Veda_10%" style="background: #166534; color: #ffffff; border: none; padding: 0.45rem 0.95rem; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; flex-shrink: 0; transition: background 150ms ease;">
+            <button type="button" class="kb-coupon-apply-btn" data-apply-coupon-code="{{ featured_code | escape }}" style="background: #166534; color: #ffffff; border: none; padding: 0.45rem 0.95rem; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; flex-shrink: 0; transition: background 150ms ease;">
               APPLY
             </button>
           </div>
@@ -446,7 +450,7 @@
           <div class="kb-applied-coupon-status" data-applied-coupon-status style="display: none; margin-top: 0.65rem; background: #dcfce7; border: 1px solid #86efac; border-radius: 8px; padding: 0.5rem 0.85rem; align-items: center; justify-content: space-between;">
             <div style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 800; color: #166534; flex-wrap: wrap;">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Coupon <strong data-applied-coupon-name>Veda_10%</strong> Applied!</span>
+              <span>Coupon <strong data-applied-coupon-name>{{ featured_code }}</strong> Applied!</span>
               <span data-applied-coupon-savings style="color: #15803d; font-weight: 700; font-size: 0.78rem; margin-left: 2px;"></span>
             </div>
             <button type="button" data-remove-coupon style="background: none; border: none; font-size: 0.75rem; font-weight: 800; color: #ef4444; cursor: pointer; text-decoration: underline; padding: 0;">Remove</button>
@@ -825,12 +829,9 @@
         let pct = 0;
         let minAmount = 0;
 
-        if (clean === 'VEDA_10%' || clean === 'VEDA10') {
+        if (clean.includes('KVEDA') || clean.includes('VEDA') || clean.includes('10%') || clean === 'KB10') {
           pct = 10;
-          minAmount = 149900;
-        } else if (clean === 'KB10') {
-          pct = 10;
-          minAmount = 0;
+          minAmount = (clean === 'KB10') ? 0 : 149900;
         } else {
           const match = clean.match(/(\d+)/);
           if (match) {
@@ -1087,7 +1088,11 @@
         { "value": "percent", "label": "Percent" },
         { "value": "combo", "label": "Gift + truck" }
       ]
-    }
+    },
+    { "type": "header", "content": "Featured Coupon Box Settings" },
+    { "type": "text", "id": "featured_coupon_code", "label": "Featured Coupon Code", "default": "Kveda_10%" },
+    { "type": "text", "id": "featured_coupon_badge", "label": "Discount Badge Label", "default": "10% OFF" },
+    { "type": "text", "id": "featured_coupon_description", "label": "Coupon Description", "default": "10% OFF on all products (Min. purchase ₹1,499)" }
   ]
 }
 {% endschema %}
