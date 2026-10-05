@@ -187,6 +187,9 @@
 
   const updateDrawer = (cart) => {
     updateCartRewards(cart);
+    if (window.checkAndSyncFreeGift && cart) {
+      window.checkAndSyncFreeGift(cart);
+    }
 
     const drawer = document.querySelector('[data-cart-drawer]');
     if (!drawer) return;

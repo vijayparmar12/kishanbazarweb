@@ -18,20 +18,40 @@
   assign reward_3_threshold = reward_3_threshold_num | times: 100
 
   # Dynamic Free Gift Product Lookup
-  assign gift_product = section.settings.free_gift_product | default: all_products['free-gift']
-  if gift_product == blank or gift_product.title == blank
-    assign gift_product = collections['all'].products | where: 'handle', 'free-gift' | first
+  assign gift_product = nil
+  if section.settings.free_gift_product != blank
+    assign setting_val = section.settings.free_gift_product
+    if setting_val.title != blank and setting_val.id != blank
+      assign gift_product = setting_val
+    elsif all_products[setting_val] != blank and all_products[setting_val].id != blank
+      assign gift_product = all_products[setting_val]
+    endif
   endif
-  if gift_product == blank or gift_product.title == blank
+
+  if gift_product == blank or gift_product.id == blank
+    if all_products['free-gift'] != blank and all_products['free-gift'].id != blank
+      assign gift_product = all_products['free-gift']
+    endif
+  endif
+
+  if gift_product == blank or gift_product.id == blank
     for p in collections['all'].products
       assign p_title_down = p.title | downcase
-      if p_title_down contains 'free gift'
+      if p_title_down contains 'free gift' or p.handle contains 'free-gift' or p.handle contains 'gift'
         assign gift_product = p
         break
       endif
     endfor
   endif
-  assign gift_variant_id = gift_product.selected_or_first_available_variant.id
+
+  assign gift_variant_id = ''
+  if gift_product != blank
+    if gift_product.selected_or_first_available_variant != blank
+      assign gift_variant_id = gift_product.selected_or_first_available_variant.id
+    elsif gift_product.variants.first != blank
+      assign gift_variant_id = gift_product.variants.first.id
+    endif
+  endif
 
   assign cart_rewards_fill_pct = 0
   if cart.total_price < reward_1_threshold
@@ -499,40 +519,45 @@
 
 <script>
   (function() {
+    window._kbFreeGiftVariantId = Number({{ gift_variant_id | json }}) || null;
     let isGiftSyncing = false;
     const checkAndSyncFreeGift = async (cartData) => {
-      if (isGiftSyncing) return;
+      if (isGiftSyncing || !cartData) return;
       const mainCartEl = document.querySelector('[data-main-cart]');
-      if (!mainCartEl) return;
+      const datasetVariantId = mainCartEl ? parseInt(mainCartEl.dataset.freeGiftVariantId, 10) : NaN;
+      const giftVariantId = !isNaN(datasetVariantId) && datasetVariantId > 0 ? datasetVariantId : window._kbFreeGiftVariantId;
+      const threshold = (mainCartEl ? parseInt(mainCartEl.dataset.reward1Threshold, 10) : NaN) || {{ reward_1_threshold }};
 
-      const giftVariantId = parseInt(mainCartEl.dataset.freeGiftVariantId, 10);
-      const threshold = parseInt(mainCartEl.dataset.reward1Threshold, 10) || 69900;
-
-      if (!giftVariantId || isNaN(giftVariantId)) return;
+      if (!giftVariantId || isNaN(giftVariantId) || giftVariantId <= 0) return;
 
       const items = cartData.items || [];
-      const giftItem = items.find(item => item.variant_id === giftVariantId || item.id === giftVariantId);
+      const giftItem = items.find(item => Number(item.variant_id) === Number(giftVariantId) || Number(item.id) === Number(giftVariantId));
       const hasGiftInCart = !!giftItem;
 
       // Calculate cart subtotal excluding the free gift item
       let subtotalWithoutGift = 0;
       items.forEach(item => {
-        if (item.variant_id !== giftVariantId && item.id !== giftVariantId) {
-          subtotalWithoutGift += item.final_line_price;
+        if (Number(item.variant_id) !== Number(giftVariantId) && Number(item.id) !== Number(giftVariantId)) {
+          subtotalWithoutGift += (item.final_line_price || item.line_price || 0);
         }
       });
 
       if (subtotalWithoutGift >= threshold && !hasGiftInCart) {
         isGiftSyncing = true;
         try {
-          await fetch('/cart/add.js', {
+          const res = await fetch('/cart/add.js', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               items: [{ id: giftVariantId, quantity: 1, properties: { '_is_free_gift': 'true' } }]
             })
           });
-          window.location.reload();
+          if (res.ok) {
+            window.location.reload();
+          } else {
+            console.error('Failed to auto-add Free Gift:', res.status, await res.text());
+            isGiftSyncing = false;
+          }
         } catch (err) {
           console.error('Error auto-adding Free Gift:', err);
           isGiftSyncing = false;
@@ -540,18 +565,25 @@
       } else if (subtotalWithoutGift < threshold && hasGiftInCart) {
         isGiftSyncing = true;
         try {
-          await fetch('/cart/change.js', {
+          const res = await fetch('/cart/change.js', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: giftItem.key || giftItem.id, quantity: 0 })
           });
-          window.location.reload();
+          if (res.ok) {
+            window.location.reload();
+          } else {
+            console.error('Failed to auto-remove Free Gift:', res.status, await res.text());
+            isGiftSyncing = false;
+          }
         } catch (err) {
           console.error('Error auto-removing Free Gift:', err);
           isGiftSyncing = false;
         }
       }
     };
+
+    window.checkAndSyncFreeGift = checkAndSyncFreeGift;
 
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => {
