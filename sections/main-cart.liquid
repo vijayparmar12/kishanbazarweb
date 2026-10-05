@@ -274,40 +274,6 @@
               <span class="kb-cart-rewards__subtitle">{{ reward_3_subtitle }}</span>
             </div>
           </div>
-
-          <!-- FREE GIFT FEATURED PREVIEW BANNER -->
-          {% if gift_product != blank %}
-            <div class="kb-cart-rewards__gift-preview" style="margin-top: 14px; padding: 10px 14px; background: #ffffff; border-radius: 14px; border: 1.5px solid #bbf7d0; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 4px 12px rgba(22, 101, 52, 0.05);">
-              <div style="display: flex; align-items: center; gap: 12px; min-width: 0; text-align: left;">
-                <div style="width: 44px; height: 44px; border-radius: 10px; overflow: hidden; background: #f8fafc; border: 1px solid #e2e8f0; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-                  {% if gift_product.featured_image != blank %}
-                    <img src="{{ gift_product.featured_image | image_url: width: 120 }}" alt="{{ gift_product.title | escape }}" style="width: 100%; height: 100%; object-fit: cover;" width="44" height="44" loading="lazy">
-                  {% else %}
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M12 8v12"/><path d="M3 12h18"/><path d="M12 8H7.5a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8z"/><path d="M12 8h4.5a2.5 2.5 0 0 0 0-5C13 3 12 8 12 8z"/></svg>
-                  {% endif %}
-                </div>
-                <div style="min-width: 0;">
-                  <div style="font-size: 0.84rem; font-weight: 800; color: #132d14; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    Free Gift: {{ gift_product.title }}
-                  </div>
-                  <div style="font-size: 0.72rem; font-weight: 700; color: #166534; margin-top: 2px;">
-                    {% if is_free_gift_unlocked %}
-                      <span style="color: #166534; font-weight: 800;">✓ Unlocked! Included FREE in your cart</span>
-                    {% else %}
-                      <span>Worth {{ gift_product.price | default: 14900 | money }} • Reach ₹699 to unlock</span>
-                    {% endif %}
-                  </div>
-                </div>
-              </div>
-              <div style="flex-shrink: 0;">
-                {% if is_free_gift_unlocked %}
-                  <span style="background: #166534; color: #ffffff; font-size: 0.68rem; font-weight: 800; padding: 5px 10px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.03em;">UNLOCKED</span>
-                {% else %}
-                  <span style="background: #e2e8f0; color: #475569; font-size: 0.68rem; font-weight: 800; padding: 5px 10px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.03em;">LOCKED</span>
-                {% endif %}
-              </div>
-            </div>
-          {% endif %}
         </div>
 
         {% comment %} Legacy free shipping progress kept only for reference.
