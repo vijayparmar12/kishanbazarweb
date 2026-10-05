@@ -125,8 +125,18 @@
     endcapture
   endif
 
+  assign cart_has_free_gift = false
+  assign subtotal_no_gift = 0
   assign cart_original_price = 0
   for item in cart.items
+    assign item_title_down = item.product.title | downcase
+    assign item_handle_down = item.url | split: '/products/' | last | split: '?' | first | downcase
+    if item_handle_down contains 'free-gift' or item_title_down contains 'free gift' or item.properties['_is_free_gift'] == 'true' or item.variant.id == gift_variant_id
+      assign cart_has_free_gift = true
+    else
+      assign subtotal_no_gift = subtotal_no_gift | plus: item.final_line_price
+    endif
+
     if item.variant.compare_at_price > item.variant.price
       assign item_unit_compare = item.variant.compare_at_price
     elsif item.original_line_price > item.final_line_price
@@ -137,6 +147,11 @@
     assign line_orig = item_unit_compare | times: item.quantity
     assign cart_original_price = cart_original_price | plus: line_orig
   endfor
+
+  assign is_free_gift_unlocked = false
+  if subtotal_no_gift >= reward_1_threshold or cart.total_price >= reward_1_threshold
+    assign is_free_gift_unlocked = true
+  endif
 
   if cart_original_price <= cart.total_price and cart.original_total_price > cart.total_price
     assign cart_original_price = cart.original_total_price
@@ -259,6 +274,40 @@
               <span class="kb-cart-rewards__subtitle">{{ reward_3_subtitle }}</span>
             </div>
           </div>
+
+          <!-- FREE GIFT FEATURED PREVIEW BANNER -->
+          {% if gift_product != blank %}
+            <div class="kb-cart-rewards__gift-preview" style="margin-top: 14px; padding: 10px 14px; background: #ffffff; border-radius: 14px; border: 1.5px solid #bbf7d0; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 4px 12px rgba(22, 101, 52, 0.05);">
+              <div style="display: flex; align-items: center; gap: 12px; min-width: 0; text-align: left;">
+                <div style="width: 44px; height: 44px; border-radius: 10px; overflow: hidden; background: #f8fafc; border: 1px solid #e2e8f0; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                  {% if gift_product.featured_image != blank %}
+                    <img src="{{ gift_product.featured_image | image_url: width: 120 }}" alt="{{ gift_product.title | escape }}" style="width: 100%; height: 100%; object-fit: cover;" width="44" height="44" loading="lazy">
+                  {% else %}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M12 8v12"/><path d="M3 12h18"/><path d="M12 8H7.5a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8z"/><path d="M12 8h4.5a2.5 2.5 0 0 0 0-5C13 3 12 8 12 8z"/></svg>
+                  {% endif %}
+                </div>
+                <div style="min-width: 0;">
+                  <div style="font-size: 0.84rem; font-weight: 800; color: #132d14; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    Free Gift: {{ gift_product.title }}
+                  </div>
+                  <div style="font-size: 0.72rem; font-weight: 700; color: #166534; margin-top: 2px;">
+                    {% if is_free_gift_unlocked %}
+                      <span style="color: #166534; font-weight: 800;">✓ Unlocked! Included FREE in your cart</span>
+                    {% else %}
+                      <span>Worth {{ gift_product.price | default: 14900 | money }} • Reach ₹699 to unlock</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <div style="flex-shrink: 0;">
+                {% if is_free_gift_unlocked %}
+                  <span style="background: #166534; color: #ffffff; font-size: 0.68rem; font-weight: 800; padding: 5px 10px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.03em;">UNLOCKED</span>
+                {% else %}
+                  <span style="background: #e2e8f0; color: #475569; font-size: 0.68rem; font-weight: 800; padding: 5px 10px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.03em;">LOCKED</span>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
         </div>
 
         {% comment %} Legacy free shipping progress kept only for reference.
@@ -352,6 +401,36 @@
               </div>
             </article>
           {% endfor %}
+
+          {% comment %} Guarantee Free Gift display in cart items list when subtotal >= ₹699 {% endcomment %}
+          {% if is_free_gift_unlocked and cart_has_free_gift == false and gift_product != blank %}
+            <article class="kb-cart-item kb-cart-item--free-gift" data-cart-line-item data-free-gift-injected="true" style="display: grid; grid-template-columns: 80px 1fr; gap: 12px; padding: 12px; background: #f0fdf4; border-radius: 14px; border: 1.5px solid #bbf7d0;">
+              <div class="kb-cart-item__media-wrap" style="width: 80px; height: 80px; border-radius: 10px; overflow: hidden; background: #fff;">
+                {% if gift_product.featured_image != blank %}
+                  <img class="kb-cart-item__image" src="{{ gift_product.featured_image | image_url: width: 200 }}" alt="{{ gift_product.title | escape }}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag: 'kb-cart-item__placeholder' }}
+                {% endif %}
+              </div>
+              <div class="kb-cart-item__content" style="display: flex; flex-direction: column; gap: 4px; position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                  <h3 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #132d14; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <a href="{{ gift_product.url }}">{{ gift_product.title }}</a>
+                    <span class="kb-free-gift-badge" style="background: #166534; color: #ffffff; font-size: 0.62rem; font-weight: 800; padding: 2px 7px; border-radius: 4px; text-transform: uppercase;">FREE GIFT</span>
+                  </h3>
+                </div>
+                <div style="margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                  <span style="font-size: 15px; font-weight: 900; color: #166534;">FREE</span>
+                  <s style="font-size: 12px; color: #94a3b8; text-decoration: line-through;">{{ gift_product.price | default: 14900 | money }}</s>
+                </div>
+                <div>
+                  <span style="display: inline-block; padding: 4px 10px; border-radius: 6px; background-color: #ffffff; border: 1px solid #bbf7d0; font-size: 12px; font-weight: 800; color: #166534;">
+                    Qty: 1 (FREE GIFT)
+                  </span>
+                </div>
+              </div>
+            </article>
+          {% endif %}
         </div>
 
         <!-- FREQUENTLY BOUGHT TOGETHER (FBT) - Header Navigation Arrows (No Button Overlap) -->
