@@ -261,6 +261,54 @@
     },
     "recommendations": {
       "type": "product-recommendations",
+      "blocks": {
+        "card_title_kcTfmb": {
+          "type": "card_title",
+          "settings": {
+            "title_color": "#23421f",
+            "font_size": 17,
+            "font_weight": "bold"
+          }
+        },
+        "card_rating_cTNWBN": {
+          "type": "card_rating",
+          "settings": {
+            "rating_stars_color": "#e5a800"
+          }
+        },
+        "card_variant_selector_VzB4bQ": {
+          "type": "card_variant_selector",
+          "settings": {
+            "border_color": "#1f1f1f",
+            "bg_color": "#ffffff",
+            "text_color": "#1f1f1f"
+          }
+        },
+        "card_price_mpDxXP": {
+          "type": "card_price",
+          "settings": {
+            "price_color": "#23421f",
+            "compare_price_color": "#8d8d8d",
+            "price_font_size": 19,
+            "price_font_weight": "800"
+          }
+        },
+        "card_buy_button_dMrz3W": {
+          "type": "card_buy_button",
+          "settings": {
+            "add_to_cart_text": "ADD TO CART",
+            "btn_bg": "#23421f",
+            "btn_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "card_title_kcTfmb",
+        "card_rating_cTNWBN",
+        "card_variant_selector_VzB4bQ",
+        "card_price_mpDxXP",
+        "card_buy_button_dMrz3W"
+      ],
       "settings": {
         "heading": "RECOMMENDED",
         "heading_text_align": "center",
