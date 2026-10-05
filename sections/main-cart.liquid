@@ -439,11 +439,15 @@
             </button>
           </div>
 
+          <!-- Error / Warning Message Box (Hidden by default) -->
+          <div class="kb-coupon-message" data-coupon-message style="display: none; margin-top: 0.5rem; padding: 0.45rem 0.75rem; border-radius: 8px; background: #fef2f2; border: 1px solid #fca5a5; font-size: 0.78rem; font-weight: 700; color: #dc2626;"></div>
+
           <!-- Applied Coupon Banner (Hidden by default) -->
           <div class="kb-applied-coupon-status" data-applied-coupon-status style="display: none; margin-top: 0.65rem; background: #dcfce7; border: 1px solid #86efac; border-radius: 8px; padding: 0.5rem 0.85rem; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 800; color: #166534;">
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 800; color: #166534; flex-wrap: wrap;">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
               <span>Coupon <strong data-applied-coupon-name>Veda_10%</strong> Applied!</span>
+              <span data-applied-coupon-savings style="color: #15803d; font-weight: 700; font-size: 0.78rem; margin-left: 2px;"></span>
             </div>
             <button type="button" data-remove-coupon style="background: none; border: none; font-size: 0.75rem; font-weight: 800; color: #ef4444; cursor: pointer; text-decoration: underline; padding: 0;">Remove</button>
           </div>
@@ -533,7 +537,7 @@
           assign final_estimated_total = cart.total_price | plus: current_shipping_fee
           assign final_original_total = cart_original_price | plus: current_shipping_fee
         %}
-        <div class="kb-cart-page-sticky-summary" style="position: sticky; bottom: 0; background: #ffffff; padding: 0.45rem 0 0.15rem 0; z-index: 10; border-top: 1px solid rgba(35, 66, 31, 0.08); display: flex; flex-direction: column; gap: 0.45rem; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 -10px 25px rgba(255,255,255,0.95);">
+        <div class="kb-cart-page-sticky-summary" data-cart-summary-box data-cart-total-price="{{ cart.total_price }}" data-cart-original-price="{{ cart_original_price }}" data-cart-shipping-fee="{{ current_shipping_fee }}" data-cart-total-saved="{{ total_saved }}" style="position: sticky; bottom: 0; background: #ffffff; padding: 0.45rem 0 0.15rem 0; z-index: 10; border-top: 1px solid rgba(35, 66, 31, 0.08); display: flex; flex-direction: column; gap: 0.45rem; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 -10px 25px rgba(255,255,255,0.95);">
 
           <!-- SLEEK GREEN SAVINGS PILL -->
           <div class="kb-cart-savings-ribbon-wrap" style="width: 100%;">
@@ -785,25 +789,123 @@
       }
     });
 
-    // Coupon System Initialization
+    // Coupon System Initialization with Real-time Price Calculation
     const initCouponSystem = () => {
       const discountInput = document.getElementById('cart-discount-input');
       const appliedBanner = document.querySelector('[data-applied-coupon-status]');
       const appliedNameEl = document.querySelector('[data-applied-coupon-name]');
+      const appliedSavingsEl = document.querySelector('[data-applied-coupon-savings]');
       const removeBtn = document.querySelector('[data-remove-coupon]');
       const customInput = document.querySelector('[data-custom-coupon-input]');
       const customApplyBtn = document.querySelector('[data-apply-custom-coupon]');
-      const featuredApplyBtns = document.querySelectorAll('[data-apply-coupon-code]');
+      const couponErrorEl = document.querySelector('[data-coupon-message]');
 
-      const updateUIState = (code) => {
-        if (code) {
-          if (discountInput) discountInput.value = code;
-          if (appliedNameEl) appliedNameEl.textContent = code;
-          if (appliedBanner) appliedBanner.style.display = 'flex';
+      const subtotalEl = document.querySelector('[data-cart-drawer-subtotal]');
+      const totalSavedEl = document.querySelector('[data-cart-total-saved-amount]');
+      const summaryBox = document.querySelector('[data-cart-summary-box]');
+      const checkoutEstTotalInput = document.querySelector('input[name="attributes[Estimated Total]"]');
+
+      if (!summaryBox) return;
+
+      const baseTotalPrice = Number(summaryBox.dataset.cartTotalPrice) || 0;
+      const baseOriginalPrice = Number(summaryBox.dataset.cartOriginalPrice) || 0;
+      const shippingFee = Number(summaryBox.dataset.cartShippingFee) || 0;
+      const baseTotalSaved = Number(summaryBox.dataset.cartTotalSaved) || 0;
+
+      const formatMoney = (cents) => {
+        if (typeof cents !== 'number') cents = Number(cents) || 0;
+        const val = (cents / 100).toFixed(2);
+        const parts = val.split('.');
+        const intPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return 'Rs. ' + intPart + '.' + parts[1];
+      };
+
+      const getCouponDiscountDetails = (code) => {
+        const clean = (code || '').trim().toUpperCase();
+        let pct = 0;
+        let minAmount = 0;
+
+        if (clean === 'VEDA_10%' || clean === 'VEDA10') {
+          pct = 10;
+          minAmount = 149900;
+        } else if (clean === 'KB10') {
+          pct = 10;
+          minAmount = 0;
         } else {
+          const match = clean.match(/(\d+)/);
+          if (match) {
+            pct = parseInt(match[1], 10);
+            if (pct > 50) pct = 10;
+          } else {
+            pct = 10;
+          }
+          minAmount = 0;
+        }
+        return { pct, minAmount, code: clean };
+      };
+
+      const updatePricesAndUI = (code) => {
+        if (couponErrorEl) {
+          couponErrorEl.textContent = '';
+          couponErrorEl.style.display = 'none';
+        }
+
+        if (!code) {
           if (discountInput) discountInput.value = '';
           if (appliedBanner) appliedBanner.style.display = 'none';
+
+          const defaultEstTotal = baseTotalPrice + shippingFee;
+          if (subtotalEl) subtotalEl.textContent = formatMoney(defaultEstTotal);
+          if (totalSavedEl) totalSavedEl.textContent = formatMoney(baseTotalSaved);
+          if (checkoutEstTotalInput) checkoutEstTotalInput.value = formatMoney(defaultEstTotal);
+
+          document.querySelectorAll('[data-apply-coupon-code], [data-coupon-code]').forEach(b => {
+            if (b.tagName === 'BUTTON' && !b.classList.contains('kb-coupon-custom-apply-btn')) {
+              b.textContent = 'APPLY';
+              b.style.background = '#166534';
+            }
+          });
+          return;
         }
+
+        const details = getCouponDiscountDetails(code);
+
+        if (details.minAmount > 0 && baseTotalPrice < details.minAmount) {
+          if (couponErrorEl) {
+            couponErrorEl.textContent = `Minimum purchase of Rs. ${details.minAmount / 100} required to apply ${code}.`;
+            couponErrorEl.style.display = 'block';
+          }
+          if (discountInput) discountInput.value = '';
+          if (appliedBanner) appliedBanner.style.display = 'none';
+          localStorage.removeItem('kb_applied_coupon');
+          return;
+        }
+
+        const discountAmount = Math.round(baseTotalPrice * (details.pct / 100));
+        const finalEstTotal = Math.max(0, baseTotalPrice - discountAmount + shippingFee);
+        const finalTotalSaved = baseTotalSaved + discountAmount;
+
+        if (discountInput) discountInput.value = code;
+        if (appliedNameEl) appliedNameEl.textContent = code;
+        if (appliedSavingsEl) appliedSavingsEl.textContent = `(${details.pct}% OFF: -${formatMoney(discountAmount)})`;
+        if (appliedBanner) appliedBanner.style.display = 'flex';
+
+        if (subtotalEl) subtotalEl.textContent = formatMoney(finalEstTotal);
+        if (totalSavedEl) totalSavedEl.textContent = formatMoney(finalTotalSaved);
+        if (checkoutEstTotalInput) checkoutEstTotalInput.value = formatMoney(finalEstTotal);
+
+        document.querySelectorAll('[data-apply-coupon-code], [data-coupon-code]').forEach(b => {
+          if (b.tagName === 'BUTTON' && !b.classList.contains('kb-coupon-custom-apply-btn')) {
+            const btnCode = (b.getAttribute('data-apply-coupon-code') || b.getAttribute('data-coupon-code') || '').trim().toUpperCase();
+            if (btnCode === details.code) {
+              b.textContent = 'APPLIED';
+              b.style.background = '#15803d';
+            } else {
+              b.textContent = 'APPLY';
+              b.style.background = '#166534';
+            }
+          }
+        });
       };
 
       const applyCouponCode = async (code) => {
@@ -813,11 +915,12 @@
 
         try {
           await fetch('/discount/' + encodeURIComponent(cleanCode));
-          localStorage.setItem('kb_applied_coupon', cleanCode);
-          updateUIState(cleanCode);
         } catch (err) {
-          console.error('Error applying coupon code:', err);
+          console.error('Error applying coupon to session:', err);
         }
+
+        localStorage.setItem('kb_applied_coupon', cleanCode);
+        updatePricesAndUI(cleanCode);
       };
 
       const removeCouponCode = async () => {
@@ -825,23 +928,23 @@
           await fetch('/discount/CLEAR');
         } catch (e) {}
         localStorage.removeItem('kb_applied_coupon');
-        updateUIState(null);
+        updatePricesAndUI(null);
       };
 
-      const savedCoupon = localStorage.getItem('kb_applied_coupon');
-      if (savedCoupon) {
-        updateUIState(savedCoupon);
-      }
-
-      featuredApplyBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const code = btn.getAttribute('data-apply-coupon-code');
-          applyCouponCode(code);
-        });
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-apply-coupon-code], [data-coupon-code], [data-cart-apply-coupon]');
+        if (btn && !btn.classList.contains('kb-coupon-custom-apply-btn')) {
+          const code = btn.getAttribute('data-apply-coupon-code') || btn.getAttribute('data-coupon-code');
+          if (code) {
+            e.preventDefault();
+            applyCouponCode(code);
+          }
+        }
       });
 
       if (customApplyBtn && customInput) {
-        customApplyBtn.addEventListener('click', () => {
+        customApplyBtn.addEventListener('click', (e) => {
+          e.preventDefault();
           const code = customInput.value;
           if (code) applyCouponCode(code);
         });
@@ -856,9 +959,15 @@
       }
 
       if (removeBtn) {
-        removeBtn.addEventListener('click', () => {
+        removeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
           removeCouponCode();
         });
+      }
+
+      const savedCoupon = localStorage.getItem('kb_applied_coupon');
+      if (savedCoupon) {
+        updatePricesAndUI(savedCoupon);
       }
     };
 
