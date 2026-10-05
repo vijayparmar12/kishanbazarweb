@@ -10,6 +10,11 @@
 {% enddoc %}
 
 {% liquid
+  assign title_check = product.title | downcase
+  if product.handle contains 'free-gift' or title_check contains 'free gift' or product.tags contains 'free-gift' or product.tags contains 'hidden'
+    echo '<script>window.location.href="/collections/all";</script>'
+  endif
+
   assign has_separate_rating_block = false
   assign has_lab_report_block = false
   for b in section.blocks

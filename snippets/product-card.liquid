@@ -1,4 +1,13 @@
 {% liquid
+  assign p_title_check = product.title | downcase
+  assign is_hidden_gift_product = false
+  if product.handle contains 'free-gift' or p_title_check contains 'free gift' or product.tags contains 'free-gift' or product.tags contains 'hidden'
+    assign is_hidden_gift_product = true
+  endif
+%}
+
+{% unless is_hidden_gift_product %}
+{% liquid
   if show_wishlist == nil
     assign show_wishlist = true
   endif
@@ -419,3 +428,4 @@
     {% endif %}
   </div>
 </article>
+{% endunless %}
