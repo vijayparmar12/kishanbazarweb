@@ -542,23 +542,66 @@
   (function() {
     window._kbFreeGiftVariantId = Number({{ gift_variant_id | json }}) || null;
     let isGiftSyncing = false;
+
+    const fetchFallbackGiftVariantId = async () => {
+      const handles = ['free-gift', 'free-gift-1', 'free-gift-worth-149', 'free-gift-worth-rs-149', 'free-gift-product', 'free-gift-item', 'gift'];
+      for (const h of handles) {
+        try {
+          const res = await fetch(`/products/${h}.js`);
+          if (res.ok) {
+            const p = await res.json();
+            if (p && p.variants && p.variants.length > 0) {
+              const vId = Number(p.variants[0].id);
+              if (vId > 0) {
+                window._kbFreeGiftVariantId = vId;
+                return vId;
+              }
+            }
+          }
+        } catch (e) {
+          // continue
+        }
+      }
+      return null;
+    };
+
     const checkAndSyncFreeGift = async (cartData) => {
       if (isGiftSyncing || !cartData) return;
+
       const mainCartEl = document.querySelector('[data-main-cart]');
       const datasetVariantId = mainCartEl ? parseInt(mainCartEl.dataset.freeGiftVariantId, 10) : NaN;
-      const giftVariantId = !isNaN(datasetVariantId) && datasetVariantId > 0 ? datasetVariantId : window._kbFreeGiftVariantId;
+      let giftVariantId = !isNaN(datasetVariantId) && datasetVariantId > 0 ? datasetVariantId : window._kbFreeGiftVariantId;
       const threshold = (mainCartEl ? parseInt(mainCartEl.dataset.reward1Threshold, 10) : NaN) || {{ reward_1_threshold }};
+
+      if (!giftVariantId || isNaN(giftVariantId) || giftVariantId <= 0) {
+        giftVariantId = await fetchFallbackGiftVariantId();
+      }
 
       if (!giftVariantId || isNaN(giftVariantId) || giftVariantId <= 0) return;
 
       const items = cartData.items || [];
-      const giftItem = items.find(item => Number(item.variant_id) === Number(giftVariantId) || Number(item.id) === Number(giftVariantId));
+      const giftItem = items.find(item => {
+        const itemTitle = (item.product_title || item.title || '').toLowerCase();
+        const itemHandle = (item.handle || '').toLowerCase();
+        return Number(item.variant_id) === Number(giftVariantId) ||
+               Number(item.id) === Number(giftVariantId) ||
+               item.properties?.['_is_free_gift'] === 'true' ||
+               itemHandle.includes('free-gift') ||
+               itemTitle.includes('free gift');
+      });
       const hasGiftInCart = !!giftItem;
 
       // Calculate cart subtotal excluding the free gift item
       let subtotalWithoutGift = 0;
       items.forEach(item => {
-        if (Number(item.variant_id) !== Number(giftVariantId) && Number(item.id) !== Number(giftVariantId)) {
+        const itemTitle = (item.product_title || item.title || '').toLowerCase();
+        const itemHandle = (item.handle || '').toLowerCase();
+        const isThisGift = Number(item.variant_id) === Number(giftVariantId) ||
+                           Number(item.id) === Number(giftVariantId) ||
+                           item.properties?.['_is_free_gift'] === 'true' ||
+                           itemHandle.includes('free-gift') ||
+                           itemTitle.includes('free gift');
+        if (!isThisGift) {
           subtotalWithoutGift += (item.final_line_price || item.line_price || 0);
         }
       });
@@ -566,13 +609,24 @@
       if (subtotalWithoutGift >= threshold && !hasGiftInCart) {
         isGiftSyncing = true;
         try {
-          const res = await fetch('/cart/add.js', {
+          let res = await fetch('/cart/add.js', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
             body: JSON.stringify({
-              items: [{ id: giftVariantId, quantity: 1, properties: { '_is_free_gift': 'true' } }]
+              id: giftVariantId,
+              quantity: 1,
+              properties: { '_is_free_gift': 'true' }
             })
           });
+          if (!res.ok) {
+            res = await fetch('/cart/add.js', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({
+                items: [{ id: giftVariantId, quantity: 1, properties: { '_is_free_gift': 'true' } }]
+              })
+            });
+          }
           if (res.ok) {
             window.location.reload();
           } else {
@@ -588,7 +642,7 @@
         try {
           const res = await fetch('/cart/change.js', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
             body: JSON.stringify({ id: giftItem.key || giftItem.id, quantity: 0 })
           });
           if (res.ok) {
