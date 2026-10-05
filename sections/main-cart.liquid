@@ -399,6 +399,56 @@
           {% endif %}
         </div>
 
+        <!-- COUPONS & OFFERS SECTION (Above Frequently Bought Together) -->
+        <div class="kb-cart-coupons-block" style="margin-top: 0.5rem; background: #fbfdfa; border: 1.5px solid #bbf7d0; border-radius: 14px; padding: 0.85rem 1rem; box-shadow: 0 4px 14px rgba(22, 101, 52, 0.05);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.65rem;">
+            <div style="font-weight: 800; font-size: 0.95rem; color: #166534; display: flex; align-items: center; gap: 6px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                <line x1="7" y1="7" x2="7.01" y2="7"></line>
+              </svg>
+              <span>Coupons & Offers</span>
+            </div>
+          </div>
+
+          <!-- Featured Active Coupon Card from Shopify Admin -->
+          <div class="kb-coupon-featured-card" data-coupon-card="Veda_10%" style="display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1.5px dashed #166534; border-radius: 10px; padding: 0.65rem 0.85rem; margin-bottom: 0.65rem;">
+            <div style="display: flex; flex-direction: column; gap: 2px; text-align: left; min-width: 0; padding-right: 8px;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="kb-coupon-code" style="font-weight: 900; color: #166534; font-size: 0.95rem; letter-spacing: 0.03em;">Veda_10%</span>
+                <span style="background: #dcfce7; color: #166534; font-size: 0.62rem; font-weight: 800; padding: 1px 6px; border-radius: 4px; text-transform: uppercase;">10% OFF</span>
+              </div>
+              <div style="font-size: 0.75rem; font-weight: 600; color: #475569;">10% OFF on all products (Min. purchase ₹1,499)</div>
+            </div>
+            <button type="button" class="kb-coupon-apply-btn" data-apply-coupon-code="Veda_10%" style="background: #166534; color: #ffffff; border: none; padding: 0.45rem 0.95rem; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; flex-shrink: 0; transition: background 150ms ease;">
+              APPLY
+            </button>
+          </div>
+
+          <!-- Custom Coupon Input Row -->
+          <div class="kb-coupon-input-wrap" style="display: flex; align-items: center; gap: 8px;">
+            <input 
+              type="text" 
+              class="kb-coupon-custom-input" 
+              data-custom-coupon-input 
+              placeholder="Have a coupon code?" 
+              style="flex: 1; height: 38px; padding: 0 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; font-weight: 700; color: #1e293b; background: #ffffff; outline: none; text-transform: uppercase;"
+            >
+            <button type="button" class="kb-coupon-custom-apply-btn" data-apply-custom-coupon style="height: 38px; padding: 0 1.1rem; background: #1b4317; color: #ffffff; border: none; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; text-transform: uppercase;">
+              APPLY
+            </button>
+          </div>
+
+          <!-- Applied Coupon Banner (Hidden by default) -->
+          <div class="kb-applied-coupon-status" data-applied-coupon-status style="display: none; margin-top: 0.65rem; background: #dcfce7; border: 1px solid #86efac; border-radius: 8px; padding: 0.5rem 0.85rem; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 800; color: #166534;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Coupon <strong data-applied-coupon-name>Veda_10%</strong> Applied!</span>
+            </div>
+            <button type="button" data-remove-coupon style="background: none; border: none; font-size: 0.75rem; font-weight: 800; color: #ef4444; cursor: pointer; text-decoration: underline; padding: 0;">Remove</button>
+          </div>
+        </div>
+
         <!-- FREQUENTLY BOUGHT TOGETHER (FBT) - Header Navigation Arrows (No Button Overlap) -->
         <div class="kb-cart-drawer__addons-block" style="margin-top: 0.5rem; background: transparent; padding: 0.5rem 0; border: none; position: relative;">
           <div style="font-weight: 800; font-size: 0.95rem; color: #166534; margin-bottom: 0.75rem;">Frequently Bought Together</div>
@@ -523,6 +573,7 @@
           <form action="{{ routes.cart_url }}" method="post" id="cart-page-checkout-form" style="width: 100%;">
             <input type="hidden" name="attributes[Shipping Charge]" value="{% if is_free_shipping %}Free Shipping{% else %}{{ current_shipping_fee | money }}{% endif %}">
             <input type="hidden" name="attributes[Estimated Total]" value="{{ final_estimated_total | money }}">
+            <input type="hidden" name="discount" id="cart-discount-input" value="">
             <button type="submit" name="checkout" style="width: 100%; border: none; cursor: pointer; background: #1b4317; color: #ffffff; border-radius: 10px; padding: 0.65rem 1rem; text-align: center; box-shadow: 0 4px 14px rgba(27, 67, 23, 0.25); transition: background-color 200ms ease;">
               <div style="font-size: 0.95rem; font-weight: 900; letter-spacing: 0.03em; text-transform: uppercase;">{{ checkout_label }}</div>
               <div style="font-size: 0.7rem; font-weight: 500; opacity: 0.9; margin-top: 1px;">Free Shipping on Orders Above ₹{{ free_shipping_threshold_num }}</div>
@@ -733,6 +784,85 @@
         checkAndSyncFreeGift(e.detail.cart);
       }
     });
+
+    // Coupon System Initialization
+    const initCouponSystem = () => {
+      const discountInput = document.getElementById('cart-discount-input');
+      const appliedBanner = document.querySelector('[data-applied-coupon-status]');
+      const appliedNameEl = document.querySelector('[data-applied-coupon-name]');
+      const removeBtn = document.querySelector('[data-remove-coupon]');
+      const customInput = document.querySelector('[data-custom-coupon-input]');
+      const customApplyBtn = document.querySelector('[data-apply-custom-coupon]');
+      const featuredApplyBtns = document.querySelectorAll('[data-apply-coupon-code]');
+
+      const updateUIState = (code) => {
+        if (code) {
+          if (discountInput) discountInput.value = code;
+          if (appliedNameEl) appliedNameEl.textContent = code;
+          if (appliedBanner) appliedBanner.style.display = 'flex';
+        } else {
+          if (discountInput) discountInput.value = '';
+          if (appliedBanner) appliedBanner.style.display = 'none';
+        }
+      };
+
+      const applyCouponCode = async (code) => {
+        if (!code) return;
+        const cleanCode = code.trim();
+        if (!cleanCode) return;
+
+        try {
+          await fetch('/discount/' + encodeURIComponent(cleanCode));
+          localStorage.setItem('kb_applied_coupon', cleanCode);
+          updateUIState(cleanCode);
+        } catch (err) {
+          console.error('Error applying coupon code:', err);
+        }
+      };
+
+      const removeCouponCode = async () => {
+        try {
+          await fetch('/discount/CLEAR');
+        } catch (e) {}
+        localStorage.removeItem('kb_applied_coupon');
+        updateUIState(null);
+      };
+
+      const savedCoupon = localStorage.getItem('kb_applied_coupon');
+      if (savedCoupon) {
+        updateUIState(savedCoupon);
+      }
+
+      featuredApplyBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const code = btn.getAttribute('data-apply-coupon-code');
+          applyCouponCode(code);
+        });
+      });
+
+      if (customApplyBtn && customInput) {
+        customApplyBtn.addEventListener('click', () => {
+          const code = customInput.value;
+          if (code) applyCouponCode(code);
+        });
+
+        customInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const code = customInput.value;
+            if (code) applyCouponCode(code);
+          }
+        });
+      }
+
+      if (removeBtn) {
+        removeBtn.addEventListener('click', () => {
+          removeCouponCode();
+        });
+      }
+    };
+
+    initCouponSystem();
   })();
 </script>
 
