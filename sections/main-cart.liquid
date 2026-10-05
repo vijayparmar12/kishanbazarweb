@@ -688,24 +688,39 @@
       if (subtotalWithoutGift >= threshold && !hasGiftInCart) {
         isGiftSyncing = true;
         try {
+          // Attempt 1: Standard FormData POST
+          const formData = new FormData();
+          formData.append('id', String(giftVariantId));
+          formData.append('quantity', '1');
+          formData.append('properties[_is_free_gift]', 'true');
+
           let res = await fetch('/cart/add.js', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({
-              id: giftVariantId,
-              quantity: 1,
-              properties: { '_is_free_gift': 'true' }
-            })
+            body: formData
           });
+
+          // Attempt 2: JSON payload if FormData returns non-200
           if (!res.ok) {
             res = await fetch('/cart/add.js', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
               body: JSON.stringify({
-                items: [{ id: giftVariantId, quantity: 1, properties: { '_is_free_gift': 'true' } }]
+                items: [{ id: Number(giftVariantId), quantity: 1, properties: { '_is_free_gift': 'true' } }]
               })
             });
           }
+
+          // Attempt 3: Plain item without properties if custom properties fail
+          if (!res.ok) {
+            const plainData = new FormData();
+            plainData.append('id', String(giftVariantId));
+            plainData.append('quantity', '1');
+            res = await fetch('/cart/add.js', {
+              method: 'POST',
+              body: plainData
+            });
+          }
+
           if (res.ok) {
             window.location.reload();
           } else {
