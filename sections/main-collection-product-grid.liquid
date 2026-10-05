@@ -28,6 +28,7 @@
             <div role="listitem">
               {% render 'product-card',
                 product: product,
+                card_blocks: section.blocks,
                 show_vendor: section.settings.show_vendor,
                 show_price: section.settings.show_price,
                 show_compare_price: section.settings.show_compare_price,
@@ -74,6 +75,141 @@
     { "type": "checkbox", "id": "show_compare_price", "label": "Show compare-at price", "default": true },
     { "type": "checkbox", "id": "show_rating", "label": "Show rating placeholder", "default": false },
     { "type": "checkbox", "id": "show_badges", "label": "Show badges", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "card_title",
+      "name": "Card Title",
+      "limit": 1,
+      "settings": [
+        { "type": "color", "id": "title_color", "label": "Title text color", "default": "#23421F" },
+        { "type": "range", "id": "font_size", "label": "Title Font Size (px)", "min": 12, "max": 32, "step": 1, "default": 17, "unit": "px" },
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Title Font Weight",
+          "options": [
+            { "value": "normal", "label": "Normal (400)" },
+            { "value": "600", "label": "Semi-Bold (600)" },
+            { "value": "bold", "label": "Bold (700)" },
+            { "value": "800", "label": "Extra Bold (800)" }
+          ],
+          "default": "bold"
+        }
+      ]
+    },
+    {
+      "type": "card_price",
+      "name": "Card Price",
+      "limit": 1,
+      "settings": [
+        { "type": "color", "id": "price_color", "label": "Price color", "default": "#23421F" },
+        { "type": "color", "id": "compare_price_color", "label": "Compare price color", "default": "#8D8D8D" },
+        { "type": "range", "id": "price_font_size", "label": "Price Font Size (px)", "min": 12, "max": 36, "step": 1, "default": 19, "unit": "px" },
+        {
+          "type": "select",
+          "id": "price_font_weight",
+          "label": "Price Font Weight",
+          "options": [
+            { "value": "600", "label": "Semi-Bold (600)" },
+            { "value": "700", "label": "Bold (700)" },
+            { "value": "800", "label": "Extra Bold (800)" },
+            { "value": "900", "label": "Black (900)" }
+          ],
+          "default": "800"
+        }
+      ]
+    },
+    {
+      "type": "card_title_price",
+      "name": "Card Title & Price",
+      "limit": 1,
+      "settings": [
+        { "type": "color", "id": "title_color", "label": "Title text color", "default": "#23421F" },
+        { "type": "color", "id": "price_color", "label": "Price color", "default": "#23421F" },
+        { "type": "color", "id": "compare_price_color", "label": "Compare price color", "default": "#8D8D8D" }
+      ]
+    },
+    {
+      "type": "card_subtitle",
+      "name": "Card Subtitle Description",
+      "limit": 1,
+      "settings": [
+        { "type": "color", "id": "subtitle_color", "label": "Subtitle color", "default": "#6B7280" }
+      ]
+    },
+    {
+      "type": "card_rating",
+      "name": "Card Star Rating",
+      "limit": 1,
+      "settings": [
+        { "type": "color", "id": "rating_stars_color", "label": "Star rating color", "default": "#E5A800" }
+      ]
+    },
+    {
+      "type": "card_benefit_icons",
+      "name": "Card Benefit Badges",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_benefit_icons", "label": "Show benefit circle icons", "default": true },
+        { "type": "range", "id": "icon_size", "label": "Benefit Icon Size (px)", "min": 36, "max": 120, "step": 2, "default": 72, "unit": "px" },
+        { "type": "image_picker", "id": "benefit_image_1", "label": "Benefit Icon 1 Image" },
+        { "type": "image_picker", "id": "benefit_image_2", "label": "Benefit Icon 2 Image" },
+        { "type": "image_picker", "id": "benefit_image_3", "label": "Benefit Icon 3 Image" },
+        { "type": "image_picker", "id": "benefit_image_4", "label": "Benefit Icon 4 Image" }
+      ]
+    },
+    {
+      "type": "card_variant_selector",
+      "name": "Card Variant Dropdown",
+      "limit": 1,
+      "settings": [
+        { "type": "color", "id": "border_color", "label": "Dropdown border color", "default": "#1F1F1F" },
+        { "type": "color", "id": "bg_color", "label": "Dropdown background color", "default": "#FFFFFF" },
+        { "type": "color", "id": "text_color", "label": "Dropdown text color", "default": "#1F1F1F" }
+      ]
+    },
+    {
+      "type": "card_buy_button",
+      "name": "Card Add to Cart Button",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "add_to_cart_text", "label": "Button text", "default": "ADD TO CART" },
+        { "type": "color", "id": "btn_bg", "label": "Button background", "default": "#23421F" },
+        { "type": "color", "id": "btn_color", "label": "Button text color", "default": "#FFFFFF" }
+      ]
+    },
+    {
+      "type": "card_custom_text",
+      "name": "Card Custom Text Line",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Custom text", "default": "🚚 Free Shipping on orders over ₹499" },
+        { "type": "color", "id": "text_color", "label": "Text color", "default": "#23421F" },
+        { "type": "select", "id": "font_weight", "label": "Font weight", "options": [{ "value": "normal", "label": "Normal" }, { "value": "bold", "label": "Bold" }], "default": "bold" }
+      ]
+    },
+    {
+      "type": "custom_badge_block",
+      "name": "Custom Card Badge",
+      "settings": [
+        { "type": "text", "id": "badge_text", "label": "Badge text", "default": "SPECIAL OFFER" },
+        { "type": "color", "id": "badge_bg", "label": "Badge background color", "default": "#E06535" },
+        { "type": "color", "id": "badge_color", "label": "Badge text color", "default": "#FFFFFF" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection product grid",
+      "blocks": [
+        { "type": "card_title_price" },
+        { "type": "card_subtitle" },
+        { "type": "card_rating" },
+        { "type": "card_benefit_icons" },
+        { "type": "card_variant_selector" },
+        { "type": "card_buy_button" }
+      ]
+    }
   ]
 }
 {% endschema %}
