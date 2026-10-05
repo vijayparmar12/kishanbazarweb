@@ -998,6 +998,27 @@
       if (savedCoupon) {
         updatePricesAndUI(savedCoupon);
       }
+
+      // Handle Checkout Navigation to prefill discount code on Shopify Checkout URL
+      const checkoutForm = document.getElementById('cart-page-checkout-form');
+      const handleCheckoutRedirect = (e) => {
+        const code = localStorage.getItem('kb_applied_coupon') || (discountInput ? discountInput.value : '');
+        if (code) {
+          const cleanCode = code.trim();
+          if (cleanCode) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = '/checkout?discount=' + encodeURIComponent(cleanCode);
+          }
+        }
+      };
+
+      if (checkoutForm) {
+        checkoutForm.addEventListener('submit', handleCheckoutRedirect);
+      }
+      document.querySelectorAll('button[name="checkout"]').forEach(btn => {
+        btn.addEventListener('click', handleCheckoutRedirect);
+      });
     };
 
     initCouponSystem();
