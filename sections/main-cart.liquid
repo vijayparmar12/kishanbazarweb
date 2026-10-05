@@ -33,19 +33,29 @@
   endif
   assign gift_variant_id = gift_product.selected_or_first_available_variant.id
 
-  assign cart_rewards_goal = reward_3_threshold
-  if reward_2_threshold > cart_rewards_goal
-    assign cart_rewards_goal = reward_2_threshold
-  endif
-  if reward_1_threshold > cart_rewards_goal
-    assign cart_rewards_goal = reward_1_threshold
-  endif
-  assign cart_rewards_fill_pct = 100
-  if cart_rewards_goal > 0
-    assign cart_rewards_fill_pct = cart.total_price | times: 100 | divided_by: cart_rewards_goal
-    if cart_rewards_fill_pct > 100
+  assign cart_rewards_fill_pct = 0
+  if cart.total_price < reward_1_threshold
+    assign cart_rewards_fill_pct = 0
+  elsif cart.total_price < reward_2_threshold
+    assign diff_range = reward_2_threshold | minus: reward_1_threshold
+    if diff_range > 0
+      assign current_offset = cart.total_price | minus: reward_1_threshold
+      assign seg_pct = current_offset | times: 50 | divided_by: diff_range
+      assign cart_rewards_fill_pct = seg_pct
+    else
+      assign cart_rewards_fill_pct = 50
+    endif
+  elsif cart.total_price < reward_3_threshold
+    assign diff_range = reward_3_threshold | minus: reward_2_threshold
+    if diff_range > 0
+      assign current_offset = cart.total_price | minus: reward_2_threshold
+      assign seg_pct = current_offset | times: 50 | divided_by: diff_range
+      assign cart_rewards_fill_pct = 50 | plus: seg_pct
+    else
       assign cart_rewards_fill_pct = 100
     endif
+  else
+    assign cart_rewards_fill_pct = 100
   endif
   assign cart_rewards_status = section.settings.cart_rewards_complete_text | default: 'Hurray! You have unlocked all cart rewards'
   if cart.total_price < reward_1_threshold

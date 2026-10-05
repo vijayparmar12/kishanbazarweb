@@ -31,9 +31,32 @@
 
       if (!steps.length) return;
 
-      const goal = Math.max(...steps.map((step) => step.threshold));
-      const progress = goal > 0 ? Math.min(100, Math.max(0, (total / goal) * 100)) : 100;
-      rewards.style.setProperty('--cart-rewards-progress', `${progress}%`);
+      let progress = 0;
+      if (steps.length === 1) {
+        progress = total >= steps[0].threshold ? 100 : 0;
+      } else {
+        const first = steps[0].threshold;
+        const last = steps[steps.length - 1].threshold;
+        if (total < first) {
+          progress = 0;
+        } else if (total >= last) {
+          progress = 100;
+        } else {
+          const numSegments = steps.length - 1;
+          const segmentWeight = 100 / numSegments;
+          for (let i = 0; i < steps.length - 1; i++) {
+            const current = steps[i].threshold;
+            const next = steps[i + 1].threshold;
+            if (total >= current && total < next) {
+              const segProgress = next > current ? (total - current) / (next - current) : 0;
+              progress = i * segmentWeight + segProgress * segmentWeight;
+              break;
+            }
+          }
+        }
+      }
+
+      rewards.style.setProperty('--cart-rewards-progress', `${progress.toFixed(2)}%`);
 
       let nextStep = null;
       steps.forEach((step) => {
@@ -186,20 +209,22 @@
     const thresholdCents = parseInt(drawer.dataset.freeShippingThreshold, 10) || 149900;
     const shippingFeeCents = parseInt(drawer.dataset.shippingFee, 10) || 9900;
 
-    const status = drawer.querySelector('[data-cart-drawer-status]');
-    if (status) {
-      if (cart.total_price >= thresholdCents) {
-        status.textContent = "Hurray! You've unlocked FREE Shipping";
-      } else {
-        const remaining = thresholdCents - cart.total_price;
-        status.textContent = `Add ${formatMoney(remaining)} more for FREE Shipping`;
+    if (!drawer.querySelector('[data-cart-rewards]')) {
+      const status = drawer.querySelector('[data-cart-drawer-status]');
+      if (status) {
+        if (cart.total_price >= thresholdCents) {
+          status.textContent = "Hurray! You've unlocked FREE Shipping";
+        } else {
+          const remaining = thresholdCents - cart.total_price;
+          status.textContent = `Add ${formatMoney(remaining)} more for FREE Shipping`;
+        }
       }
-    }
 
-    const progressFill = drawer.querySelector('[data-cart-drawer-progress] .kb-cart-drawer__progress-fill');
-    if (progressFill) {
-      let pct = (cart.total_price / thresholdCents) * 100;
-      progressFill.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+      const progressFill = drawer.querySelector('[data-cart-drawer-progress] .kb-cart-drawer__progress-fill');
+      if (progressFill) {
+        let pct = (cart.total_price / thresholdCents) * 100;
+        progressFill.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+      }
     }
 
     const marker1 = drawer.querySelector('.kb-cart-drawer__progress-marker--1');
