@@ -914,7 +914,24 @@
         if (!cleanCode) return;
 
         try {
+          // 1. Trigger Shopify discount session
           await fetch('/discount/' + encodeURIComponent(cleanCode));
+
+          // 2. Set discount cookie for Razorpay Magic Checkout & Shopify Checkout
+          document.cookie = 'discount_code=' + encodeURIComponent(cleanCode) + '; path=/; max-age=86400';
+
+          // 3. Update cart attributes so /cart.js returns the discount_code
+          await fetch('/cart/update.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              attributes: {
+                'discount': cleanCode,
+                'discount_code': cleanCode,
+                'applied_discount': cleanCode
+              }
+            })
+          });
         } catch (err) {
           console.error('Error applying coupon to session:', err);
         }
@@ -926,6 +943,18 @@
       const removeCouponCode = async () => {
         try {
           await fetch('/discount/CLEAR');
+          document.cookie = 'discount_code=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+          await fetch('/cart/update.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              attributes: {
+                'discount': '',
+                'discount_code': '',
+                'applied_discount': ''
+              }
+            })
+          });
         } catch (e) {}
         localStorage.removeItem('kb_applied_coupon');
         updatePricesAndUI(null);
