@@ -18,7 +18,8 @@
             "title": "All Products",
             "collection": "all",
             "icon_image": "shopify://shop_images/download_9.svg",
-            "active_icon_image": "shopify://shop_images/download_8.svg"
+            "active_icon_image": "shopify://shop_images/download_8.svg",
+            "icon_type": "ghee"
           }
         },
         "category_tab_atta": {
@@ -27,43 +28,8 @@
             "title": "Atta",
             "collection": "frontpage",
             "icon_image": "shopify://shop_images/spice_sack_black_outline.svg",
-            "active_icon_image": "shopify://shop_images/download_4.svg"
-          }
-        },
-        "category_tab_ghee": {
-          "type": "category_tab",
-          "settings": {
-            "title": "Ghee",
-            "collection": "ghee",
-            "icon_image": "shopify://shop_images/exact_image.svg",
-            "active_icon_image": "shopify://shop_images/download_1.svg"
-          }
-        },
-        "category_tab_oil": {
-          "type": "category_tab",
-          "settings": {
-            "title": "Oil",
-            "collection": "oil",
-            "icon_image": "shopify://shop_images/ghee_oil_bottle_icon_0cb4e5b1-185b-4361-8598-a0558425969a.svg",
-            "active_icon_image": "shopify://shop_images/oil_bottle_transparent_1.svg"
-          }
-        },
-        "category_tab_spices": {
-          "type": "category_tab",
-          "settings": {
-            "title": "Spices",
-            "collection": "spices",
-            "icon_image": "shopify://shop_images/download_2.svg",
-            "active_icon_image": "shopify://shop_images/download_3.svg"
-          }
-        },
-        "category_tab_sweetner": {
-          "type": "category_tab",
-          "settings": {
-            "title": "Sweetner",
-            "collection": "sweetner",
-            "icon_image": "shopify://shop_images/download_7.svg",
-            "active_icon_image": "shopify://shop_images/seed_tray_3e563c_8d27bf03-6c4d-4f72-a62c-b9539bf8bb82.svg"
+            "active_icon_image": "shopify://shop_images/download_4.svg",
+            "icon_type": "ghee"
           }
         },
         "category_tab_breakfast": {
@@ -72,7 +38,48 @@
             "title": "BreakFast",
             "collection": "breakfast",
             "icon_image": "shopify://shop_images/download_12.svg",
-            "active_icon_image": "shopify://shop_images/download_5_8c0a578c-56ce-4fff-9831-0a18aa23a7d2.svg"
+            "active_icon_image": "shopify://shop_images/download_5_8c0a578c-56ce-4fff-9831-0a18aa23a7d2.svg",
+            "icon_type": "ghee"
+          }
+        },
+        "category_tab_ghee": {
+          "type": "category_tab",
+          "settings": {
+            "title": "Ghee",
+            "collection": "ghee",
+            "icon_image": "shopify://shop_images/exact_image.svg",
+            "active_icon_image": "shopify://shop_images/download_1.svg",
+            "icon_type": "ghee"
+          }
+        },
+        "category_tab_oil": {
+          "type": "category_tab",
+          "settings": {
+            "title": "Oil",
+            "collection": "oil",
+            "icon_image": "shopify://shop_images/ghee_oil_bottle_icon_0cb4e5b1-185b-4361-8598-a0558425969a.svg",
+            "active_icon_image": "shopify://shop_images/oil_bottle_transparent_1.svg",
+            "icon_type": "ghee"
+          }
+        },
+        "category_tab_spices": {
+          "type": "category_tab",
+          "settings": {
+            "title": "Spices",
+            "collection": "spices",
+            "icon_image": "shopify://shop_images/download_2.svg",
+            "active_icon_image": "shopify://shop_images/download_3.svg",
+            "icon_type": "ghee"
+          }
+        },
+        "category_tab_sweetner": {
+          "type": "category_tab",
+          "settings": {
+            "title": "Sweetner",
+            "collection": "sweetner",
+            "icon_image": "shopify://shop_images/download_7.svg",
+            "active_icon_image": "shopify://shop_images/seed_tray_3e563c_8d27bf03-6c4d-4f72-a62c-b9539bf8bb82.svg",
+            "icon_type": "ghee"
           }
         }
       },
@@ -103,6 +110,54 @@
     },
     "product_grid": {
       "type": "main-collection-product-grid",
+      "blocks": {
+        "card_title_L9MrJX": {
+          "type": "card_title",
+          "settings": {
+            "title_color": "#23421f",
+            "font_size": 17,
+            "font_weight": "bold"
+          }
+        },
+        "card_rating_66tWRB": {
+          "type": "card_rating",
+          "settings": {
+            "rating_stars_color": "#e5a800"
+          }
+        },
+        "card_variant_selector_FKzRHM": {
+          "type": "card_variant_selector",
+          "settings": {
+            "border_color": "#1f1f1f",
+            "bg_color": "#ffffff",
+            "text_color": "#1f1f1f"
+          }
+        },
+        "card_price_ptXxAP": {
+          "type": "card_price",
+          "settings": {
+            "price_color": "#23421f",
+            "compare_price_color": "#8d8d8d",
+            "price_font_size": 19,
+            "price_font_weight": "800"
+          }
+        },
+        "card_buy_button_tjQNHE": {
+          "type": "card_buy_button",
+          "settings": {
+            "add_to_cart_text": "ADD TO CART",
+            "btn_bg": "#23421f",
+            "btn_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "card_title_L9MrJX",
+        "card_rating_66tWRB",
+        "card_variant_selector_FKzRHM",
+        "card_price_ptXxAP",
+        "card_buy_button_tjQNHE"
+      ],
       "settings": {
         "products_per_page": 12,
         "products_per_row": "5",
