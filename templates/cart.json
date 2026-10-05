@@ -12,7 +12,7 @@
     "main": {
       "type": "main-cart",
       "settings": {
-        "free_gift_product": "",
+        "free_gift_product": "free-gift",
         "cart_free_shipping_threshold": 999,
         "cart_shipping_fee": 99,
         "cart_checkout_btn_text": "Checkout",

@@ -29,9 +29,13 @@
   endif
 
   if gift_product == blank or gift_product.id == blank
-    if all_products['free-gift'] != blank and all_products['free-gift'].id != blank
-      assign gift_product = all_products['free-gift']
-    endif
+    assign possible_handles = 'free-gift,free-gift-1,free-gift-worth-149,free-gift-worth-rs-149,free-gift-product,free-gift-item,free-sample,gift' | split: ','
+    for h in possible_handles
+      if all_products[h] != blank and all_products[h].id != blank
+        assign gift_product = all_products[h]
+        break
+      endif
+    endfor
   endif
 
   if gift_product == blank or gift_product.id == blank
@@ -44,12 +48,29 @@
     endfor
   endif
 
+  if gift_product == blank or gift_product.id == blank
+    for col in collections
+      for p in col.products
+        assign p_title_down = p.title | downcase
+        if p_title_down contains 'free gift' or p.handle contains 'free-gift' or p.handle contains 'gift'
+          assign gift_product = p
+          break
+        endif
+      endfor
+      if gift_product != blank and gift_product.id != blank
+        break
+      endif
+    endfor
+  endif
+
   assign gift_variant_id = ''
   if gift_product != blank
-    if gift_product.selected_or_first_available_variant != blank
+    if gift_product.selected_or_first_available_variant != blank and gift_product.selected_or_first_available_variant.id != blank
       assign gift_variant_id = gift_product.selected_or_first_available_variant.id
-    elsif gift_product.variants.first != blank
+    elsif gift_product.variants.first != blank and gift_product.variants.first.id != blank
       assign gift_variant_id = gift_product.variants.first.id
+    elsif gift_product.variants[0] != blank
+      assign gift_variant_id = gift_product.variants[0].id
     endif
   endif
 
