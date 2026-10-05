@@ -1341,9 +1341,9 @@ body.kb-cart-drawer-open {
 .kb-cart-rewards__rail {
   position: absolute !important;
   top: 73px !important;
-  left: 50px !important;
-  right: 50px !important;
-  height: 6px !important;
+  left: 45px !important;
+  right: 45px !important;
+  height: 5px !important;
   margin: 0 !important;
   transform: none !important;
   border-radius: 999px !important;
@@ -1386,16 +1386,16 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-rewards__icon {
-  width: 56px !important;
-  height: 56px !important;
-  border: 3px solid var(--cart-rewards-accent) !important;
+  width: 40px !important;
+  height: 40px !important;
+  border: 2px solid var(--cart-rewards-accent) !important;
   border-radius: 50% !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   background: #ffffff !important;
   color: var(--cart-rewards-accent) !important;
-  box-shadow: 0 4px 14px rgba(22, 101, 52, 0.12) !important;
+  box-shadow: 0 3px 10px rgba(22, 101, 52, 0.12) !important;
   transition: transform 250ms ease, box-shadow 250ms ease, background 250ms ease, color 250ms ease !important;
 }
 
@@ -1403,23 +1403,23 @@ body.kb-cart-drawer-open {
   background: linear-gradient(135deg, #166534 0%, #15803d 100%) !important;
   color: #ffffff !important;
   border-color: #ffffff !important;
-  box-shadow: 0 6px 20px rgba(22, 101, 52, 0.35) !important;
-  transform: scale(1.08) !important;
+  box-shadow: 0 4px 14px rgba(22, 101, 52, 0.3) !important;
+  transform: scale(1.06) !important;
 }
 
 .kb-cart-rewards__icon svg {
-  width: 28px !important;
-  height: 28px !important;
+  width: 20px !important;
+  height: 20px !important;
   stroke: currentColor !important;
   stroke-width: 2 !important;
   transition: all 200ms ease !important;
 }
 
 .kb-cart-rewards__amount {
-  margin-top: 8px !important;
-  font-size: 1.40rem !important;
+  margin-top: 6px !important;
+  font-size: 1.05rem !important;
   line-height: 1.1 !important;
-  font-weight: 900 !important;
+  font-weight: 800 !important;
   color: var(--cart-rewards-accent) !important;
   white-space: nowrap !important;
 }
@@ -1432,15 +1432,15 @@ body.kb-cart-drawer-open {
 }
 
 .kb-cart-rewards__title {
-  margin-top: 4px !important;
-  font-size: 0.80rem !important;
+  margin-top: 3px !important;
+  font-size: 0.76rem !important;
   line-height: 1.2 !important;
   font-weight: 800 !important;
 }
 
 .kb-cart-rewards__subtitle {
-  margin-top: 2px !important;
-  font-size: 0.70rem !important;
+  margin-top: 1px !important;
+  font-size: 0.68rem !important;
   line-height: 1.2 !important;
   font-weight: 700 !important;
   color: #166534 !important;
@@ -2195,19 +2195,19 @@ body.kb-cart-drawer-open {
   }
 
   .kb-cart-rewards {
-    padding: 14px 10px 16px !important;
+    padding: 12px 8px 14px !important;
   }
 
   .kb-cart-rewards__status {
-    font-size: 0.84rem !important;
-    margin-bottom: 14px !important;
+    font-size: 0.82rem !important;
+    margin-bottom: 12px !important;
   }
 
   .kb-cart-rewards__rail {
-    top: 64px !important;
-    left: 32px !important;
-    right: 32px !important;
-    height: 5px !important;
+    top: 61px !important;
+    left: 30px !important;
+    right: 30px !important;
+    height: 4px !important;
     margin: 0 !important;
     transform: none !important;
   }
@@ -2217,25 +2217,29 @@ body.kb-cart-drawer-open {
   }
 
   .kb-cart-rewards__icon {
-    width: 48px !important;
-    height: 48px !important;
+    width: 34px !important;
+    height: 34px !important;
+    border-width: 2px !important;
   }
 
   .kb-cart-rewards__icon svg {
-    width: 24px !important;
-    height: 24px !important;
+    width: 16px !important;
+    height: 16px !important;
   }
 
   .kb-cart-rewards__amount {
-    font-size: 1.18rem !important;
+    font-size: 0.92rem !important;
+    margin-top: 5px !important;
   }
 
   .kb-cart-rewards__title {
-    font-size: 0.72rem !important;
+    font-size: 0.70rem !important;
+    margin-top: 2px !important;
   }
 
   .kb-cart-rewards__subtitle {
-    font-size: 0.66rem !important;
+    font-size: 0.62rem !important;
+    margin-top: 1px !important;
   }
 
   .kb-cart-drawer__body {
