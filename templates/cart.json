@@ -11,7 +11,28 @@
   "sections": {
     "main": {
       "type": "main-cart",
-      "settings": {}
+      "settings": {
+        "free_gift_product": "",
+        "cart_free_shipping_threshold": 999,
+        "cart_shipping_fee": 99,
+        "cart_checkout_btn_text": "Checkout",
+        "cart_rewards_complete_text": "Hurray! You've unlocked all cart rewards",
+        "cart_rewards_accent": "#166534",
+        "cart_rewards_bg": "#f0fdf4",
+        "cart_rewards_border": "#bbf7d0",
+        "cart_reward_1_threshold": 699,
+        "cart_reward_1_title": "Get Free Gift",
+        "cart_reward_1_subtitle": "worth Rs.149",
+        "cart_reward_1_icon": "gift",
+        "cart_reward_2_threshold": 999,
+        "cart_reward_2_title": "Free Delivery",
+        "cart_reward_2_subtitle": "+ Free Gift",
+        "cart_reward_2_icon": "truck",
+        "cart_reward_3_threshold": 1499,
+        "cart_reward_3_title": "Free Gift + Free Delivery",
+        "cart_reward_3_subtitle": "+ 10% OFF",
+        "cart_reward_3_icon": "combo"
+      }
     }
   },
   "order": [
