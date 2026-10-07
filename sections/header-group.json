@@ -312,8 +312,8 @@
       ],
       "settings": {
         "show_announcement": true,
-        "announcement_text": "Enjoy free shipping on orders above Rs.1499",
-        "announcement_text_2": "Enjoy free shipping on orders above Rs.1499",
+        "announcement_text": "Enjoy free shipping on orders above Rs.999",
+        "announcement_text_2": "Enjoy free shipping on orders above Rs.999",
         "announcement_text_3": "",
         "announcement_background": "#23421f",
         "announcement_text_color": "#ffffff",
