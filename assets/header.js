@@ -275,6 +275,37 @@
     closeCartDrawer();
   });
 
+  // Trigger KwikPass Phone OTP Login Popup when account/login button is clicked
+  const triggerKwikpassLogin = (evt) => {
+    // 1. Direct KwikPass SDK Instance Call
+    if (window.KP_LOGIN_SDK_INSTANCE && typeof window.KP_LOGIN_SDK_INSTANCE.handleKpLogin === 'function') {
+      window.KP_LOGIN_SDK_INSTANCE.handleKpLogin();
+      return true;
+    }
+    // 2. Global GoKwik / KwikPass method
+    if (typeof window.handleKpLogin === 'function') {
+      window.handleKpLogin();
+      return true;
+    }
+    // 3. Injected KwikPass button triggers
+    const kpBtn = document.querySelector('.kp-login-btn, #kp-login-btn, [data-kp-login], .kwikpass-login-btn, #gokwik-login-btn, [onclick*="handleKpLogin"]');
+    if (kpBtn && kpBtn !== evt?.target) {
+      kpBtn.click();
+      return true;
+    }
+    return false;
+  };
+
+  document.addEventListener('click', (event) => {
+    const trigger = event.target.closest('[data-account-login-trigger]');
+    if (!trigger) return;
+
+    if (triggerKwikpassLogin(event)) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  });
+
   // Monitor Judge.me Write a Review Modal to Hide Header and Sticky Cart Bar
   const handleJudgeMeModal = () => {
     const overlay = document.getElementById('JdgmBlurOverlay');

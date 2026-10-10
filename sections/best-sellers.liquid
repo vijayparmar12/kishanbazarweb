@@ -485,6 +485,8 @@
                       product: product,
                       card_blocks: section.blocks,
                       show_badge: section.settings.show_badge,
+                      badge_bg: section.settings.badge_bg,
+                      badge_color: section.settings.badge_color,
                       show_wishlist: section.settings.show_wishlist,
                       show_subtitle: section.settings.show_subtitle,
                       show_rating: section.settings.show_rating,
@@ -526,6 +528,8 @@
                 product: product,
                 card_blocks: section.blocks,
                 show_badge: section.settings.show_badge,
+                badge_bg: section.settings.badge_bg,
+                badge_color: section.settings.badge_color,
                 show_wishlist: section.settings.show_wishlist,
                 show_subtitle: section.settings.show_subtitle,
                 show_rating: section.settings.show_rating,
@@ -776,6 +780,19 @@
         { "type": "text", "id": "text", "label": "Custom text", "default": "🚚 Free Shipping on orders over ₹499" },
         { "type": "color", "id": "text_color", "label": "Text color", "default": "#23421F" },
         { "type": "select", "id": "font_weight", "label": "Font weight", "options": [{ "value": "normal", "label": "Normal" }, { "value": "bold", "label": "Bold" }], "default": "bold" }
+      ]
+    },
+    {
+      "type": "card_badge",
+      "name": "Card Badge (Below Title)",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Renders badges like RECOMMENDED, OUR PICK, BESTSELLER below title. Leave badge text blank to automatically use product metafield/tag badge." },
+        { "type": "text", "id": "badge_text", "label": "Custom Badge text (Optional)" },
+        { "type": "color", "id": "badge_bg", "label": "Badge background color", "default": "#23421F" },
+        { "type": "color", "id": "badge_color", "label": "Badge text color", "default": "#FFFFFF" },
+        { "type": "range", "id": "font_size", "label": "Badge Font Size (px)", "min": 10, "max": 18, "step": 1, "default": 11, "unit": "px" },
+        { "type": "range", "id": "border_radius", "label": "Badge Rounding (px)", "min": 0, "max": 24, "step": 2, "default": 20, "unit": "px" }
       ]
     },
     {

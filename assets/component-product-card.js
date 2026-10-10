@@ -320,19 +320,32 @@
       }
     }
 
-    let badgeEl = card.querySelector('.product-card__badge:not(.product-card__badge--sold)');
+    let badgeEl = card.querySelector('.product-card__title-badge');
+    let badgeWrap = card.querySelector('[data-card-badge-container]');
     if (badgeText && badgeText.trim() !== '') {
       if (!badgeEl) {
+        if (!badgeWrap) {
+          badgeWrap = document.createElement('div');
+          badgeWrap.className = 'product-card__title-badge-wrap';
+          badgeWrap.setAttribute('data-card-badge-container', '');
+          const titleRow = card.querySelector('.product-card__title-row');
+          if (titleRow) {
+            titleRow.parentNode.insertBefore(badgeWrap, titleRow.nextSibling);
+          } else {
+            const content = card.querySelector('.product-card__content');
+            if (content) content.insertBefore(badgeWrap, content.firstChild);
+          }
+        }
         badgeEl = document.createElement('span');
-        badgeEl.className = 'product-card__badge product-card__badge--loved';
-        if (topBar) topBar.insertBefore(badgeEl, topBar.firstChild);
+        badgeEl.className = 'product-card__title-badge';
+        badgeWrap.appendChild(badgeEl);
       }
       badgeEl.textContent = badgeText;
+      if (badgeWrap) badgeWrap.style.display = 'flex';
       badgeEl.style.display = 'inline-flex';
     } else {
-      if (badgeEl) {
-        badgeEl.style.display = 'none';
-      }
+      if (badgeEl) badgeEl.style.display = 'none';
+      if (badgeWrap) badgeWrap.style.display = 'none';
     }
 
     // Sync stepper state for newly selected variant

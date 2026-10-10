@@ -48,12 +48,52 @@
   assign badge_label = ''
   if p_custom_badge != blank
     assign badge_label = p_custom_badge
+  elsif tag_str contains 'recommended'
+    assign badge_label = 'RECOMMENDED'
+  elsif tag_str contains 'our pick' or tag_str contains 'our-pick' or tag_str contains 'our_pick'
+    assign badge_label = 'OUR PICK'
   elsif tag_str contains 'bestseller' or tag_str contains 'best seller' or tag_str contains 'best-seller'
     assign badge_label = 'BESTSELLER'
-  elsif tag_str contains 'new launch' or tag_str contains 'new-launch'
-    assign badge_label = 'NEW LAUNCH'
   elsif tag_str contains 'trending'
     assign badge_label = 'TRENDING'
+  elsif tag_str contains 'selling fast' or tag_str contains 'selling-fast'
+    assign badge_label = 'SELLING FAST'
+  elsif tag_str contains 'must try' or tag_str contains 'must-try'
+    assign badge_label = 'MUST TRY'
+  elsif tag_str contains 'new launch' or tag_str contains 'new-launch'
+    assign badge_label = 'NEW LAUNCH'
+  endif
+
+  assign formatted_badge_label = badge_label
+  if badge_label != blank
+    assign b_down = badge_label | downcase | strip
+    if b_down contains 'recommend' and b_down contains '⭐' == false and b_down contains '★' == false
+      assign formatted_badge_label = '⭐ ' | append: badge_label
+    elsif b_down contains 'our pick' and b_down contains '🌿' == false
+      assign formatted_badge_label = '🌿 ' | append: badge_label
+    elsif b_down contains 'bestseller' or b_down contains 'best seller'
+      if b_down contains '🔥' == false
+        assign formatted_badge_label = '🔥 ' | append: badge_label
+      endif
+    elsif b_down contains 'trending' and b_down contains '🚀' == false
+      assign formatted_badge_label = '🚀 ' | append: badge_label
+    elsif b_down contains 'must try' and b_down contains '😇' == false
+      assign formatted_badge_label = '😇 ' | append: badge_label
+    elsif b_down contains 'selling fast' and b_down contains '⚡' == false
+      assign formatted_badge_label = '⚡ ' | append: badge_label
+    elsif b_down contains 'new launch' and b_down contains '✨' == false
+      assign formatted_badge_label = '✨ ' | append: badge_label
+    endif
+  endif
+
+  assign has_explicit_badge_block = false
+  if card_blocks.size > 0
+    for block in card_blocks
+      if block.type == 'card_badge' or block.type == 'custom_badge_block'
+        assign has_explicit_badge_block = true
+        break
+      endif
+    endfor
   endif
 
   assign card_form_id = 'ProductCardForm-' | append: section.id | append: '-' | append: product.id
@@ -81,7 +121,7 @@
     <div class="product-card__top-bar">
       {% if product.available == false %}
         <span class="product-card__badge product-card__badge--sold">Sold out</span>
-      {% elsif badge_label != blank %}
+      {% elsif show_badge_on_image == true and badge_label != blank %}
         <span class="product-card__badge product-card__badge--loved" style="{% if badge_bg != blank %}background-color: {{ badge_bg }};{% endif %}{% if badge_color != blank %}color: {{ badge_color }};{% endif %}">
           {{ badge_label }}
         </span>
@@ -131,6 +171,13 @@
                 </a>
               </h3>
             </div>
+            {% if has_explicit_badge_block == false and badge_label != blank and show_badge != false %}
+              <div class="product-card__title-badge-wrap" data-card-badge-container>
+                <span class="product-card__title-badge" style="{% if badge_bg != blank %}background-color: {{ badge_bg }} !important;{% endif %}{% if badge_color != blank %}color: {{ badge_color }} !important;{% endif %}">
+                  {{ formatted_badge_label }}
+                </span>
+              </div>
+            {% endif %}
 
           {% when 'card_price' %}
             {% if show_price != false %}
@@ -160,6 +207,13 @@
                 </div>
               {% endif %}
             </div>
+            {% if has_explicit_badge_block == false and badge_label != blank and show_badge != false %}
+              <div class="product-card__title-badge-wrap" data-card-badge-container>
+                <span class="product-card__title-badge" style="{% if badge_bg != blank %}background-color: {{ badge_bg }} !important;{% endif %}{% if badge_color != blank %}color: {{ badge_color }} !important;{% endif %}">
+                  {{ formatted_badge_label }}
+                </span>
+              </div>
+            {% endif %}
 
           {% when 'card_subtitle' %}
             {% assign card_subtitle = product.metafields.descriptors.subtitle.value | default: product.metafields.descriptors.subtitle | default: product.metafields.custom.subtitle.value | default: product.metafields.custom.subtitle | default: product.metafields.custom.made_from.value | default: product.metafields.custom.made_from %}
@@ -243,7 +297,7 @@
                     {% endif %}
                     {% assign opt_v_badge = card_variant.metafields.custom.badge_varient.value | default: card_variant.metafields.custom.badge_varient | default: card_variant.metafields.custom.badge_variant.value | default: card_variant.metafields.custom.badge_variant | default: card_variant.metafields.custom.variant_badge.value | default: card_variant.metafields.custom.variant_badge | default: card_variant.metafields.custom.badge.value | default: card_variant.metafields.custom.badge %}
                     {% if opt_v_badge == blank %}
-                      {% assign opt_v_badge = badge_label %}
+                      {% assign opt_v_badge = formatted_badge_label %}
                     {% endif %}
                     <option value="{{ card_variant.id }}" data-price="₹{{ card_variant.price | money_without_currency }}" data-compare="{% if v_has_comp %}₹{{ v_compare | money_without_currency }}{% endif %}" data-badge="{{ opt_v_badge | escape }}" data-available="{% if v_avail %}true{% else %}false{% endif %}" data-inventory="{{ card_variant.inventory_quantity }}" {% if card_variant == variant %}selected{% endif %}>
                       {{ card_variant.title }}{% if v_avail == false %} (Sold out){% endif %}
@@ -288,6 +342,16 @@
               </p>
             {% endif %}
 
+          {% when 'card_badge', 'custom_badge_block' %}
+            {% assign c_badge_text = block.settings.badge_text | default: formatted_badge_label %}
+            {% if c_badge_text != blank and show_badge != false %}
+              <div class="product-card__title-badge-wrap" data-card-badge-container {{ block.shopify_attributes }}>
+                <span class="product-card__title-badge" style="{% if block.settings.badge_bg != blank %}background-color: {{ block.settings.badge_bg }} !important;{% elsif badge_bg != blank %}background-color: {{ badge_bg }} !important;{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }} !important;{% elsif badge_color != blank %}color: {{ badge_color }} !important;{% endif %}{% if block.settings.font_size > 0 %}font-size: {{ block.settings.font_size }}px !important;{% endif %}{% if block.settings.border_radius != blank %}border-radius: {{ block.settings.border_radius }}px !important;{% endif %}">
+                  {{ c_badge_text }}
+                </span>
+              </div>
+            {% endif %}
+
         {% endcase %}
       {% endfor %}
     {% else %}
@@ -295,6 +359,13 @@
       <div class="product-card__title-row product-card__title-row--single">
         <h3 class="product-card__title"><a href="{{ product.url }}" style="{% if title_color != blank %}color: {{ title_color }};{% endif %}">{{ product.title }}</a></h3>
       </div>
+      {% if badge_label != blank and show_badge != false %}
+        <div class="product-card__title-badge-wrap" data-card-badge-container>
+          <span class="product-card__title-badge" style="{% if badge_bg != blank %}background-color: {{ badge_bg }} !important;{% endif %}{% if badge_color != blank %}color: {{ badge_color }} !important;{% endif %}">
+            {{ formatted_badge_label }}
+          </span>
+        </div>
+      {% endif %}
       {% if show_price != false %}
         <div class="product-card__price-row">
           <div class="product-card__price">

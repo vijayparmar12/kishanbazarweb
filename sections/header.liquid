@@ -108,7 +108,7 @@
               {% if section.settings.account_action == 'account_page' %}
                 {% assign account_target_url = routes.account_url %}
               {% endif %}
-              <a class="kb-header__action kb-header__action--account" href="{{ account_target_url }}" aria-label="{{ desktop_account_label }}">
+              <a class="kb-header__action kb-header__action--account" href="{{ account_target_url }}" aria-label="{{ desktop_account_label }}" data-account-login-trigger>
                 {% if section.settings.account_icon_image != blank %}
                   {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: desktop_account_label }}
                 {% elsif section.settings.account_icon_emoji != blank %}
@@ -473,7 +473,7 @@
             {% if section.settings.account_action == 'account_page' %}
               {% assign mobile_profile_url = routes.account_url %}
             {% endif %}
-            <a href="{{ mobile_profile_url }}" class="kb-header__mobile-account-btn">
+            <a href="{{ mobile_profile_url }}" class="kb-header__mobile-account-btn" data-account-login-trigger>
               {% if section.settings.account_icon_image != blank %}
                 {{ section.settings.account_icon_image | image_url: width: 48 | image_tag: class: 'kb-account-custom-icon', alt: 'Profile' }}
               {% elsif section.settings.account_icon_emoji != blank %}
