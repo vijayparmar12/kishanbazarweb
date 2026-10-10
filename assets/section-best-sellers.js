@@ -83,10 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Init all best sellers sections present on load
+  document.querySelectorAll('.product-card__top-bar .product-card__badge:not(.product-card__badge--sold), .product-card__media .product-card__badge:not(.product-card__badge--sold)').forEach((el) => el.remove());
   document.querySelectorAll('[data-best-sellers]').forEach(initBestSellersSection);
 
   // Re-init on Shopify Theme Editor section load/change
   document.addEventListener('shopify:section:load', (e) => {
+    document.querySelectorAll('.product-card__top-bar .product-card__badge:not(.product-card__badge--sold), .product-card__media .product-card__badge:not(.product-card__badge--sold)').forEach((el) => el.remove());
     const sec = e.target.querySelector('[data-best-sellers]') || e.target;
     if (sec && sec.matches && sec.matches('[data-best-sellers]')) {
       initBestSellersSection(sec);
@@ -132,16 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const badgeText = selectedOption?.dataset.badge;
-    let topBar = card.querySelector('.product-card__top-bar');
-    if (!topBar) {
-      const media = card.querySelector('.product-card__media');
-      if (media) {
-        topBar = document.createElement('div');
-        topBar.className = 'product-card__top-bar';
-        media.appendChild(topBar);
-      }
-    }
-
     let badgeEl = card.querySelector('.product-card__title-badge');
     let badgeWrap = card.querySelector('[data-card-badge-container]');
     if (badgeText && badgeText.trim() !== '') {
@@ -162,12 +154,21 @@ document.addEventListener('DOMContentLoaded', () => {
         badgeEl.className = 'product-card__title-badge';
         badgeWrap.appendChild(badgeEl);
       }
-      badgeEl.textContent = badgeText;
-      if (badgeWrap) badgeWrap.style.display = 'flex';
-      badgeEl.style.display = 'inline-flex';
+      badgeEl.textContent = badgeText.trim();
+      if (badgeWrap) badgeWrap.style.setProperty('display', 'flex', 'important');
+      badgeEl.style.setProperty('display', 'inline-flex', 'important');
     } else {
-      if (badgeEl) badgeEl.style.display = 'none';
-      if (badgeWrap) badgeWrap.style.display = 'none';
+      if (badgeEl) {
+        badgeEl.style.setProperty('display', 'none', 'important');
+        badgeEl.textContent = '';
+      }
+      if (badgeWrap) {
+        badgeWrap.style.setProperty('display', 'none', 'important');
+      }
     }
+
+    // Ensure any promotional badge above product image is removed
+    const topPromoBadge = card.querySelector('.product-card__top-bar .product-card__badge:not(.product-card__badge--sold), .product-card__media .product-card__badge:not(.product-card__badge--sold)');
+    if (topPromoBadge) topPromoBadge.remove();
   });
 });

@@ -302,9 +302,14 @@
   width: 100% !important;
 }
 
+.product-card__title-badge-wrap:empty {
+  display: none !important;
+}
+
 .product-card__title-badge {
   display: inline-flex !important;
   align-items: center !important;
+  justify-content: center !important;
   gap: 5px !important;
   background-color: #23421f !important;
   color: #ffffff !important;
@@ -312,9 +317,10 @@
   font-size: 0.72rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.02em !important;
-  line-height: 1.2 !important;
-  padding: 4px 11px !important;
-  border-radius: 20px !important;
+  line-height: 1 !important;
+  padding: 4px 10px !important;
+  height: 24px !important;
+  border-radius: 8px !important;
   width: fit-content !important;
   max-width: 100% !important;
   white-space: nowrap !important;
@@ -322,6 +328,16 @@
   text-overflow: ellipsis !important;
   box-sizing: border-box !important;
   box-shadow: 0 2px 6px rgba(35, 66, 31, 0.15) !important;
+}
+
+/* Hide promotional badges above product image across all cards and sections */
+.product-card__top-bar .product-card__badge:not(.product-card__badge--sold),
+.product-card__media .product-card__badge:not(.product-card__badge--sold),
+.best-sellers .product-card__top-bar .product-card__badge:not(.product-card__badge--sold),
+.best-sellers .product-card__badge:not(.product-card__badge--sold),
+.product-card__badge--loved,
+.product-card__badge--sale {
+  display: none !important;
 }
 
 .product-card__subtitle,

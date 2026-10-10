@@ -40,51 +40,19 @@
   endif
 
   # Dynamic per-product and per-variant badge determination
-  assign v_badge = variant.metafields.custom.badge_varient.value | default: variant.metafields.custom.badge_varient | default: variant.metafields.custom.badge_variant.value | default: variant.metafields.custom.badge_variant | default: variant.metafields.custom.variant_badge.value | default: variant.metafields.custom.variant_badge | default: variant.metafields.custom.badge.value | default: variant.metafields.custom.badge
-
-  assign p_custom_badge = v_badge | default: product.metafields.custom.custom_badge.value | default: product.metafields.custom.custom_badge | default: product.metafields.custom.badge.value | default: product.metafields.custom.badge | default: product.metafields.custom.badge_text.value | default: product.metafields.custom.badge_text | default: product.metafields.custom.product_badge.value | default: product.metafields.custom.product_badge | default: product.metafields.custom.custom_tag.value | default: product.metafields.custom.custom_tag | default: badge_text
-  assign tag_str = product.tags | join: ',' | downcase
+  assign v_badge = variant.metafields.custom.badge.value | default: variant.metafields.custom.badge | default: variant.metafields.custom.custom_badge.value | default: variant.metafields.custom.custom_badge | default: variant.metafields.custom.badge_varient.value | default: variant.metafields.custom.badge_varient | default: variant.metafields.custom.custom_badge_varient.value | default: variant.metafields.custom.custom_badge_varient | default: variant.metafields.custom.badge_variant.value | default: variant.metafields.custom.badge_variant | default: variant.metafields.custom.custom_badge_variant.value | default: variant.metafields.custom.custom_badge_variant | default: variant.metafields.custom.badge_text.value | default: variant.metafields.custom.badge_text | default: variant.metafields.custom.variant_badge.value | default: variant.metafields.custom.variant_badge
 
   assign badge_label = ''
-  if p_custom_badge != blank
-    assign badge_label = p_custom_badge
-  elsif tag_str contains 'recommended'
-    assign badge_label = 'RECOMMENDED'
-  elsif tag_str contains 'our pick' or tag_str contains 'our-pick' or tag_str contains 'our_pick'
-    assign badge_label = 'OUR PICK'
-  elsif tag_str contains 'bestseller' or tag_str contains 'best seller' or tag_str contains 'best-seller'
-    assign badge_label = 'BESTSELLER'
-  elsif tag_str contains 'trending'
-    assign badge_label = 'TRENDING'
-  elsif tag_str contains 'selling fast' or tag_str contains 'selling-fast'
-    assign badge_label = 'SELLING FAST'
-  elsif tag_str contains 'must try' or tag_str contains 'must-try'
-    assign badge_label = 'MUST TRY'
-  elsif tag_str contains 'new launch' or tag_str contains 'new-launch'
-    assign badge_label = 'NEW LAUNCH'
+  if v_badge != blank
+    assign badge_label = v_badge
+  elsif product.has_only_default_variant
+    assign p_custom_badge = product.metafields.custom.custom_badge.value | default: product.metafields.custom.custom_badge | default: product.metafields.custom.badge.value | default: product.metafields.custom.badge | default: product.metafields.custom.badge_text.value | default: product.metafields.custom.badge_text | default: product.metafields.custom.product_badge.value | default: product.metafields.custom.product_badge | default: product.metafields.custom.custom_tag.value | default: product.metafields.custom.custom_tag | default: badge_text
+    if p_custom_badge != blank
+      assign badge_label = p_custom_badge
+    endif
   endif
 
   assign formatted_badge_label = badge_label
-  if badge_label != blank
-    assign b_down = badge_label | downcase | strip
-    if b_down contains 'recommend' and b_down contains '⭐' == false and b_down contains '★' == false
-      assign formatted_badge_label = '⭐ ' | append: badge_label
-    elsif b_down contains 'our pick' and b_down contains '🌿' == false
-      assign formatted_badge_label = '🌿 ' | append: badge_label
-    elsif b_down contains 'bestseller' or b_down contains 'best seller'
-      if b_down contains '🔥' == false
-        assign formatted_badge_label = '🔥 ' | append: badge_label
-      endif
-    elsif b_down contains 'trending' and b_down contains '🚀' == false
-      assign formatted_badge_label = '🚀 ' | append: badge_label
-    elsif b_down contains 'must try' and b_down contains '😇' == false
-      assign formatted_badge_label = '😇 ' | append: badge_label
-    elsif b_down contains 'selling fast' and b_down contains '⚡' == false
-      assign formatted_badge_label = '⚡ ' | append: badge_label
-    elsif b_down contains 'new launch' and b_down contains '✨' == false
-      assign formatted_badge_label = '✨ ' | append: badge_label
-    endif
-  endif
 
   assign has_explicit_badge_block = false
   if card_blocks.size > 0
@@ -121,10 +89,6 @@
     <div class="product-card__top-bar">
       {% if product.available == false %}
         <span class="product-card__badge product-card__badge--sold">Sold out</span>
-      {% elsif show_badge_on_image == true and badge_label != blank %}
-        <span class="product-card__badge product-card__badge--loved" style="{% if badge_bg != blank %}background-color: {{ badge_bg }};{% endif %}{% if badge_color != blank %}color: {{ badge_color }};{% endif %}">
-          {{ badge_label }}
-        </span>
       {% endif %}
 
       {% if show_wishlist != false %}
@@ -295,11 +259,8 @@
                     {% elsif card_variant.inventory_quantity != blank and card_variant.inventory_quantity <= 0 and card_variant.inventory_policy != 'continue' %}
                       {% assign v_avail = false %}
                     {% endif %}
-                    {% assign opt_v_badge = card_variant.metafields.custom.badge_varient.value | default: card_variant.metafields.custom.badge_varient | default: card_variant.metafields.custom.badge_variant.value | default: card_variant.metafields.custom.badge_variant | default: card_variant.metafields.custom.variant_badge.value | default: card_variant.metafields.custom.variant_badge | default: card_variant.metafields.custom.badge.value | default: card_variant.metafields.custom.badge %}
-                    {% if opt_v_badge == blank %}
-                      {% assign opt_v_badge = formatted_badge_label %}
-                    {% endif %}
-                    <option value="{{ card_variant.id }}" data-price="₹{{ card_variant.price | money_without_currency }}" data-compare="{% if v_has_comp %}₹{{ v_compare | money_without_currency }}{% endif %}" data-badge="{{ opt_v_badge | escape }}" data-available="{% if v_avail %}true{% else %}false{% endif %}" data-inventory="{{ card_variant.inventory_quantity }}" {% if card_variant == variant %}selected{% endif %}>
+                    {% assign opt_v_badge = card_variant.metafields.custom.badge.value | default: card_variant.metafields.custom.badge | default: card_variant.metafields.custom.custom_badge.value | default: card_variant.metafields.custom.custom_badge | default: card_variant.metafields.custom.badge_varient.value | default: card_variant.metafields.custom.badge_varient | default: card_variant.metafields.custom.custom_badge_varient.value | default: card_variant.metafields.custom.custom_badge_varient | default: card_variant.metafields.custom.badge_variant.value | default: card_variant.metafields.custom.badge_variant | default: card_variant.metafields.custom.custom_badge_variant.value | default: card_variant.metafields.custom.custom_badge_variant | default: card_variant.metafields.custom.badge_text.value | default: card_variant.metafields.custom.badge_text | default: card_variant.metafields.custom.variant_badge.value | default: card_variant.metafields.custom.variant_badge %}
+                    <option value="{{ card_variant.id }}" data-price="₹{{ card_variant.price | money_without_currency }}" data-compare="{% if v_has_comp %}₹{{ v_compare | money_without_currency }}{% endif %}" data-badge="{% if opt_v_badge != blank %}{{ opt_v_badge | escape }}{% endif %}" data-available="{% if v_avail %}true{% else %}false{% endif %}" data-inventory="{{ card_variant.inventory_quantity }}" {% if card_variant == variant %}selected{% endif %}>
                       {{ card_variant.title }}{% if v_avail == false %} (Sold out){% endif %}
                     </option>
                   {% endfor %}
@@ -446,15 +407,12 @@
                     {% if card_variant.inventory_management != blank and card_variant.inventory_policy == 'deny' and card_variant.inventory_quantity <= 0 %}
                       {% assign v_avail = false %}
                     {% endif %}
-                    {% assign opt_v_badge = card_variant.metafields.custom.badge_varient.value | default: card_variant.metafields.custom.badge_varient | default: card_variant.metafields.custom.badge_variant.value | default: card_variant.metafields.custom.badge_variant | default: card_variant.metafields.custom.variant_badge.value | default: card_variant.metafields.custom.variant_badge | default: card_variant.metafields.custom.badge.value | default: card_variant.metafields.custom.badge %}
-                    {% if opt_v_badge == blank %}
-                      {% assign opt_v_badge = badge_label %}
-                    {% endif %}
+                    {% assign opt_v_badge = card_variant.metafields.custom.badge.value | default: card_variant.metafields.custom.badge | default: card_variant.metafields.custom.custom_badge.value | default: card_variant.metafields.custom.custom_badge | default: card_variant.metafields.custom.badge_varient.value | default: card_variant.metafields.custom.badge_varient | default: card_variant.metafields.custom.custom_badge_varient.value | default: card_variant.metafields.custom.custom_badge_varient | default: card_variant.metafields.custom.badge_variant.value | default: card_variant.metafields.custom.badge_variant | default: card_variant.metafields.custom.custom_badge_variant.value | default: card_variant.metafields.custom.custom_badge_variant | default: card_variant.metafields.custom.badge_text.value | default: card_variant.metafields.custom.badge_text | default: card_variant.metafields.custom.variant_badge.value | default: card_variant.metafields.custom.variant_badge %}
                     <option
                       value="{{ card_variant.id }}"
                       data-price="₹{{ card_variant.price | money_without_currency }}"
                       data-compare="{% if v_has_comp %}₹{{ v_compare | money_without_currency }}{% endif %}"
-                      data-badge="{{ opt_v_badge | escape }}"
+                      data-badge="{% if opt_v_badge != blank %}{{ opt_v_badge | escape }}{% endif %}"
                       data-available="{{ v_avail }}"
                       data-inventory="{{ card_variant.inventory_quantity }}"
                       {% if card_variant == variant %}selected{% endif %}
